@@ -114,7 +114,7 @@ function renderTop() {
   const c = courseById(S.course);
   $('#topbar').innerHTML = `
     <button class="tb-course" style="--c:${c.color}" aria-label="Cambiar de curso">
-      <span class="cicon">${esc(c.icon)}</span><span class="tb-name">${esc(c.name)}</span>${ICON.down}</button>
+      ${courseArt(c, 'sm')}<span class="tb-name">${esc(c.name)}</span>${ICON.down}</button>
     <div class="tb-stats">
       <span class="tb-stat streak${S.lastDay === today() ? ' lit' : ''}" title="Racha de días">${ICON.flame}<b>${streakNow()}</b></span>
       <span class="tb-stat xp" title="Experiencia">${ICON.bolt}<b>${S.xp}</b></span>
@@ -140,10 +140,10 @@ function openCoursePicker() {
   openSheet(`<h3 class="sheet-title">Elige un curso</h3><div class="course-list">${COURSES.map(c => {
     const ls = lessonsOf(c), d = ls.filter(isDone).length;
     return `<button class="course-row${c.id === S.course ? ' on' : ''}" data-id="${c.id}" style="--c:${c.color}">
-      <span class="cicon big">${esc(c.icon)}</span>
-      <span class="cr-body"><b>${esc(c.name)}</b><small>${esc(c.tagline)}</small>
+      ${courseArt(c, 'lg')}
+      <span class="cr-body"><span class="eyebrow">${esc(c.level)} · ${ls.length} lecciones</span><b>${esc(c.name)}</b>
       <span class="mini-bar"><i style="width:${(d / ls.length) * 100}%"></i></span></span>
-      <span class="cr-count">${d}/${ls.length}</span></button>`;
+      ${d === ls.length ? `<span class="cr-done">${ICON.check}</span>` : ''}</button>`;
   }).join('')}</div>`, sh => sh.querySelectorAll('.course-row').forEach(b => b.onclick = () => {
     S.course = b.dataset.id; save(); closeSheet(); go('learn'); view.scrollTop = 0;
   }));
@@ -168,8 +168,9 @@ function renderLearn() {
   let k = 0;
   view.innerHTML = `<div class="learn" style="--c:${c.color}">
     <section class="hero">
-      <div><p class="eyebrow">Curso actual</p><h1>${esc(c.name)}</h1><p class="sub">${esc(c.tagline)}</p></div>
-      <div class="ring" style="--p:${doneN / ls.length}"><span>${doneN}/${ls.length}</span></div>
+      <div class="hero-body"><p class="eyebrow">${esc(c.level)}</p><h1>${esc(c.name)}</h1><p class="sub">${esc(c.tagline)}</p>
+        <div class="hero-prog"><span class="mini-bar"><i style="width:${(doneN / ls.length) * 100}%"></i></span><small>${doneN}/${ls.length}</small></div></div>
+      ${courseArt(c, 'xl')}
     </section>
     <section class="goal">
       ${ICON.target}<div class="goal-body"><p><b>Meta diaria</b><span>${todayXP()} / ${S.goal} XP</span></p>
@@ -440,7 +441,7 @@ function renderProfile() {
       <h3>Progreso por curso</h3>
       ${COURSES.map(c => {
         const ls = lessonsOf(c), d = ls.filter(isDone).length;
-        return `<button class="prog-row" data-course="${c.id}" style="--c:${c.color}"><span class="cicon">${esc(c.icon)}</span>
+        return `<button class="prog-row" data-course="${c.id}" style="--c:${c.color}">${courseArt(c, 'md')}
           <span class="pr-body"><b>${esc(c.name)}</b><span class="mini-bar"><i style="width:${(d / ls.length) * 100}%"></i></span></span>
           <span class="cr-count">${d}/${ls.length}</span></button>`;
       }).join('')}

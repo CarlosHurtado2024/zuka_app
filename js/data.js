@@ -17,7 +17,7 @@ const sq = x => x * x;
 
 const COURSES = [
   {
-    id: 'algebra', name: 'Álgebra', icon: 'x²', color: '#8b7bff',
+    id: 'algebra', level: 'Fundamentos', name: 'Álgebra', icon: 'x²', color: '#8b7bff',
     tagline: 'Ecuaciones, rectas y parábolas: el idioma de la ingeniería.',
     units: [
       {
@@ -102,7 +102,7 @@ const COURSES = [
     ],
   },
   {
-    id: 'trig', name: 'Trigonometría', icon: 'θ', color: '#22d3ee',
+    id: 'trig', level: 'Fundamentos', name: 'Trigonometría', icon: 'θ', color: '#22d3ee',
     tagline: 'Ángulos, triángulos y el círculo unitario.',
     units: [
       {
@@ -185,7 +185,7 @@ const COURSES = [
     ],
   },
   {
-    id: 'calc', name: 'Cálculo Diferencial', icon: 'dx', color: '#f472b6',
+    id: 'calc', level: 'Semestre 1', name: 'Cálculo Diferencial', icon: 'dx', color: '#f472b6',
     tagline: 'Límites y derivadas: cómo cambian las cosas.',
     units: [
       {
@@ -275,7 +275,7 @@ const COURSES = [
     ],
   },
   {
-    id: 'fis', name: 'Física Mecánica', icon: 'F', color: '#facc15',
+    id: 'fis', level: 'Semestre 1', name: 'Física Mecánica', icon: 'F', color: '#facc15',
     tagline: 'Movimiento, fuerzas y energía.',
     units: [
       {
@@ -370,7 +370,7 @@ const COURSES = [
     ],
   },
   {
-    id: 'int', name: 'Cálculo Integral', icon: '∫', color: '#34d399',
+    id: 'int', level: 'Semestre 2', name: 'Cálculo Integral', icon: '∫', color: '#34d399',
     tagline: 'Acumular cambios: áreas e integrales.',
     units: [
       {
@@ -411,7 +411,7 @@ const COURSES = [
     ],
   },
   {
-    id: 'lin', name: 'Álgebra Lineal', icon: 'M', color: '#fb923c',
+    id: 'lin', level: 'Semestre 2', name: 'Álgebra Lineal', icon: 'M', color: '#fb923c',
     tagline: 'Vectores y matrices que transforman el espacio.',
     units: [
       {

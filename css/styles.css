@@ -347,6 +347,31 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 .toast .i { width: 18px; height: 18px; color: var(--gold); }
 .toast.out { opacity: 0; transform: translate(-50%, -10px); transition: .3s; }
 
+/* ---------- ilustraciones de cursos ---------- */
+.cart { display: grid; place-items: center; flex: none; }
+.cart svg { width: 100%; height: 100%; overflow: visible; }
+.cart.sm { width: 30px; height: 30px; }
+.cart.md { width: 40px; height: 40px; }
+.cart.lg { width: 60px; height: 60px; }
+.cart.xl { width: 84px; height: 84px; filter: drop-shadow(0 8px 18px rgba(28,61,196,.35)); }
+.tb-course { padding-left: 8px; }
+.hero-body { flex: 1; min-width: 0; }
+.hero-prog { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+.hero-prog .mini-bar { flex: 1; max-width: 160px; margin: 0; height: 8px; }
+.hero-prog small { font-size: 12px; font-weight: 800; color: var(--mute); }
+.course-list { gap: 12px; }
+.course-row {
+  gap: 16px; padding: 16px; border-radius: 20px; background: var(--card);
+  border: 2px solid var(--line); box-shadow: 0 4px 0 var(--line); transition: transform .1s, box-shadow .1s;
+}
+.course-row:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--line); }
+.course-row.on { border-color: var(--brand); box-shadow: 0 4px 0 var(--brand); background: color-mix(in srgb, var(--brand) 7%, var(--card)); }
+.course-row .eyebrow { font-size: 10.5px; }
+.course-row b { font-size: 16.5px; }
+.course-row .mini-bar { max-width: 150px; margin-top: 6px; }
+.cr-done { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ok); color: #fff; }
+.cr-done .i { width: 16px; height: 16px; stroke-width: 3; }
+
 /* ---------- marca, instalación y tema ---------- */
 :root { --c-ink: var(--brand); }
 [style*="--c"] { --c-ink: color-mix(in srgb, var(--c) 72%, var(--ink)); }

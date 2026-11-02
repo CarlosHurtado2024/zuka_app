@@ -2,10 +2,10 @@
 // Archivos propios: red primero (para recibir actualizaciones) y caché si no hay conexión.
 // Recursos externos (KaTeX, fuentes): caché primero.
 
-const VERSION = 'zuka-v2';
+const VERSION = 'zuka-v3';
 const SHELL = [
   './', 'index.html', 'manifest.json', 'css/styles.css',
-  'js/ui.js', 'js/viz.js', 'js/data.js', 'js/player.js', 'js/exercises.js', 'js/app.js',
+  'js/ui.js', 'js/viz.js', 'js/art.js', 'js/data.js', 'js/player.js', 'js/exercises.js', 'js/app.js',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/favicon-48.png',
   'brand/logo-light.png', 'brand/logo-dark.png', 'brand/mascota.png',
 ];
