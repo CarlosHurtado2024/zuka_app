@@ -96,7 +96,7 @@ function isUnlocked(c, l) {
 function findLesson(id) {
   for (const c of COURSES) for (const l of lessonsOf(c)) if (l.id === id) return { c, l };
 }
-const clipSecs = l => l.clip.scenes.reduce((s, x) => s + x.d, 0);
+const clipSecs = l => l.clip.duration ?? l.clip.scenes.reduce((s, x) => s + x.d, 0);
 
 // ---- navegación ----
 let tab = 'learn', cleanup = null;

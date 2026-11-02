@@ -144,26 +144,35 @@ class ClipPlayer {
   }
 }
 
-// Variante para clips grabados (mp4/webm) con la misma interfaz.
+// Variante para clips grabados (mp4/webm) con la misma interfaz. El video ya trae
+// su encabezado y sus subtítulos, así que aquí solo va la barra de progreso.
 class VideoClip {
   constructor(host, lesson, course, opts = {}) {
     this.opts = opts;
     const el = (this.el = document.createElement('div'));
-    el.className = 'clip paused' + (opts.feed ? ' in-feed' : '');
+    el.className = 'clip paused is-video' + (opts.feed ? ' in-feed' : '');
     el.style.setProperty('--c', course.color);
-    el.innerHTML = `<video src="${esc(lesson.clip.video)}" playsinline preload="metadata"${opts.loop ? ' loop' : ''}></video>
-      <div class="clip-head"><span class="clip-course">${esc(course.name)}</span><strong>${esc(lesson.title)}</strong></div>
+    el.innerHTML = `<video src="${esc(lesson.clip.video)}" playsinline muted preload="metadata"></video>
+      <div class="clip-prog"><i><b></b></i></div>
       <div class="clip-play">${ICON.play}</div>`;
     host.appendChild(el);
     this.v = el.querySelector('video');
-    this.v.addEventListener('ended', () => opts.onEnd?.());
+    const bar = el.querySelector('.clip-prog b');
+    this.v.addEventListener('timeupdate', () => {
+      if (this.v.duration) bar.style.width = (100 * this.v.currentTime) / this.v.duration + '%';
+    });
+    this.v.addEventListener('ended', () => {
+      opts.onEnd?.();
+      if (opts.loop) { this.v.currentTime = 0; this.play(); } else this.el.classList.add('paused');
+    });
     el.addEventListener('click', () => this.toggle());
   }
   get playing() { return !this.v.paused; }
   toggle() { this.playing ? this.pause() : this.play(); }
   play() { this.v.play().catch(() => {}); this.el.classList.remove('paused'); }
   pause() { this.v.pause(); this.el.classList.add('paused'); }
-  destroy() { this.pause(); this.el.remove(); }
+  speak() {}
+  destroy() { this.pause(); this.v.removeAttribute('src'); this.v.load(); this.el.remove(); }
 }
 
 const makePlayer = (host, lesson, course, opts) =>

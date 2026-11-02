@@ -30,6 +30,19 @@ Todo el contenido está en `js/data.js`:
 - **Ejercicios**: `mc` (opción múltiple), `num` (respuesta numérica), `ord` (ordenar pasos) y `sld` (deslizador sobre una animación).
 - Las fórmulas se escriben en TeX entre `$...$` (se renderizan con KaTeX).
 
+## Videos con Manim
+
+Los videos de las lecciones se hacen con [Manim Community](https://github.com/ManimCommunity/manim) en la carpeta `video/` (necesita LaTeX, por ejemplo MiKTeX). Formato vertical 1080 × 1920, sin portada, con el fondo degradado del curso y subtítulos en pantalla.
+
+```bash
+cd video
+python make_background.py "#8b7bff" fondo_algebra.png                  # fondo del curso (una vez)
+python -m manim -r 540,960 sistemas_numericos.py SistemasNumericos     # borrador rápido
+python -m manim sistemas_numericos.py SistemasNumericos                # versión final
+```
+
+El video queda en `video/media/videos/…` y los subtítulos en `video/subtitulos/`. Copia ambos a `videos/` y enlázalos en la lección con `clip: { video: 'videos/<id>.mp4', duration: <segundos>, … }`. Para revisar un render: `python tools_sheet.py <video.mp4> <subtitulos.srt> hoja.png`.
+
 ## Estructura
 
 ```

@@ -1,0 +1,83 @@
+1
+00:00:00,617 --> 00:00:08,633
+Los números no aparecieron todos de una vez: cada problema nuevo trajo una familia nueva de números.
+
+2
+00:00:08,650 --> 00:00:16,333
+Para contar, para bajar de cero, para repartir y para medir con precisión.
+
+3
+00:00:16,350 --> 00:00:22,733
+Los naturales sirven para contar: uno, dos, tres… y la lista nunca se acaba.
+
+4
+00:00:22,750 --> 00:00:30,900
+Pero 3 − 5 no tiene respuesta en los naturales: al contar hacia atrás, el camino se acaba en 1.
+
+5
+00:00:30,917 --> 00:00:40,267
+Los enteros agregan el cero y los negativos, como los sótanos de un edificio. Ahora sí: 3 − 5 = −2.
+
+6
+00:00:40,283 --> 00:00:48,300
+Los racionales son los números que se pueden escribir como una fracción m/n, con n distinto de cero.
+
+7
+00:00:48,317 --> 00:00:56,867
+Su decimal termina, como 0.5, o se repite para siempre. La rayita encima marca lo que se repite.
+
+8
+00:00:56,883 --> 00:01:04,833
+Todo decimal periódico es una fracción. Si se repite 36, ponemos 36 sobre 99 y simplificamos: 4/11.
+
+9
+00:01:04,850 --> 00:01:14,133
+Si hay una cifra antes del periodo, como en 0.1666…, restamos lo que no se repite y obtenemos 1/6.
+
+10
+00:01:14,150 --> 00:01:18,700
+Un cuadrado de lado 1: ¿cuánto mide su diagonal?
+
+11
+00:01:18,717 --> 00:01:25,467
+Mide raíz de 2. Sus cifras nunca terminan y nunca forman un patrón que se repita.
+
+12
+00:01:25,483 --> 00:01:33,967
+Son los irracionales, como raíz de 2, pi o e: no se pueden escribir como una fracción.
+
+13
+00:01:33,983 --> 00:01:39,333
+Juntos, racionales e irracionales forman los números reales.
+
+14
+00:01:39,350 --> 00:01:47,100
+Cada familia vive dentro de la siguiente, como cajas dentro de cajas: ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ.
+
+15
+00:01:47,117 --> 00:01:55,333
+Los reales llenan la recta numérica sin dejar huecos: a cada punto le corresponde un número real.
+
+16
+00:01:55,350 --> 00:02:04,833
+Un conjunto de reales se escribe como intervalo: corchete si el extremo se incluye, paréntesis si no.
+
+17
+00:02:04,850 --> 00:02:12,800
+El valor absoluto es la distancia al cero. Por eso |−3| y |3| valen lo mismo: 3. Nunca es negativo.
+
+18
+00:02:12,817 --> 00:02:19,967
+La distancia entre dos números a y b es el valor absoluto de su diferencia.
+
+19
+00:02:19,983 --> 00:02:26,533
+Un ejemplo: como π es mayor que 3 y menor que 4, las dos restas son negativas.
+
+20
+00:02:26,550 --> 00:02:35,033
+Al quitar las barras cambiamos el signo, y la suma da exactamente 1. ¡Sin calculadora!
+
+21
+00:02:35,050 --> 00:02:41,933
+Ya conoces a toda la familia de los números reales. ¡Ahora vamos a practicar!

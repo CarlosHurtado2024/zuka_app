@@ -1,1 +1,6 @@
 .claude/
+
+# Manim: caché de render y registros
+video/media/
+video/render_log.txt
+video/__pycache__/
