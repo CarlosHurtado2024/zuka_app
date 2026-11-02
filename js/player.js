@@ -1,0 +1,170 @@
+// Reproductor de clips verticales 9:16. Un clip es una secuencia de escenas animadas en canvas
+// con fórmulas y subtítulos encima; si el clip trae `video`, se reproduce ese archivo.
+
+const Narrator = {
+  say(s) {
+    if (!S.voice || !('speechSynthesis' in window) || !s) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(speakable(s));
+    u.lang = 'es-ES'; u.rate = 1.05;
+    speechSynthesis.speak(u);
+  },
+  stop() { if ('speechSynthesis' in window) speechSynthesis.cancel(); },
+};
+
+// Convierte TeX sencillo en algo pronunciable.
+function speakable(s) {
+  return s.replace(/\*\*/g, '').replace(/\$([^$]+)\$/g, (_, m) => m
+    .replace(/\\[dt]?frac\{([^}]*)\}\{([^}]*)\}/g, ' $1 sobre $2 ')
+    .replace(/\\sqrt\{([^}]*)\}/g, ' raíz de $1 ')
+    .replace(/\^2/g, ' al cuadrado').replace(/\^\{?(\w+)\}?/g, ' a la $1 ')
+    .replace(/\\(sin|cos|tan)/g, (_, f) => ({ sin: ' seno ', cos: ' coseno ', tan: ' tangente ' })[f])
+    .replace(/\\theta/g, ' theta ').replace(/\\pi/g, ' pi ').replace(/\\lim/g, ' límite ')
+    .replace(/\\[a-zA-Z]+/g, ' ').replace(/[{}_\\]/g, ' ').replace(/=/g, ' igual a ')
+    .replace(/\s+/g, ' '));
+}
+
+class ClipPlayer {
+  constructor(host, lesson, course, opts = {}) {
+    this.lesson = lesson; this.course = course; this.opts = opts;
+    this.scenes = lesson.clip.scenes;
+    this.total = this.scenes.reduce((s, x) => s + x.d, 0);
+    this.t = 0; this.cur = -1; this.playing = false;
+    const el = (this.el = document.createElement('div'));
+    el.className = 'clip paused' + (opts.feed ? ' in-feed' : '');
+    el.style.setProperty('--c', course.color);
+    el.innerHTML = `<canvas></canvas>
+      <div class="clip-prog">${this.scenes.map(() => '<i><b></b></i>').join('')}</div>
+      <div class="clip-head"><span class="clip-course">${esc(course.name)}</span><strong>${esc(lesson.title)}</strong></div>
+      <div class="clip-title"></div><div class="clip-steps"></div><div class="clip-text"></div>
+      <div class="clip-play">${ICON.play}</div>`;
+    host.appendChild(el);
+    this.cv = el.querySelector('canvas');
+    this.ctx = this.cv.getContext('2d');
+    this.bars = [...el.querySelectorAll('.clip-prog b')];
+    this.$title = el.querySelector('.clip-title');
+    this.$steps = el.querySelector('.clip-steps');
+    this.$text = el.querySelector('.clip-text');
+    this.stepEls = [];
+    el.addEventListener('click', () => this.toggle());
+    this.ro = new ResizeObserver(() => this.resize());
+    this.ro.observe(el);
+  }
+
+  resize() {
+    const r = this.el.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    if (!r.width) return;
+    this.W = r.width; this.H = r.height;
+    this.cv.width = Math.round(r.width * dpr); this.cv.height = Math.round(r.height * dpr);
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.render();
+  }
+
+  toggle() { this.playing ? this.pause() : this.play(); }
+
+  play() {
+    if (this.playing) return;
+    if (this.t >= this.total) { this.t = 0; this.cur = -1; }
+    this.playing = true;
+    this.el.classList.remove('paused');
+    this.last = performance.now();
+    this.render();
+    this.speak();
+    this.raf = requestAnimationFrame(this.tick);
+  }
+
+  pause() {
+    this.playing = false;
+    cancelAnimationFrame(this.raf);
+    this.el.classList.add('paused');
+    Narrator.stop();
+  }
+
+  tick = now => {
+    if (!this.playing) return;
+    this.t += Math.min(0.1, (now - this.last) / 1000);
+    this.last = now;
+    if (this.t >= this.total) {
+      this.opts.onEnd?.();
+      if (this.opts.loop) { this.t = 0; this.cur = -1; }
+      else { this.t = this.total; this.render(); this.playing = false; this.el.classList.add('paused'); return; }
+    }
+    this.render();
+    this.raf = requestAnimationFrame(this.tick);
+  };
+
+  sceneAt(t) {
+    let acc = 0;
+    for (let i = 0; i < this.scenes.length; i++) {
+      const d = this.scenes[i].d;
+      if (t < acc + d || i === this.scenes.length - 1) return [i, clamp01((t - acc) / d)];
+      acc += d;
+    }
+  }
+
+  render() {
+    if (!this.W) return;
+    const [i, lp] = this.sceneAt(this.t);
+    if (i !== this.cur) { this.cur = i; this.showScene(i); }
+    const sc = this.scenes[i], W = this.W, H = this.H;
+    drawClipBg(this.ctx, W, H, this.course.color, this.t);
+    // En el feed se deja libre la columna derecha de botones.
+    const box = this.opts.feed
+      ? { x: W * 0.07, y: H * 0.33, w: W * 0.86 - 64, h: H * 0.38 }
+      : { x: W * 0.08, y: H * 0.3, w: W * 0.84, h: H * 0.4 };
+    if (sc.viz) drawViz(this.ctx, sc.viz, ease(clamp01(lp / 0.8)), box);
+    if (sc.steps) {
+      const n = sc.steps.length, k = Math.min(n, 1 + Math.floor(lp * n * 1.25));
+      this.stepEls.forEach((e, j) => e.classList.toggle('on', j < k));
+    }
+    this.bars.forEach((b, j) => { b.style.width = (j < i ? 100 : j > i ? 0 : lp * 100) + '%'; });
+  }
+
+  showScene(i) {
+    const sc = this.scenes[i];
+    this.$title.innerHTML = sc.title ? tex(sc.title) : '';
+    this.$title.hidden = !sc.title;
+    this.$steps.innerHTML = (sc.steps || []).map(s => `<div>${tex(s)}</div>`).join('');
+    this.$steps.classList.toggle('below-title', !!sc.title);
+    this.stepEls = [...this.$steps.children];
+    this.$text.innerHTML = tex(sc.text);
+    this.$text.classList.remove('in'); void this.$text.offsetWidth; this.$text.classList.add('in');
+    if (this.playing) this.speak();
+  }
+
+  speak() {
+    const sc = this.scenes[this.cur];
+    if (sc) Narrator.say(sc.say || sc.text);
+  }
+
+  destroy() {
+    this.pause();
+    this.ro.disconnect();
+    this.el.remove();
+  }
+}
+
+// Variante para clips grabados (mp4/webm) con la misma interfaz.
+class VideoClip {
+  constructor(host, lesson, course, opts = {}) {
+    this.opts = opts;
+    const el = (this.el = document.createElement('div'));
+    el.className = 'clip paused' + (opts.feed ? ' in-feed' : '');
+    el.style.setProperty('--c', course.color);
+    el.innerHTML = `<video src="${esc(lesson.clip.video)}" playsinline preload="metadata"${opts.loop ? ' loop' : ''}></video>
+      <div class="clip-head"><span class="clip-course">${esc(course.name)}</span><strong>${esc(lesson.title)}</strong></div>
+      <div class="clip-play">${ICON.play}</div>`;
+    host.appendChild(el);
+    this.v = el.querySelector('video');
+    this.v.addEventListener('ended', () => opts.onEnd?.());
+    el.addEventListener('click', () => this.toggle());
+  }
+  get playing() { return !this.v.paused; }
+  toggle() { this.playing ? this.pause() : this.play(); }
+  play() { this.v.play().catch(() => {}); this.el.classList.remove('paused'); }
+  pause() { this.v.pause(); this.el.classList.add('paused'); }
+  destroy() { this.pause(); this.el.remove(); }
+}
+
+const makePlayer = (host, lesson, course, opts) =>
+  lesson.clip.video ? new VideoClip(host, lesson, course, opts) : new ClipPlayer(host, lesson, course, opts);
