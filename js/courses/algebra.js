@@ -1,10 +1,100 @@
-// Curso de Álgebra — sigue la Unidad 2 «Álgebra fundamental» del programa
-// Fundamentos de Matemáticas (módulos 2.1 a 2.6).
+// Curso de Álgebra — sigue las Unidades 1 «Fundamentos de aritmética y números reales»
+// (módulos 1.1 a 1.5, como una sola unidad) y 2 «Álgebra fundamental» (módulos 2.1 a 2.6)
+// del programa Fundamentos de Matemáticas.
 
 const COURSE_ALGEBRA = {
   id: 'algebra', level: 'Fundamentos', name: 'Álgebra', icon: 'x²', color: '#8b7bff',
-  tagline: 'Exponentes, radicales, polinomios, factorización, fracciones algebraicas y ecuaciones.',
+  tagline: 'Números reales, proporciones, exponentes, polinomios, factorización y ecuaciones.',
   units: [
+    {
+      title: 'Fundamentos de aritmética y números reales',
+      lessons: [
+        {
+          id: 'alg-11', title: 'Sistemas numéricos y números reales',
+          clip: { scenes: [
+            sc(6, 'Los números se fueron ampliando para resolver nuevos problemas: contar, restar, repartir, medir.', { title: '$\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$', steps: ['$\\mathbb{N} = \\{1, 2, 3, \\dots\\}$: contar', '$\\mathbb{Z}$: los enteros, con negativos', '$\\mathbb{Q} = \\left\\{\\tfrac{m}{n} : n \\neq 0\\right\\}$: fracciones', '$\\mathbb{I}$: irracionales como $\\sqrt2,\\ \\pi,\\ e$'] }),
+            sc(5, 'Todo decimal **periódico** es racional: se puede escribir como fracción.', { steps: ['$0.\\overline{36} = \\dfrac{36}{99} = \\dfrac{4}{11}$', '$0.1\\overline{6} = \\dfrac{16 - 1}{90} = \\dfrac{1}{6}$'] }),
+            sc(5, 'Los reales llenan la **recta numérica**. Un conjunto de reales se escribe como intervalo.', { title: '$\\{x : -2 \\leq x < 5\\} = [-2, 5)$', viz: { type: 'numberline', range: [-4, 6], sets: [[-2, 5, true, false]], label: '[−2, 5)' } }),
+            sc(5, 'El **valor absoluto** mide distancia: la distancia entre $a$ y $b$ es $|b - a|$.', { steps: ['$|a| = a$ si $a \\geq 0$, y $|a| = -a$ si $a < 0$', '$|3 - \\pi| + |\\pi - 4| = (\\pi - 3) + (4 - \\pi) = 1$'] }),
+          ] },
+          ex: [
+            mc('¿Cuál es el conjunto más pequeño al que pertenece $\\sqrt{49}$?', ['$\\mathbb{N}$', '$\\mathbb{Z}$', '$\\mathbb{Q}$', '$\\mathbb{I}$'], 0, '$\\sqrt{49} = 7$, un número natural.'),
+            mc('$\\sqrt{12}$ es un número…', ['Irracional', 'Racional', 'Entero', 'Natural'], 0, '$\\sqrt{12} = 2\\sqrt3$: su decimal es infinito y no periódico.'),
+            mc('Escribe $0.\\overline{27}$ como fracción irreducible', ['$\\tfrac{3}{11}$', '$\\tfrac{27}{100}$', '$\\tfrac{27}{90}$', '$\\tfrac{1}{4}$'], 0, '$0.\\overline{27} = \\tfrac{27}{99} = \\tfrac{3}{11}$.'),
+            num('Calcula sin calculadora $|3 - \\pi| + |\\pi - 4|$', 1, '$3 - \\pi < 0$ y $\\pi - 4 < 0$: queda $(\\pi - 3) + (4 - \\pi) = 1$.'),
+            mc('¿Qué propiedad justifica $a(b + c) = ab + ac$?', ['Distributiva', 'Conmutativa', 'Asociativa', 'Elemento neutro'], 0, 'El producto se distribuye sobre la suma.'),
+          ],
+        },
+        {
+          id: 'alg-12', title: 'Razones, proporciones y proporcionalidad',
+          clip: { scenes: [
+            sc(5, 'Una **razón** compara dos cantidades por cociente. Una **proporción** es la igualdad de dos razones.', { title: '$\\dfrac{a}{b} = \\dfrac{c}{d} \\iff ad = bc$', steps: ['$\\dfrac{3}{5} = \\dfrac{12}{20}$ porque $3 \\cdot 20 = 5 \\cdot 12$'] }),
+            sc(5, '**Directamente proporcionales**: si una se duplica, la otra también. Su gráfica es una recta por el origen.', { title: '$y = kx$', viz: { type: 'graph', xr: [0, 6], yr: [0, 9], f: (x, k) => k * x, anim: [0.5, 1.5], label: k => `k = ${fmt(k)}` } }),
+            sc(5, '**Inversamente proporcionales**: si una se duplica, la otra se reduce a la mitad. Su producto es constante.', { title: '$xy = k$', viz: { type: 'graph', xr: [0, 8], yr: [0, 8], f: x => 6 / x, draw: true, points: [[2, 3, '(2, 3)'], [3, 2, '(3, 2)']] } }),
+            sc(5, '**Reparto proporcional**: suma las partes y reparte el total en esa razón.', { steps: ['Repartir $1\\,200\\,000$ en partes proporcionales a $2, 3, 5$', '$2 + 3 + 5 = 10$, cada parte vale $120\\,000$', '$240\\,000,\\ 360\\,000,\\ 600\\,000$'] }),
+          ] },
+          ex: [
+            num('Si $\\dfrac{a}{b} = \\dfrac{3}{5}$ y $a + b = 64$, ¿cuánto vale $a$?', 24, '$a = 3k$, $b = 5k$, $8k = 64 \\Rightarrow k = 8$: $a = 24$, $b = 40$.', { prefix: '$a =$' }),
+            sld('Ajusta $k$ para que $y = kx$ pase por el punto $(4, 6)$', {
+              viz: { type: 'graph', xr: [0, 6], yr: [0, 9], f: (x, k) => k * x, points: [[4, 6, '(4, 6)']] },
+              min: 0.5, max: 3, step: 0.25, init: 0.5, readout: v => `$k = ${v}$`,
+              check: v => near(v, 1.5), answerText: '$k = 1.5$', explain: '$k = \\dfrac{y}{x} = \\dfrac{6}{4} = 1.5$.',
+            }),
+            num('$x$ e $y$ son inversamente proporcionales y $y = 12$ cuando $x = 5$. ¿Cuánto vale $y$ cuando $x = 15$?', 4, '$k = xy = 60$, así que $y = \\tfrac{60}{15} = 4$.', { prefix: '$y =$' }),
+            num('Media proporcional entre 4 y 25', 10, '$x = \\sqrt{4 \\cdot 25} = \\sqrt{100} = 10$.'),
+            num('Reparte 1 200 000 pesos en partes directamente proporcionales a 2, 3 y 5. ¿Cuánto recibe la parte proporcional a 5?', 600000, 'Cada parte vale $\\tfrac{1\\,200\\,000}{10} = 120\\,000$; por 5 da $600\\,000$.', { suffix: 'pesos' }),
+          ],
+        },
+        {
+          id: 'alg-13', title: 'Regla de tres, porcentajes e interés',
+          clip: { scenes: [
+            sc(5, '**Regla de tres**: primero decide si las magnitudes son directas o inversas.', { steps: ['8 obreros tardan 15 días', 'Más obreros → menos días (inversa)', '$x = \\dfrac{8 \\cdot 15}{12} = 10$ días'] }),
+            sc(5, 'El **porcentaje** es una razón con denominador 100. Un aumento multiplica por $1 + r$; un descuento, por $1 - r$.', { steps: ['$p\\%$ de $B = \\dfrac{p}{100}B$', 'Aumento: $B(1 + r)$', 'Descuento: $B(1 - r)$'] }),
+            sc(5, 'Dos descuentos sucesivos **no se suman**: se multiplican.', { steps: ['$30\\%$ y luego $20\\%$', '$(1 - 0.3)(1 - 0.2) = 0.56$', 'Descuento único: $44\\%$, no $50\\%$'] }),
+            sc(6, 'Interés **simple**: siempre sobre el capital inicial. **Compuesto**: el interés también genera interés.', { steps: ['Simple: $M = C(1 + rt)$', 'Compuesto: $M = C(1 + r)^n$'], viz: { type: 'graph', xr: [0, 24], yr: [1, 1.5], fs: [{ f: t => 1 + 0.015 * t }, { f: t => 1.015 ** t }], draw: true, ax: ['meses', 'M / C'] } }),
+          ] },
+          ex: [
+            num('Ocho obreros construyen un muro en 15 días. ¿Cuántos días tardarán 12 obreros al mismo ritmo?', 10, 'Proporción inversa: $\\tfrac{8 \\cdot 15}{12} = 10$.', { suffix: 'días' }),
+            num('Seis máquinas producen 900 piezas en 5 horas. ¿Cuántas producirán 4 máquinas iguales en 8 horas?', 960, 'Regla de tres compuesta: $900 \\cdot \\tfrac{4}{6} \\cdot \\tfrac{8}{5} = 960$.', { suffix: 'piezas' }),
+            num('Descuento único equivalente a dos descuentos sucesivos de $30\\%$ y $20\\%$', 44, '$1 - (0.7)(0.8) = 0.44$.', { suffix: '%' }),
+            num('¿De qué número es 756 el $26\\%$ más?', 600, '$N \\cdot 1.26 = 756 \\Rightarrow N = 600$.'),
+            mc('2 000 000 pesos al $1.5\\%$ mensual durante 12 meses: ¿qué modalidad da más dinero?', ['Interés compuesto (≈ 2 391 236 pesos)', 'Interés simple (≈ 2 360 000 pesos)', 'Dan lo mismo', 'Depende del capital'], 0, 'Simple: $2\\,000\\,000(1 + 0.18)$. Compuesto: $2\\,000\\,000(1.015)^{12}$.'),
+          ],
+        },
+        {
+          id: 'alg-14', title: 'Progresiones aritméticas y geométricas',
+          clip: { scenes: [
+            sc(5, 'En una progresión **aritmética** se suma siempre la misma diferencia $d$.', { title: '$a_n = a_1 + (n - 1)d$', viz: { type: 'graph', xr: [0, 7], yr: [0, 32], f: () => NaN, points: [[1, 7, '7'], [2, 11, '11'], [3, 15, '15'], [4, 19, '19'], [5, 23, '23'], [6, 27, '27']] } }),
+            sc(6, 'Gauss sumó del 1 al 100 emparejando extremos: cada pareja suma lo mismo.', { title: '$S_n = \\dfrac{n}{2}(a_1 + a_n)$', steps: ['$1 + 100 = 2 + 99 = \\dots = 101$', '$S_{100} = 50 \\cdot 101 = 5050$'] }),
+            sc(5, 'En una progresión **geométrica** se multiplica siempre por la misma razón $r$.', { title: '$a_n = a_1 r^{n-1}$', viz: { type: 'graph', xr: [0, 6], yr: [0, 50], f: () => NaN, points: [[1, 3, '3'], [2, 6, '6'], [3, 12, '12'], [4, 24, '24'], [5, 48, '48']] } }),
+            sc(5, 'Si $|r| < 1$, la suma infinita converge:', { title: '$S_\\infty = \\dfrac{a_1}{1 - r}$', steps: ['$6 + 2 + \\tfrac23 + \\tfrac29 + \\cdots = \\dfrac{6}{1 - \\frac13} = 9$'] }),
+          ] },
+          ex: [
+            num('Término 20 de la progresión aritmética $7, 11, 15, \\dots$', 83, '$a_{20} = 7 + 19 \\cdot 4 = 83$.'),
+            num('Suma de los primeros 20 términos de esa progresión', 900, '$S_{20} = \\tfrac{20}{2}(7 + 83) = 900$.'),
+            num('En una progresión aritmética $a_4 = 10$ y $a_{11} = 31$. ¿Cuánto vale $d$?', 3, '$7d = 31 - 10 = 21 \\Rightarrow d = 3$ (y $a_1 = 1$).', { prefix: '$d =$' }),
+            mc('Tres medios geométricos entre 3 y 48', ['$6, 12, 24$', '$9, 18, 36$', '$14.25, 25.5, 36.75$', '$6, 18, 36$'], 0, '$3r^4 = 48 \\Rightarrow r = 2$.'),
+            num('Una pelota cae desde 8 m y en cada rebote sube $\\tfrac34$ de la altura anterior. ¿Qué distancia total recorre?', 56, 'Baja 8 m y luego sube y baja $2 \\cdot \\dfrac{6}{1 - \\frac34} = 48$ m: total 56 m.', { suffix: 'm' }),
+          ],
+        },
+        {
+          id: 'alg-15', title: 'Sumatoria y productoria',
+          clip: { scenes: [
+            sc(5, 'La letra griega $\\Sigma$ abrevia sumas largas: índice, límites y término general.', { title: '$\\displaystyle\\sum_{k=1}^{n} a_k = a_1 + a_2 + \\cdots + a_n$', steps: ['$\\displaystyle\\sum_{k=1}^{4} k^2 = 1 + 4 + 9 + 16 = 30$'] }),
+            sc(5, 'Es **lineal**: las constantes salen y las sumas se separan.', { steps: ['$\\displaystyle\\sum (c\\,a_k + b_k) = c\\sum a_k + \\sum b_k$', '$\\displaystyle\\sum_{k=1}^{n} c = nc$'] }),
+            sc(5, 'Sumas notables que vas a usar mucho:', { steps: ['$\\displaystyle\\sum_{k=1}^{n} k = \\dfrac{n(n + 1)}{2}$', '$\\displaystyle\\sum_{k=1}^{n} k^2 = \\dfrac{n(n + 1)(2n + 1)}{6}$'] }),
+            sc(5, '$\\Pi$ abrevia productos. El más famoso es el **factorial**.', { title: '$\\displaystyle\\prod_{k=1}^{n} k = n!$', steps: ['$5! = 1 \\cdot 2 \\cdot 3 \\cdot 4 \\cdot 5 = 120$'] }),
+          ] },
+          ex: [
+            num('Calcula $\\displaystyle\\sum_{k=1}^{20} (3k - 2)$', 590, '$3 \\cdot \\tfrac{20 \\cdot 21}{2} - 2 \\cdot 20 = 630 - 40 = 590$.'),
+            num('Calcula $\\displaystyle\\sum_{k=1}^{10} k(k + 1)$', 440, '$\\sum k^2 + \\sum k = 385 + 55 = 440$.'),
+            mc('Escribe en notación sigma: $\\tfrac12 + \\tfrac23 + \\tfrac34 + \\cdots + \\tfrac{15}{16}$', ['$\\displaystyle\\sum_{k=1}^{15} \\dfrac{k}{k + 1}$', '$\\displaystyle\\sum_{k=1}^{16} \\dfrac{k}{k + 1}$', '$\\displaystyle\\sum_{k=2}^{16} \\dfrac{1}{k}$', '$\\displaystyle\\sum_{k=1}^{15} \\dfrac{k + 1}{k}$'], 0, 'El numerador va de 1 a 15 y el denominador es uno más.'),
+            mc('Evalúa $\\displaystyle\\prod_{k=2}^{n} \\left(1 - \\dfrac{1}{k}\\right)$', ['$\\dfrac{1}{n}$', '$\\dfrac{n - 1}{n}$', '$n!$', '$0$'], 0, 'Es telescópico: $\\tfrac12 \\cdot \\tfrac23 \\cdot \\tfrac34 \\cdots \\tfrac{n - 1}{n} = \\tfrac1n$.'),
+            num('$5! = \\;?$', 120, '$1 \\cdot 2 \\cdot 3 \\cdot 4 \\cdot 5 = 120$.'),
+          ],
+        },
+      ],
+    },
     {
       title: 'Potenciación y leyes de los exponentes',
       lessons: [
