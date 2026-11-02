@@ -183,7 +183,7 @@ const VIZ = {
     chips(ctx, b, [
       [`θ = ${fmt(deg, 0)}°`, PAL[3]],
       [`cos θ = ${fmt(Math.cos(th))}`, PAL[1]],
-      [`sin θ = ${fmt(Math.sin(th))}`, PAL[2]],
+      [`sen θ = ${fmt(Math.sin(th))}`, PAL[2]],
     ]);
   },
 
@@ -216,7 +216,7 @@ const VIZ = {
     text(ctx, lb.hip, 0, 0, { color: PAL[0], size: ls, align: 'center', base: 'middle' });
     ctx.restore();
     const lines = [[`θ = ${fmt(deg, 0)}°`, PAL[3]]];
-    if (v.show === 'sin') lines.push([`sin θ = op/hip = ${fmt(s)}`, PAL[2]]);
+    if (v.show === 'sin') lines.push([`sen θ = op/hip = ${fmt(s)}`, PAL[2]]);
     if (v.show === 'cos') lines.push([`cos θ = ady/hip = ${fmt(c)}`, PAL[1]]);
     if (v.show === 'tan') lines.push([`tan θ = op/ady = ${fmt(s / c)}`, PAL[0]]);
     chips(ctx, b, lines);
@@ -450,6 +450,89 @@ const VIZ = {
       arrow(ctx, ox, oy, ...P((A[0] + B[0]) * r, (A[1] + B[1]) * r), PAL[3], { w: 4 });
       lines.push([`a + b = (${A[0] + B[0]}, ${A[1] + B[1]})`, PAL[3]]);
     }
+    chips(ctx, b, lines);
+  },
+
+  // Recta numérica con intervalos sombreados (desigualdades, valor absoluto).
+  // sets: [[a, b, cerradoA, cerradoB]] con a/b = ±Infinity para semirrectas.
+  numberline(ctx, v, p, b) {
+    const [lo, hi] = v.range, y = b.y + b.h * 0.6;
+    const X = x => b.x + 14 * SC + ((x - lo) / (hi - lo)) * (b.w - 28 * SC);
+    arrow(ctx, b.x, y, b.x + b.w, y, AXIS, { w: 2 });
+    arrow(ctx, b.x + b.w, y, b.x, y, AXIS, { w: 2 });
+    for (let x = Math.ceil(lo); x <= hi; x++) {
+      ctx.strokeStyle = AXIS; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(X(x), y - 6 * SC); ctx.lineTo(X(x), y + 6 * SC); ctx.stroke();
+      text(ctx, String(x), X(x), y + 12 * SC, { color: DIM, size: 11 * SC, align: 'center', base: 'top', weight: 600 });
+    }
+    const k = clamp01(p * 1.3);
+    (v.sets || []).forEach(([a, c, ca, cc], i) => {
+      const xa = X(Math.max(a, lo - 1)), xc = X(Math.min(c, hi + 1)), col = PAL[i % 2 ? 1 : 0];
+      const L = Math.max(b.x, xa), R = Math.min(b.x + b.w, lerp(L, xc, k));
+      ctx.strokeStyle = col; ctx.lineWidth = 7 * SC; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(L, y); ctx.lineTo(R, y); ctx.stroke();
+      if (Number.isFinite(a)) dot(ctx, X(a), y, col, 7, !ca);
+      if (Number.isFinite(c) && k >= 1) dot(ctx, X(c), y, col, 7, !cc);
+    });
+    (v.points || []).forEach(([x, l]) => {
+      dot(ctx, X(x), y, PAL[3], 7);
+      if (l) text(ctx, l, X(x), y - 16 * SC, { color: PAL[3], size: 12 * SC, align: 'center' });
+    });
+    if (v.label) chips(ctx, b, [[v.label, INK]]);
+  },
+
+  // Sector circular: arco s = rθ y área A = ½ r² θ.
+  sector(ctx, v, p, b, param) {
+    const deg = param ?? (v.anim ? lerp(v.anim[0], v.anim[1], p) : v.ang ?? 150), th = rad(deg), r = v.r ?? 12;
+    const R = Math.min(b.w, b.h) * 0.4, cx = b.x + b.w / 2, cy = b.y + b.h * 0.58;
+    ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.lineWidth = 2 * SC;
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = PAL[0] + '44';
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, R, 0, -th, true); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = PAL[3]; ctx.lineWidth = 5 * SC; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, -th, true); ctx.stroke();
+    ctx.strokeStyle = INK; ctx.lineWidth = 2.5 * SC;
+    ctx.beginPath(); ctx.moveTo(cx + R, cy); ctx.lineTo(cx, cy); ctx.lineTo(cx + R * Math.cos(th), cy - R * Math.sin(th)); ctx.stroke();
+    text(ctx, `r = ${r}`, cx + R / 2, cy + 6 * SC, { color: DIM, size: 12 * SC, align: 'center', base: 'top' });
+    dot(ctx, cx, cy, INK, 4);
+    const u = v.unit ? ' ' + v.unit : '';
+    chips(ctx, b, [
+      [`θ = ${fmt(deg, 0)}° = ${fmt(th, 3)} rad`, INK],
+      [`arco s = rθ = ${fmt(r * th, 2)}${u}`, PAL[3]],
+      [`área = ½r²θ = ${fmt(0.5 * r * r * th, 2)}${u ? u + '²' : ''}`, PAL[0]],
+    ]);
+  },
+
+  // Triángulo oblicuo a partir de dos lados (a, b) y el ángulo comprendido C.
+  oblique(ctx, v, p, b, param) {
+    const a = v.a ?? 7, bb = v.b ?? 9;
+    const Cdeg = param ?? (v.anim ? lerp(v.anim[0], v.anim[1], p) : v.C ?? 60), C = rad(Cdeg);
+    const c = Math.sqrt(a * a + bb * bb - 2 * a * bb * Math.cos(C));
+    const A = Math.asin(Math.min(1, (a * Math.sin(C)) / c)), Adeg = (a * a > bb * bb + c * c) ? 180 - A * 180 / Math.PI : A * 180 / Math.PI;
+    const Bdeg = 180 - Cdeg - Adeg;
+    // Vértice C en el origen, CA sobre el eje x (longitud b) y CB con ángulo C (longitud a).
+    const pts = [[0, 0], [bb, 0], [a * Math.cos(C), a * Math.sin(C)]];
+    const xs = pts.map(q => q[0]), ys = pts.map(q => q[1]);
+    const minX = Math.min(...xs), maxX = Math.max(...xs), maxY = Math.max(...ys);
+    const s = Math.min((b.w * 0.8) / (maxX - minX), (b.h * 0.62) / maxY);
+    const ox = b.x + (b.w - (maxX - minX) * s) / 2 - minX * s, oy = b.y + b.h * 0.92;
+    const P = ([x, y]) => [ox + x * s, oy - y * s];
+    const [PC, PA, PB] = pts.map(P);
+    ctx.fillStyle = PAL[0] + '22'; ctx.beginPath(); ctx.moveTo(...PC); ctx.lineTo(...PA); ctx.lineTo(...PB); ctx.closePath(); ctx.fill();
+    const side = (Q, R, col) => { ctx.strokeStyle = col; ctx.lineWidth = 4 * SC; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(...Q); ctx.lineTo(...R); ctx.stroke(); };
+    side(PC, PA, PAL[1]); side(PC, PB, PAL[2]); side(PA, PB, PAL[3]);
+    const mid = (Q, R) => [(Q[0] + R[0]) / 2, (Q[1] + R[1]) / 2], ls = 13 * SC;
+    const [mb, ma, mc] = [mid(PC, PA), mid(PC, PB), mid(PA, PB)];
+    text(ctx, `b = ${fmt(bb, 2)}`, mb[0], mb[1] + 6 * SC, { color: PAL[1], size: ls, align: 'center', base: 'top' });
+    text(ctx, `a = ${fmt(a, 2)}`, ma[0] - 8 * SC, ma[1], { color: PAL[2], size: ls, align: 'right', base: 'middle' });
+    text(ctx, `c = ${fmt(c, 2)}`, mc[0] + 8 * SC, mc[1], { color: PAL[3], size: ls, base: 'middle' });
+    [[PC, 'C'], [PA, 'A'], [PB, 'B']].forEach(([q, l]) => dot(ctx, q[0], q[1], INK, 4));
+    text(ctx, 'C', PC[0] - 12 * SC, PC[1] + 2, { size: ls, align: 'right', base: 'middle' });
+    text(ctx, 'A', PA[0] + 10 * SC, PA[1] + 2, { size: ls, base: 'middle' });
+    text(ctx, 'B', PB[0], PB[1] - 12 * SC, { size: ls, align: 'center' });
+    const lines = [[`A = ${fmt(Adeg, 1)}°  B = ${fmt(Bdeg, 1)}°  C = ${fmt(Cdeg, 1)}°`, INK]];
+    if (v.show === 'senos') lines.push([`a/sen A = b/sen B = c/sen C = ${fmt(c / Math.sin(C), 2)}`, PAL[4]]);
+    if (v.show === 'cosenos') lines.push([`c² = a² + b² − 2ab cos C → c = ${fmt(c, 2)}`, PAL[4]]);
     chips(ctx, b, lines);
   },
 

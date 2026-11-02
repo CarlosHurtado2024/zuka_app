@@ -10,7 +10,7 @@ function tex(s) {
     if (part.length > 2 && part[0] === '$' && part[part.length - 1] === '$') {
       const src = part.slice(1, -1);
       if (window.katex) {
-        try { return katex.renderToString(src, { throwOnError: false }); } catch (e) { /* cae al texto plano */ }
+        try { return katex.renderToString(src, { throwOnError: false, macros: { '\\sen': '\\operatorname{sen}' } }); } catch (e) { /* cae al texto plano */ }
       }
       return `<span class="tex-fallback">${esc(src)}</span>`;
     }

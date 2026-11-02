@@ -18,7 +18,7 @@ function speakable(s) {
     .replace(/\\[dt]?frac\{([^}]*)\}\{([^}]*)\}/g, ' $1 sobre $2 ')
     .replace(/\\sqrt\{([^}]*)\}/g, ' raíz de $1 ')
     .replace(/\^2/g, ' al cuadrado').replace(/\^\{?(\w+)\}?/g, ' a la $1 ')
-    .replace(/\\(sin|cos|tan)/g, (_, f) => ({ sin: ' seno ', cos: ' coseno ', tan: ' tangente ' })[f])
+    .replace(/\\(sen|sin|cos|tan)/g, (_, f) => ({ sen: ' seno ', sin: ' seno ', cos: ' coseno ', tan: ' tangente ' })[f])
     .replace(/\\theta/g, ' theta ').replace(/\\pi/g, ' pi ').replace(/\\lim/g, ' límite ')
     .replace(/\\[a-zA-Z]+/g, ' ').replace(/[{}_\\]/g, ' ').replace(/=/g, ' igual a ')
     .replace(/\s+/g, ' '));
