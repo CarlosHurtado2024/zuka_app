@@ -6,7 +6,7 @@ const HEART_MS = 20 * 60 * 1000; // una vida cada 20 minutos
 const DEFAULTS = () => ({
   name: '', xp: 0, done: {}, watched: {}, likes: {}, saved: {}, course: 'algebra',
   streak: 0, lastDay: null, hearts: 5, heartsAt: Date.now(), today: { day: null, xp: 0 },
-  goal: 30, correct: 0, answered: 0, voice: false, sfx: true,
+  goal: 30, correct: 0, answered: 0, voice: false, sfx: true, theme: 'system', hideInstall: false,
 });
 
 let S = (() => {
@@ -18,6 +18,44 @@ function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e
 
 const $ = (s, r = document) => r.querySelector(s);
 const view = $('#view');
+
+// ---- tema claro / oscuro ----
+const darkQuery = matchMedia('(prefers-color-scheme: dark)');
+function applyTheme() {
+  const t = S.theme === 'system' ? (darkQuery.matches ? 'dark' : 'light') : S.theme;
+  document.documentElement.dataset.theme = t;
+  $('meta[name="theme-color"]').content = t === 'dark' ? '#0c0f1f' : '#f5f7fc';
+}
+darkQuery.addEventListener('change', () => S.theme === 'system' && applyTheme());
+
+// ---- instalación (PWA) ----
+let installEvt = null;
+const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  installEvt = e;
+  if (tab !== 'clips') go(tab);
+});
+addEventListener('appinstalled', () => {
+  installEvt = null;
+  toast('¡Zuka quedó instalada!');
+  if (tab !== 'clips') go(tab);
+});
+async function promptInstall() {
+  if (!installEvt) return;
+  installEvt.prompt();
+  await installEvt.userChoice;
+  installEvt = null;
+  if (tab !== 'clips') go(tab);
+}
+function installHelp() {
+  if (isIOS) return 'En Safari toca <b>Compartir</b> y luego <b>Añadir a pantalla de inicio</b>.';
+  return 'Abre el menú del navegador y elige <b>Instalar app</b> o <b>Añadir a pantalla de inicio</b>.';
+}
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
 
 // ---- fechas, XP, racha y vidas ----
 const dayStr = d => d.toLocaleDateString('en-CA');
@@ -137,6 +175,12 @@ function renderLearn() {
       ${ICON.target}<div class="goal-body"><p><b>Meta diaria</b><span>${todayXP()} / ${S.goal} XP</span></p>
       <div class="bar"><i style="width:${goalP * 100}%"></i></div></div>
     </section>
+    ${installEvt && !S.hideInstall ? `<section class="install-banner">
+      <img src="icons/icon-192.png" alt="" width="44" height="44">
+      <div><b>Instala Zuka</b><p>Ábrela como app, incluso sin conexión.</p></div>
+      <button class="btn brand sm" data-install>Instalar</button>
+      <button class="icon-btn" data-hide-install aria-label="Ocultar">${ICON.x}</button>
+    </section>` : ''}
     ${c.units.map((u, ui) => `<section class="unit">
       <header class="unit-banner"><p>Unidad ${ui + 1}</p><h2>${esc(u.title)}</h2></header>
       <div class="path">${u.lessons.map(l => {
@@ -150,6 +194,8 @@ function renderLearn() {
     ${cur ? '' : `<div class="course-done">${ICON.star}<div><b>¡Curso completado!</b><p>Repasa cualquier lección o prueba otro curso.</p></div></div>`}
   </div>`;
   view.querySelectorAll('.node').forEach(b => b.onclick = () => openLessonSheet(c, findLesson(b.dataset.id).l));
+  $('[data-install]', view)?.addEventListener('click', promptInstall);
+  $('[data-hide-install]', view)?.addEventListener('click', () => { S.hideInstall = true; save(); renderLearn(); });
   if (doneN) view.querySelector('.node.current')?.scrollIntoView({ block: 'center' });
 }
 
@@ -323,7 +369,7 @@ function startLesson(c, l) {
     bar.style.width = '100%';
     body.className = 'lesson-body';
     body.innerHTML = `<div class="done-screen"><canvas class="confetti"></canvas>
-      <div class="trophy">${ICON.star}</div>
+      <img class="mascot" src="brand/mascota.png" alt="Zuka celebrando" width="150" height="155">
       <h2>${perfect ? '¡Lección perfecta!' : '¡Lección completada!'}</h2>
       <p class="muted">${esc(l.title)}</p>
       <div class="done-stats">
@@ -366,7 +412,12 @@ function renderProfile() {
   const all = COURSES.flatMap(lessonsOf), doneN = all.filter(isDone).length;
   const acc = S.answered ? Math.round((100 * S.correct) / S.answered) : 0;
   const saved = Object.keys(S.saved).filter(id => S.saved[id]).map(findLesson).filter(Boolean);
+  const installed = isStandalone();
   view.innerHTML = `<div class="profile">
+    <div class="brand-row">
+      <img class="logo logo-light" src="brand/logo-light.png" alt="Zuka" width="128" height="44">
+      <img class="logo logo-dark" src="brand/logo-dark.png" alt="Zuka" width="128" height="44">
+    </div>
     <section class="me">
       <div class="avatar">${esc((S.name || 'Z')[0].toUpperCase())}</div>
       <div class="me-body">
@@ -397,6 +448,19 @@ function renderProfile() {
     ${saved.length ? `<section class="card"><h3>Clips guardados</h3>${saved.map(({ c, l }) =>
       `<button class="saved-row" data-lesson="${l.id}" style="--c:${c.color}">${ICON.bookmark}<span><b>${esc(l.title)}</b><small>${esc(c.name)}</small></span></button>`).join('')}</section>` : ''}
     <section class="card">
+      <h3>Apariencia</h3>
+      <div class="seg seg-3">${[['light', 'Claro'], ['dark', 'Oscuro'], ['system', 'Sistema']].map(([v, l]) =>
+        `<button data-theme-opt="${v}" class="${S.theme === v ? 'on' : ''}">${l}</button>`).join('')}</div>
+    </section>
+    <section class="card install-card">
+      <img src="icons/icon-192.png" alt="" width="56" height="56">
+      <div>
+        <h3>${installed ? 'Zuka está instalada' : 'Instala Zuka'}</h3>
+        <p class="muted">${installed ? 'Ya la estás usando como app.' : installEvt ? 'En tu celular o computador, como una app más.' : installHelp()}</p>
+      </div>
+      ${!installed && installEvt ? '<button class="btn brand sm" data-install>Instalar</button>' : ''}
+    </section>
+    <section class="card">
       <h3>Ajustes</h3>
       <button class="toggle-row" data-set="voice"><span>Narración por voz en los clips</span><span class="toggle${S.voice ? ' on' : ''}"></span></button>
       <button class="toggle-row" data-set="sfx"><span>Efectos de sonido</span><span class="toggle${S.sfx ? ' on' : ''}"></span></button>
@@ -411,10 +475,12 @@ function renderProfile() {
     const { c, l } = findLesson(b.dataset.lesson);
     if (isUnlocked(c, l)) startLesson(c, l); else { feedFilter = c.id; go('clips'); }
   });
+  view.querySelectorAll('[data-theme-opt]').forEach(b => b.onclick = () => { S.theme = b.dataset.themeOpt; save(); applyTheme(); renderProfile(); });
+  $('[data-install]', view)?.addEventListener('click', promptInstall);
   view.querySelectorAll('[data-set]').forEach(b => b.onclick = () => { S[b.dataset.set] = !S[b.dataset.set]; save(); renderProfile(); });
   $('[data-reset]', view).onclick = () => {
     if (!confirm('¿Borrar todo tu progreso, XP y racha?')) return;
-    S = DEFAULTS(); save(); go('learn');
+    S = DEFAULTS(); save(); applyTheme(); go('learn');
   };
 }
 
@@ -424,4 +490,5 @@ document.querySelectorAll('#tabbar button').forEach(b => {
   b.onclick = () => go(b.dataset.tab);
 });
 document.addEventListener('visibilitychange', () => { if (document.hidden) Narrator.stop(); });
+applyTheme();
 go('learn');

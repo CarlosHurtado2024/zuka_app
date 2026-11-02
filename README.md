@@ -5,6 +5,8 @@ App web móvil para aprender materias de fundamentación de ingeniería con **cl
 - **Aprender**: ruta de lecciones por curso (Álgebra, Trigonometría, Cálculo Diferencial, Física Mecánica, Cálculo Integral, Álgebra Lineal). Cada lección = 1 clip + ejercicios.
 - **Clips**: feed vertical tipo TikTok con filtros por curso, me gusta, guardar, narración por voz y botón para practicar.
 - **Perfil**: racha, XP, precisión, meta diaria, progreso por curso y ajustes.
+- **App instalable (PWA)** en celular y computador, con funcionamiento sin conexión (`sw.js`). El icono de instalación es la mascota sobre fondo blanco (`icons/`).
+- **Tema claro, oscuro o del sistema**, configurable en Perfil → Apariencia.
 - Gamificación: vidas (se recupera una cada 20 min), XP, racha diaria y preguntas falladas que se repiten al final.
 
 ## Ejecutar
@@ -16,6 +18,8 @@ python -m http.server 5173
 ```
 
 y abre http://localhost:5173. El progreso se guarda en `localStorage` del navegador.
+
+Para poder instalarla desde otros dispositivos, publícala con HTTPS (por ejemplo GitHub Pages). En Chrome o Edge aparece el botón **Instalar**; en iPhone se instala desde Safari con **Compartir → Añadir a pantalla de inicio**. Al cambiar archivos, sube el número de `VERSION` en `sw.js`.
 
 ## Agregar contenido
 
