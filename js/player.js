@@ -154,6 +154,14 @@ const VIDEO_UI = `
     <button type="button" data-skip="10" aria-label="Adelantar 10 segundos">+10 s</button>
   </div>`;
 
+// Botón redondo de audio (estilo LinkedIn Learning): bocina normal o tachada.
+const MUTE_BTN = `<button class="v-mute" type="button" aria-label="Silenciar">${ICON.sound}</button>`;
+function syncMuteBtn(btn, muted) {
+  btn.innerHTML = muted ? ICON.mute : ICON.sound;
+  btn.setAttribute('aria-label', muted ? 'Activar sonido' : 'Silenciar');
+  btn.classList.toggle('is-muted', muted);
+}
+
 function attachSeek(el, api) {
   const zone = el.querySelector('.seek'), bar = zone.querySelector('b'), label = el.querySelector('.seek-time');
   const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
@@ -222,28 +230,35 @@ class VideoClip {
     const el = (this.el = document.createElement('div'));
     el.className = 'clip paused is-video' + (opts.feed ? ' in-feed' : '');
     el.style.setProperty('--c', course.color);
-    el.innerHTML = `<video playsinline preload="metadata"${opts.feed ? ' muted' : ''}${base ? ` poster="${esc(base)}/thumbnail.jpg"` : ''}></video>
-      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}
-      <button class="v-sound" type="button" hidden>${ICON.mute}<span>Activar sonido</span></button>
+    el.innerHTML = `<video playsinline preload="metadata"${base ? ` poster="${esc(base)}/thumbnail.jpg"` : ''}></video>
+      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}${MUTE_BTN}
       <div class="v-quality" hidden>
         <button class="v-q-btn" type="button" aria-haspopup="true">Auto</button>
         <div class="v-q-menu" role="menu" hidden></div>
       </div>`;
     host.appendChild(el);
     this.v = el.querySelector('video');
-    this.sound = el.querySelector('.v-sound');
+    this.muteBtn = el.querySelector('.v-mute');
+    // En el feed los videos arrancan en silencio (los navegadores lo exigen); en la clase, según tu preferencia.
+    this.v.muted = !!opts.feed || !!S.videoMuted;
+    syncMuteBtn(this.muteBtn, this.v.muted);
     const seek = attachSeek(el, {
       duration: () => this.v.duration || 0,
       time: () => this.v.currentTime,
       seek: t => { this.v.currentTime = t; },
     });
     this.v.addEventListener('timeupdate', seek.update);
-    this.v.addEventListener('play', () => { this.sound.hidden = !this.v.muted; });
+    this.v.addEventListener('volumechange', () => syncMuteBtn(this.muteBtn, this.v.muted));
     this.v.addEventListener('ended', () => {
       opts.onEnd?.();
       if (opts.loop) { this.v.currentTime = 0; this.play(); } else this.el.classList.add('paused');
     });
-    this.sound.addEventListener('click', e => { e.stopPropagation(); this.v.muted = false; this.sound.hidden = true; });
+    this.muteBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      this.v.muted = !this.v.muted;
+      S.videoMuted = this.v.muted;
+      save();
+    });
     el.querySelector('.v-quality').addEventListener('click', e => e.stopPropagation());
     el.querySelector('.v-q-btn').addEventListener('click', () => {
       const menu = el.querySelector('.v-q-menu');
@@ -374,8 +389,7 @@ class YouTubeClip {
     el.style.setProperty('--c', course.color);
     el.innerHTML = `<div class="yt-crop"><div class="yt-frame"></div></div>
       <div class="yt-shield"></div>
-      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}
-      <button class="yt-sound" type="button" hidden>${ICON.mute}<span>Activar sonido</span></button>`;
+      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}${MUTE_BTN}`;
     host.appendChild(el);
     this.seekUi = attachSeek(el, {
       duration: () => this.player?.getDuration?.() || 0,
@@ -385,12 +399,17 @@ class YouTubeClip {
         if (el.classList.contains('ended')) this.play();
       },
     });
-    this.soundBtn = el.querySelector('.yt-sound');
+    this.muteBtn = el.querySelector('.v-mute');
+    syncMuteBtn(this.muteBtn, !!opts.feed || !!S.videoMuted);
     el.querySelector('.yt-shield').addEventListener('click', () => this.toggle());
-    this.soundBtn.addEventListener('click', e => {
+    this.muteBtn.addEventListener('click', e => {
       e.stopPropagation();
-      this.player?.unMute();
-      this.soundBtn.hidden = true;
+      if (!this.player?.isMuted) return;
+      const muted = !this.player.isMuted();
+      muted ? this.player.mute() : this.player.unMute();
+      S.videoMuted = muted;
+      save();
+      syncMuteBtn(this.muteBtn, muted);
     });
     // El video 9:16 se ve completo (sin cortar los bordes) y el iframe tiene 64 px extra
     // arriba y abajo (franjas donde YouTube pinta avatar, título y logo), que quedan fuera.
@@ -417,7 +436,12 @@ class YouTubeClip {
           disablekb: 1, fs: 0, cc_load_policy: 0, origin: location.origin,
         },
         events: {
-          onReady: () => { el.classList.add('ready'); this.layout(); if (this.wantPlay) this.play(); },
+          onReady: () => {
+            el.classList.add('ready');
+            this.layout();
+            if (opts.feed || S.videoMuted) this.player.mute();
+            if (this.wantPlay) this.play();
+          },
           onStateChange: e => this.onState(e.data),
         },
       });
@@ -438,7 +462,7 @@ class YouTubeClip {
       if (this.wantPlay && !this.dead && this.player.getPlayerState() !== 1) {
         this.player.mute();
         this.player.playVideo();
-        this.soundBtn.hidden = false;
+        syncMuteBtn(this.muteBtn, true);
       }
     }, 900);
   }
@@ -453,7 +477,7 @@ class YouTubeClip {
     clearInterval(this.ticker);
     if (state === 1) {
       this.el.classList.remove('paused', 'ended');
-      if (this.player.isMuted()) this.soundBtn.hidden = false;
+      syncMuteBtn(this.muteBtn, this.player.isMuted());
       this.ticker = setInterval(this.seekUi.update, 250);
     } else if (state === 2) {
       this.seekUi.update();

@@ -6,7 +6,7 @@ const HEART_MS = 20 * 60 * 1000; // una vida cada 20 minutos
 const DEFAULTS = () => ({
   name: '', xp: 0, done: {}, watched: {}, likes: {}, saved: {}, course: 'algebra',
   streak: 0, lastDay: null, hearts: 5, heartsAt: Date.now(), today: { day: null, xp: 0 },
-  goal: 30, correct: 0, answered: 0, voice: false, sfx: true, theme: 'system', hideInstall: false, videoQuality: 'auto',
+  goal: 30, correct: 0, answered: 0, voice: false, sfx: true, theme: 'system', hideInstall: false, videoQuality: 'auto', videoMuted: false,
 });
 
 let S = (() => {

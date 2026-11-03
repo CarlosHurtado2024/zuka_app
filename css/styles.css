@@ -218,12 +218,14 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
   content: 'Cargando video…'; position: absolute; inset: 0; display: grid; place-items: center;
   color: var(--mute); font-size: 14px; font-weight: 600;
 }
-.yt-sound, .v-sound {
-  position: absolute; left: 14px; bottom: 58px; z-index: 4; display: flex; align-items: center; gap: 6px;
-  padding: 8px 12px; border-radius: 999px; background: rgba(0, 0, 0, .6); color: #fff; font-size: 13px; font-weight: 700;
+.v-mute {
+  position: absolute; left: 12px; bottom: 52px; z-index: 6; display: grid; place-items: center;
+  width: 46px; height: 46px; border-radius: 50%; background: rgba(0, 0, 0, .55); color: #fff;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: transform .12s, background .2s;
 }
-.yt-sound .i, .v-sound .i { width: 18px; height: 18px; }
-.yt-sound[hidden], .v-sound[hidden] { display: none; }
+.v-mute:active { transform: scale(.92); }
+.v-mute .i { width: 24px; height: 24px; }
+.v-mute.is-muted { background: rgba(0, 0, 0, .7); box-shadow: 0 0 0 2px rgba(255, 255, 255, .55); }
 
 /* Botón de calidad (videos de Bunny) */
 .v-quality { position: absolute; right: 12px; bottom: 58px; z-index: 6; }
@@ -240,6 +242,7 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 .v-q-menu button:hover { background: rgba(255, 255, 255, .08); }
 .v-q-menu button.on { background: var(--brand); }
 .clip.in-feed .v-quality { right: 76px; }
+.v-quality { bottom: 56px; }
 
 /* ---------- controles de video: adelantar ---------- */
 .seek {
