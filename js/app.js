@@ -322,27 +322,78 @@ function startLesson(c, l) {
   }
   ov.querySelectorAll('[data-close]').forEach(b => { b.onclick = close; });
 
-  function step() {
+  // `pos` es la tarea actual. `review` es el video que se vuelve a ver al deslizar hacia
+  // atrás (−1 si no se está repasando); repasar no cambia el progreso.
+  let review = -1;
+
+  function reset() {
     teardown(); updateBar();
     root.classList.remove('fb-open', 'clip-mode', 'clip-ended');
     body.className = 'lesson-body';
     body.scrollTop = 0;
+  }
+
+  // El clip se ve a pantalla completa, como en Clips; la barra y los corazones vuelven en los ejercicios.
+  function showClip(n, forward) {
+    root.classList.add('clip-mode');
+    body.classList.add('is-clip');
+    body.innerHTML = '';
+    player = makePlayer(body, l, c, { clip: clips[n], onEnd: () => { root.classList.add('clip-ended'); btn.classList.add('pulse'); } });
+    const nextClip = n + 1 < clips.length;
+    $('.clip-skip', root).textContent = nextClip ? `Parte ${n + 2} →` : review >= 0 && pos < queue.length && queue[pos].k === 'ex' ? 'Al ejercicio →' : 'Ejercicios →';
+    $('.clip-part', root).textContent = clips.length > 1 ? `Parte ${n + 1} de ${clips.length}` : '';
+    player.play();
+    const advance = () => { btn.classList.remove('pulse'); forward(); };
+    btn.textContent = 'Continuar'; btn.disabled = false;
+    btn.onclick = advance;
+    $('.clip-skip', root).onclick = advance;
+  }
+
+  function showReview(n) {
+    review = n;
+    reset();
+    showClip(n, next);
+  }
+
+  // Siguiente: entre videos repasados, o de vuelta a la tarea actual; en la tarea actual,
+  // avanza el video o continúa tras responder. Un ejercicio sin responder no se salta.
+  function next() {
+    if (finished) return;
+    if (review >= 0) return review + 1 < Math.min(pos, clips.length) ? showReview(review + 1) : step();
+    if (queue[pos].k === 'clip') return $('.clip-skip', root).click();
+    if (fb.classList.contains('show')) return $('.btn', fb).click();
+    toast('Responde el ejercicio para continuar');
+    body.classList.remove('nudge'); void body.offsetWidth; body.classList.add('nudge');
+  }
+
+  // Anterior: vuelve a ver el video anterior (desde los ejercicios, el último video).
+  function prev() {
+    if (finished || fb.classList.contains('show')) return;
+    const n = Math.min(review >= 0 ? review : pos, clips.length) - 1;
+    if (n >= 0) showReview(n);
+  }
+
+  // Deslizar con el dedo: a la izquierda avanza, a la derecha retrocede.
+  let touch = null;
+  root.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse' || e.target.closest('.seek, .v-q-menu, input, .sim, .feedback')) { touch = null; return; }
+    touch = { x: e.clientX, y: e.clientY, t: Date.now() };
+  });
+  root.addEventListener('pointerup', e => {
+    if (!touch) return;
+    const dx = e.clientX - touch.x, dy = e.clientY - touch.y, fast = Date.now() - touch.t < 700;
+    touch = null;
+    if (fast && Math.abs(dx) > 60 && Math.abs(dx) > 1.5 * Math.abs(dy)) dx < 0 ? next() : prev();
+  });
+  root.addEventListener('pointercancel', () => { touch = null; });
+
+  function step() {
+    review = -1;
+    reset();
     if (pos >= queue.length) return finish();
     const item = queue[pos];
     if (item.k === 'clip') {
-      // El clip se ve a pantalla completa, como en Clips; la barra y los corazones vuelven en los ejercicios.
-      root.classList.add('clip-mode');
-      body.classList.add('is-clip');
-      body.innerHTML = '';
-      player = makePlayer(body, l, c, { clip: clips[item.n], onEnd: () => { root.classList.add('clip-ended'); btn.classList.add('pulse'); } });
-      const last = item.n === clips.length - 1;
-      $('.clip-skip', root).textContent = last ? 'Ejercicios →' : `Parte ${item.n + 2} →`;
-      $('.clip-part', root).textContent = clips.length > 1 ? `Parte ${item.n + 1} de ${clips.length}` : '';
-      player.play();
-      const toExercises = () => { btn.classList.remove('pulse'); solved++; pos++; step(); };
-      btn.textContent = 'Continuar'; btn.disabled = false;
-      btn.onclick = toExercises;
-      $('.clip-skip', root).onclick = toExercises;
+      showClip(item.n, () => { solved++; pos++; step(); });
     } else {
       const ex = l.ex[item.i];
       btn.textContent = 'Comprobar'; btn.disabled = true;
@@ -415,6 +466,9 @@ function startLesson(c, l) {
       if (target) { e.preventDefault(); target.click(); }
     } else if (/^[1-9]$/.test(e.key) && e.target.tagName !== 'INPUT' && !fb.classList.contains('show')) {
       handle?.key?.(e.key);
+    } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && e.target.tagName !== 'INPUT') {
+      // En computador, las flechas hacen lo mismo que deslizar.
+      e.key === 'ArrowRight' ? next() : prev();
     }
   }
   document.addEventListener('keydown', onKey);
