@@ -26,17 +26,28 @@ function loadP5() {
   return p5Promise;
 }
 
-// Monta un sketch en `host` con lienzo 4:5 al ancho del contenedor.
-// sketch(p, size) recibe la instancia y { w, h }. Devuelve { ready: Promise, remove() }.
-function mountSketch(host, sketch) {
-  let inst = null, removed = false;
+// Monta un sketch en `host` con lienzo al ancho del contenedor y alto = ancho × aspect
+// (4:5 por defecto). sketch(p, size) recibe la instancia y { w, h }. Devuelve { ready: Promise, remove() }.
+// El lienzo nunca se escala con CSS (p5 no corrige esa escala al leer el dedo): si el contenedor
+// cambia de ancho, se redimensiona y se llama p.onResize() para que el juego reacomode todo.
+function mountSketch(host, sketch, aspect = 1.25) {
+  let inst = null, removed = false, ro = null;
+  const widthOf = () => Math.max(240, Math.floor(host.clientWidth || 320));
   const ready = loadP5().then(P5 => {
     if (removed) return;
-    const w = Math.max(240, Math.round(host.clientWidth || 320));
-    const size = { w, h: Math.round(w * 1.25) };
+    const size = { w: widthOf(), h: 0 };
+    size.h = Math.round(size.w * aspect);
     inst = new P5(p => sketch(p, size), host);
+    ro = new ResizeObserver(() => {
+      const w = widthOf();
+      if (!inst || w === size.w) return;
+      size.w = w; size.h = Math.round(w * aspect);
+      inst.resizeCanvas(size.w, size.h);
+      inst.onResize?.();
+    });
+    ro.observe(host);
   });
-  return { ready, remove() { removed = true; inst?.remove(); inst = null; } };
+  return { ready, remove() { removed = true; ro?.disconnect(); inst?.remove(); inst = null; } };
 }
 
 // Escala lineal entre valores y píxeles (rectas numéricas, ejes).

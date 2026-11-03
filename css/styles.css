@@ -383,7 +383,7 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
   position: relative; border-radius: 18px; overflow: hidden; background: #0f1226; border: 2px solid var(--line);
   touch-action: none; user-select: none; min-height: 200px;
 }
-.play canvas { display: block; width: 100% !important; height: auto !important; }
+.play canvas { display: block; }
 .play-msg { padding: 40px 18px; text-align: center; color: var(--mute); font-weight: 700; }
 .sim { position: relative; aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden; background: #0f1226; border: 2px solid var(--line); }
 .sim.right { border-color: var(--ok); } .sim.wrong { border-color: var(--bad); }
