@@ -6,6 +6,10 @@
 //   Para usar un video real en lugar de la animación: clip: { video: 'videos/archivo.mp4', scenes: [] }
 // Ejercicios: mc (opción múltiple), num (respuesta numérica), ord (ordenar), sld (deslizador interactivo).
 
+// Bunny Stream: dominio de la biblioteca de videos ("CDN Hostname" en Stream → tu biblioteca → API).
+// Una lección usa un video de Bunny con  clip: { bunny: '<id del video>', duration: <segundos>, … }.
+const BUNNY_CDN = 'vz-2449e89f-b51.b-cdn.net';
+
 const sc = (d, text, extra = {}) => ({ d, text, ...extra });
 const mc = (q, options, answer, explain) => ({ type: 'mc', q, options, answer, explain });
 const num = (q, answer, explain, extra = {}) => ({ type: 'input', q, answer, explain, ...extra });

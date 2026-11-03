@@ -193,36 +193,156 @@ function attachSeek(el, api) {
   return { update: () => { if (!dragging) show(api.time()); } };
 }
 
-// Variante para clips grabados (mp4/webm) con la misma interfaz. El video ya trae
-// su encabezado y sus subtítulos, así que aquí solo va la barra de progreso.
+// hls.js reproduce los videos por partes (HLS) de Bunny Stream con varias calidades.
+let hlsLib = null;
+function loadHls() {
+  hlsLib ??= new Promise((resolve, reject) => {
+    if (window.Hls) return resolve(window.Hls);
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js';
+    s.onload = () => resolve(window.Hls);
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+  return hlsLib;
+}
+
+const MAX_QUALITY = 1080;
+
+// Variante para videos propios: un .mp4 (clip.video) o un video de Bunny Stream
+// (clip.bunny = '<id del video>'). El video ya trae su encabezado y sus subtítulos;
+// aquí van la barra para adelantar, el botón de sonido y, con Bunny, el de calidad.
 class VideoClip {
   constructor(host, lesson, course, opts = {}) {
     this.opts = opts;
+    this.wantPlay = false;
+    const clip = lesson.clip;
+    const base = clip.bunny ? `https://${BUNNY_CDN}/${clip.bunny}` : '';
+    const src = clip.bunny ? `${base}/playlist.m3u8` : clip.video;
     const el = (this.el = document.createElement('div'));
     el.className = 'clip paused is-video' + (opts.feed ? ' in-feed' : '');
     el.style.setProperty('--c', course.color);
-    el.innerHTML = `<video src="${esc(lesson.clip.video)}" playsinline muted preload="metadata"></video>
-      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}`;
+    el.innerHTML = `<video playsinline preload="metadata"${opts.feed ? ' muted' : ''}${base ? ` poster="${esc(base)}/thumbnail.jpg"` : ''}></video>
+      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}
+      <button class="v-sound" type="button" hidden>${ICON.mute}<span>Activar sonido</span></button>
+      <div class="v-quality" hidden>
+        <button class="v-q-btn" type="button" aria-haspopup="true">Auto</button>
+        <div class="v-q-menu" role="menu" hidden></div>
+      </div>`;
     host.appendChild(el);
     this.v = el.querySelector('video');
+    this.sound = el.querySelector('.v-sound');
     const seek = attachSeek(el, {
       duration: () => this.v.duration || 0,
       time: () => this.v.currentTime,
       seek: t => { this.v.currentTime = t; },
     });
     this.v.addEventListener('timeupdate', seek.update);
+    this.v.addEventListener('play', () => { this.sound.hidden = !this.v.muted; });
     this.v.addEventListener('ended', () => {
       opts.onEnd?.();
       if (opts.loop) { this.v.currentTime = 0; this.play(); } else this.el.classList.add('paused');
     });
+    this.sound.addEventListener('click', e => { e.stopPropagation(); this.v.muted = false; this.sound.hidden = true; });
+    el.querySelector('.v-quality').addEventListener('click', e => e.stopPropagation());
+    el.querySelector('.v-q-btn').addEventListener('click', () => {
+      const menu = el.querySelector('.v-q-menu');
+      menu.hidden = !menu.hidden;
+    });
     el.addEventListener('click', () => this.toggle());
+    if (/\.m3u8($|\?)/.test(src)) this.attachHls(src); else this.v.src = src;
   }
+
+  async attachHls(src) {
+    let Hls = null;
+    try { Hls = await loadHls(); } catch (e) { /* sin hls.js: se intenta HLS nativo */ }
+    if (this.dead) return;
+    if (Hls?.isSupported()) {
+      this.hls = new Hls({ maxMaxBufferLength: 60 });
+      this.hls.loadSource(src);
+      this.hls.attachMedia(this.v);
+      this.hls.on(Hls.Events.MANIFEST_PARSED, () => this.setupQuality());
+      this.hls.on(Hls.Events.LEVEL_SWITCHED, () => this.showQuality());
+    } else {
+      // Safari en iPhone reproduce HLS por sí mismo; ahí la calidad es siempre automática.
+      this.v.src = src;
+    }
+    if (this.wantPlay) this.play();
+  }
+
+  // Calidad "p" de un nivel: el nombre que le da Bunny (1080p/video.m3u8) o, si no, el lado
+  // corto de la imagen (en un video vertical 1080 × 1920 es 1080p, no 1920p).
+  qualityOf(level) {
+    const named = String(level.url?.[0] ?? level.url ?? '').match(/(\d{3,4})p\//);
+    if (named) return Number(named[1]);
+    return Math.min(level.width || level.height, level.height || level.width) || 0;
+  }
+
+  // Una opción por calidad (hasta 1080p), de mayor a menor, más "Automática".
+  setupQuality() {
+    const best = new Map();
+    this.hls.levels.forEach((l, i) => {
+      const q = this.qualityOf(l);
+      if (!q || q > MAX_QUALITY) return;
+      if (!best.has(q) || l.bitrate > this.hls.levels[best.get(q)].bitrate) best.set(q, i);
+    });
+    this.levels = [...best].sort((a, b) => b[0] - a[0]).map(([height, index]) => ({ height, index }));
+    if (!this.levels.length) return;
+    const maxIndex = Math.max(...this.levels.map(l => l.index));
+    this.hls.autoLevelCapping = maxIndex;
+    const menu = this.el.querySelector('.v-q-menu');
+    menu.innerHTML = [`<button type="button" data-q="auto">Automática</button>`,
+      ...this.levels.map(l => `<button type="button" data-q="${l.height}">${l.height}p</button>`)].join('');
+    menu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+      S.videoQuality = b.dataset.q === 'auto' ? 'auto' : Number(b.dataset.q);
+      save();
+      this.applyQuality();
+      menu.hidden = true;
+    }));
+    this.applyQuality();
+    this.el.querySelector('.v-quality').hidden = this.levels.length < 2;
+  }
+
+  applyQuality() {
+    const pick = this.levels.find(l => l.height === S.videoQuality);
+    this.hls.currentLevel = pick ? pick.index : -1;
+    this.showQuality();
+  }
+
+  showQuality() {
+    if (!this.hls || !this.levels) return;
+    const auto = this.hls.autoLevelEnabled;
+    const level = this.hls.levels[this.hls.currentLevel];
+    const now = level && this.qualityOf(level);
+    this.el.querySelector('.v-q-btn').textContent = auto ? `Auto${now ? ` · ${now}p` : ''}` : `${now}p`;
+    this.el.querySelectorAll('.v-q-menu button').forEach(b => {
+      b.classList.toggle('on', auto ? b.dataset.q === 'auto' : Number(b.dataset.q) === now);
+    });
+  }
+
   get playing() { return !this.v.paused; }
   toggle() { this.playing ? this.pause() : this.play(); }
-  play() { this.v.play().catch(() => {}); this.el.classList.remove('paused'); }
-  pause() { this.v.pause(); this.el.classList.add('paused'); }
+
+  play() {
+    this.wantPlay = true;
+    this.el.classList.remove('paused');
+    this.v.play().catch(() => {
+      // Si el navegador bloquea el sonido, arranca en silencio y ofrece activarlo.
+      if (!this.v.muted && this.wantPlay) { this.v.muted = true; this.v.play().catch(() => {}); }
+    });
+  }
+
+  pause() { this.wantPlay = false; this.v.pause(); this.el.classList.add('paused'); }
   speak() {}
-  destroy() { this.pause(); this.v.removeAttribute('src'); this.v.load(); this.el.remove(); }
+
+  destroy() {
+    this.dead = true;
+    this.pause();
+    this.hls?.destroy();
+    this.v.removeAttribute('src');
+    this.v.load();
+    this.el.remove();
+  }
 }
 
 // Variante para videos de YouTube (clip: { youtube: '<id>' }). Usa el reproductor
@@ -360,5 +480,5 @@ class YouTubeClip {
 
 const makePlayer = (host, lesson, course, opts) =>
   lesson.clip.youtube ? new YouTubeClip(host, lesson, course, opts)
-    : lesson.clip.video ? new VideoClip(host, lesson, course, opts)
+    : lesson.clip.video || lesson.clip.bunny ? new VideoClip(host, lesson, course, opts)
       : new ClipPlayer(host, lesson, course, opts);
