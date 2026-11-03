@@ -144,6 +144,55 @@ class ClipPlayer {
   }
 }
 
+// Controles compartidos de los videos: barra que se toca o arrastra para adelantar,
+// tiempo y botones de ±10 s (visibles en pausa).
+const VIDEO_UI = `
+  <div class="seek" role="slider" aria-label="Posición del video"><div class="seek-track"><b></b></div></div>
+  <span class="seek-time"></span>
+  <div class="seek-skip">
+    <button type="button" data-skip="-10" aria-label="Retroceder 10 segundos">−10 s</button>
+    <button type="button" data-skip="10" aria-label="Adelantar 10 segundos">+10 s</button>
+  </div>`;
+
+function attachSeek(el, api) {
+  const zone = el.querySelector('.seek'), bar = zone.querySelector('b'), label = el.querySelector('.seek-time');
+  const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  const show = t => {
+    const d = api.duration();
+    if (!d) return;
+    bar.style.width = (100 * t) / d + '%';
+    label.textContent = `${mmss(t)} / ${mmss(d)}`;
+  };
+  const timeAt = e => {
+    const r = zone.getBoundingClientRect();
+    return clamp01((e.clientX - r.left) / r.width) * api.duration();
+  };
+  let dragging = false;
+  zone.addEventListener('pointerdown', e => {
+    e.stopPropagation();
+    if (!api.duration()) return;
+    dragging = true;
+    zone.setPointerCapture(e.pointerId);
+    el.classList.add('seeking');
+    show(timeAt(e));
+  });
+  zone.addEventListener('pointermove', e => { if (dragging) show(timeAt(e)); });
+  zone.addEventListener('pointerup', e => {
+    if (!dragging) return;
+    dragging = false;
+    el.classList.remove('seeking');
+    api.seek(timeAt(e));
+  });
+  zone.addEventListener('click', e => e.stopPropagation());
+  el.querySelectorAll('[data-skip]').forEach(b => b.addEventListener('click', e => {
+    e.stopPropagation();
+    const t = Math.min(api.duration(), Math.max(0, api.time() + Number(b.dataset.skip)));
+    api.seek(t);
+    show(t);
+  }));
+  return { update: () => { if (!dragging) show(api.time()); } };
+}
+
 // Variante para clips grabados (mp4/webm) con la misma interfaz. El video ya trae
 // su encabezado y sus subtítulos, así que aquí solo va la barra de progreso.
 class VideoClip {
@@ -153,14 +202,15 @@ class VideoClip {
     el.className = 'clip paused is-video' + (opts.feed ? ' in-feed' : '');
     el.style.setProperty('--c', course.color);
     el.innerHTML = `<video src="${esc(lesson.clip.video)}" playsinline muted preload="metadata"></video>
-      <div class="clip-prog"><i><b></b></i></div>
-      <div class="clip-play">${ICON.play}</div>`;
+      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}`;
     host.appendChild(el);
     this.v = el.querySelector('video');
-    const bar = el.querySelector('.clip-prog b');
-    this.v.addEventListener('timeupdate', () => {
-      if (this.v.duration) bar.style.width = (100 * this.v.currentTime) / this.v.duration + '%';
+    const seek = attachSeek(el, {
+      duration: () => this.v.duration || 0,
+      time: () => this.v.currentTime,
+      seek: t => { this.v.currentTime = t; },
     });
+    this.v.addEventListener('timeupdate', seek.update);
     this.v.addEventListener('ended', () => {
       opts.onEnd?.();
       if (opts.loop) { this.v.currentTime = 0; this.play(); } else this.el.classList.add('paused');
@@ -204,11 +254,17 @@ class YouTubeClip {
     el.style.setProperty('--c', course.color);
     el.innerHTML = `<div class="yt-crop"><div class="yt-frame"></div></div>
       <div class="yt-shield"></div>
-      <div class="clip-prog"><i><b></b></i></div>
-      <div class="clip-play">${ICON.play}</div>
+      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}
       <button class="yt-sound" type="button" hidden>${ICON.mute}<span>Activar sonido</span></button>`;
     host.appendChild(el);
-    this.bar = el.querySelector('.clip-prog b');
+    this.seekUi = attachSeek(el, {
+      duration: () => this.player?.getDuration?.() || 0,
+      time: () => this.player?.getCurrentTime?.() || 0,
+      seek: t => {
+        this.player.seekTo(t, true);
+        if (el.classList.contains('ended')) this.play();
+      },
+    });
     this.soundBtn = el.querySelector('.yt-sound');
     el.querySelector('.yt-shield').addEventListener('click', () => this.toggle());
     this.soundBtn.addEventListener('click', e => {
@@ -216,17 +272,18 @@ class YouTubeClip {
       this.player?.unMute();
       this.soundBtn.hidden = true;
     });
-    // Tamaño "cover": el video 9:16 llena el marco y el iframe tiene 64 px extra arriba
-    // y abajo (franjas donde YouTube pinta avatar, título y logo), que quedan fuera.
+    // El video 9:16 se ve completo (sin cortar los bordes) y el iframe tiene 64 px extra
+    // arriba y abajo (franjas donde YouTube pinta avatar, título y logo), que quedan fuera.
     this.layout = () => {
       const f = el.querySelector('.yt-crop iframe');
       const { width: W, height: H } = el.getBoundingClientRect();
       if (!f || !W) return;
-      const vh = Math.max(H, (W * 16) / 9), vw = (vh * 9) / 16;
-      Object.assign(f.style, {
-        width: vw + 'px', height: vh + 128 + 'px',
-        left: (W - vw) / 2 + 'px', top: (H - vh) / 2 - 64 + 'px',
+      const vw = Math.min(W, (H * 9) / 16), vh = (vw * 16) / 9;
+      // El marco recortado mide justo lo que el video; el iframe sobresale 64 px por arriba y por abajo.
+      Object.assign(el.querySelector('.yt-crop').style, {
+        width: vw + 'px', height: vh + 'px', left: (W - vw) / 2 + 'px', top: (H - vh) / 2 + 'px',
       });
+      Object.assign(f.style, { width: vw + 'px', height: vh + 128 + 'px', left: '0px', top: '-64px' });
     };
     this.ro = new ResizeObserver(this.layout);
     this.ro.observe(el);
@@ -277,12 +334,11 @@ class YouTubeClip {
     if (state === 1) {
       this.el.classList.remove('paused', 'ended');
       if (this.player.isMuted()) this.soundBtn.hidden = false;
-      this.ticker = setInterval(() => {
-        const d = this.player.getDuration();
-        if (d) this.bar.style.width = (100 * this.player.getCurrentTime()) / d + '%';
-      }, 250);
+      this.ticker = setInterval(this.seekUi.update, 250);
+    } else if (state === 2) {
+      this.seekUi.update();
     } else if (state === 0) {
-      this.bar.style.width = '100%';
+      this.seekUi.update();
       this.opts.onEnd?.();
       if (this.opts.loop) { this.player.seekTo(0); this.player.playVideo(); }
       else { this.wantPlay = false; this.el.classList.add('paused', 'ended'); }
