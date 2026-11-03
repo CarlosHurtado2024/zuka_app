@@ -376,7 +376,7 @@ function startLesson(c, l) {
   // Deslizar con el dedo: a la izquierda avanza, a la derecha retrocede.
   let touch = null;
   root.addEventListener('pointerdown', e => {
-    if (e.pointerType === 'mouse' || e.target.closest('.seek, .v-q-menu, input, .sim, .feedback')) { touch = null; return; }
+    if (e.pointerType === 'mouse' || e.target.closest('.seek, .v-q-menu, input, .sim, .play, .feedback')) { touch = null; return; }
     touch = { x: e.clientX, y: e.clientY, t: Date.now() };
   });
   root.addEventListener('pointerup', e => {

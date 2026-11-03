@@ -15,5 +15,7 @@ const mc = (q, options, answer, explain) => ({ type: 'mc', q, options, answer, e
 const num = (q, answer, explain, extra = {}) => ({ type: 'input', q, answer, explain, ...extra });
 const ord = (q, items, explain) => ({ type: 'order', q, items, explain });
 const sld = (q, o) => ({ type: 'slider', q, ...o });
+// Minijuego de p5.js (js/games/<game>.js); params depende de cada juego.
+const play = (game, q, params, explain) => ({ type: 'play', game, q, params, explain });
 const near = (a, b, e = 1e-6) => Math.abs(a - b) < e;
 const sq = x => x * x;

@@ -18,7 +18,7 @@ function parseNum(s) {
   return fr ? +fr[1] / +fr[2] : Number(s);
 }
 
-const EX_KIND = { mc: 'Elige la respuesta', input: 'Escribe la respuesta', slider: 'Experimenta', order: 'Ordena' };
+const EX_KIND = { mc: 'Elige la respuesta', input: 'Escribe la respuesta', slider: 'Experimenta', order: 'Ordena', play: 'Juega' };
 
 const EX = {
   mc(area, ex, ready) {
@@ -115,6 +115,28 @@ const EX = {
       lock(ok) { locked = true; render(); area.querySelector('.slots').classList.add(ok ? 'right' : 'wrong'); },
     };
   },
+};
+
+// Minijuego de p5.js: adapta GAMES[ex.game] (js/games/) al contrato de los demás ejercicios.
+EX.play = (area, ex, ready) => {
+  const game = GAMES[ex.game];
+  area.innerHTML = '<div class="play"></div>';
+  const box = area.querySelector('.play');
+  if (!game) {
+    box.innerHTML = `<p class="play-msg">Este ejercicio no está disponible (${esc(ex.game)}).</p>`;
+    return { check: () => ({ ok: false, solution: '' }), lock() {}, destroy() {} };
+  }
+  ready(false);
+  const inst = game.create(box, ex.params, { ready, sfx: Sfx, palette: PALETTE, tex });
+  inst.loaded?.catch(() => {
+    box.innerHTML = '<p class="play-msg">Necesitas conexión para este ejercicio.</p>';
+    ready(false);
+  });
+  return {
+    check: () => game.grade(inst.getState(), ex.params),
+    lock: ok => inst.lock(ok),
+    destroy: () => inst.destroy(),
+  };
 };
 
 function renderExercise(el, ex, ready) {

@@ -8,3 +8,6 @@ video/.venv-gl/
 video/clase_sistemas_numericos/videos/
 video/clase_sistemas_numericos/dist/
 video/clase_sistemas_numericos/build_log.txt
+
+# Espacio de trabajo de los planes (superpowers)
+.superpowers/
