@@ -6,7 +6,7 @@ const HEART_MS = 20 * 60 * 1000; // una vida cada 20 minutos
 const DEFAULTS = () => ({
   name: '', xp: 0, done: {}, watched: {}, likes: {}, saved: {}, course: 'algebra',
   streak: 0, lastDay: null, hearts: 5, heartsAt: Date.now(), today: { day: null, xp: 0 },
-  goal: 30, correct: 0, answered: 0, voice: false, sfx: true, theme: 'system', hideInstall: false, videoQuality: 'auto', videoMuted: false,
+  goal: 30, correct: 0, answered: 0, voice: false, sfx: true, theme: 'system', hideInstall: false, videoQuality: 'auto', videoMuted: false, videoSpeed: 1,
 });
 
 let S = (() => {
@@ -96,7 +96,9 @@ function isUnlocked(c, l) {
 function findLesson(id) {
   for (const c of COURSES) for (const l of lessonsOf(c)) if (l.id === id) return { c, l };
 }
-const clipSecs = l => l.clip.duration ?? l.clip.scenes.reduce((s, x) => s + x.d, 0);
+// Videos de una lección: el principal (clip) y, si hay, sus partes siguientes (more).
+const clipsOf = l => [l.clip, ...(l.more || [])];
+const clipSecs = l => clipsOf(l).reduce((t, c) => t + (c.duration ?? c.scenes.reduce((s, x) => s + x.d, 0)), 0);
 
 // ---- navegación ----
 let tab = 'learn', cleanup = null;
@@ -285,7 +287,8 @@ function startLesson(c, l) {
   const back = tab;
   cleanup?.(); cleanup = null;
 
-  const queue = [{ k: 'clip' }, ...l.ex.map((_, i) => ({ k: 'ex', i }))];
+  const clips = clipsOf(l);
+  const queue = [...clips.map((_, n) => ({ k: 'clip', n })), ...l.ex.map((_, i) => ({ k: 'ex', i }))];
   const total = queue.length, t0 = Date.now();
   let pos = 0, solved = 0, mistakes = 0, handle = null, player = null, finished = false;
 
@@ -301,6 +304,7 @@ function startLesson(c, l) {
     <div class="feedback" role="status"></div>
     <button class="icon-btn clip-close" data-close aria-label="Salir">${ICON.x}</button>
     <button class="clip-skip" type="button">Ejercicios →</button>
+    <span class="clip-part"></span>
   </div>`;
   ov.classList.add('open');
   const root = $('.lesson', ov), body = $('.lesson-body', ov), btn = $('.btn.main', ov), fb = $('.feedback', ov);
@@ -330,7 +334,10 @@ function startLesson(c, l) {
       root.classList.add('clip-mode');
       body.classList.add('is-clip');
       body.innerHTML = '';
-      player = makePlayer(body, l, c, { onEnd: () => { root.classList.add('clip-ended'); btn.classList.add('pulse'); } });
+      player = makePlayer(body, l, c, { clip: clips[item.n], onEnd: () => { root.classList.add('clip-ended'); btn.classList.add('pulse'); } });
+      const last = item.n === clips.length - 1;
+      $('.clip-skip', root).textContent = last ? 'Ejercicios →' : `Parte ${item.n + 2} →`;
+      $('.clip-part', root).textContent = clips.length > 1 ? `Parte ${item.n + 1} de ${clips.length}` : '';
       player.play();
       const toExercises = () => { btn.classList.remove('pulse'); solved++; pos++; step(); };
       btn.textContent = 'Continuar'; btn.disabled = false;

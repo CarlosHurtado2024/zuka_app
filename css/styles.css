@@ -230,6 +230,9 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 /* Botón de calidad (videos de Bunny) */
 .v-quality { position: absolute; right: 12px; bottom: 58px; z-index: 6; }
 .v-quality[hidden], .v-q-menu[hidden] { display: none; }
+/* Velocidad: encima del botón de calidad */
+.v-speed { position: absolute; right: 12px; bottom: 104px; z-index: 6; }
+.clip.in-feed .v-speed { right: 76px; }
 .v-q-btn {
   padding: 8px 12px; border-radius: 999px; background: rgba(0, 0, 0, .6); color: #fff;
   font-size: 13px; font-weight: 800;
@@ -293,6 +296,12 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
   font-size: 13px; font-weight: 800;
 }
 .lesson.clip-mode.clip-ended .clip-skip { display: none; }
+.clip-part { display: none; }
+.lesson.clip-mode .clip-part:not(:empty) {
+  display: block; position: absolute; z-index: 6; left: 50%; transform: translateX(-50%);
+  top: max(20px, calc(env(safe-area-inset-top) + 8px)); padding: 6px 12px; border-radius: 999px;
+  background: rgba(0, 0, 0, .45); color: #fff; font-size: 12.5px; font-weight: 800; white-space: nowrap;
+}
 
 /* ---------- feed ---------- */
 .feed-wrap { position: relative; height: 100%; background: #000; }

@@ -27,7 +27,7 @@ function speakable(s) {
 class ClipPlayer {
   constructor(host, lesson, course, opts = {}) {
     this.lesson = lesson; this.course = course; this.opts = opts;
-    this.scenes = lesson.clip.scenes;
+    this.scenes = (opts.clip || lesson.clip).scenes;
     this.total = this.scenes.reduce((s, x) => s + x.d, 0);
     this.t = 0; this.cur = -1; this.playing = false;
     const el = (this.el = document.createElement('div'));
@@ -162,6 +162,37 @@ function syncMuteBtn(btn, muted) {
   btn.classList.toggle('is-muted', muted);
 }
 
+// Botón de velocidad de reproducción (se recuerda entre videos).
+const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+const SPEED_UI = `<div class="v-speed">
+    <button class="v-q-btn" type="button" aria-haspopup="true" aria-label="Velocidad de reproducción">1x</button>
+    <div class="v-q-menu" role="menu" hidden></div>
+  </div>`;
+
+function attachSpeed(el, apply) {
+  const wrap = el.querySelector('.v-speed'), btn = wrap.querySelector('.v-q-btn'), menu = wrap.querySelector('.v-q-menu');
+  const render = () => {
+    const cur = S.videoSpeed || 1;
+    btn.textContent = `${cur}x`;
+    menu.querySelectorAll('button').forEach(b => b.classList.toggle('on', Number(b.dataset.r) === cur));
+  };
+  menu.innerHTML = SPEEDS.map(r => `<button type="button" data-r="${r}">${r === 1 ? 'Normal (1x)' : `${r}x`}</button>`).join('');
+  wrap.addEventListener('click', e => e.stopPropagation());
+  btn.addEventListener('click', () => {
+    el.querySelectorAll('.v-q-menu').forEach(m => { if (m !== menu) m.hidden = true; });
+    menu.hidden = !menu.hidden;
+  });
+  menu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    S.videoSpeed = Number(b.dataset.r);
+    save();
+    apply(S.videoSpeed);
+    render();
+    menu.hidden = true;
+  }));
+  render();
+  apply(S.videoSpeed || 1);
+}
+
 function attachSeek(el, api) {
   const zone = el.querySelector('.seek'), bar = zone.querySelector('b'), label = el.querySelector('.seek-time');
   const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
@@ -224,14 +255,14 @@ class VideoClip {
   constructor(host, lesson, course, opts = {}) {
     this.opts = opts;
     this.wantPlay = false;
-    const clip = lesson.clip;
+    const clip = opts.clip || lesson.clip;
     const base = clip.bunny ? `https://${BUNNY_CDN}/${clip.bunny}` : '';
     const src = clip.bunny ? `${base}/playlist.m3u8` : clip.video;
     const el = (this.el = document.createElement('div'));
     el.className = 'clip paused is-video' + (opts.feed ? ' in-feed' : '');
     el.style.setProperty('--c', course.color);
     el.innerHTML = `<video playsinline preload="metadata"${base ? ` poster="${esc(base)}/thumbnail.jpg"` : ''}></video>
-      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}${MUTE_BTN}
+      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}${MUTE_BTN}${SPEED_UI}
       <div class="v-quality" hidden>
         <button class="v-q-btn" type="button" aria-haspopup="true">Auto</button>
         <div class="v-q-menu" role="menu" hidden></div>
@@ -239,8 +270,8 @@ class VideoClip {
     host.appendChild(el);
     this.v = el.querySelector('video');
     this.muteBtn = el.querySelector('.v-mute');
-    // En el feed los videos arrancan en silencio (los navegadores lo exigen); en la clase, según tu preferencia.
-    this.v.muted = !!opts.feed || !!S.videoMuted;
+    // Con sonido por defecto; si el navegador lo bloquea, play() arranca en silencio.
+    this.v.muted = !!S.videoMuted;
     syncMuteBtn(this.muteBtn, this.v.muted);
     const seek = attachSeek(el, {
       duration: () => this.v.duration || 0,
@@ -249,6 +280,9 @@ class VideoClip {
     });
     this.v.addEventListener('timeupdate', seek.update);
     this.v.addEventListener('volumechange', () => syncMuteBtn(this.muteBtn, this.v.muted));
+    const setRate = r => { this.v.defaultPlaybackRate = r; this.v.playbackRate = r; };
+    attachSpeed(el, setRate);
+    this.v.addEventListener('loadedmetadata', () => setRate(S.videoSpeed || 1));
     this.v.addEventListener('ended', () => {
       opts.onEnd?.();
       if (opts.loop) { this.v.currentTime = 0; this.play(); } else this.el.classList.add('paused');
@@ -260,17 +294,23 @@ class VideoClip {
       save();
     });
     el.querySelector('.v-quality').addEventListener('click', e => e.stopPropagation());
-    el.querySelector('.v-q-btn').addEventListener('click', () => {
-      const menu = el.querySelector('.v-q-menu');
+    el.querySelector('.v-quality .v-q-btn').addEventListener('click', () => {
+      const menu = el.querySelector('.v-quality .v-q-menu');
+      el.querySelectorAll('.v-q-menu').forEach(m => { if (m !== menu) m.hidden = true; });
       menu.hidden = !menu.hidden;
     });
     el.addEventListener('click', () => this.toggle());
     if (/\.m3u8($|\?)/.test(src)) this.attachHls(src); else this.v.src = src;
   }
 
-  async attachHls(src) {
-    let Hls = null;
-    try { Hls = await loadHls(); } catch (e) { /* sin hls.js: se intenta HLS nativo */ }
+  // hls.js se carga con la app (index.html), así el video arranca en el mismo toque que abre
+  // la clase y el navegador permite el sonido. Si aún no está, se carga aquí.
+  attachHls(src) {
+    if (window.Hls) return this.setupHls(window.Hls, src);
+    loadHls().then(Hls => this.setupHls(Hls, src), () => this.setupHls(null, src));
+  }
+
+  setupHls(Hls, src) {
     if (this.dead) return;
     if (Hls?.isSupported()) {
       this.hls = new Hls({ maxMaxBufferLength: 60 });
@@ -305,7 +345,7 @@ class VideoClip {
     if (!this.levels.length) return;
     const maxIndex = Math.max(...this.levels.map(l => l.index));
     this.hls.autoLevelCapping = maxIndex;
-    const menu = this.el.querySelector('.v-q-menu');
+    const menu = this.el.querySelector('.v-quality .v-q-menu');
     menu.innerHTML = [`<button type="button" data-q="auto">Automática</button>`,
       ...this.levels.map(l => `<button type="button" data-q="${l.height}">${l.height}p</button>`)].join('');
     menu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
@@ -329,8 +369,8 @@ class VideoClip {
     const auto = this.hls.autoLevelEnabled;
     const level = this.hls.levels[this.hls.currentLevel];
     const now = level && this.qualityOf(level);
-    this.el.querySelector('.v-q-btn').textContent = auto ? `Auto${now ? ` · ${now}p` : ''}` : `${now}p`;
-    this.el.querySelectorAll('.v-q-menu button').forEach(b => {
+    this.el.querySelector('.v-quality .v-q-btn').textContent = auto ? `Auto${now ? ` · ${now}p` : ''}` : `${now}p`;
+    this.el.querySelectorAll('.v-quality .v-q-menu button').forEach(b => {
       b.classList.toggle('on', auto ? b.dataset.q === 'auto' : Number(b.dataset.q) === now);
     });
   }
@@ -389,7 +429,7 @@ class YouTubeClip {
     el.style.setProperty('--c', course.color);
     el.innerHTML = `<div class="yt-crop"><div class="yt-frame"></div></div>
       <div class="yt-shield"></div>
-      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}${MUTE_BTN}`;
+      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}${MUTE_BTN}${SPEED_UI}`;
     host.appendChild(el);
     this.seekUi = attachSeek(el, {
       duration: () => this.player?.getDuration?.() || 0,
@@ -400,7 +440,8 @@ class YouTubeClip {
       },
     });
     this.muteBtn = el.querySelector('.v-mute');
-    syncMuteBtn(this.muteBtn, !!opts.feed || !!S.videoMuted);
+    syncMuteBtn(this.muteBtn, !!S.videoMuted);
+    attachSpeed(el, r => this.player?.setPlaybackRate?.(r));
     el.querySelector('.yt-shield').addEventListener('click', () => this.toggle());
     this.muteBtn.addEventListener('click', e => {
       e.stopPropagation();
@@ -429,7 +470,7 @@ class YouTubeClip {
     loadYouTubeApi().then(() => {
       if (this.dead) return;
       this.player = new YT.Player(el.querySelector('.yt-frame'), {
-        videoId: lesson.clip.youtube,
+        videoId: (opts.clip || lesson.clip).youtube,
         host: 'https://www.youtube-nocookie.com',
         playerVars: {
           controls: 0, rel: 0, playsinline: 1, modestbranding: 1, iv_load_policy: 3,
@@ -439,7 +480,8 @@ class YouTubeClip {
           onReady: () => {
             el.classList.add('ready');
             this.layout();
-            if (opts.feed || S.videoMuted) this.player.mute();
+            if (S.videoMuted) this.player.mute();
+            this.player.setPlaybackRate(S.videoSpeed || 1);
             if (this.wantPlay) this.play();
           },
           onStateChange: e => this.onState(e.data),
@@ -503,6 +545,7 @@ class YouTubeClip {
 }
 
 const makePlayer = (host, lesson, course, opts) =>
-  lesson.clip.youtube ? new YouTubeClip(host, lesson, course, opts)
-    : lesson.clip.video || lesson.clip.bunny ? new VideoClip(host, lesson, course, opts)
+  // opts.clip elige uno de los videos de la lección (ver clipsOf); por defecto, el primero.
+  (opts.clip || lesson.clip).youtube ? new YouTubeClip(host, lesson, course, opts)
+    : (opts.clip || lesson.clip).video || (opts.clip || lesson.clip).bunny ? new VideoClip(host, lesson, course, opts)
       : new ClipPlayer(host, lesson, course, opts);
