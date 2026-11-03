@@ -153,7 +153,7 @@ function openLessonSheet(c, l) {
   const locked = !isUnlocked(c, l);
   openSheet(`<div class="ls" style="--c:${c.color}">
     <p class="eyebrow">${esc(c.name)}</p><h3>${esc(l.title)}</h3>
-    <p class="ls-meta"><span>${ICON.clips} Clip de ${clipSecs(l)} s</span><span>${ICON.target} ${l.ex.length} ejercicios</span></p>
+    <p class="ls-meta"><span>${ICON.clips} ${clipSecs(l) >= 90 ? `Video de ${Math.round(clipSecs(l) / 60)} min` : `Clip de ${clipSecs(l)} s`}</span><span>${ICON.target} ${l.ex.length} ejercicios</span></p>
     ${locked
       ? '<p class="muted">Completa la lección anterior para desbloquear esta.</p><button class="btn" disabled>Bloqueada</button>'
       : `<button class="btn" data-go>${isDone(l) ? 'Repasar · +5 XP' : 'Empezar · +10 XP'}</button>`}
@@ -299,6 +299,8 @@ function startLesson(c, l) {
     <div class="lesson-body"></div>
     <div class="lesson-foot"><button class="btn main">Comprobar</button></div>
     <div class="feedback" role="status"></div>
+    <button class="icon-btn clip-close" data-close aria-label="Salir">${ICON.x}</button>
+    <button class="clip-skip" type="button">Ejercicios →</button>
   </div>`;
   ov.classList.add('open');
   const root = $('.lesson', ov), body = $('.lesson-body', ov), btn = $('.btn.main', ov), fb = $('.feedback', ov);
@@ -314,22 +316,26 @@ function startLesson(c, l) {
     ov.classList.remove('open'); ov.innerHTML = '';
     go(back);
   }
-  $('[data-close]', ov).onclick = close;
+  ov.querySelectorAll('[data-close]').forEach(b => { b.onclick = close; });
 
   function step() {
     teardown(); updateBar();
-    root.classList.remove('fb-open');
+    root.classList.remove('fb-open', 'clip-mode', 'clip-ended');
     body.className = 'lesson-body';
     body.scrollTop = 0;
     if (pos >= queue.length) return finish();
     const item = queue[pos];
     if (item.k === 'clip') {
+      // El clip se ve a pantalla completa, como en Clips; la barra y los corazones vuelven en los ejercicios.
+      root.classList.add('clip-mode');
       body.classList.add('is-clip');
       body.innerHTML = '';
-      player = makePlayer(body, l, c, { onEnd: () => btn.classList.add('pulse') });
+      player = makePlayer(body, l, c, { onEnd: () => { root.classList.add('clip-ended'); btn.classList.add('pulse'); } });
       player.play();
+      const toExercises = () => { btn.classList.remove('pulse'); solved++; pos++; step(); };
       btn.textContent = 'Continuar'; btn.disabled = false;
-      btn.onclick = () => { btn.classList.remove('pulse'); solved++; pos++; step(); };
+      btn.onclick = toExercises;
+      $('.clip-skip', root).onclick = toExercises;
     } else {
       const ex = l.ex[item.i];
       btn.textContent = 'Comprobar'; btn.disabled = true;

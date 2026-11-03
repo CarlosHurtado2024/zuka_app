@@ -175,5 +175,134 @@ class VideoClip {
   destroy() { this.pause(); this.v.removeAttribute('src'); this.v.load(); this.el.remove(); }
 }
 
+// Variante para videos de YouTube (clip: { youtube: '<id>' }). Usa el reproductor
+// oficial sin controles; el iframe se agranda dentro de un marco con overflow oculto
+// para recortar la franja de arriba (avatar y título del canal) y la de abajo
+// (logo), y una capa transparente encima evita que esa interfaz aparezca al tocar.
+let ytApi = null;
+function loadYouTubeApi() {
+  if (!ytApi) {
+    ytApi = new Promise(resolve => {
+      if (window.YT?.Player) return resolve();
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { prev?.(); resolve(); };
+      const s = document.createElement('script');
+      s.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(s);
+    });
+  }
+  return ytApi;
+}
+
+class YouTubeClip {
+  constructor(host, lesson, course, opts = {}) {
+    this.opts = opts;
+    this.wantPlay = false;
+    this.player = null;
+    const el = (this.el = document.createElement('div'));
+    el.className = 'clip paused is-video is-youtube' + (opts.feed ? ' in-feed' : '');
+    el.style.setProperty('--c', course.color);
+    el.innerHTML = `<div class="yt-crop"><div class="yt-frame"></div></div>
+      <div class="yt-shield"></div>
+      <div class="clip-prog"><i><b></b></i></div>
+      <div class="clip-play">${ICON.play}</div>
+      <button class="yt-sound" type="button" hidden>${ICON.mute}<span>Activar sonido</span></button>`;
+    host.appendChild(el);
+    this.bar = el.querySelector('.clip-prog b');
+    this.soundBtn = el.querySelector('.yt-sound');
+    el.querySelector('.yt-shield').addEventListener('click', () => this.toggle());
+    this.soundBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      this.player?.unMute();
+      this.soundBtn.hidden = true;
+    });
+    // Tamaño "cover": el video 9:16 llena el marco y el iframe tiene 64 px extra arriba
+    // y abajo (franjas donde YouTube pinta avatar, título y logo), que quedan fuera.
+    this.layout = () => {
+      const f = el.querySelector('.yt-crop iframe');
+      const { width: W, height: H } = el.getBoundingClientRect();
+      if (!f || !W) return;
+      const vh = Math.max(H, (W * 16) / 9), vw = (vh * 9) / 16;
+      Object.assign(f.style, {
+        width: vw + 'px', height: vh + 128 + 'px',
+        left: (W - vw) / 2 + 'px', top: (H - vh) / 2 - 64 + 'px',
+      });
+    };
+    this.ro = new ResizeObserver(this.layout);
+    this.ro.observe(el);
+    loadYouTubeApi().then(() => {
+      if (this.dead) return;
+      this.player = new YT.Player(el.querySelector('.yt-frame'), {
+        videoId: lesson.clip.youtube,
+        host: 'https://www.youtube-nocookie.com',
+        playerVars: {
+          controls: 0, rel: 0, playsinline: 1, modestbranding: 1, iv_load_policy: 3,
+          disablekb: 1, fs: 0, cc_load_policy: 0, origin: location.origin,
+        },
+        events: {
+          onReady: () => { el.classList.add('ready'); this.layout(); if (this.wantPlay) this.play(); },
+          onStateChange: e => this.onState(e.data),
+        },
+      });
+    });
+  }
+
+  get playing() { return this.player?.getPlayerState?.() === 1; }
+  toggle() { this.wantPlay ? this.pause() : this.play(); }
+
+  play() {
+    this.wantPlay = true;
+    this.el.classList.remove('paused', 'ended');
+    if (!this.player?.playVideo) return;
+    this.player.playVideo();
+    // Si el navegador bloquea la reproducción con sonido, arranca en silencio y ofrece activarlo.
+    clearTimeout(this.autoplayCheck);
+    this.autoplayCheck = setTimeout(() => {
+      if (this.wantPlay && !this.dead && this.player.getPlayerState() !== 1) {
+        this.player.mute();
+        this.player.playVideo();
+        this.soundBtn.hidden = false;
+      }
+    }, 900);
+  }
+
+  pause() {
+    this.wantPlay = false;
+    this.el.classList.add('paused');
+    this.player?.pauseVideo?.();
+  }
+
+  onState(state) {
+    clearInterval(this.ticker);
+    if (state === 1) {
+      this.el.classList.remove('paused', 'ended');
+      if (this.player.isMuted()) this.soundBtn.hidden = false;
+      this.ticker = setInterval(() => {
+        const d = this.player.getDuration();
+        if (d) this.bar.style.width = (100 * this.player.getCurrentTime()) / d + '%';
+      }, 250);
+    } else if (state === 0) {
+      this.bar.style.width = '100%';
+      this.opts.onEnd?.();
+      if (this.opts.loop) { this.player.seekTo(0); this.player.playVideo(); }
+      else { this.wantPlay = false; this.el.classList.add('paused', 'ended'); }
+    }
+  }
+
+  speak() {}
+
+  destroy() {
+    this.dead = true;
+    this.wantPlay = false;
+    clearInterval(this.ticker);
+    clearTimeout(this.autoplayCheck);
+    this.ro.disconnect();
+    this.player?.destroy?.();
+    this.el.remove();
+  }
+}
+
 const makePlayer = (host, lesson, course, opts) =>
-  lesson.clip.video ? new VideoClip(host, lesson, course, opts) : new ClipPlayer(host, lesson, course, opts);
+  lesson.clip.youtube ? new YouTubeClip(host, lesson, course, opts)
+    : lesson.clip.video ? new VideoClip(host, lesson, course, opts)
+      : new ClipPlayer(host, lesson, course, opts);
