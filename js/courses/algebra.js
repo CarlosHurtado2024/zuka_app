@@ -46,8 +46,15 @@ const COURSE_ALGEBRA = {
                 { label: '√2', tex: '\\sqrt2', value: 1.4142 }, { label: 'π', tex: '\\pi', value: 3.1416 }, { label: '−√4', tex: '-\\sqrt4', value: -2 },
               ],
             }, 'Los reales llenan la recta: $-\\tfrac32 = -1.5$, $\\tfrac34 = 0.75$, $\\sqrt2 \\approx 1.41$, $\\pi \\approx 3.14$ y $-\\sqrt4 = -2$.'),
-            play('maquina-fracciones', 'Arma la fracción que da este decimal periódico', { decimal: '0.\\overline{27}', label: '0.2727…', target: [3, 11], max: 999 },
-              'Todo decimal periódico es racional: $0.\\overline{27} = \\tfrac{27}{99} = \\tfrac{3}{11}$. Cualquier fracción equivalente vale.'),
+            play('pizzeria', 'Sirve cada pedido: corta la pizza y marca las porciones que pide', {
+              maxSlices: 12,
+              orders: [
+                { label: '0.75', num: 3, den: 4 },
+                { label: '0.333…', num: 1, den: 3 },
+                { label: '40 %', num: 2, den: 5 },
+                { label: 'la mitad', num: 1, den: 2 },
+              ],
+            }, 'La misma cantidad se puede escribir como fracción, decimal, porcentaje o con palabras: $0.75 = \\tfrac34 = \\tfrac68$, $0.\\overline{3} = \\tfrac13 = \\tfrac{4}{12}$, $40\\,\\% = \\tfrac25$ y la mitad es $\\tfrac12$. Cortar en más porciones no cambia cuánto es: son fracciones **equivalentes**.'),
             play('reglas-del-juego', 'Pon a cada igualdad el nombre de la propiedad que usa', {
               rules: ['Conmutativa', 'Asociativa', 'Distributiva', 'Neutro', 'Inverso'],
               items: [
