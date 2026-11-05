@@ -37,7 +37,16 @@ function mountSketch(host, sketch, aspect = 1.25) {
     if (removed) return;
     const size = { w: widthOf(), h: 0 };
     size.h = Math.round(size.w * aspect);
-    inst = new P5(p => sketch(p, size), host);
+    inst = new P5(p => {
+      sketch(p, size);
+      // p5 1.9 no cae de touchstart/touchend a mousePressed/mouseReleased (solo touchmove cae en
+      // mouseDragged), así que en el celular el toque nunca agarraba nada. Los juegos escriben solo
+      // los manejadores de ratón; aquí se enlazan los táctiles, devolviendo el mismo valor
+      // (false cancela el toque y evita el clic emulado que el móvil dispara después).
+      p.touchStarted ??= (...a) => p.mousePressed?.(...a);
+      p.touchMoved ??= (...a) => p.mouseDragged?.(...a);
+      p.touchEnded ??= (...a) => p.mouseReleased?.(...a);
+    }, host);
     ro = new ResizeObserver(() => {
       const w = widthOf();
       if (!inst || w === size.w) return;
