@@ -102,6 +102,8 @@ const clipSecs = l => clipsOf(l).reduce((t, c) => t + (c.duration ?? c.scenes.re
 
 // ---- navegación ----
 let tab = 'learn', cleanup = null;
+// Cierra la clase abierta (pide confirmación si hay progreso); null cuando no hay clase.
+let lessonClose = null;
 function go(t) {
   cleanup?.(); cleanup = null;
   tab = t;
@@ -313,14 +315,17 @@ function startLesson(c, l) {
   const updateBar = () => { bar.style.width = (solved / total) * 100 + '%'; hearts.textContent = S.hearts; };
   const teardown = () => { player?.destroy(); player = null; handle?.destroy?.(); handle = null; };
 
-  function close() {
+  // `to`: pestaña a la que ir al salir (al tocar el menú inferior); si no, la de origen.
+  function close(to) {
     if (!finished && pos > 0 && !confirm('¿Salir de la lección? Perderás el progreso de esta lección.')) return;
     teardown(); Narrator.stop();
     document.removeEventListener('keydown', onKey);
     ov.classList.remove('open'); ov.innerHTML = '';
-    go(back);
+    lessonClose = null;
+    go(typeof to === 'string' ? to : back);
   }
-  ov.querySelectorAll('[data-close]').forEach(b => { b.onclick = close; });
+  lessonClose = close;
+  ov.querySelectorAll('[data-close]').forEach(b => { b.onclick = () => close(); });
 
   // `pos` es la tarea actual. `review` es el video que se vuelve a ver al deslizar hacia
   // atrás (−1 si no se está repasando); repasar no cambia el progreso.
@@ -555,8 +560,12 @@ function renderProfile() {
 // ---- arranque ----
 document.querySelectorAll('#tabbar button').forEach(b => {
   b.insertAdjacentHTML('afterbegin', ICON[b.dataset.tab === 'learn' ? 'learn' : b.dataset.tab === 'clips' ? 'clips' : 'user']);
-  b.onclick = () => go(b.dataset.tab);
+  b.onclick = () => (lessonClose ? lessonClose(b.dataset.tab) : go(b.dataset.tab));
 });
+// El menú inferior sigue visible durante la clase (como en Clips): la clase ocupa el resto.
+const setTabbarHeight = () => document.documentElement.style.setProperty('--tabbar-h', `${$('#tabbar').offsetHeight}px`);
+setTabbarHeight();
+addEventListener('resize', setTabbarHeight);
 document.addEventListener('visibilitychange', () => { if (document.hidden) Narrator.stop(); });
 applyTheme();
 go('learn');

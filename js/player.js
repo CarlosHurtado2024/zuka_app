@@ -283,6 +283,9 @@ class VideoClip {
     const setRate = r => { this.v.defaultPlaybackRate = r; this.v.playbackRate = r; };
     attachSpeed(el, setRate);
     this.v.addEventListener('loadedmetadata', () => setRate(S.videoSpeed || 1));
+    // Arranque automático: si play() se pidió antes de que el video estuviera listo (HLS carga
+    // aparte) o el navegador lo pospuso, se vuelve a intentar en cuanto se puede reproducir.
+    this.v.addEventListener('canplay', () => { if (this.wantPlay && this.v.paused) this.play(); });
     this.v.addEventListener('ended', () => {
       opts.onEnd?.();
       if (opts.loop) { this.v.currentTime = 0; this.play(); } else this.el.classList.add('paused');
@@ -380,6 +383,7 @@ class VideoClip {
 
   play() {
     this.wantPlay = true;
+    this.v.autoplay = true;
     this.el.classList.remove('paused');
     this.v.play().catch(() => {
       // Si el navegador bloquea el sonido, arranca en silencio y ofrece activarlo.
@@ -387,7 +391,7 @@ class VideoClip {
     });
   }
 
-  pause() { this.wantPlay = false; this.v.pause(); this.el.classList.add('paused'); }
+  pause() { this.wantPlay = false; this.v.autoplay = false; this.v.pause(); this.el.classList.add('paused'); }
   speak() {}
 
   destroy() {

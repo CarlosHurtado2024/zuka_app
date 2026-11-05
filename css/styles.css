@@ -66,7 +66,8 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brand); out
 #view::-webkit-scrollbar { display: none; }
 body[data-tab=clips] #topbar { display: none; }
 body[data-tab=clips] #view { overflow: hidden; }
-#tabbar { display: flex; border-top: 1px solid var(--line); background: var(--bg); padding-bottom: env(safe-area-inset-bottom); }
+/* El menú queda por encima de la clase (#overlay, z-index 30), que deja libre su altura (--tabbar-h). */
+#tabbar { position: relative; z-index: 31; display: flex; border-top: 1px solid var(--line); background: var(--bg); padding-bottom: env(safe-area-inset-bottom); }
 #tabbar button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 9px 0 8px; color: var(--mute); font-size: 11px; font-weight: 700; }
 #tabbar button.on { color: var(--brand); }
 #tabbar button.on .i { stroke-width: 2.6; }
@@ -327,20 +328,20 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 .rail-btn.practice .i { width: 50px; height: 50px; padding: 12px; border-radius: 50%; background: var(--c); color: #0b0d1a; box-shadow: 0 4px 0 color-mix(in srgb, var(--c) 55%, #000); filter: none; }
 
 /* ---------- lección ---------- */
-#overlay { position: fixed; inset: 0; z-index: 30; display: none; background: var(--outer); }
+#overlay { position: fixed; inset: 0 0 var(--tabbar-h, 0px) 0; z-index: 30; display: none; background: var(--outer); }
 #overlay.open { display: block; }
 /* touch-action: el desplazamiento horizontal lo maneja la app (deslizar entre videos y ejercicios) */
 .lesson { touch-action: pan-y; }
 .lesson-body.nudge { animation: nudge .35s; }
 @keyframes nudge { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
-.lesson { position: relative; max-width: 480px; height: 100dvh; margin: 0 auto; background: var(--bg); display: flex; flex-direction: column; overflow: hidden; }
+.lesson { position: relative; max-width: 480px; height: 100%; margin: 0 auto; background: var(--bg); display: flex; flex-direction: column; overflow: hidden; }
 .lesson-top { display: flex; align-items: center; gap: 12px; padding: 12px 16px; padding-top: max(12px, env(safe-area-inset-top)); }
 .pbar { flex: 1; height: 14px; border-radius: 10px; background: var(--card2); overflow: hidden; }
 .pbar i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--ok); box-shadow: inset 0 3px 0 rgba(255,255,255,.25); transition: width .4s cubic-bezier(.2,.8,.2,1); }
 .lesson-body { flex: 1; min-height: 0; overflow: auto; padding: 8px 20px 24px; }
 .lesson-body.is-clip { display: flex; justify-content: center; padding: 4px 16px 12px; overflow: hidden; }
-.lesson-body.is-clip .clip { height: 100%; width: 100%; max-width: calc((100dvh - 170px) * 9 / 16); border-radius: 20px; }
-.lesson-foot { padding: 14px 20px calc(16px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); }
+.lesson-body.is-clip .clip { height: 100%; width: 100%; max-width: calc((100dvh - var(--tabbar-h, 0px) - 170px) * 9 / 16); border-radius: 20px; }
+.lesson-foot { padding: 14px 20px 16px; border-top: 1px solid var(--line); }
 .fb-open .lesson-foot { visibility: hidden; }
 .feedback {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; transform: translateY(105%);
