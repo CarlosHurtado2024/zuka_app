@@ -20,12 +20,42 @@ const COURSE_ALGEBRA = {
             sc(5, 'Los reales llenan la **recta numérica**. Un conjunto de reales se escribe como intervalo.', { title: '$\\{x : -2 \\leq x < 5\\} = [-2, 5)$', viz: { type: 'numberline', range: [-4, 6], sets: [[-2, 5, true, false]], label: '[−2, 5)' } }),
             sc(5, 'El **valor absoluto** mide distancia: la distancia entre $a$ y $b$ es $|b - a|$.', { steps: ['$|a| = a$ si $a \\geq 0$, y $|a| = -a$ si $a < 0$', '$|3 - \\pi| + |\\pi - 4| = (\\pi - 3) + (4 - \\pi) = 1$'] }),
           ] },
+          // Siete minijuegos de p5.js (js/games/*.js): cada uno evalúa una idea de la clase.
           ex: [
-            mc('¿Cuál es el conjunto más pequeño al que pertenece $\\sqrt{49}$?', ['$\\mathbb{N}$', '$\\mathbb{Z}$', '$\\mathbb{Q}$', '$\\mathbb{I}$'], 0, '$\\sqrt{49} = 7$, un número natural.'),
-            mc('$\\sqrt{12}$ es un número…', ['Irracional', 'Racional', 'Entero', 'Natural'], 0, '$\\sqrt{12} = 2\\sqrt3$: su decimal es infinito y no periódico.'),
-            mc('Escribe $0.\\overline{27}$ como fracción irreducible', ['$\\tfrac{3}{11}$', '$\\tfrac{27}{100}$', '$\\tfrac{27}{90}$', '$\\tfrac{1}{4}$'], 0, '$0.\\overline{27} = \\tfrac{27}{99} = \\tfrac{3}{11}$.'),
-            num('Calcula sin calculadora $|3 - \\pi| + |\\pi - 4|$', 1, '$3 - \\pi < 0$ y $\\pi - 4 < 0$: queda $(\\pi - 3) + (4 - \\pi) = 1$.'),
-            mc('¿Qué propiedad justifica $a(b + c) = ab + ac$?', ['Distributiva', 'Conmutativa', 'Asociativa', 'Elemento neutro'], 0, 'El producto se distribuye sobre la suma.'),
+            play('cajas-numericas', 'Arrastra cada número a la caja **más pequeña** donde vive', {
+              cards: [
+                { label: '7', tex: '7', set: 'N' }, { label: '−3', tex: '-3', set: 'Z' }, { label: '0', tex: '0', set: 'Z' },
+                { label: '3/4', tex: '\tfrac34', set: 'Q' }, { label: '0.333…', tex: '0.\overline{3}', set: 'Q' }, { label: '√49', tex: '\sqrt{49}', set: 'N' },
+                { label: '√2', tex: '\sqrt2', set: 'I' }, { label: 'π', tex: '\pi', set: 'I' }, { label: '−8/2', tex: '-\tfrac82', set: 'Z' },
+              ],
+            }, 'Cada familia vive dentro de la siguiente: $\mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R}$. $\sqrt{49} = 7$ y $-\tfrac82 = -4$ se simplifican antes de decidir; $\sqrt2$ y $\pi$ no son fracciones.'),
+            play('ecuacion-familia', 'Une cada ecuación con la familia donde vive su solución', {
+              pairs: [
+                { left: 'x + 5 = 2', right: 'ℤ' }, { left: '3x = 2', right: 'ℚ' },
+                { left: 'x² = 2', right: '𝕀' }, { left: 'x² + 1 = 0', right: 'fuera de ℝ' },
+              ],
+            }, 'Cada familia nace de una ecuación que la anterior no resuelve: $x + 5 = 2$ pide negativos, $3x = 2$ pide fracciones, $x^2 = 2$ pide $\sqrt2$ y $x^2 + 1 = 0$ no tiene solución real.'),
+            play('ubica-en-recta', 'Suelta cada número en su lugar de la recta', {
+              min: -3, max: 4, tol: 0.15,
+              points: [
+                { label: '−3/2', tex: '-\tfrac32', value: -1.5 }, { label: '3/4', tex: '\tfrac34', value: 0.75 },
+                { label: '√2', tex: '\sqrt2', value: 1.4142 }, { label: 'π', tex: '\pi', value: 3.1416 }, { label: '−√4', tex: '-\sqrt4', value: -2 },
+              ],
+            }, 'Los reales llenan la recta: $-\tfrac32 = -1.5$, $\tfrac34 = 0.75$, $\sqrt2 \approx 1.41$, $\pi \approx 3.14$ y $-\sqrt4 = -2$.'),
+            play('maquina-fracciones', 'Arma la fracción que da este decimal periódico', { decimal: '0.\overline{27}', label: '0.2727…', target: [3, 11], max: 999 },
+              'Todo decimal periódico es racional: $0.\overline{27} = \tfrac{27}{99} = \tfrac{3}{11}$. Cualquier fracción equivalente vale.'),
+            play('reglas-del-juego', 'Pon a cada igualdad el nombre de la propiedad que usa', {
+              rules: ['Conmutativa', 'Asociativa', 'Distributiva', 'Neutro', 'Inverso'],
+              items: [
+                { label: 'a + b = b + a', tex: 'a + b = b + a', rule: 'Conmutativa' }, { label: '(ab)c = a(bc)', tex: '(ab)c = a(bc)', rule: 'Asociativa' },
+                { label: 'a(b + c) = ab + ac', tex: 'a(b + c) = ab + ac', rule: 'Distributiva' }, { label: 'a + 0 = a', tex: 'a + 0 = a', rule: 'Neutro' },
+                { label: 'a + (−a) = 0', tex: 'a + (-a) = 0', rule: 'Inverso' },
+              ],
+            }, 'Son las reglas del juego de los reales: el orden no importa (conmutativa), la agrupación no importa (asociativa), el producto se reparte sobre la suma (distributiva), el 0 no cambia nada (neutro) y cada número tiene su opuesto (inverso).'),
+            play('dibuja-intervalo', 'Dibuja en la recta el conjunto indicado', { min: -5, max: 7, a: -2, b: 5, aClosed: true, bClosed: false, set: '{x : −2 ≤ x < 5}' },
+              '$\{x : -2 \leq x < 5\} = [-2, 5)$: el $-2$ entra (punto lleno, corchete) y el $5$ no (punto vacío, paréntesis).'),
+            play('distancia-justa', 'Coloca $b$ a la distancia justa de $a$', { min: -10, max: 6, a: -3, d: 5 },
+              '$|b - a|$ es la distancia entre $a$ y $b$. Desde $-3$, a 5 unidades hay dos puntos: $-3 + 5 = 2$ y $-3 - 5 = -8$.'),
           ],
         },
         {

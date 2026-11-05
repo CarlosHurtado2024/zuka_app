@@ -2,7 +2,7 @@
 // Archivos propios: red primero (para recibir actualizaciones) y caché si no hay conexión.
 // Recursos externos (KaTeX, fuentes): caché primero.
 
-const VERSION = 'zuka-v13';
+const VERSION = 'zuka-v14';
 const SHELL = [
   './', 'index.html', 'manifest.json', 'css/styles.css',
   'js/ui.js', 'js/viz.js', 'js/art.js', 'js/content.js', 'js/games/kit.js', 'js/games/cajas-numericas.js', 'js/games/ecuacion-familia.js', 'js/games/ubica-en-recta.js', 'js/games/maquina-fracciones.js', 'js/games/reglas-del-juego.js', 'js/games/dibuja-intervalo.js', 'js/games/distancia-justa.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/data.js', 'js/player.js', 'js/exercises.js', 'js/app.js',
