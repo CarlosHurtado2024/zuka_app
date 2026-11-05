@@ -10,8 +10,13 @@ const SHELL = [
   'brand/logo-light.png', 'brand/logo-dark.png', 'brand/mascota.png',
 ];
 
+// p5.js (minijuegos) se precachea aparte: si el CDN falla no bloquea la instalación.
+const P5_URL = 'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js';
+
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION)
+    .then(c => c.addAll(SHELL).then(() => c.add(P5_URL).catch(() => {})))
+    .then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', e => {

@@ -25,25 +25,25 @@ const COURSE_ALGEBRA = {
             play('cajas-numericas', 'Arrastra cada número a la caja **más pequeña** donde vive', {
               cards: [
                 { label: '7', tex: '7', set: 'N' }, { label: '−3', tex: '-3', set: 'Z' }, { label: '0', tex: '0', set: 'Z' },
-                { label: '3/4', tex: '\tfrac34', set: 'Q' }, { label: '0.333…', tex: '0.\overline{3}', set: 'Q' }, { label: '√49', tex: '\sqrt{49}', set: 'N' },
-                { label: '√2', tex: '\sqrt2', set: 'I' }, { label: 'π', tex: '\pi', set: 'I' }, { label: '−8/2', tex: '-\tfrac82', set: 'Z' },
+                { label: '3/4', tex: '\\tfrac34', set: 'Q' }, { label: '0.333…', tex: '0.\\overline{3}', set: 'Q' }, { label: '√49', tex: '\\sqrt{49}', set: 'N' },
+                { label: '√2', tex: '\\sqrt2', set: 'I' }, { label: 'π', tex: '\\pi', set: 'I' }, { label: '−8/2', tex: '-\\tfrac82', set: 'Z' },
               ],
-            }, 'Cada familia vive dentro de la siguiente: $\mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R}$. $\sqrt{49} = 7$ y $-\tfrac82 = -4$ se simplifican antes de decidir; $\sqrt2$ y $\pi$ no son fracciones.'),
+            }, 'Cada familia vive dentro de la siguiente: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$. $\\sqrt{49} = 7$ y $-\\tfrac82 = -4$ se simplifican antes de decidir; $\\sqrt2$ y $\\pi$ no son fracciones.'),
             play('ecuacion-familia', 'Une cada ecuación con la familia donde vive su solución', {
               pairs: [
                 { left: 'x + 5 = 2', right: 'ℤ' }, { left: '3x = 2', right: 'ℚ' },
                 { left: 'x² = 2', right: '𝕀' }, { left: 'x² + 1 = 0', right: 'fuera de ℝ' },
               ],
-            }, 'Cada familia nace de una ecuación que la anterior no resuelve: $x + 5 = 2$ pide negativos, $3x = 2$ pide fracciones, $x^2 = 2$ pide $\sqrt2$ y $x^2 + 1 = 0$ no tiene solución real.'),
+            }, 'Cada familia nace de una ecuación que la anterior no resuelve: $x + 5 = 2$ pide negativos, $3x = 2$ pide fracciones, $x^2 = 2$ pide $\\sqrt2$ y $x^2 + 1 = 0$ no tiene solución real.'),
             play('ubica-en-recta', 'Suelta cada número en su lugar de la recta', {
               min: -3, max: 4, tol: 0.15,
               points: [
-                { label: '−3/2', tex: '-\tfrac32', value: -1.5 }, { label: '3/4', tex: '\tfrac34', value: 0.75 },
-                { label: '√2', tex: '\sqrt2', value: 1.4142 }, { label: 'π', tex: '\pi', value: 3.1416 }, { label: '−√4', tex: '-\sqrt4', value: -2 },
+                { label: '−3/2', tex: '-\\tfrac32', value: -1.5 }, { label: '3/4', tex: '\\tfrac34', value: 0.75 },
+                { label: '√2', tex: '\\sqrt2', value: 1.4142 }, { label: 'π', tex: '\\pi', value: 3.1416 }, { label: '−√4', tex: '-\\sqrt4', value: -2 },
               ],
-            }, 'Los reales llenan la recta: $-\tfrac32 = -1.5$, $\tfrac34 = 0.75$, $\sqrt2 \approx 1.41$, $\pi \approx 3.14$ y $-\sqrt4 = -2$.'),
-            play('maquina-fracciones', 'Arma la fracción que da este decimal periódico', { decimal: '0.\overline{27}', label: '0.2727…', target: [3, 11], max: 999 },
-              'Todo decimal periódico es racional: $0.\overline{27} = \tfrac{27}{99} = \tfrac{3}{11}$. Cualquier fracción equivalente vale.'),
+            }, 'Los reales llenan la recta: $-\\tfrac32 = -1.5$, $\\tfrac34 = 0.75$, $\\sqrt2 \\approx 1.41$, $\\pi \\approx 3.14$ y $-\\sqrt4 = -2$.'),
+            play('maquina-fracciones', 'Arma la fracción que da este decimal periódico', { decimal: '0.\\overline{27}', label: '0.2727…', target: [3, 11], max: 999 },
+              'Todo decimal periódico es racional: $0.\\overline{27} = \\tfrac{27}{99} = \\tfrac{3}{11}$. Cualquier fracción equivalente vale.'),
             play('reglas-del-juego', 'Pon a cada igualdad el nombre de la propiedad que usa', {
               rules: ['Conmutativa', 'Asociativa', 'Distributiva', 'Neutro', 'Inverso'],
               items: [
@@ -53,7 +53,7 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Son las reglas del juego de los reales: el orden no importa (conmutativa), la agrupación no importa (asociativa), el producto se reparte sobre la suma (distributiva), el 0 no cambia nada (neutro) y cada número tiene su opuesto (inverso).'),
             play('dibuja-intervalo', 'Dibuja en la recta el conjunto indicado', { min: -5, max: 7, a: -2, b: 5, aClosed: true, bClosed: false, set: '{x : −2 ≤ x < 5}' },
-              '$\{x : -2 \leq x < 5\} = [-2, 5)$: el $-2$ entra (punto lleno, corchete) y el $5$ no (punto vacío, paréntesis).'),
+              '$\\{x : -2 \\leq x < 5\\} = [-2, 5)$: el $-2$ entra (punto lleno, corchete) y el $5$ no (punto vacío, paréntesis).'),
             play('distancia-justa', 'Coloca $b$ a la distancia justa de $a$', { min: -10, max: 6, a: -3, d: 5 },
               '$|b - a|$ es la distancia entre $a$ y $b$. Desde $-3$, a 5 unidades hay dos puntos: $-3 + 5 = 2$ y $-3 - 5 = -8$.'),
           ],
@@ -72,7 +72,7 @@ const COURSE_ALGEBRA = {
             play('limonada', 'Prepara una jarra grande que sepa **igual** que el modelo', { base: [2, 3], minLemons: 4, maxEach: 12 },
               'Una **razón** compara dos cantidades por cociente: $2 : 3$ limones por vasos. Toda mezcla con la misma razón ($4 : 6$, $6 : 9$, …) sabe igual: son razones **equivalentes**.'),
             play('balanza-proporcion', 'Encuentra $x$ para que la balanza quede en equilibrio', { a: 3, b: 5, d: 20, min: 0, max: 30 },
-              'Una **proporción** es la igualdad de dos razones: $\dfrac{a}{b} = \dfrac{c}{d}$ si y solo si $ad = bc$. Aquí $3 \cdot 20 = 5x$, así que $x = 12$.'),
+              'Una **proporción** es la igualdad de dos razones: $\\dfrac{a}{b} = \\dfrac{c}{d}$ si y solo si $ad = bc$. Aquí $3 \\cdot 20 = 5x$, así que $x = 12$.'),
             play('directa-inversa', 'Clasifica cada situación: ¿directa, inversa o ninguna?', {
               items: [
                 { text: 'Distancia y tiempo a velocidad fija', kind: 'directa' },
@@ -84,13 +84,13 @@ const COURSE_ALGEBRA = {
               ],
             }, '**Directa**: el cociente $y/x$ es constante (al duplicar una, se duplica la otra). **Inversa**: el producto $xy$ es constante (al duplicar una, la otra se reduce a la mitad). El área de un cuadrado es $l^2$: al duplicar el lado el área se cuadruplica, así que no es ninguna de las dos.'),
             play('grafica-relacion', 'Mueve los puntos para que la relación sea **directa**', { kind: 'directa', k: 1.5, given: [[2, 3]], xs: [4, 6, 8], tol: 0.25, xmax: 10, ymax: 14 },
-              'En una relación directa $y = kx$: con $(2, 3)$ la constante es $k = \tfrac32 = 1.5$, y los puntos quedan sobre la recta que pasa por el origen: $(4, 6)$, $(6, 9)$, $(8, 12)$.'),
+              'En una relación directa $y = kx$: con $(2, 3)$ la constante es $k = \\tfrac32 = 1.5$, y los puntos quedan sobre la recta que pasa por el origen: $(4, 6)$, $(6, 9)$, $(8, 12)$.'),
             play('grafica-relacion', 'Mueve los puntos para que la relación sea **inversa**', { kind: 'inversa', k: 12, given: [[2, 6]], xs: [3, 4, 6], tol: 0.25, xmax: 8, ymax: 8 },
-              'En una relación inversa $xy = k$: con $(2, 6)$ la constante es $k = 12$, y los puntos quedan sobre la curva $y = \tfrac{12}{x}$: $(3, 4)$, $(4, 3)$, $(6, 2)$.'),
+              'En una relación inversa $xy = k$: con $(2, 6)$ la constante es $k = 12$, y los puntos quedan sobre la curva $y = \\tfrac{12}{x}$: $(3, 4)$, $(4, 3)$, $(6, 2)$.'),
             play('reparto', 'Reparte 1.200.000 en partes proporcionales a 2, 3 y 5', { total: 1200000, parts: [2, 3, 5], tol: 0.02 },
-              '**Reparto proporcional**: $2 + 3 + 5 = 10$ partes, cada una vale $1\,200\,000 \div 10 = 120\,000$. Las partes son $240\,000$, $360\,000$ y $600\,000$.'),
-            play('cuadrado-media', 'Encuentra el lado del cuadrado con la misma área que el rectángulo $4 \times 25$', { w: 4, h: 25, tol: 0.2 },
-              'La **media proporcional** entre 4 y 25 es el $x$ con $\dfrac{4}{x} = \dfrac{x}{25}$: $x^2 = 100$, $x = 10$. Geométricamente, es el lado del cuadrado con la misma área que el rectángulo $4 \times 25$.'),
+              '**Reparto proporcional**: $2 + 3 + 5 = 10$ partes, cada una vale $1\\,200\\,000 \\div 10 = 120\\,000$. Las partes son $240\\,000$, $360\\,000$ y $600\\,000$.'),
+            play('cuadrado-media', 'Encuentra el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$', { w: 4, h: 25, tol: 0.2 },
+              'La **media proporcional** entre 4 y 25 es el $x$ con $\\dfrac{4}{x} = \\dfrac{x}{25}$: $x^2 = 100$, $x = 10$. Geométricamente, es el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$.'),
           ],
         },
         {

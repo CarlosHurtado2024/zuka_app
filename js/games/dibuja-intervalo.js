@@ -25,7 +25,11 @@ GAMES['dibuja-intervalo'] = (() => {
     const handleX = k => map.toPx(st[k]);
 
     const m = mountSketch(host, (p, size) => {
-      p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
+      p.setup = () => {
+        p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h);
+        // Las asas ya forman un intervalo válido: se puede comprobar desde que el lienzo existe.
+        api.ready(true);
+      };
       p.onResize = () => layout(size.w, size.h);
 
       function handle(x, closed, color) {
@@ -83,7 +87,6 @@ GAMES['dibuja-intervalo'] = (() => {
       };
     }, 0.8);
 
-    api.ready(true);
     return {
       loaded: m.ready,
       getState: () => ({ ...st }),
