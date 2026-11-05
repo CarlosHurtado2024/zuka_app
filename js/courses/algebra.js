@@ -29,12 +29,16 @@ const COURSE_ALGEBRA = {
                 { label: '√2', tex: '\\sqrt2', set: 'I' }, { label: 'π', tex: '\\pi', set: 'I' }, { label: '−8/2', tex: '-\\tfrac82', set: 'Z' },
               ],
             }, 'Cada familia vive dentro de la siguiente: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$. $\\sqrt{49} = 7$ y $-\\tfrac82 = -4$ se simplifican antes de decidir; $\\sqrt2$ y $\\pi$ no son fracciones.'),
-            play('ecuacion-familia', 'Une cada ecuación con la familia donde vive su solución', {
-              pairs: [
-                { left: 'x + 5 = 2', right: 'ℤ' }, { left: '3x = 2', right: 'ℚ' },
-                { left: 'x² = 2', right: '𝕀' }, { left: 'x² + 1 = 0', right: 'fuera de ℝ' },
+            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
+              cards: [
+                { text: 'Todo número natural es también entero', truth: true, why: 'ℕ está dentro de ℤ: 7 es natural y también entero.' },
+                { text: 'Todo número entero es natural', truth: false, why: '−3 es entero, pero los naturales empiezan en 1.' },
+                { text: '0.75 es un número racional', truth: true, why: '0.75 = 3/4, un cociente de enteros.' },
+                { text: '√2 se puede escribir como una fracción', truth: false, why: '√2 es irracional: su decimal no termina ni se repite.' },
+                { text: 'Todo decimal periódico es racional', truth: true, why: '0.333… = 1/3; siempre hay una fracción detrás.' },
+                { text: 'Un número puede ser racional e irracional a la vez', truth: false, why: 'ℚ e 𝕀 no se cruzan: juntos forman ℝ.' },
               ],
-            }, 'Cada familia nace de una ecuación que la anterior no resuelve: $x + 5 = 2$ pide negativos, $3x = 2$ pide fracciones, $x^2 = 2$ pide $\\sqrt2$ y $x^2 + 1 = 0$ no tiene solución real.'),
+            }, 'Las familias están anidadas: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, así que lo natural también es entero y lo entero también es racional, pero no al revés. Los irracionales ($\\sqrt2$, $\\pi$) no son fracciones, y junto con los racionales llenan la recta real.'),
             play('ubica-en-recta', 'Suelta cada número en su lugar de la recta', {
               min: -3, max: 4, tol: 0.15,
               points: [
