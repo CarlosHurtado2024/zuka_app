@@ -72,6 +72,8 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-12', title: 'Razones, proporciones y regla de tres',
           // Clase 2 en Bunny Stream (video/clase_razones_proporciones); las escenas quedan como guion.
+          // Parte 2 (video/clase_regla_de_tres): se muestra tras los primeros siete ejercicios.
+          more: [{ bunny: '1cda8e9b-5fff-4633-a543-de4105860b3d', duration: 263, after: 7, scenes: [] }],
           clip: { bunny: '4c098c45-1ab3-4f66-942a-3764b2da832a', duration: 289, scenes: [
             sc(5, 'Una **razón** compara dos cantidades por cociente. Una **proporción** es la igualdad de dos razones.', { title: '$\\dfrac{a}{b} = \\dfrac{c}{d} \\iff ad = bc$', steps: ['$\\dfrac{3}{5} = \\dfrac{12}{20}$ porque $3 \\cdot 20 = 5 \\cdot 12$'] }),
             sc(5, '**Directamente proporcionales**: si una se duplica, la otra también. Su gráfica es una recta por el origen.', { title: '$y = kx$', viz: { type: 'graph', xr: [0, 6], yr: [0, 9], f: (x, k) => k * x, anim: [0.5, 1.5], label: k => `k = ${fmt(k)}` } }),
@@ -103,8 +105,7 @@ const COURSE_ALGEBRA = {
               '**Reparto proporcional**: $2 + 3 + 5 = 10$ partes, cada una vale $1\\,200\\,000 \\div 10 = 120\\,000$. Las partes son $240\\,000$, $360\\,000$ y $600\\,000$.'),
             play('cuadrado-media', 'Encuentra el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$', { w: 4, h: 25, tol: 0.2 },
               'La **media proporcional** entre 4 y 25 es el $x$ con $\\dfrac{4}{x} = \\dfrac{x}{25}$: $x^2 = 100$, $x = 10$. Geométricamente, es el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$.'),
-            // --- Parte 2: regla de tres (video 2 tras los 7 ejercicios anteriores). Cuando llegue el ID de
-            // Bunny: more: [{ bunny: '<id>', duration: <s>, after: 7, scenes: [] }].
+            // --- Parte 2: regla de tres (el video 2 de `more` se muestra antes de estos cinco).
             play('arma-regla', 'Arma la regla de tres de cada problema', {
               problems: [
                 { text: 'Un ciclista recorre 150 km en 5 horas. ¿Cuántos km recorre en 7 horas?', kind: 'directa',
