@@ -24,3 +24,10 @@ test('after mayor que los ejercicios → el video va al final', () => {
 test('sin more → clip y ejercicios', () => {
   assert.deepEqual(buildQueue({ clip: {}, ex: [1] }), [clip(0), ex(0)]);
 });
+
+test('la lección 1.3 real: video 2 tras el sexto ejercicio y once ejercicios', () => {
+  const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js']);
+  const l = get(ctx, 'COURSE_ALGEBRA').units[0].lessons.find(l => l.id === 'alg-13');
+  const q = buildQueue(l).map(t => t.k + (t.n ?? t.i));
+  assert.deepEqual(q, ['clip0', 'ex0', 'ex1', 'ex2', 'ex3', 'ex4', 'ex5', 'clip1', 'ex6', 'ex7', 'ex8', 'ex9', 'ex10']);
+});

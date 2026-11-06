@@ -134,15 +134,62 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-13', title: 'Porcentajes e interés',
+          // Parte 1 «Porcentajes»: escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
-            sc(5, 'El **porcentaje** es una razón con denominador 100. Un aumento multiplica por $1 + r$; un descuento, por $1 - r$.', { steps: ['$p\\%$ de $B = \\dfrac{p}{100}B$', 'Aumento: $B(1 + r)$', 'Descuento: $B(1 - r)$'] }),
-            sc(5, 'Dos descuentos sucesivos **no se suman**: se multiplican.', { steps: ['$30\\%$ y luego $20\\%$', '$(1 - 0.3)(1 - 0.2) = 0.56$', 'Descuento único: $44\\%$, no $50\\%$'] }),
-            sc(6, 'Interés **simple**: siempre sobre el capital inicial. **Compuesto**: el interés también genera interés.', { steps: ['Simple: $M = C(1 + rt)$', 'Compuesto: $M = C(1 + r)^n$'], viz: { type: 'graph', xr: [0, 24], yr: [1, 1.5], fs: [{ f: t => 1 + 0.015 * t }, { f: t => 1.015 ** t }], draw: true, ax: ['meses', 'M / C'] } }),
+            sc(6, '**Por ciento** quiere decir «de cada 100». Un porcentaje es una fracción con denominador 100.', { steps: ['$35\\% = \\dfrac{35}{100} = 0.35$', '$50\\% = \\tfrac12 \\quad 25\\% = \\tfrac14 \\quad 10\\% = 0.1$'] }),
+            sc(7, 'Todo problema de porcentaje es una regla de tres directa: **100** se corresponde con el total $C$, y el porcentaje $p$ con la parte $B$.', { title: '$\\dfrac{100}{C} = \\dfrac{p}{B}$', steps: ['$12\\%$ de 8.000: $B = \\dfrac{12 \\cdot 8\\,000}{100} = 960$', '¿De qué número es 48 el $8\\%$? $C = \\dfrac{100 \\cdot 48}{8} = 600$', '¿Qué porcentaje es 51 de 170? $p = \\dfrac{100 \\cdot 51}{170} = 30\\%$'] }),
+            sc(6, '«El 70 % **más**» de un número es su 170 %; «el 9 % **menos**» es su 91 %.', { steps: ['408 es el $70\\%$ más de $\\dfrac{100 \\cdot 408}{170} = 240$', '546 es el $9\\%$ menos de $\\dfrac{100 \\cdot 546}{91} = 600$'] }),
           ] },
+          // Parte 2 «Aumentos, descuentos e interés», después del sexto ejercicio.
+          more: [{ after: 6, scenes: [
+            sc(6, 'Aumentar un $r\\%$ es multiplicar por $1 + r$; descontar, por $1 - r$.', { steps: ['$+20\\% \\Rightarrow \\times 1.2$', '$-15\\% \\Rightarrow \\times 0.85$'] }),
+            sc(7, 'Dos descuentos sucesivos **no se suman**: se multiplican los factores.', { steps: ['$30\\%$ y luego $20\\%$: $(0.7)(0.8) = 0.56$', 'Descuento único: $44\\%$, no $50\\%$', 'Rebajar $10\\%$ y volver: $\\dfrac{10}{90} = 11.1\\%$'] }),
+            sc(6, 'Interés **simple**: siempre sobre el capital inicial. **Compuesto**: el interés también genera interés.', { steps: ['Simple: $M = C(1 + rt)$', 'Compuesto: $M = C(1 + r)^n$'], viz: { type: 'graph', xr: [0, 24], yr: [1, 1.5], fs: [{ f: t => 1 + 0.015 * t }, { f: t => 1.015 ** t }], draw: true, ax: ['meses', 'M / C'] } }),
+          ] }],
           ex: [
-            num('Descuento único equivalente a dos descuentos sucesivos de $30\\%$ y $20\\%$', 44, '$1 - (0.7)(0.8) = 0.44$.', { suffix: '%' }),
-            num('¿De qué número es 756 el $26\\%$ más?', 600, '$N \\cdot 1.26 = 756 \\Rightarrow N = 600$.'),
-            mc('2 000 000 pesos al $1.5\\%$ mensual durante 12 meses: ¿qué modalidad da más dinero?', ['Interés compuesto (≈ 2 391 236 pesos)', 'Interés simple (≈ 2 360 000 pesos)', 'Dan lo mismo', 'Depende del capital'], 0, 'Simple: $2\\,000\\,000(1 + 0.18)$. Compuesto: $2\\,000\\,000(1.015)^{12}$.'),
+            // --- Parte 1: porcentajes ---
+            play('cuadricula-cien', 'Pinta en la cuadrícula el porcentaje que pide cada ronda', { rounds: [{ ask: '35 %', count: 35 }, { ask: '3/4', count: 75 }, { ask: '0,08', count: 8 }] },
+              'Por ciento es «de cada 100»: $35\\%$ son 35 casillas de 100. Las fracciones y los decimales se pasan a centésimas: $\\tfrac34 = \\tfrac{75}{100} = 75\\%$ y $0.08 = \\tfrac{8}{100} = 8\\%$.'),
+            play('cruz-porcentaje', 'Arma la cruz del porcentaje de cada problema', {
+              problems: [
+                { text: 'Halla el 12 % de 8.000 pesos', chips: [{ label: '12', cell: 'p' }, { label: '8.000', cell: 'C' }, { label: '?', cell: 'B' }] },
+                { text: '¿De qué número es 48 el 8 %?', chips: [{ label: '8', cell: 'p' }, { label: '48', cell: 'B' }, { label: '?', cell: 'C' }] },
+                { text: '¿De qué número es 408 el 70 % más?', chips: [{ label: '170', cell: 'p' }, { label: '408', cell: 'B' }, { label: '?', cell: 'C' }, { label: '70', cell: null }] },
+              ],
+            }, 'La cruz es la regla de tres $\\dfrac{100}{C} = \\dfrac{p}{B}$: $p$ es el porcentaje, $C$ el total y $B$ la parte. «El 70 % más» de un número es su $170\\%$, así que $p = 170$ y $C = \\dfrac{100 \\cdot 408}{170} = 240$.'),
+            play('mezcla', 'Añade agua hasta que el alcohol sea el 20 % de la mezcla', { solute: 40, target: 20, step: 10, max: 400 },
+              'Los 40 g de alcohol son el $20\\%$ de la mezcla, así que la mezcla pesa $C = \\dfrac{100 \\cdot 40}{20} = 200$ g; el agua es lo que falta: $200 - 40 = 160$ g.'),
+            play('rueda-porcentaje', 'Gira la aguja hasta cubrir la parte pedida y lee el porcentaje', { rounds: [{ part: 51, whole: 170 }, { part: 63, whole: 180 }, { part: 26.4, whole: 240 }], tol: 1 },
+              'Qué porcentaje es $B$ de $C$: $p = \\dfrac{100 \\cdot B}{C}$. Así, $\\dfrac{100 \\cdot 51}{170} = 30\\%$, $\\dfrac{100 \\cdot 63}{180} = 35\\%$ y $\\dfrac{100 \\cdot 26.4}{240} = 11\\%$.'),
+            play('bodegas', 'Reparte los 2.000 sacos para que, tras el viaje del 20 %, queden iguales', { total: 2000, move: 20, step: 50 },
+              'Si en A hay $x$ sacos, en B hay $2\\,000 - x$. Tras llevar el $20\\%$ de A: $0.8x = 2\\,000 - x + 0.2x$, es decir $1.6x = 2\\,000$ y $x = 1\\,250$. Había 1.250 sacos en A y 750 en B.'),
+            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
+              cards: [
+                { text: 'El 70 % más de un número es el 170 % de ese número', truth: true, why: '100 % + 70 % = 170 %: 408 es el 170 % de 240.' },
+                { text: 'El 9 % menos de un número es el 9 % de ese número', truth: false, why: 'Es el 91 %: 100 % − 9 %.' },
+                { text: 'El 12 % de 8.000 es 96', truth: false, why: '12 · 8.000 / 100 = 960.' },
+                { text: 'El 25 % de una cantidad es su cuarta parte', truth: true, why: '25/100 = 1/4.' },
+                { text: '51 de 170 es el 30 %', truth: true, why: '100 · 51 / 170 = 30.' },
+              ],
+            }, 'Porcentaje es una razón con denominador 100: $25\\% = \\tfrac14$ y $12\\%$ de 8.000 es $\\dfrac{12 \\cdot 8\\,000}{100} = 960$. «El $p\\%$ más» es el $(100 + p)\\%$ y «el $p\\%$ menos» es el $(100 - p)\\%$.'),
+            // --- Parte 2: aumentos, descuentos e interés ---
+            play('cascada', 'Pega los dos descuentos y fija el descuento único equivalente', { price: 100000, changes: [-30, -20], step: 1 },
+              'Cada descuento multiplica el precio: $100\\,000 \\cdot 0.7 = 70\\,000$ y $70\\,000 \\cdot 0.8 = 56\\,000$. El factor total es $0.7 \\cdot 0.8 = 0.56$, así que el descuento único es $1 - 0.56 = 44\\%$, no $50\\%$. El orden no importa.'),
+            play('rebote', 'Sube el precio rebajado hasta volver exactamente al original', { base: 100, drop: 10, max: 30, step: 0.1, tol: 0.06 },
+              'Tras rebajar $10\\%$ el precio queda en 90. Para volver a 100 hay que subir 10 sobre 90: $\\dfrac{10}{90} = 11.1\\%$. La subida se calcula sobre el precio rebajado, por eso no basta con $10\\%$.'),
+            play('dos-etapas', 'Gira la perilla hasta que la máquina produzca 8.840', { changes: [30, -20], output: 8840, max: 20000, step: 20 },
+              'Subir $30\\%$ es $\\times 1.3$ y bajar $20\\%$ es $\\times 0.8$: en total $\\times 1.04$. Entonces $1.04x = 8\\,840$ y $x = 8\\,500$.'),
+            play('carrera-interes', 'Encuentra el primer mes en que el compuesto le saca más de 50.000 al simple', { capital: 2000000, rate: 0.015, months: 24, gap: 50000 },
+              'Simple: $M = 2\\,000\\,000(1 + 0.015n)$. Compuesto: $M = 2\\,000\\,000(1.015)^n$. La diferencia crece cada mes: en el 14 es $\\approx 43\\,400$ y en el 15 ya es $\\approx 50\\,400$.'),
+            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
+              cards: [
+                { text: 'Dos aumentos sucesivos del 10 % equivalen a un aumento del 20 %', truth: false, why: '1,1 · 1,1 = 1,21: es un 21 %.' },
+                { text: 'Al 2 % mensual simple, en 12 meses se gana el 24 % del capital', truth: true, why: 'Interés simple: 2 % · 12 = 24 %.' },
+                { text: 'Dos descuentos del 50 % dejan el producto gratis', truth: false, why: '0,5 · 0,5 = 0,25: queda el 25 % del precio.' },
+                { text: 'A largo plazo el interés compuesto siempre supera al simple', truth: true, why: '(1 + r)ⁿ crece más rápido que 1 + rn.' },
+                { text: 'Rebajar 10 % y luego subir 10 % devuelve el precio original', truth: false, why: '0,9 · 1,1 = 0,99: queda en el 99 %.' },
+              ],
+            }, 'Los cambios sucesivos se multiplican: $1.1 \\cdot 1.1 = 1.21$ y $0.9 \\cdot 1.1 = 0.99$. El interés simple suma siempre lo mismo ($rt$); el compuesto multiplica cada periodo ($(1 + r)^n$) y a la larga gana.'),
           ],
         },
         {
