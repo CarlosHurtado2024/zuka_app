@@ -26,11 +26,11 @@ GAMES['etiqueta-rebaja'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      const n = params.items.length, top = 48, bottom = h - 110, rowH = (bottom - top) / n;
+      const n = params.items.length, top = 48, bottom = h - 118, rowH = (bottom - top) / n;
       tags = params.items.map((_, i) => ({ x: 12, y: top + i * rowH + 6, w: w - 24, h: rowH - 12 }));
       slots = tags.map(t => ({ x: t.x + t.w - 104, y: t.y + (t.h - 40) / 2, w: 92, h: 40 }));
       const sw = Math.min(92, (w - 24 - 8 * 2) / 3), gap = (w - 24 - 3 * sw) / 2;
-      tray = params.stickers.map((_, j) => ({ x: 12 + (j % 3) * (sw + gap), y: h - 100 + Math.floor(j / 3) * 46, w: sw, h: 38 }));
+      tray = params.stickers.map((_, j) => ({ x: 12 + (j % 3) * (sw + gap), y: h - 108 + Math.floor(j / 3) * 44, w: sw, h: 38 }));
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const placedAt = j => st.placed.indexOf(j);

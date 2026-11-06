@@ -28,9 +28,9 @@ GAMES['mejor-oferta'] = (() => {
     function layout(w, h) {
       W = w; H = h;
       tabs = params.rounds.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
-      const sw = (w - 36) / 2, sy = 92, sh = h * 0.42;
+      const sw = (w - 36) / 2, sy = 92, sh = h * 0.52;
       shops = { a: { x: 12, y: sy, w: sw, h: sh }, b: { x: 24 + sw, y: sy, w: sw, h: sh } };
-      home = { x: w / 2, y: sy + sh + 58 };
+      home = { x: w / 2, y: sy + sh + 48 };
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const ready = () => api.ready(st.picks.every(v => v !== null));
