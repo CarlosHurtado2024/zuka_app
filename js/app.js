@@ -54,7 +54,22 @@ function installHelp() {
   return 'Abre el menú del navegador y elige <b>Instalar app</b> o <b>Añadir a pantalla de inicio</b>.';
 }
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-  addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  addEventListener('load', () => navigator.serviceWorker.register('sw.js')
+    .then(reg => watchUpdates(reg, navigator.serviceWorker, showUpdateBar))
+    .catch(() => {}));
+}
+// Barra encima del menú inferior: «Actualizar» recarga con la versión nueva; «Más tarde» la
+// oculta hasta la próxima vez que se abra la app.
+function showUpdateBar(apply, dismiss) {
+  if ($('.update-bar')) return;
+  const bar = document.createElement('div');
+  bar.className = 'update-bar';
+  bar.setAttribute('role', 'status');
+  bar.innerHTML = `<img src="brand/mascota.png" alt=""><div class="ub-text"><b>Hay una versión nueva de Zuka</b><span>Actualiza para tener lo último.</span></div>
+    <div class="ub-actions"><button class="btn small" data-later type="button">Más tarde</button><button class="btn small main" data-update type="button">Actualizar</button></div>`;
+  $('[data-update]', bar).onclick = () => { $('[data-update]', bar).textContent = 'Actualizando…'; apply(); };
+  $('[data-later]', bar).onclick = () => { bar.remove(); dismiss(); };
+  document.body.appendChild(bar);
 }
 
 // ---- fechas, XP, racha y vidas ----

@@ -2,10 +2,10 @@
 // Archivos propios: red primero (para recibir actualizaciones) y caché si no hay conexión.
 // Recursos externos (KaTeX, fuentes): caché primero.
 
-const VERSION = 'zuka-v16';
+const VERSION = 'zuka-v17';
 const SHELL = [
   './', 'index.html', 'manifest.json', 'css/styles.css',
-  'js/ui.js', 'js/viz.js', 'js/art.js', 'js/content.js', 'js/games/kit.js', 'js/games/cajas-numericas.js', 'js/games/verdadero-falso.js', 'js/games/ubica-en-recta.js', 'js/games/pizzeria.js', 'js/games/reglas-del-juego.js', 'js/games/dibuja-intervalo.js', 'js/games/distancia-justa.js', 'js/games/limonada.js', 'js/games/balanza-proporcion.js', 'js/games/directa-inversa.js', 'js/games/grafica-relacion.js', 'js/games/reparto.js', 'js/games/cuadrado-media.js', 'js/games/arma-regla.js', 'js/games/bascula.js', 'js/games/la-obra.js', 'js/games/cadena-razones.js', 'js/games/cuadricula-cien.js', 'js/games/cruz-porcentaje.js', 'js/games/mezcla.js', 'js/games/rueda-porcentaje.js', 'js/games/bodegas.js', 'js/games/cascada.js', 'js/games/rebote.js', 'js/games/dos-etapas.js', 'js/games/carrera-interes.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/data.js', 'js/player.js', 'js/exercises.js', 'js/app.js',
+  'js/ui.js', 'js/viz.js', 'js/art.js', 'js/content.js', 'js/games/kit.js', 'js/games/cajas-numericas.js', 'js/games/verdadero-falso.js', 'js/games/ubica-en-recta.js', 'js/games/pizzeria.js', 'js/games/reglas-del-juego.js', 'js/games/dibuja-intervalo.js', 'js/games/distancia-justa.js', 'js/games/limonada.js', 'js/games/balanza-proporcion.js', 'js/games/directa-inversa.js', 'js/games/grafica-relacion.js', 'js/games/reparto.js', 'js/games/cuadrado-media.js', 'js/games/arma-regla.js', 'js/games/bascula.js', 'js/games/la-obra.js', 'js/games/cadena-razones.js', 'js/games/cuadricula-cien.js', 'js/games/cruz-porcentaje.js', 'js/games/mezcla.js', 'js/games/rueda-porcentaje.js', 'js/games/bodegas.js', 'js/games/cascada.js', 'js/games/rebote.js', 'js/games/dos-etapas.js', 'js/games/carrera-interes.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/data.js', 'js/player.js', 'js/exercises.js', 'js/update.js', 'js/app.js',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/favicon-48.png',
   'brand/logo-light.png', 'brand/logo-dark.png', 'brand/mascota.png',
 ];
@@ -15,8 +15,12 @@ const P5_URL = 'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js';
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION)
-    .then(c => c.addAll(SHELL).then(() => c.add(P5_URL).catch(() => {})))
-    .then(() => self.skipWaiting()));
+    .then(c => c.addAll(SHELL).then(() => c.add(P5_URL).catch(() => {}))));
+});
+
+// La versión nueva espera a que el usuario acepte el aviso en la app (js/update.js).
+self.addEventListener('message', e => {
+  if (e.data === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', e => {
