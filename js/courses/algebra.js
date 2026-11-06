@@ -103,19 +103,42 @@ const COURSE_ALGEBRA = {
               '**Reparto proporcional**: $2 + 3 + 5 = 10$ partes, cada una vale $1\\,200\\,000 \\div 10 = 120\\,000$. Las partes son $240\\,000$, $360\\,000$ y $600\\,000$.'),
             play('cuadrado-media', 'Encuentra el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$', { w: 4, h: 25, tol: 0.2 },
               'La **media proporcional** entre 4 y 25 es el $x$ con $\\dfrac{4}{x} = \\dfrac{x}{25}$: $x^2 = 100$, $x = 10$. Geométricamente, es el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$.'),
+            // --- Parte 2: regla de tres (video 2 tras los 7 ejercicios anteriores). Cuando llegue el ID de
+            // Bunny: more: [{ bunny: '<id>', duration: <s>, after: 7, scenes: [] }].
+            play('arma-regla', 'Arma la regla de tres de cada problema', {
+              problems: [
+                { text: 'Un ciclista recorre 150 km en 5 horas. ¿Cuántos km recorre en 7 horas?', kind: 'directa',
+                  chips: [{ label: '150 km', mag: 0, row: 0 }, { label: '5 h', mag: 1, row: 0 }, { label: 'x', mag: 0, row: 1 }, { label: '7 h', mag: 1, row: 1 }] },
+                { text: '12 obreros terminan una obra en 30 días. ¿Cuántos obreros la terminan en 24 días?', kind: 'inversa',
+                  chips: [{ label: '12 obreros', mag: 0, row: 0 }, { label: '30 días', mag: 1, row: 0 }, { label: 'x', mag: 0, row: 1 }, { label: '24 días', mag: 1, row: 1 }] },
+              ],
+            }, 'La **regla de tres** busca el cuarto término de una proporción. Cada columna lleva una magnitud y cada fila una situación. Si al crecer una magnitud la otra también crece, es **directa** (flechas paralelas): $\\dfrac{150}{x} = \\dfrac{5}{7}$. Si una crece y la otra baja, es **inversa** (flechas cruzadas): $\\dfrac{12}{x} = \\dfrac{24}{30}$.'),
+            play('bascula', 'Fija el precio de 5 kg de manzanas', { knownKg: 3, knownPrice: 12000, askKg: 5, max: 40000, step: 500, tol: 200 },
+              'Kilos y precio son directamente proporcionales: $\\dfrac{3}{5} = \\dfrac{12\\,000}{x}$, así que $x = \\dfrac{12\\,000 \\cdot 5}{3} = 20\\,000$. Cada kilo cuesta 4.000.'),
+            play('la-obra', 'Deja en la obra los obreros justos para terminar en 24 días', { workers: 12, days: 30, askDays: 24, max: 40 },
+              'Obreros y días son inversamente proporcionales: el producto se conserva. $12 \\cdot 30 = 360 = x \\cdot 24$, así que $x = 15$. Más obreros, menos días.'),
+            play('directa-inversa', 'Regla de tres: ¿directa, inversa o ninguna?', {
+              items: [
+                { text: 'Máquinas y horas para un pedido', kind: 'inversa' },
+                { text: 'Grifos iguales y tiempo de llenado', kind: 'inversa' },
+                { text: 'Kilos y precio del mismo producto', kind: 'directa' },
+                { text: 'Velocidad y tiempo del mismo trayecto', kind: 'inversa' },
+                { text: 'Fotocopias y costo', kind: 'directa' },
+                { text: 'Lado y perímetro de un cuadrado', kind: 'directa' },
+              ],
+            }, 'Antes de armar la regla, pregunta: si esta magnitud sube, ¿la otra sube o baja? Sube con ella → **directa** (kilos–precio, fotocopias–costo, lado–perímetro: $P = 4l$). Baja → **inversa** (más máquinas o grifos, menos tiempo; más velocidad, menos tiempo).'),
+            play('cadena-razones', 'Voltea las razones que haga falta para que la cadena dé los días', { base: 28, unit: 'días', factors: [{ label: 'hombres', a: 9, b: 7, inverse: true }, { label: 'horas/día', a: 6, b: 8, inverse: true }], answer: 27 },
+              'En la **regla de tres compuesta** cada magnitud aporta una razón: si es inversa, la razón va al revés del cambio. Menos hombres (de 9 a 7) → más días: $\\tfrac{9}{7}$. Más horas por día (de 6 a 8) → menos días: $\\tfrac{6}{8}$. $x = 28 \\cdot \\tfrac{9}{7} \\cdot \\tfrac{6}{8} = 27$ días.'),
           ],
         },
         {
-          id: 'alg-13', title: 'Regla de tres, porcentajes e interés',
+          id: 'alg-13', title: 'Porcentajes e interés',
           clip: { scenes: [
-            sc(5, '**Regla de tres**: primero decide si las magnitudes son directas o inversas.', { steps: ['8 obreros tardan 15 días', 'Más obreros → menos días (inversa)', '$x = \\dfrac{8 \\cdot 15}{12} = 10$ días'] }),
             sc(5, 'El **porcentaje** es una razón con denominador 100. Un aumento multiplica por $1 + r$; un descuento, por $1 - r$.', { steps: ['$p\\%$ de $B = \\dfrac{p}{100}B$', 'Aumento: $B(1 + r)$', 'Descuento: $B(1 - r)$'] }),
             sc(5, 'Dos descuentos sucesivos **no se suman**: se multiplican.', { steps: ['$30\\%$ y luego $20\\%$', '$(1 - 0.3)(1 - 0.2) = 0.56$', 'Descuento único: $44\\%$, no $50\\%$'] }),
             sc(6, 'Interés **simple**: siempre sobre el capital inicial. **Compuesto**: el interés también genera interés.', { steps: ['Simple: $M = C(1 + rt)$', 'Compuesto: $M = C(1 + r)^n$'], viz: { type: 'graph', xr: [0, 24], yr: [1, 1.5], fs: [{ f: t => 1 + 0.015 * t }, { f: t => 1.015 ** t }], draw: true, ax: ['meses', 'M / C'] } }),
           ] },
           ex: [
-            num('Ocho obreros construyen un muro en 15 días. ¿Cuántos días tardarán 12 obreros al mismo ritmo?', 10, 'Proporción inversa: $\\tfrac{8 \\cdot 15}{12} = 10$.', { suffix: 'días' }),
-            num('Seis máquinas producen 900 piezas en 5 horas. ¿Cuántas producirán 4 máquinas iguales en 8 horas?', 960, 'Regla de tres compuesta: $900 \\cdot \\tfrac{4}{6} \\cdot \\tfrac{8}{5} = 960$.', { suffix: 'piezas' }),
             num('Descuento único equivalente a dos descuentos sucesivos de $30\\%$ y $20\\%$', 44, '$1 - (0.7)(0.8) = 0.44$.', { suffix: '%' }),
             num('¿De qué número es 756 el $26\\%$ más?', 600, '$N \\cdot 1.26 = 756 \\Rightarrow N = 600$.'),
             mc('2 000 000 pesos al $1.5\\%$ mensual durante 12 meses: ¿qué modalidad da más dinero?', ['Interés compuesto (≈ 2 391 236 pesos)', 'Interés simple (≈ 2 360 000 pesos)', 'Dan lo mismo', 'Depende del capital'], 0, 'Simple: $2\\,000\\,000(1 + 0.18)$. Compuesto: $2\\,000\\,000(1.015)^{12}$.'),
