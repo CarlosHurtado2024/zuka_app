@@ -145,7 +145,7 @@
 
 **Files:** Create `js/games/carrera-interes.js`, `tests/carrera-interes.test.js`; Modify `index.html`, `sw.js`.
 
-**Interfaces:** `params = { capital: 2000000, rate: 0.015, months: 24, gap: 50000 }`, `state = { month: number|null }`; `firstMonth(params)` = primer `n ≥ 1` con `capital·((1 + rate)^n − 1 − rate·n) > gap` (15) → ok si `month === firstMonth`; `solution` = «En el mes 15 la ventaja es $\\approx 50\\,400$ (en el 14, $\\approx 43\\,400$)».
+**Interfaces:** `params = { capital: 2000000, rate: 0.015, months: 24, gap: 50000 }`, `state = { month: number|null }`; `firstMonth(params)` = primer `n ≥ 1` con `capital·((1 + rate)^n − 1 − rate·n) > gap` (15) → ok si `month === firstMonth`; `solution` = «En el mes 15 la ventaja es $\\approx 50\\,500$ (en el 14, $\\approx 43\\,500$)».
 
 - [ ] **Step 1: Test**: `{ month: 15 }` → ok; `{ month: 16 }` → no ok; `{ month: 14 }` → no ok y `solution` incluye `'15'`; `{ month: null }` → no ok.
 - [ ] **Step 2: Run** · Expected: FAIL.

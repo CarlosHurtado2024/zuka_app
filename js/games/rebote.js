@@ -5,8 +5,10 @@
 
 GAMES['rebote'] = (() => {
   const answerOf = p => (100 * p.drop) / (100 - p.drop);
-  const fmt1 = n => String(+n.toFixed(1)).replace('.', ',');
-  const tex1 = n => String(+n.toFixed(1)).replace('.', '{,}');
+  const fmt1 = n => String(+n.toFixed(1));
+  const tex1 = n => String(+n.toFixed(1));
+  // Pasos exactos de `step` (los botones ±): con la manija sola, 0,83 px por paso no garantiza 11,1.
+  const stepUp = (v, d, p) => +Math.max(0, Math.min(p.max, Math.round(((v ?? 0) + d * p.step) / p.step) * p.step)).toFixed(1);
 
   function grade(state, params) {
     const ok = state.up !== null && Math.abs(state.up - answerOf(params)) <= params.tol;
@@ -17,14 +19,19 @@ GAMES['rebote'] = (() => {
     const C = api.palette;
     const st = { up: null };
     const low = params.base * (1 - params.drop / 100);
-    let locked = false, W = 0, H = 0, bars = [], rail = null, drag = false;
+    let locked = false, W = 0, H = 0, bars = [], rail = null, buttons = [], drag = false;
 
     function layout(w, h) {
       W = w; H = h;
       const bw = Math.min(64, (w * 0.6) / 3 - 10), x0 = 24;
       bars = [0, 1, 2].map(i => ({ x: x0 + i * (bw + 14), w: bw }));
-      rail = { x: w - 56, y: 90, h: h * 0.58 };
+      rail = { x: w - 56, y: 90, h: h * 0.55 };
+      buttons = [
+        { d: -1, x: w - 100, y: rail.y + rail.h + 22, w: 40, h: 32, t: '−' },
+        { d: 1, x: w - 54, y: rail.y + rail.h + 22, w: 40, h: 32, t: '+' },
+      ];
     }
+    const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const top = 90, floor = () => top + rail.h;
     const yOf = v => floor() - (v / (params.base * 1.15)) * rail.h;
     const upOf = () => (st.up === null ? 0 : st.up);
@@ -68,13 +75,19 @@ GAMES['rebote'] = (() => {
         p.text(st.up === null ? '— %' : `${fmt1(st.up)} %`, rail.x, rail.y - 8);
         p.fill(C.mute); p.textSize(10); p.textStyle(p.NORMAL); p.text('% de subida', rail.x, rail.y - 26);
         p.textAlign(p.CENTER, p.TOP); p.text(`0 – ${params.max}`, rail.x, rail.y + rail.h + 6);
+        buttons.forEach(b => {
+          p.stroke(locked ? C.line : C.brand); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
+          p.noStroke(); p.fill(C.ink); p.textSize(18); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2);
+        });
         if (locked) { const ay = rail.y + rail.h - (ans / params.max) * rail.h; p.stroke(C.ok); p.strokeWeight(2); p.line(rail.x - 14, ay, rail.x + 14, ay); }
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
-        p.text(locked && !good ? `Hacía falta subir ${fmt1(ans)} %` : 'Arrastra la manija: la barra «nuevo» debe llegar a la línea', W / 2, H - 12);
+        p.text(locked && !good ? `Hacía falta subir ${fmt1(ans)} %` : 'Arrastra la manija o toca ± hasta que «nuevo» llegue a la línea', W / 2, H - 12);
       };
 
       p.mousePressed = () => {
         if (locked) return;
+        const b = buttons.find(b => inside(b, p.mouseX, p.mouseY));
+        if (b) { st.up = stepUp(st.up, b.d, params); api.ready(true); api.sfx?.tap?.(); return false; }
         if (Math.abs(p.mouseX - rail.x) <= 30 && p.mouseY >= rail.y - 20 && p.mouseY <= rail.y + rail.h + 20) { drag = true; setUp(p.mouseY); return false; }
       };
       p.mouseDragged = () => { if (!drag) return; setUp(p.mouseY); return false; };
@@ -89,5 +102,5 @@ GAMES['rebote'] = (() => {
     };
   }
 
-  return { grade, create };
+  return { grade, create, stepUp };
 })();

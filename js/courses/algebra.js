@@ -148,7 +148,7 @@ const COURSE_ALGEBRA = {
           ] }],
           ex: [
             // --- Parte 1: porcentajes ---
-            play('cuadricula-cien', 'Pinta en la cuadrícula el porcentaje que pide cada ronda', { rounds: [{ ask: '35 %', count: 35 }, { ask: '3/4', count: 75 }, { ask: '0,08', count: 8 }] },
+            play('cuadricula-cien', 'Pinta en la cuadrícula el porcentaje que pide cada ronda', { rounds: [{ ask: '35 %', count: 35 }, { ask: '3/4', count: 75 }, { ask: '0.08', count: 8 }] },
               'Por ciento es «de cada 100»: $35\\%$ son 35 casillas de 100. Las fracciones y los decimales se pasan a centésimas: $\\tfrac34 = \\tfrac{75}{100} = 75\\%$ y $0.08 = \\tfrac{8}{100} = 8\\%$.'),
             play('cruz-porcentaje', 'Arma la cruz del porcentaje de cada problema', {
               problems: [
@@ -180,14 +180,14 @@ const COURSE_ALGEBRA = {
             play('dos-etapas', 'Gira la perilla hasta que la máquina produzca 8.840', { changes: [30, -20], output: 8840, max: 20000, step: 20 },
               'Subir $30\\%$ es $\\times 1.3$ y bajar $20\\%$ es $\\times 0.8$: en total $\\times 1.04$. Entonces $1.04x = 8\\,840$ y $x = 8\\,500$.'),
             play('carrera-interes', 'Encuentra el primer mes en que el compuesto le saca más de 50.000 al simple', { capital: 2000000, rate: 0.015, months: 24, gap: 50000 },
-              'Simple: $M = 2\\,000\\,000(1 + 0.015n)$. Compuesto: $M = 2\\,000\\,000(1.015)^n$. La diferencia crece cada mes: en el 14 es $\\approx 43\\,400$ y en el 15 ya es $\\approx 50\\,400$.'),
+              'Simple: $M = 2\\,000\\,000(1 + 0.015n)$. Compuesto: $M = 2\\,000\\,000(1.015)^n$. La diferencia crece cada mes: en el 14 es $\\approx 43\\,500$ y en el 15 ya es $\\approx 50\\,500$.'),
             play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
               cards: [
-                { text: 'Dos aumentos sucesivos del 10 % equivalen a un aumento del 20 %', truth: false, why: '1,1 · 1,1 = 1,21: es un 21 %.' },
+                { text: 'Dos aumentos sucesivos del 10 % equivalen a un aumento del 20 %', truth: false, why: '1.1 · 1.1 = 1.21: es un 21 %.' },
                 { text: 'Al 2 % mensual simple, en 12 meses se gana el 24 % del capital', truth: true, why: 'Interés simple: 2 % · 12 = 24 %.' },
-                { text: 'Dos descuentos del 50 % dejan el producto gratis', truth: false, why: '0,5 · 0,5 = 0,25: queda el 25 % del precio.' },
+                { text: 'Dos descuentos del 50 % dejan el producto gratis', truth: false, why: '0.5 · 0.5 = 0.25: queda el 25 % del precio.' },
                 { text: 'A largo plazo el interés compuesto siempre supera al simple', truth: true, why: '(1 + r)ⁿ crece más rápido que 1 + rn.' },
-                { text: 'Rebajar 10 % y luego subir 10 % devuelve el precio original', truth: false, why: '0,9 · 1,1 = 0,99: queda en el 99 %.' },
+                { text: 'Rebajar 10 % y luego subir 10 % devuelve el precio original', truth: false, why: '0.9 · 1.1 = 0.99: queda en el 99 %.' },
               ],
             }, 'Los cambios sucesivos se multiplican: $1.1 \\cdot 1.1 = 1.21$ y $0.9 \\cdot 1.1 = 0.99$. El interés simple suma siempre lo mismo ($rt$); el compuesto multiplica cada periodo ($(1 + r)^n$) y a la larga gana.'),
           ],

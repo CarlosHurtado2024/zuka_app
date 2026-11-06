@@ -7,7 +7,7 @@ GAMES['cascada'] = (() => {
   const factor = p => p.changes.reduce((f, c) => f * (1 + c / 100), 1);
   const answerOf = p => Math.round(100 * (1 - factor(p)));
   const fmt = n => Math.round(n).toLocaleString('es-CO');
-  const dec = n => String(+n.toFixed(2)).replace('.', '{,}');
+  const dec = n => String(+n.toFixed(2));
 
   function grade(state, params) {
     const all = params.changes.every((_, i) => state.applied.filter(j => j === i).length === 1) && state.applied.length === params.changes.length;

@@ -26,3 +26,8 @@ test('un solo sticker → incorrecto', () => {
 test('sticker repetido → incorrecto', () => {
   assert.equal(grade({ applied: [0, 0, 1], single: 44 }, params).ok, false);
 });
+
+test('la solución usa punto decimal', () => {
+  const s = grade({ applied: [0, 1], single: 50 }, params).solution;
+  assert.ok(s.includes('0.7') && s.includes('0.56') && !s.includes('{,}'));
+});

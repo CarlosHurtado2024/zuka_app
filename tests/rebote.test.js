@@ -20,9 +20,26 @@ test('11,2 % → incorrecto', () => {
 test('10 % → incorrecto y la solución da 11,1', () => {
   const r = grade({ up: 10 }, params);
   assert.equal(r.ok, false);
-  assert.ok(r.solution.includes('11{,}1'));
+  assert.ok(r.solution.includes('11.1'));
 });
 
 test('sin mover → incorrecto', () => {
   assert.equal(grade({ up: null }, params).ok, false);
+});
+
+// Botones ±0,1: la manija sola no garantiza caer en 11,1 con coordenadas táctiles enteras
+// (0,83 px por paso), así que el valor también se ajusta por pasos exactos.
+const { stepUp } = loadGame('js/games/rebote.js')['rebote'];
+
+test('stepUp suma pasos exactos de 0,1 y respeta los límites', () => {
+  assert.equal(stepUp(11.0, 1, params), 11.1);
+  assert.equal(stepUp(11.1, -1, params), 11.0);
+  assert.equal(stepUp(0, -1, params), 0);
+  assert.equal(stepUp(30, 1, params), 30);
+  assert.equal(stepUp(null, 1, params), 0.1);
+});
+
+test('la solución usa punto decimal, como el resto del contenido de la app', () => {
+  assert.ok(grade({ up: 10 }, params).solution.includes('11.1'));
+  assert.ok(!grade({ up: 10 }, params).solution.includes('{,}'));
 });

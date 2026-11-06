@@ -8,7 +8,7 @@ GAMES['dos-etapas'] = (() => {
   const answerOf = p => Math.round(p.output / factor(p));
   const fmt = n => Math.round(n).toLocaleString('es-CO');
   const texNum = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\\,');
-  const dec = n => String(+n.toFixed(2)).replace('.', '{,}');
+  const dec = n => String(+n.toFixed(2));
   // Salto corto entre dos ángulos de atan2 (en (−π, π]), para acumular vueltas sin saltos de 2π.
   const turnDelta = (a0, a1) => Math.atan2(Math.sin(a1 - a0), Math.cos(a1 - a0));
 

@@ -5,7 +5,7 @@
 
 GAMES['rueda-porcentaje'] = (() => {
   const answerOf = r => (100 * r.part) / r.whole;
-  const fmt = n => String(+n.toFixed(1)).replace('.', ',');
+  const fmt = n => String(+n.toFixed(1));
 
   function grade(state, params) {
     const ok = params.rounds.every((r, i) => state.pct[i] !== null && Math.abs(state.pct[i] - answerOf(r)) <= params.tol);

@@ -22,3 +22,17 @@ for (const l of lessons) {
     assert.deepEqual(bad, []);
   });
 }
+
+// La explicación de la carrera del interés debe dar las mismas cifras que la solución del juego
+// (redondeadas a centenas: 43 500 en el mes 14 y 50 500 en el 15), y todo alg-13 usa punto decimal.
+const alg13 = lessons.find(l => l.id === 'alg-13');
+
+test('alg-13: el explain de carrera-interes coincide con la solución del juego', () => {
+  const ex = alg13.ex.find(e => e.game === 'carrera-interes');
+  assert.ok(ex.explain.includes('43\\,500') && ex.explain.includes('50\\,500'));
+});
+
+test('alg-13: ningún texto usa coma decimal', () => {
+  const bad = strings([alg13.ex, alg13.clip, alg13.more]).filter(s => /\d,\d/.test(s));
+  assert.deepEqual(bad, []);
+});
