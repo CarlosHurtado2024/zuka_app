@@ -306,7 +306,7 @@ function startLesson(c, l) {
   const clips = clipsOf(l);
   const queue = buildQueue(l);
   const total = queue.length, t0 = Date.now();
-  let pos = 0, solved = 0, mistakes = 0, handle = null, player = null, finished = false;
+  let pos = 0, solved = 0, mistakes = 0, handle = null, player = null, finished = false, clipTimer = null;
 
   const ov = $('#overlay');
   ov.innerHTML = `<div class="lesson" style="--c:${c.color}">
@@ -327,7 +327,7 @@ function startLesson(c, l) {
   const bar = $('.pbar i', ov), hearts = $('.lesson-top .hearts b', ov);
 
   const updateBar = () => { bar.style.width = (solved / total) * 100 + '%'; hearts.textContent = S.hearts; };
-  const teardown = () => { player?.destroy(); player = null; handle?.destroy?.(); handle = null; };
+  const teardown = () => { clearTimeout(clipTimer); clipTimer = null; player?.destroy(); player = null; handle?.destroy?.(); handle = null; };
 
   // `to`: pestaña a la que ir al salir (al tocar el menú inferior); si no, la de origen.
   function close(to) {
@@ -347,7 +347,7 @@ function startLesson(c, l) {
 
   function reset() {
     teardown(); updateBar();
-    root.classList.remove('fb-open', 'clip-mode', 'clip-ended');
+    root.classList.remove('fb-open', 'clip-mode', 'clip-ended', 'clip-fresh');
     body.className = 'lesson-body';
     body.scrollTop = 0;
   }
@@ -357,14 +357,21 @@ function startLesson(c, l) {
     root.classList.add('clip-mode');
     body.classList.add('is-clip');
     body.innerHTML = '';
-    player = makePlayer(body, l, c, { clip: clips[n], onEnd: () => { root.classList.add('clip-ended'); btn.classList.add('pulse'); } });
+    // El botón de saltar se ve los primeros segundos y mientras el video está en pausa (CSS);
+    // al terminar, la lección sigue sola a lo que venga.
+    const advance = () => { btn.classList.remove('pulse'); forward(); };
+    root.classList.add('clip-fresh');
+    clipTimer = setTimeout(() => root.classList.remove('clip-fresh'), 2500);
+    player = makePlayer(body, l, c, { clip: clips[n], onEnd: () => {
+      root.classList.add('clip-ended'); btn.classList.add('pulse');
+      clearTimeout(clipTimer); clipTimer = setTimeout(advance, 600);
+    } });
     // El botón anuncia lo que sigue: otro video (en repaso, el siguiente video ya visto) o los ejercicios.
     const clipAt = i => (queue[i]?.k === 'clip' ? queue[i] : null);
     const after = review >= 0 ? queue.find((t, i) => i > reviewPos && i < pos && t.k === 'clip') ?? clipAt(pos) : clipAt(pos + 1);
     $('.clip-skip', root).textContent = after ? `Parte ${after.n + 1} →` : review >= 0 && queue[pos]?.k === 'ex' ? 'Al ejercicio →' : 'Ejercicios →';
     $('.clip-part', root).textContent = clips.length > 1 ? `Parte ${n + 1} de ${clips.length}` : '';
     player.play();
-    const advance = () => { btn.classList.remove('pulse'); forward(); };
     btn.textContent = 'Continuar'; btn.disabled = false;
     btn.onclick = advance;
     $('.clip-skip', root).onclick = advance;
