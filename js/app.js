@@ -96,8 +96,7 @@ function isUnlocked(c, l) {
 function findLesson(id) {
   for (const c of COURSES) for (const l of lessonsOf(c)) if (l.id === id) return { c, l };
 }
-// Videos de una lección: el principal (clip) y, si hay, sus partes siguientes (more).
-const clipsOf = l => [l.clip, ...(l.more || [])];
+// clipsOf y buildQueue (orden de videos y ejercicios) viven en content.js.
 const clipSecs = l => clipsOf(l).reduce((t, c) => t + (c.duration ?? c.scenes.reduce((s, x) => s + x.d, 0)), 0);
 
 // ---- navegación ----
@@ -290,7 +289,7 @@ function startLesson(c, l) {
   cleanup?.(); cleanup = null;
 
   const clips = clipsOf(l);
-  const queue = [...clips.map((_, n) => ({ k: 'clip', n })), ...l.ex.map((_, i) => ({ k: 'ex', i }))];
+  const queue = buildQueue(l);
   const total = queue.length, t0 = Date.now();
   let pos = 0, solved = 0, mistakes = 0, handle = null, player = null, finished = false;
 
@@ -328,8 +327,8 @@ function startLesson(c, l) {
   ov.querySelectorAll('[data-close]').forEach(b => { b.onclick = () => close(); });
 
   // `pos` es la tarea actual. `review` es el video que se vuelve a ver al deslizar hacia
-  // atrás (−1 si no se está repasando); repasar no cambia el progreso.
-  let review = -1;
+  // atrás (−1 si no se está repasando) y `reviewPos` su lugar en la cola; repasar no cambia el progreso.
+  let review = -1, reviewPos = -1;
 
   function reset() {
     teardown(); updateBar();
@@ -344,8 +343,9 @@ function startLesson(c, l) {
     body.classList.add('is-clip');
     body.innerHTML = '';
     player = makePlayer(body, l, c, { clip: clips[n], onEnd: () => { root.classList.add('clip-ended'); btn.classList.add('pulse'); } });
-    const nextClip = n + 1 < clips.length;
-    $('.clip-skip', root).textContent = nextClip ? `Parte ${n + 2} →` : review >= 0 && pos < queue.length && queue[pos].k === 'ex' ? 'Al ejercicio →' : 'Ejercicios →';
+    // El botón anuncia lo que sigue: otro video (en repaso, el siguiente video ya visto) o los ejercicios.
+    const after = review >= 0 ? queue.find((t, i) => i > reviewPos && i < pos && t.k === 'clip') : queue[pos + 1]?.k === 'clip' ? queue[pos + 1] : null;
+    $('.clip-skip', root).textContent = after ? `Parte ${after.n + 1} →` : review >= 0 && queue[pos]?.k === 'ex' ? 'Al ejercicio →' : 'Ejercicios →';
     $('.clip-part', root).textContent = clips.length > 1 ? `Parte ${n + 1} de ${clips.length}` : '';
     player.play();
     const advance = () => { btn.classList.remove('pulse'); forward(); };
@@ -356,6 +356,7 @@ function startLesson(c, l) {
 
   function showReview(n) {
     review = n;
+    reviewPos = queue.findIndex(t => t.k === 'clip' && t.n === n);
     reset();
     showClip(n, next);
   }
@@ -364,18 +365,22 @@ function startLesson(c, l) {
   // avanza el video o continúa tras responder. Un ejercicio sin responder no se salta.
   function next() {
     if (finished) return;
-    if (review >= 0) return review + 1 < Math.min(pos, clips.length) ? showReview(review + 1) : step();
+    if (review >= 0) {
+      const q = queue.findIndex((t, i) => i > reviewPos && i < pos && t.k === 'clip');
+      return q >= 0 ? showReview(queue[q].n) : step();
+    }
     if (queue[pos].k === 'clip') return $('.clip-skip', root).click();
     if (fb.classList.contains('show')) return $('.btn', fb).click();
     toast('Responde el ejercicio para continuar');
     body.classList.remove('nudge'); void body.offsetWidth; body.classList.add('nudge');
   }
 
-  // Anterior: vuelve a ver el video anterior (desde los ejercicios, el último video).
+  // Anterior: vuelve a ver el último video que hay en la cola antes de la posición actual.
   function prev() {
     if (finished || fb.classList.contains('show')) return;
-    const n = Math.min(review >= 0 ? review : pos, clips.length) - 1;
-    if (n >= 0) showReview(n);
+    for (let i = (review >= 0 ? reviewPos : pos) - 1; i >= 0; i--) {
+      if (queue[i].k === 'clip') return showReview(queue[i].n);
+    }
   }
 
   // Deslizar con el dedo: a la izquierda avanza, a la derecha retrocede.

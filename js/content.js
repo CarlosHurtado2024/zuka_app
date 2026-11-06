@@ -17,5 +17,21 @@ const ord = (q, items, explain) => ({ type: 'order', q, items, explain });
 const sld = (q, o) => ({ type: 'slider', q, ...o });
 // Minijuego de p5.js (js/games/<game>.js); params depende de cada juego.
 const play = (game, q, params, explain) => ({ type: 'play', game, q, params, explain });
+
+// Videos de una lección: el principal (clip) y, si hay, sus partes siguientes (more).
+const clipsOf = l => [l.clip, ...(l.more || [])];
+
+// Orden de las tareas de una lección: { k: 'clip', n } (índice en clipsOf) y { k: 'ex', i }.
+// Un video de `more` con `after: n` va justo antes del ejercicio n (o al final si n ≥ ex.length);
+// los demás videos van tras el principal, en su orden.
+function buildQueue(l) {
+  const clips = clipsOf(l), ex = l.ex || [];
+  const queue = [];
+  clips.forEach((c, n) => { if (n === 0 || c.after == null) queue.push({ k: 'clip', n }); });
+  const before = i => clips.forEach((c, n) => { if (n > 0 && c.after != null && Math.min(c.after, ex.length) === i) queue.push({ k: 'clip', n }); });
+  ex.forEach((_, i) => { before(i); queue.push({ k: 'ex', i }); });
+  before(ex.length);
+  return queue;
+}
 const near = (a, b, e = 1e-6) => Math.abs(a - b) < e;
 const sq = x => x * x;
