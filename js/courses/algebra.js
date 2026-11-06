@@ -70,7 +70,7 @@ const COURSE_ALGEBRA = {
           ],
         },
         {
-          id: 'alg-12', title: 'Razones, proporciones y proporcionalidad',
+          id: 'alg-12', title: 'Razones, proporciones y regla de tres',
           // Clase 2 en Bunny Stream (video/clase_razones_proporciones); las escenas quedan como guion.
           clip: { bunny: '4c098c45-1ab3-4f66-942a-3764b2da832a', duration: 289, scenes: [
             sc(5, 'Una **razón** compara dos cantidades por cociente. Una **proporción** es la igualdad de dos razones.', { title: '$\\dfrac{a}{b} = \\dfrac{c}{d} \\iff ad = bc$', steps: ['$\\dfrac{3}{5} = \\dfrac{12}{20}$ porque $3 \\cdot 20 = 5 \\cdot 12$'] }),
