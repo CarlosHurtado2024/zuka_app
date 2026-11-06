@@ -26,11 +26,13 @@ GAMES['etiqueta-rebaja'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      const n = params.items.length, top = 48, bottom = h - 118, rowH = (bottom - top) / n;
-      tags = params.items.map((_, i) => ({ x: 12, y: top + i * rowH + 6, w: w - 24, h: rowH - 12 }));
-      slots = tags.map(t => ({ x: t.x + t.w - 104, y: t.y + (t.h - 40) / 2, w: 92, h: 40 }));
-      const sw = Math.min(92, (w - 24 - 8 * 2) / 3), gap = (w - 24 - 3 * sw) / 2;
-      tray = params.stickers.map((_, j) => ({ x: 12 + (j % 3) * (sw + gap), y: h - 108 + Math.floor(j / 3) * 44, w: sw, h: 38 }));
+      // Bandeja compacta anclada al pie (dos filas de 34 px) y las etiquetas reparten lo que queda.
+      const n = params.items.length, rows = Math.ceil(params.stickers.length / 3), top = 48;
+      const trayY = h - 22 - rows * 40, bottom = trayY - 6, rowH = (bottom - top) / n;
+      tags = params.items.map((_, i) => ({ x: 12, y: top + i * rowH + 4, w: w - 24, h: rowH - 8 }));
+      const sw = Math.min(92, (w - 24 - 8 * 2) / 3), gap = (w - 24 - 3 * sw) / 2, slotH = Math.min(38, rowH - 16);
+      slots = tags.map(t => ({ x: t.x + t.w - sw - 8, y: t.y + (t.h - slotH) / 2, w: sw, h: slotH }));
+      tray = params.stickers.map((_, j) => ({ x: 12 + (j % 3) * (sw + gap), y: trayY + Math.floor(j / 3) * 40, w: sw, h: 34 }));
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const placedAt = j => st.placed.indexOf(j);
@@ -42,7 +44,7 @@ GAMES['etiqueta-rebaja'] = (() => {
 
       function sticker(b, label, col) {
         p.stroke(col); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-        p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(14);
+        p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(b.w < 80 ? 12 : 14);
         p.text(label, b.x + b.w / 2, b.y + b.h / 2);
       }
 
@@ -58,29 +60,29 @@ GAMES['etiqueta-rebaja'] = (() => {
           p.stroke(col); p.strokeWeight(2); p.fill(C.card);
           p.beginShape(); p.vertex(t.x + 18, t.y); p.vertex(t.x + t.w, t.y); p.vertex(t.x + t.w, t.y + t.h); p.vertex(t.x + 18, t.y + t.h); p.vertex(t.x, t.y + t.h / 2); p.endShape(p.CLOSE);
           p.fill(C.bg); p.circle(t.x + 16, t.y + t.h / 2, 7);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.LEFT, p.TOP); p.textStyle(p.BOLD); p.textSize(14);
-          p.text(it.name, t.x + 30, t.y + 10);
-          p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12);
-          p.text(`Lista: $ ${fmt(it.price)}`, t.x + 30, t.y + 30);
-          p.fill(it.change < 0 ? C.I : C.Q); p.textStyle(p.BOLD); p.textSize(13);
-          p.text(pct(it.change), t.x + 30, t.y + 48);
+          // Dos líneas: «Tenis  −20 %» y «Lista: $ 45.000» (al bloquear, el precio correcto si falló).
+          const small = t.h < 52, y1 = t.y + t.h / 2 - (small ? 15 : 17), y2 = t.y + t.h / 2 + (small ? 2 : 3);
+          p.noStroke(); p.fill(C.ink); p.textAlign(p.LEFT, p.TOP); p.textStyle(p.BOLD); p.textSize(small ? 13 : 14);
+          p.text(it.name, t.x + 28, y1);
+          const nameW = p.textWidth(it.name);
+          p.fill(it.change < 0 ? C.I : C.Q); p.textSize(small ? 12 : 13);
+          p.text(pct(it.change), t.x + 28 + nameW + 8, y1 + 1);
+          if (locked && !good) { p.fill(C.ok); p.textStyle(p.BOLD); p.textSize(12); p.text(`→ $ ${fmt(finalOf(it))}`, t.x + 28, y2); }
+          else { p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.text(`Lista: $ ${fmt(it.price)}`, t.x + 28, y2); }
           // Casilla del precio final.
           if (j === null) {
             p.drawingContext.setLineDash([5, 4]); sticker(s, '', col); p.drawingContext.setLineDash([]);
             p.noStroke(); p.fill(C.mute); p.textSize(10); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER); p.text('precio final', s.x + s.w / 2, s.y + s.h / 2);
           } else sticker(s, `$ ${fmt(params.stickers[j])}`, col);
-          if (locked && !good) {
-            p.noStroke(); p.fill(C.ok); p.textSize(11); p.textStyle(p.BOLD); p.textAlign(p.RIGHT, p.TOP);
-            p.text(`→ $ ${fmt(finalOf(it))}`, s.x + s.w, s.y + s.h + 2);
-          }
         });
         params.stickers.forEach((v, j) => {
           if (placedAt(j) >= 0 || (drag && drag.j === j)) return;
           sticker(tray[j], `$ ${fmt(v)}`, C.Z);
         });
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
-        p.text(locked ? (grade(st, params).ok ? '¡Precios bien pegados!' : 'Mira los precios en verde') : 'Sobran tres stickers: son trampas', W / 2, H - 10);
-        if (drag) sticker({ x: p.mouseX - 46, y: p.mouseY - 19, w: 92, h: 38 }, `$ ${fmt(params.stickers[drag.j])}`, C.brand);
+        const extra = params.stickers.length - params.items.length;
+        p.text(locked ? (grade(st, params).ok ? '¡Precios bien pegados!' : 'Mira los precios en verde') : extra > 0 ? `Sobra${extra > 1 ? 'n' : ''} ${extra} sticker${extra > 1 ? 's' : ''}: ${extra > 1 ? 'son trampas' : 'es trampa'}` : 'Arrastra cada sticker a su etiqueta', W / 2, H - 10);
+        if (drag) sticker({ x: p.mouseX - tray[0].w / 2, y: p.mouseY - 17, w: tray[0].w, h: 34 }, `$ ${fmt(params.stickers[drag.j])}`, C.brand);
       };
 
       p.mousePressed = () => {

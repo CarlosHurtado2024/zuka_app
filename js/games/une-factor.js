@@ -82,8 +82,9 @@ GAMES['une-factor'] = (() => {
           const col = i >= 0 ? (locked ? (same(f, factorOf(params.changes[i])) ? C.ok : C.bad) : COLS[i % COLS.length]) : C.line;
           pill(right[j], fac(f), col, i >= 0);
         });
+        const extra = params.factors.length - params.changes.length;
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
-        p.text(locked ? (grade(st, params).ok ? '¡Todas las cuerdas en su sitio!' : 'Mira las cuerdas verdes') : 'Arrastra desde un cambio hasta su factor; sobra un factor', W / 2, H - 14);
+        p.text(locked ? (grade(st, params).ok ? '¡Todas las cuerdas en su sitio!' : 'Mira las cuerdas verdes') : `Arrastra desde un cambio hasta su factor${extra > 0 ? ` · sobra${extra > 1 ? 'n' : ''} ${extra}` : ''}`, 12, H - 30, W - 24, 28);
       };
 
       p.mousePressed = () => {

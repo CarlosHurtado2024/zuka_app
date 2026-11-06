@@ -48,3 +48,36 @@ test('alg-13: ningún texto usa coma decimal', () => {
   const bad = strings([alg13.ex, alg13.clip, alg13.more]).filter(s => /\d,\d/.test(s));
   assert.deepEqual(bad, []);
 });
+
+// Los params que de verdad lleva la lección deben ser resolubles con el grade de cada juego.
+const games = get(loadScripts(['js/games/kit.js', 'js/games/une-factor.js', 'js/games/etiqueta-rebaja.js', 'js/games/mejor-oferta.js']), 'GAMES');
+const exOf = g => alg13.ex.find(e => e.game === g);
+
+test('alg-13: une-factor tiene en factors el factor de cada cambio y se puede resolver', () => {
+  const { params } = exOf('une-factor');
+  const links = params.changes.map(c => params.factors.findIndex(f => Math.abs(f - (1 + c / 100)) < 1e-9));
+  assert.ok(links.every(j => j >= 0), 'falta un factor');
+  assert.equal(games['une-factor'].grade({ links }, params).ok, true);
+});
+
+test('alg-13: etiqueta-rebaja tiene el precio final de cada producto entre los stickers', () => {
+  const { params } = exOf('etiqueta-rebaja');
+  const placed = params.items.map(it => params.stickers.indexOf(Math.round(it.price * (1 + it.change / 100))));
+  assert.ok(placed.every(j => j >= 0), 'falta un precio final');
+  assert.equal(games['etiqueta-rebaja'].grade({ placed }, params).ok, true);
+});
+
+test('alg-13: mejor-oferta no tiene empates y gana b, a, b como dice la explicación', () => {
+  const { params, explain } = exOf('mejor-oferta');
+  const { finalPrice, grade } = games['mejor-oferta'];
+  const winners = params.rounds.map(r => { const a = finalPrice(r.price, r.a), b = finalPrice(r.price, r.b); assert.notEqual(a, b); return a < b ? 'a' : 'b'; });
+  assert.equal(winners.join(''), 'bab');
+  assert.equal(grade({ picks: winners }, params).ok, true);
+  for (const n of ['56\\,000', '55\\,000', '76\\,800']) assert.ok(explain.includes(n), n);
+});
+
+test('alg-13: las ofertas de mejor-oferta dicen que son descuentos', () => {
+  const { params } = exOf('mejor-oferta');
+  assert.match(params.rounds[0].a.label, /descuento/);
+  assert.match(params.rounds[0].b.label, /descuento/);
+});

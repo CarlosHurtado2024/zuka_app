@@ -34,3 +34,15 @@ test('una ronda sin elegir → incorrecto', () => {
 test('la solución no usa coma decimal', () => {
   assert.ok(!/\d,\d/.test(grade({ picks: [null, null, null] }, params).solution));
 });
+
+test('la solución nombra la tienda que gana en cada ronda', () => {
+  const s = grade({ picks: [null, null, null] }, params).solution;
+  assert.ok(s.includes('A 56.000') && s.includes('B 55.000') && s.includes('→ B'));
+});
+
+test('empate → cualquier tienda vale, pero hay que elegir', () => {
+  const tie = { rounds: [{ price: 100, a: { changes: [-50] }, b: { off: 50 } }] };
+  assert.equal(grade({ picks: ['a'] }, tie).ok, true);
+  assert.equal(grade({ picks: ['b'] }, tie).ok, true);
+  assert.equal(grade({ picks: [null] }, tie).ok, false);
+});

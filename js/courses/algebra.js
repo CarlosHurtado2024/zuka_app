@@ -175,7 +175,7 @@ const COURSE_ALGEBRA = {
               'Cada descuento multiplica el precio: $100\\,000 \\cdot 0.7 = 70\\,000$ y $70\\,000 \\cdot 0.8 = 56\\,000$. El factor total es $0.7 \\cdot 0.8 = 0.56$, así que el descuento único es $1 - 0.56 = 44\\%$, no $50\\%$. El orden no importa.'),
             play('mejor-oferta', 'Lleva el carrito a la tienda donde el producto sale más barato', {
               rounds: [
-                { price: 100000, a: { label: '30 % y luego 20 %', changes: [-30, -20] }, b: { label: '45 % de una vez', changes: [-45] } },
+                { price: 100000, a: { label: '30 % y luego 20 % de descuento', changes: [-30, -20] }, b: { label: '45 % de descuento de una vez', changes: [-45] } },
                 { price: 80000, a: { label: 'Sube 20 % y luego baja 20 %', changes: [20, -20] }, b: { label: 'Precio de lista', changes: [] } },
                 { price: 50000, a: { label: '10 % de descuento', changes: [-10] }, b: { label: '6.000 de rebaja', off: 6000 } },
               ],

@@ -15,7 +15,10 @@ GAMES['mejor-oferta'] = (() => {
       const best = cheaper(r);
       return state.picks[k] != null && (best === null || state.picks[k] === best);
     });
-    const solution = params.rounds.map((r, k) => `Ronda ${k + 1}: ${fmt(finalPrice(r.price, r.a))} frente a ${fmt(finalPrice(r.price, r.b))}`).join(' · ');
+    const solution = params.rounds.map((r, k) => {
+      const best = cheaper(r);
+      return `Ronda ${k + 1}: A ${fmt(finalPrice(r.price, r.a))} · B ${fmt(finalPrice(r.price, r.b))} → ${best === null ? 'igual' : best.toUpperCase()}`;
+    }).join(' · ');
     return { ok, solution };
   }
 
@@ -28,9 +31,11 @@ GAMES['mejor-oferta'] = (() => {
     function layout(w, h) {
       W = w; H = h;
       tabs = params.rounds.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
-      const sw = (w - 36) / 2, sy = 92, sh = h * 0.52;
+      // El carrito en casa se ancla al pie (pista a H − 14) y las vitrinas ocupan lo que queda.
+      const sw = (w - 36) / 2, sy = 88;
+      home = { x: w / 2, y: h - 46 };
+      const sh = Math.min(h * 0.52, home.y - 30 - sy);
       shops = { a: { x: 12, y: sy, w: sw, h: sh }, b: { x: 24 + sw, y: sy, w: sw, h: sh } };
-      home = { x: w / 2, y: sy + sh + 48 };
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const ready = () => api.ready(st.picks.every(v => v !== null));
@@ -54,15 +59,14 @@ GAMES['mejor-oferta'] = (() => {
         for (let i = 0; i < 6; i++) { p.fill(i % 2 ? C.card : key === 'a' ? C.N : C.Q); p.rect(b.x + (i * b.w) / 6, b.y, b.w / 6, 14); }
         p.stroke(col); p.strokeWeight(pick ? 2.5 : 1.5); p.fill(C.card); p.rect(b.x, b.y + 14, b.w, b.h - 14, 0, 0, 12, 12);
         p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
-        p.text(`Tienda ${key.toUpperCase()}`, b.x + 4, b.y + 24, b.w - 8, 20);
-        p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12);
-        p.text(`Lista: $ ${fmt(r.price)}`, b.x + 4, b.y + 46, b.w - 8, 20);
-        p.fill(C.N); p.textStyle(p.BOLD); p.textSize(14);
-        p.text(off.label, b.x + 8, b.y + 72, b.w - 16, 60);
+        p.text(`Tienda ${key.toUpperCase()}`, b.x + 4, b.y + 22, b.w - 8, 20);
+        // La oferta ocupa la franja entre el nombre y la zona del carrito / precio final.
+        p.fill(C.N); p.textStyle(p.BOLD); p.textSize(b.w < 130 ? 11 : 14);
+        p.text(off.label, b.x + 6, b.y + 44, b.w - 12, b.h - 44 - 40);
         if (locked) {
           p.fill(good ? C.ok : C.bad); p.textSize(15);
-          p.text(`$ ${fmt(finalPrice(r.price, off))}`, b.x + 4, b.y + b.h - 44, b.w - 8, 20);
-        } else if (pick) cart(b.x + b.w / 2, b.y + b.h - 30, C.brand);
+          p.text(`$ ${fmt(finalPrice(r.price, off))}`, b.x + 4, b.y + b.h - 34, b.w - 8, 20);
+        } else if (pick) cart(b.x + b.w / 2, b.y + b.h - 24, C.brand);
       }
 
       p.draw = () => {
@@ -74,8 +78,8 @@ GAMES['mejor-oferta'] = (() => {
           p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
           p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
         });
-        p.noStroke(); p.fill(C.N); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(14);
-        p.text('El mismo producto en dos tiendas: ¿dónde sale más barato?', 12, 46, W - 24, 40);
+        p.noStroke(); p.fill(C.N); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(13);
+        p.text(`Precio de lista $ ${fmt(r.price)} en las dos: ¿dónde sale más barato?`, 12, 44, W - 24, 42);
         shop('a', r); shop('b', r);
         if (!locked && st.picks[cur] === null && !drag) cart(home.x, home.y, C.mute);
         if (drag) cart(p.mouseX, p.mouseY, C.brand);
@@ -84,9 +88,9 @@ GAMES['mejor-oferta'] = (() => {
       };
 
       p.mousePressed = () => {
-        if (locked) return;
         const t = tabs.findIndex(t => inside(t, p.mouseX, p.mouseY));
-        if (t >= 0) { cur = t; api.sfx?.tap?.(); return false; }
+        if (t >= 0) { cur = t; api.sfx?.tap?.(); return false; }   // las rondas se pueden repasar aun bloqueado
+        if (locked) return;
         const key = st.picks[cur];
         const at = key === null ? Math.hypot(p.mouseX - home.x, p.mouseY - home.y) < 34 : inside(shops[key], p.mouseX, p.mouseY);
         if (!at) return;
