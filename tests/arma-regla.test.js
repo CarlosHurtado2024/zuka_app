@@ -22,6 +22,10 @@ test('filas intercambiadas → correcto', () => {
   assert.equal(grade(state({ cells: [[2, 3], [0, 1]], arrow: 'directa' }, exact('inversa')), params).ok, true);
 });
 
+test('columnas intercambiadas (horas a la izquierda) → correcto', () => {
+  assert.equal(grade(state({ cells: [[1, 0], [3, 2]], arrow: 'directa' }, exact('inversa')), params).ok, true);
+});
+
 test('una ficha en la columna equivocada → incorrecto', () => {
   assert.equal(grade(state({ cells: [[1, 0], [2, 3]], arrow: 'directa' }, exact('inversa')), params).ok, false);
 });

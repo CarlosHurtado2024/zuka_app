@@ -18,7 +18,8 @@ GAMES['cadena-razones'] = (() => {
 
   function create(host, params, api) {
     const C = api.palette;
-    const st = { flipped: params.factors.map(() => false) };
+    // Arranca en la orientación ingenua (la razón «sigue» el cambio): el alumno debe voltear las inversas.
+    const st = { flipped: params.factors.map(f => f.inverse) };
     let locked = false, W = 0, H = 0, cards = [], anim = params.factors.map(() => 0);
 
     function layout(w, h) {

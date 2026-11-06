@@ -72,7 +72,7 @@ enlazados por `mountSketch`.
 | 9 | `bascula` | 3 kg de manzanas cuestan 12.000. Una rueda de precio (de 0 a 40.000 en pasos de 500) y una báscula con 5 kg; la etiqueta de precio de la báscula marca lo que fija la rueda | Precio de 5 kg = 20.000 (±200) |
 | 10 | `la-obra` | 12 obreros tardan 30 días. Se arrastran obreros desde la banca a la obra (de 1 a 40); un calendario muestra los días = 360 / obreros. Pregunta: ¿cuántos obreros para terminar en 24 días? | 15 obreros en la obra |
 | 11 | `directa-inversa` (reutilizado) | Seis situaciones nuevas: máquinas–horas para un pedido (inversa), grifos iguales–tiempo de llenado (inversa), kilos–precio del mismo producto (directa), velocidad–tiempo del mismo trayecto (inversa), fotocopias–costo (directa), lado–perímetro de un cuadrado (directa) | Todas bien clasificadas |
-| 12 | `cadena-razones` | Ejercicio 1.6 como cadena: `x = 28 × [9/7] × [6/8]`. Cada fracción es una tarjeta que se voltea al tocarla (`9/7 ⇄ 7/9`); el resultado se calcula en vivo con un medidor «sube/baja» respecto a 28 | `x = 27` (tarjetas `9/7` y `6/8`) |
+| 12 | `cadena-razones` | Ejercicio 1.6 como cadena: `x = 28 × [7/9] × [8/6]` al empezar (cada razón «sigue» el cambio, orientación ingenua). Cada fracción es una tarjeta que se voltea al tocarla (`7/9 ⇄ 9/7`); el resultado se calcula en vivo con un medidor «sube/baja» respecto a 28 | `x = 27` (tarjetas volteadas a `9/7` y `6/8`; el estado inicial nunca es la respuesta) |
 
 Cada juego lleva su `explain` basado en el texto guía. Los nuevos archivos se registran en
 `index.html` y en el `SHELL` de `sw.js`; `VERSION` del service worker sube una vez por entrega.

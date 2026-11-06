@@ -7,13 +7,14 @@
 GAMES['arma-regla'] = (() => {
   const ARROWS = { directa: 'paralelas', inversa: 'cruzadas' };
 
-  // La tabla está bien si cada columna tiene una sola magnitud y cada fila una sola situación.
+  // La tabla está bien si cada columna tiene una sola magnitud (en cualquier orden de columnas)
+  // y cada fila una sola situación (en cualquier orden de filas).
   function tableOk(p, cells) {
     const idx = cells.flat();
     if (idx.some(i => i == null) || new Set(idx).size !== 4) return false;
-    return cells.every((row, r) => row.every((i, c) => p.chips[i].mag === c)) &&
-      cells.every(row => p.chips[row[0]].row === p.chips[row[1]].row) &&
-      p.chips[cells[0][0]].row !== p.chips[cells[1][0]].row;
+    const mag = (r, c) => p.chips[cells[r][c]].mag, row = (r, c) => p.chips[cells[r][c]].row;
+    return mag(0, 0) === mag(1, 0) && mag(0, 1) === mag(1, 1) && mag(0, 0) !== mag(0, 1) &&
+      row(0, 0) === row(0, 1) && row(1, 0) === row(1, 1) && row(0, 0) !== row(1, 0);
   }
 
   function grade(state, params) {

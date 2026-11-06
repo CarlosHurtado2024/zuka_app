@@ -344,7 +344,8 @@ function startLesson(c, l) {
     body.innerHTML = '';
     player = makePlayer(body, l, c, { clip: clips[n], onEnd: () => { root.classList.add('clip-ended'); btn.classList.add('pulse'); } });
     // El botón anuncia lo que sigue: otro video (en repaso, el siguiente video ya visto) o los ejercicios.
-    const after = review >= 0 ? queue.find((t, i) => i > reviewPos && i < pos && t.k === 'clip') : queue[pos + 1]?.k === 'clip' ? queue[pos + 1] : null;
+    const clipAt = i => (queue[i]?.k === 'clip' ? queue[i] : null);
+    const after = review >= 0 ? queue.find((t, i) => i > reviewPos && i < pos && t.k === 'clip') ?? clipAt(pos) : clipAt(pos + 1);
     $('.clip-skip', root).textContent = after ? `Parte ${after.n + 1} →` : review >= 0 && queue[pos]?.k === 'ex' ? 'Al ejercicio →' : 'Ejercicios →';
     $('.clip-part', root).textContent = clips.length > 1 ? `Parte ${n + 1} de ${clips.length}` : '';
     player.play();

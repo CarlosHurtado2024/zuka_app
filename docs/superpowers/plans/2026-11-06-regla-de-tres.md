@@ -98,7 +98,7 @@
 
 - [ ] **Step 1: Tests:** `[false, false]` → ok; `[true, false]` → no ok y `solution` contiene `27`; `[true, true]` → no ok.
 - [ ] **Step 2:** correr → FAIL.
-- [ ] **Step 3: Implementar:** enunciado corto arriba («9 hombres, 28 días, 6 h/día → 7 hombres a 8 h/día: ¿días?»); fila `x = 28 × [9/7] × [6/8]` con tarjetas que giran (animación de volteo) al tocarlas; resultado en vivo `= 27` con un medidor «sube/baja» (flecha verde ↑ si `x > base`, roja ↓ si `x < base`); pista bajo cada tarjeta («menos hombres → más días», «más horas → menos días») que aparece al bloquear; `ready(true)` desde el inicio (las tarjetas ya forman una respuesta). `aspect` 1.0.
+- [ ] **Step 3: Implementar:** enunciado corto arriba («9 hombres, 28 días, 6 h/día → 7 hombres a 8 h/día: ¿días?»); fila `x = 28 × [9/7] × [6/8]` con tarjetas que giran (animación de volteo) al tocarlas; resultado en vivo `= 27` con un medidor «sube/baja» (flecha verde ↑ si `x > base`, roja ↓ si `x < base`); pista bajo cada tarjeta («menos hombres → más días», «más horas → menos días») que aparece al bloquear; las tarjetas arrancan en la orientación ingenua (`flipped = inverse`, es decir `7/9` y `8/6`), nunca en la respuesta; `ready(true)` desde el inicio (las tarjetas ya forman una respuesta, aunque equivocada). `aspect` 1.15.
 - [ ] **Step 4:** correr → PASS.
 - [ ] **Step 5: Navegador:** voltear y comprobar bien y mal.
 - [ ] **Step 6: Commit** `feat: juego cadena de razones`.

@@ -22,3 +22,15 @@ test('una tarjeta volteada → incorrecto y la solución da 27', () => {
 test('las dos volteadas → incorrecto', () => {
   assert.equal(grade({ flipped: [true, true] }, params).ok, false);
 });
+
+// El juego no puede nacer resuelto: las tarjetas arrancan en la orientación ingenua (7/9 y 8/6).
+test('el estado inicial no es la respuesta', async () => {
+  const { loadScripts, get } = require('./load');
+  const ctx = loadScripts(['js/games/kit.js', 'js/games/cadena-razones.js']);
+  const p = { createCanvas() {}, textFont() {} };
+  ctx.p5 = function (sketch) { sketch(p, { w: 300, h: 345 }); p.setup(); this.remove = () => {}; this.resizeCanvas = () => {}; };
+  ctx.ResizeObserver = class { observe() {} disconnect() {} };
+  const inst = get(ctx, 'GAMES')['cadena-razones'].create({ clientWidth: 300 }, params, { ready() {}, palette: get(ctx, 'PALETTE') });
+  await inst.loaded;
+  assert.equal(grade(inst.getState(), params).ok, false);
+});
