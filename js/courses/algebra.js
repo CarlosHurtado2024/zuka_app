@@ -137,7 +137,7 @@ const COURSE_ALGEBRA = {
           // Parte 1 «Porcentajes»: escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
             sc(6, '**Por ciento** quiere decir «de cada 100». Un porcentaje es una fracción con denominador 100.', { steps: ['$35\\% = \\dfrac{35}{100} = 0.35$', '$50\\% = \\tfrac12 \\quad 25\\% = \\tfrac14 \\quad 10\\% = 0.1$'] }),
-            sc(7, 'Todo problema de porcentaje es una regla de tres directa: **100** se corresponde con el total $C$, y el porcentaje $p$ con la parte $B$.', { title: '$\\dfrac{100}{C} = \\dfrac{p}{B}$', steps: ['$12\\%$ de 8.000: $B = \\dfrac{12 \\cdot 8\\,000}{100} = 960$', '¿De qué número es 48 el $8\\%$? $C = \\dfrac{100 \\cdot 48}{8} = 600$', '¿Qué porcentaje es 51 de 170? $p = \\dfrac{100 \\cdot 51}{170} = 30\\%$'] }),
+            sc(7, 'Todo problema de porcentaje es una regla de tres directa: **100** se corresponde con el total $C$, y el porcentaje $p$ con la parte $B$.', { title: '$\\dfrac{100}{C} = \\dfrac{p}{B}$', steps: ['$12\\%$ de 8.000: $B = \\tfrac{12 \\cdot 8\\,000}{100} = 960$', '48 es el $8\\%$ de $C = \\tfrac{100 \\cdot 48}{8} = 600$', '51 de 170: $p = \\tfrac{100 \\cdot 51}{170} = 30\\%$'] }),
             sc(6, '«El 70 % **más**» de un número es su 170 %; «el 9 % **menos**» es su 91 %.', { steps: ['408 es el $70\\%$ más de $\\dfrac{100 \\cdot 408}{170} = 240$', '546 es el $9\\%$ menos de $\\dfrac{100 \\cdot 546}{91} = 600$'] }),
           ] },
           // Parte 2 «Aumentos, descuentos e interés», después del sexto ejercicio.
