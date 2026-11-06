@@ -24,7 +24,7 @@ GAMES['carrera-interes'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      track = { x: 24, y: 70, w: w - 48, lane: 54 };
+      track = { x: 24, y: 96, w: w - 48, lane: 54 };
       slider = { x: 32, y: h - 64, w: w - 64 };
     }
     const month = () => (st.month === null ? 0 : st.month);
@@ -52,7 +52,7 @@ GAMES['carrera-interes'] = (() => {
         const good = st.month === ans;
         const col = locked ? (good ? C.ok : C.bad) : beyond ? C.ok : C.brand;
         p.noStroke(); p.fill(C.N); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
-        p.text(`$ ${fmt(params.capital)} al ${(params.rate * 100).toLocaleString('es-CO')} % mensual. ¿Desde qué mes el compuesto le saca más de $ ${fmt(params.gap)} al simple?`, W / 2, 6, W - 24, 50);
+        p.text(`$ ${fmt(params.capital)} al ${(params.rate * 100).toLocaleString('es-CO')} % mensual. ¿Desde qué mes el compuesto le saca más de $ ${fmt(params.gap)} al simple?`, 12, 6, W - 24, 50);
         // Pista: dos carriles; la posición es el monto entre el capital y el máximo del compuesto.
         const maxV = compound(params, params.months);
         const mx = lineMap(params.capital, maxV, track.x + 10, track.x + track.w - 20);

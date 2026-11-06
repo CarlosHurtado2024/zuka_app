@@ -57,7 +57,7 @@ GAMES['bodegas'] = (() => {
         const r = after(params, st.a), good = Math.abs(r.a - r.b) < 1e-9;
         const col = locked ? (good ? C.ok : C.bad) : good ? C.ok : C.brand;
         p.noStroke(); p.fill(C.N); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
-        p.text(`${fmt(params.total)} sacos. Si de A se lleva el ${params.move} % a B, quedan iguales. ¿Cuántos había en cada una?`, W / 2, 6, W - 24, 50);
+        p.text(`${fmt(params.total)} sacos. Si de A se lleva el ${params.move} % a B, quedan iguales. ¿Cuántos había en cada una?`, 12, 6, W - 24, 50);
         // Barra divisoria.
         const xOf = v => bar.x + (v / params.total) * bar.w;
         p.noStroke(); p.fill(C.N + 'AA'); p.rect(bar.x, bar.y, xOf(st.a) - bar.x, bar.h, 8, 0, 0, 8);

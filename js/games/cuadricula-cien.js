@@ -20,10 +20,10 @@ GAMES['cuadricula-cien'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      const size = Math.min(w - 24, h * 0.62);
+      const size = Math.min(w - 24, h - 130);
       grid = { x: (w - size) / 2, y: 60, s: size, c: size / 10 };
       tabs = params.rounds.map((_, i) => ({ x: 12 + i * ((w - 24) / N), y: 8, w: (w - 24) / N - 6, h: 40 }));
-      nextBtn = { x: w / 2 - 80, y: grid.y + grid.s + 44, w: 160, h: 36 };
+      nextBtn = { x: grid.x + grid.s - 150, y: grid.y + grid.s + 12, w: 150, h: 34 };
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const cellAt = (x, y) => {
@@ -56,8 +56,8 @@ GAMES['cuadricula-cien'] = (() => {
           const good = st.counts[i] === params.rounds[i].count;
           const col = locked ? (good ? C.ok : C.bad) : i === round ? C.brand : C.line;
           p.stroke(col); p.strokeWeight(i === round ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 10);
-          p.noStroke(); p.fill(i === round || locked ? C.ink : C.mute); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(13);
-          p.text(`Pinta ${params.rounds[i].ask}`, t.x + 10, t.y + t.h / 2);
+          p.noStroke(); p.fill(i === round || locked ? C.ink : C.mute); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(14);
+          p.text(params.rounds[i].ask, t.x + 10, t.y + t.h / 2);
           if (st.counts[i] !== null) mini(i, t.x + t.w - 34, t.y + 5, 3);
         });
         // Cuadrícula.
@@ -69,11 +69,11 @@ GAMES['cuadricula-cien'] = (() => {
         }
         const n = count(round), good = n === params.rounds[round].count;
         const col = locked ? (good ? C.ok : C.bad) : C.N;
-        p.noStroke(); p.fill(col); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(18);
-        p.text(`${n} de 100`, W / 2, grid.y + grid.s + 10);
+        p.noStroke(); p.fill(col); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(18);
+        p.text(`${n} de 100`, grid.x + 2, nextBtn.y + nextBtn.h / 2);
         if (!locked && round < N - 1) {
           p.stroke(C.brand); p.strokeWeight(2); p.fill(C.card); p.rect(nextBtn.x, nextBtn.y, nextBtn.w, nextBtn.h, 10);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(14); p.text('Siguiente ronda →', W / 2, nextBtn.y + nextBtn.h / 2);
+          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(14); p.text('Siguiente ronda →', nextBtn.x + nextBtn.w / 2, nextBtn.y + nextBtn.h / 2);
         }
         p.fill(C.mute); p.textSize(11); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.NORMAL);
         p.text(locked && !good ? `Eran ${params.rounds[round].count} casillas` : 'Arrastra el dedo para pintar; vuelve a pasar para borrar', W / 2, H - 12);

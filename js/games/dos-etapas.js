@@ -9,6 +9,8 @@ GAMES['dos-etapas'] = (() => {
   const fmt = n => Math.round(n).toLocaleString('es-CO');
   const texNum = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\\,');
   const dec = n => String(+n.toFixed(2)).replace('.', '{,}');
+  // Salto corto entre dos ángulos de atan2 (en (−π, π]), para acumular vueltas sin saltos de 2π.
+  const turnDelta = (a0, a1) => Math.atan2(Math.sin(a1 - a0), Math.cos(a1 - a0));
 
   function grade(state, params) {
     const ok = state.input !== null && Math.round(state.input * factor(params)) === params.output;
@@ -55,7 +57,7 @@ GAMES['dos-etapas'] = (() => {
         const good = st.input !== null && Math.round(out) === params.output;
         const col = locked ? (good ? C.ok : C.bad) : good ? C.ok : C.brand;
         p.noStroke(); p.fill(C.N); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
-        p.text(`Subió ${params.changes[0]} % y luego bajó ${Math.abs(params.changes[1])} %; terminó en ${fmt(params.output)}. ¿Cuánto valía al principio?`, W / 2, 6, W - 24, 50);
+        p.text(`Subió ${params.changes[0]} % y luego bajó ${Math.abs(params.changes[1])} %; terminó en ${fmt(params.output)}. ¿Cuánto valía al principio?`, 12, 6, W - 24, 50);
         // Perilla.
         const ang = (valueOf() / TURN) * Math.PI * 2 - Math.PI / 2;
         p.stroke(C.line); p.strokeWeight(3); p.fill(C.card); p.circle(knob.x, knob.y, knob.r * 2);
@@ -96,9 +98,8 @@ GAMES['dos-etapas'] = (() => {
       };
       p.mouseDragged = () => {
         if (!drag) return;
-        let d = angleAt(p.mouseX, p.mouseY) - drag.a;
-        if (d > Math.PI) d -= Math.PI * 2; else if (d < -Math.PI) d += Math.PI * 2;
-        drag.a += d; drag.v += (d / (Math.PI * 2)) * TURN;
+        const a = angleAt(p.mouseX, p.mouseY), d = turnDelta(drag.a, a);
+        drag.a = a; drag.v += (d / (Math.PI * 2)) * TURN;
         drag.v = Math.max(0, Math.min(params.max, drag.v));
         setInput(drag.v);
         return false;
@@ -114,5 +115,5 @@ GAMES['dos-etapas'] = (() => {
     };
   }
 
-  return { grade, create };
+  return { grade, create, turnDelta };
 })();

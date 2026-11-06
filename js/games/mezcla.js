@@ -44,7 +44,7 @@ GAMES['mezcla'] = (() => {
         const pct = pctOf(params, st.water), good = Math.abs(pct - params.target) < 1e-9;
         const col = locked ? (good ? C.ok : C.bad) : good ? C.ok : C.brand;
         p.noStroke(); p.fill(C.N); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(14);
-        p.text(`${params.solute} g de alcohol. Añade agua hasta que sea el ${params.target} % de la mezcla`, W / 2, 8, W - 24, 40);
+        p.text(`${params.solute} g de alcohol. Añade agua hasta que sea el ${params.target} % de la mezcla`, 12, 8, W - 24, 40);
         // Vaso: capa de alcohol y capa de agua (escala: max + solute = vaso lleno).
         const full = params.max + params.solute, unit = beaker.h / full;
         const hA = params.solute * unit, hW = st.water * unit, bottom = beaker.y + beaker.h;

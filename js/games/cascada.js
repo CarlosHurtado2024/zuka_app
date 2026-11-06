@@ -55,7 +55,7 @@ GAMES['cascada'] = (() => {
         const ans = answerOf(params), good = st.single === ans;
         const col = locked ? (good && st.applied.length === params.changes.length ? C.ok : C.bad) : C.brand;
         p.noStroke(); p.fill(C.N); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(14);
-        p.text('Pega los dos descuentos y halla el descuento único', W / 2, 8, W - 24, 40);
+        p.text('Pega los dos descuentos y halla el descuento único', 12, 8, W - 24, 40);
         // Etiqueta.
         p.stroke(C.line); p.strokeWeight(2); p.fill(C.card); p.rect(tag.x, tag.y, tag.w, tag.h, 16);
         p.noStroke(); p.fill(C.line); p.circle(tag.x + tag.w / 2, tag.y + 14, 12);
@@ -68,7 +68,7 @@ GAMES['cascada'] = (() => {
           v *= 1 + params.changes[i] / 100; y += 18;
         });
         p.fill(C.ink); p.textSize(26); p.textStyle(p.BOLD); p.text(`$ ${fmt(shown)}`, tag.x + tag.w / 2, y + 4);
-        st.applied.forEach((i, k) => sticker(tag.x + tag.w - 26 - k * 34, tag.y + tag.h - 26, 44, i));
+        st.applied.forEach((i, k) => sticker(tag.x + 24 + k * 34, tag.y + 24, 40, i));
         // Bandeja de stickers.
         params.changes.forEach((_, i) => {
           if (st.applied.includes(i) || drag?.i === i) return;

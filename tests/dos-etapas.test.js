@@ -18,3 +18,14 @@ test('entrada 8.520 → incorrecto y la solución da 8 500', () => {
 test('sin entrada → incorrecto', () => {
   assert.equal(grade({ input: null }, params).ok, false);
 });
+
+// Giro de la perilla: el salto entre dos ángulos consecutivos es siempre el camino corto, aunque
+// atan2 salte de 170° a −170° (ahí el giro real es +20°, no −340°).
+const { turnDelta } = loadGame('js/games/dos-etapas.js')['dos-etapas'];
+const deg = d => (d * Math.PI) / 180;
+
+test('turnDelta cruza el borde de atan2 en el sentido corto', () => {
+  assert.ok(Math.abs(turnDelta(deg(170), deg(-170)) - deg(20)) < 1e-9);
+  assert.ok(Math.abs(turnDelta(deg(-170), deg(170)) + deg(20)) < 1e-9);
+  assert.ok(Math.abs(turnDelta(deg(10), deg(28)) - deg(18)) < 1e-9);
+});

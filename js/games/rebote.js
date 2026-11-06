@@ -52,7 +52,7 @@ GAMES['rebote'] = (() => {
         const good = st.up !== null && Math.abs(st.up - ans) <= params.tol;
         const col = locked ? (good ? C.ok : C.bad) : good ? C.ok : C.brand;
         p.noStroke(); p.fill(C.N); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(14);
-        p.text(`El precio bajó ${params.drop} %. ¿Qué % hay que subirlo para volver al original?`, W / 2, 8, W - 24, 44);
+        p.text(`El precio bajó ${params.drop} %. ¿Qué % hay que subirlo para volver al original?`, 12, 8, W - 24, 44);
         p.stroke(C.line); p.strokeWeight(1); p.line(16, floor(), rail.x - 24, floor());
         // Línea del precio original cruzando las tres barras.
         p.drawingContext.setLineDash([5, 4]); p.stroke(C.ok); p.strokeWeight(1.5); p.line(16, yOf(params.base), rail.x - 24, yOf(params.base)); p.drawingContext.setLineDash([]);

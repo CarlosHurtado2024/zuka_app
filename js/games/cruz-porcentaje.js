@@ -79,7 +79,6 @@ GAMES['cruz-porcentaje'] = (() => {
         });
         p.stroke(C.line); p.strokeWeight(1.5);
         p.line(W / 2, slots[100].y - 2, W / 2, slots.B.y + slots.B.h + 2);
-        p.line(slots[100].x, slots.C.y - 6, slots.B.x + slots.B.w, slots.C.y - 6);
         // Bandeja.
         pr.chips.forEach((ch, i) => {
           if (placedAt(i) !== undefined || (drag && drag.i === i)) return;
