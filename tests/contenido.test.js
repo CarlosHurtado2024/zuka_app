@@ -23,13 +23,25 @@ for (const l of lessons) {
   });
 }
 
-// La explicación de la carrera del interés debe dar las mismas cifras que la solución del juego
-// (redondeadas a centenas: 43 500 en el mes 14 y 50 500 en el 15), y todo alg-13 usa punto decimal.
+// La lección 1.3 es «Porcentajes y descuentos»: el interés simple y compuesto queda para otra
+// lección, los dos videos vienen de Bunny y todo el texto usa punto decimal.
 const alg13 = lessons.find(l => l.id === 'alg-13');
 
-test('alg-13: el explain de carrera-interes coincide con la solución del juego', () => {
-  const ex = alg13.ex.find(e => e.game === 'carrera-interes');
-  assert.ok(ex.explain.includes('43\\,500') && ex.explain.includes('50\\,500'));
+test('alg-13: se llama «Porcentajes y descuentos» y no tiene ejercicios de interés', () => {
+  assert.equal(alg13.title, 'Porcentajes y descuentos');
+  assert.ok(!alg13.ex.some(e => e.game === 'carrera-interes'));
+  assert.deepEqual(strings(alg13.ex).filter(s => /inter[eé]s/i.test(s)), []);
+});
+
+test('alg-13: los dos videos vienen de Bunny y el segundo va tras el sexto ejercicio', () => {
+  assert.equal(alg13.clip.bunny, '59348bd7-b5b5-4c29-bf79-31a54b439a1b');
+  assert.equal(alg13.clip.duration, 224);
+  assert.equal(alg13.clip.scenes.length, 0);
+  assert.equal(alg13.more.length, 1);
+  assert.equal(alg13.more[0].bunny, '35f01df0-beb0-42c1-89bd-c0a6e82d2727');
+  assert.equal(alg13.more[0].duration, 131);
+  assert.equal(alg13.more[0].after, 6);
+  assert.equal(alg13.more[0].scenes.length, 0);
 });
 
 test('alg-13: ningún texto usa coma decimal', () => {

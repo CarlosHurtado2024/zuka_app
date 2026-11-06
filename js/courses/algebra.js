@@ -133,19 +133,11 @@ const COURSE_ALGEBRA = {
           ],
         },
         {
-          id: 'alg-13', title: 'Porcentajes e interés',
-          // Parte 1 «Porcentajes»: escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
-          clip: { scenes: [
-            sc(6, '**Por ciento** quiere decir «de cada 100». Un porcentaje es una fracción con denominador 100.', { steps: ['$35\\% = \\dfrac{35}{100} = 0.35$', '$50\\% = \\tfrac12 \\quad 25\\% = \\tfrac14 \\quad 10\\% = 0.1$'] }),
-            sc(7, 'Todo problema de porcentaje es una regla de tres directa: **100** se corresponde con el total $C$, y el porcentaje $p$ con la parte $B$.', { title: '$\\dfrac{100}{C} = \\dfrac{p}{B}$', steps: ['$12\\%$ de 8.000: $B = \\tfrac{12 \\cdot 8\\,000}{100} = 960$', '48 es el $8\\%$ de $C = \\tfrac{100 \\cdot 48}{8} = 600$', '51 de 170: $p = \\tfrac{100 \\cdot 51}{170} = 30\\%$'] }),
-            sc(6, '«El 70 % **más**» de un número es su 170 %; «el 9 % **menos**» es su 91 %.', { steps: ['408 es el $70\\%$ más de $\\dfrac{100 \\cdot 408}{170} = 240$', '546 es el $9\\%$ menos de $\\dfrac{100 \\cdot 546}{91} = 600$'] }),
-          ] },
-          // Parte 2 «Aumentos, descuentos e interés», después del sexto ejercicio.
-          more: [{ after: 6, scenes: [
-            sc(6, 'Aumentar un $r\\%$ es multiplicar por $1 + r$; descontar, por $1 - r$.', { steps: ['$+20\\% \\Rightarrow \\times 1.2$', '$-15\\% \\Rightarrow \\times 0.85$'] }),
-            sc(7, 'Dos descuentos sucesivos **no se suman**: se multiplican los factores.', { steps: ['$30\\%$ y luego $20\\%$: $(0.7)(0.8) = 0.56$', 'Descuento único: $44\\%$, no $50\\%$', 'Rebajar $10\\%$ y volver: $\\dfrac{10}{90} = 11.1\\%$'] }),
-            sc(6, 'Interés **simple**: siempre sobre el capital inicial. **Compuesto**: el interés también genera interés.', { steps: ['Simple: $M = C(1 + rt)$', 'Compuesto: $M = C(1 + r)^n$'], viz: { type: 'graph', xr: [0, 24], yr: [1, 1.5], fs: [{ f: t => 1 + 0.015 * t }, { f: t => 1.015 ** t }], draw: true, ax: ['meses', 'M / C'] } }),
-          ] }],
+          id: 'alg-13', title: 'Porcentajes y descuentos',
+          // Parte 1 «Porcentajes» (Bunny, 3:44).
+          clip: { bunny: '59348bd7-b5b5-4c29-bf79-31a54b439a1b', duration: 224, scenes: [] },
+          // Parte 2 «Aumentos y descuentos» (Bunny, 2:11), después del sexto ejercicio.
+          more: [{ bunny: '35f01df0-beb0-42c1-89bd-c0a6e82d2727', duration: 131, after: 6, scenes: [] }],
           ex: [
             // --- Parte 1: porcentajes ---
             play('cuadricula-cien', 'Pinta en la cuadrícula el porcentaje que pide cada ronda', { rounds: [{ ask: '35 %', count: 35 }, { ask: '3/4', count: 75 }, { ask: '0.08', count: 8 }] },
@@ -172,24 +164,22 @@ const COURSE_ALGEBRA = {
                 { text: '51 de 170 es el 30 %', truth: true, why: '100 · 51 / 170 = 30.' },
               ],
             }, 'Porcentaje es una razón con denominador 100: $25\\% = \\tfrac14$ y $12\\%$ de 8.000 es $\\dfrac{12 \\cdot 8\\,000}{100} = 960$. «El $p\\%$ más» es el $(100 + p)\\%$ y «el $p\\%$ menos» es el $(100 - p)\\%$.'),
-            // --- Parte 2: aumentos, descuentos e interés ---
+            // --- Parte 2: aumentos y descuentos ---
             play('cascada', 'Pega los dos descuentos y fija el descuento único equivalente', { price: 100000, changes: [-30, -20], step: 1 },
               'Cada descuento multiplica el precio: $100\\,000 \\cdot 0.7 = 70\\,000$ y $70\\,000 \\cdot 0.8 = 56\\,000$. El factor total es $0.7 \\cdot 0.8 = 0.56$, así que el descuento único es $1 - 0.56 = 44\\%$, no $50\\%$. El orden no importa.'),
             play('rebote', 'Sube el precio rebajado hasta volver exactamente al original', { base: 100, drop: 10, max: 30, step: 0.1, tol: 0.06 },
               'Tras rebajar $10\\%$ el precio queda en 90. Para volver a 100 hay que subir 10 sobre 90: $\\dfrac{10}{90} = 11.1\\%$. La subida se calcula sobre el precio rebajado, por eso no basta con $10\\%$.'),
             play('dos-etapas', 'Gira la perilla hasta que la máquina produzca 8.840', { changes: [30, -20], output: 8840, max: 20000, step: 20 },
               'Subir $30\\%$ es $\\times 1.3$ y bajar $20\\%$ es $\\times 0.8$: en total $\\times 1.04$. Entonces $1.04x = 8\\,840$ y $x = 8\\,500$.'),
-            play('carrera-interes', 'Encuentra el primer mes en que el compuesto le saca más de 50.000 al simple', { capital: 2000000, rate: 0.015, months: 24, gap: 50000 },
-              'Simple: $M = 2\\,000\\,000(1 + 0.015n)$. Compuesto: $M = 2\\,000\\,000(1.015)^n$. La diferencia crece cada mes: en el 14 es $\\approx 43\\,500$ y en el 15 ya es $\\approx 50\\,500$.'),
             play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
               cards: [
                 { text: 'Dos aumentos sucesivos del 10 % equivalen a un aumento del 20 %', truth: false, why: '1.1 · 1.1 = 1.21: es un 21 %.' },
-                { text: 'Al 2 % mensual simple, en 12 meses se gana el 24 % del capital', truth: true, why: 'Interés simple: 2 % · 12 = 24 %.' },
+                { text: 'Un descuento del 25 % es lo mismo que multiplicar el precio por 0.75', truth: true, why: '100 % − 25 % = 75 % = 0.75.' },
                 { text: 'Dos descuentos del 50 % dejan el producto gratis', truth: false, why: '0.5 · 0.5 = 0.25: queda el 25 % del precio.' },
-                { text: 'A largo plazo el interés compuesto siempre supera al simple', truth: true, why: '(1 + r)ⁿ crece más rápido que 1 + rn.' },
+                { text: 'Subir un precio 50 % y luego bajarlo 50 % lo deja en el 75 % del original', truth: true, why: '1.5 · 0.5 = 0.75.' },
                 { text: 'Rebajar 10 % y luego subir 10 % devuelve el precio original', truth: false, why: '0.9 · 1.1 = 0.99: queda en el 99 %.' },
               ],
-            }, 'Los cambios sucesivos se multiplican: $1.1 \\cdot 1.1 = 1.21$ y $0.9 \\cdot 1.1 = 0.99$. El interés simple suma siempre lo mismo ($rt$); el compuesto multiplica cada periodo ($(1 + r)^n$) y a la larga gana.'),
+            }, 'Los cambios sucesivos se multiplican: $1.1 \\cdot 1.1 = 1.21$, $0.9 \\cdot 1.1 = 0.99$ y $1.5 \\cdot 0.5 = 0.75$. Descontar el $p\\%$ es multiplicar por $1 - \\tfrac{p}{100}$, nunca restar $p$.'),
           ],
         },
         {
