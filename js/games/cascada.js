@@ -85,7 +85,7 @@ GAMES['cascada'] = (() => {
         if (locked) { p.noStroke(); p.fill(C.ok); p.textSize(11); p.textAlign(p.CENTER, p.TOP); p.text(`${ans} %`, xOf(ans), slider.y + 16); p.stroke(C.ok); p.strokeWeight(2); p.line(xOf(ans), slider.y - 10, xOf(ans), slider.y + 10); }
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked && !good ? `El descuento único era ${ans} %` : 'Arrastra los stickers a la etiqueta; luego el deslizador', W / 2, H - 12);
-        if (drag) sticker(p.mouseX, p.mouseY, 64, drag.i);
+        if (drag && !drag.slider) sticker(p.mouseX, p.mouseY, 64, drag.i);
       };
 
       p.mousePressed = () => {
