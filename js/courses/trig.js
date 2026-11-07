@@ -5,7 +5,7 @@ const PI = Math.PI;
 
 const COURSE_TRIG = {
   id: 'trig', level: 'Fundamentos', name: 'Trigonometría', icon: 'θ', color: '#22d3ee',
-  tagline: 'Del triángulo rectángulo a las funciones periódicas, las identidades y las ecuaciones.',
+  tagline: 'Funciones trigonométricas, inversas, leyes de senos y cosenos y forma polar: la parte IV del Manual de la UdeA.',
   units: [
     {
       title: 'Funciones trigonométricas, propiedades y gráficas',

@@ -4,7 +4,7 @@
 
 const COURSE_ALGEBRA = {
   id: 'algebra', level: 'Fundamentos', name: 'Álgebra', icon: 'x²', color: '#8b7bff',
-  tagline: 'Números reales, proporciones, exponentes, polinomios, factorización y ecuaciones.',
+  tagline: 'Aritmética, funciones y polinomios: las partes I a III del Manual de Álgebra y Trigonometría de la UdeA.',
   units: [
     {
       title: 'Números reales, potenciación y radicación',
