@@ -18,21 +18,29 @@ const COURSE_ALGEBRA = {
             sc(6, 'Los números se fueron ampliando para resolver nuevos problemas: contar, restar, repartir, medir.', { title: '$\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$', steps: ['$\\mathbb{N} = \\{1, 2, 3, \\dots\\}$: contar', '$\\mathbb{Z}$: los enteros, con negativos', '$\\mathbb{Q} = \\left\\{\\tfrac{m}{n} : n \\neq 0\\right\\}$: fracciones', '$\\mathbb{I}$: irracionales como $\\sqrt2,\\ \\pi,\\ e$'] }),
             sc(5, 'Todo decimal que **termina o se repite** es racional: viene de una fracción.', { steps: ['$\\tfrac94 = 2.25$', '$\\tfrac{177}{55} = 3.2\\overline{18}$'] }),
           ] },
-          more: [{ after: 7, bunny: 'd5ddb99a-428e-4b8f-9f5f-496c8987ae3d', duration: 379, scenes: [
+          more: [{ after: 6, bunny: 'd5ddb99a-428e-4b8f-9f5f-496c8987ae3d', duration: 379, scenes: [
             sc(5, 'Los reales llenan la **recta numérica**: cada punto tiene su número y cada número su punto.', { steps: ['$-2.7 < \\sqrt2 < e < \\pi < \\tfrac{24}{5}$', '$\\sqrt2 \\approx 1.41,\\; e \\approx 2.72,\\; \\pi \\approx 3.14$'] }),
             sc(5, 'Un decimal periódico se vuelve fracción: multiplica por 10, 100… según el período, y resta.', { steps: ['$x = 0.\\overline{36}$', '$100x - x = 36$', '$x = \\tfrac{36}{99} = \\tfrac{4}{11}$'] }),
           ] }],
           ex: [
-            // --- Parte 1: naturales, enteros y racionales ---
-            mc('¿Cuál de estas afirmaciones es verdadera?', ['$-4 \\in \\mathbb{Z}$', '$-4 \\in \\mathbb{N}$', '$\\tfrac25 \\in \\mathbb{Z}$', '$0 \\in \\mathbb{N}$'], 0,
-              '$-4$ está bajo cero: es entero, pero no natural. Los naturales empiezan en 1, así que el 0 tampoco es natural en este curso, y $\\tfrac25$ no es entero porque queda entre 0 y 1.',
-              { hint: 'El símbolo $\\in$ se lee «pertenece a». ¿Sirve para contar objetos? Entonces es natural. ¿Es un número sin partes, aunque esté bajo cero o sea el 0? Entonces es entero.' }),
-            num('Estás en el piso 2 de un edificio y bajas 6 pisos en el ascensor. ¿En qué piso quedas? (los sótanos son negativos)', -4,
-              '$2 - 6 = -4$: pasas por la calle (el 0) y bajas hasta el sótano 4.',
-              { prefix: 'Piso', hint: 'Baja de uno en uno: 1, 0 (la calle)… y cuenta cuántos pisos te faltan por bajar después de llegar a la calle. Los sótanos llevan signo menos.' }),
-            num('Completa para llegar al cero: $-9 + x = 0$', 9,
-              'El opuesto de $-9$ es $9$: subir 9 pisos desde el sótano 9 te devuelve a la calle.',
-              { prefix: '$x =$', hint: 'Busca el número que está a la misma distancia del 0, pero al otro lado: su reflejo en el espejo de la recta.' }),
+            // --- Parte 1: naturales, enteros y racionales (todo con juegos) ---
+            play('pasaporte-numeros', 'Sella el pasaporte de cada número con **todas** las familias donde puede entrar', {
+              sets: ['N', 'Z', 'Q'],
+              numbers: [
+                { label: '9', in: ['N', 'Z', 'Q'] }, { label: '−4', in: ['Z', 'Q'] }, { label: '0', in: ['Z', 'Q'] },
+                { label: '3/5', in: ['Q'] }, { label: '−1.5', in: ['Q'] }, { label: '12/4', in: ['N', 'Z', 'Q'] },
+              ],
+            }, 'Las familias están anidadas, $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q}$: quien entra a ℕ entra también a ℤ y a ℚ. $9$ y $\\tfrac{12}{4} = 3$ llevan los tres sellos; $-4$ y $0$ son enteros (y racionales), pero no naturales; $\\tfrac35$ y $-1.5 = -\\tfrac32$ solo son racionales.',
+              { hint: 'Un número puede llevar varios sellos. Pregunta en orden: ¿sirve para contar (ℕ)? ¿es un número sin partes, aunque sea negativo o el 0 (ℤ)? ¿se puede escribir como fracción (ℚ)? Simplifica primero las fracciones que parecen raras.' }),
+            play('ascensor', 'Lleva el ascensor al piso donde termina cada viaje', {
+              min: -5, max: 6,
+              rounds: [
+                { start: 2, move: -6, text: 'Estás en el piso 2 y bajas 6 pisos' },
+                { start: -3, move: 3, text: 'Estás en el sótano 3 y subes 3 pisos' },
+                { start: -1, move: -4, text: 'Estás en el sótano 1 y bajas 4 pisos más' },
+              ],
+            }, 'Subir es sumar y bajar es restar: $2 - 6 = -4$ (pasas por la calle y llegas al sótano 4), $-3 + 3 = 0$ (un número y su opuesto suman cero: vuelves a la calle) y $-1 - 4 = -5$.',
+              { hint: 'Cuenta piso por piso desde la banderita. La calle es el 0: al bajar de ella entras a los sótanos, que llevan signo menos. Subir desde un sótano te acerca a la calle.' }),
             play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
               cards: [
                 { text: 'Todo número natural es también racional', truth: true, why: 'ℕ ⊂ ℤ ⊂ ℚ: 12 es natural, entero y racional (12/1).' },
@@ -59,20 +67,15 @@ const COURSE_ALGEBRA = {
               pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
             }, 'Dividir numerador entre denominador: $\\tfrac18 = 0.125$ y $\\tfrac{7}{20} = 0.35$ terminan; $\\tfrac23 = 0.\\overline{6}$ y $\\tfrac59 = 0.\\overline{5}$ se repiten; $\\tfrac{11}{4} = 2.75$. Las fichas $0.8$ y $2.5$ sobran.',
               { hint: 'Divide el numerador entre el denominador. Si la división no termina, fíjate qué cifra se repite. Un denominador 9 suele dar un decimal que se repite.' }),
-            mc('¿Cómo se escribe $5.3888\\ldots$ (se repite el 8) con la rayita?', ['$5.3\\overline{8}$', '$5.\\overline{38}$', '$\\overline{5.38}$', '$5.\\overline{3}8$'], 0,
-              'Solo el 8 se repite para siempre: la rayita va encima del 8, y el 3, que aparece una sola vez, queda sin rayita.',
-              { hint: 'La rayita cubre solo las cifras que se repiten para siempre. ¿El 3 vuelve a aparecer después?' }),
+            play('pon-la-rayita', 'Pon la rayita sobre el bloque que se repite para siempre', {
+              rounds: [{ num: 5, den: 11 }, { num: 1, den: 6 }, { num: 23, den: 12 }, { num: 3, den: 7 }],
+            }, 'La rayita cubre solo el bloque que se repite, desde donde empieza a repetirse: $\\tfrac{5}{11} = 0.\\overline{45}$, $\\tfrac16 = 0.1\\overline{6}$, $\\tfrac{23}{12} = 1.91\\overline{6}$ y $\\tfrac37 = 0.\\overline{428571}$. Los residuos lo delatan: cuando un residuo vuelve a salir, las cifras vuelven a salir en el mismo orden.',
+              { hint: 'Toca una cifra y mira su residuo debajo: las cifras con el mismo residuo se iluminan. Donde un residuo aparece por segunda vez, ahí empieza a repetirse todo. Las cifras de antes quedan sin rayita.' }),
             // --- Parte 2: irracionales, reales y decimales periódicos ---
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: '22/7 es igual a π', truth: false, why: '22/7 = 3.142857… es racional (periódico); π no tiene período. Solo se parecen.' },
-                { text: 'Un decimal que no termina siempre es irracional', truth: false, why: '0.444… no termina, pero se repite: es 4/9, racional.' },
-                { text: 'π es un número real', truth: true, why: 'π es irracional, y los irracionales están dentro de ℝ.' },
-                { text: 'ℝ = ℚ ∪ 𝕀', truth: true, why: 'Los reales son la unión de racionales e irracionales.' },
-                { text: 'Entre dos reales distintos siempre hay otro real', truth: true, why: 'Entre a y b está su promedio (a + b)/2: la recta no tiene huecos.' },
-              ],
-            }, 'Un decimal es racional si termina o se repite; si nunca se repite, es irracional. Juntos, racionales e irracionales forman $\\mathbb{R}$ y llenan la recta sin dejar huecos.',
-              { hint: 'Un decimal es racional si termina o si repite un bloque fijo; es irracional si nunca lo repite. Y todos, racionales e irracionales, viven en la recta real.' }),
+            play('acorrala-raiz', 'Acorrala la raíz: cada vez en un tramo más pequeño', {
+              rounds: [{ n: 5 }, { n: 10 }], levels: 3,
+            }, 'Como $2.2^2 = 4.84 < 5 < 5.29 = 2.3^2$, la raíz de 5 está entre $2.2$ y $2.3$; acercándose más, $2.236 < \\sqrt5 < 2.237$, y lo mismo $3.162 < \\sqrt{10} < 3.163$. Puedes seguir para siempre: las cifras de una raíz no exacta nunca terminan ni se repiten. Por eso es **irracional**.',
+              { hint: 'Fíjate en los colores: azul si el número al cuadrado da menos que el de adentro de la raíz, coral si da más. La raíz está justo donde el azul se vuelve coral: toca ese tramo y la lupa lo abre en la siguiente línea.' }),
             play('clasifica-cartas', 'Desliza cada número según su decimal: ¿**racional** o **irracional**?', {
               left: 'Irracional', right: 'Racional',
               cards: [
@@ -93,6 +96,16 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Cada familia vive dentro de la siguiente: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, y la caja más pequeña es la que mejor describe al número. $\\sqrt{49} = 7$ y $-\\tfrac82 = -4$ se simplifican antes de decidir; $0.\\overline{4} = \\tfrac49$ es una fracción disfrazada; $\\sqrt5$ y $\\pi$ no son fracciones. Una caja más grande (naranja) no está mal, pero no es la más pequeña.',
               { hint: 'Primero simplifica lo que se pueda: raíces exactas y fracciones que dan un entero. Luego prueba de la caja más pequeña a la más grande: ℕ, ℤ, ℚ. Si no se puede escribir como fracción, va en 𝕀.' }),
+            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
+              cards: [
+                { text: '22/7 es igual a π', truth: false, why: '22/7 = 3.142857… es racional (periódico); π no tiene período. Solo se parecen.' },
+                { text: 'Un decimal que no termina siempre es irracional', truth: false, why: '0.444… no termina, pero se repite: es 4/9, racional.' },
+                { text: 'π es un número real', truth: true, why: 'π es irracional, y los irracionales están dentro de ℝ.' },
+                { text: 'ℝ = ℚ ∪ 𝕀', truth: true, why: 'Los reales son la unión de racionales e irracionales.' },
+                { text: 'Entre dos reales distintos siempre hay otro real', truth: true, why: 'Entre a y b está su promedio (a + b)/2: la recta no tiene huecos.' },
+              ],
+            }, 'Un decimal es racional si termina o se repite; si nunca se repite, es irracional. Juntos, racionales e irracionales forman $\\mathbb{R}$ y llenan la recta sin dejar huecos.',
+              { hint: 'Un decimal es racional si termina o si repite un bloque fijo; es irracional si nunca lo repite. Y todos, racionales e irracionales, viven en la recta real.' }),
             play('ubica-en-recta', 'Suelta cada número en su lugar de la recta', {
               min: -3, max: 4, tol: 0.15,
               points: [
@@ -104,11 +117,6 @@ const COURSE_ALGEBRA = {
             play('ordena-terminos', 'Ordena los pasos para escribir $0.\\overline{45}$ como fracción', { tex: 'x = 0.\\overline{45}', chips: ['100x = 45.4545…', '100x − x = 45', '99x = 45', 'x = 45/99 = 5/11', '10x = 4.5454…', 'x = 45/100'], order: [0, 1, 2, 3], sep: '⇒' },
               'El período tiene dos cifras, así que se multiplica por $100$: $100x = 45.\\overline{45}$. Al restar $x$ desaparece la cola: $99x = 45$ y $x = \\tfrac{45}{99} = \\tfrac{5}{11}$. Multiplicar por $10$ no alinea el período, y $\\tfrac{45}{100}$ sería $0.45$ sin la rayita.',
               { hint: 'Cuenta cuántas cifras tiene el bloque que se repite: si es una, multiplica por 10; si son dos, por 100. Luego resta $x$ para que la cola infinita desaparezca y despeja.' }),
-            num('Si $0.\\overline{27} = \\dfrac{k}{11}$, ¿cuánto vale $k$?', 3, '$0.\\overline{27} = \\tfrac{27}{99} = \\tfrac{3}{11}$: el período va sobre tantos nueves como cifras tiene, y luego se simplifica.',
-              { prefix: '$k =$', hint: 'Regla rápida: el período va arriba y, abajo, tantos nueves como cifras tenga. Después simplifica la fracción hasta que abajo quede 11.' }),
-            mc('¿Cuál de estos números pertenece a la vez a $\\mathbb{Z}$, $\\mathbb{Q}$ y $\\mathbb{R}$?', ['$-6$', '$\\tfrac72$', '$\\sqrt3$', '$0.5$'], 0,
-              'Solo $-6$ es entero; como $\\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, también es racional y real. $\\tfrac72$ y $0.5$ son racionales pero no enteros, y $\\sqrt3$ es irracional.',
-              { hint: 'Busca primero el que sea entero: sin decimales, sin fracción que no se simplifique y sin raíz. Como ℤ ⊂ ℚ ⊂ ℝ, ese también está en las otras dos.' }),
           ],
         },
         {

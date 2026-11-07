@@ -4,11 +4,24 @@
 
 const GAMES = {};
 
-const PALETTE = {
-  N: '#FFC53D', Z: '#4FA8FF', Q: '#34D399', I: '#FF6B7A', R: '#B9A6FF',
-  brand: '#8B7BFF', bg: '#0f1226', card: '#1B2144', line: '#3A4170',
-  ink: '#EEF0FF', mute: '#9AA3C7', ok: '#2FD68F', bad: '#FF5A74',
+// Colores de los juegos en cada tema: un tono por familia de números y los del lienzo.
+const PALETTES = {
+  dark: {
+    N: '#FFC53D', Z: '#4FA8FF', Q: '#34D399', I: '#FF6B7A', R: '#B9A6FF',
+    brand: '#8B7BFF', bg: '#0f1226', card: '#1B2144', line: '#3A4170',
+    ink: '#EEF0FF', mute: '#9AA3C7', ok: '#2FD68F', bad: '#FF5A74',
+  },
+  light: {
+    N: '#A86F00', Z: '#1C64D6', Q: '#0B8A61', I: '#D42F4F', R: '#6A4BE6',
+    brand: '#5B47F5', bg: '#FFFFFF', card: '#F1F3FA', line: '#C3CADF',
+    ink: '#0B1533', mute: '#5D6688', ok: '#0F9A5C', bad: '#D8314F',
+  },
 };
+// `api.palette` de todos los juegos: el mismo objeto cambia de valores con el tema, y como los
+// juegos leen sus colores al dibujar cada cuadro, uno abierto se repinta solo al cambiar de tema.
+const PALETTE = { ...PALETTES.dark };
+function setGameTheme(theme) { Object.assign(PALETTE, PALETTES[theme] || PALETTES.dark); }
+setGameTheme(typeof document !== 'undefined' ? document.documentElement?.dataset?.theme : 'dark');
 
 const P5_URL = 'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js';
 let p5Promise = null;

@@ -8,6 +8,7 @@
   --outer: #070913; --glow: #121a45; --track: rgba(255,255,255,.08);
   --locked: #59608e; --locked-shadow: #10142b;
   --fb-ok: #0e2c24; --fb-bad: #33111b;
+  --play-bg: #0f1226;   /* = PALETTES.dark.bg de js/games/kit.js */
   --r: 20px;
   --font: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   color-scheme: dark;
@@ -20,6 +21,7 @@
   --outer: #e8ecf6; --glow: #d6e2ff; --track: rgba(11,21,51,.08);
   --locked: #9aa2c0; --locked-shadow: #c9cfe2;
   --fb-ok: #e3f7ec; --fb-bad: #fde8ec;
+  --play-bg: #ffffff;   /* = PALETTES.light.bg de js/games/kit.js */
   color-scheme: light;
 }
 html, body { height: 100%; }
@@ -400,7 +402,7 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 .hint-text svg { color: var(--c-ink); margin-top: 1px; }
 /* Minijuegos (p5.js) */
 .play {
-  position: relative; border-radius: 18px; overflow: hidden; background: #0f1226; border: 2px solid var(--line);
+  position: relative; border-radius: 18px; overflow: hidden; background: var(--play-bg); border: 2px solid var(--line);
   touch-action: none; user-select: none; min-height: 200px;
 }
 .play canvas { display: block; }

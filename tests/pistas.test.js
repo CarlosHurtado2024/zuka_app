@@ -36,6 +36,12 @@ test('alg-11: parte 1, sus ejercicios, parte 2 y los suyos', () => {
   for (const g of ['cajas-numericas', 'ubica-en-recta', 'clasifica-cartas', 'ordena-terminos']) assert.ok(part2.includes(g), `${g} antes de tiempo`);
   const part1 = l.ex.slice(0, l.more[0].after).filter(e => e.type === 'play').map(e => e.game);
   assert.ok(part1.includes('pizzeria') && part1.includes('une-parejas'));
+  for (const g of ['pasaporte-numeros', 'ascensor', 'pon-la-rayita']) assert.ok(part1.includes(g), `parte 1 sin ${g}`);
+  assert.ok(part2.includes('acorrala-raiz'), 'parte 2 sin acorrala-raiz');
+});
+
+test('alg-11: todos sus ejercicios son juegos interactivos', () => {
+  l.ex.forEach((e, i) => assert.equal(e.type, 'play', `ejercicio ${i} es ${e.type}`));
 });
 
 test('unidad 1: cada ejercicio de cada lección trae una pista que no regala la respuesta', () => {

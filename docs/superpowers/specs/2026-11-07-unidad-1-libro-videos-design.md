@@ -110,3 +110,15 @@ irracional por el decimal (con 22/7 y 0.1010010001… de trampa) · `ordena-term
 de 0.45 periódico → 5/11 · `num` 0.27 periódico = k/11 · `une-parejas` fracción ↔ decimal · mc del
 libro 1.2 adaptado. `reglas-del-juego` y `dibuja-intervalo` ya están en alg-12b (se quitan de
 alg-11); `distancia-justa` se mueve a alg-12b (valor absoluto).
+
+## Adenda · Lección 1.1 solo con juegos y juegos con tema claro
+
+* alg-11 tiene 12 ejercicios, todos juegos: parte 1 (tras el video 1) `pasaporte-numeros` (sellos de
+  ℕ, ℤ, ℚ; un número lleva varios), `ascensor` (pisos, calle 0 y sótanos: suma de enteros y opuestos),
+  V/F, `pizzeria`, `une-parejas` y `pon-la-rayita` (período con los residuos de la división); parte 2
+  (tras el video 2, `after: 6`) `acorrala-raiz` (√5 y √10 en tramos de décima, centésima y milésima,
+  con lupa), `clasifica-cartas`, `cajas-numericas`, V/F, `ubica-en-recta` y `ordena-terminos`.
+  Cada uno con su pista.
+* Tema: `PALETTES.dark` / `PALETTES.light` en `js/games/kit.js`; `setGameTheme(t)` cambia los valores
+  del mismo `PALETTE` que reciben los juegos, y `applyTheme()` lo llama, así que un juego abierto se
+  repinta al cambiar de tema. El fondo del recuadro `.play` es `--play-bg`, igual al `bg` de cada tema.

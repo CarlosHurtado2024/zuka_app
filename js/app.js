@@ -25,6 +25,7 @@ function applyTheme() {
   const t = S.theme === 'system' ? (darkQuery.matches ? 'dark' : 'light') : S.theme;
   document.documentElement.dataset.theme = t;
   $('meta[name="theme-color"]').content = t === 'dark' ? '#0c0f1f' : '#f5f7fc';
+  setGameTheme(t);   // los minijuegos abiertos se repintan con la paleta del tema
 }
 darkQuery.addEventListener('change', () => S.theme === 'system' && applyTheme());
 
