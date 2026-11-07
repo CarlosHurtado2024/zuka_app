@@ -156,7 +156,7 @@ class S03_PotenciaDePotencia(MBScene):
                  "cuadrado»: dos a por dos a por dos a. Seis factores: dos por tres.", fox=True)
         groups = VGroup(*(get_factor_boxes("a", 2, color=C_Q, box=0.56, size=30) for _ in range(3)))
         for g in groups:
-            g.add(SurroundingRectangle(g, color=C_Q, buff=0.08, corner_radius=0.1).set_stroke(C_Q, 1.5))
+            g.add(SurroundingRectangle(g, color=C_Q, buff=0.08).set_stroke(C_Q, 1.5))
         groups.arrange(RIGHT, buff=0.3).move_to(4.0 * UP).set_max_width(LINE_WIDTH)
         labs = VGroup(*(M(R"a^{2}", size=28, color=C_Q).next_to(g, UP, buff=0.1) for g in groups))
         self.play(LaggedStartMap(FadeIn, groups, lag_ratio=0.3), FadeIn(labs))

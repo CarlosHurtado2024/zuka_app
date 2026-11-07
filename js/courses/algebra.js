@@ -207,6 +207,7 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-22a', title: 'Raíces y exponentes racionales',
+          // Clase 10 (video/clase_raices): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration). Libro UdeA §1.5.
           clip: { scenes: [
             sc(5, 'La raíz $n$-ésima deshace la potencia: $\\sqrt[n]{a} = b$ significa $b^n = a$.', { steps: ['$\\sqrt{49} = 7$', '$\\sqrt[3]{-8} = -2$', '$\\sqrt{-4}$ no es un número real'] }),
             sc(5, 'Un exponente fraccionario es una raíz: el denominador es el índice.', { title: '$a^{m/n} = \\sqrt[n]{a^m} = \\left(\\sqrt[n]{a}\\right)^m$', steps: ['$8^{2/3} = \\left(\\sqrt[3]{8}\\right)^2 = 2^2 = 4$'] }),
@@ -218,10 +219,33 @@ const COURSE_ALGEBRA = {
             num('Calcula $\\left(\\dfrac{27}{125}\\right)^{-1/3}$ (puedes escribir una fracción)', 5 / 3, 'Invierte y saca raíz cúbica: $\\left(\\tfrac{125}{27}\\right)^{1/3} = \\tfrac{5}{3}$.', { tol: 0.01, answerText: '$\\tfrac{5}{3}$' }),
             mc('$\\sqrt{x^2} = \\;?$', ['$|x|$', '$x$', '$-x$', '$\\pm x$'], 0, 'Si $x = -3$: $\\sqrt{9} = 3 = |-3|$.'),
             mc('¿Es cierto que $\\sqrt{a + b} = \\sqrt{a} + \\sqrt{b}$?', ['No, en general es falso', 'Sí, siempre', 'Solo si $a$ y $b$ son negativos', 'Solo para raíces cúbicas'], 0, 'Contraejemplo: $\\sqrt{9 + 16} = 5$ pero $3 + 4 = 7$.'),
+            play('lado-del-cuadrado', 'Estira el cuadrado hasta que su área sea la pedida: su lado es la raíz cuadrada', { rounds: [{ area: 49 }, { area: 20.25 }, { area: 2 }], max: 10, step: 0.01, tol: 0.4 },
+              'La raíz cuadrada es el lado del cuadrado con esa área: $\\sqrt{49} = 7$, $\\sqrt{20.25} = 4.5$ y $\\sqrt{2} \\approx 1.41$, un número que no termina ni se repite pero es un lado perfectamente real.'),
+            play('une-parejas', 'Une cada potencia de exponente fraccionario con su valor', {
+              left: ['27^(1/3)', '16^(3/4)', '25^(−1/2)', '(−8)^(1/3)', '9^(3/2)'],
+              right: ['3', '8', '1/5', '−2', '27', '1/25', '6'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+            }, 'El denominador es el índice y el numerador la potencia: $\\sqrt[3]{27} = 3$, $(\\sqrt[4]{16})^3 = 2^3 = 8$, $25^{-1/2} = \\tfrac{1}{\\sqrt{25}} = \\tfrac15$, $\\sqrt[3]{-8} = -2$ y $(\\sqrt9)^3 = 27$.'),
+            play('clasifica-cartas', 'Desliza cada raíz: ¿es un **número real** o **no**?', {
+              left: 'No es real', right: 'Es real',
+              cards: [
+                { text: '√(−4)', side: 'left', why: 'Índice par con radicando negativo: ningún real al cuadrado da −4.' },
+                { text: '∛(−8)', side: 'right', why: 'Índice impar: (−2)³ = −8, así que vale −2.' },
+                { text: '√0', side: 'right', why: '0² = 0: vale 0.' },
+                { text: '(−16)^(1/4)', side: 'left', why: 'Es la raíz cuarta de −16: índice par, radicando negativo.' },
+                { text: '(−32)^(1/5)', side: 'right', why: 'Raíz quinta de −32: (−2)⁵ = −32, vale −2.' },
+                { text: '√((−3)²)', side: 'right', why: '(−3)² = 9 y √9 = 3: el radicando ya es positivo.' },
+              ],
+            }, 'Con índice impar siempre hay raíz real, aun de negativos. Con índice par el radicando debe ser $\\ge 0$; ojo que $(-3)^2 = 9$ es positivo, así que $\\sqrt{(-3)^2} = 3 = |-3|$.'),
+            mc('¿Qué valor de $x$ satisface $\\sqrt{x} = 4$?', ['$x = 16$', '$x = 2$', '$x = 8$', '$x = 64$'], 0, 'La raíz deshace el cuadrado: $x = 4^2 = 16$. Comprueba: $\\sqrt{16} = 4$.'),
+            mc('¿Cuál es el valor de $\\sqrt[3]{-27}$?', ['$-3$', '$3$', '$-9$', 'No es real'], 0, 'Índice impar: $(-3)^3 = -27$. Las raíces cúbicas de negativos sí existen.'),
+            num('Si $x = \\sqrt{36}$, ¿cuánto vale $x^2$?', 36, '$x = 6$ y $6^2 = 36$: elevar al cuadrado deshace la raíz.'),
+            mc('$\\sqrt{a^2}$ con $a = -7$ vale', ['$7$', '$-7$', '$49$', '$-49$'], 0, '$(-7)^2 = 49$ y $\\sqrt{49} = 7 = |-7|$: la raíz cuadrada nunca es negativa.'),
           ],
         },
         {
           id: 'alg-22b', title: 'Simplificar y racionalizar',
+          // Clase 11 (video/clase_radicales): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration). Libro UdeA §1.5.
           clip: { scenes: [
             sc(5, 'Para simplificar un radical, extrae los factores que son potencias exactas.', { steps: ['$\\sqrt{72} = \\sqrt{36 \\cdot 2}$', '$= 6\\sqrt{2}$'] }),
             sc(5, 'Solo se suman radicales **semejantes** (mismo índice y mismo radicando).', { steps: ['$\\sqrt{72} + 3\\sqrt{50} - \\sqrt{18}$', '$= 6\\sqrt2 + 15\\sqrt2 - 3\\sqrt2$', '$= 18\\sqrt2$'] }),
@@ -232,6 +256,20 @@ const COURSE_ALGEBRA = {
             mc('Simplifica $\\sqrt{72} + 3\\sqrt{50} - \\sqrt{18}$', ['$18\\sqrt2$', '$12\\sqrt2$', '$\\sqrt{104}$', '$20\\sqrt2$'], 0, '$6\\sqrt2 + 15\\sqrt2 - 3\\sqrt2 = 18\\sqrt2$.'),
             mc('Racionaliza $\\dfrac{6}{\\sqrt5 - \\sqrt2}$', ['$2(\\sqrt5 + \\sqrt2)$', '$6(\\sqrt5 + \\sqrt2)$', '$2(\\sqrt5 - \\sqrt2)$', '$\\dfrac{6}{3}$'], 0, 'Multiplica por el conjugado: el denominador queda $5 - 2 = 3$.'),
             ord('Ordena los pasos para racionalizar $\\dfrac{1}{\\sqrt3}$', ['$\\dfrac{1}{\\sqrt3}$', '$\\dfrac{1}{\\sqrt3} \\cdot \\dfrac{\\sqrt3}{\\sqrt3}$', '$\\dfrac{\\sqrt3}{3}$'], 'Multiplica arriba y abajo por $\\sqrt3$: abajo queda $3$.'),
+            play('saca-del-radical', 'Saca del radical las parejas (o tríos) de primos iguales', { rounds: [{ index: 2, n: 72 }, { index: 2, n: 45 }, { index: 3, n: 54 }] },
+              'Cada pareja de primos iguales sale de la raíz cuadrada como un solo factor: $\\sqrt{72} = \\sqrt{2 \\cdot 2 \\cdot 2 \\cdot 3 \\cdot 3} = 2 \\cdot 3\\sqrt2 = 6\\sqrt2$ y $\\sqrt{45} = 3\\sqrt5$. En la raíz cúbica salen los tríos: $\\sqrt[3]{54} = \\sqrt[3]{2 \\cdot 3^3} = 3\\sqrt[3]{2}$.'),
+            play('une-parejas', 'Une cada fracción con su forma racionalizada', {
+              left: ['1/√3', '4/√2', '5/(1 + √2)', '2/(3 − √5)'],
+              right: ['√3 / 3', '2√2', '5(√2 − 1)', '(3 + √5) / 2', '5(√2 + 1)', '(3 − √5) / 2'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, 'Con un radical solo se multiplica por él: $\\tfrac{1}{\\sqrt3} = \\tfrac{\\sqrt3}{3}$ y $\\tfrac{4}{\\sqrt2} = \\tfrac{4\\sqrt2}{2} = 2\\sqrt2$. Con un binomio, por el conjugado: $\\tfrac{5(\\sqrt2 - 1)}{2 - 1} = 5(\\sqrt2 - 1)$ y $\\tfrac{2(3 + \\sqrt5)}{9 - 5} = \\tfrac{3 + \\sqrt5}{2}$. Las dos fichas sobrantes tienen el conjugado al revés.'),
+            play('ordena-terminos', 'Ordena los pasos para racionalizar $\\dfrac{9}{4 + \\sqrt5}$', { tex: '\\dfrac{9}{4 + \\sqrt5}', chips: ['9(4 − √5) / ((4 + √5)(4 − √5))', '9(4 − √5) / (16 − 5)', '9(4 − √5) / 11', '9(4 + √5) / (16 + 5)', '9(4 + √5) / 11'], order: [0, 1, 2], sep: '=' },
+              'Se multiplica arriba y abajo por el conjugado $4 - \\sqrt5$; abajo, suma por diferencia: $4^2 - (\\sqrt5)^2 = 16 - 5 = 11$. Las fichas con $4 + \\sqrt5$ arriba o $16 + 5$ abajo son las trampas.'),
+            mc('¿Cuál es el resultado de racionalizar el denominador de $\\dfrac{3}{\\sqrt5}$?', ['$\\dfrac{3\\sqrt5}{5}$', '$\\dfrac{5\\sqrt3}{5}$', '$\\dfrac{\\sqrt{15}}{5}$', '$\\dfrac{3}{5\\sqrt5}$'], 0, 'Se multiplica por $\\tfrac{\\sqrt5}{\\sqrt5}$: $\\dfrac{3\\sqrt5}{5}$.'),
+            mc('Racionaliza el denominador de $\\dfrac{7}{3\\sqrt2}$', ['$\\dfrac{7\\sqrt2}{6}$', '$\\dfrac{3\\sqrt2}{14}$', '$\\dfrac{14\\sqrt3}{2}$', '$\\dfrac{\\sqrt6}{7}$'], 0, '$\\dfrac{7}{3\\sqrt2} \\cdot \\dfrac{\\sqrt2}{\\sqrt2} = \\dfrac{7\\sqrt2}{3 \\cdot 2} = \\dfrac{7\\sqrt2}{6}$.'),
+            mc('Al simplificar y racionalizar $\\dfrac{3}{\\sqrt{2x + 3} - \\sqrt{2x}}$ se obtiene', ['$\\sqrt{2x + 3} + \\sqrt{2x}$', '$3$', '$2x$', '$\\dfrac{\\sqrt{2x + 3} + \\sqrt{2x}}{3}$'], 0, 'Por el conjugado: abajo queda $(2x + 3) - 2x = 3$, que se cancela con el 3 de arriba.'),
+            mc('¿Cuál es el resultado de racionalizar $\\dfrac{1}{\\sqrt[3]{3} - \\sqrt[3]{2}}$?', ['$\\sqrt[3]{9} + \\sqrt[3]{6} + \\sqrt[3]{4}$', '$\\sqrt[3]{19}$', '$19$', '$\\sqrt[3]{9} - \\sqrt[3]{6} + \\sqrt[3]{4}$'], 0, 'Diferencia de cubos: se multiplica por $\\sqrt[3]{9} + \\sqrt[3]{6} + \\sqrt[3]{4}$ y abajo queda $3 - 2 = 1$.'),
+            mc('¿Cuál es el valor de $\\sqrt{50}$ simplificado?', ['$5\\sqrt2$', '$25\\sqrt2$', '$2\\sqrt5$', '$10\\sqrt5$'], 0, '$50 = 25 \\cdot 2$ y $\\sqrt{25} = 5$.'),
           ],
         },
       ],
