@@ -71,7 +71,7 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-12b', title: 'Axiomas de campo y orden',
-          // Libro UdeA §1.2–1.3. Pendiente: video y juegos p5.
+          // Clase 7 (video/clase_axiomas): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration). Libro UdeA §1.2–1.3.
           clip: { scenes: [
             sc(6, 'Los **axiomas de campo** son las reglas de la suma y el producto en $\\mathbb{R}$: conmutativa, asociativa, neutros, inversos y distributiva.', { steps: ['$a + b = b + a \\qquad ab = ba$', '$a + 0 = a \\qquad a \\cdot 1 = a$', '$a(b + c) = ab + ac$'] }),
             sc(6, 'De ellos salen las propiedades que usas sin pensar: la **ley cancelativa**, $0 \\cdot a = 0$ y la regla de los signos.', { steps: ['$a + b = a + c \\Rightarrow b = c$', '$(-a)(-b) = ab \\qquad (-a)b = -(ab)$'] }),
@@ -93,6 +93,30 @@ const COURSE_ALGEBRA = {
                 { text: 'a · 0 = a para todo real a', truth: false, why: 'a · 0 = 0; el neutro del producto es el 1.' },
               ],
             }, 'Los conjuntos numéricos están encajados: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, y los irracionales son los reales que no son racionales. El cero es absorbente: $a \\cdot 0 = 0$.'),
+            play('reglas-del-juego', 'Pon a cada igualdad el nombre del axioma que usa', {
+              rules: ['Conmutativa', 'Asociativa', 'Distributiva', 'Neutro', 'Inverso'],
+              items: [
+                { label: '(a + b) + c = a + (b + c)', tex: '(a + b) + c = a + (b + c)', rule: 'Asociativa' }, { label: 'ab = ba', tex: 'ab = ba', rule: 'Conmutativa' },
+                { label: 'a · (1/a) = 1', tex: 'a \\cdot \\tfrac1a = 1', rule: 'Inverso' }, { label: '(a + b)c = ac + bc', tex: '(a + b)c = ac + bc', rule: 'Distributiva' },
+                { label: 'a · 1 = a', tex: 'a \\cdot 1 = a', rule: 'Neutro' }, { label: '7 + (−7) = 0', tex: '7 + (-7) = 0', rule: 'Inverso' },
+              ],
+            }, 'Conmutativa: el orden no importa. Asociativa: la agrupación no importa. Distributiva: el factor se reparte. Neutros: $0$ para sumar y $1$ para multiplicar. Inversos: el opuesto lleva al $0$ y el recíproco al $1$.'),
+            play('clasifica-cartas', 'Desliza cada operación según el **signo** de su resultado', {
+              left: 'Negativo', right: 'Positivo',
+              cards: [
+                { text: '(−3) · (−4)', side: 'right', why: 'Signos iguales: positivo, 12.' },
+                { text: '(−5) · 2', side: 'left', why: 'Signos distintos: negativo, −10.' },
+                { text: '8 ÷ (−2)', side: 'left', why: 'Signos distintos: −4.' },
+                { text: '(−6) ÷ (−3)', side: 'right', why: 'Signos iguales: 2.' },
+                { text: '−2 − 5', side: 'left', why: 'Restar es sumar el opuesto: −2 + (−5) = −7.' },
+                { text: '−4 + 9', side: 'right', why: 'Gana el de mayor valor absoluto: 5.' },
+                { text: '(−1) · (−1) · (−1)', side: 'left', why: 'Tres negativos: (+1)(−1) = −1.' },
+              ],
+            }, 'Al multiplicar o dividir, signos iguales dan positivo y signos distintos dan negativo. Al sumar, manda el de mayor valor absoluto; restar es sumar el opuesto.'),
+            play('voltea-desigualdad', 'Sigue los puntos en la recta y elige el signo correcto tras cada operación', { a: -1, b: 2, steps: [{ op: '+', k: 3 }, { op: '×', k: 2 }, { op: '×', k: -1 }, { op: '+', k: -4 }] },
+              'Sumar o restar lo mismo a los dos lados **conserva** el orden; multiplicar por un positivo también. Multiplicar por un negativo **refleja** la recta y voltea el signo: de $4 < 10$ se pasa a $-4 > -10$.'),
+            play('dibuja-intervalo', 'Dibuja en la recta los números que cumplen $|x - 2| \\le 3$', { min: -4, max: 8, a: -1, b: 5, aClosed: true, bClosed: true, set: '|x − 2| ≤ 3' },
+              '$|x - 2| \\le 3$ son los números a distancia **a lo sumo 3** del 2: desde $2 - 3 = -1$ hasta $2 + 3 = 5$, con los extremos incluidos: $[-1, 5]$.'),
           ],
         },
         {
