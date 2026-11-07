@@ -22,3 +22,9 @@ test('las fichas correctas pero desordenadas → incorrecto', () => {
 test('una caja vacía → incorrecto', () => {
   assert.equal(grade({ boxes: [0, 1, 2, null] }, params).ok, false);
 });
+
+test('con sep "=" la solución encadena los pasos y no añade el resultado', () => {
+  const steps = { tex: 'x', chips: ['a', 'b', 'c', 'd'], order: [0, 1, 2], sep: '=' };
+  assert.equal(grade({ boxes: [0, 1, 2] }, steps).ok, true);
+  assert.equal(grade({ boxes: [0, 1, 2] }, steps).solution, 'a = b = c');
+});

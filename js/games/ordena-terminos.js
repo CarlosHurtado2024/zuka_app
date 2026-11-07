@@ -4,9 +4,11 @@
 // params = { tex, chips: [etiqueta], order: [índices correctos], result }   state = { boxes: [índice | null] }
 
 GAMES['ordena-terminos'] = (() => {
+  // `sep` une las cajas: '+' para desplegar una suma (por defecto) o '=' para encadenar pasos.
   function grade(state, params) {
+    const sep = params.sep || '+';
     const ok = params.order.every((j, i) => state.boxes[i] === j) && state.boxes.length === params.order.length;
-    return { ok, solution: `${params.order.map(j => params.chips[j]).join(' + ')} = ${params.result}` };
+    return { ok, solution: `${params.order.map(j => params.chips[j]).join(` ${sep} `)}${sep === '+' ? ` = ${params.result}` : ''}` };
   }
 
   function create(host, params, api) {
@@ -45,6 +47,7 @@ GAMES['ordena-terminos'] = (() => {
         p.text(label, b.x + b.w / 2, b.y + b.h / 2);
       }
 
+      const sep = params.sep || '+';
       p.draw = () => {
         p.background(C.bg);
         boxes.forEach((b, i) => {
@@ -52,12 +55,12 @@ GAMES['ordena-terminos'] = (() => {
           const col = locked ? (good ? C.ok : C.bad) : j !== null ? C.brand : C.line;
           if (j === null) chip(b, '', col, C.bg, true); else chip(b, params.chips[j], col);
           // El «+» va entre cajas; si la siguiente cae en otra fila, va al inicio de esa fila.
-          if (i < n - 1) { p.noStroke(); p.fill(C.mute); p.textSize(16); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); const nb = boxes[i + 1]; if (nb.y === b.y) p.text('+', (b.x + b.w + nb.x) / 2, b.y + b.h / 2); else p.text('+', nb.x - 11, nb.y + nb.h / 2); }
+          if (i < n - 1) { p.noStroke(); p.fill(C.mute); p.textSize(16); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); const nb = boxes[i + 1]; if (nb.y === b.y) p.text(sep, (b.x + b.w + nb.x) / 2, b.y + b.h / 2); else p.text(sep, nb.x - 11, nb.y + nb.h / 2); }
           if (locked && !good) { p.noStroke(); p.fill(C.ok); p.textSize(11); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.TOP); p.text(`→ ${params.chips[params.order[i]]}`, b.x + b.w / 2, b.y + b.h + 2); }
         });
         const last = boxes[n - 1];
         p.noStroke(); p.fill(locked ? (grade(st, params).ok ? C.ok : C.mute) : C.mute); p.textSize(14); p.textStyle(p.BOLD); p.textAlign(p.LEFT, p.CENTER);
-        p.text(locked ? `= ${params.result}` : '= ?', last.x + last.w + 10, last.y + last.h / 2);
+        if (sep === '+') p.text(locked ? `= ${params.result}` : '= ?', last.x + last.w + 10, last.y + last.h / 2);
         if (!locked) params.chips.forEach((v, j) => { if (placedAt(j) < 0 && !(drag && drag.j === j)) chip(tray[j], v, C.Z); });   // bloqueado, la bandeja sobra
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked ? (grade(st, params).ok ? '¡En orden!' : 'Mira los términos en verde') : `Arrastra los términos en orden · sobran ${params.chips.length - n}`, 12, H - 22, W - 24, 20);

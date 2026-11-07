@@ -121,6 +121,7 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-21a', title: 'Potencias y exponentes',
+          // Clase 8 (video/clase_potencias): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration). Libro UdeA §1.4.
           clip: { scenes: [
             sc(4, 'Una potencia es una multiplicación repetida: la **base** se multiplica tantas veces como dice el **exponente**.', { title: '$a^n = \\underbrace{a \\cdot a \\cdots a}_{n \\text{ veces}}$', steps: ['$2^3 = 2 \\cdot 2 \\cdot 2 = 8$'] }),
             sc(5, 'Cada vez que el exponente sube en 1, el resultado se multiplica por la base.', { title: '$y = 2^x$', viz: { type: 'graph', xr: [-3, 4.5], yr: [-1, 17], f: x => 2 ** x, draw: true, points: [[0, 1, '2⁰ = 1'], [3, 8, '2³ = 8']] } }),
@@ -133,10 +134,41 @@ const COURSE_ALGEBRA = {
             mc('$5^0 = \\;?$', ['$1$', '$0$', '$5$', 'No está definido'], 0, 'Toda base distinta de cero elevada a la 0 vale 1.'),
             num('Calcula $2^{-3}$ (puedes escribir una fracción)', 0.125, '$2^{-3} = \\dfrac{1}{2^3} = \\dfrac{1}{8}$.', { answerText: '$\\tfrac{1}{8}$' }),
             mc('$-(-2)^3 = \\;?$', ['$8$', '$-8$', '$6$', '$-6$'], 0, '$(-2)^3 = -8$, y su opuesto es $8$.'),
+            play('torre-producto', 'Dobla la hoja hasta tener exactamente 512 capas', { kind: 'ratio', start: 1, r: 2, target: 512, max: 12, unit: 'capas', period: 'doblez' },
+              'Cada doblez duplica las capas: tras $n$ dobleces hay $2^n$. Como $512 = 2^9$, son 9 dobleces. Con 10 ya serían 1024: lo exponencial se dispara.'),
+            play('clasifica-cartas', 'Desliza cada potencia según el **signo** de su valor', {
+              left: 'Negativo', right: 'Positivo',
+              cards: [
+                { text: '(−3)⁴', side: 'right', why: 'Cuatro factores −3: exponente par, positivo (81).' },
+                { text: '−3⁴', side: 'left', why: 'El exponente solo toca al 3: −(81) = −81.' },
+                { text: '(−3)³', side: 'left', why: 'Tres factores −3: exponente impar, negativo (−27).' },
+                { text: '−(−3)³', side: 'right', why: '(−3)³ = −27 y su opuesto es 27.' },
+                { text: '(−1)¹⁰⁰', side: 'right', why: 'Exponente par: 1.' },
+                { text: '−(−2)²', side: 'left', why: '(−2)² = 4 y el menos de afuera lo vuelve −4.' },
+                { text: '(−2)⁻³', side: 'left', why: '1/(−2)³ = 1/(−8) = −1/8: el exponente negativo no cambia el signo.' },
+              ],
+            }, 'Con paréntesis, el signo entra en la potencia: exponente par da positivo e impar da negativo. Sin paréntesis, $-a^n = -(a^n)$. El exponente negativo solo manda la potencia al denominador.'),
+            play('rellena-medios', 'Completa la escalera de potencias de 2: cada peldaño hacia abajo divide entre 2', { first: 16, last: 0.25, k: 5, kind: 'geometrica', chips: [8, 4, 2, 1, 0.5, 0, -2, -1] },
+              'De $2^4 = 16$ hacia abajo cada peldaño divide entre 2: $8, 4, 2$, luego $2^0 = 1$, $2^{-1} = 0.5$ y $2^{-2} = 0.25$. Ningún peldaño es 0 ni negativo: las potencias de 2 siempre son positivas.'),
+            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
+              cards: [
+                { text: '2⁻³ = −8', truth: false, why: '2⁻³ = 1/2³ = 1/8: el exponente negativo pone una fracción, no un signo.' },
+                { text: '0⁵ = 0', truth: true, why: '0 · 0 · 0 · 0 · 0 = 0.' },
+                { text: '7⁰ = 0', truth: false, why: 'Toda base no nula a la cero vale 1.' },
+                { text: '(2/3)⁻² = 9/4', truth: true, why: 'El exponente negativo voltea la fracción: (3/2)² = 9/4.' },
+                { text: '(−5)² = −5²', truth: false, why: '(−5)² = 25 pero −5² = −25.' },
+              ],
+            }, 'Las trampas de siempre: $a^{-n} = \\dfrac{1}{a^n}$ (no un negativo), $a^0 = 1$ para $a \\ne 0$, $0^n = 0$ para $n > 0$, y el paréntesis decide si el signo entra en la potencia.'),
           ],
         },
         {
           id: 'alg-21b', title: 'Leyes de los exponentes',
+          // Clase 9 (video/clase_leyes_exponentes): parte 1 aquí y parte 2 en `more` (tras el sexto ejercicio); escenas de respaldo hasta enlazar Bunny. Libro UdeA §1.4.
+          more: [{ after: 6, scenes: [
+            sc(6, 'Un exponente **negativo** es un cambio de piso: la potencia baja al denominador (o sube) y se vuelve positiva.', { steps: ['$a^{-n} = \\dfrac{1}{a^n} \\qquad \\dfrac{x^{-2}}{y^{-3}} = \\dfrac{y^3}{x^2}$', '$\\left(\\tfrac25\\right)^{-3} = \\left(\\tfrac52\\right)^3 = \\tfrac{125}{8}$'] }),
+            sc(6, 'Para simplificar: primero los paréntesis (multiplicar exponentes), luego sumar o restar.', { steps: ['$(3x^{-2}y)^{-2} = \\dfrac{x^4}{9y^2}$', '$\\dfrac{(x^{-3}y^2)^{-4}}{(y^6x^{-4})^{-2}} = x^4y^4$'] }),
+            sc(5, 'La **notación científica** usa potencias de 10: $a \\times 10^n$ con $1 \\le a < 10$.', { steps: ['$300\\,000\\,000 = 3 \\times 10^8 \\qquad 0.00000012 = 1.2 \\times 10^{-7}$'] }),
+          ] }],
           clip: { scenes: [
             sc(5, 'Al multiplicar potencias de igual base, **se suman** los exponentes; al dividir, **se restan**.', { steps: ['$a^m \\cdot a^n = a^{m+n}$', '$\\dfrac{a^m}{a^n} = a^{m-n}$'] }),
             sc(5, 'Potencia de una potencia: **se multiplican** los exponentes.', { steps: ['$(a^m)^n = a^{mn}$', '$(ab)^n = a^n b^n$', '$\\left(\\dfrac{a}{b}\\right)^{-n} = \\left(\\dfrac{b}{a}\\right)^{n}$'] }),
@@ -150,6 +182,27 @@ const COURSE_ALGEBRA = {
             mc('Simplifica $\\dfrac{2^x \\cdot 4^{x+1}}{8^x}$', ['$4$', '$2^x$', '$8$', '$4^x$'], 0, '$\\dfrac{2^x \\cdot 2^{2x+2}}{2^{3x}} = 2^{x + 2x + 2 - 3x} = 2^2 = 4$.'),
             num('¿Cuánto es $3.2 \\times 10^4$?', 32000, 'Mueve la coma 4 lugares a la derecha.'),
             ord('Ordena de menor a mayor', ['$2^{-2}$', '$2^{0}$', '$2^{1}$', '$2^{3}$'], '$\\tfrac14 < 1 < 2 < 8$.'),
+            // --- Parte 2: negativos y simplificación ---
+            play('une-parejas', 'Une cada expresión con su forma simplificada', {
+              left: ['x³ · x⁵', '(x²)³', 'x⁵ / x²', '(2x)³', 'x⁻²'],
+              right: ['x⁸', 'x⁶', 'x³', '8x³', '1/x²', 'x¹⁵', '2x³'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+            }, 'Multiplicar suma exponentes ($x^8$), potencia de potencia los multiplica ($x^6$), dividir los resta ($x^3$), el exponente de un producto va a cada factor ($8x^3$) y el negativo cambia de piso ($\\tfrac{1}{x^2}$). $x^{15}$ y $2x^3$ son las trampas.'),
+            play('ordena-terminos', 'Ordena los pasos para simplificar $(2x^3y^{-2})^{-2}$', { tex: '(2x^3y^{-2})^{-2}', chips: ['2⁻²x⁻⁶y⁴', 'y⁴ / (2²x⁶)', 'y⁴ / (4x⁶)', '2⁻²x⁻⁶y⁻⁴', '4x⁶ / y⁴'], order: [0, 1, 2], sep: '=' },
+              'Primero el paréntesis: cada exponente se multiplica por $-2$ ($2^{-2}x^{-6}y^{4}$). Luego los negativos cambian de piso: $\\dfrac{y^4}{2^2x^6}$, y $2^2 = 4$. Las fichas $2^{-2}x^{-6}y^{-4}$ (signo mal) y $\\dfrac{4x^6}{y^4}$ (pisos al revés) sobran.'),
+            play('verdadero-falso', 'Desliza cada tarjeta: ¿la ley es **verdadera** o **falsa**?', {
+              cards: [
+                { text: '(a + b)² = a² + b²', truth: false, why: 'El exponente no se reparte en sumas: (1 + 1)² = 4 pero 1 + 1 = 2.' },
+                { text: '(ab)ⁿ = aⁿ · bⁿ', truth: true, why: 'El exponente de un producto va a cada factor.' },
+                { text: 'aᵐ · bⁿ = (ab)ᵐ⁺ⁿ', truth: false, why: 'Solo se suman exponentes con la misma base.' },
+                { text: '(aᵐ)ⁿ = aᵐⁿ', truth: true, why: 'Potencia de potencia: se multiplican.' },
+                { text: '2ˣ · 2ˣ = 4ˣ', truth: true, why: '2ˣ · 2ˣ = 2²ˣ = (2²)ˣ = 4ˣ.' },
+                { text: 'a⁻ⁿ = −aⁿ', truth: false, why: 'a⁻ⁿ = 1/aⁿ: una fracción, no un negativo.' },
+              ],
+            }, 'Las leyes valen para productos, cocientes y potencias, nunca para sumas: $(a + b)^n \\ne a^n + b^n$. Y solo se suman exponentes cuando la base es la misma.'),
+            mc('Simplifica $\\dfrac{(x^{-3}y^2)^{-4}}{(y^6x^{-4})^{-2}}$', ['$x^4y^4$', '$x^5y^{-4}$', '$x^{-1}y$', '$xy^{-1}$'], 0, 'Arriba: $x^{12}y^{-8}$; abajo: $y^{-12}x^{8}$. Dividiendo: $x^{12 - 8}\\,y^{-8 + 12} = x^4y^4$.'),
+            mc('Simplifica $\\dfrac{2^{n+1}}{(2^{n-1})^{n}} \\div \\dfrac{4^{n+1}}{(2^{n-1})^{n+1}}$', ['$\\tfrac12$', '$\\tfrac14$', '$1$', '$2$'], 0, 'Dividir es multiplicar por el recíproco: $\\dfrac{2^{n+1}}{2^{n(n-1)}} \\cdot \\dfrac{2^{(n-1)(n+1)}}{2^{2n+2}}$. Los exponentes: $(n + 1) - n(n - 1) + (n - 1)(n + 1) - (2n + 2) = n + 1 - n^2 + n + n^2 - 1 - 2n - 2 = -1$. Queda $2^{-1} = \\tfrac12$.'),
+            mc('Simplifica $\\dfrac{3^{p+1}}{(3^{p})^{p-1}} \\div \\dfrac{9^{p+1}}{(3^{p-1})^{p+1}}$', ['$\\tfrac13$', '$\\tfrac19$', '$1$', '$3$'], 0, 'Con $9 = 3^2$ todo queda en base 3: exponentes $(p + 1) - p(p - 1) + (p - 1)(p + 1) - 2(p + 1) = p + 1 - p^2 + p + p^2 - 1 - 2p - 2 = -1$. Resultado $3^{-1} = \\tfrac13$.'),
           ],
         },
         {
