@@ -495,8 +495,8 @@ const COURSE_TRIG = {
           ] },
           ex: [
             play('brazo-robot', 'Dobla el codo del robot para que la pinza agarre la gema', {
-              rounds: [{ a: 8, b: 15, c: 13, ring: true }, { a: 3, b: 5, c: 7 }, { a: 4, b: 6, c: 5 }, { a: 6, b: 9, c: 10 }],
-            }, 'Despejando la ley de cosenos, $\\cos C = \\dfrac{a^2 + b^2 - c^2}{2ab}$: $\\tfrac{64 + 225 - 169}{240} = \\tfrac12$ da $60^\\circ$; $\\tfrac{9 + 25 - 49}{30} = -\\tfrac12$ da $120^\\circ$; $\\tfrac{16 + 36 - 25}{48} = 0.5625$ da $\\approx 55.8^\\circ$; $\\tfrac{36 + 81 - 100}{108} \\approx 0.157$ da $\\approx 81^\\circ$.',
+              rounds: [{ a: 8, b: 15, c: 13, ring: true }, { a: 3, b: 5, c: 7 }, { a: 5, b: 7, c: 6 }, { a: 6, b: 9, c: 10 }],
+            }, 'Despejando la ley de cosenos, $\\cos C = \\dfrac{a^2 + b^2 - c^2}{2ab}$: $\\tfrac{64 + 225 - 169}{240} = \\tfrac12$ da $60^\\circ$; $\\tfrac{9 + 25 - 49}{30} = -\\tfrac12$ da $120^\\circ$; $\\tfrac{25 + 49 - 36}{70} \\approx 0.543$ da $\\approx 57.1^\\circ$; $\\tfrac{36 + 81 - 100}{108} \\approx 0.157$ da $\\approx 81^\\circ$.',
               { hint: 'Despeja cos C de c² = a² + b² − 2ab cos C y usa la inversa del coseno. Si cos C sale negativo, el codo queda abierto: más de 90°.' }),
             play('une-parejas', 'Une cada triángulo con su área', {
               left: ['a = 6, b = 10, C = 30°', 'lados 3, 4 y 5', 'a = 8, b = 8, C = 90°', 'a = 4, b = 5, C = 150°', 'lados 13, 14 y 15'],
