@@ -45,8 +45,10 @@ test('alg-11: todos sus ejercicios son juegos interactivos', () => {
 });
 
 test('unidad 1: cada ejercicio de cada lección trae una pista que no regala la respuesta', () => {
-  const unit = get(ctx, 'COURSE_ALGEBRA').units[0];
-  for (const lesson of unit.lessons) lesson.ex.forEach((e, i) => {
+  const ids = ['alg-11', 'alg-12b', 'alg-21a', 'alg-21b', 'alg-22a', 'alg-22b'];
+  const lessons = get(ctx, 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).filter(l => ids.includes(l.id));
+  assert.equal(lessons.length, ids.length);
+  for (const lesson of lessons) lesson.ex.forEach((e, i) => {
     const where = `${lesson.id} ejercicio ${i}`;
     assert.ok(typeof e.hint === 'string' && e.hint.length > 20, `${where} sin pista`);
     if (e.type === 'mc') assert.ok(!e.hint.includes(e.options[e.answer]), `la pista de ${where} dice la respuesta`);

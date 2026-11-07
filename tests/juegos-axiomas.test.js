@@ -63,7 +63,7 @@ test('dobla la recta: |x| es el reflejo de x en el cero (con tolerancia)', () =>
 });
 
 const { loadScripts, get } = require('./load');
-const l12 = get(loadScripts(['js/content.js', 'js/courses/algebra.js']), 'COURSE_ALGEBRA').units[0].lessons.find(l => l.id === 'alg-12b');
+const l12 = get(loadScripts(['js/content.js', 'js/courses/algebra.js']), 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).find(l => l.id === 'alg-12b');
 
 test('alg-12b: abre con el video de la Clase 7 en Bunny (y escenas de respaldo)', () => {
   assert.equal(l12.clip.bunny, '1992ff97-e3e7-438e-b9c4-8d79b91865a8');

@@ -6,6 +6,8 @@ const { loadScripts, get } = require('./load');
 
 const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js']);
 const alg = get(ctx, 'COURSE_ALGEBRA');
+// Lecciones de la antigua unidad 1 (Clases 7 a 11), ahora repartidas en las unidades 1 y 2.
+const UNIDAD1 = ['alg-11', 'alg-12b', 'alg-21a', 'alg-21b', 'alg-22a', 'alg-22b'];
 const lesson = id => alg.units.flatMap(u => u.lessons).find(l => l.id === id);
 const plays = (l, game) => l.ex.filter(e => e.type === 'play' && e.game === game);
 const frac = s => { const m = /\\[td]frac\{?(\d+)\}?\{?(\d+)\}?/.exec(s) || /\\[td]frac(\d)(\d)/.exec(s); return m ? +m[1] / +m[2] : +s.replace(/\$/g, ''); };
@@ -22,7 +24,9 @@ test('alg-21b: el cociente de potencias con n da 1/4 (no 1/2) y el de base 3 da 
 });
 
 test('une-parejas y ordena-terminos: índices válidos y etiquetas sin repetir', () => {
-  for (const l of alg.units[0].lessons) {
+  const lista = alg.units.flatMap(u => u.lessons).filter(l => UNIDAD1.includes(l.id));
+  assert.equal(lista.length, UNIDAD1.length);
+  for (const l of lista) {
     for (const e of plays(l, 'une-parejas')) {
       const { left, right, pairs } = e.params;
       assert.equal(pairs.length, left.length, l.id);
