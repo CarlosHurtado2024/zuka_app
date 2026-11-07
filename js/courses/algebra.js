@@ -121,8 +121,8 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-12b', title: 'Axiomas de campo y orden',
-          // Clase 7 (video/clase_axiomas): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration). Libro UdeA §1.2–1.3.
-          clip: { scenes: [
+          // Clase 7 en Bunny Stream (video/clase_axiomas). Las escenas quedan de respaldo si el video no carga. Libro UdeA §1.2–1.3.
+          clip: { bunny: '1992ff97-e3e7-438e-b9c4-8d79b91865a8', duration: 383, scenes: [
             sc(6, 'Los **axiomas de campo** son las reglas de la suma y el producto en $\\mathbb{R}$: conmutativa, asociativa, neutros, inversos y distributiva.', { steps: ['$a + b = b + a \\qquad ab = ba$', '$a + 0 = a \\qquad a \\cdot 1 = a$', '$a(b + c) = ab + ac$'] }),
             sc(6, 'De ellos salen las propiedades que usas sin pensar: la **ley cancelativa**, $0 \\cdot a = 0$ y la regla de los signos.', { steps: ['$a + b = a + c \\Rightarrow b = c$', '$(-a)(-b) = ab \\qquad (-a)b = -(ab)$'] }),
             sc(6, 'Los **axiomas de orden**: $a < b$ significa que $b - a$ es positivo. Multiplicar por un negativo **invierte** la desigualdad.', { steps: ['Tricotomía: $a > b$, $a = b$ o $a < b$', '$a < b,\\ c > 0 \\Rightarrow ac < bc$', '$a < b,\\ c < 0 \\Rightarrow ac > bc$'] }),

@@ -65,6 +65,13 @@ test('dobla la recta: |x| es el reflejo de x en el cero (con tolerancia)', () =>
 const { loadScripts, get } = require('./load');
 const l12 = get(loadScripts(['js/content.js', 'js/courses/algebra.js']), 'COURSE_ALGEBRA').units[0].lessons.find(l => l.id === 'alg-12b');
 
+test('alg-12b: abre con el video de la Clase 7 en Bunny (y escenas de respaldo)', () => {
+  assert.equal(l12.clip.bunny, '1992ff97-e3e7-438e-b9c4-8d79b91865a8');
+  assert.equal(l12.clip.duration, 383);   // la que reporta Bunny
+  assert.ok(l12.clip.scenes.length >= 3);
+  assert.ok(!l12.more || !l12.more.length, 'es un solo video');
+});
+
 test('alg-12b: solo juegos, con los tres nuevos y sin tarjetas, etiquetas ni opción múltiple', () => {
   const games = l12.ex.map(e => (e.type === 'play' ? e.game : e.type));
   for (const g of ['atajo-axiomas', 'arma-producto', 'dobla-la-recta']) assert.ok(games.includes(g), `falta ${g}`);
