@@ -73,7 +73,15 @@ body[data-tab=clips] #view { overflow: hidden; }
 #tabbar button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 9px 0 8px; color: var(--mute); font-size: 11px; font-weight: 700; }
 #tabbar button.on { color: var(--brand); }
 #tabbar button.on .i { stroke-width: 2.6; }
-body[data-tab=clips] #tabbar { background: #000; border-color: #1b1b22; }
+/* En Clips el menú flota sobre el video (el feed usa todo el alto): se esconde mientras un clip se
+   reproduce y vuelve al pausar (tocar el video). Aparece con un respiro para no parpadear al deslizar. */
+body[data-tab=clips] #tabbar {
+  position: absolute; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, .82); border-color: #1b1b22;
+  transition: transform .25s ease .25s, opacity .25s ease .25s;
+}
+body[data-tab=clips]:has(.clip.in-feed:not(.paused)) #tabbar {
+  transform: translateY(100%); opacity: 0; pointer-events: none; transition-delay: 0s;
+}
 body[data-tab=clips] #tabbar button { color: rgba(255,255,255,.6); }
 body[data-tab=clips] #tabbar button.on { color: #fff; }
 
@@ -275,6 +283,11 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 }
 .clip.paused .seek-skip button { pointer-events: auto; }
 .clip.is-video.in-feed .seek-time { bottom: 32px; }
+/* En Clips, al pausar vuelve el menú: los controles de abajo suben para quedar sobre él. */
+body[data-tab=clips] .clip.in-feed.paused .seek { bottom: calc(var(--tabbar-h, 0px) + 2px); }
+body[data-tab=clips] .clip.is-video.in-feed.paused .seek-time { bottom: calc(var(--tabbar-h, 0px) + 32px); }
+body[data-tab=clips] .clip.in-feed.paused .v-quality { bottom: calc(var(--tabbar-h, 0px) + 56px); }
+body[data-tab=clips] .clip.in-feed .seek, body[data-tab=clips] .clip.in-feed .seek-time, body[data-tab=clips] .clip.in-feed .v-quality { transition: bottom .25s; }
 
 /* ---------- lección: clip a pantalla completa ---------- */
 .clip-close, .clip-skip { display: none; }
