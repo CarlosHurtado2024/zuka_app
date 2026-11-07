@@ -7,6 +7,9 @@ const DEFAULTS = () => ({
   name: '', xp: 0, done: {}, watched: {}, likes: {}, saved: {}, course: 'algebra',
   streak: 0, lastDay: null, hearts: 5, heartsAt: Date.now(), today: { day: null, xp: 0 },
   goal: 30, correct: 0, answered: 0, voice: false, sfx: true, theme: 'system', hideInstall: false, videoQuality: 'auto', videoMuted: false, videoSpeed: 1,
+  // Modo revisión: todas las lecciones abiertas y sin perder vidas, para revisar el contenido mientras
+  // se construye. Se apaga en Perfil → Ajustes (o aquí, con false, antes de abrirla a estudiantes).
+  unlockAll: true,
 });
 
 let S = (() => {
@@ -96,6 +99,7 @@ function syncHearts() {
   if (n > 0) { S.hearts = Math.min(5, S.hearts + n); S.heartsAt += n * HEART_MS; save(); }
 }
 function loseHeart() {
+  if (S.unlockAll) return;   // en modo revisión no se pierden vidas
   if (S.hearts >= 5) S.heartsAt = Date.now();
   S.hearts = Math.max(0, S.hearts - 1); save();
 }
@@ -106,6 +110,7 @@ const courseById = id => COURSES.find(c => c.id === id) || COURSES[0];
 const lessonsOf = c => c.units.flatMap(u => u.lessons);
 const isDone = l => !!S.done[l.id];
 function isUnlocked(c, l) {
+  if (S.unlockAll) return true;   // modo revisión: todo abierto
   const ls = lessonsOf(c), i = ls.indexOf(l);
   return i <= 0 || isDone(l) || isDone(ls[i - 1]);
 }
@@ -204,7 +209,8 @@ function renderLearn() {
     ${c.units.map((u, ui) => `<section class="unit">
       <header class="unit-banner"><p>Unidad ${ui + 1}</p><h2>${esc(u.title)}</h2></header>
       <div class="path">${u.lessons.map(l => {
-        const st = isDone(l) ? 'done' : l === cur ? 'current' : 'locked';
+        // 'open': desbloqueada pero no es la siguiente (en modo revisión, todas las demás).
+        const st = isDone(l) ? 'done' : l === cur ? 'current' : isUnlocked(c, l) ? 'open' : 'locked';
         const icon = st === 'done' ? ICON.check : st === 'locked' ? ICON.lock : ICON.play;
         return `<div class="node-wrap" style="--x:${OFFSETS[k++ % OFFSETS.length]}px">
           ${st === 'current' ? '<span class="start-bubble">EMPIEZA</span>' : ''}
@@ -300,7 +306,7 @@ const PRAISE = ['¡Correcto!', '¡Excelente!', '¡Muy bien!', '¡Así se hace!',
 
 function startLesson(c, l) {
   syncHearts();
-  if (S.hearts <= 0) return toast(`Sin vidas. Recuperas una en ${minsToHeart()} min.`);
+  if (S.hearts <= 0 && !S.unlockAll) return toast(`Sin vidas. Recuperas una en ${minsToHeart()} min.`);
   const back = tab;
   cleanup?.(); cleanup = null;
 
@@ -458,7 +464,7 @@ function startLesson(c, l) {
     body.style.paddingBottom = `${Math.max(0, fb.offsetHeight - $('.lesson-foot', ov).offsetHeight) + 24}px`;
     $('.btn', fb).onclick = () => {
       fb.classList.remove('show');
-      if (S.hearts <= 0) return outOfHearts();
+      if (S.hearts <= 0 && !S.unlockAll) return outOfHearts();
       pos++; step();
     };
   }
@@ -572,6 +578,7 @@ function renderProfile() {
       <h3>Ajustes</h3>
       <button class="toggle-row" data-set="voice"><span>Narración por voz en los clips</span><span class="toggle${S.voice ? ' on' : ''}"></span></button>
       <button class="toggle-row" data-set="sfx"><span>Efectos de sonido</span><span class="toggle${S.sfx ? ' on' : ''}"></span></button>
+      <button class="toggle-row" data-set="unlockAll"><span>Modo revisión: todas las lecciones abiertas y sin perder vidas</span><span class="toggle${S.unlockAll ? ' on' : ''}"></span></button>
       <button class="btn ghost danger" data-reset>Reiniciar progreso</button>
     </section>
   </div>`;

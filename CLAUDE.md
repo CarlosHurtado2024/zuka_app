@@ -87,6 +87,9 @@ Juegos recientes: Álgebra 1.1 `pasaporte-numeros`, `ascensor`, `pon-la-rayita`,
 ## Interfaz de la lección
 
 - Al fallar: «Incorrecto» + «La respuesta correcta es:»; la lección deja espacio abajo para ver el juego.
+- **Modo revisión** (`S.unlockAll`, activo por defecto en `DEFAULTS` de `js/app.js`): todas las lecciones
+  abiertas y sin perder vidas; interruptor en Perfil → Ajustes. Apagarlo (o poner `false`) antes de abrir
+  la app a estudiantes.
 - Durante una lección el menú inferior se esconde (`body.in-lesson`); en la pestaña Clips se esconde
   mientras el video se reproduce y vuelve al pausar.
 
