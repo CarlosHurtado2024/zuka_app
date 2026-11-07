@@ -3,18 +3,24 @@ const assert = require('node:assert/strict');
 const { loadGame } = require('./load');
 
 const { grade } = loadGame('js/games/lado-del-cuadrado.js')['lado-del-cuadrado'];
-const params = { rounds: [{ area: 49 }, { area: 20.25 }, { area: 2 }], max: 10, step: 0.01, tol: 0.4 };
+// La tolerancia es sobre el lado (en unidades), no sobre el área: así el margen es el mismo en todas las rondas.
+const params = { rounds: [{ area: 36 }, { area: 12.25 }, { area: 3 }], max: 10, step: 0.05, tol: 0.05 };
 
-test('lados 7, 4.5 y 1.41 → correcto (la tolerancia es sobre el área)', () => {
-  assert.equal(grade({ sides: [7, 4.5, 1.41] }, params).ok, true);
+test('lados 6, 3.5 y 1.75 → correcto (1.75 está a menos de 0.05 de √3)', () => {
+  assert.equal(grade({ sides: [6, 3.5, 1.75] }, params).ok, true);
 });
 
-test('lado 7.2 en la primera ronda (área 51.84) → incorrecto y la solución da √49 = 7', () => {
-  const r = grade({ sides: [7.2, 4.5, 1.41] }, params);
+test('lado 1.65 para el área 3 → incorrecto (se pasa de la tolerancia del lado)', () => {
+  assert.equal(grade({ sides: [6, 3.5, 1.65] }, params).ok, false);
+});
+
+test('lado 5.9 en la primera ronda → incorrecto y la solución da √36 = 6 y √3 ≈ 1.73', () => {
+  const r = grade({ sides: [5.9, 3.5, 1.75] }, params);
   assert.equal(r.ok, false);
-  assert.ok(r.solution.includes('7') && r.solution.includes('1.41'));
+  assert.ok(r.solution.includes('\\sqrt{36} = 6'), r.solution);
+  assert.ok(r.solution.includes('\\sqrt{3} \\approx 1.73'), r.solution);
 });
 
 test('una ronda sin lado → incorrecto', () => {
-  assert.equal(grade({ sides: [7, null, 1.41] }, params).ok, false);
+  assert.equal(grade({ sides: [6, null, 1.75] }, params).ok, false);
 });

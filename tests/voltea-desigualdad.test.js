@@ -17,7 +17,7 @@ test('los cuatro signos bien → correcto', () => {
 test('no voltear al multiplicar por −1 → incorrecto y la solución lo explica', () => {
   const r = grade({ signs: ['<', '<', '<', '<'] }, params);
   assert.equal(r.ok, false);
-  assert.ok(r.solution.includes('-1'));
+  assert.ok(r.solution.includes('× (-1): -4 > -10 (se voltea)'), r.solution);
 });
 
 test('un paso sin responder → incorrecto', () => {

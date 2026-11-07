@@ -59,6 +59,18 @@ function mountSketch(host, sketch, aspect = 1.25) {
   return { ready, remove() { removed = true; ro?.disconnect(); inst?.remove(); inst = null; } };
 }
 
+// Permutación determinista de 0..n−1 a partir de una semilla de texto (nunca la identidad si n > 1):
+// las opciones de un ejercicio salen barajadas, pero siempre en el mismo orden al reabrirlo.
+function shuffledOrder(n, seed) {
+  let h = 2166136261;
+  for (const ch of String(seed)) { h ^= ch.codePointAt(0); h = Math.imul(h, 16777619) >>> 0; }
+  const rnd = () => { h = (Math.imul(h, 1664525) + 1013904223) >>> 0; return h / 4294967296; };
+  const o = Array.from({ length: n }, (_, i) => i);
+  for (let i = n - 1; i > 0; i--) { const k = Math.floor(rnd() * (i + 1)); [o[i], o[k]] = [o[k], o[i]]; }
+  if (n > 1 && o.every((v, i) => v === i)) o.push(o.shift());
+  return o;
+}
+
 // Escala lineal entre valores y píxeles (rectas numéricas, ejes).
 function lineMap(min, max, x0, x1) {
   const k = (x1 - x0) / (max - min);

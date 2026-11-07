@@ -60,7 +60,7 @@ GAMES['saca-del-radical'] = (() => {
         const r = params.rounds[cur], s = st.rounds[cur], want = simplify(r.index, r.n), good = prod(s.out) === want.out && prod(s.in) === want.in;
         tabs.forEach((t, i) => {
           const w = simplify(params.rounds[i].index, params.rounds[i].n), si = st.rounds[i], ok = prod(si.out) === w.out && prod(si.in) === w.in;
-          const col = locked ? (ok ? C.ok : C.bad) : i === cur ? C.brand : si.out.length ? C.ok : C.line;
+          const col = locked ? (ok ? C.ok : C.bad) : i === cur ? C.brand : si.out.length ? C.Z : C.line;   // tocada ≠ correcta: el verde solo al bloquear
           p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
           p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
         });
@@ -72,7 +72,7 @@ GAMES['saca-del-radical'] = (() => {
         p.line(left - 22, y + 20, left - 12, y + 44); p.line(left - 12, y + 44, left - 2, y - 8); p.line(left - 2, y - 8, right + 4, y - 8);
         if (r.index !== 2) { p.noStroke(); p.fill(C.ink); p.textSize(12); p.textAlign(p.CENTER, p.CENTER); p.text(r.index, left - 20, y + 10); }
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.LEFT, p.BOTTOM); p.text('afuera', 20, y - 66); p.text('adentro', left - 2, y - 14);
-        s.in.forEach((v, i) => tile(tiles[i], v, sel.includes(i) ? C.brand : locked ? (good ? C.ok : C.bad) : C.Z, sel.includes(i) ? C.card : C.card));
+        s.in.forEach((v, i) => tile(tiles[i], v, sel.includes(i) ? C.brand : locked ? (good ? C.ok : C.bad) : C.Z));
         s.out.forEach((v, i) => tile(outTiles[i], v, locked ? (good ? C.ok : C.bad) : C.N));
         if (!s.in.length) { p.noStroke(); p.fill(C.mute); p.textSize(14); p.textAlign(p.LEFT, p.CENTER); p.text('1', left + 10, y + 20); }
         // Resultado en vivo.
@@ -81,7 +81,8 @@ GAMES['saca-del-radical'] = (() => {
         p.text(`${outV === 1 ? '' : outV}${inV === 1 ? '' : (r.index === 2 ? '√' : '∛') + inV}` || '1', W / 2, y + 90);
         if (locked && !good) { p.fill(C.ok); p.textSize(14); p.text(`era ${want.out === 1 ? '' : want.out}${want.in === 1 ? '' : (r.index === 2 ? '√' : '∛') + want.in}`, W / 2, y + 116); }
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL);
-        p.text(locked ? (grade(st, params).ok ? '¡Radicales simplificados!' : 'Mira la forma correcta en verde') : `${sel.length ? `${sel.length} de ${r.index} seleccionadas` : 'Toca un factor de afuera para devolverlo'}`, 12, H - 22, W - 24, 20);
+        const pend = st.rounds.findIndex((o, k) => k !== cur && !o.out.length && simplify(params.rounds[k].index, params.rounds[k].n).out !== 1);
+        p.text(locked ? (grade(st, params).ok ? '¡Radicales simplificados!' : 'Mira la forma correcta en verde') : sel.length ? `${sel.length} de ${r.index} seleccionadas` : s.out.length && pend >= 0 ? `Toca la pestaña ${pend + 1} para el siguiente radical` : 'Toca un factor de afuera para devolverlo', 12, H - 22, W - 24, 20);
       };
 
       p.mousePressed = () => {

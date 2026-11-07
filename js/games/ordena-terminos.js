@@ -5,6 +5,8 @@
 
 GAMES['ordena-terminos'] = (() => {
   // `sep` une las cajas: '+' para desplegar una suma (por defecto) o '=' para encadenar pasos.
+  // La bandeja se muestra barajada (determinista) para que la respuesta no sean las primeras fichas.
+  const trayOrder = p => shuffledOrder(p.chips.length, p.chips.join('|'));
   function grade(state, params) {
     const sep = params.sep || '+';
     const ok = params.order.every((j, i) => state.boxes[i] === j) && state.boxes.length === params.order.length;
@@ -31,7 +33,8 @@ GAMES['ordena-terminos'] = (() => {
       const top = 20, left = n > cols ? 22 : 12;
       boxes = Array.from({ length: n }, (_, i) => ({ x: left + (i % cols) * (bw + gap), y: top + Math.floor(i / cols) * 54, w: bw, h: 40 }));
       const tcols = Math.min(params.chips.length, long ? 2 : 3), tw = Math.min(maxW, (w - 24 - (tcols - 1) * 8) / tcols), tgap = (w - 24 - tcols * tw) / Math.max(1, tcols - 1), trows = Math.ceil(params.chips.length / tcols);
-      tray = params.chips.map((_, j) => ({ x: 12 + (j % tcols) * (tw + tgap), y: h - 30 - trows * 42 + Math.floor(j / tcols) * 42, w: tw, h: 34 }));
+      tray = [];
+      trayOrder(params).forEach((j, k) => { tray[j] = { x: 12 + (k % tcols) * (tw + tgap), y: h - 30 - trows * 42 + Math.floor(k / tcols) * 42, w: tw, h: 34 }; });
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const placedAt = j => st.boxes.indexOf(j);
@@ -95,5 +98,5 @@ GAMES['ordena-terminos'] = (() => {
     };
   }
 
-  return { grade, create };
+  return { grade, create, trayOrder };
 })();

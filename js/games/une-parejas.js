@@ -5,6 +5,8 @@
 
 GAMES['une-parejas'] = (() => {
   const mateOf = (p, i) => p.pairs.find(pr => pr[0] === i)?.[1];
+  // La columna derecha se muestra barajada (determinista) para que la pareja no esté «enfrente».
+  const displayOrder = p => shuffledOrder(p.right.length, p.right.join('|'));
 
   function grade(state, params) {
     const ok = params.left.every((_, i) => state.links[i] != null && state.links[i] === mateOf(params, i));
@@ -24,7 +26,8 @@ GAMES['une-parejas'] = (() => {
       const top = 50, rowH = (h - top - 36) / n, ph = Math.max(28, Math.min(40, rowH - 8)), pw = Math.min(130, w * 0.4);
       const rowY = (k, count) => top + (k + 0.5) * rowH + ((n - count) * rowH) / 2 - ph / 2;
       left = params.left.map((_, i) => ({ x: 12, y: rowY(i, params.left.length), w: pw, h: ph }));
-      right = params.right.map((_, j) => ({ x: w - 12 - pw, y: rowY(j, params.right.length), w: pw, h: ph }));
+      right = [];
+      displayOrder(params).forEach((j, k) => { right[j] = { x: w - 12 - pw, y: rowY(k, params.right.length), w: pw, h: ph }; });
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const ready = () => api.ready(st.links.every(j => j !== null));
@@ -100,5 +103,5 @@ GAMES['une-parejas'] = (() => {
     };
   }
 
-  return { grade, create };
+  return { grade, create, displayOrder };
 })();

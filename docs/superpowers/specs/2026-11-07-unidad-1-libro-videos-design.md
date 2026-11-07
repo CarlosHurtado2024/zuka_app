@@ -65,7 +65,9 @@ $(a/b)^{-n} = (b/a)^n$ (voltear la fracción) · S12 simplificar con literales
 ($(3x^{-2}y)^{-2}$, $\frac{(x^{-3}y^2)^{-4}}{(y^6x^{-4})^{-2}}$) · S13 exponentes con $n$:
 $\frac{2^{n+3}}{2^{n}}$, $\frac{9^{n}}{3^{n}}$ · S14 notación científica · S15 cierre. Ejercicios: 6
 existentes + `une-parejas` (expresión ↔ simplificada), `ordena-terminos` con `sep: '='`, V/F de
-leyes, mc del libro (1.9, 1.10, 1.16, 1.18 adaptados).
+leyes, 3 mc del libro (1.9 y 1.10 con exponentes literales, 1.16 adaptado). Los juegos que muestran
+opciones (`une-parejas`, `ordena-terminos`) las barajan con `shuffledOrder` (kit), y `lado-del-cuadrado`
+mide la tolerancia sobre el lado (0.05) con botones − y + de ajuste fino.
 
 **Clase 10 · Raíces y exponentes racionales** (`video/clase_raices/`): S01 la raíz deshace la
 potencia (área → lado: $\sqrt{49}$, $\sqrt{2}$ como lado del cuadrado de área 2) · S02 índice par e
