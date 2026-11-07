@@ -7,6 +7,7 @@
 
 GAMES['mide-altura'] = (() => {
   const angleAt = (h, d) => Math.atan2(h, d) * 180 / Math.PI;
+  const STEP = 0.1;   // metros: arrastrar acerca, los botones − / + afinan
   const NAMES = { edificio: 'la azotea del edificio', arbol: 'la copa del árbol', faro: 'el barco desde el faro' };
 
   function grade(state, params) {
@@ -18,12 +19,13 @@ GAMES['mide-altura'] = (() => {
   function create(host, params, api) {
     const C = api.palette;
     const st = { ds: params.rounds.map(() => null) };
-    let locked = false, W = 0, H = 0, cur = 0, tabs = [], groundY = 0, objX = 0, s = 1, drag = false;
+    let locked = false, W = 0, H = 0, cur = 0, tabs = [], btns = [], groundY = 0, objX = 0, s = 1, drag = false;
 
     function layout(w, h) {
       W = w; H = h;
       tabs = params.rounds.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
       groundY = h - 92; objX = w - 46;
+      btns = [{ d: STEP, x: 12, y: h - 38, w: 40, h: 30, t: '−' }, { d: -STEP, x: w - 52, y: h - 38, w: 40, h: 30, t: '+' }];
     }
     const scaleFor = r => Math.min((objX - 24) / r.maxD, (groundY - 110) / r.h);
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
@@ -90,16 +92,25 @@ GAMES['mide-altura'] = (() => {
         p.noStroke(); p.fill(C.Z); p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.CENTER, p.TOP);
         p.text(d === null ? 'arrastra' : `d = ${d} m`, (x + objX) / 2, groundY + 34);
         const ang = angleAt(r.h, dd);
-        p.fill(d === null ? C.mute : good ? C.ok : C.ink); p.textSize(18); p.textAlign(p.CENTER, p.CENTER);
-        p.text(d === null ? `meta: ${r.angle}°` : `ángulo = ${ang.toFixed(1)}°   (meta ${r.angle}°)`, W / 2, H - 20);
-        if (locked && !good) { p.fill(C.ok); p.textSize(12); p.textStyle(p.BOLD); p.text(`era d ≈ ${(r.h / Math.tan(r.angle * Math.PI / 180)).toFixed(1)} m`, W / 2, groundY + 60); }
+        p.fill(d === null ? C.mute : locked && !good ? C.ok : good ? C.ok : C.ink); p.textSize(15); p.textAlign(p.CENTER, p.CENTER);
+        const want = (r.h / Math.tan(r.angle * Math.PI / 180)).toFixed(1);
+        // Entre los botones − y + caben unos 170 px: lectura corta.
+        p.text(d === null ? `meta: ${r.angle}°` : locked && !good ? `era d ≈ ${want} m` : `θ = ${ang.toFixed(1)}° · meta ${r.angle}°`, W / 2, H - 23);
+        btns.forEach(b => {
+          p.stroke(locked ? C.line : C.Z); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 9);
+          p.noStroke(); p.fill(locked ? C.mute : C.ink); p.textStyle(p.BOLD); p.textSize(18); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2);
+        });
       };
 
-      const place = () => { const r = params.rounds[cur]; st.ds[cur] = Math.max(0.5, Math.min(r.maxD, Math.round((objX - p.mouseX) / s * 2) / 2)); ready(); };
+      const clampD = (r, v) => Math.max(STEP, Math.min(r.maxD, +(Math.round(v / STEP) * STEP).toFixed(1)));
+      const place = () => { const r = params.rounds[cur]; st.ds[cur] = clampD(r, (objX - p.mouseX) / s); ready(); };
       p.mousePressed = () => {
         const t = tabs.findIndex(t => inside(t, p.mouseX, p.mouseY));
         if (t >= 0) { cur = t; api.sfx?.tap?.(); return false; }
-        if (locked || p.mouseY < groundY - 60 || p.mouseY > groundY + 50 || p.mouseX > objX - 4) return;
+        if (locked) return;
+        const b = btns.find(b => inside(b, p.mouseX, p.mouseY));
+        if (b) { const r = params.rounds[cur]; st.ds[cur] = clampD(r, (st.ds[cur] ?? r.maxD * 0.5) + b.d); ready(); api.sfx?.tap?.(); return false; }
+        if (p.mouseY < groundY - 60 || p.mouseY > groundY + 50 || p.mouseX > objX - 4) return;
         drag = true; place(); return false;
       };
       p.mouseDragged = () => { if (!drag) return; place(); return false; };
@@ -114,5 +125,5 @@ GAMES['mide-altura'] = (() => {
     };
   }
 
-  return { grade, create, angleAt };
+  return { grade, create, angleAt, STEP };
 })();

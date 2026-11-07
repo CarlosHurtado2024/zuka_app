@@ -48,7 +48,8 @@ GAMES['noria'] = (() => {
       p.draw = () => {
         p.background(C.bg);
         const r = params.rounds[cur], a = st.angles[cur] ?? 0, good = st.angles[cur] !== null && fits(a, r);
-        spin += (a - spin) * 0.2;
+        let dSpin = ((a - spin) % 360 + 540) % 360 - 180;   // camino corto entre el ángulo dibujado y el elegido
+        spin += dSpin * 0.2;
         tabs.forEach((t, i) => {
           const v = st.angles[i], ok = v !== null && fits(v, params.rounds[i]);
           const col = locked ? (ok ? C.ok : C.bad) : i === cur ? C.brand : v !== null ? C.Z : C.line;

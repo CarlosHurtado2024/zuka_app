@@ -43,11 +43,16 @@ test('cada ronda de los juegos nuevos tiene solución alcanzable', () => {
       const tri = G('arma-triangulo');
       for (const r of P.rounds) {
         let found = false;
-        for (let a = 1; a <= P.max && !found; a++) for (let b = 1; b <= P.max && !found; b++) found = Math.abs(tri.ratio(r.fn, a, b) - r.num / r.den) < 0.005;
+        for (let a = 1; a <= P.max && !found; a++) for (let b = 1; b <= P.max && !found; b++) found = Math.abs(tri.ratio(r.fn, a, b) - r.num / r.den) < 1e-9;
         assert.ok(found, `${where}: ${r.fn} = ${r.num}/${r.den} no se arma con catetos hasta ${P.max}`);
       }
     }
-    if (e.game === 'mide-altura') for (const r of P.rounds) assert.ok(r.h / Math.tan(r.angle * Math.PI / 180) <= r.maxD, `${where}: la distancia no cabe`);
+    if (e.game === 'mide-altura') for (const r of P.rounds) {
+      assert.ok(r.h / Math.tan(r.angle * Math.PI / 180) <= r.maxD, `${where}: la distancia no cabe`);
+      const alt = G('mide-altura'), n = Math.round(r.maxD / alt.STEP);
+      const hits = Array.from({ length: n }, (_, k) => (k + 1) * alt.STEP).filter(d => Math.abs(alt.angleAt(r.h, d) - r.angle) <= 1).length;
+      assert.ok(hits >= 3, `${where}: solo ${hits} distancias valen para ${r.angle}°`);
+    }
     if (e.game === 'atrapa-punto') for (const r of P.rounds) for (const a of r.angles) assert.ok(G('atrapa-punto').POINTS.includes(a), `${where}: ${a}° no es un punto del tablero`);
     if (e.game === 'noria') for (const r of P.rounds) assert.ok(Array.from({ length: 24 }, (_, k) => k * 15).some(a => G('noria').fits(a, r)), `${where}: «${r.prompt}» no tiene respuesta`);
     if (e.game === 'sintoniza-onda') for (const r of P.rounds) {

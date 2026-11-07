@@ -14,9 +14,18 @@ GAMES['rueda-angulo'] = (() => {
     return (num < 0 ? '−' : '') + (den === 1 ? top : `${top}/${den}`);
   }
 
+  // Lleva el giro por el camino corto: de 170° a −170° son +20°, no −340°.
+  function unwrap(prev, now) {
+    let delta = now - prev;
+    if (delta > 180) delta -= 360;
+    if (delta < -180) delta += 360;
+    return delta;
+  }
+
   function grade(state, params) {
     const ok = params.rounds.every((r, i) => state.angles[i] != null && Math.abs(state.angles[i] - r.target) < 0.5);
-    return { ok, solution: params.rounds.map(r => `$${r.tex} = ${r.target}^\\circ$`).join(' · ') };
+    // Si la ronda ya está en grados, no se repite «405° = 405°».
+    return { ok, solution: params.rounds.map(r => (r.tex === `${r.target}^\\circ` ? `$${r.tex}$` : `$${r.tex} = ${r.target}^\\circ$`)).join(' · ') };
   }
 
   function create(host, params, api) {
@@ -61,7 +70,7 @@ GAMES['rueda-angulo'] = (() => {
           p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
         });
         p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.CENTER); p.text('Gira hasta', 12, 54);
-        p.fill(C.N); p.textStyle(p.BOLD); p.textSize(24); p.text(r.label, 82, 54);
+        p.fill(C.N); p.textStyle(p.BOLD); let ts = 24; p.textSize(ts); while (ts > 13 && p.textWidth(r.label) > W - 94) p.textSize(--ts); p.text(r.label, 82, 54);
 
         // Ejes y circunferencia.
         p.stroke(C.line); p.strokeWeight(1.5); p.line(cx - R - 14, cy, cx + R + 14, cy); p.line(cx, cy - R - 14, cx, cy + R + 14);
@@ -85,8 +94,8 @@ GAMES['rueda-angulo'] = (() => {
         p.fill(st.angles[cur] === null ? C.mute : C.ink); p.textStyle(p.BOLD); p.textSize(20);
         p.text(st.angles[cur] === null ? 'arrastra el punto' : `θ = ${String(a).replace('-', '−')}° = ${fmtRad(a)}`, W / 2, cy + R + 34);
         p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12);
-        if (st.angles[cur] !== null && turns !== 0) p.text(`${Math.abs(turns)} ${Math.abs(turns) === 1 ? 'vuelta' : 'vueltas'} ${a < 0 ? 'hacia atrás' : ''} y ${String(rest).replace('-', '−')}° más`, W / 2, cy + R + 56);
-        if (locked && !good) { p.fill(C.ok); p.textStyle(p.BOLD); p.text(`era ${String(r.target).replace('-', '−')}° = ${fmtRad(r.target)}`, W / 2, cy + R + 56); }
+        if (st.angles[cur] !== null && turns !== 0) p.text(`${Math.abs(turns)} ${Math.abs(turns) === 1 ? 'vuelta' : 'vueltas'}${a < 0 ? ' hacia atrás' : ''} y ${String(rest).replace('-', '−')}° más`, W / 2, cy + R + 56);
+        if (locked && !good) { p.fill(C.ok); p.textStyle(p.BOLD); p.text(`era ${String(r.target).replace('-', '−')}° = ${fmtRad(r.target)}`, W / 2, cy + R + 76); }
         btns.forEach(b => {
           p.stroke(locked ? C.line : C.Z); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 10);
           p.noStroke(); p.fill(locked ? C.mute : C.ink); p.textStyle(p.BOLD); p.textSize(14); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2);
@@ -110,8 +119,9 @@ GAMES['rueda-angulo'] = (() => {
       };
       p.mouseDragged = () => {
         if (!drag) return;
+        if (Math.hypot(p.mouseX - cx, p.mouseY - cy) < R * 0.2) return false;   // cerca del centro el sentido es ambiguo
         const now = Math.atan2(cy - p.mouseY, p.mouseX - cx) * 180 / Math.PI;
-        let delta = now - last; if (delta > 180) delta -= 360; if (delta < -180) delta += 360;
+        const delta = unwrap(last, now);
         last = now; raw += delta; setAngle(raw);
         return false;
       };
@@ -126,5 +136,5 @@ GAMES['rueda-angulo'] = (() => {
     };
   }
 
-  return { grade, create, fmtRad };
+  return { grade, create, fmtRad, unwrap };
 })();

@@ -19,7 +19,7 @@ GAMES['atrapa-punto'] = (() => {
     function layout(w, h) {
       W = w; H = h;
       tabs = params.rounds.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
-      R = Math.min(w * 0.38, h * 0.32); cx = w / 2; cy = 96 + R;
+      R = Math.min(w * 0.38, h * 0.28); cx = w / 2; cy = 92 + R;
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const ready = () => api.ready(st.picks.every(v => v !== null));
@@ -71,7 +71,7 @@ GAMES['atrapa-punto'] = (() => {
         st.picks[cur] = best; pulse = 1; api.sfx?.tap?.(); ready();
         return false;
       };
-    }, 1.2);
+    }, 1.32);
 
     return {
       loaded: m.ready,

@@ -86,3 +86,25 @@ test('onda: coincide si la función es la misma, aunque los números sean otros'
   assert.equal(onda.texOf('cos', { a: -2, b: 1, cq: 0, d: 0 }), 'y = -2\\cos x');
   assert.equal(onda.texOf('sen', { a: 1, b: 2, cq: 2, d: 1 }), 'y = \\operatorname{sen}\\left(2x - \\tfrac{\\pi}{2}\\right) + 1');
 });
+
+test('triángulo: solo vale un triángulo exacto (7 y 3 no dan cos θ = 12/13)', () => {
+  const params = { max: 12, rounds: [{ fn: 'cos', num: 12, den: 13 }] };
+  assert.equal(tri.grade({ legs: [{ a: 7, b: 3 }] }, params).ok, false);
+  assert.equal(tri.grade({ legs: [{ a: 12, b: 5 }] }, params).ok, true);
+  assert.ok(tri.grade({ legs: [{ a: 7, b: 3 }] }, params).solution.includes('adyacente 12, opuesto 5'));
+});
+
+test('altura: la distancia se ajusta de a 0.1 m', () => {
+  assert.equal(altura.STEP, 0.1);
+});
+
+test('rueda: unwrap lleva el giro por el camino corto al cruzar ±180°', () => {
+  assert.equal(rueda.unwrap(170, -170), 20);
+  assert.equal(rueda.unwrap(-170, 170), -20);
+  assert.equal(rueda.unwrap(10, 30), 20);
+});
+
+test('rueda: la solución no repite «405° = 405°»', () => {
+  const r = rueda.grade({ angles: [0] }, { rounds: [{ target: 405, tex: '405^\\circ' }] });
+  assert.equal(r.solution, '$405^\\circ$');
+});

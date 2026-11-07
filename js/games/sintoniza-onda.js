@@ -25,6 +25,12 @@ GAMES['sintoniza-onda'] = (() => {
     const tail = v.d > 0 ? ` + ${num(v.d)}` : v.d < 0 ? ` - ${num(-v.d)}` : '';
     return `y = ${coef}${body}${tail}`;
   }
+  // cq · π/4 escrito simplificado: 2 → π/2, −4 → −π.
+  function piTxt(cq) {
+    if (cq === 0) return '0';
+    const n = Math.abs(cq), g = gcd(n, 4), top = n / g, den = 4 / g;
+    return (cq < 0 ? '−' : '') + (den === 1 ? (top === 1 ? 'π' : `${top}π`) : `${top === 1 ? '' : top}π/${den}`);
+  }
   // La misma fórmula para el lienzo (sin TeX).
   function txtOf(fn, v) {
     const n = Math.abs(v.cq), g = gcd(n, 4), top = n / g, den = 4 / g;
@@ -44,7 +50,7 @@ GAMES['sintoniza-onda'] = (() => {
   const KNOBS = {
     a: { key: 'a', step: 0.5, min: -3, max: 3, name: 'a · amplitud' },
     b: { key: 'b', step: 0.5, min: 0.5, max: 4, name: 'b · frecuencia' },
-    c: { key: 'cq', step: 1, min: -8, max: 8, name: 'c · desfase' },
+    c: { key: 'cq', step: 1, min: -8, max: 8, name: 'c · fase' },
     d: { key: 'd', step: 0.5, min: -2, max: 2, name: 'd · altura' },
   };
 
@@ -105,7 +111,7 @@ GAMES['sintoniza-onda'] = (() => {
           const K = KNOBS[row.k], val = v[K.key];
           p.noStroke(); p.fill(C.mute); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(K.name, 14, row.y + 18);
           p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(16);
-          p.text(row.k === 'c' ? (val === 0 ? '0' : `${String(val).replace('-', '−')}·π/4`) : String(val).replace('-', '−'), W - 81, row.y + 18);
+          p.text(row.k === 'c' ? piTxt(val) : String(val).replace('-', '−'), W - 81, row.y + 18);
           [[row.minus, '−'], [row.plus, '+']].forEach(([b, t]) => {
             p.stroke(locked ? C.line : C.Z); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 9);
             p.noStroke(); p.fill(locked ? C.mute : C.ink); p.textSize(18); p.text(t, b.x + b.w / 2, b.y + b.h / 2);

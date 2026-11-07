@@ -11,7 +11,8 @@ GAMES['arma-triangulo'] = (() => {
     const h = Math.hypot(a, b);
     return { sen: b / h, cos: a / h, tan: b / a, csc: h / b, sec: h / a, cot: a / b }[fn];
   }
-  const hit = (leg, r) => !!leg && Math.abs(ratio(r.fn, leg.a, leg.b) - r.num / r.den) < 0.005;
+  // Catetos enteros: la razón tiene que ser exacta (con 0.005 de tolerancia, 7 y 3 «daban» cos = 12/13).
+  const hit = (leg, r) => !!leg && Math.abs(ratio(r.fn, leg.a, leg.b) - r.num / r.den) < 1e-9;
   const tex = fn => (fn === 'sen' ? '\\operatorname{sen}' : `\\${fn}`);
   // Catetos más pequeños (enteros, hasta max) que dan la razón pedida.
   function example(r, max) {

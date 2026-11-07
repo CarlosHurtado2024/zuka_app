@@ -56,8 +56,8 @@ GAMES['corta-pizza'] = (() => {
           p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
         });
         p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
-        p.text(round.goal === 'arc' ? 'Corta una porción con' : 'Corta una porción con', 12, 52);
-        p.fill(C.N); p.textStyle(p.BOLD); p.textSize(17); p.text(round.label, 12, 70);
+        p.text('Corta una porción con', 12, 52);
+        p.fill(C.N); p.textStyle(p.BOLD); let ts = 17; p.textSize(ts); while (ts > 11 && p.textWidth(round.label) > W - 24) p.textSize(--ts); p.text(round.label, 12, 70);
 
         // La pizza entera (tenue) y la porción.
         const R = pxR(round, cut.r), a = cut.deg * Math.PI / 180;
@@ -69,7 +69,7 @@ GAMES['corta-pizza'] = (() => {
         for (let k = 1; k <= Math.floor(cut.deg / 25); k++) { const t = -a * (k - 0.5) / Math.floor(cut.deg / 25 + 0.0001); p.circle(cx + R * 0.6 * Math.cos(t), cy + R * 0.6 * Math.sin(t), Math.max(5, R * 0.12)); }
         // El arco resaltado (la orilla) y el ángulo.
         p.noFill(); p.stroke(C.Z); p.strokeWeight(6); p.arc(cx, cy, 2 * R, 2 * R, -a, 0);
-        p.stroke(C.N); p.strokeWeight(3); p.arc(cx, cy, 44, 44, -a, 0);
+        p.stroke(C.brand); p.strokeWeight(3); p.arc(cx, cy, 44, 44, -a, 0);   // se ve sobre el queso en los dos temas
         // Asas: borde de la porción (ángulo) y orilla (radio, si se puede cambiar).
         if (round.deg == null) { p.noStroke(); p.fill(C.brand); p.circle(cx + R * Math.cos(-a), cy + R * Math.sin(-a), 20); }
         if (round.r == null) { p.noStroke(); p.fill(C.Q); p.circle(cx + R, cy, 18); }
