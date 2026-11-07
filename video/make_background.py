@@ -18,13 +18,13 @@ def blend(base, color, alpha):
     return base * (1 - alpha[..., None]) + color * alpha[..., None]
 
 
-def make(color_hex, out):
+def make(color_hex, out, top=0.25, glow_max=0.19):
     color = hex_rgb(color_hex)
     y = np.linspace(0, 1, H)[:, None].repeat(W, axis=1)
     x = np.linspace(0, 1, W)[None, :].repeat(H, axis=0)
     img = np.zeros((H, W, 3)) + hex_rgb('#090b18')
     # Degradado vertical: color al 25 % arriba → #0d1024 al 45 % → #080a16 abajo
-    top = blend(hex_rgb('#090b18'), color, np.full((H, W), 0.25))
+    top = blend(hex_rgb('#090b18'), color, np.full((H, W), top))
     mid, bottom = hex_rgb('#0d1024'), hex_rgb('#080a16')
     t1 = np.clip(y / 0.45, 0, 1)[..., None]
     t2 = np.clip((y - 0.45) / 0.55, 0, 1)[..., None]
@@ -32,10 +32,12 @@ def make(color_hex, out):
     img = grad
     # Brillo radial suave arriba, como en la app
     r = np.hypot((x - 0.5) * W, (y - 0.23) * H) / (W * 0.7)
-    glow = np.clip(1 - r, 0, 1) * 0.19
+    glow = np.clip(1 - r, 0, 1) * glow_max
     img = blend(img, color, glow)
     Image.fromarray(np.clip(img, 0, 255).astype(np.uint8)).save(out)
 
 
 if __name__ == '__main__':
-    make(sys.argv[1] if len(sys.argv) > 1 else '#8b7bff', sys.argv[2] if len(sys.argv) > 2 else 'fondo_algebra.png')
+    # Opcionales: intensidad del color arriba y del brillo (trigonometría usa 0.36 y 0.24, más vivo).
+    extra = [float(a) for a in sys.argv[3:5]]
+    make(sys.argv[1] if len(sys.argv) > 1 else '#8b7bff', sys.argv[2] if len(sys.argv) > 2 else 'fondo_algebra.png', *extra)
