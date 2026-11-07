@@ -12,6 +12,7 @@ const COURSE_TRIG = {
       lessons: [
         {
           id: 'trig-41a', title: 'Grados y radianes',
+          // Clase T1 (video/clase_trig_t1): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
             sc(5, 'Un ángulo en **posición estándar** empieza en el eje $x$ positivo. Girar en sentido antihorario es positivo.', { viz: { type: 'circle', from: 0, to: 135 } }),
             sc(5, 'Un **radián** es el ángulo cuyo arco mide lo mismo que el radio. Media vuelta son $\\pi$ radianes.', { title: '$180^\\circ = \\pi \\text{ rad}$', viz: { type: 'circle', from: 0, to: 180 } }),
@@ -19,33 +20,53 @@ const COURSE_TRIG = {
             sc(5, 'Ángulos **coterminales** terminan en el mismo lado: difieren en vueltas completas.', { title: '$\\theta + 360^\\circ k$', steps: ['$400^\\circ - 360^\\circ = 40^\\circ$', '$40^\\circ - 360^\\circ = -320^\\circ$'] }),
           ] },
           ex: [
-            mc('$135^\\circ$ en radianes es…', ['$\\tfrac{3\\pi}{4}$', '$\\tfrac{2\\pi}{3}$', '$\\tfrac{5\\pi}{6}$', '$\\tfrac{3\\pi}{2}$'], 0, '$135 \\cdot \\tfrac{\\pi}{180} = \\tfrac{3\\pi}{4}$.'),
-            num('$\\tfrac{7\\pi}{6}$ rad en grados', 210, '$\\tfrac{7\\pi}{6} \\cdot \\tfrac{180}{\\pi} = 210^\\circ$.', { suffix: '°' }),
-            num('Ángulo entre $0^\\circ$ y $360^\\circ$ coterminal con $400^\\circ$', 40, '$400^\\circ - 360^\\circ = 40^\\circ$.', { suffix: '°' }),
-            sld('Gira $\\theta$ hasta $\\tfrac{3}{8}$ de vuelta completa', {
-              viz: { type: 'circle' }, min: 0, max: 360, step: 15, init: 30,
-              readout: v => `$\\theta = ${v}^\\circ$`, check: v => v === 135, answerText: '$135^\\circ = \\tfrac{3\\pi}{4}$',
-              explain: '$\\tfrac{3}{8} \\cdot 360^\\circ = 135^\\circ$.',
-            }),
-            mc('El complemento de $35^\\circ$ es…', ['$55^\\circ$', '$145^\\circ$', '$325^\\circ$', '$65^\\circ$'], 0, 'Complementarios suman $90^\\circ$; suplementarios, $180^\\circ$.'),
+            play('rueda-angulo', 'Gira el lado terminal hasta cada ángulo en radianes', {
+              snap: 15,
+              rounds: [{ target: 150, label: '5π/6', tex: '\\tfrac{5\\pi}{6}' }, { target: -135, label: '−3π/4', tex: '-\\tfrac{3\\pi}{4}' }, { target: 300, label: '5π/3', tex: '\\tfrac{5\\pi}{3}' }],
+            }, 'Cada $\\tfrac{\\pi}{6}$ son $30^\\circ$ y cada $\\tfrac{\\pi}{4}$ son $45^\\circ$: $\\tfrac{5\\pi}{6} = 5 \\cdot 30^\\circ = 150^\\circ$, $-\\tfrac{3\\pi}{4} = -135^\\circ$ (hacia el reloj) y $\\tfrac{5\\pi}{3} = 5 \\cdot 60^\\circ = 300^\\circ$.',
+              { hint: 'Convierte primero la fracción de π: π son 180°, así que π/6 son 30°, π/4 son 45° y π/3 son 60°. Multiplica por el número de arriba. Si hay un menos, gira como las manecillas del reloj.' }),
+            play('rueda-angulo', 'Gira con vueltas completas, hacia atrás o hasta el suplemento', {
+              snap: 5,
+              rounds: [{ target: 405, label: '405°', tex: '405^\\circ' }, { target: -210, label: '−210°', tex: '-210^\\circ' }, { target: 145, label: 'el suplemento de 35°', tex: '180^\\circ - 35^\\circ' }],
+            }, '$405^\\circ$ es una vuelta completa y $45^\\circ$ más (coterminal con $45^\\circ$); $-210^\\circ$ gira hacia el reloj y queda donde $150^\\circ$; el suplemento de $35^\\circ$ completa media vuelta: $180^\\circ - 35^\\circ = 145^\\circ$.',
+              { hint: 'Puedes dar más de una vuelta: la espiral cuenta las vueltas. Para un ángulo negativo, gira como las manecillas del reloj. Dos ángulos suplementarios suman 180°.' }),
+            play('une-parejas', 'Une cada ángulo en grados con su medida en radianes', {
+              left: ['30°', '135°', '210°', '270°', '330°'],
+              right: ['π/6', '3π/4', '7π/6', '3π/2', '11π/6', 'π/3', '5π/4'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+            }, 'Multiplica por $\\tfrac{\\pi}{180}$ y simplifica: $30^\\circ = \\tfrac{\\pi}{6}$, $135^\\circ = \\tfrac{3\\pi}{4}$, $210^\\circ = \\tfrac{7\\pi}{6}$, $270^\\circ = \\tfrac{3\\pi}{2}$ y $330^\\circ = \\tfrac{11\\pi}{6}$.',
+              { hint: 'Piensa en cuántos «pedazos» de 30° o de 45° tiene el ángulo: 30° es π/6, así que 210° son siete de esos pedazos. Para 135°, cuenta pedazos de 45°, que es π/4.' }),
+            num('¿Cuántos grados mide, aproximadamente, un radián? (redondea a una décima)', 57.3, '$1 \\text{ rad} = \\tfrac{180^\\circ}{\\pi} \\approx 57.3^\\circ$: el ángulo cuyo arco mide lo mismo que el radio.',
+              { tol: 0.1, suffix: '°', hint: 'Media vuelta son 180 grados y también π radianes. Divide 180 entre π (usa π ≈ 3.1416).' }),
           ],
         },
         {
           id: 'trig-41b', title: 'Arco, sector y movimiento circular',
+          // Clase T2 (video/clase_trig_t2): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
             sc(5, 'Con el ángulo en **radianes**, la longitud del arco es radio por ángulo.', { title: '$s = r\\theta$', viz: { type: 'sector', r: 12, anim: [30, 150], unit: 'cm' } }),
             sc(5, 'El área del sector es una fracción del círculo:', { title: '$A = \\tfrac12 r^2 \\theta$', viz: { type: 'sector', r: 12, ang: 150, unit: 'cm' } }),
             sc(6, 'En una rueda que gira, la **rapidez angular** $\\omega$ y la **lineal** $v$ se relacionan con el radio.', { steps: ['$\\omega = \\dfrac{\\theta}{t}$', '$v = \\dfrac{s}{t} = r\\,\\omega$', '300 rpm $= 300 \\cdot 2\\pi = 600\\pi$ rad/min'] }),
           ] },
           ex: [
-            num('Sector de radio 12 cm y ángulo central $150^\\circ$. Longitud del arco (usa $\\pi \\approx 3.1416$)', 10 * PI, '$\\theta = \\tfrac{5\\pi}{6}$, $s = 12 \\cdot \\tfrac{5\\pi}{6} = 10\\pi \\approx 31.42$ cm.', { tol: 0.05, suffix: 'cm', answerText: '$10\\pi \\approx 31.42$ cm' }),
-            num('…y el área del sector', 60 * PI, '$\\tfrac12 \\cdot 144 \\cdot \\tfrac{5\\pi}{6} = 60\\pi \\approx 188.5$ cm².', { tol: 0.2, suffix: 'cm²', answerText: '$60\\pi \\approx 188.5$ cm²' }),
-            mc('En $s = r\\theta$, el ángulo debe estar en…', ['Radianes', 'Grados', 'Vueltas', 'Cualquier unidad'], 0, 'La fórmula sale de la definición de radián.'),
-            num('Una rueda de 60 cm de diámetro gira a 300 rpm. Rapidez lineal de un punto del borde, en cm/min (usa $\\pi \\approx 3.1416$)', 18000 * PI, '$\\omega = 600\\pi$ rad/min y $r = 30$: $v = 30 \\cdot 600\\pi = 18000\\pi \\approx 56\\,549$ cm/min.', { tol: 10, suffix: 'cm/min', answerText: '$18000\\pi \\approx 56\\,549$ cm/min' }),
+            play('corta-pizza', 'Corta la porción con el arco o el área que se pide', {
+              rounds: [
+                { goal: 'arc', value: 4 * PI, r: 6, label: 'arco s = 4π ≈ 12.57 con r = 6' },
+                { goal: 'area', value: 2 * PI, r: 4, label: 'área A = 2π ≈ 6.28 con r = 4' },
+                { goal: 'arc', value: 2 * PI, deg: 60, rMin: 2, rMax: 10, label: 'arco 2π ≈ 6.28 con un ángulo de 60°' },
+              ],
+            }, 'Con $s = r\\theta$: $\\theta = \\tfrac{4\\pi}{6} = \\tfrac{2\\pi}{3} = 120^\\circ$. Con $A = \\tfrac12 r^2 \\theta$: $\\theta = \\tfrac{2 \\cdot 2\\pi}{16} = \\tfrac{\\pi}{4} = 45^\\circ$. Y con $60^\\circ = \\tfrac{\\pi}{3}$: $r = \\tfrac{2\\pi}{\\pi/3} = 6$.',
+              { hint: 'Despeja antes de cortar: del arco, θ = s / r; del área, θ = 2A / r². El ángulo sale en radianes: pásalo a grados multiplicando por 180/π. En la última ronda el ángulo está fijo y lo que cambias es el radio.' }),
+            play('ordena-terminos', 'Una rueda de bicicleta de 0.3 m de radio da 3 vueltas por segundo. Ordena los pasos para hallar su rapidez', { tex: 'v = \\;?', chips: ['ω = 3 · 2π = 6π rad/s', 'v = r ω', 'v = 0.3 · 6π', 'v = 1.8π ≈ 5.65 m/s', 'ω = 3 rad/s', 'v = 0.3 · 3'], order: [0, 1, 2, 3], sep: '⇒' },
+              'Cada vuelta son $2\\pi$ radianes: $\\omega = 3 \\cdot 2\\pi = 6\\pi$ rad/s. Luego $v = r\\,\\omega = 0.3 \\cdot 6\\pi = 1.8\\pi \\approx 5.65$ m/s. «3 rad/s» olvida pasar las vueltas a radianes.',
+              { hint: 'Primero pasa las vueltas por segundo a radianes por segundo: una vuelta son 2π radianes. Después multiplica por el radio.' }),
+            num('Un punto del borde de una rueda de 50 cm de radio gira $120^\\circ$. ¿Cuántos centímetros recorre? (usa $\\pi \\approx 3.1416$)', 100 * PI / 3, '$120^\\circ = \\tfrac{2\\pi}{3}$ y $s = 50 \\cdot \\tfrac{2\\pi}{3} = \\tfrac{100\\pi}{3} \\approx 104.7$ cm.',
+              { tol: 0.5, suffix: 'cm', answerText: '$\\tfrac{100\\pi}{3} \\approx 104.7$ cm', hint: 'Pasa el ángulo a radianes (120° es dos tercios de π) y usa s = r θ.' }),
           ],
         },
         {
           id: 'trig-1', title: 'SOH · CAH · TOA',
+          // Clase T3 (video/clase_trig_t3): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
             sc(4, 'En un triángulo rectángulo nombramos los lados respecto al ángulo $\\theta$.', { viz: { type: 'triangle', from: 35 } }),
             sc(5, '**SOH**: seno = opuesto ÷ hipotenusa.', { title: '$\\sen\\theta = \\dfrac{\\text{op}}{\\text{hip}}$', viz: { type: 'triangle', from: 20, to: 60, show: 'sin' } }),
@@ -53,18 +74,24 @@ const COURSE_TRIG = {
             sc(5, '**TOA**: tangente = opuesto ÷ adyacente.', { title: '$\\tan\\theta = \\dfrac{\\text{op}}{\\text{ady}}$', viz: { type: 'triangle', from: 20, to: 70, show: 'tan' } }),
           ] },
           ex: [
-            mc('$\\sen\\theta$ es igual a…', ['$\\dfrac{\\text{opuesto}}{\\text{hipotenusa}}$', '$\\dfrac{\\text{adyacente}}{\\text{hipotenusa}}$', '$\\dfrac{\\text{opuesto}}{\\text{adyacente}}$', '$\\dfrac{\\text{hipotenusa}}{\\text{opuesto}}$'], 0, 'SOH: **S**eno = **O**puesto / **H**ipotenusa.'),
-            num('Un triángulo rectángulo tiene catetos 3 y 4. ¿Cuánto mide la hipotenusa?', 5, 'Pitágoras: $\\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$.'),
-            num('En ese triángulo (3, 4, 5), si $\\theta$ es opuesto al lado 3, ¿cuánto vale $\\sen\\theta$?', 0.6, '$\\sen\\theta = 3 / 5 = 0.6$.'),
-            sld('Ajusta $\\theta$ para que $\\tan\\theta = 1$ (opuesto = adyacente)', {
-              viz: { type: 'triangle', show: 'tan' }, min: 5, max: 85, step: 5, init: 20,
-              readout: v => `$\\theta = ${v}^\\circ$`, check: v => v === 45, answerText: '$\\theta = 45^\\circ$',
-              explain: 'Si los catetos son iguales el triángulo es isósceles: $\\theta = 45^\\circ$.',
-            }),
+            play('arma-triangulo', 'Arma un triángulo rectángulo cuya razón valga lo pedido', {
+              max: 12,
+              rounds: [{ fn: 'sen', num: 4, den: 5 }, { fn: 'cos', num: 12, den: 13 }, { fn: 'tan', num: 5, den: 2 }],
+            }, 'Con catetos $3$ (adyacente) y $4$ (opuesto) la hipotenusa es $5$: $\\operatorname{sen}\\theta = \\tfrac45$. Con $12$ y $5$ la hipotenusa es $13$: $\\cos\\theta = \\tfrac{12}{13}$. Y $\\tan\\theta = \\tfrac{\\text{op}}{\\text{ady}} = \\tfrac52$ con opuesto $5$ y adyacente $2$ (o $10$ y $4$).',
+              { hint: 'SOH CAH TOA: el seno usa opuesto e hipotenusa, el coseno adyacente e hipotenusa, la tangente opuesto y adyacente. Busca catetos que con Pitágoras den una hipotenusa entera, como 3, 4, 5 o 5, 12, 13.' }),
+            play('une-parejas', 'Un triángulo rectángulo tiene lados 9, 40 y 41; θ está frente al lado 9. Une cada razón con su valor', {
+              left: ['sen θ', 'cos θ', 'tan θ'],
+              right: ['9/41', '40/41', '9/40', '41/9', '40/9'],
+              pairs: [[0, 0], [1, 1], [2, 2]],
+            }, 'El opuesto es $9$, el adyacente $40$ y la hipotenusa $41$: $\\operatorname{sen}\\theta = \\tfrac{9}{41}$, $\\cos\\theta = \\tfrac{40}{41}$ y $\\tan\\theta = \\tfrac{9}{40}$. Las fichas $\\tfrac{41}{9}$ y $\\tfrac{40}{9}$ están dadas vuelta.',
+              { hint: 'La hipotenusa es el lado más largo (41). El lado frente a θ es el opuesto; el otro cateto es el adyacente. Seno y coseno siempre tienen la hipotenusa abajo.' }),
+            num('Un triángulo rectángulo tiene catetos 6 y 8. ¿Cuánto mide la hipotenusa?', 10, 'Pitágoras: $\\sqrt{36 + 64} = \\sqrt{100} = 10$.',
+              { hint: 'Eleva cada cateto al cuadrado, súmalos y saca la raíz cuadrada del resultado.' }),
           ],
         },
         {
           id: 'trig-2', title: 'Ángulos notables',
+          // Clase T4 (video/clase_trig_t4): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
             sc(5, 'Hay ángulos que aparecen en todas partes: 30°, 45° y 60°. Salen del triángulo equilátero y del cuadrado.', { viz: { type: 'triangle', from: 30, to: 60 } }),
             sc(5, 'Truco: el seno sube como $\\sqrt{1}, \\sqrt{2}, \\sqrt{3}$ sobre 2.', { steps: ['$\\sen 30^\\circ = \\tfrac{1}{2}$', '$\\sen 45^\\circ = \\tfrac{\\sqrt{2}}{2}$', '$\\sen 60^\\circ = \\tfrac{\\sqrt{3}}{2}$'] }),
@@ -72,28 +99,60 @@ const COURSE_TRIG = {
             sc(4, 'Con esto calculas alturas y distancias sin calculadora.', { title: '$h = 10 \\tan 45^\\circ = 10$', viz: { type: 'triangle', from: 45, labels: { adj: '10 m', op: 'h' } } }),
           ] },
           ex: [
-            mc('$\\sen 30^\\circ = \\;?$', ['$\\tfrac{1}{2}$', '$\\tfrac{\\sqrt{3}}{2}$', '$1$', '$\\tfrac{\\sqrt{2}}{2}$'], 0, 'Es el primero de la tabla: $\\tfrac{\\sqrt{1}}{2} = \\tfrac{1}{2}$.'),
-            num('$\\cos 60^\\circ = \\;?$ (en decimal)', 0.5, '$\\cos 60^\\circ = \\tfrac{1}{2} = 0.5$.'),
-            mc('$\\tan 45^\\circ = \\;?$', ['$1$', '$0$', '$\\sqrt{3}$', '$\\tfrac{1}{2}$'], 0, '$\\tan 45^\\circ = \\dfrac{\\sen 45^\\circ}{\\cos 45^\\circ} = 1$.'),
-            num('En un triángulo rectángulo la hipotenusa mide 25 y un ángulo agudo $30^\\circ$. ¿Cuánto mide el cateto opuesto a ese ángulo?', 12.5, '$25 \\sen 30^\\circ = 12.5$.'),
+            play('atrapa-punto', 'Atrapa en la circunferencia unitaria el punto que cumple cada pista', {
+              rounds: [
+                { prompt: 'sen θ = √3/2, con θ agudo', angles: [60] },
+                { prompt: 'cos θ = √2/2, con θ agudo', angles: [45] },
+                { prompt: 'tan θ = √3/3, con θ agudo', angles: [30] },
+                { prompt: 'cos θ = 0 y sen θ = 1', angles: [90] },
+              ],
+            }, 'En la circunferencia unitaria el punto es $(\\cos\\theta, \\operatorname{sen}\\theta)$: $\\operatorname{sen} 60^\\circ = \\tfrac{\\sqrt3}{2}$, $\\cos 45^\\circ = \\tfrac{\\sqrt2}{2}$, $\\tan 30^\\circ = \\tfrac{1}{\\sqrt3} = \\tfrac{\\sqrt3}{3}$ y en $90^\\circ$ el punto es $(0, 1)$.',
+              { hint: 'Usa el truco de la tabla: el seno de 0°, 30°, 45°, 60° y 90° es √0/2, √1/2, √2/2, √3/2 y √4/2. El coseno es la misma fila al revés. La tangente es seno entre coseno.' }),
+            play('une-parejas', 'Une cada razón de un ángulo notable con su valor exacto', {
+              left: ['sen 30°', 'cos 30°', 'tan 60°', 'cos 45°', 'tan 45°'],
+              right: ['1/2', '√3/2', '√3', '√2/2', '1', '√3/3', '2'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+            }, 'Del triángulo $1, \\sqrt3, 2$: $\\operatorname{sen} 30^\\circ = \\tfrac12$, $\\cos 30^\\circ = \\tfrac{\\sqrt3}{2}$, $\\tan 60^\\circ = \\sqrt3$. Del cuadrado: $\\cos 45^\\circ = \\tfrac{\\sqrt2}{2}$ y $\\tan 45^\\circ = 1$. Sobran $\\tfrac{\\sqrt3}{3}$ (que es $\\tan 30^\\circ$) y $2$.',
+              { hint: 'Dibuja el equilátero partido (lados 1, √3 y 2) y el cuadrado partido (lados 1, 1 y √2) y lee cada razón como opuesto, adyacente e hipotenusa.' }),
+            num('Una escalera de 10 m se apoya en una pared formando $60^\\circ$ con el suelo. ¿A qué altura toca la pared? (en metros, con dos decimales)', 5 * Math.sqrt(3), '$h = 10 \\operatorname{sen} 60^\\circ = 10 \\cdot \\tfrac{\\sqrt3}{2} = 5\\sqrt3 \\approx 8.66$ m.',
+              { tol: 0.02, suffix: 'm', answerText: '$5\\sqrt3 \\approx 8.66$ m', hint: 'La escalera es la hipotenusa y la altura es el lado opuesto al ángulo de 60°. ¿Qué razón une opuesto e hipotenusa?' }),
           ],
         },
         {
           id: 'trig-42c', title: 'Las seis razones y la medición indirecta',
+          // Clase T5 (video/clase_trig_t5): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
             sc(5, 'Además de seno, coseno y tangente, están sus **recíprocas**:', { steps: ['$\\csc\\theta = \\dfrac{1}{\\sen\\theta}$', '$\\sec\\theta = \\dfrac{1}{\\cos\\theta}$', '$\\cot\\theta = \\dfrac{1}{\\tan\\theta}$'] }),
             sc(5, 'Ángulo de **elevación**: se mide hacia arriba desde la horizontal. Con él calculas alturas sin subirte al edificio.', { title: '$h = d \\tan\\theta$', viz: { type: 'triangle', from: 25, to: 52, labels: { adj: '40 m', op: 'h' }, show: 'tan' } }),
             sc(5, 'Ejemplo: a 40 m del edificio, el ángulo de elevación es $52^\\circ$.', { steps: ['$h = 40 \\tan 52^\\circ$', '$h \\approx 40 \\cdot 1.28 \\approx 51.2$ m'] }),
           ] },
           ex: [
-            num('En un triángulo rectángulo los catetos miden 5 y 12. ¿Cuánto mide la hipotenusa?', 13, '$\\sqrt{25 + 144} = 13$.'),
-            mc('En ese triángulo, si $\\theta$ es opuesto al cateto 5, ¿cuánto vale $\\csc\\theta$?', ['$\\tfrac{13}{5}$', '$\\tfrac{5}{13}$', '$\\tfrac{12}{5}$', '$\\tfrac{13}{12}$'], 0, '$\\csc\\theta = \\tfrac{\\text{hip}}{\\text{op}} = \\tfrac{13}{5}$.'),
-            mc('Si $\\theta$ es agudo y $\\sec\\theta = \\tfrac{7}{2}$, entonces $\\cos\\theta = \\;?$', ['$\\tfrac{2}{7}$', '$\\tfrac{7}{2}$', '$\\tfrac{\\sqrt{45}}{7}$', '$\\tfrac{5}{7}$'], 0, 'La secante es la recíproca del coseno.'),
-            num('A 40 m de un edificio, el ángulo de elevación a la azotea es $52^\\circ$. Altura del edificio (usa $\\tan 52^\\circ \\approx 1.28$)', 51.2, '$h = 40 \\cdot 1.28 = 51.2$ m.', { tol: 0.3, suffix: 'm' }),
+            play('arma-triangulo', 'Arma triángulos con las razones recíprocas', {
+              max: 12,
+              rounds: [{ fn: 'csc', num: 5, den: 3 }, { fn: 'sec', num: 13, den: 12 }, { fn: 'cot', num: 3, den: 4 }],
+            }, 'La cosecante es hipotenusa sobre opuesto: con catetos $4$ y $3$ (opuesto), $\\csc\\theta = \\tfrac53$. La secante es hipotenusa sobre adyacente: con adyacente $12$ y opuesto $5$, $\\sec\\theta = \\tfrac{13}{12}$. La cotangente es adyacente sobre opuesto: $\\cot\\theta = \\tfrac34$.',
+              { hint: 'Da vuelta la fracción: csc es el seno al revés (hip/op), sec es el coseno al revés (hip/ady) y cot es la tangente al revés (ady/op).' }),
+            play('mide-altura', 'Muévete hasta ver cada cima con el ángulo pedido', {
+              rounds: [
+                { kind: 'edificio', h: 30, angle: 45, maxD: 60 },
+                { kind: 'arbol', h: 12, angle: 60, maxD: 30 },
+                { kind: 'faro', h: 40, angle: 25, mode: 'dep', maxD: 120 },
+              ],
+            }, 'La tangente une la altura (opuesto) con la distancia (adyacente): $d = \\tfrac{h}{\\tan\\theta}$. Edificio: $\\tfrac{30}{\\tan 45^\\circ} = 30$ m; árbol: $\\tfrac{12}{\\tan 60^\\circ} \\approx 6.93$ m; barco: $\\tfrac{40}{\\tan 25^\\circ} \\approx 85.8$ m. El ángulo de depresión desde arriba es igual al de elevación desde abajo.',
+              { hint: 'Si te alejas, el ángulo se hace más pequeño; si te acercas, más grande. Puedes calcularlo antes: distancia = altura / tan(ángulo).' }),
+            play('une-parejas', 'Une cada razón con su recíproca', {
+              left: ['sen θ = 2/7', 'cos θ = 3/5', 'tan θ = 4'],
+              right: ['csc θ = 7/2', 'sec θ = 5/3', 'cot θ = 1/4', 'csc θ = 2/7', 'sec θ = 3/5'],
+              pairs: [[0, 0], [1, 1], [2, 2]],
+            }, 'Cada recíproca da vuelta la fracción: $\\csc\\theta = \\tfrac72$, $\\sec\\theta = \\tfrac53$ y $\\cot\\theta = \\tfrac14$ (porque $4 = \\tfrac41$).',
+              { hint: 'Sen va con csc, cos con sec y tan con cot. La recíproca es la misma fracción con numerador y denominador intercambiados.' }),
+            num('Un avión vuela a 2000 m de altura y ve una luz del aeropuerto con un ángulo de depresión de $30^\\circ$. ¿Qué distancia hay en línea recta del avión a la luz? (en metros)', 4000, 'La altura es el opuesto y la distancia buscada la hipotenusa: $d = \\tfrac{2000}{\\operatorname{sen} 30^\\circ} = \\tfrac{2000}{1/2} = 4000$ m.',
+              { suffix: 'm', hint: 'Dibuja el triángulo: la altura del avión es el cateto opuesto al ángulo y la línea recta a la luz es la hipotenusa. Usa el seno de 30°, que es un medio.' }),
           ],
         },
         {
           id: 'trig-3', title: 'La circunferencia unitaria',
+          // Clase T6 (video/clase_trig_t6): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
             sc(4, 'Una circunferencia de radio 1 centrada en el origen.', { viz: { type: 'circle', from: 0, to: 30 } }),
             sc(6, 'Gira un ángulo $t$: el punto terminal tiene coordenadas $(\\cos t, \\sen t)$.', { title: '$P(t) = (\\cos t, \\sen t)$', viz: { type: 'circle', from: 30, to: 360 } }),
@@ -101,64 +160,115 @@ const COURSE_TRIG = {
             sc(4, 'Después de una vuelta completa, todo se repite: son funciones **periódicas**.', { steps: ['$\\sen(t + 2\\pi) = \\sen t$', '$\\cos(t + 2\\pi) = \\cos t$'] }),
           ] },
           ex: [
-            sld('Gira $\\theta$ hasta que $\\cos\\theta = 0$ y $\\sen\\theta = 1$', {
-              viz: { type: 'circle' }, min: 0, max: 360, step: 15, init: 30,
-              readout: v => `$\\theta = ${v}^\\circ$`, check: v => v === 90, answerText: '$\\theta = 90^\\circ$',
-              explain: 'En $90^\\circ$ el punto está arriba: $(0, 1)$.',
-            }),
-            num('$\\sen 270^\\circ = \\;?$', -1, 'En $270^\\circ$ el punto está abajo: $(0, -1)$.'),
-            mc('¿El punto $\\left(-\\tfrac45, \\tfrac35\\right)$ está en la circunferencia unitaria?', ['Sí, porque $\\tfrac{16}{25} + \\tfrac{9}{25} = 1$', 'No, porque tiene una coordenada negativa', 'No, porque $\\tfrac45 + \\tfrac35 \\neq 1$', 'Solo si $t = \\pi$'], 0, 'Un punto está en ella si $x^2 + y^2 = 1$.'),
-            mc('Para ese punto, $\\tan t = \\;?$', ['$-\\tfrac34$', '$\\tfrac34$', '$-\\tfrac43$', '$\\tfrac35$'], 0, '$\\tan t = \\tfrac{y}{x} = \\tfrac{3/5}{-4/5}$.'),
+            play('atrapa-punto', 'Atrapa el punto de la circunferencia unitaria', {
+              rounds: [
+                { prompt: '(−1/2, √3/2)', angles: [120] },
+                { prompt: '(0, −1)', angles: [270] },
+                { prompt: 't = 7π/6', angles: [210] },
+                { prompt: '(√2/2, −√2/2)', angles: [315] },
+              ],
+            }, 'El punto es $(\\cos t, \\operatorname{sen} t)$: $\\left(-\\tfrac12, \\tfrac{\\sqrt3}{2}\\right)$ está en $120^\\circ$ (referencia $60^\\circ$, cuadrante II), $(0, -1)$ abajo en $270^\\circ$, $\\tfrac{7\\pi}{6} = 210^\\circ$ y $\\left(\\tfrac{\\sqrt2}{2}, -\\tfrac{\\sqrt2}{2}\\right)$ en $315^\\circ$.',
+              { hint: 'La primera coordenada es el coseno (izquierda o derecha) y la segunda el seno (arriba o abajo). Los signos te dicen el cuadrante; el valor, el ángulo de referencia.' }),
+            play('une-parejas', 'Une cada ángulo con su punto en la circunferencia unitaria', {
+              left: ['0', 'π/2', 'π', '5π/4'],
+              right: ['(1, 0)', '(0, 1)', '(−1, 0)', '(−√2/2, −√2/2)', '(0, −1)', '(√2/2, √2/2)'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, 'En $0$ el punto está a la derecha, en $\\tfrac{\\pi}{2}$ arriba y en $\\pi$ a la izquierda. $\\tfrac{5\\pi}{4} = 225^\\circ$ está en el cuadrante III, con las dos coordenadas negativas.',
+              { hint: 'Ubica cada ángulo girando desde el eje x positivo: π/2 es un cuarto de vuelta y π es media vuelta. 5π/4 es media vuelta más 45°.' }),
+            num('El lado terminal de un ángulo $t$ pasa por el punto $(5, -12)$. ¿Cuánto vale $\\operatorname{sen} t$? (en decimal)', -12 / 13, '$r = \\sqrt{25 + 144} = 13$ y $\\operatorname{sen} t = \\tfrac{y}{r} = -\\tfrac{12}{13} \\approx -0.923$.',
+              { tol: 0.005, answerText: '$-\\tfrac{12}{13} \\approx -0.923$', hint: 'Primero halla r, la distancia del punto al origen, con Pitágoras. El seno es y sobre r, con el signo de y.' }),
           ],
         },
         {
           id: 'trig-43b', title: 'Signos y ángulo de referencia',
+          // Clase T7 (video/clase_trig_t7): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
             sc(5, 'El signo depende del cuadrante. Regla: **I** todas, **II** seno, **III** tangente, **IV** coseno.', { viz: { type: 'circle', from: 45, to: 315 } }),
             sc(5, 'El **ángulo de referencia** es el ángulo agudo con el eje $x$. Da el valor; el cuadrante da el signo.', { steps: ['$225^\\circ$: referencia $45^\\circ$, cuadrante III', '$\\sen 225^\\circ = -\\tfrac{\\sqrt2}{2}$'] }),
             sc(5, '**Paridad**: el coseno es par y el seno es impar.', { steps: ['$\\cos(-t) = \\cos t$', '$\\sen(-t) = -\\sen t$', '$\\tan(-t) = -\\tan t$'] }),
           ] },
           ex: [
-            mc('$\\sen 225^\\circ = \\;?$', ['$-\\tfrac{\\sqrt2}{2}$', '$\\tfrac{\\sqrt2}{2}$', '$-\\tfrac12$', '$-1$'], 0, 'Referencia $45^\\circ$, y en III el seno es negativo.'),
-            mc('$\\cos \\tfrac{5\\pi}{3} = \\;?$', ['$\\tfrac12$', '$-\\tfrac12$', '$\\tfrac{\\sqrt3}{2}$', '$-\\tfrac{\\sqrt3}{2}$'], 0, '$\\tfrac{5\\pi}{3} = 300^\\circ$: referencia $60^\\circ$, cuadrante IV (coseno positivo).'),
-            num('Ángulo de referencia de $210^\\circ$', 30, '$210^\\circ - 180^\\circ = 30^\\circ$.', { suffix: '°' }),
-            mc('Si $\\sen\\theta = -\\tfrac35$ y $\\tan\\theta > 0$, $\\theta$ está en el cuadrante…', ['III', 'II', 'IV', 'I'], 0, 'Seno negativo y tangente positiva: III.'),
+            play('noria', 'Gira la noria hasta un ángulo que cumpla cada condición', {
+              rounds: [
+                { prompt: 'sen θ < 0 y tan θ > 0', sen: '-', tan: '+' },
+                { prompt: 'Referencia 75°, en el cuadrante II', ref: 75, sen: '+', cos: '-' },
+                { prompt: 'El mismo coseno que 60°, pero con seno negativo', ref: 60, cos: '+', sen: '-' },
+                { prompt: 'cos θ < 0 y tan θ < 0', cos: '-', tan: '-' },
+              ],
+            }, 'Seno negativo y tangente positiva: cuadrante III (por ejemplo $210^\\circ$). Referencia $75^\\circ$ en el II: $180^\\circ - 75^\\circ = 105^\\circ$. Mismo coseno que $60^\\circ$ con seno negativo: $360^\\circ - 60^\\circ = 300^\\circ$. Coseno y tangente negativos: cuadrante II.',
+              { hint: 'Recuerda: I todas positivas, II solo el seno, III solo la tangente, IV solo el coseno. El ángulo de referencia es la distancia al eje x más cercano.' }),
+            play('atrapa-punto', 'Atrapa el punto que cumple el valor y el signo', {
+              rounds: [
+                { prompt: 'sen θ = −√2/2 y cos θ < 0', angles: [225] },
+                { prompt: 'cos θ = √3/2 y sen θ < 0', angles: [330] },
+                { prompt: 'tan θ = −1 en el cuadrante II', angles: [135] },
+              ],
+            }, 'El valor da el ángulo de referencia y el signo, el cuadrante: $225^\\circ$ (referencia $45^\\circ$, III), $330^\\circ$ (referencia $30^\\circ$, IV) y $135^\\circ$ (referencia $45^\\circ$, II).',
+              { hint: 'Primero busca el ángulo agudo que da ese valor (sin el signo). Luego decide el cuadrante con los signos y refleja el ángulo allí.' }),
+            play('une-parejas', 'Une cada ángulo con su ángulo de referencia', {
+              left: ['200°', '135°', '300°', '165°'],
+              right: ['20°', '45°', '60°', '15°', '30°', '75°'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, '$200^\\circ - 180^\\circ = 20^\\circ$, $180^\\circ - 135^\\circ = 45^\\circ$, $360^\\circ - 300^\\circ = 60^\\circ$ y $180^\\circ - 165^\\circ = 15^\\circ$.',
+              { hint: 'Mide cuánto le falta o le sobra al ángulo para llegar al eje x más cercano: 180° o 360°.' }),
+            num('Ángulo de referencia de $\\tfrac{7\\pi}{4}$, en grados', 45, '$\\tfrac{7\\pi}{4} = 315^\\circ$, en el cuadrante IV: $360^\\circ - 315^\\circ = 45^\\circ$.',
+              { suffix: '°', hint: 'Pasa a grados (π son 180°), mira en qué cuadrante queda y mide la distancia al eje x más cercano.' }),
           ],
         },
         {
           id: 'trig-44a', title: 'Seno y coseno: amplitud',
+          // Clase T8 (video/clase_trig_t8): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
             sc(5, 'Al "desenrollar" la circunferencia, la altura del punto dibuja la onda **seno**.', { title: '$y = \\sen x$', viz: { type: 'graph', xr: [0, 7], yr: [-3.5, 3.5], f: Math.sin, draw: true, ax: ['x', 'y'] } }),
             sc(5, 'La **amplitud** $|a|$ estira la onda verticalmente.', { title: '$y = a \\sen x$', viz: { type: 'graph', xr: [0, 7], yr: [-3.5, 3.5], f: (x, a) => a * Math.sin(x), anim: [1, 3], label: a => `a = ${fmt(a, 1)}` } }),
             sc(5, '$d$ desplaza la onda hacia arriba o abajo. El rango es $[d - |a|,\\, d + |a|]$.', { title: '$y = a \\sen x + d$', viz: { type: 'graph', xr: [0, 7], yr: [-3.5, 4.5], f: (x, d) => Math.sin(x) + d, anim: [0, 2], label: d => `d = ${fmt(d, 1)}` } }),
           ] },
           ex: [
-            sld('Ajusta $a$ para que $y = a \\sen x$ tenga valor máximo $3$', {
-              viz: { type: 'graph', xr: [0, 7], yr: [-4, 4], f: (x, a) => a * Math.sin(x), fs: [{ f: (x, a) => a * Math.sin(x) }, { f: () => 3, color: 'rgba(250,204,21,.6)', dash: true }] },
-              min: 0, max: 4, step: 0.5, init: 1, readout: v => `$a = ${v}$`,
-              check: v => near(v, 3), answerText: '$a = 3$', explain: 'El máximo de $a\\sen x$ es $|a|$.',
-            }),
-            num('Amplitud de $y = -2\\cos x$', 2, 'La amplitud es $|a| = |-2| = 2$.'),
-            mc('Rango de $y = 3 \\sen x + 1$', ['$[-2, 4]$', '$[-3, 3]$', '$[1, 4]$', '$[-1, 3]$'], 0, '$[d - |a|, d + |a|] = [1 - 3, 1 + 3]$.'),
-            mc('¿Qué hace el signo negativo en $y = -2\\cos x$?', ['Refleja la gráfica respecto al eje $x$', 'Mueve la gráfica a la izquierda', 'Cambia el periodo', 'La baja dos unidades'], 0, 'Multiplicar por un negativo voltea la gráfica.'),
+            play('sintoniza-onda', 'Sintoniza tu onda con la onda fantasma', {
+              rounds: [
+                { fn: 'sen', target: { a: 2, b: 1, cq: 0, d: 0 }, knobs: ['a'] },
+                { fn: 'cos', target: { a: -1.5, b: 1, cq: 0, d: 0 }, knobs: ['a'] },
+                { fn: 'sen', target: { a: 1.5, b: 1, cq: 0, d: -1 }, knobs: ['a', 'd'] },
+                { fn: 'cos', target: { a: 2, b: 1, cq: 0, d: 1 }, knobs: ['a', 'd'] },
+              ],
+            }, 'La amplitud $|a|$ es la distancia de la línea media a la cresta; si la onda empieza al revés, $a$ es negativo. $d$ es la altura de la línea media: $y = 2\\operatorname{sen} x$, $y = -1.5\\cos x$, $y = 1.5\\operatorname{sen} x - 1$ y $y = 2\\cos x + 1$.',
+              { hint: 'Mira primero la línea media de la onda fantasma: esa altura es d. Luego mide desde ahí hasta la cresta: es la amplitud. Si arranca bajando cuando la tuya sube, cambia el signo de a.' }),
+            play('une-parejas', 'Une cada función con su rango', {
+              left: ['y = 3 cos x', 'y = sen x + 2', 'y = −2 sen x − 1', 'y = 0.5 cos x + 1'],
+              right: ['[−3, 3]', '[1, 3]', '[−3, 1]', '[0.5, 1.5]', '[−1, 3]', '[2, 3]'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, 'El rango es $[d - |a|,\\, d + |a|]$: $[-3, 3]$, $[2 - 1, 2 + 1] = [1, 3]$, $[-1 - 2, -1 + 2] = [-3, 1]$ y $[1 - 0.5, 1 + 0.5] = [0.5, 1.5]$.',
+              { hint: 'Encuentra la línea media (el número que se suma, d) y la amplitud (el número que multiplica, sin signo). El rango va de d menos la amplitud a d más la amplitud.' }),
+            num('Amplitud de $y = -4\\cos x$', 4, 'La amplitud es $|a| = |-4| = 4$: el signo solo voltea la onda.',
+              { hint: 'La amplitud es el número que multiplica al coseno, pero siempre positivo: el signo menos solo voltea la onda.' }),
           ],
         },
         {
           id: 'trig-44b', title: 'Periodo, desfase y tangente',
+          // Clase T9 (video/clase_trig_t9): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
             sc(5, '$b$ comprime la onda: el **periodo** pasa a ser $\\tfrac{2\\pi}{b}$.', { title: '$y = \\sen(bx)$', viz: { type: 'graph', xr: [0, 7], yr: [-2, 2], f: (x, b) => Math.sin(b * x), anim: [1, 3], label: b => `b = ${fmt(b, 1)}  ·  periodo = ${fmt(2 * PI / b, 2)}` } }),
             sc(5, 'El **desfase** $\\tfrac{c}{b}$ corre la onda a la derecha.', { title: '$y = a \\sen(bx - c) + d$', viz: { type: 'graph', xr: [0, 7], yr: [-2, 2], f: (x, c) => Math.sin(x - c), anim: [0, 1.5], label: c => `desfase = ${fmt(c, 2)}` } }),
             sc(5, 'La tangente tiene periodo $\\pi$ y **asíntotas verticales** donde el coseno vale cero.', { title: '$x = \\tfrac{\\pi}{2} + k\\pi$', viz: { type: 'graph', xr: [-0.5, 7], yr: [-4, 4], f: Math.tan, draw: true } }),
           ] },
           ex: [
-            sld('Ajusta $b$ para que $y = \\sen(bx)$ tenga periodo $\\pi$', {
-              viz: { type: 'graph', xr: [0, 7], yr: [-1.6, 1.6], f: (x, b) => Math.sin(b * x), points: [[PI, 0, 'π']] },
-              min: 0.5, max: 4, step: 0.5, init: 1, readout: v => `$b = ${v}$`,
-              check: v => near(v, 2), answerText: '$b = 2$', explain: '$\\tfrac{2\\pi}{b} = \\pi \\Rightarrow b = 2$.',
-            }),
-            mc('Periodo de $y = 3\\sen\\left(2x - \\tfrac{\\pi}{3}\\right) + 1$', ['$\\pi$', '$2\\pi$', '$\\tfrac{\\pi}{3}$', '$\\tfrac{\\pi}{6}$'], 0, '$\\tfrac{2\\pi}{2} = \\pi$.'),
-            mc('Desfase de esa misma función', ['$\\tfrac{\\pi}{6}$ a la derecha', '$\\tfrac{\\pi}{3}$ a la derecha', '$\\tfrac{\\pi}{6}$ a la izquierda', '$1$ hacia arriba'], 0, '$\\tfrac{c}{b} = \\tfrac{\\pi/3}{2} = \\tfrac{\\pi}{6}$.'),
-            mc('Función $y = a\\sen(bx) + d$ con máximo 5, mínimo $-1$ y periodo 8', ['$y = 3\\sen\\left(\\tfrac{\\pi}{4}x\\right) + 2$', '$y = 5\\sen(8x) - 1$', '$y = 3\\sen(8x) + 2$', '$y = 6\\sen\\left(\\tfrac{\\pi}{4}x\\right)$'], 0, '$a = \\tfrac{5 - (-1)}{2} = 3$, $d = \\tfrac{5 + (-1)}{2} = 2$, $b = \\tfrac{2\\pi}{8} = \\tfrac{\\pi}{4}$.'),
+            play('sintoniza-onda', 'Sintoniza la frecuencia y el desfase de tu onda', {
+              rounds: [
+                { fn: 'sen', target: { a: 1, b: 3, cq: 0, d: 0 }, knobs: ['b'] },
+                { fn: 'sen', target: { a: 1, b: 1, cq: 1, d: 0 }, knobs: ['c'] },
+                { fn: 'cos', target: { a: 1, b: 2, cq: 2, d: 0 }, knobs: ['b', 'c'] },
+                { fn: 'sen', target: { a: 2, b: 0.5, cq: 0, d: 1 }, knobs: ['a', 'b', 'd'] },
+              ],
+            }, 'Cuenta ondas completas en $[0, 2\\pi]$: $b$ ondas. El desfase es $\\tfrac{c}{b}$: $\\operatorname{sen}\\left(x - \\tfrac{\\pi}{4}\\right)$ se corre $\\tfrac{\\pi}{4}$; $\\cos\\left(2x - \\tfrac{\\pi}{2}\\right)$ se corre $\\tfrac{\\pi}{4}$ con periodo $\\pi$; y $y = 2\\operatorname{sen}\\tfrac{x}{2} + 1$ tiene periodo $4\\pi$.',
+              { hint: 'b es cuántas ondas completas caben entre 0 y 2π (el periodo es 2π/b). Para el desfase, mira cuánto se corrió la onda fantasma a la derecha y multiplícalo por b para obtener c.' }),
+            play('une-parejas', 'Une cada función con su periodo', {
+              left: ['sen 4x', 'cos(x/3)', 'tan x', 'sen(πx)'],
+              right: ['π/2', '6π', 'π', '2', '4π', '2π'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, 'Para seno y coseno el periodo es $\\tfrac{2\\pi}{b}$: $\\tfrac{2\\pi}{4} = \\tfrac{\\pi}{2}$, $\\tfrac{2\\pi}{1/3} = 6\\pi$ y $\\tfrac{2\\pi}{\\pi} = 2$. La tangente se repite cada $\\pi$.',
+              { hint: 'Divide 2π entre el número que multiplica a x. Ojo: dividir entre 1/3 es multiplicar por 3, y la tangente tiene periodo π, no 2π.' }),
+            num('Periodo de $y = 5\\operatorname{sen}\\left(\\tfrac{\\pi}{2}x\\right)$', 4, '$\\tfrac{2\\pi}{\\pi/2} = 4$: la amplitud 5 no cambia el periodo.',
+              { hint: 'El periodo solo depende del número que multiplica a x. Divide 2π entre π/2.' }),
           ],
         },
       ],
