@@ -383,6 +383,21 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 .num input { flex: 1; min-width: 0; background: none; border: 0; outline: 0; color: var(--ink); font: inherit; font-size: 24px; padding: 12px 0; }
 .num .unit { color: var(--mute); font-size: 17px; }
 .hint { color: var(--mute); font-size: 13px; margin-top: 10px; }
+/* Pista: botón bajo el enunciado que se abre en una nota */
+.ex-hint { margin: -12px 0 18px; }
+.hint-btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px 7px 10px; border-radius: 999px;
+  border: 2px solid var(--line); background: var(--bg2); color: var(--c-ink); font-size: 14px; font-weight: 800;
+}
+.hint-btn:hover { background: var(--card); }
+.hint-btn svg, .hint-text svg { flex: none; width: 18px; height: 18px; }
+.hint-text {
+  display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; font-size: 15px; line-height: 1.45;
+  background: color-mix(in srgb, var(--c) 12%, var(--bg2)); border: 2px dashed color-mix(in srgb, var(--c) 45%, transparent);
+  animation: rise .3s cubic-bezier(.2,.8,.2,1);
+}
+.hint-text[hidden], .hint-btn[hidden] { display: none; }
+.hint-text svg { color: var(--c-ink); margin-top: 1px; }
 /* Minijuegos (p5.js) */
 .play {
   position: relative; border-radius: 18px; overflow: hidden; background: #0f1226; border: 2px solid var(--line);

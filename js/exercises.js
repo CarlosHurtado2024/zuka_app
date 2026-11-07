@@ -139,7 +139,16 @@ EX.play = (area, ex, ready) => {
   };
 };
 
+// Pista: un botón bajo el enunciado que, al tocarlo, deja ver un empujón (sin regalar la respuesta).
+function hintBlock(ex) {
+  if (!ex.hint) return '';
+  return `<div class="ex-hint"><button type="button" class="hint-btn">${ICON.bulb}<span>Ver pista</span></button>`
+    + `<p class="hint-text" hidden>${ICON.bulb}<span>${tex(ex.hint)}</span></p></div>`;
+}
+
 function renderExercise(el, ex, ready) {
-  el.innerHTML = `<div class="ex"><p class="ex-kind">${EX_KIND[ex.type]}</p><h2 class="ex-q">${tex(ex.q)}</h2><div class="ex-area"></div></div>`;
+  el.innerHTML = `<div class="ex"><p class="ex-kind">${EX_KIND[ex.type]}</p><h2 class="ex-q">${tex(ex.q)}</h2>${hintBlock(ex)}<div class="ex-area"></div></div>`;
+  const hb = el.querySelector('.hint-btn');
+  if (hb) hb.onclick = () => { hb.hidden = true; el.querySelector('.hint-text').hidden = false; Sfx.tap(); };
   return EX[ex.type](el.querySelector('.ex-area'), ex, ready);
 }

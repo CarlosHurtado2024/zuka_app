@@ -11,12 +11,13 @@
 const BUNNY_CDN = 'vz-2449e89f-b51.b-cdn.net';
 
 const sc = (d, text, extra = {}) => ({ d, text, ...extra });
-const mc = (q, options, answer, explain) => ({ type: 'mc', q, options, answer, explain });
+// `extra` (al final) agrega campos opcionales, como `hint`: la pista que el estudiante abre si se atasca.
+const mc = (q, options, answer, explain, extra = {}) => ({ type: 'mc', q, options, answer, explain, ...extra });
 const num = (q, answer, explain, extra = {}) => ({ type: 'input', q, answer, explain, ...extra });
-const ord = (q, items, explain) => ({ type: 'order', q, items, explain });
+const ord = (q, items, explain, extra = {}) => ({ type: 'order', q, items, explain, ...extra });
 const sld = (q, o) => ({ type: 'slider', q, ...o });
 // Minijuego de p5.js (js/games/<game>.js); params depende de cada juego.
-const play = (game, q, params, explain) => ({ type: 'play', game, q, params, explain });
+const play = (game, q, params, explain, extra = {}) => ({ type: 'play', game, q, params, explain, ...extra });
 
 // Videos de una lección: el principal (clip) y, si hay, sus partes siguientes (more).
 const clipsOf = l => [l.clip, ...(l.more || [])];
