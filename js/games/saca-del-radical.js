@@ -40,8 +40,8 @@ GAMES['saca-del-radical'] = (() => {
       tabs = params.rounds.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
       const r = st.rounds[cur], tw = 40, gap = 8;
       const x0 = 70 + Math.max(0, (w - 70 - 12 - r.in.length * (tw + gap)) / 2);
-      tiles = r.in.map((_, i) => ({ x: x0 + i * (tw + gap), y: h * 0.45, w: tw, h: tw }));
-      outTiles = r.out.map((_, i) => ({ x: 20 + i * (tw + gap), y: h * 0.45 - 70, w: tw, h: tw }));
+      tiles = r.in.map((_, i) => ({ x: x0 + i * (tw + gap), y: h * 0.52, w: tw, h: tw }));
+      outTiles = r.out.map((_, i) => ({ x: 20 + i * (tw + gap), y: h * 0.52 - 62, w: tw, h: tw }));
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const ready = () => api.ready(st.rounds.every((r, k) => r.out.length > 0 || simplify(params.rounds[k].index, params.rounds[k].n).out === 1));
@@ -65,13 +65,13 @@ GAMES['saca-del-radical'] = (() => {
           p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
         });
         p.noStroke(); p.fill(C.N); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(14);
-        p.text(`Simplifica ${r.index === 2 ? '√' : '∛'}${r.n}: toca ${r.index} fichas iguales para sacarlas`, 12, 46, W - 24, 36);
+        p.text(`${r.index === 2 ? '√' : '∛'}${r.n}: toca ${r.index} fichas iguales para sacarlas`, 12, 44, W - 24, 34);
         // El signo de raíz: una «v» y una línea sobre las fichas de adentro.
-        const y = H * 0.45, left = tiles.length ? tiles[0].x - 6 : 70, right = tiles.length ? tiles[tiles.length - 1].x + 46 : W - 12;
+        const y = H * 0.52, left = tiles.length ? tiles[0].x - 6 : 70, right = tiles.length ? tiles[tiles.length - 1].x + 46 : W - 12;
         p.stroke(C.ink); p.strokeWeight(3); p.noFill();
         p.line(left - 22, y + 20, left - 12, y + 44); p.line(left - 12, y + 44, left - 2, y - 8); p.line(left - 2, y - 8, right + 4, y - 8);
         if (r.index !== 2) { p.noStroke(); p.fill(C.ink); p.textSize(12); p.textAlign(p.CENTER, p.CENTER); p.text(r.index, left - 20, y + 10); }
-        p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.LEFT, p.BOTTOM); p.text('afuera', 20, y - 76); p.text('adentro', left - 2, y - 14);
+        p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.LEFT, p.BOTTOM); p.text('afuera', 20, y - 66); p.text('adentro', left - 2, y - 14);
         s.in.forEach((v, i) => tile(tiles[i], v, sel.includes(i) ? C.brand : locked ? (good ? C.ok : C.bad) : C.Z, sel.includes(i) ? C.card : C.card));
         s.out.forEach((v, i) => tile(outTiles[i], v, locked ? (good ? C.ok : C.bad) : C.N));
         if (!s.in.length) { p.noStroke(); p.fill(C.mute); p.textSize(14); p.textAlign(p.LEFT, p.CENTER); p.text('1', left + 10, y + 20); }

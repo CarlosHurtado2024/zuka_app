@@ -25,10 +25,12 @@ GAMES['ordena-terminos'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      const cols = Math.min(n, 3), rows = Math.ceil(n / cols), bw = Math.min(96, (w - 34 - (cols - 1) * 22) / cols), gap = (w - 34 - cols * bw) / Math.max(1, cols - 1);
+      // Con etiquetas largas (pasos de una simplificación) van dos por fila y más anchas.
+      const long = params.chips.some(c => c.length > 12), maxW = long ? 150 : 96;
+      const cols = Math.min(n, long ? 2 : 3), rows = Math.ceil(n / cols), bw = Math.min(maxW, (w - 34 - (cols - 1) * 22) / cols), gap = (w - 34 - cols * bw) / Math.max(1, cols - 1);
       const top = 20, left = n > cols ? 22 : 12;
       boxes = Array.from({ length: n }, (_, i) => ({ x: left + (i % cols) * (bw + gap), y: top + Math.floor(i / cols) * 54, w: bw, h: 40 }));
-      const tcols = Math.min(params.chips.length, 3), tw = Math.min(96, (w - 24 - (tcols - 1) * 8) / tcols), tgap = (w - 24 - tcols * tw) / Math.max(1, tcols - 1), trows = Math.ceil(params.chips.length / tcols);
+      const tcols = Math.min(params.chips.length, long ? 2 : 3), tw = Math.min(maxW, (w - 24 - (tcols - 1) * 8) / tcols), tgap = (w - 24 - tcols * tw) / Math.max(1, tcols - 1), trows = Math.ceil(params.chips.length / tcols);
       tray = params.chips.map((_, j) => ({ x: 12 + (j % tcols) * (tw + tgap), y: h - 30 - trows * 42 + Math.floor(j / tcols) * 42, w: tw, h: 34 }));
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
@@ -43,7 +45,7 @@ GAMES['ordena-terminos'] = (() => {
         if (dashed) p.drawingContext.setLineDash([5, 4]);
         p.stroke(col); p.strokeWeight(2); p.fill(fill); p.rect(b.x, b.y, b.w, b.h, 9);
         p.drawingContext.setLineDash([]);
-        p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(label.length > 7 ? 11 : 14);
+        p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(label.length > 18 ? 9 : label.length > 7 ? 11 : 14);
         p.text(label, b.x + b.w / 2, b.y + b.h / 2);
       }
 
