@@ -1,0 +1,147 @@
+# Zuka · guía para sesiones nuevas
+
+App web progresiva (PWA) de matemáticas en español, JavaScript sin frameworks. Lecciones = video corto
++ ejercicios (muchos son minijuegos de p5.js). Repositorio `github.com/CarlosHurtado2024/zuka_app`,
+rama `main`; Vercel publica cada push. Contenido basado en el *Manual de Álgebra y Trigonometría* de la
+UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONOMETRIA.pdf`.
+
+## Cómo trabaja el usuario (respetar siempre)
+
+- Responder en **español**.
+- **No hacer preguntas**: decidir con criterio y avanzar. Subir los cambios **automáticamente** a `main`
+  (`git push origin main`) sin pedir permiso. Commits con la línea final
+  `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
+- Ejercicios **creativos y originales**: juegos interactivos; evitar opción múltiple y tarjetas
+  (verdadero/falso, clasificar). Puede quedar algún cálculo numérico (`num`).
+- **Cada ejercicio con pista** (`hint`) que oriente sin dar la respuesta.
+- Videos: explicar con **intuición primero y fórmula después**, ejemplos resueltos con detalle,
+  **sin ejercicios ni preguntas al espectador**, sin voz ni subtítulos quemados. Los ejemplos del video
+  **no se repiten** en los ejercicios.
+- Todo lo visual debe verse bien en **tema claro y oscuro** y en celular (300–380 px de ancho).
+- Proceso: diseñar → pruebas primero (TDD) → implementar → probar en el navegador → revisión fresca con un
+  subagente (modelo opus) → corregir lo crítico/importante con prueba → subir. Diseños en
+  `docs/superpowers/specs/`.
+
+## Estructura
+
+| Ruta | Qué hay |
+|---|---|
+| `index.html`, `css/styles.css` | página única; variables de tema en `:root` y `:root[data-theme="light"]` |
+| `js/app.js` | estado `S`, pestañas, ruta de lecciones, `startLesson` (cola de videos y ejercicios, retroalimentación), tema (`applyTheme`) |
+| `js/content.js` | ayudantes `sc, mc, num, ord, sld, play`, `clipsOf`, `buildQueue`, `BUNNY_CDN` |
+| `js/exercises.js` | tipos de ejercicio (`mc`, `input`, `order`, `slider`, `play`), `renderExercise`, `hintBlock` (botón «Ver pista») |
+| `js/courses/algebra.js`, `js/courses/trig.js`, `js/data.js` | cursos (Álgebra 9 unidades, Trigonometría 3, más Cálculo, Física, etc.) |
+| `js/games/kit.js` | `GAMES`, `PALETTES`/`PALETTE`/`setGameTheme`, `mountSketch`, `shuffledOrder`, `lineMap`, `nearest` |
+| `js/games/*.js` | un archivo por juego (≈59) |
+| `js/player.js` | reproductor de clips (Bunny HLS o escenas animadas) |
+| `sw.js` | service worker: `VERSION` y lista `SHELL` |
+| `tests/` | `node --test tests/` (≈352 pruebas); `tests/load.js` carga scripts en un `vm` |
+| `video/` | videos con manimgl (ver abajo) |
+
+## Lecciones (datos)
+
+```js
+{
+  id: 'alg-11', title: '…',
+  clip: { bunny: '<id de Bunny>', duration: 462, scenes: [sc(5, 'texto', { steps: [...] })] },
+  more: [{ after: 7, bunny: '<id parte 2>', duration: 379, scenes: [] }],   // parte 2 justo antes del ejercicio 7
+  ex: [
+    mc(q, opciones, índiceCorrecto, explicación, { hint }),
+    num(q, respuesta, explicación, { tol, prefix, suffix, answerText, hint }),
+    play('nombre-juego', enunciado, params, explicación, { hint }),
+  ],
+}
+```
+
+- Textos con KaTeX: dentro de cadenas JS la barra va doble (`'$\\tfrac{\\pi}{2}$'`); el seno se escribe
+  `\\operatorname{sen}`. Decimales con punto.
+- `scenes` son el respaldo si el video no carga. Al recibir un ID de Bunny: poner `bunny` y la
+  `duration` **que reporta Bunny** (medir con `video.duration` en el navegador; puede diferir de la local).
+- Al cambiar contenido o juegos: subir `VERSION` en `sw.js` (`zuka-vNN`).
+
+## Juegos (p5.js)
+
+Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create(host, params, api) →
+{ loaded, getState, lock, destroy } }`. `grade` es pura (se prueba en Node). En `create`:
+
+- `const C = api.palette` y **leer los colores al dibujar** (`C.bg, C.card, C.line, C.ink, C.mute, C.brand,
+  C.ok, C.bad`, familias `C.N, C.Z, C.Q, C.I, C.R`). Así se repintan solos al cambiar de tema. Nada de
+  colores fijos para texto o fondo.
+- `mountSketch(host, (p, size) => {...}, aspecto)`; solo escribir `mousePressed/Dragged/Released`
+  (los toques se enlazan solos). `p.onResize` para reacomodar.
+- `api.ready(true)` cuando se puede comprobar; `lock()` congela y muestra la solución en verde.
+- Patrón común: pestañas de rondas (44×30 px arriba), texto que se encoge con `textWidth` para caber,
+  botones − / + cuando un arrastre necesita precisión.
+- Registrar cada juego en `index.html` (`<script defer src="js/games/x.js">`) y en `SHELL` de `sw.js`
+  (lo exige `tests/registro.test.js`).
+- Pruebas: `const { loadGame } = require('./load'); loadGame('js/games/x.js')['x']`. Los arreglos que
+  vienen del `vm` no son `deepEqual` con los de la prueba: comparar con `.join()` o `JSON.stringify`.
+- Pruebas de contenido por unidad (`tests/contenido-*.test.js`): índices válidos, pistas presentes, que la
+  pista no regale la respuesta y que cada ronda tenga solución alcanzable con los controles.
+
+Juegos recientes: Álgebra 1.1 `pasaporte-numeros`, `ascensor`, `pon-la-rayita`, `acorrala-raiz`;
+Álgebra 1.2 `atajo-axiomas`, `arma-producto`, `dobla-la-recta`; Trigonometría U1 `rueda-angulo`,
+`corta-pizza`, `arma-triangulo`, `mide-altura`, `atrapa-punto`, `noria`, `sintoniza-onda`. Reutilizables:
+`une-parejas`, `ordena-terminos` (`sep`), `clasifica-cartas`, `ubica-en-recta`, `cajas-numericas`…
+
+## Interfaz de la lección
+
+- Al fallar: «Incorrecto» + «La respuesta correcta es:»; la lección deja espacio abajo para ver el juego.
+- Durante una lección el menú inferior se esconde (`body.in-lesson`); en la pestaña Clips se esconde
+  mientras el video se reproduce y vuelve al pausar.
+
+## Videos (manimgl, 9:16, 1080×1920)
+
+- Motor: **manimgl 1.7.2** (3b1b/manim) en `video/.venv-gl`. Cada clase es una carpeta
+  `video/clase_*` con: escenas `<tema>.py`, `mb_common.py` (plantilla), `build.py`, `custom_config.yml`,
+  `assets/` (fondo y mascota).
+- Plantillas: álgebra usa `mb_common.py` (fondo morado `fondo_algebra.png`); trigonometría usa
+  `video/trig_common.py` (generado por `make_trig_common.py`: fondo azul `fondo_trig.png`, colores
+  `C_SEN` rosa, `C_COS` cian, `C_TAN` lima, `C_ANG` amarillo, fondo y encabezado fijos y **zoom de
+  cámara** `self.zoom_to(obj, scale)` / `self.zoom_reset()` sobre `self.frame`). Portada y cierre
+  compartidos en `trig_scenes_common.py` (`TrigPortada`, `TrigCierre`).
+- Nueva clase de trigonometría: `python mk_trig_class.py clase_trig_tN tema "Título" TN S00_Portada S01_… S0k_Cierre`.
+- Fondo de otro curso: `python make_background.py "#color" salida.png [intensidad brillo]`
+  (trig: `"#22d3ee" … 0.36 0.24`).
+- Escena base `MBScene`: `mark(título)`, `say(texto)` (reserva el tiempo de lectura y va al guion),
+  `hold()`, `set_header(tex, nombre, color, relleno)`, `clear_scene()`, `end_section()`. Ayudas `T`, `TB`
+  (texto) y `M` (fórmula).
+- Renderizar (Git Bash, desde la carpeta de la clase):
+  `export PATH="../.venv-gl/Scripts:$PATH"`; borrador `python build.py --quality=-l`; HD `python build.py`;
+  una escena suelta: `export PYTHONPATH="$(pwd -W)"; manimgl tema.py S02_X -w -l`.
+  Salen `dist/<tema>_<parte>.mp4`, `_guion.md` y `_guion.srt`. Correrlos en segundo plano y de uno en uno.
+- Revisar con hoja de contacto: `ffmpeg -i dist/x.mp4 -vf "fps=1/4,scale=150:-1,tile=8x5" -frames:v 1 -update 1 hoja.png`.
+- Entrega: copiar `dist/` a `C:\Users\User Acer\Downloads\Zuka_…` y enviar los mp4. **El usuario los sube a
+  Bunny** y pasa los ID; nunca hay claves de Bunny en la sesión.
+- Trampas de manimgl: no existe `BraceBetweenPoints` (usar `Brace(Line(a, b), DOWN)`);
+  `SurroundingRectangle` no acepta `corner_radius`; en `Tex` solo ASCII (`\'u` en vez de «ú», `\times`
+  en vez de «×»); `Tex` dentro de `always_redraw` compila en cada cuadro (lento): redondear el valor;
+  lo que deba quedarse quieto durante un zoom va con `.fix_in_frame()`; dibujar con la misma escala en x
+  y en y si se muestra un ángulo; recortar gráficas (tangente) al rango de los ejes.
+
+## Probar en el navegador
+
+- Servidor de vista previa «zuka» (`python -m http.server 5173`), pestaña del panel.
+- Tras cambiar archivos: `fetch(archivo, {cache:'reload'})`, desregistrar service workers, borrar
+  `caches` y navegar a una URL nueva (`?v=NN`).
+- Abrir un ejercicio suelto: `startLesson(curso, { ...lección, clip: { scenes: lección.clip.scenes }, ex: [lección.ex[i]], more: [] })`
+  y tocar `.clip-skip`; simular toques con `TouchEvent` sobre `.play canvas`.
+- Probar a 340–375 px y en los dos temas (`S.theme = 'light'; applyTheme()`); volver a escritorio al terminar.
+
+## Trampas del entorno (Windows)
+
+- Los *heredoc* de Bash a veces comen las barras invertidas: escribir JS/Python con barras usando las
+  herramientas de edición o archivos de script, no `cat <<EOF` ni `python - <<EOF`.
+- Python con acentos en la salida: `python -X utf8`. `ffmpeg` está en `video/.venv-gl/Scripts`.
+- Cambiar de rama mientras se renderiza puede fallar por archivos bloqueados.
+
+## Pendiente (a la fecha)
+
+Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):
+- Álgebra: Clase 4 interés (`alg-13b`), Clase 5 progresiones (`alg-14`, 2 partes), Clase 6 sumatoria
+  (`alg-15`), Clase 8 potencias (`alg-21a`), Clase 9 leyes de exponentes (`alg-21b`, parte 2 en `more`
+  con `after: 6`), Clase 10 raíces (`alg-22a`), Clase 11 radicales (`alg-22b`).
+- Trigonometría unidad 1: T1–T9 (`trig-41a`, `trig-41b`, `trig-1`, `trig-2`, `trig-42c`, `trig-3`,
+  `trig-43b`, `trig-44a`, `trig-44b`).
+- Las unidades 2 y 3 de Trigonometría y el resto de Álgebra aún tienen ejercicios de opción múltiple y
+  sin pistas.
