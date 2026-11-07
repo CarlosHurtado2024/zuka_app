@@ -128,7 +128,10 @@ class S02_SacarFactores(MBScene):
         self.hold()
         self.say("Con letras es igual: raíz de x a la quinta. Cinco equis: dos parejas salen, una "
                  "x por pareja, y una x se queda. x al cuadrado raíz de x, si x es positivo.")
-        lit = M(R"\sqrt{x^{5}} = \sqrt{x^{2} \cdot x^{2} \cdot x} = x \cdot x \cdot \sqrt{x} = x^{2}\sqrt{x} \quad (x \ge 0)", size=34, t2c={"x^{2}\\sqrt{x}": C_Q}).next_to(cube, DOWN, buff=0.6)
+        lit = VGroup(
+            M(R"\sqrt{x^{5}} = \sqrt{x^{2} \cdot x^{2} \cdot x} = x \cdot x \cdot \sqrt{x} = x^{2}\sqrt{x}", size=34, t2c={"x^{2}\\sqrt{x}": C_Q}),
+            T("con x ≥ 0", size=22, color=MUTED),
+        ).arrange(DOWN, buff=0.15).next_to(cube, DOWN, buff=0.6)
         self.play(FadeIn(lit, shift=0.2 * UP))
         self.hold(0.5)
         self.end_section()
@@ -198,7 +201,10 @@ class S05_Conjugado(MBScene):
         self.set_header(R"a^2 - b^2", "El conjugado", C_I, P_I)
         self.say("Si abajo hay una suma o resta con raíz, multiplicar por la misma raíz no basta. "
                  "Se usa el conjugado: la misma expresión con el signo cambiado, porque suma por diferencia da diferencia de cuadrados y las raíces desaparecen.", fox=True)
-        rule = M(R"(a + b)(a - b) = a^{2} - b^{2} \qquad (4 + \sqrt5)(4 - \sqrt5) = 16 - 5 = 11", size=34).move_to(4.0 * UP)
+        rule = VGroup(
+            M(R"(a + b)(a - b) = a^{2} - b^{2}", size=36),
+            M(R"(4 + \sqrt5)(4 - \sqrt5) = 16 - 5 = 11", size=34),
+        ).arrange(DOWN, buff=0.2).move_to(4.0 * UP)
         self.play(FadeIn(rule, shift=0.2 * UP))
         self.hold()
         self.say("Ejemplo: 9 sobre 4 más raíz de 5. Multiplico arriba y abajo por 4 menos raíz de "
