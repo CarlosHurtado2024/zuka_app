@@ -7,6 +7,9 @@ GAMES['pasaporte-numeros'] = (() => {
   const NAMES = { N: 'ℕ', Z: 'ℤ', Q: 'ℚ', I: '𝕀', R: 'ℝ' };
   const list = ks => (ks.length > 1 ? `${ks.slice(0, -1).map(k => NAMES[k]).join(', ')} y ${NAMES[ks[ks.length - 1]]}` : ks.map(k => NAMES[k]).join(''));
   const rowOk = (row, num, sets) => sets.every((k, j) => !!row?.[j] === num.in.includes(k));
+  // Alto/ancho del lienzo: cabecera (74 px), una fila de 46 px por número y el pie (30 px), medido a
+  // 330 px de ancho (un celular), para que todas las filas quepan en la pantalla sin desplazarse.
+  const aspectFor = n => (104 + n * 46) / 330;
 
   function grade(state, params) {
     const wrong = params.numbers.filter((n, i) => !rowOk(state.stamps[i], n, params.sets));
@@ -22,7 +25,7 @@ GAMES['pasaporte-numeros'] = (() => {
     function layout(w, h) {
       W = w; H = h;
       const top = 74, foot = 30;
-      rh = Math.min(54, (h - top - foot) / nums.length);
+      rh = Math.min(50, (h - top - foot) / nums.length);
       r0 = Math.min(rh * 0.36, 18);
       const labelW = Math.min(110, w * 0.33), x0 = 12 + labelW, cw = (w - 12 - x0) / sets.length;
       colX = sets.map((_, j) => x0 + (j + 0.5) * cw);
@@ -84,7 +87,7 @@ GAMES['pasaporte-numeros'] = (() => {
           }
         }
       };
-    }, 1.3);
+    }, aspectFor(nums.length));
 
     return {
       loaded: m.ready,
@@ -94,5 +97,5 @@ GAMES['pasaporte-numeros'] = (() => {
     };
   }
 
-  return { grade, create };
+  return { grade, create, aspectFor };
 })();

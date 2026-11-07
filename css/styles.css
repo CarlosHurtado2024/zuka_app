@@ -373,6 +373,7 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .feedback.show { transform: none; }
 .feedback h4 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
 .fb-sol { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.fb-label { font-size: 13px; font-weight: 700; color: var(--ink); opacity: .75; margin-bottom: 2px; }
 .fb-exp { font-size: 14.5px; line-height: 1.5; color: var(--ink); opacity: .85; margin-bottom: 14px; }
 .feedback.ok { background: var(--fb-ok); border-top: 2px solid var(--ok); }
 .feedback.ok h4 { color: var(--ok); } .feedback.ok .btn { --c: var(--ok); }

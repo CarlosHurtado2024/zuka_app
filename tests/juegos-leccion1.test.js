@@ -28,6 +28,14 @@ test('pasaporte: cada número con todos (y solo) los sellos de sus familias', ()
   assert.equal(pasaporte.grade({ stamps: [[T, T, T], [T, T, T], [F, F, T]] }, params).ok, false, '−4 no es natural');
 });
 
+test('pasaporte: el lienzo crece con las filas, sin pasar de 1.2 de alto por ancho con seis números', () => {
+  assert.ok(pasaporte.aspectFor(6) <= 1.2, `seis filas: ${pasaporte.aspectFor(6)}`);
+  assert.ok(pasaporte.aspectFor(3) < pasaporte.aspectFor(6));
+  // Con 330 px de ancho cada fila sigue teniendo al menos 40 px para tocarla.
+  const h = 330 * pasaporte.aspectFor(6);
+  assert.ok((h - 104) / 6 >= 40, `fila de ${(h - 104) / 6} px`);
+});
+
 test('pon la rayita: expand calcula cifras, parte fija y período', () => {
   const e = rayita.expand(5, 11, 8);
   assert.equal(`${e.int}|${e.digits.join('')}|${e.pre}|${e.period}`, '0|45454545|0|2');

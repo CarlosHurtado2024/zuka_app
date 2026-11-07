@@ -353,6 +353,7 @@ function startLesson(c, l) {
     root.classList.remove('fb-open', 'clip-mode', 'clip-ended', 'clip-fresh');
     body.className = 'lesson-body';
     body.scrollTop = 0;
+    body.style.paddingBottom = '';
   }
 
   // El clip se ve a pantalla completa, como en Clips; la barra y los corazones vuelven en los ejercicios.
@@ -447,11 +448,14 @@ function startLesson(c, l) {
     save(); updateBar();
     fb.className = `feedback show ${r.ok ? 'ok' : 'bad'}`;
     fb.innerHTML = `<div class="fb-in">
-      <h4>${r.ok ? PRAISE[Math.floor(Math.random() * PRAISE.length)] : 'Respuesta correcta:'}</h4>
-      ${r.ok ? '' : `<div class="fb-sol">${tex(r.solution)}</div>`}
+      <h4>${r.ok ? PRAISE[Math.floor(Math.random() * PRAISE.length)] : 'Incorrecto'}</h4>
+      ${r.ok ? '' : `<p class="fb-label">La respuesta correcta es:</p><div class="fb-sol">${tex(r.solution)}</div>`}
       ${ex.explain ? `<p class="fb-exp">${tex(ex.explain)}</p>` : ''}
       <button class="btn">${r.ok ? 'Continuar' : 'Entendido'}</button></div>`;
     root.classList.add('fb-open');
+    // La retroalimentación tapa la parte de abajo: se deja ese espacio para poder desplazar el
+    // ejercicio y verlo completo (en un juego largo, lo que quedó mal puede estar abajo).
+    body.style.paddingBottom = `${Math.max(0, fb.offsetHeight - $('.lesson-foot', ov).offsetHeight) + 24}px`;
     $('.btn', fb).onclick = () => {
       fb.classList.remove('show');
       if (S.hearts <= 0) return outOfHearts();
