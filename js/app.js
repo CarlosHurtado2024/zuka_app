@@ -324,6 +324,7 @@ function startLesson(c, l) {
     <span class="clip-part"></span>
   </div>`;
   ov.classList.add('open');
+  document.body.classList.add('in-lesson');   // sin menú inferior: la lección ocupa toda la pantalla
   const root = $('.lesson', ov), body = $('.lesson-body', ov), btn = $('.btn.main', ov), fb = $('.feedback', ov);
   const bar = $('.pbar i', ov), hearts = $('.lesson-top .hearts b', ov);
 
@@ -336,6 +337,7 @@ function startLesson(c, l) {
     teardown(); Narrator.stop();
     document.removeEventListener('keydown', onKey);
     ov.classList.remove('open'); ov.innerHTML = '';
+    document.body.classList.remove('in-lesson');
     lessonClose = null;
     go(typeof to === 'string' ? to : back);
   }
@@ -591,8 +593,9 @@ document.querySelectorAll('#tabbar button').forEach(b => {
   b.insertAdjacentHTML('afterbegin', ICON[b.dataset.tab === 'learn' ? 'learn' : b.dataset.tab === 'clips' ? 'clips' : 'user']);
   b.onclick = () => (lessonClose ? lessonClose(b.dataset.tab) : go(b.dataset.tab));
 });
-// El menú inferior sigue visible durante la clase (como en Clips): la clase ocupa el resto.
-const setTabbarHeight = () => document.documentElement.style.setProperty('--tabbar-h', `${$('#tabbar').offsetHeight}px`);
+// Altura del menú inferior para lo que se acomoda encima de él. Durante una lección el menú se
+// esconde (body.in-lesson pone --tabbar-h en 0): no se guarda esa altura 0.
+const setTabbarHeight = () => { const h = $('#tabbar').offsetHeight; if (h) document.documentElement.style.setProperty('--tabbar-h', `${h}px`); };
 setTabbarHeight();
 addEventListener('resize', setTabbarHeight);
 document.addEventListener('visibilitychange', () => { if (document.hidden) Narrator.stop(); });

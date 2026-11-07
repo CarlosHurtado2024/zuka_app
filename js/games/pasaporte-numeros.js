@@ -71,7 +71,7 @@ GAMES['pasaporte-numeros'] = (() => {
         });
         if (pop) { pop.t -= 0.12; if (pop.t <= 0) pop = null; }
         p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
-        p.text(locked ? (grade(st, params).ok ? '¡Pasaportes en regla!' : 'Faltan los sellos punteados en verde; sobran los tachados') : 'Toca una casilla para poner o quitar el sello · un número puede llevar varios', 12, H - 16, W - 24, 28);
+        p.text(locked ? (grade(st, params).ok ? '¡Pasaportes en regla!' : 'Faltan los sellos punteados en verde; sobran los tachados') : 'Toca una casilla para poner o quitar el sello', 12, H - 16, W - 24, 28);
       };
 
       p.mousePressed = () => {
