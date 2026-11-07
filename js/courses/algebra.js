@@ -4,7 +4,7 @@
 
 const COURSE_ALGEBRA = {
   id: 'algebra', level: 'Fundamentos', name: 'Álgebra', icon: 'x²', color: '#8b7bff',
-  tagline: 'Aritmética, funciones y polinomios: las partes I a III del Manual de Álgebra y Trigonometría de la UdeA.',
+  tagline: 'El lenguaje de las matemáticas: números, ecuaciones y funciones para describir el mundo.',
   units: [
     {
       title: 'Números reales, potenciación y radicación',

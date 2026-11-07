@@ -6,7 +6,7 @@ const COURSES = [
   COURSE_TRIG,
   {
     id: 'calc', level: 'Semestre 1', name: 'Cálculo Diferencial', icon: 'dx', color: '#f472b6',
-    tagline: 'Límites y derivadas: cómo cambian las cosas.',
+    tagline: 'La matemática del cambio: qué tan rápido crece, cae o se mueve algo.',
     units: [
       {
         title: 'Límites',
@@ -96,7 +96,7 @@ const COURSES = [
   },
   {
     id: 'fis', level: 'Semestre 1', name: 'Física Mecánica', icon: 'F', color: '#facc15',
-    tagline: 'Movimiento, fuerzas y energía.',
+    tagline: 'Por qué las cosas se mueven: fuerzas, energía y movimiento.',
     units: [
       {
         title: 'Cinemática',
@@ -191,7 +191,7 @@ const COURSES = [
   },
   {
     id: 'int', level: 'Semestre 2', name: 'Cálculo Integral', icon: '∫', color: '#34d399',
-    tagline: 'Acumular cambios: áreas e integrales.',
+    tagline: 'Sumar lo infinitamente pequeño: áreas, volúmenes y acumulación.',
     units: [
       {
         title: 'La integral',
@@ -232,7 +232,7 @@ const COURSES = [
   },
   {
     id: 'lin', level: 'Semestre 2', name: 'Álgebra Lineal', icon: 'M', color: '#fb923c',
-    tagline: 'Vectores y matrices que transforman el espacio.',
+    tagline: 'Vectores y matrices: el idioma del espacio y sus transformaciones.',
     units: [
       {
         title: 'Vectores y matrices',
