@@ -16,57 +16,65 @@ const COURSE_ALGEBRA = {
           more: [{ bunny: 'ea51ca0e-db04-4742-b3e1-c97c0dbac9cf', duration: 440, scenes: [] }],
           clip: { bunny: 'ef92b6fe-c9b9-41b1-aede-587ea693199e', duration: 404, scenes: [
             sc(6, 'Los números se fueron ampliando para resolver nuevos problemas: contar, restar, repartir, medir.', { title: '$\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$', steps: ['$\\mathbb{N} = \\{1, 2, 3, \\dots\\}$: contar', '$\\mathbb{Z}$: los enteros, con negativos', '$\\mathbb{Q} = \\left\\{\\tfrac{m}{n} : n \\neq 0\\right\\}$: fracciones', '$\\mathbb{I}$: irracionales como $\\sqrt2,\\ \\pi,\\ e$'] }),
-            sc(5, 'Todo decimal **periódico** es racional: se puede escribir como fracción.', { steps: ['$0.\\overline{36} = \\dfrac{36}{99} = \\dfrac{4}{11}$', '$0.1\\overline{6} = \\dfrac{16 - 1}{90} = \\dfrac{1}{6}$'] }),
-            sc(5, 'Los reales llenan la **recta numérica**. Un conjunto de reales se escribe como intervalo.', { title: '$\\{x : -2 \\leq x < 5\\} = [-2, 5)$', viz: { type: 'numberline', range: [-4, 6], sets: [[-2, 5, true, false]], label: '[−2, 5)' } }),
-            sc(5, 'El **valor absoluto** mide distancia: la distancia entre $a$ y $b$ es $|b - a|$.', { steps: ['$|a| = a$ si $a \\geq 0$, y $|a| = -a$ si $a < 0$', '$|3 - \\pi| + |\\pi - 4| = (\\pi - 3) + (4 - \\pi) = 1$'] }),
+            sc(5, 'Todo decimal que **termina o se repite** es racional: viene de una fracción.', { steps: ['$\\tfrac94 = 2.25$', '$\\tfrac{177}{55} = 3.2\\overline{18}$'] }),
+            sc(5, 'Los reales llenan la **recta numérica**: cada punto tiene su número y cada número su punto.', { steps: ['$-2.7 < \\sqrt2 < e < \\pi < \\tfrac{24}{5}$', '$\\sqrt2 \\approx 1.41,\\; e \\approx 2.72,\\; \\pi \\approx 3.14$'] }),
+            sc(5, 'Un decimal periódico se vuelve fracción: multiplica por 10, 100… según el período, y resta.', { steps: ['$x = 0.\\overline{36}$', '$100x - x = 36$', '$x = \\tfrac{36}{99} = \\tfrac{4}{11}$'] }),
           ] },
-          // Siete minijuegos de p5.js (js/games/*.js): cada uno evalúa una idea de la clase.
+          // Nueve ejercicios (juegos de p5.js y preguntas) sin repetir los ejemplos resueltos en el video. Libro UdeA §1.1.
           ex: [
             play('cajas-numericas', 'Arrastra cada número a la caja **más pequeña** donde vive', {
               cards: [
-                { label: '7', tex: '7', set: 'N' }, { label: '−3', tex: '-3', set: 'Z' }, { label: '0', tex: '0', set: 'Z' },
-                { label: '3/4', tex: '\\tfrac34', set: 'Q' }, { label: '0.333…', tex: '0.\\overline{3}', set: 'Q' }, { label: '√49', tex: '\\sqrt{49}', set: 'N' },
-                { label: '√2', tex: '\\sqrt2', set: 'I' }, { label: 'π', tex: '\\pi', set: 'I' }, { label: '−8/2', tex: '-\\tfrac82', set: 'Z' },
+                { label: '12', tex: '12', set: 'N' }, { label: '−3', tex: '-3', set: 'Z' }, { label: '0', tex: '0', set: 'Z' },
+                { label: '2/5', tex: '\\tfrac25', set: 'Q' }, { label: '0.444…', tex: '0.\\overline{4}', set: 'Q' }, { label: '√49', tex: '\\sqrt{49}', set: 'N' },
+                { label: '√5', tex: '\\sqrt5', set: 'I' }, { label: 'π', tex: '\\pi', set: 'I' }, { label: '−8/2', tex: '-\\tfrac82', set: 'Z' },
               ],
-            }, 'Cada familia vive dentro de la siguiente: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$. $\\sqrt{49} = 7$ y $-\\tfrac82 = -4$ se simplifican antes de decidir; $\\sqrt2$ y $\\pi$ no son fracciones.'),
+            }, 'Cada familia vive dentro de la siguiente: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, y la caja más pequeña es la que mejor describe al número. $\\sqrt{49} = 7$ y $-\\tfrac82 = -4$ se simplifican antes de decidir; $0.\\overline{4} = \\tfrac49$ es una fracción disfrazada; $\\sqrt5$ y $\\pi$ no son fracciones. Una caja más grande (naranja) no está mal, pero no es la más pequeña.'),
             play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
               cards: [
-                { text: 'Todo número natural es también entero', truth: true, why: 'ℕ está dentro de ℤ: 7 es natural y también entero.' },
-                { text: 'Todo número entero es natural', truth: false, why: '−3 es entero, pero los naturales empiezan en 1.' },
-                { text: '0.75 es un número racional', truth: true, why: '0.75 = 3/4, un cociente de enteros.' },
-                { text: '√2 se puede escribir como una fracción', truth: false, why: '√2 es irracional: su decimal no termina ni se repite.' },
-                { text: 'Todo decimal periódico es racional', truth: true, why: '0.333… = 1/3; siempre hay una fracción detrás.' },
-                { text: 'Un número puede ser racional e irracional a la vez', truth: false, why: 'ℚ e 𝕀 no se cruzan: juntos forman ℝ.' },
+                { text: 'Todo número natural es también racional', truth: true, why: 'ℕ ⊂ ℤ ⊂ ℚ: 12 es natural, entero y racional (12/1).' },
+                { text: 'El 0 es un número natural', truth: false, why: 'En este curso ℕ = {1, 2, 3, …}; el 0 es entero.' },
+                { text: '0.125 es un número racional', truth: true, why: '0.125 = 1/8: su decimal termina.' },
+                { text: '22/7 es igual a π', truth: false, why: '22/7 = 3.142857… es racional (periódico); π no tiene período. Solo se parecen.' },
+                { text: 'Un decimal que no termina siempre es irracional', truth: false, why: '0.444… no termina, pero se repite: es 4/9, racional.' },
+                { text: 'Entre dos reales distintos siempre hay otro real', truth: true, why: 'Entre a y b está su promedio (a + b)/2: la recta no tiene huecos.' },
               ],
-            }, 'Las familias están anidadas: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, así que lo natural también es entero y lo entero también es racional, pero no al revés. Los irracionales ($\\sqrt2$, $\\pi$) no son fracciones, y junto con los racionales llenan la recta real.'),
+            }, 'Las familias están anidadas: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$. Un decimal es racional si termina o se repite; si nunca se repite, es irracional. Y los reales no dejan huecos en la recta.'),
             play('ubica-en-recta', 'Suelta cada número en su lugar de la recta', {
               min: -3, max: 4, tol: 0.15,
               points: [
-                { label: '−3/2', tex: '-\\tfrac32', value: -1.5 }, { label: '3/4', tex: '\\tfrac34', value: 0.75 },
-                { label: '√2', tex: '\\sqrt2', value: 1.4142 }, { label: 'π', tex: '\\pi', value: 3.1416 }, { label: '−√4', tex: '-\\sqrt4', value: -2 },
+                { label: '−5/2', tex: '-\\tfrac52', value: -2.5 }, { label: '1/3', tex: '\\tfrac13', value: 0.3333 },
+                { label: '√3', tex: '\\sqrt3', value: 1.7321 }, { label: '7/2', tex: '\\tfrac72', value: 3.5 }, { label: '−0.5', tex: '-0.5', value: -0.5 },
               ],
-            }, 'Los reales llenan la recta: $-\\tfrac32 = -1.5$, $\\tfrac34 = 0.75$, $\\sqrt2 \\approx 1.41$, $\\pi \\approx 3.14$ y $-\\sqrt4 = -2$.'),
+            }, 'Primero conviértelos: $-\\tfrac52 = -2.5$, $\\tfrac13 \\approx 0.33$, $\\sqrt3 \\approx 1.73$ (porque $1.73^2 \\approx 3$), $\\tfrac72 = 3.5$ y $-0.5$ está a medio paso del cero, a la izquierda.'),
             play('pizzeria', 'Sirve cada pedido: corta la pizza y marca las porciones que pide', {
               maxSlices: 12,
               orders: [
-                { label: '0.75', num: 3, den: 4 },
-                { label: '0.333…', num: 1, den: 3 },
-                { label: '40 %', num: 2, den: 5 },
-                { label: 'la mitad', num: 1, den: 2 },
+                { label: '0.6', num: 3, den: 5 },
+                { label: '0.666…', num: 2, den: 3 },
+                { label: '25 %', num: 1, den: 4 },
+                { label: 'tres octavos', num: 3, den: 8 },
               ],
-            }, 'La misma cantidad se puede escribir como fracción, decimal, porcentaje o con palabras: $0.75 = \\tfrac34 = \\tfrac68$, $0.\\overline{3} = \\tfrac13 = \\tfrac{4}{12}$, $40\\,\\% = \\tfrac25$ y la mitad es $\\tfrac12$. Cortar en más porciones no cambia cuánto es: son fracciones **equivalentes**.'),
-            play('reglas-del-juego', 'Pon a cada igualdad el nombre de la propiedad que usa', {
-              rules: ['Conmutativa', 'Asociativa', 'Distributiva', 'Neutro', 'Inverso'],
-              items: [
-                { label: 'a + b = b + a', tex: 'a + b = b + a', rule: 'Conmutativa' }, { label: '(ab)c = a(bc)', tex: '(ab)c = a(bc)', rule: 'Asociativa' },
-                { label: 'a(b + c) = ab + ac', tex: 'a(b + c) = ab + ac', rule: 'Distributiva' }, { label: 'a + 0 = a', tex: 'a + 0 = a', rule: 'Neutro' },
-                { label: 'a + (−a) = 0', tex: 'a + (-a) = 0', rule: 'Inverso' },
+            }, 'La misma cantidad se puede escribir como fracción, decimal, porcentaje o con palabras: $0.6 = \\tfrac35 = \\tfrac{6}{10}$, $0.\\overline{6} = \\tfrac23 = \\tfrac{4}{6}$, $25\\,\\% = \\tfrac14 = \\tfrac{3}{12}$ y tres octavos es $\\tfrac38$. Cortar en más porciones no cambia cuánto es: son fracciones **equivalentes**.'),
+            play('clasifica-cartas', 'Desliza cada número según su decimal: ¿**racional** o **irracional**?', {
+              left: 'Irracional', right: 'Racional',
+              cards: [
+                { text: '0.125', side: 'right', why: 'Termina: es 1/8.' },
+                { text: '0.777…', side: 'right', why: 'Se repite el 7: es 7/9.' },
+                { text: '1.7320508…', side: 'left', why: 'Es √3: sus cifras no se repiten nunca.' },
+                { text: '−4', side: 'right', why: 'Todo entero es racional: −4 = −4/1.' },
+                { text: '0.1010010001…', side: 'left', why: 'Hay un patrón, pero no se repite igual: cada vez hay un 0 más. No es periódico.' },
+                { text: '22/7', side: 'right', why: 'Es una fracción de enteros: racional, aunque se parezca a π.' },
               ],
-            }, 'Son las reglas del juego de los reales: el orden no importa (conmutativa), la agrupación no importa (asociativa), el producto se reparte sobre la suma (distributiva), el 0 no cambia nada (neutro) y cada número tiene su opuesto (inverso).'),
-            play('dibuja-intervalo', 'Dibuja en la recta el conjunto indicado', { min: -5, max: 7, a: -2, b: 5, aClosed: true, bClosed: false, set: '{x : −2 ≤ x < 5}' },
-              '$\\{x : -2 \\leq x < 5\\} = [-2, 5)$: el $-2$ entra (punto lleno, corchete) y el $5$ no (punto vacío, paréntesis).'),
-            play('distancia-justa', 'Coloca $b$ a la distancia justa de $a$', { min: -10, max: 6, a: -3, d: 5 },
-              '$|b - a|$ es la distancia entre $a$ y $b$. Desde $-3$, a 5 unidades hay dos puntos: $-3 + 5 = 2$ y $-3 - 5 = -8$.'),
+            }, 'Racional: el decimal termina o repite un bloque fijo (período). Irracional: no termina y no repite ningún bloque fijo, como $\\sqrt3$ o $0.1010010001\\ldots$'),
+            play('ordena-terminos', 'Ordena los pasos para escribir $0.\\overline{45}$ como fracción', { tex: 'x = 0.\\overline{45}', chips: ['100x = 45.4545…', '100x − x = 45', '99x = 45', 'x = 45/99 = 5/11', '10x = 4.5454…', 'x = 45/100'], order: [0, 1, 2, 3], sep: '⇒' },
+              'El período tiene dos cifras, así que se multiplica por $100$: $100x = 45.\\overline{45}$. Al restar $x$ desaparece la cola: $99x = 45$ y $x = \\tfrac{45}{99} = \\tfrac{5}{11}$. Multiplicar por $10$ no alinea el período, y $\\tfrac{45}{100}$ sería $0.45$ sin la rayita.'),
+            num('Si $0.\\overline{27} = \\dfrac{k}{11}$, ¿cuánto vale $k$?', 3, '$0.\\overline{27} = \\tfrac{27}{99} = \\tfrac{3}{11}$: el período va sobre tantos nueves como cifras tiene, y luego se simplifica.', { prefix: '$k =$' }),
+            play('une-parejas', 'Une cada fracción con su decimal', {
+              left: ['1/8', '2/3', '11/4', '5/9', '7/20'],
+              right: ['0.125', '0.666…', '2.75', '0.555…', '0.35', '0.8', '2.5'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+            }, 'Dividir numerador entre denominador: $\\tfrac18 = 0.125$ y $\\tfrac{7}{20} = 0.35$ terminan; $\\tfrac23 = 0.\\overline{6}$ y $\\tfrac59 = 0.\\overline{5}$ se repiten; $\\tfrac{11}{4} = 2.75$. Las fichas $0.8$ y $2.5$ sobran.'),
+            mc('¿Cuál de estos números pertenece a la vez a $\\mathbb{Z}$, $\\mathbb{Q}$ y $\\mathbb{R}$?', ['$-6$', '$\\tfrac72$', '$\\sqrt3$', '$0.5$'], 0, 'Solo $-6$ es entero; como $\\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, también es racional y real. $\\tfrac72$ y $0.5$ son racionales pero no enteros, y $\\sqrt3$ es irracional.'),
           ],
         },
         {
@@ -117,6 +125,8 @@ const COURSE_ALGEBRA = {
               'Sumar o restar lo mismo a los dos lados **conserva** el orden; multiplicar por un positivo también. Multiplicar por un negativo **refleja** la recta y voltea el signo: de $4 < 10$ se pasa a $-4 > -10$.'),
             play('dibuja-intervalo', 'Dibuja en la recta los números que cumplen $|x - 2| \\le 3$', { min: -4, max: 8, a: -1, b: 5, aClosed: true, bClosed: true, set: '|x − 2| ≤ 3' },
               '$|x - 2| \\le 3$ son los números a distancia **a lo sumo 3** del 2: desde $2 - 3 = -1$ hasta $2 + 3 = 5$, con los extremos incluidos: $[-1, 5]$.'),
+            play('distancia-justa', 'Coloca $b$ a la distancia justa de $a$', { min: -10, max: 6, a: -3, d: 5 },
+              '$|b - a|$ es la distancia entre $a$ y $b$. Desde $-3$, a 5 unidades hay dos puntos: $-3 + 5 = 2$ y $-3 - 5 = -8$.'),
           ],
         },
         {

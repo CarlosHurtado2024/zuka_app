@@ -11,8 +11,9 @@ pausa de su mismo largo para grabar la locución encima.
 Renderizar una escena:      manimgl sistemas_numericos.py S04_Racionales -w
 Renderizar todo:            python build.py
 
-Contenido basado en: texto guía Ude@ (Cap. 1, módulo 1.2), Grupo EMAC
-(Tema 1) y Stewart, Precálculo §1.1.
+Contenido basado en el Manual de Álgebra y Trigonometría (UdeA, Zarrazola 2024) §1.1,
+el texto guía Ude@ (Cap. 1, módulo 1.2) y Stewart, Precálculo §1.1. Las reglas del juego, el
+orden y el valor absoluto quedaron en la Clase 7 (axiomas de campo y orden).
 """
 from mb_common import *
 
@@ -113,7 +114,7 @@ class S00_Portada(MBScene):
 
 class S00_PortadaParte2(S00_Portada):
     part_tag = "Clase 1 · Parte 2"
-    part_subtitle = "Irracionales, reales y sus reglas"
+    part_subtitle = "Irracionales, reales y la recta"
     slide_title = "Portada · Parte 2"
 
     def after_cover(self):
@@ -132,7 +133,7 @@ class S00_PortadaParte2(S00_Portada):
             get_set_badge(R"\mathbb{I}", "medir", C_I, P_I, width=3.2),
             get_set_badge(R"\mathbb{R}", "todos juntos", C_R, P_R, width=3.2),
         ).arrange(RIGHT, buff=0.4).next_to(badges, DOWN, buff=0.9)
-        self.say("Hoy completamos la familia, conocemos sus reglas de juego y aprendemos a comparar números.")
+        self.say("Hoy completamos la familia, recorremos la recta real y aprendemos a convertir un decimal periódico en fracción.")
         self.play(LaggedStartMap(FadeIn, new, shift=0.3 * UP, lag_ratio=0.3))
         self.hold(0.5)
         self.end_section()
@@ -432,6 +433,11 @@ class S03_Enteros(MBScene):
         self.play(ShowCreation(boxes))
         self.hold()
         self.play(FadeOut(boxes))
+        parts = M(R"\mathbb{Z} = \mathbb{Z}^{+} \cup \mathbb{Z}^{-} \cup \{0\}", size=50).move_to(3.1 * UP)
+        self.say("El libro lo escribe en tres pedazos: los enteros positivos, que son los naturales; "
+                 "los enteros negativos; y el cero, que no es ni lo uno ni lo otro.")
+        self.play(Write(parts))
+        self.hold()
 
         self.mark("Opuestos: como en un espejo")
         mirror = DashedLine(line.n2p(0) + 1.1 * DOWN, line.n2p(0) + 1.1 * UP).set_stroke(MUTED, 2)
@@ -500,7 +506,7 @@ class S04b_CierreParte1(MBScene):
         blob = Circle(radius=2.3).set_fill(PEACH, 1).set_stroke(width=0).move_to(2.2 * UP)
         fox = ImageMobject("zuka_mascota.png", height=3.0).move_to(blob)
         bye = TB("¡Muy bien!\nToma un respiro.", size=46, color=INK, alignment="CENTER")
-        nxt = T("En la Parte 2: irracionales, reales,\nlas reglas del juego y el valor absoluto", size=30,
+        nxt = T("En la Parte 2: irracionales, reales,\nla recta real y los decimales periódicos", size=30,
                 color=ORANGE, alignment="CENTER")
         words = VGroup(bye, nxt).arrange(DOWN, buff=0.6).next_to(blob, DOWN, buff=0.7)
         self.play(GrowFromCenter(blob), FadeIn(fox, shift=0.3 * UP), run_time=1.2)
@@ -618,37 +624,39 @@ class S04_Racionales(MBScene):
         self.mark("De fracción a decimal")
         self.clear_scene()
         rows = VGroup(
-            M(R"\frac{1}{2} = 0.5", size=64),
-            M(R"\frac{3}{4} = 0.75", size=64),
+            M(R"\frac{9}{4} = 2.25", size=64),
             M(R"\frac{1}{3} = 0.3333\ldots", size=64),
+            M(R"\frac{177}{55} = 3.21818\ldots", size=58),
         ).arrange(DOWN, buff=1.05, aligned_edge=LEFT).move_to(1.2 * UP)
         tags = VGroup(
             T("la división termina", size=28, color=C_Q),
-            T("la división termina", size=28, color=C_Q),
-            T("¡se repite para siempre!", size=28, color=ORANGE),
+            T("¡el 3 se repite para siempre!", size=28, color=ORANGE),
+            T("el bloque 18 se repite", size=28, color=ORANGE),
         )
         for tag, row in zip(tags, rows):
             tag.next_to(row, DOWN, buff=0.18, aligned_edge=LEFT)
         self.say("Si hacemos la división, cada fracción se vuelve un número decimal. "
-                 "A veces la división termina: 1/2 = 0.5 y 3/4 = 0.75.")
+                 "A veces la división termina: 9 entre 4 da 2.25, dos cifras y se acabó.")
         self.play(Write(rows[0]), FadeIn(tags[0]))
-        self.play(Write(rows[1]), FadeIn(tags[1]))
         self.hold()
         self.say("Otras veces no termina, pero se repite: 1 entre 3 da 0.3333…, con el 3 repitiéndose para siempre.")
+        self.play(Write(rows[1]), FadeIn(tags[1]))
+        self.hold()
+        self.say("Y puede repetirse un bloque entero: 177 entre 55 da 3.2181818…, con el 18 dando vueltas sin parar.")
         self.play(Write(rows[2]), FadeIn(tags[2]))
         self.hold()
 
         self.mark("La rayita de los decimales periódicos")
-        self.play(FadeOut(VGroup(rows[:2], tags[:2])),
-                  VGroup(rows[2], tags[2]).animate.move_to(4.2 * UP))
+        self.play(FadeOut(VGroup(rows[0], tags[0], rows[2], tags[2])),
+                  VGroup(rows[1], tags[1]).animate.move_to(4.2 * UP))
         bar = M(R"0.3333\ldots = 0.\overline{3}", size=70).move_to(2.6 * UP)
         card = get_notation(R"0.\overline{3}", "La rayita encima significa: esta cifra se repite para siempre.")
         card.move_to(0.4 * DOWN)
         self.say("Para no escribir tantos tres, ponemos una rayita encima de lo que se repite.")
         self.play(Write(bar), FadeIn(card, shift=0.3 * UP))
         self.hold()
-        group = M(R"0.181818\ldots = 0.\overline{18}", size=70).move_to(3.4 * DOWN)
-        self.say("Si se repite un grupo de cifras, la rayita cubre todo el grupo: 0.181818… se escribe con raya sobre el 18.")
+        group = M(R"3.2181818\ldots = 3.2\overline{18}", size=64).move_to(3.4 * DOWN)
+        self.say("Si se repite un bloque, la rayita cubre solo el bloque: 3.2181818… se escribe 3.2 con raya sobre el 18, porque el 2 no se repite.")
         self.play(Write(group))
         self.hold()
         self.say("Así reconoces a un racional: su decimal termina, o se repite con un patrón.", fox=True, wait=True)
@@ -775,6 +783,11 @@ class S05_Irracionales(MBScene):
         self.play(GrowFromCenter(pi_dot), Write(pi_lab))
         self.hold()
         self.say("Pi aparece en todo lo que es redondo: ruedas, relojes, platos y planetas.", wait=True)
+        e_lab = M(R"e = 2.71828\ldots", size=54, color=C_I).next_to(pi_lab, DOWN, buff=0.4)
+        self.say("Otro famoso es el número e, 2.71828…: aparece en el crecimiento y en los intereses, "
+                 "y también es irracional.")
+        self.play(Write(e_lab))
+        self.hold(0.3)
         self.end_section()
 
 
@@ -840,7 +853,7 @@ class S06_Reales(MBScene):
             ("5", "N", C_N, "El 5 sirve para contar: vive en la caja de los naturales… y, por eso, "
                             "también dentro de todas las cajas que la rodean.", False),
             ("-7", "Z", C_Z, "El −7 está bajo cero: vive con los enteros, pero no con los naturales.", False),
-            (R"\tfrac{3}{4}", "Q", C_Q, "3/4 es una fracción: es racional.", False),
+            (R"\tfrac{9}{4}", "Q", C_Q, "9/4 es una fracción, o sea 2.25: es racional.", False),
             (R"\sqrt{2}", "I", C_I, "√2 no se puede escribir como fracción: va con los irracionales.", False),
             (R"\sqrt{9}", "N", C_N, "¡Cuidado con las trampas! √9 parece raro, pero 3 × 3 = 9: "
                                     "√9 es simplemente 3, un natural.", True),
@@ -859,15 +872,22 @@ class S06_Reales(MBScene):
 
         self.mark("La recta real: sin huecos")
         self.clear_scene()
-        line = get_number_line((-3, 4, 1), width=7.2, font_size=32).move_to(0.6 * UP)
+        line = get_number_line((-3, 5, 1), width=7.2, font_size=30).move_to(0.6 * UP)
         self.say("Todos los reales juntos llenan la recta por completo: cada punto tiene su número "
-                 "y cada número tiene su punto.")
+                 "y cada número tiene su punto. Ubiquemos los del libro.")
         self.play(ShowCreation(line))
-        points = [(-2.5, "-2.5", C_Z), (0.75, R"\tfrac{3}{4}", C_Q), (np.sqrt(2), R"\sqrt{2}", C_I), (PI, R"\pi", C_I)]
+        points = [(-2.7, "-2.7", C_Q), (np.sqrt(2), R"\sqrt{2}", C_I), (np.e, "e", C_I), (PI, R"\pi", C_I), (4.8, R"\tfrac{24}{5}", C_Q)]
         for i, (x, tex, color) in enumerate(points):
             dot = Dot(line.n2p(x), radius=0.12).set_color(color)
             lab = M(tex, size=48, color=color).next_to(dot, UP if i % 2 == 0 else DOWN, buff=0.35 if i % 2 == 0 else 0.8)
             self.play(GrowFromCenter(dot), FadeIn(lab, shift=0.2 * DOWN), run_time=0.6)
+        self.say("−2.7 queda entre −3 y −2; √2 es 1.41; e, 2.72; π, 3.14; y 24/5 es 4.8. "
+                 "Los negativos a la izquierda del cero y los positivos a la derecha.")
+        sides = VGroup(
+            T("reales negativos", size=24, color=C_Z).next_to(line.n2p(-1.5), DOWN, buff=1.6),
+            T("reales positivos", size=24, color=C_N).next_to(line.n2p(2.5), DOWN, buff=1.6),
+        )
+        self.play(FadeIn(sides, shift=0.2 * UP))
         self.hold()
         words = T("La recta real no tiene\nni un solo hueco.", size=34, color=INK, alignment="CENTER")
         words.move_to(3.4 * DOWN)
@@ -878,351 +898,85 @@ class S06_Reales(MBScene):
 
 
 # ---------------------------------------------------------------------------
-# Fin de la Parte 2
+# 7. De decimal periódico a fracción
 # ---------------------------------------------------------------------------
-# ---------------------------------------------------------------------------
-# 7. Las reglas del juego (propiedades de campo)
-# ---------------------------------------------------------------------------
-class S07_ReglasDelJuego(MBScene):
+class S07_DecimalAFraccion(MBScene):
     def construct(self):
-        self.mark("Las reglas del juego")
-        self.set_header(R"+\ \times", "Las reglas del juego", ORANGE, PEACH)
-        board = self.get_board()
-        board.set_width(6.8).move_to(2.4 * UP)
-        self.say("Todo juego de mesa tiene reglas que los jugadores respetan. Los números reales también: "
-                 "se llaman propiedades o axiomas de campo.", fox=True)
-        self.play(FadeIn(board, scale=0.95))
+        self.mark("De decimal periódico a fracción")
+        self.set_header(R"0.\overline{36}", "De decimal a fracción", C_Q, P_Q)
+        self.say("Dijimos que todo decimal periódico es racional: detrás hay una fracción. "
+                 "¿Cómo la encontramos? Con un truco de dos pasos: multiplicar por 10 tantas veces "
+                 "como cifras tenga el período, y restar.", fox=True)
+        x0 = M(R"x = 0.363636\ldots", size=60).move_to(4.2 * UP)
+        self.play(Write(x0))
         self.hold()
-        self.say("Son las reglas que dicen cómo se portan la suma y la multiplicación. "
-                 "Veámoslas una por una, con ejemplos.", wait=True)
-        letters = VGroup(
-            get_notation(R"a,\ b", "Son casillas vacías: puedes poner ahí el número que quieras."),
-            get_notation(R"a \cdot b", "El punto entre dos números significa «por»: multiplicar."),
-        ).arrange(DOWN, buff=0.8).move_to(0.4 * UP)
-        self.play(FadeOut(board), FadeIn(letters[0], shift=0.2 * UP))
-        self.say("En las reglas usamos letras como a y b. Son casillas vacías: puedes poner ahí el número que quieras.")
+        self.say("Llamemos x al número. El período es «36», dos cifras, así que multiplicamos por 100: "
+                 "la coma corre dos lugares y la cola sigue siendo la misma.")
+        x1 = M(R"100x = 36.363636\ldots", size=60).next_to(x0, DOWN, buff=0.5)
+        self.play(FadeIn(x1, shift=0.2 * UP))
         self.hold()
-        self.say("Y el punto entre dos números significa «por», es decir, multiplicar. 3 · 4 es lo mismo que 3 × 4.")
-        self.play(FadeIn(letters[1], shift=0.2 * UP))
+        self.say("Ahora restamos: 100x menos x. Las colas infinitas son iguales y se cancelan: "
+                 "queda 99x igual a 36.")
+        x2 = VGroup(
+            M(R"100x - x = 36.3636\ldots - 0.3636\ldots", size=46),
+            M(R"99x = 36", size=60, t2c={"99x": C_Q}),
+        ).arrange(DOWN, buff=0.35).next_to(x1, DOWN, buff=0.7)
+        self.play(FadeIn(x2[0], shift=0.2 * UP))
+        self.play(FadeIn(x2[1], shift=0.2 * UP))
+        self.hold()
+        self.say("Despejamos x: 36 sobre 99, y simplificamos dividiendo arriba y abajo por 9: cuatro onceavos.")
+        x3 = M(R"x = \frac{36}{99} = \frac{4}{11}", size=66, t2c={R"\frac{4}{11}": C_Q}).next_to(x2, DOWN, buff=0.7)
+        self.play(Write(x3))
+        self.hold()
+        self.say("Compruébalo: 4 entre 11 da 0.3636…, con el 36 repitiéndose para siempre.", wait=True)
+
+        self.mark("Un ejemplo del libro: 3.2 periodo 18")
+        self.clear_scene()
+        self.say("Ahora uno con una cifra antes del período, como el del libro: x igual a 3.2181818…", fox=True)
+        y0 = M(R"x = 3.2181818\ldots", size=58).move_to(4.3 * UP)
+        self.play(Write(y0))
+        self.hold()
+        self.say("Primero corremos la coma hasta donde empieza el período: multiplicamos por 10.")
+        y1 = M(R"10x = 32.181818\ldots", size=58).next_to(y0, DOWN, buff=0.45)
+        self.play(FadeIn(y1, shift=0.2 * UP))
+        self.hold()
+        self.say("Luego, un período completo más: dos cifras, por 100. En total, por mil.")
+        y2 = M(R"1000x = 3218.181818\ldots", size=58).next_to(y1, DOWN, buff=0.45)
+        self.play(FadeIn(y2, shift=0.2 * UP))
+        self.hold()
+        self.say("Restamos las dos que tienen la misma cola: mil x menos diez x es 990x, "
+                 "y 3218 menos 32 es 3186.")
+        y3 = M(R"1000x - 10x = 3218 - 32", size=52).next_to(y2, DOWN, buff=0.6)
+        y4 = M(R"990x = 3186", size=60, t2c={"990x": C_Q}).next_to(y3, DOWN, buff=0.35)
+        self.play(FadeIn(y3, shift=0.2 * UP))
+        self.play(FadeIn(y4, shift=0.2 * UP))
+        self.hold()
+        self.say("Despejamos y simplificamos dividiendo por 18: ciento setenta y siete sobre cincuenta y cinco, "
+                 "justo la fracción del libro.")
+        y5 = M(R"x = \frac{3186}{990} = \frac{177}{55}", size=62, t2c={R"\frac{177}{55}": C_Q}).next_to(y4, DOWN, buff=0.6)
+        self.play(Write(y5))
         self.hold(0.5)
 
-        # Regla 1: conmutativa
-        self.mark("Regla 1: el orden no importa")
+        self.mark("La regla rápida")
         self.clear_scene()
-        tag = self.get_rule_tag("1", "Propiedad conmutativa")
-        coins_a = VGroup(*(self.get_coin(C_N) for _ in range(2))).arrange(RIGHT, buff=0.14)
-        coins_b = VGroup(*(self.get_coin(C_Z) for _ in range(5))).arrange(RIGHT, buff=0.14)
-        row = VGroup(coins_a, coins_b).arrange(RIGHT, buff=0.7).move_to(3.1 * UP)
-        eq1 = M(R"2 + 5 = 5 + 2 = 7", size=76).next_to(row, DOWN, buff=1.5)
         rule = VGroup(
-            M(R"a + b = b + a", size=58, color=ORANGE),
-            M(R"a \cdot b = b \cdot a", size=58, color=ORANGE),
-        ).arrange(DOWN, buff=0.55).next_to(eq1, DOWN, buff=1.5)
-        self.play(FadeIn(tag))
-        self.say("Si en tu bolsillo echas 2 monedas y luego 5, o primero 5 y luego 2, al final tienes 7 igual.")
-        self.play(FadeIn(coins_a, shift=0.3 * DOWN))
-        self.play(FadeIn(coins_b, shift=0.3 * DOWN))
-        self.play(Swap(coins_a, coins_b), run_time=1.2)
-        self.play(Write(eq1))
+            TB("Regla rápida", size=34, color=ORANGE),
+            M(R"0.\overline{a} = \frac{a}{9} \qquad 0.\overline{ab} = \frac{ab}{99}", size=50),
+            M(R"0.\overline{7} = \frac{7}{9} \qquad 0.\overline{36} = \frac{36}{99} = \frac{4}{11}", size=46,
+              t2c={R"\frac{7}{9}": C_Q, R"\frac{4}{11}": C_Q}),
+        ).arrange(DOWN, buff=0.6).move_to(2.6 * UP)
+        self.say("De ahí sale la regla rápida: el período va arriba, y abajo tantos nueves como cifras tenga. "
+                 "Luego se simplifica.")
+        self.play(FadeIn(rule, shift=0.2 * UP))
         self.hold()
-        self.say("Eso dice la propiedad conmutativa: al sumar o al multiplicar, el orden no cambia el resultado.")
-        self.play(Write(rule))
-        self.hold(0.5)
-
-        # Regla 2: asociativa
-        self.mark("Regla 2: agrupar no importa")
-        self.clear_scene()
-        tag = self.get_rule_tag("2", "Propiedad asociativa")
-        top = VGroup(M(R"(2 + 3) + 4", size=66), M(R"5 + 4 = 9", size=60, color=C_Q)).arrange(DOWN, buff=0.4)
-        bottom = VGroup(M(R"2 + (3 + 4)", size=66), M(R"2 + 7 = 9", size=60, color=C_Q)).arrange(DOWN, buff=0.4)
-        cols = VGroup(top, bottom).arrange(DOWN, buff=1.6).move_to(1.9 * UP)
-        self.play(FadeIn(tag))
-        self.say("Si sumas tres números, puedes juntar primero los dos que quieras. "
-                 "Los paréntesis indican qué haces primero.")
-        self.play(Write(top[0]))
-        self.play(Write(bottom[0]))
-        self.hold()
-        self.say("(2 + 3) + 4 da 9, y 2 + (3 + 4) también da 9. Esa es la propiedad asociativa.")
-        self.play(TransformFromCopy(top[0], top[1]), TransformFromCopy(bottom[0], bottom[1]))
-        rule = M(R"(a + b) + c = a + (b + c)", size=58, color=ORANGE).move_to(3.4 * DOWN)
-        self.play(Write(rule))
-        self.hold(0.5)
-
-        # Regla 3: neutros
-        self.mark("Regla 3: los que no cambian nada")
-        self.clear_scene()
-        tag = self.get_rule_tag("3", "Elementos neutros")
-        eqs = VGroup(M(R"7 + 0 = 7", size=88), M(R"7 \cdot 1 = 7", size=88)).arrange(DOWN, buff=1.3).move_to(2.3 * UP)
-        rule = VGroup(
-            M(R"a + 0 = a", size=58, color=ORANGE),
-            M(R"a \cdot 1 = a", size=58, color=ORANGE),
-        ).arrange(DOWN, buff=0.55).next_to(eqs, DOWN, buff=1.6)
-        self.play(FadeIn(tag))
-        self.say("Sumar cero es como no echar nada a tu bolsillo, y multiplicar por uno es tomar algo una sola vez: "
-                 "todo queda igual.", fox=True)
-        self.play(LaggedStartMap(Write, eqs, lag_ratio=0.5))
-        self.play(Write(rule))
-        self.hold(0.5)
-
-        # Regla 4: inversos
-        self.mark("Regla 4: todo tiene su «deshacer»")
-        self.clear_scene()
-        tag = self.get_rule_tag("4", "Inversos")
-        e1 = M(R"5 + (-5) = 0", size=74).move_to(3.4 * UP)
-        self.play(FadeIn(tag))
-        self.say("Subir 5 pisos y bajar 5 te devuelve a la calle. Así, cada número tiene un «deshacer» "
-                 "para la suma: 5 + (−5) = 0.")
-        self.play(Write(e1))
-        self.hold()
-        e2 = M(R"4 \cdot \tfrac{1}{4} = 1", size=74).move_to(1.0 * UP)
-        pieces = get_pizza(4, 4, radius=1.0).next_to(e2, DOWN, buff=0.5)
-        self.say("Partir una pizza en 4 pedazos y juntar los 4 te devuelve la pizza entera: 4 · ¼ = 1. "
-                 "Ese es el «deshacer» de la multiplicación.")
-        self.play(Write(e2), FadeIn(pieces))
-        self.hold()
-        zero = M(R"\frac{1}{0}\ \ \text{no existe}", size=66, color=C_I).move_to(3.6 * DOWN)
-        self.say("El cero es el único sin «deshacer» para la multiplicación. Por eso, nunca se divide entre cero.")
-        self.play(Write(zero))
-        self.hold(0.5)
-
-        # Regla 5: distributiva
-        self.mark("Regla 5: repartir la multiplicación")
-        self.clear_scene()
-        tag = self.get_rule_tag("5", "Propiedad distributiva")
-        combos = VGroup(*(self.get_combo() for _ in range(3))).arrange(RIGHT, buff=0.25)
-        combos.set_width(7.0).move_to(3.3 * UP)
-        self.play(FadeIn(tag))
-        self.say("Compras 3 combos. Cada combo trae una hamburguesa de 10 mil pesos y un jugo de 2 mil.")
-        self.play(LaggedStartMap(FadeIn, combos, shift=0.3 * DOWN, lag_ratio=0.3))
-        self.hold()
-        eq = VGroup(
-            M(R"3 \cdot (10 + 2)", size=62, t2c={"10": C_N}),
-            M(R"= 3 \cdot 10 + 3 \cdot 2", size=62, t2c={"10": C_N}),
-            M(R"= 30 + 6 = 36", size=62, t2c={"30": C_N}),
-        ).arrange(DOWN, buff=0.5, aligned_edge=LEFT).move_to(0.2 * DOWN)
-        self.say("Pagas lo mismo si cuentas 3 hamburguesas y luego 3 jugos: 30 mil más 6 mil, 36 mil. "
-                 "Esa es la propiedad distributiva.")
-        self.play(LaggedStartMap(Write, eq, lag_ratio=0.6), run_time=2.5)
-        rule = M(R"a \cdot (b + c) = a \cdot b + a \cdot c", size=54, color=ORANGE).move_to(3.1 * DOWN)
-        self.play(Write(rule))
-        self.hold(0.5)
-        self.end_section()
-
-    def get_rule_tag(self, number, name):
-        circle = Circle(radius=0.3).set_fill(ORANGE, 1).set_stroke(width=0)
-        num = TB(number, size=30, color=WHITE).move_to(circle)
-        text = TB(name, size=30, color=ORANGE)
-        tag = VGroup(VGroup(circle, num), text).arrange(RIGHT, buff=0.25)
-        tag.next_to(self.header, DOWN, buff=0.4)
-        return tag
-
-    def get_coin(self, color):
-        coin = Circle(radius=0.3).set_fill(color, 1).set_stroke(WHITE, 3)
-        inner = Circle(radius=0.2).set_stroke(WHITE, 2, opacity=0.7)
-        return VGroup(coin, inner)
-
-    def get_combo(self):
-        burger = RoundedRectangle(1.3, 0.8, corner_radius=0.3).set_fill(P_N, 1).set_stroke(C_N, 3)
-        b_lab = TB("10", size=30, color=C_N).move_to(burger)
-        juice = RoundedRectangle(0.6, 1.0, corner_radius=0.12).set_fill(P_Z, 1).set_stroke(C_Z, 3)
-        j_lab = TB("2", size=30, color=C_Z).move_to(juice)
-        items = VGroup(VGroup(burger, b_lab), VGroup(juice, j_lab)).arrange(RIGHT, buff=0.2)
-        tray = get_card(items, color=BORDER, buff=0.2, fill=CARD)
-        return VGroup(tray, items)
-
-    def get_board(self):
-        cells = VGroup(*(
-            Square(0.82).set_fill(color, 1).set_stroke(WHITE, 3)
-            for color in [P_N, P_Z, P_Q, P_I, P_R, PEACH] * 4
-        ))
-        cells.arrange_in_grid(4, 6, buff=0)
-        pieces = VGroup(
-            Dot(radius=0.2).set_fill(ORANGE, 1).set_stroke(WHITE, 3).move_to(cells[7]),
-            Dot(radius=0.2).set_fill(C_Z, 1).set_stroke(WHITE, 3).move_to(cells[16]),
-        )
-        die = RoundedRectangle(0.8, 0.8, corner_radius=0.15).set_fill(WHITE, 1).set_stroke(INK, 3)
-        pips = VGroup(*(Dot(radius=0.07).set_fill(INK, 1) for _ in range(3)))
-        for pip, shift in zip(pips, [UL, ORIGIN, DR]):
-            pip.move_to(die.get_center() + 0.22 * shift)
-        die_group = VGroup(die, pips).next_to(cells, DOWN, buff=0.45)
-        return VGroup(cells, pieces, die_group)
-
-
-# ---------------------------------------------------------------------------
-# 8. Mayor, menor e intervalos
-# ---------------------------------------------------------------------------
-class S08_Orden(MBScene):
-    def construct(self):
-        self.mark("Mayor y menor")
-        self.set_header(R"<\ >", "Mayor, menor e intervalos", C_Z, P_Z)
-        ineq = M(R"3 < 7", size=160).move_to(3.9 * UP)
-        ineq[1].set_color(ORANGE)
-        self.say("Un truco: el signo «menor que» es como una boquita abierta que siempre quiere comerse "
-                 "al número más grande.", fox=True)
-        self.play(Write(ineq))
-        self.play(ineq[1].animate.scale(1.35), rate_func=there_and_back, run_time=1.0)
-        self.play(ineq[1].animate.scale(1.35), rate_func=there_and_back, run_time=1.0)
-        self.hold()
-        readings = VGroup(
-            T("3 < 7   se lee\n«tres es menor que siete»", size=32, alignment="CENTER"),
-            T("7 > 3   se lee\n«siete es mayor que tres»", size=32, alignment="CENTER"),
-            T("≤   con rayita debajo:\n«menor o igual que»", size=32, color=ORANGE, alignment="CENTER"),
-        ).arrange(DOWN, buff=0.85).next_to(ineq, DOWN, buff=1.2)
-        self.say("3 < 7 se lee «tres es menor que siete». Y 7 > 3, «siete es mayor que tres»: "
-                 "la misma idea, vista desde el otro lado.")
-        self.play(FadeIn(readings[0]))
-        self.play(FadeIn(readings[1]))
-        self.hold()
-        self.say("Si el signo lleva una rayita debajo, ≤, significa «menor o igual que».")
-        self.play(FadeIn(readings[2]))
-        self.hold(0.5)
-
-        self.mark("En la recta: más a la derecha, más grande")
-        self.clear_scene()
-        line = get_number_line((-5, 5, 1), width=7.2, font_size=32).move_to(1.9 * UP)
-        self.play(ShowCreation(line))
-        arrow = Arrow(line.n2p(-4), line.n2p(4), thickness=4).set_color(ORANGE).shift(1.0 * UP)
-        grows = T("los números crecen hacia la derecha", size=28, color=ORANGE).next_to(arrow, UP, buff=0.2)
-        self.say("En la recta, el número que está más a la derecha siempre es el mayor.")
-        self.play(GrowArrow(arrow), FadeIn(grows))
-        self.hold()
-        d1 = Dot(line.n2p(-3), radius=0.13).set_color(C_Z)
-        d2 = Dot(line.n2p(-1), radius=0.13).set_color(C_Z)
-        ex = M(R"-3 < -1", size=88).move_to(1.6 * DOWN)
-        cold = T("−3 °C es más frío\nque −1 °C", size=34, color=C_Z, alignment="CENTER").next_to(ex, DOWN, buff=0.8)
-        self.say("Con negativos, piensa en la temperatura: −3 grados es más frío que −1 grado. "
-                 "Por eso −3 < −1.", fox=True)
-        self.play(GrowFromCenter(d1), GrowFromCenter(d2))
-        self.play(Write(ex), FadeIn(cold))
-        self.hold(0.5)
-
-        self.mark("Intervalos: un tramo de la recta")
-        self.clear_scene()
-        sign = T("Para subir a la atracción\ndebes medir entre 1.20 m y 1.90 m", size=32, color=INK,
-                 alignment="CENTER").move_to(4.6 * UP)
-        line = get_number_line((1.0, 2.2, 0.1), width=7.0, numbers=False).move_to(2.2 * UP)
-        nums = VGroup(*(
-            T(f"{x:.2f}".replace(".00", ""), size=26, color=MUTED).next_to(line.n2p(x), DOWN, buff=0.2)
-            for x in [1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
-        ))
-        self.say("Un intervalo es un tramo de la recta, como el tramo de una carretera entre dos pueblos.", fox=True)
-        self.play(ShowCreation(line), FadeIn(nums))
-        self.hold()
-        self.say("Por ejemplo: para subir a una atracción del parque debes medir entre 1.20 m y 1.90 m.")
-        self.play(FadeIn(sign, shift=0.2 * DOWN))
-        seg = self.get_interval(line, 1.2, 1.9, True, True)
-        self.play(ShowCreation(seg[0]), FadeIn(seg[1:]))
-        self.hold()
-        notation = M(R"[\,1.20,\ 1.90\,]", size=90).move_to(0.1 * DOWN)
-        card = get_notation(R"[\ \ ]", "Corchete: el extremo SÍ está incluido. Se dibuja con un punto relleno.",
-                            color=C_Z)
-        card.move_to(3.0 * DOWN)
-        self.say("Se escribe con corchetes. El corchete significa que el extremo SÍ está incluido: "
-                 "si mides exactamente 1.20, puedes subir.")
-        self.play(Write(notation), FadeIn(card, shift=0.3 * UP))
-        self.hold(0.5)
-
-        self.mark("Paréntesis e infinito")
-        self.clear_scene()
-        sign = T("Solo para mayores de 18 años", size=34, color=INK).move_to(4.6 * UP)
-        line = get_number_line((10, 30, 2), width=7.0, font_size=26).move_to(2.2 * UP)
-        self.play(FadeIn(sign), ShowCreation(line))
-        seg = self.get_interval(line, 18, 30, False, True)
-        tip = Arrow(line.n2p(29), line.n2p(30) + 0.5 * RIGHT, buff=0, thickness=6).set_color(C_Z)
-        self.say("Si dice «mayores de 18 años», el 18 no cuenta: el tramo empieza justo después. "
-                 "Usamos paréntesis y un punto vacío.")
-        self.play(ShowCreation(seg[0]), FadeIn(seg[1]), GrowArrow(tip))
-        notation = M(R"(\,18,\ \infty\,)", size=90).move_to(0.1 * DOWN)
-        self.play(Write(notation))
-        self.hold()
-        card = get_notation(R"\infty", "Se lee «infinito»: el tramo no tiene final. Con infinito siempre va paréntesis.",
-                            color=C_Z)
-        card.move_to(3.0 * DOWN)
-        self.say("El símbolo ∞ se lee «infinito»: el tramo sigue sin final. Con infinito siempre va paréntesis, "
-                 "porque nunca llegamos a él.")
-        self.play(FadeIn(card, shift=0.3 * UP))
-        self.hold(0.5)
-        self.end_section()
-
-    def get_interval(self, line, a, b, closed_left=True, closed_right=True):
-        seg = Line(line.n2p(a), line.n2p(b)).set_stroke(C_Z, 10)
-        dots = VGroup()
-        for x, closed in [(a, closed_left), (b, closed_right)]:
-            dot = Dot(line.n2p(x), radius=0.14).set_stroke(C_Z, 4)
-            dot.set_fill(C_Z if closed else BG_COLOR, 1)
-            dots.add(dot)
-        if not closed_right and b == line.x_max:
-            dots.remove(dots[1])
-        return VGroup(seg, *dots)
-
-
-# ---------------------------------------------------------------------------
-# 9. Valor absoluto
-# ---------------------------------------------------------------------------
-class S09_ValorAbsoluto(MBScene):
-    def construct(self):
-        self.mark("¿A cuántos pasos de casa?")
-        self.set_header(R"|a|", "Valor absoluto", TEAL, "#0F2F2C")
-        line = get_number_line((-6, 6, 1), width=7.4, font_size=28).move_to(2.6 * UP)
-        house = get_house(0.7).next_to(line.n2p(0), UP, buff=0.3)
-        self.say("Imagina que el cero es tu casa. El valor absoluto te dice a cuántos pasos estás de casa, "
-                 "sin importar hacia qué lado caminaste.", fox=True)
-        self.play(ShowCreation(line), FadeIn(house, shift=0.2 * DOWN))
-        self.hold()
-        token = get_token(C_Z).move_to(line.n2p(0) + 0.35 * DOWN)
-        self.play(FadeIn(token, scale=2))
-        for n in range(-1, -4, -1):
-            self.play(token.animate(path_arc=-PI / 2).move_to(line.n2p(n) + 0.35 * DOWN), run_time=0.5)
-        brace = Brace(Line(line.n2p(-3), line.n2p(0)), DOWN, buff=0.7).set_color(C_Z)
-        lab = M(R"|-3| = 3", size=62, color=C_Z).next_to(brace, DOWN, buff=0.2)
-        self.say("Si caminas 3 pasos hacia la izquierda, estás en el −3… pero estás a 3 pasos de casa. "
-                 "Por eso |−3| = 3.")
-        self.play(GrowFromCenter(brace), Write(lab))
-        self.hold()
-        token2 = get_token(C_N).move_to(line.n2p(0) + 0.35 * DOWN)
-        self.say("Y si caminas 3 pasos hacia la derecha, también estás a 3 pasos: |3| = 3.")
-        self.play(FadeIn(token2, scale=2))
-        for n in range(1, 4):
-            self.play(token2.animate(path_arc=PI / 2).move_to(line.n2p(n) + 0.35 * DOWN), run_time=0.5)
-        brace2 = Brace(Line(line.n2p(0), line.n2p(3)), UP, buff=0.75).set_color(C_N)
-        lab2 = M(R"|3| = 3", size=62, color=C_N).next_to(brace2, UP, buff=0.2)
-        self.play(GrowFromCenter(brace2), Write(lab2))
-        self.hold()
-        card = get_notation(R"|\ \ |", "Las dos barritas se leen «valor absoluto de». Como es una distancia, nunca es negativo.",
-                            color=TEAL)
-        card.move_to(3.4 * DOWN)
-        self.say("Las dos barritas verticales se leen «valor absoluto de». Como es una distancia, "
-                 "el resultado nunca es negativo.")
-        self.play(FadeIn(card, shift=0.3 * UP))
-        self.hold(0.5)
-
-        self.mark("La distancia entre dos números")
-        self.clear_scene()
-        line = get_number_line((0, 10, 1), width=7.2, font_size=28).move_to(2.2 * UP)
-        a = get_token(C_N).move_to(line.n2p(3) + 0.35 * UP)
-        b = get_token(C_Z).move_to(line.n2p(8) + 0.35 * UP)
-        names = VGroup(
-            T("Ana", size=28, color=C_N).next_to(a, UP, buff=0.2),
-            T("Luis", size=28, color=C_Z).next_to(b, UP, buff=0.2),
-        )
-        self.say("Ana está en el 3 y Luis en el 8. ¿Qué tan lejos están? Restamos y tomamos el valor absoluto.")
-        self.play(ShowCreation(line), FadeIn(a, scale=2), FadeIn(b, scale=2), FadeIn(names))
-        brace = Brace(Line(line.n2p(3), line.n2p(8)), DOWN, buff=0.6).set_color(TEAL)
-        dist = M(R"|8 - 3| = |3 - 8| = 5", size=66, color=TEAL).next_to(brace, DOWN, buff=0.3)
-        self.play(GrowFromCenter(brace), Write(dist))
-        self.hold()
-        words = T("Da igual quién reste a quién:\nentre ellos hay 5 pasos.", size=34, color=INK, alignment="CENTER")
-        words.move_to(3.4 * DOWN)
-        self.say("Da igual quién reste a quién: entre ellos hay 5 pasos.")
-        self.play(FadeIn(words, shift=0.2 * UP))
-        self.hold(0.4)
+        self.say("Y si hay cifras antes del período, usas el truco completo: corres la coma, restas y despejas.", wait=True)
         self.end_section()
 
 
 # ---------------------------------------------------------------------------
-# 10. Repaso, práctica y cierre
+# 8. Repaso y cierre
 # ---------------------------------------------------------------------------
-class S10_Cierre(MBScene):
+class S08_Cierre(MBScene):
     def construct(self):
         self.mark("Repasemos")
         self.set_header(R"\checkmark", "Repasemos", ORANGE, PEACH)
@@ -1234,45 +988,21 @@ class S10_Cierre(MBScene):
             get_set_badge(R"\mathbb{R}", "todos juntos", C_R, P_R),
         )
         badges.arrange_in_grid(2, 3, h_buff=0.3, v_buff=0.5)
-        badges.set_width(7.3).move_to(2.3 * UP)
+        badges.set_width(7.3).move_to(2.8 * UP)
         self.say("Repasemos: ℕ para contar, ℤ para ir bajo cero, ℚ para repartir, 𝕀 para lo que no es fracción, "
-                 "y ℝ, todos juntos.")
+                 "y ℝ, todos juntos en la recta.")
         self.play(LaggedStartMap(FadeIn, badges, shift=0.3 * UP, lag_ratio=0.3), run_time=2.5)
+        self.hold()
+        chain = M(R"\mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R}", size=66).next_to(badges, DOWN, buff=0.9)
+        tip = VGroup(
+            T("decimal que termina o se repite → racional", size=28, color=C_Q),
+            T("decimal sin período → irracional", size=28, color=C_I),
+        ).arrange(DOWN, buff=0.3).next_to(chain, DOWN, buff=0.8)
+        self.say("Cada familia guarda a la anterior. Y para reconocer un número por su decimal: "
+                 "si termina o se repite, es racional; si nunca se repite, es irracional.")
+        self.play(Write(chain))
+        self.play(FadeIn(tip, shift=0.2 * UP))
         self.hold(0.5)
-
-        self.mark("Ponte a prueba")
-        self.clear_scene()
-        self.set_header(R"?", "Ponte a prueba", ORANGE, PEACH)
-        questions = [
-            ("¿A qué familias\npertenece el −4?",
-             R"\mathbb{Z},\ \mathbb{Q}\ \text{y}\ \mathbb{R}",
-             "−4 está bajo cero: es entero, también racional y real. Pero no sirve para contar."),
-            ("¿El número 0.25 es\nracional o irracional?",
-             R"\text{Racional: } 0.25 = \tfrac{1}{4}",
-             "Es racional: su decimal termina, y además es un cuarto."),
-            ("¿Cuánto vale |−7|?",
-             R"|-7| = 7",
-             "Vale 7: el −7 está a 7 pasos del cero."),
-        ]
-        self.say("Tres preguntas cortas. Pausa el video si necesitas más tiempo, y responde con calma.", wait=True)
-        for k, (q_text, a_tex, explanation) in enumerate(questions, start=1):
-            self.mark(f"Pregunta {k}")
-            num = get_pill(f"Pregunta {k}", ORANGE, PEACH, size=28).move_to(4.1 * UP)
-            question = T(q_text, size=46, alignment="CENTER").move_to(2.4 * UP)
-            timer = Integer(5, font_size=88).set_color(ORANGE).move_to(0.1 * DOWN)
-            ring = Circle(radius=0.75).set_stroke(ORANGE, 6).move_to(timer)
-            self.play(FadeIn(num), Write(question))
-            self.play(FadeIn(timer), ShowCreation(ring))
-            self.play(ChangeDecimalToValue(timer, 0), Uncreate(ring), run_time=5, rate_func=linear)
-            answer = M(a_tex, size=62, color=C_Q)
-            answer.set_max_width(6.4)
-            answer_box = get_card(answer, color=C_Q, fill=P_Q, buff=0.35, stroke_width=2.5)
-            answer_group = VGroup(answer_box, answer).move_to(1.6 * DOWN)
-            self.play(FadeOut(timer), FadeIn(answer_group, scale=0.9))
-            self.say(explanation, wait=True)
-            self._begin_clearing()
-            self.play(FadeOut(VGroup(num, question, answer_group)))
-            self._clearing = False
 
         self.mark("Cierre")
         self.unsay()
@@ -1281,8 +1011,9 @@ class S10_Cierre(MBScene):
         self.remove(self.watermark)
         blob = Circle(radius=2.3).set_fill(PEACH, 1).set_stroke(width=0).move_to(2.2 * UP)
         fox = ImageMobject("zuka_mascota.png", height=3.0).move_to(blob)
-        bye = TB("¡Lo hiciste muy bien!", size=48, color=INK)
-        nxt = T("Próxima clase:\nrazones y proporciones", size=32, color=ORANGE, alignment="CENTER")
+        bye = TB("¡A practicar!", size=48, color=INK)
+        nxt = T("Ahora, los ejercicios:\nlas cajas, la recta, la pizzería\ny los decimales periódicos", size=30,
+                color=ORANGE, alignment="CENTER")
         words = VGroup(bye, nxt).arrange(DOWN, buff=0.6).next_to(blob, DOWN, buff=0.7)
         self.play(GrowFromCenter(blob), FadeIn(fox, shift=0.3 * UP), run_time=1.2)
         self.play(FadeIn(words, shift=0.2 * UP))

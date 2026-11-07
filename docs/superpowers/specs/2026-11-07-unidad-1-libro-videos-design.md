@@ -83,3 +83,30 @@ $\sqrt{72}$, $\sqrt{45}$, $\sqrt[3]{54}$) · S03 radicales semejantes ($\sqrt{72
 \sqrt5}$, $\frac{3}{\sqrt{2x + 3} - \sqrt{2x}}$) · S06 raíz cúbica con diferencia de cubos
 ($\frac{1}{\sqrt[3]{2} - 1}$) · S07 cierre. Ejercicios: 4 existentes + `saca-del-radical`,
 `une-parejas`, `ordena-terminos` (`sep: '='`), mc del libro (1.7, 1.8, 1.11, 1.12, 4.1–4.12).
+
+## Adenda · Clase 1 regenerada (alg-11 Sistemas numéricos y números reales)
+
+La Clase 1 se vuelve a generar en `video/clase_sistemas_numericos/` con el guion ya existente,
+recortado a lo que el libro pone en §1.1 (naturales, enteros, racionales, irracionales, reales y la
+recta real): las reglas del juego, el orden y el valor absoluto ya viven en la Clase 7 (alg-12b) y
+salen de aquí, igual que el cierre «ponte a prueba». Dos partes de unos 6 minutos:
+
+* **Parte 1 · Naturales, enteros y racionales**: portada · familia (caja de herramientas, apodos) ·
+  naturales (contar, llaves y puntos, baldosas, ∈, el problema 3 − 5) · enteros (pisos y sótanos,
+  ℤ = ℤ⁺ ∪ ℤ⁻ ∪ {0} como en el libro, opuestos, el problema de repartir) · racionales (pizza,
+  definición leída por partes, equivalentes, en la recta, de fracción a decimal con 9/4 = 2.25 y
+  177/55 = 3.2 18 periódico del libro, la rayita) · cierre de la parte.
+* **Parte 2 · Irracionales, reales y la recta**: portada con recuerdo · irracionales (baldosa √2,
+  √ y ≈, patrón vs. sin patrón, π con la rueda, e) · reales (unión, cajas dentro de cajas, dónde
+  vive cada número, la recta del libro con −2.7, √2, e, π y 24/5) · **nuevo**: de decimal periódico
+  a fracción con dos ejemplos detallados (0.36 periódico = 4/11 y 3.2 18 periódico = 177/55) ·
+  repaso y «¡a practicar!».
+
+Ejercicios de alg-11 (sin repetir los ejemplos del video): `cajas-numericas` con tarjetas nuevas y
+veredicto «caja válida pero no la más pequeña» (naranja) distinto de «equivocada» (rojo) ·
+`verdadero-falso` renovado · `ubica-en-recta` con lectura en vivo del valor y puntos nuevos ·
+`pizzeria` con pedidos nuevos (0.6, 0.666…, 25 %, tres octavos) · `clasifica-cartas` racional /
+irracional por el decimal (con 22/7 y 0.1010010001… de trampa) · `ordena-terminos` con los pasos
+de 0.45 periódico → 5/11 · `num` 0.27 periódico = k/11 · `une-parejas` fracción ↔ decimal · mc del
+libro 1.2 adaptado. `reglas-del-juego` y `dibuja-intervalo` ya están en alg-12b (se quitan de
+alg-11); `distancia-justa` se mueve a alg-12b (valor absoluto).

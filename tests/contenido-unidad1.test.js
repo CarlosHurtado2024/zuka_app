@@ -48,6 +48,7 @@ test('alg-21b: ninguna expresión se repite entre ejercicios', () => {
 
 test('los ejercicios no repiten los ejemplos resueltos en los videos', () => {
   const video = {
+    'alg-11': ['\\tfrac34', '"√2"', '0.333…', '"7"', '"0.75"', 'la mitad', '\\overline{36}', '\\overline{18}', '2.25', '"-2.7"', '24/5'],
     'alg-21b': ['(x^{-3}y^2)^{-4}', '(x^2)^3', '(x^{2})^3'],
     'alg-22a': ['8^{2/3}', '\\sqrt[3]{-27}', '16^(3/4)', '25^(−1/2)', '"area":49', '"area":2}', '"area":20.25'],
     'alg-22b': ['\\sqrt{72}', '\\sqrt{50}', '\\sqrt{18}', '4 + \\sqrt5', '3\\sqrt2}', '2x + 3', '\\dfrac{1}{\\sqrt3}', '"n":72', '"n":45', '"n":54'],
@@ -56,4 +57,14 @@ test('los ejercicios no repiten los ejemplos resueltos en los videos', () => {
     const text = JSON.stringify(lesson(id).ex).replace(/\\\\/g, '\\');
     for (const b of bad) assert.ok(!text.includes(b), `${id}: «${b}» sale en el video`);
   }
+});
+
+test('alg-11 se queda con los sistemas numericos: sus juegos de orden y valor absoluto viven en alg-12b', () => {
+  const games = l => l.ex.filter(e => e.type === 'play').map(e => e.game);
+  const a11 = games(lesson('alg-11')), a12 = games(lesson('alg-12b'));
+  for (const g of ['reglas-del-juego', 'dibuja-intervalo', 'distancia-justa']) {
+    assert.ok(!a11.includes(g), `alg-11 todavia tiene ${g}`);
+    assert.ok(a12.includes(g), `alg-12b no tiene ${g}`);
+  }
+  for (const g of ['cajas-numericas', 'ubica-en-recta', 'pizzeria', 'clasifica-cartas', 'ordena-terminos', 'une-parejas']) assert.ok(a11.includes(g), `alg-11 sin ${g}`);
 });

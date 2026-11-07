@@ -86,6 +86,13 @@ GAMES['ubica-en-recta'] = (() => {
           p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(Math.min(18, c.w / 3)); p.textStyle(p.BOLD);
           p.text(c.label, c.x + c.w / 2, c.y + c.h / 2 + 1);
         });
+        if (drag >= 0) {
+          // Lectura en vivo: el valor donde caería la ficha y una guía hasta la recta.
+          const c = chips[drag], x = Math.max(map.toPx(params.min), Math.min(map.toPx(params.max), c.x + c.w / 2)), v = map.toVal(x);
+          p.stroke(C.brand); p.strokeWeight(1.5); p.drawingContext.setLineDash([4, 4]); p.line(x, c.y + c.h, x, lineY); p.drawingContext.setLineDash([]);
+          p.noStroke(); p.fill(C.brand); p.textAlign(p.CENTER, p.TOP); p.textSize(13); p.textStyle(p.BOLD);
+          p.text(`≈ ${v.toFixed(2).replace('-', '−')}`, x, c.y + c.h + 6);
+        }
         if (locked) {
           // Hasta tres lupas, empezando por las fichas peor ubicadas.
           const worst = params.points.map((pt, i) => ({ pt, v: values[i], d: values[i] === null ? 99 : Math.abs(values[i] - pt.value) }))

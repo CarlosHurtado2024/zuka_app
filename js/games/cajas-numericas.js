@@ -4,11 +4,21 @@
 
 GAMES['cajas-numericas'] = (() => {
   const NAMES = { N: 'ℕ', Z: 'ℤ', Q: 'ℚ', I: '𝕀', R: 'ℝ' };
+  const CHAIN = ['N', 'Z', 'Q', 'R'];   // cajas anidadas; 𝕀 solo vive dentro de ℝ
+
+  // 'ok' en la caja más pequeña; 'bigger' en una caja válida pero más grande (el número sí vive
+  // ahí, solo que no es la que mejor lo describe); 'wrong' en cualquier otra o sin colocar.
+  function verdict(set, placed) {
+    if (placed === set) return 'ok';
+    if (placed === 'R') return 'bigger';
+    const i = CHAIN.indexOf(set), j = CHAIN.indexOf(placed);
+    return i >= 0 && j > i ? 'bigger' : 'wrong';
+  }
 
   function grade(state, params) {
-    const wrong = params.cards.filter((c, i) => state.placed[i] !== c.set);
+    const wrong = params.cards.map((c, i) => ({ c, p: state.placed[i] })).filter(({ c, p }) => p !== c.set);
     if (!wrong.length) return { ok: true, solution: 'Cada número está en su caja más pequeña.' };
-    return { ok: false, solution: wrong.map(c => `$${c.tex}$ → ${NAMES[c.set]}`).join(', ') };
+    return { ok: false, solution: wrong.map(({ c, p }) => `$${c.tex}$ → ${NAMES[c.set]}${verdict(c.set, p) === 'bigger' ? ` (${NAMES[p]} también lo contiene, pero la más pequeña es ${NAMES[c.set]})` : ''}`).join(', ') };
   }
 
   function create(host, params, api) {
@@ -76,7 +86,8 @@ GAMES['cajas-numericas'] = (() => {
       }
 
       function drawCard(c) {
-        const border = locked ? (placed[c.i] === c.set ? C.ok : C.bad) : (c.i === dragging ? C.brand : C.line);
+        const v = verdict(c.set, placed[c.i]);
+        const border = locked ? (v === 'ok' ? C.ok : v === 'bigger' ? C.N : C.bad) : (c.i === dragging ? C.brand : C.line);   // naranja: caja válida pero no la más pequeña
         p.stroke(border); p.strokeWeight(2.5); p.fill(C.card);
         p.rect(c.x, c.y, c.w, c.h, 10);
         p.noStroke(); p.fill(C.ink); p.textSize(Math.min(19, c.w / 3.2)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
@@ -134,5 +145,5 @@ GAMES['cajas-numericas'] = (() => {
     };
   }
 
-  return { grade, create };
+  return { grade, create, verdict };
 })();
