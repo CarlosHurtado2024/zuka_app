@@ -303,10 +303,10 @@ const COURSE_TRIG = {
             }, '$\\tan^{-1}\\tfrac{5}{12} \\approx 22.6^\\circ$, $\\cos^{-1} 0.8 \\approx 36.9^\\circ$ y $\\sen^{-1}(-0.6) \\approx -36.9^\\circ$: el seno negativo apunta hacia abajo, dentro de $[-90^\\circ, 90^\\circ]$.',
               { hint: 'Fíjate en la lectura de abajo: mientras giras, el juego muestra el valor de la función en tu ángulo. Acércalo al número pedido y afina con − y +.' }),
             play('une-parejas', 'Une cada inversa con su valor principal', {
-              left: ['sen⁻¹(1/2)', 'cos⁻¹(0)', 'tan⁻¹(−1)', 'cos⁻¹(−1)'],
-              right: ['π/6', 'π/2', '−π/4', 'π', '5π/6', '3π/4'],
+              left: ['sen⁻¹(−1/2)', 'cos⁻¹(0)', 'tan⁻¹(−1)', 'cos⁻¹(−1)'],
+              right: ['−π/6', 'π/2', '−π/4', 'π', '7π/6', '3π/4'],
               pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
-            }, '$\\sen^{-1}\\tfrac12 = \\tfrac{\\pi}{6}$ (no $\\tfrac{5\\pi}{6}$), $\\cos^{-1} 0 = \\tfrac{\\pi}{2}$, $\\tan^{-1}(-1) = -\\tfrac{\\pi}{4}$ (no $\\tfrac{3\\pi}{4}$) y $\\cos^{-1}(-1) = \\pi$.',
+            }, '$\\operatorname{sen}^{-1}\\left(-\\tfrac12\\right) = -\\tfrac{\\pi}{6}$ (no $\\tfrac{7\\pi}{6}$), $\\cos^{-1} 0 = \\tfrac{\\pi}{2}$, $\\tan^{-1}(-1) = -\\tfrac{\\pi}{4}$ (no $\\tfrac{3\\pi}{4}$) y $\\cos^{-1}(-1) = \\pi$.',
               { hint: 'Cada inversa devuelve un solo ángulo, el de su rango: seno y tangente inversos entre −π/2 y π/2; coseno inverso entre 0 y π.' }),
             num('Calcula $\\cos^{-1}\\left(\\cos \\tfrac{7\\pi}{6}\\right)$, en grados', 150, '$\\cos\\tfrac{7\\pi}{6} = \\cos 210^\\circ = -\\tfrac{\\sqrt3}{2}$, y el ángulo de $[0^\\circ, 180^\\circ]$ con ese coseno es $150^\\circ$. No se cancela porque $210^\\circ$ está fuera del rango.',
               { suffix: '°', hint: 'Calcula primero el coseno de adentro. Después busca el ángulo entre 0° y 180° que tenga ese mismo coseno: no siempre es el ángulo con el que empezaste.' }),
@@ -334,8 +334,8 @@ const COURSE_TRIG = {
             }, '$\\cos\\theta = -\\sqrt{1 - 0.36} = -0.8$ (II); $\\operatorname{sen}\\theta = -\\sqrt{1 - 0.0784} = -0.96$ (IV); $\\sec\\theta = -\\sqrt{1 + 0.5625} = -1.25$ (III, como el coseno); $\\tan\\theta = -\\sqrt{1.5625 - 1} = -0.75$ (II).',
               { hint: 'El tanque llena cuando los cuadrados suman lo que pide la identidad: resta para hallar el cuadrado que falta y saca raíz. El signo lo decide el cuadrante: I todas positivas, II solo el seno, III solo la tangente, IV solo el coseno (la secante lleva el signo del coseno).' }),
             play('une-parejas', 'Une cada expresión con su cofunción', {
-              left: ['sen(90° − x)', 'tan(90° − x)', 'sec(90° − x)', 'cos(π/2 − x)'],
-              right: ['cos x', 'cot x', 'csc x', 'sen x', 'tan x', 'sec x'],
+              left: ['cos(90° − x)', 'cot(90° − x)', 'csc(90° − x)', 'sen(π/2 − x)'],
+              right: ['sen x', 'tan x', 'sec x', 'cos x', 'cot x', 'csc x'],
               pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
             }, 'En un triángulo rectángulo, lo que es opuesto para un ángulo agudo es adyacente para el otro: cada razón del complemento es su «co-razón». $\\operatorname{sen} \\leftrightarrow \\cos$, $\\tan \\leftrightarrow \\cot$, $\\sec \\leftrightarrow \\csc$.',
               { hint: 'Al cambiar un ángulo por su complemento, el lado opuesto y el adyacente se intercambian. Cada razón pasa a su pareja con «co»: seno con coseno, tangente con cotangente, secante con cosecante.' }),
@@ -361,12 +361,12 @@ const COURSE_TRIG = {
               ],
             }, '$\\operatorname{sen} 2x \\ne 2\\operatorname{sen} x$ (en $x = \\tfrac{\\pi}{2}$: $0 \\ne 2$). $\\tan x \\cos x = \\tfrac{\\operatorname{sen} x}{\\cos x}\\cos x = \\operatorname{sen} x$: identidad. $(\\operatorname{sen} x + \\cos x)^2 = 1 + 2\\operatorname{sen} x\\cos x$, que no es 1 en $x = \\tfrac{\\pi}{4}$. $\\sec^2 x - \\tan^2 x = 1$ sale de $1 + \\tan^2 x = \\sec^2 x$.',
               { hint: 'Mueve la lupa y mira los dos valores de abajo. Si en algún x son distintos, ese x ya es un contraejemplo. Si coinciden en todas partes (salvo donde no existen), escribe ambos lados en senos y cosenos para confirmarlo.' }),
-            play('ordena-terminos', 'Ordena la demostración de $\\cos x\\,(\\sec x - \\cos x) = \\operatorname{sen}^2 x$', {
-              tex: '\\cos x\\,(\\sec x - \\cos x)',
-              chips: ['cos x · sec x − cos²x', '1 − cos²x', 'sen²x', '1 + cos²x', 'cos²x − 1'],
+            play('ordena-terminos', 'Ordena la demostración de $\\operatorname{sen} x\\,(\\csc x - \\operatorname{sen} x) = \\cos^2 x$', {
+              tex: '\\operatorname{sen} x\\,(\\csc x - \\operatorname{sen} x)',
+              chips: ['sen x · csc x − sen²x', '1 − sen²x', 'cos²x', '1 + sen²x', 'sen²x − 1'],
               order: [0, 1, 2], sep: '=',
-            }, 'Se reparte: $\\cos x\\sec x - \\cos^2 x$. Como $\\cos x \\sec x = 1$, queda $1 - \\cos^2 x$, que por la identidad pitagórica es $\\operatorname{sen}^2 x$.',
-              { hint: 'Primero reparte el cos x del paréntesis. Luego recuerda que la secante es el recíproco del coseno, así que su producto vale 1. Al final usa sen² + cos² = 1.' }),
+            }, 'Se reparte: $\\operatorname{sen} x\\csc x - \\operatorname{sen}^2 x$. Como $\\operatorname{sen} x \\csc x = 1$, queda $1 - \\operatorname{sen}^2 x$, que por la identidad pitagórica es $\\cos^2 x$.',
+              { hint: 'Primero reparte el sen x del paréntesis. Luego recuerda que la cosecante es el recíproco del seno, así que su producto vale 1. Al final usa sen² + cos² = 1.' }),
             play('une-parejas', 'Une cada expresión con su forma más simple', {
               left: ['sen x · csc x', 'cos x · tan x', 'sec x · cot x', '(1 − sen²x) / cos x'],
               right: ['1', 'sen x', 'csc x', 'cos x', 'tan x', 'sec x'],
@@ -454,9 +454,9 @@ const COURSE_TRIG = {
               rounds: [
                 { prompt: '2 sen θ + √3 = 0, en el cuadrante IV', angles: [300] },
                 { prompt: '√2 cos θ = 1, con sen θ < 0', angles: [315] },
-                { prompt: 'tan θ = √3, en el cuadrante III', angles: [240] },
+                { prompt: '√3 tan θ = 1, en el cuadrante III', angles: [210] },
               ],
-            }, '$\\operatorname{sen}\\theta = -\\tfrac{\\sqrt3}{2}$ en el IV: $300^\\circ$. $\\cos\\theta = \\tfrac{\\sqrt2}{2}$ con seno negativo: $315^\\circ$. $\\tan\\theta = \\sqrt3$ en el III: $180^\\circ + 60^\\circ = 240^\\circ$.',
+            }, '$\\operatorname{sen}\\theta = -\\tfrac{\\sqrt3}{2}$ en el IV: $300^\\circ$. $\\cos\\theta = \\tfrac{\\sqrt2}{2}$ con seno negativo: $315^\\circ$. $\\tan\\theta = \\tfrac{1}{\\sqrt3}$ en el III: $180^\\circ + 30^\\circ = 210^\\circ$.',
               { hint: 'Despeja la razón y busca su ángulo de referencia entre los notables. Después llévalo al cuadrante que pide la pista.' }),
             num('¿Cuántas soluciones tiene $\\tan 3x = 1$ en $[0, \\pi)$?', 3, '$3x = \\tfrac{\\pi}{4} + n\\pi \\Rightarrow x = \\tfrac{\\pi}{12} + \\tfrac{n\\pi}{3}$: $\\tfrac{\\pi}{12}, \\tfrac{5\\pi}{12}, \\tfrac{9\\pi}{12}$.',
               { hint: 'Resuelve primero para 3x con la solución general (la tangente se repite cada π) y luego divide entre 3. Cuenta cuántos valores caen antes de π.' }),
@@ -495,8 +495,8 @@ const COURSE_TRIG = {
           ] },
           ex: [
             play('brazo-robot', 'Dobla el codo del robot para que la pinza agarre la gema', {
-              rounds: [{ a: 8, b: 15, c: 13, ring: true }, { a: 3, b: 5, c: 7 }, { a: 5, b: 7, c: 6 }, { a: 6, b: 9, c: 10 }],
-            }, 'Despejando la ley de cosenos, $\\cos C = \\dfrac{a^2 + b^2 - c^2}{2ab}$: $\\tfrac{64 + 225 - 169}{240} = \\tfrac12$ da $60^\\circ$; $\\tfrac{9 + 25 - 49}{30} = -\\tfrac12$ da $120^\\circ$; $\\tfrac{25 + 49 - 36}{70} \\approx 0.543$ da $\\approx 57.1^\\circ$; $\\tfrac{36 + 81 - 100}{108} \\approx 0.157$ da $\\approx 81^\\circ$.',
+              rounds: [{ a: 8, b: 15, c: 13, ring: true }, { a: 3, b: 5, c: 7 }, { a: 4, b: 7, c: 6 }, { a: 6, b: 9, c: 10 }],
+            }, 'Despejando la ley de cosenos, $\\cos C = \\dfrac{a^2 + b^2 - c^2}{2ab}$: $\\tfrac{64 + 225 - 169}{240} = \\tfrac12$ da $60^\\circ$; $\\tfrac{9 + 25 - 49}{30} = -\\tfrac12$ da $120^\\circ$; $\\tfrac{16 + 49 - 36}{56} \\approx 0.518$ da $\\approx 58.8^\\circ$; $\\tfrac{36 + 81 - 100}{108} \\approx 0.157$ da $\\approx 81^\\circ$.',
               { hint: 'Despeja cos C de c² = a² + b² − 2ab cos C y usa la inversa del coseno. Si cos C sale negativo, el codo queda abierto: más de 90°.' }),
             play('une-parejas', 'Une cada triángulo con su área', {
               left: ['a = 6, b = 10, C = 30°', 'lados 3, 4 y 5', 'a = 8, b = 8, C = 90°', 'a = 4, b = 5, C = 150°', 'lados 13, 14 y 15'],
