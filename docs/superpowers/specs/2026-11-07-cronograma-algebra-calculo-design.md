@@ -24,10 +24,10 @@ Fuentes: *Álgebra y Trigonometría — Cronograma 2026-2* y *Cálculo diferenci
 | 2 Potenciación y radicación | 3–4 | alg-21a, alg-21b, alg-22a, alg-22b |
 | 3 Progresiones y sumatoria | 5 | alg-14, alg-15 |
 | 4 Polinomios: productos notables y factorización | 6–7 | alg-23a, alg-3, alg-24c, alg-24b |
-| 5 Números complejos y ecuaciones cuadráticas | 9–11 | alg-23c, alg-1, alg-4 |
+| 5 Números complejos y ecuaciones cuadráticas | 9–11 | alg-23c, alg-1, alg-4a, alg-4 |
 | 6 Polinomios de grado superior | 12–13 | alg-23b, alg-92, alg-93 |
 | 7 Expresiones racionales y fracciones parciales | 14–15 | alg-25a, alg-25b, alg-101, alg-102 |
-| 8 Funciones exponenciales y logarítmicas | 17–19 | alg-71, alg-72 |
+| 8 Funciones exponenciales y logarítmicas | 17–19 | alg-71, alg-72, alg-73 |
 
 ## Cálculo diferencial (5 unidades)
 
@@ -41,8 +41,8 @@ Fuentes: *Álgebra y Trigonometría — Cronograma 2026-2* y *Cálculo diferenci
 
 ## Huecos (quedan para después; aquí solo se reordena)
 
-- Álgebra: clase 10 *Polinomio cuadrático* (función cuadrática, vértice) y clase 19 *Ecuaciones
-  exponenciales y logarítmicas* no tienen lección propia.
+- Álgebra: ~~clase 10 *Polinomio cuadrático* y clase 19 *Ecuaciones exponenciales y logarítmicas*~~ ya
+  tienen lección (`alg-4a`, `alg-73`; spec `2026-11-07-cuadratico-y-ecuaciones-exp-log-design.md`).
 - Cálculo: funciones a tramos, límites trigonométricos y encaje, continuidad, regla de la cadena, derivada
   implícita, derivada logarítmica, variables relacionadas, L'Hôpital, trazado de curvas y optimización.
 

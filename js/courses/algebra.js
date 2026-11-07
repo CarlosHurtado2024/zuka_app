@@ -737,6 +737,40 @@ const COURSE_ALGEBRA = {
           ],
         },
         {
+          id: 'alg-4a', title: 'Polinomio cuadrático y parábola',
+          // Cronograma 2026-2, clase 10 (libro UdeA, polinomio cuadrático). Pendiente: video manimgl.
+          // Spec: docs/superpowers/specs/2026-11-07-cuadratico-y-ecuaciones-exp-log-design.md
+          clip: { scenes: [
+            sc(6, 'Un **polinomio cuadrático** es $ax^2 + bx + c$ con $a \\ne 0$. Su gráfica es una **parábola**: una curva simétrica que da la vuelta en un solo punto, el **vértice**.', { title: '$y = x^2$', viz: { type: 'graph', xr: [-4, 4], yr: [-2, 8], f: sq, points: [[0, 0, 'vértice']] } }),
+            sc(6, 'Mover la parábola es fácil si se escribe así: $(x - h)^2$ la corre $h$ hacia la derecha y el $+k$ la sube $k$. El vértice queda en $(h, k)$.', { title: '$y = (x - h)^2 - 1$', viz: { type: 'graph', xr: [-5, 5], yr: [-2, 7], f: (x, h) => (x - h) ** 2 - 1, anim: [-2, 2], label: h => `h = ${fmt(h)}` } }),
+            sc(7, '**Completar el cuadrado** con fichas: $x^2 + 4x$ es un cuadrado $x^2$ y cuatro tiras $x$. Dos tiras a la derecha y dos abajo dejan un hueco en la esquina de $2 \\times 2 = 4$ cuadritos.', { steps: ['$x^2 + 4x = (x^2 + 4x + 4) - 4 = (x + 2)^2 - 4$', 'Se suma y se resta $\\left(\\tfrac{b}{2}\\right)^2$: la mitad del coeficiente de $x$, al cuadrado'] }),
+            sc(7, 'Así se llega a la **forma canónica** $y = a(x - h)^2 + k$, que muestra el vértice y el **eje de simetría** $x = h$.', { title: '$y = x^2 - 6x + 5 = (x - 3)^2 - 4$', viz: { type: 'graph', xr: [-1, 7], yr: [-5, 6], f: x => x * x - 6 * x + 5, points: [[3, -4, 'V(3, −4)'], [1, 0, '1'], [5, 0, '5']] } }),
+            sc(7, 'Atajo: $h = -\\dfrac{b}{2a}$ y $k$ es el valor del polinomio en $h$. Si $a > 0$ abre hacia arriba y el vértice es un **mínimo**; si $a < 0$ abre hacia abajo y es un **máximo**.', { steps: ['$y = -2x^2 + 4x + 1$: $h = -\\tfrac{4}{2(-2)} = 1$', '$k = -2 + 4 + 1 = 3$: el punto más alto es $(1, 3)$'] }),
+          ] },
+          ex: [
+            play('completa-cuadrado', 'Pasa cuadritos de la bandeja a la esquina hasta **completar el cuadrado**', {
+              rounds: [{ b: 6, c: 5 }, { b: 8, c: 20 }, { b: 2, c: 1 }, { b: 10, c: 16 }],
+            }, 'La esquina que falta siempre tiene $\\left(\\tfrac{b}{2}\\right)^2$ cuadritos: $x^2 + 6x + 5 = (x + 3)^2 - 4$, $x^2 + 8x + 20 = (x + 4)^2 + 4$, $x^2 + 2x + 1 = (x + 1)^2$ y $x^2 + 10x + 16 = (x + 5)^2 - 9$.',
+            { hint: 'Las tiras se reparten mitad a la derecha y mitad abajo, así que la esquina es un cuadrado cuyo lado es la mitad del coeficiente de x. Lo que quede en la bandeja (o lo prestado) es el número que acompaña al paréntesis.' }),
+            play('mueve-parabola', 'Pon el **vértice** y la **abertura** para que tu parábola sea la de la ecuación', {
+              rounds: [{ a: 1, b: -4, c: 1 }, { a: -1, b: -2, c: 3 }, { a: 2, b: 8, c: 5 }, { a: 0.5, b: 1, c: -3.5 }],
+            }, 'Con $h = -\\tfrac{b}{2a}$ y $k$ el valor en $h$: $x^2 - 4x + 1 = (x - 2)^2 - 3$, $-x^2 - 2x + 3 = -(x + 1)^2 + 4$, $2x^2 + 8x + 5 = 2(x + 2)^2 - 3$ y $0.5x^2 + x - 3.5 = 0.5(x + 1)^2 - 4$.',
+            { hint: 'El número que acompaña a x² es la abertura a, la misma en las dos formas. La primera coordenada del vértice es −b dividido entre 2a; la segunda sale de evaluar la ecuación en ese valor.' }),
+            play('une-parejas', 'Une cada polinomio con su **forma canónica**', {
+              left: ['x² + 10x + 21', 'x² − 2x − 8', '−x² + 6x − 5', '3x² − 6x + 7'],
+              right: ['(x + 5)² − 4', '(x − 1)² − 9', '−(x − 3)² + 4', '3(x − 1)² + 4', '(x + 5)² + 4', '−(x + 3)² + 4'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, 'Al completar el cuadrado: $x^2 + 10x + 21 = (x + 5)^2 - 4$, $x^2 - 2x - 8 = (x - 1)^2 - 9$, $-x^2 + 6x - 5 = -(x - 3)^2 + 4$ y $3x^2 - 6x + 7 = 3(x - 1)^2 + 4$. Las trampas tienen mal el signo de $h$ o de $k$.',
+            { hint: 'El número dentro del paréntesis es la mitad del coeficiente de x (después de sacar a como factor). Para revisar una pareja, desarrolla el cuadrado y compara el término independiente.' }),
+            num('Una pelota se lanza hacia arriba y su altura en metros a los $t$ segundos es $h(t) = -5t^2 + 30t + 1$. ¿Cuál es su **altura máxima**?', 46,
+              'El vértice está en $t = -\\tfrac{30}{2(-5)} = 3$ s y $h(3) = -45 + 90 + 1 = 46$ m. Como $a = -5 < 0$, el vértice es el punto más alto.',
+              { suffix: 'm', hint: 'La altura máxima está en el vértice: busca primero el tiempo con −b/(2a) y luego evalúa h en ese tiempo.' }),
+            num('Dos números suman 30. ¿Cuál es el **mayor producto** que pueden dar?', 225,
+              'Si uno es $x$, el otro es $30 - x$ y el producto es $P = x(30 - x) = -x^2 + 30x = -(x - 15)^2 + 225$. El máximo es $225$, con $x = 15$.',
+              { hint: 'Llama x a uno de los números; el otro es 30 − x. El producto es un polinomio cuadrático que abre hacia abajo: su vértice da el máximo.' }),
+          ],
+        },
+        {
           id: 'alg-4', title: 'Ecuaciones cuadráticas',
           clip: { scenes: [
             sc(4, 'Las cuadráticas $ax^2 + bx + c = 0$ se relacionan con **parábolas**.', { title: '$y = ax^2$', viz: { type: 'graph', xr: [-4, 4], yr: [-2, 8], f: sq, draw: true } }),
@@ -925,6 +959,45 @@ const COURSE_ALGEBRA = {
             num('Si $\\log_5(a) = 2$, ¿cuál es el valor de $\\log_5(a^3)$?', 6, 'La potencia sale como factor: $\\log_5 a^3 = 3 \\log_5 a = 3 \\cdot 2 = 6$.'),
             mc('Si $\\log_b(x) = p$, ¿cuál es $\\log_b\\!\\left(\\dfrac1x\\right)$?', ['$-p$', '$p$', '$\\tfrac1p$', '$p + 1$'], 0, '$\\log_b x^{-1} = -\\log_b x = -p$.'),
             mc('Una sustancia radiactiva tiene vida media de 40 minutos. Si hay 30 mg al inicio, a los 50 minutos quedan', ['$\\approx 12.613$ mg', '$\\approx 17.65$ mg', '$\\approx 10.56$ mg', '$\\approx 22.021$ mg'], 0, 'Cada 40 min se reduce a la mitad: $30 \\cdot (\\tfrac12)^{50/40} = 30 \\cdot 2^{-1.25} \\approx 30 \\cdot 0.4204 \\approx 12.613$ mg.'),
+          ],
+        },
+        {
+          id: 'alg-73', title: 'Ecuaciones exponenciales y logarítmicas',
+          // Cronograma 2026-2, clase 19 (libro UdeA §7.5). Pendiente: video manimgl.
+          // Spec: docs/superpowers/specs/2026-11-07-cuadratico-y-ecuaciones-exp-log-design.md
+          clip: { scenes: [
+            sc(6, 'Una **ecuación exponencial** tiene la incógnita en el exponente. Si los dos lados se escriben con la **misma base**, basta igualar los exponentes.', { steps: ['$2^{x+3} = 4^{x} = 2^{2x}$', '$x + 3 = 2x \\Rightarrow x = 3$'] }),
+            sc(6, 'Si las bases no se pueden igualar, se **toma logaritmo** a los dos lados: el exponente baja como factor.', { steps: ['$5^x = 12 \\Rightarrow x \\ln 5 = \\ln 12$', '$x = \\dfrac{\\ln 12}{\\ln 5} \\approx 1.544$'] }),
+            sc(6, 'En una **ecuación logarítmica** se juntan los logaritmos en uno solo con las propiedades y se pasa a forma exponencial.', { steps: ['$\\log_6 x + \\log_6(x + 5) = 2 \\Rightarrow \\log_6[x(x + 5)] = 2$', '$x^2 + 5x = 6^2 \\Rightarrow (x + 9)(x - 4) = 0$'] }),
+            sc(6, '**Comprueba siempre** el dominio: el logaritmo solo acepta números positivos. Con $x = -9$ aparece $\\log_6(-9)$, que no existe: es una **solución extraña**. La única solución es $x = 4$.', { steps: ['$x = 4$: $\\log_6 4 + \\log_6 9 = \\log_6 36 = 2$ ✓'] }),
+            sc(5, 'Aplicación: con interés continuo $A = Pe^{rt}$. Para saber cuándo se triplica un capital: $e^{rt} = 3 \\Rightarrow t = \\dfrac{\\ln 3}{r}$.', { steps: ['Al 5 %: $t = \\tfrac{\\ln 3}{0.05} \\approx 22$ años'] }),
+          ] },
+          ex: [
+            play('balanza-exponencial', 'Mueve $x$ hasta que la balanza quede en **equilibrio**', {
+              rounds: [
+                { tex: '9^{x} = 27^{x-1}', txt: '9ˣ = 27ˣ⁻¹', L: x => 9 ** x, R: x => 27 ** (x - 1), x: 3 },
+                { tex: '(\\tfrac12)^{x} = 4^{x-3}', txt: '(½)ˣ = 4ˣ⁻³', L: x => 0.5 ** x, R: x => 4 ** (x - 3), x: 2 },
+                { tex: '4^{x} = 8', txt: '4ˣ = 8', L: x => 4 ** x, R: () => 8, x: 1.5 },
+              ],
+            }, '$9^x = 27^{x-1}$ es $3^{2x} = 3^{3x-3}$: $x = 3$. $(\\tfrac12)^x = 4^{x-3}$ es $2^{-x} = 2^{2x-6}$: $x = 2$. $4^x = 8$ es $2^{2x} = 2^3$: $x = \\tfrac32$.',
+            { hint: 'Escribe los dos lados como potencias de la misma base (9 y 27 son potencias de 3; ½, 4 y 8 son potencias de 2) e iguala los exponentes. La balanza te dice qué lado pesa más.' }),
+            play('balanza-exponencial', 'Equilibra la balanza. Ojo: para algunos $x$ un platillo **no existe**', {
+              rounds: [
+                { tex: '\\log_2(x + 6) = \\log_2 x + 2', txt: 'log₂(x + 6) = log₂x + 2', L: x => Math.log2(x + 6), R: x => Math.log2(x) + 2, x: 2 },
+                { tex: '\\log_3 x + \\log_3(x - 8) = 2', txt: 'log₃x + log₃(x − 8) = 2', L: x => (Math.log(x) + Math.log(x - 8)) / Math.log(3), R: () => 2, x: 9, extra: -1, min: -4, max: 12, step: 1 },
+                { tex: '\\log(x + 3) + \\log x = 1', txt: 'log(x + 3) + log x = 1', L: x => Math.log10(x + 3) + Math.log10(x), R: () => 1, x: 2, extra: -5, min: -6 },
+              ],
+            }, '$\\log_2\\tfrac{x + 6}{x} = 2 \\Rightarrow x + 6 = 4x \\Rightarrow x = 2$. $\\log_3[x(x - 8)] = 2 \\Rightarrow x^2 - 8x - 9 = 0$: $x = 9$ o $x = -1$, pero $\\log_3(-1)$ no existe. $\\log[x(x + 3)] = 1 \\Rightarrow x^2 + 3x - 10 = 0$: $x = 2$; el $-5$ es extraño.',
+            { hint: 'Junta los logaritmos en uno solo, pasa a forma exponencial y resuelve. Antes de aceptar un valor, revisa que lo que está dentro de cada logaritmo sea positivo: si no, la balanza se pone roja.' }),
+            play('ordena-terminos', 'Ordena los pasos para resolver $3 \\cdot 2^{x} - 5 = 43$', { tex: '3 \\cdot 2^{x} - 5 = 43', chips: ['3 · 2ˣ = 48', '2ˣ = 16', '2ˣ = 2⁴', 'x = 4', '6ˣ = 48', '2ˣ = 38/3'], order: [0, 1, 2, 3], sep: '⇒' },
+              'Se despeja la potencia: sumar 5 da $3 \\cdot 2^x = 48$, dividir entre 3 da $2^x = 16 = 2^4$, y $x = 4$. Pegar el 3 a la base ($6^x$) es un error: el 3 multiplica a la potencia, no a la base.',
+              { hint: 'Primero despeja la potencia como si fuera una incógnita cualquiera: deshaz la resta y después la multiplicación. El 3 no se puede pegar a la base 2.' }),
+            num('Resuelve $4^x = 30$ con logaritmos (redondea a dos decimales)', 2.45,
+              '$x \\ln 4 = \\ln 30 \\Rightarrow x = \\dfrac{\\ln 30}{\\ln 4} \\approx \\dfrac{3.401}{1.386} \\approx 2.45$. Tiene sentido: $4^2 = 16$ y $4^3 = 64$.',
+              { tol: 0.01, prefix: '$x \\approx$', hint: 'Toma logaritmo natural a los dos lados para que el exponente baje como factor, y despeja x dividiendo.' }),
+            num('Un capital crece con interés continuo del 4 % anual: $A = Pe^{0.04t}$. ¿En cuántos años se **duplica**? (dos decimales)', 17.33,
+              'Duplicarse es $A = 2P$: $e^{0.04t} = 2 \\Rightarrow 0.04t = \\ln 2 \\Rightarrow t = \\dfrac{0.6931}{0.04} \\approx 17.33$ años.',
+              { tol: 0.05, suffix: 'años', hint: 'Duplicarse significa que A = 2P, así que el capital P se cancela. Toma ln a los dos lados y despeja t.' }),
           ],
         },
       ],

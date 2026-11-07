@@ -81,7 +81,9 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
 
 Juegos recientes: Álgebra 1.1 `pasaporte-numeros`, `ascensor`, `pon-la-rayita`, `acorrala-raiz`;
 Álgebra 1.2 `atajo-axiomas`, `arma-producto`, `dobla-la-recta`; Trigonometría U1 `rueda-angulo`,
-`corta-pizza`, `arma-triangulo`, `mide-altura`, `atrapa-punto`, `noria`, `sintoniza-onda`. Reutilizables:
+`corta-pizza`, `arma-triangulo`, `mide-altura`, `atrapa-punto`, `noria`, `sintoniza-onda`; Álgebra
+`completa-cuadrado`, `mueve-parabola`, `balanza-exponencial` (ecuaciones con la incógnita en x: sirve para
+cualquier `L(x) = R(x)`). Reutilizables:
 `une-parejas`, `ordena-terminos` (`sep`), `clasifica-cartas`, `ubica-en-recta`, `cajas-numericas`…
 
 ## Interfaz de la lección
@@ -146,5 +148,7 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   con `after: 6`), Clase 10 raíces (`alg-22a`), Clase 11 radicales (`alg-22b`).
 - Trigonometría unidad 1: T1–T9 (`trig-41a`, `trig-41b`, `trig-1`, `trig-2`, `trig-42c`, `trig-3`,
   `trig-43b`, `trig-44a`, `trig-44b`).
+- Álgebra `alg-4a` (polinomio cuadrático) y `alg-73` (ecuaciones exp./log.): ejercicios listos, falta su
+  video manimgl. Cálculo: faltan lecciones de su cronograma (ver spec `2026-11-07-cronograma-algebra-calculo`).
 - Las unidades 2 y 3 de Trigonometría y el resto de Álgebra aún tienen ejercicios de opción múltiple y
   sin pistas.

@@ -16,10 +16,10 @@ test('álgebra: ocho unidades en el orden del cronograma 2026-2', () => {
     'Potenciación y radicación: alg-21a alg-21b alg-22a alg-22b',
     'Progresiones y sumatoria: alg-14 alg-15',
     'Polinomios: productos notables y factorización: alg-23a alg-3 alg-24c alg-24b',
-    'Números complejos y ecuaciones cuadráticas: alg-23c alg-1 alg-4',
+    'Números complejos y ecuaciones cuadráticas: alg-23c alg-1 alg-4a alg-4',
     'Polinomios de grado superior: alg-23b alg-92 alg-93',
     'Expresiones racionales y fracciones parciales: alg-25a alg-25b alg-101 alg-102',
-    'Funciones exponenciales y logarítmicas: alg-71 alg-72',
+    'Funciones exponenciales y logarítmicas: alg-71 alg-72 alg-73',
   ]);
 });
 
