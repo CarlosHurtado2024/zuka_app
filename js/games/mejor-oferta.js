@@ -8,15 +8,20 @@
 GAMES['mejor-oferta'] = (() => {
   const fmt = n => Math.round(n).toLocaleString('es-CO');
   const finalPrice = (price, offer) => Math.round((offer.changes || []).reduce((v, c) => v * (1 + c / 100), price) - (offer.off || 0));
-  const cheaper = r => { const a = finalPrice(r.price, r.a), b = finalPrice(r.price, r.b); return a === b ? null : a < b ? 'a' : 'b'; };
+  // La opción que conviene: la más barata (tiendas) o, con prefer: 'high', la que deja más (bancos).
+  const cheaper = (r, p = {}) => {
+    const a = finalPrice(r.price, r.a), b = finalPrice(r.price, r.b);
+    if (a === b) return null;
+    return (a < b) === (p.prefer !== 'high') ? 'a' : 'b';
+  };
 
   function grade(state, params) {
     const ok = params.rounds.every((r, k) => {
-      const best = cheaper(r);
+      const best = cheaper(r, params);
       return state.picks[k] != null && (best === null || state.picks[k] === best);
     });
     const solution = params.rounds.map((r, k) => {
-      const best = cheaper(r);
+      const best = cheaper(r, params);
       return `Ronda ${k + 1}: A ${fmt(finalPrice(r.price, r.a))} · B ${fmt(finalPrice(r.price, r.b))} → ${best === null ? 'igual' : best.toUpperCase()}`;
     }).join(' · ');
     return { ok, solution };
@@ -52,14 +57,14 @@ GAMES['mejor-oferta'] = (() => {
       }
       function shop(key, r) {
         const b = shops[key], off = r[key], pick = st.picks[cur] === key;
-        const best = cheaper(r), good = best === null || key === best;
+        const best = cheaper(r, params), good = best === null || key === best;
         const col = locked ? (pick ? (good ? C.ok : C.bad) : good ? C.ok : C.line) : pick ? C.brand : C.line;
         // Toldo y vitrina.
         p.noStroke(); p.fill(key === 'a' ? C.N : C.Q);
         for (let i = 0; i < 6; i++) { p.fill(i % 2 ? C.card : key === 'a' ? C.N : C.Q); p.rect(b.x + (i * b.w) / 6, b.y, b.w / 6, 14); }
         p.stroke(col); p.strokeWeight(pick ? 2.5 : 1.5); p.fill(C.card); p.rect(b.x, b.y + 14, b.w, b.h - 14, 0, 0, 12, 12);
         p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
-        p.text(`Tienda ${key.toUpperCase()}`, b.x + 4, b.y + 22, b.w - 8, 20);
+        p.text(`${params.noun || 'Tienda'} ${key.toUpperCase()}`, b.x + 4, b.y + 22, b.w - 8, 20);
         // La oferta ocupa la franja entre el nombre y la zona del carrito / precio final.
         p.fill(C.N); p.textStyle(p.BOLD); p.textSize(b.w < 130 ? 11 : 14);
         p.text(off.label, b.x + 6, b.y + 44, b.w - 12, b.h - 44 - 40);
@@ -73,18 +78,18 @@ GAMES['mejor-oferta'] = (() => {
         p.background(C.bg);
         const r = params.rounds[cur];
         tabs.forEach((t, i) => {
-          const best = cheaper(params.rounds[i]), v = st.picks[i];
+          const best = cheaper(params.rounds[i], params), v = st.picks[i];
           const col = locked ? (v !== null && (best === null || v === best) ? C.ok : C.bad) : i === cur ? C.brand : v !== null ? C.ok : C.line;
           p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
           p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
         });
         p.noStroke(); p.fill(C.N); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(13);
-        p.text(`Precio de lista $ ${fmt(r.price)} en las dos: ¿dónde sale más barato?`, 12, 44, W - 24, 42);
+        p.text(params.prefer === 'high' ? `$ ${fmt(r.price)} en los dos: ¿dónde queda más dinero?` : `Precio de lista $ ${fmt(r.price)} en las dos: ¿dónde sale más barato?`, 12, 44, W - 24, 42);
         shop('a', r); shop('b', r);
         if (!locked && st.picks[cur] === null && !drag) cart(home.x, home.y, C.mute);
         if (drag) cart(p.mouseX, p.mouseY, C.brand);
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
-        p.text(locked ? (grade(st, params).ok ? '¡Compras bien hechas!' : 'En verde, la tienda que convenía') : 'Arrastra el carrito a la vitrina más barata', W / 2, H - 14);
+        p.text(locked ? (grade(st, params).ok ? '¡Compras bien hechas!' : 'En verde, la opción que convenía') : params.prefer === 'high' ? 'Arrastra el carrito al banco que deja más dinero' : 'Arrastra el carrito a la vitrina más barata', W / 2, H - 14);
       };
 
       p.mousePressed = () => {

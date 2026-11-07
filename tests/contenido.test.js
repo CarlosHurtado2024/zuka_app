@@ -14,7 +14,7 @@ function strings(v, out = []) {
 }
 
 const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js']);
-const lessons = get(ctx, 'COURSE_ALGEBRA').units[0].lessons.filter(l => ['alg-11', 'alg-12', 'alg-13'].includes(l.id));
+const lessons = get(ctx, 'COURSE_ALGEBRA').units[0].lessons.filter(l => ['alg-11', 'alg-12', 'alg-13', 'alg-13b'].includes(l.id));
 
 for (const l of lessons) {
   test(`${l.id}: ningún texto de ejercicio tiene caracteres de control ni comandos TeX sin barra`, () => {
@@ -80,4 +80,33 @@ test('alg-13: las ofertas de mejor-oferta dicen que son descuentos', () => {
   const { params } = exOf('mejor-oferta');
   assert.match(params.rounds[0].a.label, /descuento/);
   assert.match(params.rounds[0].b.label, /descuento/);
+});
+
+// La lección 1.3b (interés) también debe ser resoluble con sus params reales y usar punto decimal.
+const alg13b = lessons.find(l => l.id === 'alg-13b');
+const games13b = get(loadScripts(['js/games/kit.js', 'js/games/cobra-intereses.js', 'js/games/ajusta-capital.js', 'js/games/mejor-oferta.js', 'js/games/carrera-interes.js']), 'GAMES');
+const ex13b = g => alg13b.ex.find(e => e.game === g);
+
+test('alg-13b: ningún texto usa coma decimal', () => {
+  assert.deepEqual(strings([alg13b.ex, alg13b.clip]).filter(s => /\d,\d/.test(s)), []);
+});
+
+test('alg-13b: cobra-intereses se resuelve con 12 meses y ajusta-capital con 1.000.000', () => {
+  assert.equal(games13b['cobra-intereses'].grade({ paid: 12 }, ex13b('cobra-intereses').params).ok, true);
+  assert.equal(games13b['ajusta-capital'].grade({ capital: 1000000 }, ex13b('ajusta-capital').params).ok, true);
+});
+
+test('alg-13b: los bancos ganan a, b, a sin empates y el explain trae esas cifras', () => {
+  const { params, explain } = ex13b('mejor-oferta');
+  const { finalPrice, grade } = games13b['mejor-oferta'];
+  const winners = params.rounds.map(r => { const a = finalPrice(r.price, r.a), b = finalPrice(r.price, r.b); assert.notEqual(a, b); return a > b ? 'a' : 'b'; });
+  assert.equal(winners.join(''), 'aba');
+  assert.equal(grade({ picks: winners }, params).ok, true);
+  for (const n of ['1\\,104\\,622', '1\\,402\\,552', '1\\,126\\,162']) assert.ok(explain.includes(n), n);
+});
+
+test('alg-13b: la carrera del interés se gana en el mes 15 y el explain lo dice', () => {
+  const { params, explain } = ex13b('carrera-interes');
+  assert.equal(games13b['carrera-interes'].grade({ month: 15 }, params).ok, true);
+  assert.ok(explain.includes('118\\,400') && explain.includes('137\\,600'));
 });

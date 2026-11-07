@@ -196,6 +196,50 @@ const COURSE_ALGEBRA = {
           ],
         },
         {
+          id: 'alg-13b', title: 'Interés simple y compuesto',
+          // Clase 4 (video/clase_interes_sc): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
+          clip: { scenes: [
+            sc(6, 'El **interés** es lo que gana el dinero prestado; el **monto** es capital más interés.', { title: '$M = C + I$', steps: ['$C$ capital · $r$ tasa por periodo · $t$ periodos', '500.000 al 2 % mensual: $I_{\\text{mes}} = 500\\,000 \\cdot 0.02 = 10\\,000$'] }),
+            sc(6, 'Interés **simple**: siempre sobre el capital inicial, cada periodo paga lo mismo. Crece en línea recta.', { title: '$I = C\\,r\\,t \\qquad M = C\\,(1 + r\\,t)$', steps: ['1.200.000 al 1.5 % mensual, 8 meses: $I = 144\\,000$', '$M = 1\\,200\\,000 \\cdot 1.12 = 1\\,344\\,000$'] }),
+            sc(7, 'Interés **compuesto**: el interés se suma al capital y también gana interés. Crece en curva.', { title: '$M = C\\,(1 + r)^n$', steps: ['500.000 al 2 % mensual, 3 meses: $500\\,000 \\cdot 1.02^3 = 530\\,604$', '1.000.000 al 10 % anual, 10 años: simple 2.000.000 · compuesto 2.593.742'], viz: { type: 'graph', xr: [0, 10], yr: [0, 1.8], f: t => 1.1 ** t - 1, points: [[10, 1, 'simple'], [10, 1.59, 'compuesto']] } }),
+          ] },
+          ex: [
+            play('cobra-intereses', 'Cobra mes a mes hasta juntar 180.000 pesos de interés', { capital: 1500000, rate: 0.01, target: 180000, months: 12 },
+              'Con interés simple cada mes paga lo mismo: $1\\,500\\,000 \\cdot 0.01 = 15\\,000$. Para juntar $180\\,000$ hacen falta $180\\,000 / 15\\,000 = 12$ meses: $I = C\\,r\\,t$.'),
+            play('clasifica-cartas', 'Desliza cada tabla de montos: ¿crece con interés **simple** o **compuesto**?', {
+              left: 'Simple', right: 'Compuesto',
+              cards: [
+                { text: '100 → 110 → 120 → 130', side: 'left', why: 'Suma siempre 10: crece en recta.' },
+                { text: '100 → 110 → 121 → 133.1', side: 'right', why: 'Multiplica siempre por 1.1: el interés gana interés.' },
+                { text: '200 → 206 → 212.18 → 218.55', side: 'right', why: 'Multiplica por 1.03 cada periodo (206 · 1.03 = 212.18).' },
+                { text: '400 → 420 → 440 → 460', side: 'left', why: 'Suma siempre 20: el 5 % del capital inicial.' },
+                { text: '50 → 55 → 60.5 → 66.55', side: 'right', why: 'Multiplica por 1.1: 55 · 1.1 = 60.5.' },
+              ],
+            }, 'Con interés simple el monto sube siempre la misma cantidad (una recta); con compuesto se multiplica siempre por el mismo factor $1 + r$ (una curva): $110 \\cdot 1.1 = 121$, pero $110 + 10 = 120$.'),
+            play('carrera-interes', 'Encuentra el primer mes en que el compuesto le saca más de 120.000 al simple', { capital: 3000000, rate: 0.02, months: 24, gap: 120000 },
+              'Simple: $M = 3\\,000\\,000(1 + 0.02n)$. Compuesto: $M = 3\\,000\\,000(1.02)^n$. La ventaja crece cada mes: en el 14 es $\\approx 118\\,400$ y en el 15 ya es $\\approx 137\\,600$.'),
+            play('ajusta-capital', 'Fija el capital que, al 3 % mensual compuesto, deja 1.125.509 en 4 meses', { rate: 0.03, periods: 4, target: 1125509, step: 50000, max: 2000000, tol: 1 },
+              'Se despeja el capital de $M = C(1 + r)^n$: $C = \\dfrac{1\\,125\\,509}{1.03^4} = \\dfrac{1\\,125\\,509}{1.1255} = 1\\,000\\,000$.'),
+            play('mejor-oferta', 'Lleva el carrito al banco donde el millón queda convertido en más dinero', {
+              prefer: 'high', noun: 'Banco',
+              rounds: [
+                { price: 1000000, a: { label: '1.2 % mensual simple, 10 meses', changes: [12] }, b: { label: '1 % mensual compuesto, 10 meses', changes: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1] } },
+                { price: 1000000, a: { label: '8 % anual simple, 5 años', changes: [40] }, b: { label: '7 % anual compuesto, 5 años', changes: [7, 7, 7, 7, 7] } },
+                { price: 1000000, a: { label: '2 % mensual compuesto, 6 meses', changes: [2, 2, 2, 2, 2, 2] }, b: { label: '12.5 % semestral simple', changes: [12.5] } },
+              ],
+            }, 'Se comparan los montos. Ronda 1: simple $1.12 \\Rightarrow 1\\,120\\,000$ contra $1.01^{10} = 1.1046 \\Rightarrow 1\\,104\\,622$: gana el simple. Ronda 2: $1.40 \\Rightarrow 1\\,400\\,000$ contra $1.07^5 = 1.4026 \\Rightarrow 1\\,402\\,552$: gana el compuesto. Ronda 3: $1.02^6 = 1.1262 \\Rightarrow 1\\,126\\,162$ contra $1\\,125\\,000$: gana el compuesto por poco. La tasa y el plazo pesan más que el tipo de interés.'),
+            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
+              cards: [
+                { text: 'Al 2 % mensual simple, en 12 meses se gana el 24 % del capital', truth: true, why: 'Interés simple: 2 % · 12 = 24 %.' },
+                { text: 'A largo plazo el interés compuesto siempre supera al simple', truth: true, why: '(1 + r)ⁿ crece más rápido que 1 + rn.' },
+                { text: 'En el primer periodo, simple y compuesto ganan lo mismo', truth: true, why: 'Los dos pagan C · r la primera vez; la diferencia empieza en el segundo.' },
+                { text: 'Con interés compuesto, duplicar la tasa duplica el monto', truth: false, why: '(1 + 2r)ⁿ no es el doble de (1 + r)ⁿ: al 10 % y 20 % en 2 años, 1.21 y 1.44.' },
+                { text: 'M = C(1 + r)ⁿ es la fórmula del interés simple', truth: false, why: 'Esa es la del compuesto; el simple es M = C(1 + rt).' },
+              ],
+            }, 'Simple: $M = C(1 + rt)$, el interés es siempre $Cr$. Compuesto: $M = C(1 + r)^n$, cada periodo multiplica. Coinciden en el primer periodo y después el compuesto gana cada vez más.'),
+          ],
+        },
+        {
           id: 'alg-14', title: 'Progresiones aritméticas y geométricas',
           clip: { scenes: [
             sc(5, 'En una progresión **aritmética** se suma siempre la misma diferencia $d$.', { title: '$a_n = a_1 + (n - 1)d$', viz: { type: 'graph', xr: [0, 7], yr: [0, 32], f: () => NaN, points: [[1, 7, '7'], [2, 11, '11'], [3, 15, '15'], [4, 19, '19'], [5, 23, '23'], [6, 27, '27']] } }),

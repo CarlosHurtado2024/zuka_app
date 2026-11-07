@@ -46,3 +46,14 @@ test('empate → cualquier tienda vale, pero hay que elegir', () => {
   assert.equal(grade({ picks: ['b'] }, tie).ok, true);
   assert.equal(grade({ picks: [null] }, tie).ok, false);
 });
+
+// Con prefer: 'high' gana la opción de mayor valor (bancos: el monto más alto).
+test('prefer high: gana el banco que deja más dinero', () => {
+  const banks = { prefer: 'high', noun: 'Banco', rounds: [
+    { price: 1000000, a: { label: '1.2 % mensual simple, 10 meses', changes: [12] }, b: { label: '1 % mensual compuesto, 10 meses', changes: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1] } },
+    { price: 1000000, a: { label: '8 % anual simple, 5 años', changes: [40] }, b: { label: '7 % anual compuesto, 5 años', changes: [7, 7, 7, 7, 7] } },
+  ] };
+  assert.equal(grade({ picks: ['a', 'b'] }, banks).ok, true);
+  assert.equal(grade({ picks: ['b', 'b'] }, banks).ok, false);
+  assert.ok(grade({ picks: [null, null] }, banks).solution.includes('1.104.622'));
+});
