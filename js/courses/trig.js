@@ -278,21 +278,45 @@ const COURSE_TRIG = {
       lessons: [
         {
           id: 'trig-45', title: 'Seno, coseno y tangente inversos',
+          // Clase T10 (video/clase_trig_t10): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
           clip: { scenes: [
             sc(5, 'El seno no es inyectivo: muchos ángulos dan el mismo valor. Para invertirlo, **restringimos** el dominio a $\\left[-\\tfrac{\\pi}{2}, \\tfrac{\\pi}{2}\\right]$.', { viz: { type: 'graph', xr: [-4, 4], yr: [-2, 2], fs: [{ f: Math.sin, color: 'rgba(255,255,255,.3)' }, { f: x => (Math.abs(x) <= PI / 2 ? Math.sin(x) : NaN) }] } }),
             sc(5, '$\\sen^{-1} x$ responde: ¿qué ángulo de ese intervalo tiene seno $x$?', { title: '$y = \\sen^{-1}x \\iff \\sen y = x$', viz: { type: 'graph', xr: [-1.5, 1.5], yr: [-2, 2], f: Math.asin, draw: true } }),
             sc(5, 'Cada inversa tiene su rango:', { steps: ['$\\sen^{-1}: \\left[-\\tfrac{\\pi}{2}, \\tfrac{\\pi}{2}\\right]$', '$\\cos^{-1}: [0, \\pi]$', '$\\tan^{-1}: \\left(-\\tfrac{\\pi}{2}, \\tfrac{\\pi}{2}\\right)$'] }),
           ] },
           ex: [
-            mc('$\\sen^{-1}\\left(-\\tfrac12\\right) = \\;?$', ['$-\\tfrac{\\pi}{6}$', '$\\tfrac{7\\pi}{6}$', '$\\tfrac{11\\pi}{6}$', '$-\\tfrac{\\pi}{3}$'], 0, 'Debe estar en $\\left[-\\tfrac{\\pi}{2}, \\tfrac{\\pi}{2}\\right]$.'),
-            mc('$\\cos^{-1}\\left(-\\tfrac{\\sqrt2}{2}\\right) = \\;?$', ['$\\tfrac{3\\pi}{4}$', '$-\\tfrac{\\pi}{4}$', '$\\tfrac{5\\pi}{4}$', '$\\tfrac{\\pi}{4}$'], 0, 'El rango de $\\cos^{-1}$ es $[0, \\pi]$.'),
-            mc('$\\tan^{-1}\\sqrt3 = \\;?$', ['$\\tfrac{\\pi}{3}$', '$\\tfrac{\\pi}{6}$', '$\\tfrac{\\pi}{4}$', '$\\tfrac{4\\pi}{3}$'], 0, '$\\tan \\tfrac{\\pi}{3} = \\sqrt3$.'),
-            mc('$\\sen^{-1}\\left(\\sen \\tfrac{5\\pi}{6}\\right) = \\;?$', ['$\\tfrac{\\pi}{6}$', '$\\tfrac{5\\pi}{6}$', '$-\\tfrac{\\pi}{6}$', '$\\tfrac12$'], 0, '$\\sen\\tfrac{5\\pi}{6} = \\tfrac12$ y $\\sen^{-1}\\tfrac12 = \\tfrac{\\pi}{6}$: la cancelación solo vale en el intervalo restringido.'),
-            num('Una escalera de 6 m alcanza 5 m de altura en un muro. Ángulo con el piso, en grados', Math.asin(5 / 6) * 180 / PI, '$\\theta = \\sen^{-1}\\tfrac56 \\approx 56.4^\\circ$.', { tol: 0.3, suffix: '°', answerText: '$\\approx 56.4^\\circ$' }),
+            play('canon-inverso', 'Dos globos tienen el mismo valor, pero solo uno está en el rango de la inversa. Apunta el cañón al del valor principal', {
+              rounds: [
+                { fn: 'asin', x: -Math.SQRT1_2, label: '−√2/2' },
+                { fn: 'acos', x: -Math.sqrt(3) / 2, label: '−√3/2' },
+                { fn: 'atan', x: -Math.sqrt(3), label: '−√3' },
+                { fn: 'atan', x: 1, label: '1', guide: false },
+              ],
+            }, '$\\sen^{-1}\\left(-\\tfrac{\\sqrt2}{2}\\right) = -45^\\circ$ (no $225^\\circ$: el rango del seno inverso es $[-90^\\circ, 90^\\circ]$); $\\cos^{-1}\\left(-\\tfrac{\\sqrt3}{2}\\right) = 150^\\circ$, en $[0^\\circ, 180^\\circ]$; $\\tan^{-1}(-\\sqrt3) = -60^\\circ$ y $\\tan^{-1} 1 = 45^\\circ$.',
+              { hint: 'Primero busca el ángulo agudo que da ese valor sin signo. Luego ubícalo dentro del rango: para seno y tangente inversos, negativo significa por debajo del eje x; para coseno inverso, negativo significa pasar al lado izquierdo.' }),
+            play('canon-inverso', 'Ahora sin ángulos notables: apunta con precisión de 1°', {
+              rounds: [
+                { fn: 'atan', x: 5 / 12, label: '5/12', snap: 1 },
+                { fn: 'acos', x: 0.8, label: '0.8', snap: 1 },
+                { fn: 'asin', x: -0.6, label: '−0.6', snap: 1 },
+              ],
+            }, '$\\tan^{-1}\\tfrac{5}{12} \\approx 22.6^\\circ$, $\\cos^{-1} 0.8 \\approx 36.9^\\circ$ y $\\sen^{-1}(-0.6) \\approx -36.9^\\circ$: el seno negativo apunta hacia abajo, dentro de $[-90^\\circ, 90^\\circ]$.',
+              { hint: 'Fíjate en la lectura de abajo: mientras giras, el juego muestra el valor de la función en tu ángulo. Acércalo al número pedido y afina con − y +.' }),
+            play('une-parejas', 'Une cada inversa con su valor principal', {
+              left: ['sen⁻¹(1/2)', 'cos⁻¹(0)', 'tan⁻¹(−1)', 'cos⁻¹(−1)'],
+              right: ['π/6', 'π/2', '−π/4', 'π', '5π/6', '3π/4'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, '$\\sen^{-1}\\tfrac12 = \\tfrac{\\pi}{6}$ (no $\\tfrac{5\\pi}{6}$), $\\cos^{-1} 0 = \\tfrac{\\pi}{2}$, $\\tan^{-1}(-1) = -\\tfrac{\\pi}{4}$ (no $\\tfrac{3\\pi}{4}$) y $\\cos^{-1}(-1) = \\pi$.',
+              { hint: 'Cada inversa devuelve un solo ángulo, el de su rango: seno y tangente inversos entre −π/2 y π/2; coseno inverso entre 0 y π.' }),
+            num('Calcula $\\cos^{-1}\\left(\\cos \\tfrac{7\\pi}{6}\\right)$, en grados', 150, '$\\cos\\tfrac{7\\pi}{6} = \\cos 210^\\circ = -\\tfrac{\\sqrt3}{2}$, y el ángulo de $[0^\\circ, 180^\\circ]$ con ese coseno es $150^\\circ$. No se cancela porque $210^\\circ$ está fuera del rango.',
+              { suffix: '°', hint: 'Calcula primero el coseno de adentro. Después busca el ángulo entre 0° y 180° que tenga ese mismo coseno: no siempre es el ángulo con el que empezaste.' }),
+            num('Una escalera de 6 m alcanza 5 m de altura en un muro. Ángulo con el piso, en grados', Math.asin(5 / 6) * 180 / PI, '$\\operatorname{sen}\\theta = \\tfrac56$, así que $\\theta = \\operatorname{sen}^{-1}\\tfrac56 \\approx 56.4^\\circ$.',
+              { tol: 0.3, suffix: '°', answerText: '$\\approx 56.4^\\circ$', hint: 'Dibuja el triángulo: la escalera es la hipotenusa y la altura es el lado opuesto al ángulo con el piso. ¿Qué razón usa esos dos lados? Despeja el ángulo con su inversa.' }),
           ],
         },
         {
           id: 'trig-4', title: 'Identidades fundamentales',
+          // Clase T11 (video/clase_trig_t11).
           clip: { scenes: [
             sc(5, 'En la circunferencia unitaria, coseno y seno forman un triángulo con hipotenusa 1.', { viz: { type: 'circle', from: 20, to: 70 } }),
             sc(5, 'Por Pitágoras, siempre se cumple:', { title: '$\\sen^2\\theta + \\cos^2\\theta = 1$', viz: { type: 'circle', from: 70, to: 160 } }),
@@ -300,56 +324,116 @@ const COURSE_TRIG = {
             sc(5, '**Cofunciones**: el seno de un ángulo es el coseno de su complemento.', { steps: ['$\\sen\\left(\\tfrac{\\pi}{2} - x\\right) = \\cos x$', '$\\tan\\left(\\tfrac{\\pi}{2} - x\\right) = \\cot x$'] }),
           ] },
           ex: [
-            mc('$\\sen^2\\theta + \\cos^2\\theta = \\;?$', ['$1$', '$0$', '$\\tan\\theta$', '$2$'], 0, 'Es la identidad pitagórica.'),
-            num('Si $\\sen\\theta = 0.6$ y $\\theta$ está en el cuadrante I, ¿cuánto vale $\\cos\\theta$?', 0.8, '$\\cos\\theta = \\sqrt{1 - 0.36} = \\sqrt{0.64} = 0.8$.'),
-            mc('$\\tan\\theta$ es igual a…', ['$\\dfrac{\\sen\\theta}{\\cos\\theta}$', '$\\dfrac{\\cos\\theta}{\\sen\\theta}$', '$\\sen\\theta\\cos\\theta$', '$\\dfrac{1}{\\sen\\theta}$'], 0, 'Opuesto/adyacente = (op/hip) ÷ (ady/hip).'),
-            ord('Ordena de menor a mayor', ['$\\sen 0^\\circ$', '$\\sen 30^\\circ$', '$\\sen 60^\\circ$', '$\\sen 90^\\circ$'], '$0 < 0.5 < 0.87 < 1$: el seno crece de 0° a 90°.'),
+            play('tanque-pitagorico', 'Llena el tanque justo hasta la marca y elige el signo según el cuadrante', {
+              rounds: [
+                { id: 'sc', given: 'sen', value: 0.6, ask: 'cos', q: 2 },
+                { id: 'sc', given: 'cos', value: 0.28, ask: 'sen', q: 4 },
+                { id: 'ts', given: 'tan', value: 0.75, ask: 'sec', q: 3 },
+                { id: 'ts', given: 'sec', value: -1.25, ask: 'tan', q: 2 },
+              ],
+            }, '$\\cos\\theta = -\\sqrt{1 - 0.36} = -0.8$ (II); $\\operatorname{sen}\\theta = -\\sqrt{1 - 0.0784} = -0.96$ (IV); $\\sec\\theta = -\\sqrt{1 + 0.5625} = -1.25$ (III, como el coseno); $\\tan\\theta = -\\sqrt{1.5625 - 1} = -0.75$ (II).',
+              { hint: 'El tanque llena cuando los cuadrados suman lo que pide la identidad: resta para hallar el cuadrado que falta y saca raíz. El signo lo decide el cuadrante: I todas positivas, II solo el seno, III solo la tangente, IV solo el coseno (la secante lleva el signo del coseno).' }),
+            play('une-parejas', 'Une cada expresión con su cofunción', {
+              left: ['sen(90° − x)', 'tan(90° − x)', 'sec(90° − x)', 'cos(π/2 − x)'],
+              right: ['cos x', 'cot x', 'csc x', 'sen x', 'tan x', 'sec x'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, 'En un triángulo rectángulo, lo que es opuesto para un ángulo agudo es adyacente para el otro: cada razón del complemento es su «co-razón». $\\operatorname{sen} \\leftrightarrow \\cos$, $\\tan \\leftrightarrow \\cot$, $\\sec \\leftrightarrow \\csc$.',
+              { hint: 'Al cambiar un ángulo por su complemento, el lado opuesto y el adyacente se intercambian. Cada razón pasa a su pareja con «co»: seno con coseno, tangente con cotangente, secante con cosecante.' }),
+            num('Si $\\tan\\theta = 2$ y $\\theta$ está en el cuadrante III, ¿cuánto vale $\\sec\\theta$?', -Math.sqrt(5), '$\\sec^2\\theta = 1 + \\tan^2\\theta = 5$, y en el III el coseno (y la secante) es negativo: $\\sec\\theta = -\\sqrt5 \\approx -2.24$.',
+              { tol: 0.01, answerText: '$-\\sqrt5 \\approx -2.24$', hint: 'Usa la identidad que une la tangente con la secante y despeja el cuadrado. Para el signo, piensa en el signo del coseno en ese cuadrante.' }),
           ],
         },
         {
           id: 'trig-47b', title: 'Simplificar y demostrar',
+          // Clase T12 (video/clase_trig_t12).
           clip: { scenes: [
             sc(5, 'Una **identidad** es cierta para todo $x$ del dominio; una **ecuación** solo para algunos valores.', { steps: ['$\\sen^2x + \\cos^2x = 1$: identidad', '$\\sen x = \\tfrac12$: ecuación'] }),
             sc(6, 'Estrategia: trabaja con el lado más complejo y escribe todo en senos y cosenos.', { steps: ['$\\tan x + \\cot x = \\dfrac{\\sen x}{\\cos x} + \\dfrac{\\cos x}{\\sen x}$', '$= \\dfrac{\\sen^2 x + \\cos^2 x}{\\sen x \\cos x}$', '$= \\dfrac{1}{\\sen x \\cos x} = \\sec x \\csc x$'] }),
             sc(5, 'Para refutar una falsa identidad basta **un contraejemplo**.', { steps: ['¿$\\sen(x + y) = \\sen x + \\sen y$?', '$x = y = \\tfrac{\\pi}{2}$: $\\sen \\pi = 0 \\neq 2$'] }),
           ] },
           ex: [
-            mc('Simplifica $(1 - \\sen^2 x)(1 + \\tan^2 x)$', ['$1$', '$\\cos^2 x$', '$\\sec^2 x$', '$\\sen^2 x$'], 0, '$\\cos^2 x \\cdot \\sec^2 x = 1$.'),
-            ord('Ordena la demostración de $\\tan x + \\cot x = \\sec x \\csc x$', ['$\\dfrac{\\sen x}{\\cos x} + \\dfrac{\\cos x}{\\sen x}$', '$\\dfrac{\\sen^2 x + \\cos^2 x}{\\sen x \\cos x}$', '$\\dfrac{1}{\\sen x \\cos x}$', '$\\sec x \\csc x$'], 'Escribe en senos y cosenos, suma las fracciones y usa la identidad pitagórica.'),
-            mc('Un contraejemplo para $\\sen(x + y) = \\sen x + \\sen y$ es…', ['$x = y = \\tfrac{\\pi}{2}$', '$x = y = 0$', '$x = 0, y = \\pi$', '$x = \\pi, y = 0$'], 0, 'Con $x = y = \\tfrac{\\pi}{2}$: $0 \\neq 2$. En los otros casos la igualdad sí se cumple.'),
-            mc('Simplifica $\\dfrac{\\sec x - \\cos x}{\\tan x}$', ['$\\sen x$', '$\\cos x$', '$\\tan x$', '$1$'], 0, '$\\dfrac{\\frac{1 - \\cos^2 x}{\\cos x}}{\\frac{\\sen x}{\\cos x}} = \\dfrac{\\sen^2 x}{\\sen x} = \\sen x$.'),
+            play('detector-identidades', 'Detective de identidades: si las gráficas se separan, marca un contraejemplo; si no, sella «Es identidad»', {
+              rounds: [
+                { lhs: 'sen 2x', rhs: '2 sen x', f: x => Math.sin(2 * x), g: x => 2 * Math.sin(x), identity: false },
+                { lhs: 'tan x · cos x', rhs: 'sen x', f: x => Math.tan(x) * Math.cos(x), g: x => Math.sin(x), identity: true },
+                { lhs: '(sen x + cos x)²', rhs: '1', f: x => (Math.sin(x) + Math.cos(x)) ** 2, g: () => 1, identity: false },
+                { lhs: 'sec²x − tan²x', rhs: '1', f: x => 1 / Math.cos(x) ** 2 - Math.tan(x) ** 2, g: () => 1, identity: true },
+              ],
+            }, '$\\operatorname{sen} 2x \\ne 2\\operatorname{sen} x$ (en $x = \\tfrac{\\pi}{2}$: $0 \\ne 2$). $\\tan x \\cos x = \\tfrac{\\operatorname{sen} x}{\\cos x}\\cos x = \\operatorname{sen} x$: identidad. $(\\operatorname{sen} x + \\cos x)^2 = 1 + 2\\operatorname{sen} x\\cos x$, que no es 1 en $x = \\tfrac{\\pi}{4}$. $\\sec^2 x - \\tan^2 x = 1$ sale de $1 + \\tan^2 x = \\sec^2 x$.',
+              { hint: 'Mueve la lupa y mira los dos valores de abajo. Si en algún x son distintos, ese x ya es un contraejemplo. Si coinciden en todas partes (salvo donde no existen), escribe ambos lados en senos y cosenos para confirmarlo.' }),
+            play('ordena-terminos', 'Ordena la demostración de $\\cos x\\,(\\sec x - \\cos x) = \\operatorname{sen}^2 x$', {
+              tex: '\\cos x\\,(\\sec x - \\cos x)',
+              chips: ['cos x · sec x − cos²x', '1 − cos²x', 'sen²x', '1 + cos²x', 'cos²x − 1'],
+              order: [0, 1, 2], sep: '=',
+            }, 'Se reparte: $\\cos x\\sec x - \\cos^2 x$. Como $\\cos x \\sec x = 1$, queda $1 - \\cos^2 x$, que por la identidad pitagórica es $\\operatorname{sen}^2 x$.',
+              { hint: 'Primero reparte el cos x del paréntesis. Luego recuerda que la secante es el recíproco del coseno, así que su producto vale 1. Al final usa sen² + cos² = 1.' }),
+            play('une-parejas', 'Une cada expresión con su forma más simple', {
+              left: ['sen x · csc x', 'cos x · tan x', 'sec x · cot x', '(1 − sen²x) / cos x'],
+              right: ['1', 'sen x', 'csc x', 'cos x', 'tan x', 'sec x'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, '$\\operatorname{sen} x \\cdot \\tfrac{1}{\\operatorname{sen} x} = 1$; $\\cos x \\cdot \\tfrac{\\operatorname{sen} x}{\\cos x} = \\operatorname{sen} x$; $\\tfrac{1}{\\cos x} \\cdot \\tfrac{\\cos x}{\\operatorname{sen} x} = \\csc x$; $\\tfrac{\\cos^2 x}{\\cos x} = \\cos x$.',
+              { hint: 'Escribe todo en senos y cosenos (csc = 1/sen, sec = 1/cos, tan = sen/cos, cot = cos/sen) y cancela lo que se repite arriba y abajo.' }),
+            num('Simplifica $(1 - \\cos^2 x)(1 + \\cot^2 x)$', 1, '$1 - \\cos^2 x = \\operatorname{sen}^2 x$ y $1 + \\cot^2 x = \\csc^2 x$: su producto es $\\operatorname{sen}^2 x \\cdot \\tfrac{1}{\\operatorname{sen}^2 x} = 1$.',
+              { hint: 'Cada paréntesis es una identidad pitagórica disfrazada. Cámbialos por su forma corta y mira qué pasa al multiplicar.' }),
           ],
         },
         {
           id: 'trig-48a', title: 'Suma y resta de ángulos',
+          // Clase T13 (video/clase_trig_t13).
           clip: { scenes: [
             sc(6, 'El seno y el coseno de una suma **no** se reparten: tienen su propia fórmula.', { steps: ['$\\sen(x \\pm y) = \\sen x \\cos y \\pm \\cos x \\sen y$', '$\\cos(x \\pm y) = \\cos x \\cos y \\mp \\sen x \\sen y$'] }),
             sc(6, 'Así obtienes valores exactos de ángulos "raros":', { steps: ['$\\cos 75^\\circ = \\cos(45^\\circ + 30^\\circ)$', '$= \\tfrac{\\sqrt2}{2}\\cdot\\tfrac{\\sqrt3}{2} - \\tfrac{\\sqrt2}{2}\\cdot\\tfrac12$', '$= \\dfrac{\\sqrt6 - \\sqrt2}{4}$'] }),
             sc(5, 'Y para la tangente:', { title: '$\\tan(x \\pm y) = \\dfrac{\\tan x \\pm \\tan y}{1 \\mp \\tan x \\tan y}$' }),
           ] },
           ex: [
-            mc('$\\cos 75^\\circ = \\;?$', ['$\\dfrac{\\sqrt6 - \\sqrt2}{4}$', '$\\dfrac{\\sqrt6 + \\sqrt2}{4}$', '$\\dfrac{\\sqrt3 - 1}{2}$', '$\\dfrac{\\sqrt2}{4}$'], 0, '$\\cos(45^\\circ + 30^\\circ)$ con la fórmula de suma.'),
-            mc('$\\sen 15^\\circ = \\;?$', ['$\\dfrac{\\sqrt6 - \\sqrt2}{4}$', '$\\dfrac{\\sqrt6 + \\sqrt2}{4}$', '$\\tfrac14$', '$\\dfrac{\\sqrt3}{4}$'], 0, '$\\sen(45^\\circ - 30^\\circ) = \\tfrac{\\sqrt2}{2}\\cdot\\tfrac{\\sqrt3}{2} - \\tfrac{\\sqrt2}{2}\\cdot\\tfrac12$.'),
-            num('Si $\\sen\\alpha = \\tfrac35$ ($\\alpha$ en I) y $\\cos\\beta = -\\tfrac{5}{13}$ ($\\beta$ en II), calcula $\\sen(\\alpha + \\beta)$', 33 / 65, '$\\cos\\alpha = \\tfrac45$, $\\sen\\beta = \\tfrac{12}{13}$: $\\tfrac35\\left(-\\tfrac{5}{13}\\right) + \\tfrac45 \\cdot \\tfrac{12}{13} = \\tfrac{33}{65}$.', { tol: 0.005, answerText: '$\\tfrac{33}{65} \\approx 0.508$' }),
-            mc('¿Es cierto que $\\cos(x + y) = \\cos x + \\cos y$?', ['No, se usa $\\cos x\\cos y - \\sen x \\sen y$', 'Sí, siempre', 'Solo en grados', 'Solo si $x = y$'], 0, 'Con $x = y = 0$: $\\cos 0 = 1 \\neq 2$.'),
+            play('encadena-angulos', 'Encadena dos ángulos notables para llegar al ángulo «raro»', {
+              rounds: [{ target: 165 }, { target: 195 }, { target: 285 }],
+            }, 'Por ejemplo $165^\\circ = 120^\\circ + 45^\\circ$, $195^\\circ = 150^\\circ + 45^\\circ$ y $285^\\circ = 240^\\circ + 45^\\circ$ (también valen restas como $165^\\circ = 210^\\circ - 45^\\circ$).',
+              { hint: 'Los notables son los múltiplos de 30° y de 45°. Busca uno cerca del ángulo pedido y mira cuánto falta o sobra: si esa diferencia también es notable, ya lo tienes.' }),
+            play('une-parejas', 'Une cada valor con su forma exacta', {
+              left: ['cos 165°', 'cos 105°', 'sen 15°', 'tan 15°'],
+              right: ['−(√6 + √2)/4', '(√2 − √6)/4', '(√6 − √2)/4', '2 − √3', '(√6 + √2)/4', '2 + √3'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, '$\\cos(120^\\circ + 45^\\circ) = -\\tfrac12\\cdot\\tfrac{\\sqrt2}{2} - \\tfrac{\\sqrt3}{2}\\cdot\\tfrac{\\sqrt2}{2} = -\\tfrac{\\sqrt6 + \\sqrt2}{4}$; $\\cos(60^\\circ + 45^\\circ) = \\tfrac{\\sqrt2 - \\sqrt6}{4}$; $\\operatorname{sen}(45^\\circ - 30^\\circ) = \\tfrac{\\sqrt6 - \\sqrt2}{4}$; $\\tan(45^\\circ - 30^\\circ) = \\tfrac{1 - \\sqrt3/3}{1 + \\sqrt3/3} = 2 - \\sqrt3$.',
+              { hint: 'Escribe cada ángulo como suma o resta de dos notables y aplica la fórmula. Antes de calcular, decide el signo: un coseno en el cuadrante II es negativo, y un seno o tangente de un ángulo agudo pequeño es positivo y pequeño.' }),
+            num('Si $\\operatorname{sen}\\alpha = \\tfrac35$ ($\\alpha$ en I) y $\\cos\\beta = -\\tfrac{5}{13}$ ($\\beta$ en II), calcula $\\operatorname{sen}(\\alpha + \\beta)$', 33 / 65, '$\\cos\\alpha = \\tfrac45$, $\\operatorname{sen}\\beta = \\tfrac{12}{13}$: $\\tfrac35\\left(-\\tfrac{5}{13}\\right) + \\tfrac45 \\cdot \\tfrac{12}{13} = \\tfrac{33}{65}$.',
+              { tol: 0.005, answerText: '$\\tfrac{33}{65} \\approx 0.508$', hint: 'Te faltan cos α y sen β: sácalos con sen² + cos² = 1 y el signo de cada cuadrante. Luego usa sen(α + β) = sen α cos β + cos α sen β.' }),
           ],
         },
         {
           id: 'trig-48b', title: 'Ángulo doble y ángulo medio',
+          // Clase T14 (video/clase_trig_t14).
           clip: { scenes: [
             sc(5, 'Si en la fórmula de suma haces $y = x$, obtienes el **ángulo doble**:', { steps: ['$\\sen 2x = 2 \\sen x \\cos x$', '$\\cos 2x = \\cos^2 x - \\sen^2 x$', '$= 1 - 2\\sen^2 x = 2\\cos^2 x - 1$'] }),
             sc(5, 'Despejando, reduces potencias (muy útil en cálculo):', { steps: ['$\\sen^2 x = \\dfrac{1 - \\cos 2x}{2}$', '$\\cos^2 x = \\dfrac{1 + \\cos 2x}{2}$'] }),
             sc(5, '**Ángulo medio**: el signo depende del cuadrante de $\\tfrac{u}{2}$.', { title: '$\\sen\\dfrac{u}{2} = \\pm\\sqrt{\\dfrac{1 - \\cos u}{2}}$' }),
           ] },
           ex: [
-            num('Si $\\sen x = \\tfrac35$ y $x$ está en el cuadrante I, calcula $\\sen 2x$', 0.96, '$2 \\cdot \\tfrac35 \\cdot \\tfrac45 = \\tfrac{24}{25} = 0.96$.'),
-            mc('$\\cos 2x$ también se puede escribir como…', ['$1 - 2\\sen^2 x$', '$2\\sen x\\cos x$', '$1 + 2\\sen^2 x$', '$\\cos^2 x + \\sen^2 x$'], 0, 'Sustituye $\\cos^2 x = 1 - \\sen^2 x$.'),
-            mc('$\\sen^2 x$ en términos del coseno del ángulo doble', ['$\\dfrac{1 - \\cos 2x}{2}$', '$\\dfrac{1 + \\cos 2x}{2}$', '$1 - \\cos 2x$', '$\\dfrac{\\cos 2x}{2}$'], 0, 'Despeja de $\\cos 2x = 1 - 2\\sen^2 x$.'),
-            mc('$\\cos 3x = \\;?$', ['$4\\cos^3 x - 3\\cos x$', '$3\\cos x - 4\\cos^3 x$', '$3\\cos x$', '$\\cos^3 x$'], 0, 'Escribe $\\cos(2x + x)$ y usa las fórmulas de ángulo doble.'),
+            play('corredores-dobles', 'El corredor rosa va siempre al doble. Mantén «Correr» y frena justo cuando se cumpla cada condición', {
+              rounds: [
+                { prompt: 'El rápido llega a (0, −1) y el lento está en el cuadrante II', fast: 270, q: 2 },
+                { prompt: 'cos 2θ = −1/2 con el lento en el cuadrante III', cos2: -0.5, q: 3 },
+                { prompt: 'El rápido está en 60° y el lento tiene sen θ < 0', fast: 60, slowSen: '-' },
+                { prompt: 'sen 2θ = 1 con cos θ < 0', sen2: 1, slowCos: '-' },
+              ],
+            }, '$2\\theta = 270^\\circ$ da $\\theta = 135^\\circ$ o $315^\\circ$: en el II, $135^\\circ$. $\\cos 2\\theta = -\\tfrac12$ con $\\theta$ en III: $\\theta = 240^\\circ$ ($2\\theta = 480^\\circ$, coterminal con $120^\\circ$). Ángulo medio de $60^\\circ$: $30^\\circ$ o $210^\\circ$; con seno negativo, $210^\\circ$. $\\operatorname{sen} 2\\theta = 1$: $2\\theta = 90^\\circ$ o $450^\\circ$, y con coseno negativo $\\theta = 225^\\circ$.',
+              { hint: 'Piensa al revés: primero dónde debe estar el rápido (2θ), luego divide entre 2. Ojo, como el rápido da dos vueltas, hay dos lentos posibles separados por 180°: la condición sobre θ decide cuál.' }),
+            play('detector-identidades', '¿Cuáles fórmulas de ángulo doble son de verdad?', {
+              rounds: [
+                { lhs: 'cos 2x', rhs: '1 − 2 sen²x', f: x => Math.cos(2 * x), g: x => 1 - 2 * Math.sin(x) ** 2, identity: true },
+                { lhs: 'cos²x', rhs: '(1 − cos 2x) / 2', f: x => Math.cos(x) ** 2, g: x => (1 - Math.cos(2 * x)) / 2, identity: false },
+                { lhs: 'sen 2x', rhs: '2 sen x cos x', f: x => Math.sin(2 * x), g: x => 2 * Math.sin(x) * Math.cos(x), identity: true },
+                { lhs: 'cos 2x', rhs: '2 cos²x + 1', f: x => Math.cos(2 * x), g: x => 2 * Math.cos(x) ** 2 + 1, identity: false },
+              ],
+            }, '$\\cos 2x = 1 - 2\\operatorname{sen}^2 x$ y $\\operatorname{sen} 2x = 2\\operatorname{sen} x\\cos x$ son identidades. $\\cos^2 x = \\tfrac{1 + \\cos 2x}{2}$ (con más, no con menos) y $\\cos 2x = 2\\cos^2 x - 1$ (con menos).',
+              { hint: 'Prueba con x = 0, donde cos x = 1 y sen x = 0: si los dos lados ya no coinciden ahí, tienes el contraejemplo. Si coinciden, mueve la lupa a otros valores antes de sellar.' }),
+            num('Si $\\operatorname{sen} x = \\tfrac{5}{13}$ y $x$ está en el cuadrante II, calcula $\\operatorname{sen} 2x$', -120 / 169, '$\\cos x = -\\tfrac{12}{13}$ (II), así que $\\operatorname{sen} 2x = 2 \\cdot \\tfrac{5}{13} \\cdot \\left(-\\tfrac{12}{13}\\right) = -\\tfrac{120}{169} \\approx -0.710$.',
+              { tol: 0.005, answerText: '$-\\tfrac{120}{169} \\approx -0.710$', hint: 'Necesitas el coseno: sácalo con la identidad pitagórica y el signo del cuadrante II. Luego multiplica 2 · sen x · cos x.' }),
           ],
         },
         {
           id: 'trig-49', title: 'Resolver ecuaciones trigonométricas',
+          // Clase T15 (video/clase_trig_t15).
           clip: { scenes: [
             sc(5, 'Al resolver $\\sen x = \\tfrac12$ hay **dos** soluciones en cada vuelta.', { title: '$2\\sen x - 1 = 0$', viz: { type: 'graph', xr: [0, 6.6], yr: [-1.5, 1.5], fs: [{ f: Math.sin }, { f: () => 0.5, color: '#facc15', dash: true }], points: [[PI / 6, 0.5, 'π/6'], [5 * PI / 6, 0.5, '5π/6']] } }),
             sc(5, 'Solución general: suma vueltas completas.', { steps: ['$x = \\tfrac{\\pi}{6} + 2n\\pi$', '$x = \\tfrac{5\\pi}{6} + 2n\\pi$'] }),
@@ -357,46 +441,71 @@ const COURSE_TRIG = {
             sc(5, 'Si elevas al cuadrado, verifica: pueden aparecer **soluciones extrañas**.', { steps: ['$\\sen x + \\cos x = 1$', 'Al elevar al cuadrado: $\\sen 2x = 0$', 'Verifica cada candidato en la original'] }),
           ] },
           ex: [
-            sld('Gira $\\theta$ hasta otro ángulo (distinto de $30^\\circ$) con $\\sen\\theta = \\tfrac12$', {
-              viz: { type: 'circle' }, min: 0, max: 360, step: 15, init: 30,
-              readout: v => `$\\theta = ${v}^\\circ$`, check: v => v === 150, answerText: '$\\theta = 150^\\circ = \\tfrac{5\\pi}{6}$',
-              explain: 'El seno es positivo en I y II: $180^\\circ - 30^\\circ = 150^\\circ$.',
-            }),
-            mc('Soluciones de $2\\cos^2 x + \\cos x - 1 = 0$ en $[0, 2\\pi)$', ['$\\tfrac{\\pi}{3}, \\pi, \\tfrac{5\\pi}{3}$', '$\\tfrac{\\pi}{3}, \\tfrac{5\\pi}{3}$', '$\\tfrac{\\pi}{6}, \\pi$', '$0, \\tfrac{\\pi}{3}$'], 0, '$\\cos x = \\tfrac12$ o $\\cos x = -1$.'),
-            mc('Soluciones de $\\sen 2x = \\cos x$ en $[0, 2\\pi)$', ['$\\tfrac{\\pi}{6}, \\tfrac{\\pi}{2}, \\tfrac{5\\pi}{6}, \\tfrac{3\\pi}{2}$', '$\\tfrac{\\pi}{6}, \\tfrac{5\\pi}{6}$', '$\\tfrac{\\pi}{2}, \\tfrac{3\\pi}{2}$', '$\\tfrac{\\pi}{4}, \\tfrac{5\\pi}{4}$'], 0, '$2\\sen x\\cos x - \\cos x = \\cos x(2\\sen x - 1) = 0$. ¡No dividas entre $\\cos x$!'),
-            num('¿Cuántas soluciones tiene $\\tan 3x = 1$ en $[0, \\pi)$?', 3, '$3x = \\tfrac{\\pi}{4} + n\\pi \\Rightarrow x = \\tfrac{\\pi}{12}, \\tfrac{5\\pi}{12}, \\tfrac{9\\pi}{12}$.'),
+            play('pesca-raices', 'Los peces están donde la ola cruza o toca el agua. Atrápalos todos en $[0, 2\\pi)$ sin anzuelos de más', {
+              rounds: [
+                { label: '2 cos x = −1', g: x => 2 * Math.cos(x), k: -1, yr: 3 },
+                { label: '2 sen²x − sen x − 1 = 0', g: x => 2 * Math.sin(x) ** 2 - Math.sin(x) - 1, k: 0, yr: 3 },
+                { label: 'sen 2x − cos x = 0', g: x => Math.sin(2 * x) - Math.cos(x), k: 0, yr: 2.5 },
+                { label: 'tan x = −1', g: Math.tan, k: -1, yr: 4 },
+              ],
+            }, '$\\cos x = -\\tfrac12$: $\\tfrac{2\\pi}{3}, \\tfrac{4\\pi}{3}$. $(2\\operatorname{sen} x + 1)(\\operatorname{sen} x - 1) = 0$: $\\tfrac{\\pi}{2}, \\tfrac{7\\pi}{6}, \\tfrac{11\\pi}{6}$. $\\cos x\\,(2\\operatorname{sen} x - 1) = 0$: $\\tfrac{\\pi}{6}, \\tfrac{\\pi}{2}, \\tfrac{5\\pi}{6}, \\tfrac{3\\pi}{2}$. $\\tan x = -1$: $\\tfrac{3\\pi}{4}, \\tfrac{7\\pi}{4}$.',
+              { hint: 'Despeja la función (o factoriza como en álgebra) hasta llegar a «sen x = número», «cos x = número»… Cada una suele dar dos ángulos por vuelta; revisa también los puntos donde la ola apenas toca el agua.' }),
+            play('atrapa-punto', 'Atrapa en la circunferencia la solución que cumple cada pista', {
+              rounds: [
+                { prompt: '2 sen θ + √3 = 0, en el cuadrante IV', angles: [300] },
+                { prompt: '√2 cos θ = 1, con sen θ < 0', angles: [315] },
+                { prompt: 'tan θ = √3, en el cuadrante III', angles: [240] },
+              ],
+            }, '$\\operatorname{sen}\\theta = -\\tfrac{\\sqrt3}{2}$ en el IV: $300^\\circ$. $\\cos\\theta = \\tfrac{\\sqrt2}{2}$ con seno negativo: $315^\\circ$. $\\tan\\theta = \\sqrt3$ en el III: $180^\\circ + 60^\\circ = 240^\\circ$.',
+              { hint: 'Despeja la razón y busca su ángulo de referencia entre los notables. Después llévalo al cuadrante que pide la pista.' }),
+            num('¿Cuántas soluciones tiene $\\tan 3x = 1$ en $[0, \\pi)$?', 3, '$3x = \\tfrac{\\pi}{4} + n\\pi \\Rightarrow x = \\tfrac{\\pi}{12} + \\tfrac{n\\pi}{3}$: $\\tfrac{\\pi}{12}, \\tfrac{5\\pi}{12}, \\tfrac{9\\pi}{12}$.',
+              { hint: 'Resuelve primero para 3x con la solución general (la tangente se repite cada π) y luego divide entre 3. Cuenta cuántos valores caen antes de π.' }),
           ],
         },
         {
           id: 'trig-46a', title: 'Ley de senos',
+          // Clase T16 (video/clase_trig_t16).
           clip: { scenes: [
             sc(5, 'Un triángulo **oblicuo** no tiene ángulo recto. Igual podemos resolverlo.', { viz: { type: 'oblique', a: 8, b: 10, C: 70 } }),
             sc(6, 'Cada lado es proporcional al seno de su ángulo opuesto.', { title: '$\\dfrac{\\sen A}{a} = \\dfrac{\\sen B}{b} = \\dfrac{\\sen C}{c}$', viz: { type: 'oblique', a: 8, b: 10, anim: [50, 100], show: 'senos' } }),
             sc(5, 'Úsala cuando conozcas dos ángulos y un lado (ALA, AAL). Con LLA puede haber 0, 1 o 2 triángulos: el **caso ambiguo**.', { steps: ['$A + B + C = 180^\\circ$', '$b = \\dfrac{a \\sen B}{\\sen A}$'] }),
           ] },
           ex: [
-            num('En un triángulo, $A = 40^\\circ$ y $B = 65^\\circ$. ¿Cuánto mide $C$?', 75, '$180^\\circ - 40^\\circ - 65^\\circ = 75^\\circ$.', { suffix: '°' }),
-            num('Si $a = 10$, $A = 30^\\circ$ y $B = 90^\\circ$, ¿cuánto mide $b$?', 20, '$b = \\dfrac{10 \\sen 90^\\circ}{\\sen 30^\\circ} = \\dfrac{10}{0.5} = 20$.'),
-            mc('¿Qué datos llevan al caso ambiguo?', ['Dos lados y el ángulo opuesto a uno de ellos (LLA)', 'Tres lados (LLL)', 'Dos ángulos y un lado (AAL)', 'Dos lados y el ángulo comprendido (LAL)'], 0, 'Con LLA el lado puede "caer" en dos posiciones.'),
-            mc('Para resolver con $A = 40^\\circ$, $B = 65^\\circ$ y $a = 12$, conviene usar…', ['La ley de senos', 'La ley de cosenos', 'El teorema de Pitágoras', 'La fórmula de Herón'], 0, 'Son dos ángulos y un lado (AAL).'),
+            play('compas-ambiguo', 'El lado $a$ es el brazo de un compás clavado en $C$. Marca cada lugar donde toca la base, o di que no hay triángulo', {
+              rounds: [{ A: 30, b: 10, a: 6 }, { A: 30, b: 10, a: 4 }, { A: 30, b: 10, a: 5 }, { A: 50, b: 8, a: 10 }],
+            }, 'La altura desde $C$ es $h = b\\operatorname{sen} A = 5$ en las tres primeras. Con $a = 6 > h$ (y menor que $b$) hay dos triángulos; con $a = 4 < h$, ninguno; con $a = h = 5$, uno rectángulo. Con $a = 10 > b = 8$ solo un corte cae a la derecha de $A$: un triángulo.',
+              { hint: 'Calcula la altura h = b · sen A desde C hasta la base. Si a es menor que h, el brazo no llega; si es igual, toca en un punto; si es mayor, puede cortar dos veces, pero solo valen los cortes del lado derecho de A.' }),
+            play('une-parejas', 'Une cada caso con la herramienta que lo resuelve', {
+              left: ['AAL: dos ángulos y un lado', 'LAL: dos lados y el ángulo entre ellos', 'LLL: los tres lados', 'LLA: dos lados y un ángulo opuesto'],
+              right: ['Ley de senos (un triángulo)', 'Ley de cosenos para el lado', 'Ley de cosenos para un ángulo', 'Ley de senos (caso ambiguo)', 'Teorema de Pitágoras', 'Suma de ángulos sola'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, 'Con dos ángulos y un lado, la ley de senos da todo. LAL y LLL necesitan la ley de cosenos (para el lado o para un ángulo). LLA usa la ley de senos, pero puede dar 0, 1 o 2 triángulos.',
+              { hint: 'La ley de senos necesita una pareja completa: un lado y su ángulo opuesto. Si no tienes ninguna pareja así, toca la ley de cosenos.' }),
+            num('Si $a = 10$, $A = 30^\\circ$ y $B = 90^\\circ$, ¿cuánto mide $b$?', 20, '$b = \\dfrac{10 \\operatorname{sen} 90^\\circ}{\\operatorname{sen} 30^\\circ} = \\dfrac{10}{0.5} = 20$.',
+              { hint: 'Tienes la pareja a y A completa. Plantea a / sen A = b / sen B y despeja b.' }),
           ],
         },
         {
           id: 'trig-46b', title: 'Ley de cosenos y área',
+          // Clase T17 (video/clase_trig_t17).
           clip: { scenes: [
             sc(6, 'Con dos lados y el ángulo entre ellos (LAL), la **ley de cosenos** da el tercer lado. Es un Pitágoras generalizado.', { title: '$c^2 = a^2 + b^2 - 2ab\\cos C$', viz: { type: 'oblique', a: 7, b: 9, anim: [40, 120], show: 'cosenos' } }),
             sc(5, 'Si $C = 90^\\circ$, $\\cos C = 0$ y vuelve a ser Pitágoras.', { viz: { type: 'oblique', a: 7, b: 9, C: 90, show: 'cosenos' } }),
             sc(6, 'Área: con dos lados y el ángulo comprendido, o con los tres lados (**Herón**).', { steps: ['$\\text{Área} = \\tfrac12 ab \\sen C$', '$\\text{Área} = \\sqrt{s(s - a)(s - b)(s - c)}$', '$s = \\tfrac{a + b + c}{2}$'] }),
           ] },
           ex: [
-            num('Halla $c$ si $a = 7$, $b = 9$ y $C = 60^\\circ$', Math.sqrt(67), '$c^2 = 49 + 81 - 2(7)(9)(0.5) = 67 \\Rightarrow c = \\sqrt{67} \\approx 8.19$.', { tol: 0.02, answerText: '$\\sqrt{67} \\approx 8.19$' }),
-            sld('Ajusta el ángulo $C$ para que el lado $c$ mida exactamente $\\sqrt{a^2 + b^2}$', {
-              viz: { type: 'oblique', a: 7, b: 9, show: 'cosenos' }, min: 30, max: 150, step: 10, init: 50,
-              readout: v => `$C = ${v}^\\circ$`, check: v => v === 90, answerText: '$C = 90^\\circ$',
-              explain: 'Solo con $\\cos C = 0$ desaparece el término $-2ab\\cos C$.',
-            }),
-            num('Área del triángulo de lados 13, 14 y 15', 84, '$s = 21$, $\\sqrt{21 \\cdot 8 \\cdot 7 \\cdot 6} = \\sqrt{7056} = 84$.'),
-            num('Dos barcos salen del mismo puerto con rumbos que forman $110^\\circ$, a 20 y 28 km/h. Distancia entre ellos tras 2 horas (km)', Math.sqrt(40 ** 2 + 56 ** 2 - 2 * 40 * 56 * Math.cos(110 * PI / 180)), 'Recorren 40 y 56 km: $d^2 = 40^2 + 56^2 - 2(40)(56)\\cos 110^\\circ \\Rightarrow d \\approx 79.2$ km.', { tol: 0.3, suffix: 'km', answerText: '$\\approx 79.2$ km' }),
+            play('brazo-robot', 'Dobla el codo del robot para que la pinza agarre la gema', {
+              rounds: [{ a: 8, b: 15, c: 13, ring: true }, { a: 3, b: 5, c: 7 }, { a: 4, b: 6, c: 5 }, { a: 6, b: 9, c: 10 }],
+            }, 'Despejando la ley de cosenos, $\\cos C = \\dfrac{a^2 + b^2 - c^2}{2ab}$: $\\tfrac{64 + 225 - 169}{240} = \\tfrac12$ da $60^\\circ$; $\\tfrac{9 + 25 - 49}{30} = -\\tfrac12$ da $120^\\circ$; $\\tfrac{16 + 36 - 25}{48} = 0.5625$ da $\\approx 55.8^\\circ$; $\\tfrac{36 + 81 - 100}{108} \\approx 0.157$ da $\\approx 81^\\circ$.',
+              { hint: 'Despeja cos C de c² = a² + b² − 2ab cos C y usa la inversa del coseno. Si cos C sale negativo, el codo queda abierto: más de 90°.' }),
+            play('une-parejas', 'Une cada triángulo con su área', {
+              left: ['a = 6, b = 10, C = 30°', 'lados 3, 4 y 5', 'a = 8, b = 8, C = 90°', 'a = 4, b = 5, C = 150°', 'lados 13, 14 y 15'],
+              right: ['15', '6', '32', '5', '84', '30', '12', '42'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+            }, '$\\tfrac12 \\cdot 6 \\cdot 10 \\cdot \\tfrac12 = 15$; el 3-4-5 es rectángulo: $\\tfrac12 \\cdot 3 \\cdot 4 = 6$; $\\tfrac12 \\cdot 8 \\cdot 8 = 32$; $\\tfrac12 \\cdot 4 \\cdot 5 \\cdot \\operatorname{sen} 150^\\circ = 5$; Herón con $s = 21$: $\\sqrt{21 \\cdot 8 \\cdot 7 \\cdot 6} = 84$.',
+              { hint: 'Con dos lados y el ángulo entre ellos usa ½ · a · b · sen C (sen 150° = sen 30°). Con los tres lados usa Herón: primero el semiperímetro s.' }),
+            num('Halla $c$ si $a = 7$, $b = 9$ y $C = 60^\\circ$', Math.sqrt(67), '$c^2 = 49 + 81 - 2(7)(9)(0.5) = 67 \\Rightarrow c = \\sqrt{67} \\approx 8.19$.',
+              { tol: 0.02, answerText: '$\\sqrt{67} \\approx 8.19$', hint: 'Es el caso LAL: aplica c² = a² + b² − 2ab cos C con cos 60° = 0.5 y saca la raíz al final.' }),
           ],
         },
       ],
