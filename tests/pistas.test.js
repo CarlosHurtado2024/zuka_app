@@ -38,11 +38,13 @@ test('alg-11: parte 1, sus ejercicios, parte 2 y los suyos', () => {
   assert.ok(part1.includes('pizzeria') && part1.includes('une-parejas'));
 });
 
-test('alg-11: cada ejercicio trae una pista que no regala la respuesta', () => {
-  l.ex.forEach((e, i) => {
-    assert.ok(typeof e.hint === 'string' && e.hint.length > 20, `ejercicio ${i} sin pista`);
-    if (e.type === 'mc') assert.ok(!e.hint.includes(e.options[e.answer]), `la pista del ejercicio ${i} dice la respuesta`);
-    if (e.type === 'input') assert.ok(!new RegExp(`(^|[^\\d.])${String(e.answer).replace('-', '−?-?')}([^\\d.]|$)`).test(e.hint), `la pista del ejercicio ${i} dice la respuesta`);
+test('unidad 1: cada ejercicio de cada lección trae una pista que no regala la respuesta', () => {
+  const unit = get(ctx, 'COURSE_ALGEBRA').units[0];
+  for (const lesson of unit.lessons) lesson.ex.forEach((e, i) => {
+    const where = `${lesson.id} ejercicio ${i}`;
+    assert.ok(typeof e.hint === 'string' && e.hint.length > 20, `${where} sin pista`);
+    if (e.type === 'mc') assert.ok(!e.hint.includes(e.options[e.answer]), `la pista de ${where} dice la respuesta`);
+    if (e.type === 'input') assert.ok(!new RegExp(`(^|[^\\d.])${String(e.answer).replace('-', '−?-?')}([^\\d.]|$)`).test(e.hint), `la pista de ${where} dice la respuesta`);
   });
 });
 
