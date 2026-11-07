@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const { loadScripts, get } = require('./load');
 
 const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js']);
-const lesson = get(ctx, 'COURSE_ALGEBRA').units[0].lessons.find(l => l.id === 'alg-15');
+const lesson = get(ctx, 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).find(l => l.id === 'alg-15');
 const games = get(loadScripts(['js/games/kit.js', 'js/games/arma-sigma.js', 'js/games/ordena-terminos.js', 'js/games/verdadero-falso.js',
   'js/games/suma-filas.js', 'js/games/torre-producto.js', 'js/games/clasifica-cartas.js']), 'GAMES');
 const exs = g => lesson.ex.filter(e => e.game === g);
