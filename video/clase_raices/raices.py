@@ -119,7 +119,7 @@ class S02_ParImpar(MBScene):
                  "número real al cuadrado es positivo o cero: 2 al cuadrado es 4, y menos 2 al cuadrado también es 4. No hay ninguno.")
         even = VGroup(
             M(R"\sqrt{-4} = \;?\qquad 2^{2} = 4,\;\; (-2)^{2} = 4", size=38),
-            M(R"\sqrt{-4} \text{ no es un número real}", size=40, color=C_I),
+            M(R"\sqrt{-4} \text{ no es un n\'umero real}", size=40, color=C_I),
         ).arrange(DOWN, buff=0.3).next_to(odd, DOWN, buff=0.6)
         self.play(FadeIn(even[0], shift=0.2 * UP))
         self.play(FadeIn(even[1], shift=0.2 * UP))
