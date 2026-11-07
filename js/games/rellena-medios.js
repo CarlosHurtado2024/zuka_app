@@ -26,11 +26,13 @@ GAMES['rellena-medios'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      const n = params.k + 2, bw = Math.min(64, (w - 24 - (n - 1) * 6) / n), gap = (w - 24 - n * bw) / (n - 1), y = h * 0.36;
+      const cols = Math.min(params.chips.length, 3), cw = Math.min(84, (w - 24 - (cols - 1) * 8) / cols), cgap = (w - 24 - cols * cw) / Math.max(1, cols - 1);
+      const trayTop = h - 36 - Math.ceil(params.chips.length / cols) * 44;
+      tray = params.chips.map((_, j) => ({ x: 12 + (j % cols) * (cw + cgap), y: trayTop + Math.floor(j / cols) * 44, w: cw, h: 36 }));
+      // Las casillas quedan por encima de la bandeja con sitio para la corrección «→ valor» (locked).
+      const n = params.k + 2, bw = Math.min(64, (w - 24 - (n - 1) * 6) / n), gap = (w - 24 - n * bw) / (n - 1), y = Math.min(h * 0.36, trayTop - 82);
       const all = Array.from({ length: n }, (_, i) => ({ x: 12 + i * (bw + gap), y, w: bw, h: 44 }));
       ends = [all[0], all[n - 1]]; slots = all.slice(1, n - 1);
-      const cols = Math.min(params.chips.length, 3), cw = Math.min(84, (w - 24 - (cols - 1) * 8) / cols), cgap = (w - 24 - cols * cw) / Math.max(1, cols - 1);
-      tray = params.chips.map((_, j) => ({ x: 12 + (j % cols) * (cw + cgap), y: h - 36 - Math.ceil(params.chips.length / cols) * 44 + Math.floor(j / cols) * 44, w: cw, h: 36 }));
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const placedAt = j => st.slots.indexOf(j);
@@ -65,7 +67,7 @@ GAMES['rellena-medios'] = (() => {
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.BOTTOM);
         const all = [ends[0], ...slots, ends[1]];
         for (let i = 0; i < all.length - 1; i++) p.text(geo ? '× r' : '+ d', (all[i].x + all[i].w + all[i + 1].x) / 2, all[i].y - 4);
-        params.chips.forEach((v, j) => { if (placedAt(j) < 0 && !(drag && drag.j === j)) chip(tray[j], v, C.Z); });
+        if (!locked) params.chips.forEach((v, j) => { if (placedAt(j) < 0 && !(drag && drag.j === j)) chip(tray[j], v, C.Z); });   // bloqueado, la bandeja sobra
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked ? (grade(st, params).ok ? '¡Huecos bien rellenos!' : 'Mira los valores en verde') : `Arrastra las fichas a los huecos · sobran ${params.chips.length - params.k}`, 12, H - 26, W - 24, 24);
         if (drag) chip({ x: p.mouseX - tray[0].w / 2, y: p.mouseY - 18, w: tray[0].w, h: 36 }, params.chips[drag.j], C.brand);

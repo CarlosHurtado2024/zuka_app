@@ -36,7 +36,7 @@ GAMES['ajusta-capital'] = (() => {
         p.background(C.bg);
         const cap = st.capital ?? 0, m = amount(cap, params), good = Math.abs(m - params.target) <= params.tol;
         p.noStroke(); p.fill(C.N); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(14);
-        p.text(`${params.rate * 100} % por periodo compuesto, ${params.periods} periodos · meta $ ${fmt(params.target)}`, 12, 8, W - 24, 40);
+        p.text(`${+(params.rate * 100).toFixed(4)} % por periodo compuesto, ${params.periods} periodos · meta $ ${fmt(params.target)}`, 12, 8, W - 24, 40);
         // Riel y pila de billetes.
         p.stroke(C.line); p.strokeWeight(1.5); p.noFill(); p.rect(rail.x, rail.top, rail.w, rail.bottom - rail.top, 8);
         const top = toPx(cap), nBills = Math.round(cap / params.step);

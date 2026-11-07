@@ -16,16 +16,24 @@ GAMES['escalera-aritmetica'] = (() => {
   function create(host, params, api) {
     const C = api.palette;
     const st = { d: null };
-    let locked = false, W = 0, H = 0, base = 0, unit = 0, stepW = 0, left = 0, drag = false;
+    let locked = false, W = 0, H = 0, base = 0, unit = 0, stepW = 0, left = 0, drag = null, buttons = [];
+    const PX_PER_D = 14;   // el arrastre cuenta 14 px por unidad de d, aunque el peldaño mida menos
 
     function layout(w, h) {
       W = w; H = h;
-      base = h - 44; left = 16; stepW = (w - 32) / params.n;
+      base = h - 92; left = 16; stepW = (w - 32) / params.n;
       unit = (base - 70) / Math.max(params.target, params.a1 + (params.n - 1) * params.max);   // px por unidad
+      const bw = (w - 36) / 2;
+      buttons = [
+        { v: -params.step, x: 12, y: h - 78, w: bw, h: 40, t: `d − ${params.step}`, col: C.I },
+        { v: params.step, x: 24 + bw, y: h - 78, w: bw, h: 40, t: `d + ${params.step}`, col: C.Q },
+      ];
     }
+    const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const d = () => st.d ?? 0;
     const topOf = k => base - termAt(params, d(), k) * unit;
     const ready = () => api.ready(st.d !== null);
+    const setD = v => { st.d = Math.max(-params.max, Math.min(params.max, Math.round(v / params.step) * params.step)); ready(); };
 
     const m = mountSketch(host, (p, size) => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
@@ -49,25 +57,32 @@ GAMES['escalera-aritmetica'] = (() => {
         p.stroke(C.line); p.strokeWeight(2); p.line(12, base, W - 12, base);
         p.noStroke(); p.fill(st.d === null ? C.mute : C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(16);
         p.text(st.d === null ? 'd = ?' : `d = ${st.d}`, W / 2, 56);
+        buttons.forEach(b => {
+          p.stroke(locked ? C.line : b.col); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 12);
+          p.noStroke(); p.fill(locked ? C.mute : b.col); p.textSize(14); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2 + 1);
+        });
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL);
-        p.text(locked ? (good ? '¡Escalera perfecta!' : `Era d = ${answerOf(params)}`) : 'Arrastra el segundo peldaño: fija la diferencia d', 12, H - 20, W - 24, 18);
+        p.text(locked ? (good ? '¡Escalera perfecta!' : `Era d = ${answerOf(params)}`) : 'Arrastra el segundo peldaño o usa los botones: fija la diferencia d', 12, H - 30, W - 24, 28);
       };
 
       const onKnob = () => p.mouseX >= left + stepW && p.mouseX <= left + 2 * stepW && p.mouseY >= Math.min(topOf(2), base) - 24 && p.mouseY <= base + 4;
-      const setFromY = y => {
-        const v = (base - y) / unit;   // valor del peldaño 2
-        st.d = Math.max(-params.max, Math.min(params.max, Math.round((v - params.a1) / params.step) * params.step));
-        ready();
+      p.mousePressed = () => {
+        if (locked) return;
+        const b = buttons.find(b => inside(b, p.mouseX, p.mouseY));
+        if (b) { setD(d() + b.v); api.sfx?.tap?.(); return false; }
+        if (!onKnob()) return;
+        drag = { y0: p.mouseY, d0: st.d ?? Math.round((params.target - params.a1) / (params.n - 1) / 2) };   // arranca a medio camino si no hay d
+        if (st.d === null) setD(drag.d0);
+        return false;
       };
-      p.mousePressed = () => { if (locked || !onKnob()) return; drag = true; setFromY(p.mouseY); return false; };
-      p.mouseDragged = () => { if (!drag) return; setFromY(p.mouseY); return false; };
-      p.mouseReleased = () => { if (!drag) return; drag = false; api.sfx?.tap?.(); return false; };
+      p.mouseDragged = () => { if (!drag) return; setD(drag.d0 + (drag.y0 - p.mouseY) / PX_PER_D); return false; };
+      p.mouseReleased = () => { if (!drag) return; drag = null; api.sfx?.tap?.(); return false; };
     }, 1.2);
 
     return {
       loaded: m.ready,
       getState: () => ({ d: st.d }),
-      lock() { locked = true; drag = false; },
+      lock() { locked = true; drag = null; },
       destroy: () => m.remove(),
     };
   }

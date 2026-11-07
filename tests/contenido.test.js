@@ -14,7 +14,7 @@ function strings(v, out = []) {
 }
 
 const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js']);
-const lessons = get(ctx, 'COURSE_ALGEBRA').units[0].lessons.filter(l => ['alg-11', 'alg-12', 'alg-13', 'alg-13b'].includes(l.id));
+const lessons = get(ctx, 'COURSE_ALGEBRA').units[0].lessons.filter(l => ['alg-11', 'alg-12', 'alg-13', 'alg-13b', 'alg-14', 'alg-15'].includes(l.id));
 
 for (const l of lessons) {
   test(`${l.id}: ningún texto de ejercicio tiene caracteres de control ni comandos TeX sin barra`, () => {
@@ -109,4 +109,10 @@ test('alg-13b: la carrera del interés se gana en el mes 15 y el explain lo dice
   const { params, explain } = ex13b('carrera-interes');
   assert.equal(games13b['carrera-interes'].grade({ month: 15 }, params).ok, true);
   assert.ok(explain.includes('118\\,400') && explain.includes('137\\,600'));
+});
+
+// En «cobra-intereses» tiene que haber más meses de los necesarios: si no, cobrar todos es la respuesta.
+test('alg-13b: cobra-intereses ofrece más meses que los que pide la meta', () => {
+  const { params } = ex13b('cobra-intereses');
+  assert.ok(params.months > params.target / (params.capital * params.rate));
 });

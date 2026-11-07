@@ -47,3 +47,12 @@ test('alg-15: los términos desplegados de la sigma son los valores de k² − 1
   assert.equal(values.join(','), [2, 3, 4, 5].map(k => k * k - 1).join(','));
   assert.equal(values.reduce((a, b) => a + b, 0), +e.params.result);
 });
+
+// Cada ficha distractora de «ordena-terminos» (k² − 1) debe ser un valor fuera del rango k = 2..5,
+// y la explicación debe atribuirla al k correcto (0 ↔ k = 1, 35 ↔ k = 6).
+test('alg-15: los distractores de la sigma desplegada son 0 (k = 1) y 35 (k = 6)', () => {
+  const e = exs('ordena-terminos')[0];
+  const extras = e.params.chips.filter((_, j) => !e.params.order.includes(j)).map(Number).sort((a, b) => a - b);
+  assert.equal(extras.join(','), '0,35');
+  assert.ok(e.explain.includes('el 0 ($k = 1$)') && e.explain.includes('el 35 ($k = 6$)'));
+});

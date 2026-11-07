@@ -25,16 +25,20 @@ GAMES['arma-sigma'] = (() => {
     function layout(w, h) {
       W = w; H = h;
       tabs = params.rounds.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
-      sig = { x: w * 0.3, y: h * 0.45, size: Math.min(90, w * 0.26) };
-      const sw = Math.min(96, w * 0.28), sh = 38;
-      slots = {
-        upper: { x: sig.x - sw / 2, y: sig.y - sig.size / 2 - sh - 8, w: sw, h: sh },
-        lower: { x: sig.x - sw / 2, y: sig.y + sig.size / 2 + 8, w: sw, h: sh },
-        term: { x: sig.x + sig.size / 2 + 14, y: sig.y - sh / 2, w: Math.min(110, w - (sig.x + sig.size / 2 + 14) - 12), h: sh },
-      };
+      // Se reparte de arriba abajo: pestañas (8–38), enunciado (46–86), casilla «hasta» desde 92,
+      // la Σ, la casilla «desde» y, con 24 px de margen, la bandeja anclada al pie. La Σ se encoge
+      // para que todo quepa (lienzo alto, aspecto 1.45).
       const chips = params.rounds[cur].chips, cols = Math.min(chips.length, 3), tw = Math.min(90, (w - 24 - (cols - 1) * 8) / cols), gap = (w - 24 - cols * tw) / Math.max(1, cols - 1);
-      const rows = Math.ceil(chips.length / cols);
-      tray = chips.map((_, i) => ({ x: 12 + (i % cols) * (tw + gap), y: h - 34 - rows * 42 + Math.floor(i / cols) * 42, w: tw, h: 34 }));
+      const rows = Math.ceil(chips.length / cols), trayTop = h - 34 - rows * 42;
+      tray = chips.map((_, i) => ({ x: 12 + (i % cols) * (tw + gap), y: trayTop + Math.floor(i / cols) * 42, w: tw, h: 34 }));
+      const sw = Math.min(96, w * 0.28), sh = 34, upperY = 92;
+      const size = Math.max(44, Math.min(90, w * 0.26, trayTop - 24 - sh - 6 - 6 - sh - upperY));
+      sig = { x: 46 + sw / 2, y: upperY + sh + 6 + size / 2, size };
+      slots = {
+        upper: { x: sig.x - sw / 2, y: upperY, w: sw, h: sh },
+        lower: { x: sig.x - sw / 2, y: sig.y + size / 2 + 6, w: sw, h: sh },
+        term: { x: sig.x + size / 2 + 14, y: sig.y - sh / 2, w: Math.min(110, w - (sig.x + size / 2 + 14) - 12), h: sh },
+      };
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const cellsOf = () => st.rounds[cur].cells;
@@ -73,11 +77,19 @@ GAMES['arma-sigma'] = (() => {
           const s = slots[c], i = cells[c], good = i !== null && r.chips[i].cell === c;
           const col = locked ? (good ? C.ok : C.bad) : i !== null ? C.brand : C.line;
           if (i === null) chip(s, '', col, C.bg, true); else chip(s, r.chips[i].label, col);
-          p.noStroke(); p.fill(i === null ? C.mute : col); p.textSize(10); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, c === 'upper' ? p.BOTTOM : p.TOP);
-          p.text(NAMES[c], s.x + s.w / 2, c === 'upper' ? s.y - 3 : s.y + s.h + 3);
-          if (locked && !good) { p.fill(C.ok); p.textSize(11); p.textStyle(p.BOLD); p.textAlign(p.CENTER, c === 'upper' ? p.BOTTOM : p.TOP); p.text(`→ ${r.chips.find(ch => ch.cell === c).label}`, s.x + s.w / 2, c === 'upper' ? s.y - 15 : s.y + s.h + 15); }
+          // Rótulo: «hasta»/«desde» a la izquierda de su casilla, «término» debajo; la corrección
+          // (bloqueado) a la derecha de la casilla, o debajo en el término.
+          p.noStroke(); p.fill(i === null ? C.mute : col); p.textSize(10); p.textStyle(p.NORMAL);
+          if (c === 'term') { p.textAlign(p.CENTER, p.TOP); p.text(NAMES[c], s.x + s.w / 2, s.y + s.h + 3); }
+          else { p.textAlign(p.RIGHT, p.CENTER); p.text(NAMES[c], s.x - 5, s.y + s.h / 2); }
+          if (locked && !good) {
+            p.fill(C.ok); p.textSize(11); p.textStyle(p.BOLD);
+            const want = `→ ${r.chips.find(ch => ch.cell === c).label}`;
+            if (c === 'term') { p.textAlign(p.CENTER, p.TOP); p.text(want, s.x + s.w / 2, s.y + s.h + 15); }
+            else { p.textAlign(p.LEFT, p.CENTER); p.text(want, s.x + s.w + 6, s.y + s.h / 2); }
+          }
         });
-        r.chips.forEach((ch, i) => { if (placedAt(i) === undefined && !(drag && drag.i === i)) chip(tray[i], ch.label, C.Z); });
+        if (!locked) r.chips.forEach((ch, i) => { if (placedAt(i) === undefined && !(drag && drag.i === i)) chip(tray[i], ch.label, C.Z); });
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked ? (grade(st, params).ok ? '¡Sigmas bien armadas!' : 'Mira las fichas en verde') : 'Arrastra cada ficha a su casilla; sobran fichas', 12, H - 24, W - 24, 22);
         if (drag) chip({ x: p.mouseX - 45, y: p.mouseY - 17, w: 90, h: 34 }, r.chips[drag.i].label, C.brand);
@@ -102,7 +114,7 @@ GAMES['arma-sigma'] = (() => {
         ready();
         return false;
       };
-    }, 1.2);
+    }, 1.45);
 
     return {
       loaded: m.ready,

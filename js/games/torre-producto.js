@@ -7,11 +7,12 @@ GAMES['torre-producto'] = (() => {
   const valueAt = (n, p) => (p.kind === 'factorial' ? Array.from({ length: n }, (_, k) => k + 1).reduce((a, b) => a * b, 1) : p.start * p.r ** n);
   const answerOf = p => { for (let n = 1; n <= p.max; n++) if (valueAt(n, p) === p.target) return n; return null; };
   const fmt = n => Math.round(n).toLocaleString('es-CO');
+  const tex = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\\,');   // miles con \, dentro de TeX
 
   function grade(state, params) {
     const ok = state.n > 0 && valueAt(state.n, params) === params.target;
     const n = answerOf(params);
-    const how = params.kind === 'factorial' ? `$${n}! = ${fmt(params.target)}$` : `$${params.start} \\cdot ${params.r}^{${n}} = ${fmt(params.target)}$`;
+    const how = params.kind === 'factorial' ? `$${n}! = ${tex(params.target)}$` : `$${params.start} \\cdot ${params.r}^{${n}} = ${tex(params.target)}$`;
     return { ok, solution: n === null ? `Ningún paso llega justo a ${fmt(params.target)}` : `${how}: ${n} ${params.period}${n === 1 ? '' : 's'}` };
   }
 
@@ -23,7 +24,7 @@ GAMES['torre-producto'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      tower = { x: 24, y: 52, w: w - 48, h: h - 52 - 120 };
+      tower = { x: 24, y: 52, w: w - 48, h: h - 52 - 150 };   // deja sitio al total (H − 118) y a los botones
       const bw = (w - 36) / 2, by = h - 100;
       buttons = [
         { v: -1, x: 12, y: by, w: bw, h: 44, t: '÷ atrás', col: C.I },
@@ -52,14 +53,15 @@ GAMES['torre-producto'] = (() => {
           p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(10); p.textAlign(p.LEFT, p.CENTER); p.text(fact ? (k ? `× ${k}` : '') : `${params.period} ${k}`, tower.x, y + (rowH - 2) / 2);
         }
         p.noStroke(); p.fill(locked ? (good ? C.ok : C.bad) : C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(18);
-        p.text(fact ? (st.n ? `${st.n}! = ${fmt(v)}` : '1') : `${st.n} ${params.period}${st.n === 1 ? '' : 's'} · ${fmt(v)} ${params.unit}`, W / 2, H - 126);
+        p.text(fact ? (st.n ? `${st.n}! = ${fmt(v)}` : '1') : `${st.n} ${params.period}${st.n === 1 ? '' : 's'} · ${fmt(v)} ${params.unit}`, W / 2, H - 118);
         buttons.forEach(b => {
           const dim = locked || (b.v < 0 ? st.n === 0 : st.n >= params.max);
           p.stroke(dim ? C.line : b.col); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 12);
           p.noStroke(); p.fill(dim ? C.mute : b.col); p.textSize(15); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2 + 1);
         });
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
-        p.text(locked ? (good ? '¡Justo la meta!' : `Eran ${answerOf(params)} ${params.period}s`) : `Multiplica hasta llegar exactamente a ${fmt(params.target)}`, 12, H - 30, W - 24, 24);
+        const ans = answerOf(params);
+        p.text(locked ? (good ? '¡Justo la meta!' : ans === null ? `Ningún paso llega justo a ${fmt(params.target)}` : `Eran ${ans} ${params.period}s`) : `Multiplica hasta llegar exactamente a ${fmt(params.target)}`, 12, H - 30, W - 24, 24);
       };
 
       p.mousePressed = () => {

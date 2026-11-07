@@ -58,7 +58,7 @@ GAMES['ordena-terminos'] = (() => {
         const last = boxes[n - 1];
         p.noStroke(); p.fill(locked ? (grade(st, params).ok ? C.ok : C.mute) : C.mute); p.textSize(14); p.textStyle(p.BOLD); p.textAlign(p.LEFT, p.CENTER);
         p.text(locked ? `= ${params.result}` : '= ?', last.x + last.w + 10, last.y + last.h / 2);
-        params.chips.forEach((v, j) => { if (placedAt(j) < 0 && !(drag && drag.j === j)) chip(tray[j], v, C.Z); });
+        if (!locked) params.chips.forEach((v, j) => { if (placedAt(j) < 0 && !(drag && drag.j === j)) chip(tray[j], v, C.Z); });   // bloqueado, la bandeja sobra
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked ? (grade(st, params).ok ? '¡En orden!' : 'Mira los términos en verde') : `Arrastra los términos en orden · sobran ${params.chips.length - n}`, 12, H - 22, W - 24, 20);
         if (drag) chip({ x: p.mouseX - tray[0].w / 2, y: p.mouseY - 17, w: tray[0].w, h: 34 }, params.chips[drag.j], C.brand);

@@ -11,7 +11,9 @@ GAMES['limite-serie'] = (() => {
   function grade(state, params) {
     const L = limitOf(params);
     const ok = state.guess != null && Math.abs(state.guess - L) <= params.tol;
-    return { ok, solution: `$S_\\infty = \\dfrac{a_1}{1 - r} = \\dfrac{${params.a1}}{1 - ${fmt(params.r)}} = ${fmt(L)}$` };
+    // La razón se escribe como fracción si el contenido la da (rTex); si no, con 4 decimales y ≈.
+    const r = params.rTex ?? String(+params.r.toFixed(4));
+    return { ok, solution: `$S_\\infty = \\dfrac{a_1}{1 - r} = \\dfrac{${params.a1}}{1 - ${r}} ${params.rTex ? '=' : '\\approx'} ${fmt(L)}$` };
   }
 
   function create(host, params, api) {
@@ -21,7 +23,7 @@ GAMES['limite-serie'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      line = { x0: 24, x1: w - 24, y: h * 0.5 };
+      line = { x0: 24, x1: w - 24, y: h * 0.38 };   // el marcador baja hasta y + 56 y no debe tocar el botón (h − 96)
       btn = { x: w / 2 - 70, y: h - 96, w: 140, h: 42 };
     }
     const toPx = v => line.x0 + (v / params.max) * (line.x1 - line.x0);

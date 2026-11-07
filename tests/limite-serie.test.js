@@ -25,3 +25,9 @@ test('13 (la tercera suma parcial) → incorrecto y la solución da 13.5', () =>
 test('sin marcador → incorrecto', () => {
   assert.equal(grade({ guess: null }, params).ok, false);
 });
+
+test('la solución escribe la razón como fracción cuando el contenido la da (rTex)', () => {
+  const s = grade({ guess: 1 }, { ...params, rTex: '\\tfrac13' }).solution;
+  assert.ok(s.includes('1 - \\tfrac13} = 13.5'));
+  assert.ok(grade({ guess: 1 }, params).solution.includes('\\approx'));
+});

@@ -28,3 +28,8 @@ test('7! = 5040 → correcto; 8 → incorrecto', () => {
 test('sin pasos → incorrecto', () => {
   assert.equal(grade({ n: 0 }, bacterias).ok, false);
 });
+
+test('la solución escribe los miles con separador TeX, no con punto', () => {
+  assert.ok(grade({ n: 1 }, bacterias).solution.includes('6\\,400'));
+  assert.ok(grade({ n: 1 }, factorial).solution.includes('5\\,040'));
+});
