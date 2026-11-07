@@ -38,7 +38,7 @@ test('alg-13: los dos videos vienen de Bunny y el segundo va tras el sexto ejerc
   assert.equal(alg13.clip.duration, 224);
   assert.equal(alg13.clip.scenes.length, 0);
   assert.equal(alg13.more.length, 1);
-  assert.equal(alg13.more[0].bunny, '35f01df0-beb0-42c1-89bd-c0a6e82d2727');
+  assert.equal(alg13.more[0].bunny, '3b666757-462f-4ccf-8f95-a8c816e33141');
   assert.equal(alg13.more[0].duration, 131);
   assert.equal(alg13.more[0].after, 6);
   assert.equal(alg13.more[0].scenes.length, 0);

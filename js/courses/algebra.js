@@ -137,7 +137,7 @@ const COURSE_ALGEBRA = {
           // Parte 1 «Porcentajes» (Bunny, 3:44).
           clip: { bunny: '59348bd7-b5b5-4c29-bf79-31a54b439a1b', duration: 224, scenes: [] },
           // Parte 2 «Aumentos y descuentos» (Bunny, 2:11), después del sexto ejercicio.
-          more: [{ bunny: '35f01df0-beb0-42c1-89bd-c0a6e82d2727', duration: 131, after: 6, scenes: [] }],
+          more: [{ bunny: '3b666757-462f-4ccf-8f95-a8c816e33141', duration: 131, after: 6, scenes: [] }],
           ex: [
             // --- Parte 1: porcentajes ---
             play('cuadricula-cien', 'Pinta en la cuadrícula el porcentaje que pide cada ronda', { rounds: [{ ask: '35 %', count: 35 }, { ask: '3/4', count: 75 }, { ask: '0.08', count: 8 }] },
