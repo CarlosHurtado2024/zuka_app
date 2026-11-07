@@ -129,46 +129,57 @@ const COURSE_ALGEBRA = {
             sc(5, 'El **valor absoluto** es la distancia al cero: nunca es negativo.', { title: '$|a| = a$ si $a \\ge 0$, $\\;|a| = -a$ si $a < 0$', steps: ['$|-3| = 3 \\qquad |2 - \\sqrt2| = 2 - \\sqrt2$', '$|\\sqrt2 - 2| = 2 - \\sqrt2$'] }),
           ] },
           ex: [
-            mc('¿Qué axioma justifica que $a(b + c) = ab + ac$?', ['Distributiva', 'Asociativa del producto', 'Conmutativa de la suma', 'Existencia del neutro'], 0, 'La distributiva conecta el producto con la suma: el factor se reparte a cada sumando.', { hint: 'Fíjate en lo que hace el número de afuera: ¿cambia el orden, cambia la agrupación o se reparte entre los dos términos del paréntesis?' }),
-            mc('¿Qué ocurre al multiplicar dos números reales con signos opuestos?', ['El resultado es negativo', 'El resultado es positivo', 'El resultado es cero', 'El resultado es indefinido'], 0, 'Por la regla de los signos, $(-a)b = -(ab)$: el producto de un positivo y un negativo es negativo.', { hint: 'Prueba con un ejemplo: $3 \\cdot (-2)$. Piensa en «tres veces una deuda de 2».' }),
-            mc('Si $|x| = 5$, ¿cuáles son los posibles valores de $x$?', ['$x = 5$ o $x = -5$', '$x = 5$', '$x = -5$', '$x = 0$'], 0, 'El valor absoluto es la distancia al cero: hay dos números a distancia 5, el $5$ y el $-5$.', { hint: '$|x|$ es la distancia de $x$ al 0. ¿Cuántos puntos de la recta están a 5 pasos del cero?' }),
-            mc('Si $a < b$ y $c < 0$, entonces', ['$ac > bc$', '$ac < bc$', '$ac = bc$', 'No se puede determinar'], 0, 'Multiplicar por un negativo invierte la desigualdad: con $2 < 3$ y $c = -1$ queda $-2 > -3$.', { hint: 'Prueba con números: parte de $1 < 2$ y multiplica los dos lados por $-1$. ¿Qué le pasa al signo de la desigualdad?' }),
-            mc('$|2 - \\sqrt{2}|$ es igual a', ['$2 - \\sqrt2$', '$\\sqrt2 - 2$', '$2 + \\sqrt2$', '$0$'], 0, 'Como $\\sqrt2 \\approx 1.41$, $2 - \\sqrt2$ es positivo y su valor absoluto es él mismo.', { hint: 'Primero decide el signo de lo de adentro: $\\sqrt2 \\approx 1.41$, así que $2 - 1.41$ es… ¿positivo o negativo? El valor absoluto deja igual a un positivo y le cambia el signo a un negativo.' }),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: 'Todos los números enteros son racionales', truth: true, why: 'Un entero n es el racional n/1.' },
-                { text: 'Todos los racionales son irracionales', truth: false, why: 'Son conjuntos disjuntos: 1/2 es racional y no irracional.' },
-                { text: 'El 1 pertenece a Z, a Q y a R', truth: true, why: 'N ⊂ Z ⊂ Q ⊂ R.' },
-                { text: '|a − b| = |b − a| para todos los reales a y b', truth: true, why: 'a − b y b − a son opuestos y tienen el mismo valor absoluto.' },
-                { text: 'a · 0 = a para todo real a', truth: false, why: 'a · 0 = 0; el neutro del producto es el 1.' },
+            // Solo juegos: axiomas de campo, ley de signos, orden y valor absoluto (sin tarjetas ni opción múltiple).
+            play('atajo-axiomas', 'Llega a la meta reescribiendo con axiomas: toca la regla que quieres usar', {
+              rounds: [
+                { start: '(4 + a) + (−4)', target: 'a', states: {
+                  '(4 + a) + (−4)': { Conmutativa: '(a + 4) + (−4)', Asociativa: '4 + (a + (−4))' },
+                  '(a + 4) + (−4)': { Asociativa: 'a + (4 + (−4))', Conmutativa: '(−4) + (a + 4)' },
+                  '(−4) + (a + 4)': { Conmutativa: '(a + 4) + (−4)' },
+                  'a + (4 + (−4))': { Inverso: 'a + 0' },
+                  'a + 0': { Neutro: 'a' },
+                  '4 + (a + (−4))': { Conmutativa: '4 + ((−4) + a)' },
+                  '4 + ((−4) + a)': { Asociativa: '(4 + (−4)) + a' },
+                  '(4 + (−4)) + a': { Inverso: '0 + a' },
+                  '0 + a': { Neutro: 'a' },
+                } },
+                { start: '(1/3) · (3 · b)', target: 'b', states: {
+                  '(1/3) · (3 · b)': { Asociativa: '((1/3) · 3) · b', Conmutativa: '(3 · b) · (1/3)' },
+                  '(3 · b) · (1/3)': { Conmutativa: '(1/3) · (3 · b)' },
+                  '((1/3) · 3) · b': { Inverso: '1 · b' },
+                  '1 · b': { Neutro: 'b' },
+                } },
+                { start: '2(x + 5) + (−10)', target: '2x', states: {
+                  '2(x + 5) + (−10)': { Distributiva: '(2x + 10) + (−10)' },
+                  '(2x + 10) + (−10)': { Asociativa: '2x + (10 + (−10))', Conmutativa: '(10 + 2x) + (−10)' },
+                  '(10 + 2x) + (−10)': { Conmutativa: '(2x + 10) + (−10)' },
+                  '2x + (10 + (−10))': { Inverso: '2x + 0' },
+                  '2x + 0': { Neutro: '2x' },
+                } },
               ],
-            }, 'Los conjuntos numéricos están encajados: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, y los irracionales son los reales que no son racionales. El cero es absorbente: $a \\cdot 0 = 0$.', { hint: 'Recuerda las cajas $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, y que ℚ e 𝕀 no comparten ningún número. Para las tarjetas con letras, prueba con números pequeños, como $a = 3$ y $b = 5$.' }),
-            play('reglas-del-juego', 'Pon a cada igualdad el nombre del axioma que usa', {
-              rules: ['Conmutativa', 'Asociativa', 'Distributiva', 'Neutro', 'Inverso'],
-              items: [
-                { label: '(a + b) + c = a + (b + c)', tex: '(a + b) + c = a + (b + c)', rule: 'Asociativa' }, { label: 'ab = ba', tex: 'ab = ba', rule: 'Conmutativa' },
-                { label: 'a · (1/a) = 1', tex: 'a \\cdot \\tfrac1a = 1', rule: 'Inverso' }, { label: '(a + b)c = ac + bc', tex: '(a + b)c = ac + bc', rule: 'Distributiva' },
-                { label: 'a · 1 = a', tex: 'a \\cdot 1 = a', rule: 'Neutro' }, { label: '7 + (−7) = 0', tex: '7 + (-7) = 0', rule: 'Inverso' },
-              ],
-            }, 'Conmutativa: el orden no importa. Asociativa: la agrupación no importa. Distributiva: el factor se reparte. Neutros: $0$ para sumar y $1$ para multiplicar. Inversos: el opuesto lleva al $0$ y el recíproco al $1$.', { hint: 'Pregúntate qué cambia en cada igualdad: el orden (conmutativa), los paréntesis (asociativa), un número que se reparte (distributiva), el 0 o el 1 que no cambian nada (neutro) o el número que «deshace» al otro (inverso).' }),
-            play('clasifica-cartas', 'Desliza cada operación según el **signo** de su resultado', {
-              left: 'Negativo', right: 'Positivo',
-              cards: [
-                { text: '(−3) · (−4)', side: 'right', why: 'Signos iguales: positivo, 12.' },
-                { text: '(−5) · 2', side: 'left', why: 'Signos distintos: negativo, −10.' },
-                { text: '8 ÷ (−2)', side: 'left', why: 'Signos distintos: −4.' },
-                { text: '(−6) ÷ (−3)', side: 'right', why: 'Signos iguales: 2.' },
-                { text: '−2 − 5', side: 'left', why: 'Restar es sumar el opuesto: −2 + (−5) = −7.' },
-                { text: '−4 + 9', side: 'right', why: 'Gana el de mayor valor absoluto: 5.' },
-                { text: '(−1) · (−1) · (−1)', side: 'left', why: 'Tres negativos: (+1)(−1) = −1.' },
-              ],
-            }, 'Al multiplicar o dividir, signos iguales dan positivo y signos distintos dan negativo. Al sumar, manda el de mayor valor absoluto; restar es sumar el opuesto.', { hint: 'Al multiplicar o dividir: signos iguales dan positivo y signos distintos, negativo. Al sumar o restar es otra cosa: piensa en la recta y camina desde el primer número hacia la derecha o la izquierda.' }),
+            }, 'Cada paso del álgebra es un axioma: la **conmutativa** cambia el orden, la **asociativa** mueve los paréntesis, la **distributiva** reparte el factor, el **inverso** convierte $4 + (-4)$ en $0$ y $\\tfrac13 \\cdot 3$ en $1$, y el **neutro** borra el $+\\,0$ y el $1 \\cdot$. Por ejemplo: $(4 + a) + (-4) = (a + 4) + (-4) = a + (4 + (-4)) = a + 0 = a$.',
+              { hint: 'Busca juntar cada número con su opuesto (o con su recíproco): primero cambia el orden o los paréntesis hasta que queden vecinos, después usa el inverso para volverlos 0 (o 1) y al final el neutro para borrarlo. Si hay un número por un paréntesis, empieza repartiéndolo.' }),
+            play('arma-producto', 'Mete fichas a la máquina hasta que el producto dé la meta', {
+              tiles: [-3, 2, -1, 4, -2, 0],
+              rounds: [{ target: 12 }, { target: -24 }, { target: 6 }],
+            }, 'El signo de un producto depende de cuántos factores negativos tiene: una cantidad par da positivo y una impar, negativo. Por ejemplo $(-3) \\cdot (-1) \\cdot 4 = 12$ (dos negativos), $(-3) \\cdot 2 \\cdot 4 = -24$ (uno) y $(-3) \\cdot (-2) = 6$. Y el $0$ anula todo: $0 \\cdot a = 0$.',
+              { hint: 'Primero decide el signo: para un resultado positivo necesitas una cantidad par de fichas negativas; para uno negativo, impar. Después ajusta el tamaño con los valores. Ojo con el 0: si entra a la máquina, todo da 0.' }),
             play('voltea-desigualdad', 'Sigue los puntos en la recta y elige el signo correcto tras cada operación', { a: -1, b: 2, steps: [{ op: '+', k: 3 }, { op: '×', k: 2 }, { op: '×', k: -1 }, { op: '+', k: -4 }] },
               'Sumar o restar lo mismo a los dos lados **conserva** el orden; multiplicar por un positivo también. Multiplicar por un negativo **refleja** la recta y voltea el signo: de $4 < 10$ se pasa a $-4 > -10$.', { hint: 'Sumar o restar el mismo número a los dos lados no cambia el signo, y multiplicar por un positivo tampoco. Solo multiplicar por un negativo voltea la desigualdad.' }),
-            play('dibuja-intervalo', 'Dibuja en la recta los números que cumplen $|x - 2| \\le 3$', { min: -4, max: 8, a: -1, b: 5, aClosed: true, bClosed: true, set: '|x − 2| ≤ 3' },
-              '$|x - 2| \\le 3$ son los números a distancia **a lo sumo 3** del 2: desde $2 - 3 = -1$ hasta $2 + 3 = 5$, con los extremos incluidos: $[-1, 5]$.', { hint: 'Lee $|x - 2|$ como la distancia de $x$ al número 2. ¿Hasta dónde puedes alejarte del 2 hacia cada lado? El signo ≤ te dice si los extremos entran.' }),
+            play('dobla-la-recta', 'Dobla la recta por el cero: ¿dónde cae el valor absoluto?', {
+              min: -3, max: 3, tol: 0.1,
+              points: [
+                { label: '|−2.5|', insideLabel: '−2.5', inside: -2.5, tex: '|-2.5|', sol: '2.5' },
+                { label: '|3 − √5|', insideLabel: '3 − √5', inside: 0.7639, tex: '|3 - \\sqrt5|', sol: '3 - \\sqrt5 \\approx 0.76' },
+                { label: '|√3 − 2|', insideLabel: '√3 − 2', inside: -0.2679, tex: '|\\sqrt3 - 2|', sol: '2 - \\sqrt3 \\approx 0.27' },
+                { label: '|1 − π|', insideLabel: '1 − π', inside: -2.1416, tex: '|1 - \\pi|', sol: '\\pi - 1 \\approx 2.14' },
+              ],
+            }, 'El valor absoluto es la distancia al cero: si lo de adentro es positivo se queda donde está ($|3 - \\sqrt5| = 3 - \\sqrt5$, porque $\\sqrt5 \\approx 2.24 < 3$); si es negativo, pasa al otro lado del cero como en un espejo ($|\\sqrt3 - 2| = 2 - \\sqrt3$ y $|1 - \\pi| = \\pi - 1$). Nunca da un número negativo.',
+              { hint: 'Mira de qué lado del cero está el punto de adentro. Si está a la derecha, el valor absoluto es el mismo número; si está a la izquierda, dobla la recta por el cero y pon la marca al otro lado, a la misma distancia.' }),
             play('distancia-justa', 'Coloca $b$ a la distancia justa de $a$', { min: -10, max: 6, a: -3, d: 5 },
               '$|b - a|$ es la distancia entre $a$ y $b$. Desde $-3$, a 5 unidades hay dos puntos: $-3 + 5 = 2$ y $-3 - 5 = -8$.', { hint: '$|b - a|$ es cuántos pasos hay entre $a$ y $b$. Desde $a$ puedes caminar hacia la derecha o hacia la izquierda: hay dos lugares posibles.' }),
+            play('dibuja-intervalo', 'Dibuja en la recta los números que cumplen $|x - 2| \\le 3$', { min: -4, max: 8, a: -1, b: 5, aClosed: true, bClosed: true, set: '|x − 2| ≤ 3' },
+              '$|x - 2| \\le 3$ son los números a distancia **a lo sumo 3** del 2: desde $2 - 3 = -1$ hasta $2 + 3 = 5$, con los extremos incluidos: $[-1, 5]$.', { hint: 'Lee $|x - 2|$ como la distancia de $x$ al número 2. ¿Hasta dónde puedes alejarte del 2 hacia cada lado? El signo ≤ te dice si los extremos entran.' }),
           ],
         },
         {

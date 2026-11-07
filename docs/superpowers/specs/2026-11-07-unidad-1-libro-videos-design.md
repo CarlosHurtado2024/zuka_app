@@ -122,3 +122,18 @@ alg-11); `distancia-justa` se mueve a alg-12b (valor absoluto).
 * Tema: `PALETTES.dark` / `PALETTES.light` en `js/games/kit.js`; `setGameTheme(t)` cambia los valores
   del mismo `PALETTE` que reciben los juegos, y `applyTheme()` lo llama, así que un juego abierto se
   repinta al cambiar de tema. El fondo del recuadro `.play` es `--play-bg`, igual al `bg` de cada tema.
+
+## Adenda · Lección 1.2 (axiomas de campo y orden) solo con juegos
+
+alg-12b pasa de 11 ejercicios (cinco de opción múltiple, dos de tarjetas y uno de etiquetas) a 6
+juegos, cada uno con su pista y sin repetir los ejemplos del video:
+
+* `atajo-axiomas` (nuevo): reescribir una expresión tocando el axioma que se quiere usar hasta llegar a
+  la meta: (4 + a) + (−4) → a, (1/3)·(3·b) → b y 2(x + 5) + (−10) → 2x. Un axioma que no sirve hace
+  temblar la expresión; se puede deshacer y el contador compara con el atajo más corto.
+* `arma-producto` (nuevo): con las fichas −3, 2, −1, 4, −2 y 0 armar productos 12, −24 y 6; la
+  máquina cuenta los factores negativos (par → positivo) y el 0 lo anula todo.
+* `voltea-desigualdad`, `distancia-justa` y `dibuja-intervalo` se conservan.
+* `dobla-la-recta` (nuevo): el número de adentro de las barras está en la recta y se toca dónde cae su
+  valor absoluto; el cero es un espejo, se dibujan el arco del doblez y las dos distancias al cero:
+  |−2.5|, |3 − √5|, |√3 − 2| y |1 − π|.
