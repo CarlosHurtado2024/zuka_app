@@ -83,7 +83,8 @@ Juegos recientes: Álgebra 1.1 `pasaporte-numeros`, `ascensor`, `pon-la-rayita`,
 Álgebra 1.2 `atajo-axiomas`, `arma-producto`, `dobla-la-recta`; Trigonometría U1 `rueda-angulo`,
 `corta-pizza`, `arma-triangulo`, `mide-altura`, `atrapa-punto`, `noria`, `sintoniza-onda`; Trigonometría U2
 `canon-inverso`, `tanque-pitagorico`, `detector-identidades` (funciones `f`, `g` en params), `encadena-angulos`,
-`corredores-dobles`, `pesca-raices`, `compas-ambiguo`, `brazo-robot`; Álgebra
+`corredores-dobles`, `pesca-raices`, `compas-ambiguo`, `brazo-robot`; Trigonometría U3 `mapa-tesoro`,
+`telarana-polar`, `espiral-potencias`, `flor-de-raices`; Álgebra
 `completa-cuadrado`, `mueve-parabola`, `balanza-exponencial` (ecuaciones con la incógnita en x: sirve para
 cualquier `L(x) = R(x)`). Reutilizables:
 `une-parejas`, `ordena-terminos` (`sep`), `clasifica-cartas`, `ubica-en-recta`, `cajas-numericas`…
@@ -154,6 +155,8 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
 - Trigonometría unidad 2: T10–T17 (`trig-45`, `trig-4`, `trig-47b`, `trig-48a`, `trig-48b`, `trig-49`,
   `trig-46a`, `trig-46b`). En estas clases `zoom_to` (en su `mb_common.py`) no deja que el objetivo se salga
   por los lados y desvanece el encabezado mientras dura el zoom.
+- Trigonometría unidad 3: T18 (`trig-151`), T19 (`trig-152`) y T20 (raíces, `trig-152` en `more` con
+  `after: 3`, hoy solo con escenas).
 - Cálculo: faltan lecciones de su cronograma (ver spec `2026-11-07-cronograma-algebra-calculo`).
-- La unidad 3 de Trigonometría y el resto de Álgebra aún tienen ejercicios de opción múltiple y
+- El resto de Álgebra aún tiene ejercicios de opción múltiple y
   sin pistas.
