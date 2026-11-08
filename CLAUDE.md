@@ -81,7 +81,9 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
 
 Juegos recientes: Álgebra 1.1 `pasaporte-numeros`, `ascensor`, `pon-la-rayita`, `acorrala-raiz`;
 Álgebra 1.2 `atajo-axiomas`, `arma-producto`, `dobla-la-recta`; Trigonometría U1 `rueda-angulo`,
-`corta-pizza`, `arma-triangulo`, `mide-altura`, `atrapa-punto`, `noria`, `sintoniza-onda`; Álgebra
+`corta-pizza`, `arma-triangulo`, `mide-altura`, `atrapa-punto`, `noria`, `sintoniza-onda`; Trigonometría U2
+`canon-inverso`, `tanque-pitagorico`, `detector-identidades` (funciones `f`, `g` en params), `encadena-angulos`,
+`corredores-dobles`, `pesca-raices`, `compas-ambiguo`, `brazo-robot`; Álgebra
 `completa-cuadrado`, `mueve-parabola`, `balanza-exponencial` (ecuaciones con la incógnita en x: sirve para
 cualquier `L(x) = R(x)`). Reutilizables:
 `une-parejas`, `ordena-terminos` (`sep`), `clasifica-cartas`, `ubica-en-recta`, `cajas-numericas`…
@@ -145,10 +147,13 @@ cualquier `L(x) = R(x)`). Reutilizables:
 Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):
 - Álgebra: Clase 4 interés (`alg-13b`), Clase 5 progresiones (`alg-14`, 2 partes), Clase 6 sumatoria
   (`alg-15`), Clase 8 potencias (`alg-21a`), Clase 9 leyes de exponentes (`alg-21b`, parte 2 en `more`
-  con `after: 6`), Clase 10 raíces (`alg-22a`), Clase 11 radicales (`alg-22b`).
+  con `after: 6`), Clase 10 raíces (`alg-22a`), Clase 11 radicales (`alg-22b`), Clase 12 polinomio cuadrático
+  (`alg-4a`, `video/clase_cuadratico`), Clase 13 ecuaciones exp./log. (`alg-73`, `video/clase_ecuaciones_exp_log`).
 - Trigonometría unidad 1: T1–T9 (`trig-41a`, `trig-41b`, `trig-1`, `trig-2`, `trig-42c`, `trig-3`,
   `trig-43b`, `trig-44a`, `trig-44b`).
-- Álgebra `alg-4a` (polinomio cuadrático) y `alg-73` (ecuaciones exp./log.): ejercicios listos, falta su
-  video manimgl. Cálculo: faltan lecciones de su cronograma (ver spec `2026-11-07-cronograma-algebra-calculo`).
-- Las unidades 2 y 3 de Trigonometría y el resto de Álgebra aún tienen ejercicios de opción múltiple y
+- Trigonometría unidad 2: T10–T17 (`trig-45`, `trig-4`, `trig-47b`, `trig-48a`, `trig-48b`, `trig-49`,
+  `trig-46a`, `trig-46b`). En estas clases `zoom_to` (en su `mb_common.py`) no deja que el objetivo se salga
+  por los lados y desvanece el encabezado mientras dura el zoom.
+- Cálculo: faltan lecciones de su cronograma (ver spec `2026-11-07-cronograma-algebra-calculo`).
+- La unidad 3 de Trigonometría y el resto de Álgebra aún tienen ejercicios de opción múltiple y
   sin pistas.

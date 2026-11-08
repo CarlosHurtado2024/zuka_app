@@ -738,7 +738,8 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-4a', title: 'Polinomio cuadrático y parábola',
-          // Cronograma 2026-2, clase 10 (libro UdeA, polinomio cuadrático). Pendiente: video manimgl.
+          // Cronograma 2026-2, clase 10 (libro UdeA, polinomio cuadrático). Video: video/clase_cuadratico
+          // (Clase 12), entregado; falta su ID de Bunny (clip.bunny + duration).
           // Spec: docs/superpowers/specs/2026-11-07-cuadratico-y-ecuaciones-exp-log-design.md
           clip: { scenes: [
             sc(6, 'Un **polinomio cuadrático** es $ax^2 + bx + c$ con $a \\ne 0$. Su gráfica es una **parábola**: una curva simétrica que da la vuelta en un solo punto, el **vértice**.', { title: '$y = x^2$', viz: { type: 'graph', xr: [-4, 4], yr: [-2, 8], f: sq, points: [[0, 0, 'vértice']] } }),
@@ -963,7 +964,8 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-73', title: 'Ecuaciones exponenciales y logarítmicas',
-          // Cronograma 2026-2, clase 19 (libro UdeA §7.5). Pendiente: video manimgl.
+          // Cronograma 2026-2, clase 19 (libro UdeA §7.5). Video: video/clase_ecuaciones_exp_log (Clase 13),
+          // entregado; falta su ID de Bunny (clip.bunny + duration).
           // Spec: docs/superpowers/specs/2026-11-07-cuadratico-y-ecuaciones-exp-log-design.md
           clip: { scenes: [
             sc(6, 'Una **ecuación exponencial** tiene la incógnita en el exponente. Si los dos lados se escriben con la **misma base**, basta igualar los exponentes.', { steps: ['$2^{x+3} = 4^{x} = 2^{2x}$', '$x + 3 = 2x \\Rightarrow x = 3$'] }),

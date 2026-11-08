@@ -54,3 +54,9 @@ video/clase_trig_t*/dist/
 video/clase_trig_t*/build_log.txt
 video/clase_trig_t*/smoke.txt
 video/trig_*_log*.txt
+video/clase_cuadratico/videos/
+video/clase_cuadratico/dist/
+video/clase_cuadratico/*_log.txt
+video/clase_ecuaciones_exp_log/videos/
+video/clase_ecuaciones_exp_log/dist/
+video/clase_ecuaciones_exp_log/*_log.txt
