@@ -39,7 +39,7 @@ GAMES['cofre-candados'] = (() => {
         p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
         fitText(p, `f(x) = ${r.fTxt}`, W / 2, 62, W - 24, 18);
         // Cofre con la pila de candados (el último cerrado queda arriba).
-        const lh = 34, top = 90, chestW = Math.min(150, W * 0.42), cx = 12 + chestW / 2;
+        const top = 90, lh = Math.max(24, Math.min(34, (tray[0].y - top - 62 - 70) / n - 6)), chestW = Math.min(150, W * 0.42), cx = 12 + chestW / 2;
         const chestY = top + n * (lh + 6) + 6;
         const open = locked && ok;
         p.stroke(C.N); p.strokeWeight(2.5); p.fill(C.card);
@@ -85,7 +85,7 @@ GAMES['cofre-candados'] = (() => {
         api.ready(seqs.every((s, i) => s.length === params.rounds[i].locks.length));
         return false;
       };
-    }, 1.35);
+    }, 1.6);
 
     return {
       loaded: m.ready,

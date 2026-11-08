@@ -40,7 +40,7 @@ GAMES['sellos-graficas'] = (() => {
     const f = fnOf(base, t1), g = fnOf(base, t2);
     for (let x = -8; x <= 8; x += 0.25) {
       const a = f(x), b = g(x);
-      if (Number.isNaN(a) !== Number.isNaN(b)) return false;
+      if (Number.isNaN(a) !== Number.isNaN(b) || Number.isFinite(a) !== Number.isFinite(b)) return false;
       if (Number.isFinite(a) && Math.abs(a - b) > 1e-9) return false;
     }
     return true;

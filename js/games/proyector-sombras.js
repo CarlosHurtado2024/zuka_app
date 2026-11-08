@@ -147,7 +147,7 @@ GAMES['proyector-sombras'] = (() => {
         if (!drag.moved) { const h = st[cur][drag.axis][drag.i]; if (Number.isFinite(h.v)) { h.c = !h.c; st[cur].touched = true; api.ready(st.every(t => t.touched)); api.sfx?.tap?.(); } }
         drag = null; return false;
       };
-    }, 1.2);
+    }, 1.5);
 
     return {
       loaded: m.ready,

@@ -110,7 +110,7 @@ test('respuestas numéricas correctas', () => {
   assert.equal(nums('alg-52').join(), '10,3');        // (−2)² − 3(−2) ; vértice de x² − 6x + 2
   assert.equal(nums('calc-tipos').join(), '2,3');     // pendiente 3 desde (1, 5) ; 8k = 24
   assert.equal(nums('alg-53').join(), '2,13');        // f(g(1)) = f(1) ; g(f(2)) = g(5)
-  assert.equal(nums('calc-tramos').join(), '12000,2'); // 6000 + 1500·4 ; |−5| − 3
+  assert.equal(nums('calc-tramos').join(), '12,2');    // 6 + 1.5·4 (miles) ; |−5| − 3
   assert.equal(nums('alg-61').join(), '11,-2');       // 3·5 − 4 ; x + 3 = 1
   assert.equal(nums('alg-62').join(), '5,3');         // 4x − 7 = 13 ; x³ = 27
 });

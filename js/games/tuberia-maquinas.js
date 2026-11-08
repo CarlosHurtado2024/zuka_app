@@ -31,7 +31,8 @@ GAMES['tuberia-maquinas'] = (() => {
       const sw = (W - 24 - 2 * side - (r.n + 1) * gap) / r.n;
       pipe = slots[cur].map((_, k) => ({ x: 12 + side + gap + k * (sw + gap), y: py, w: sw, h: ph }));
       const ids = avail(r), cols = W < 360 ? 3 : 4, cw = (W - 24 - (cols - 1) * 8) / cols;
-      tray = ids.map((id, k) => ({ id, x: 12 + (k % cols) * (cw + 8), y: py + ph + 92 + Math.floor(k / cols) * 50, w: cw, h: 42 }));
+      const rows = Math.ceil(ids.length / cols), y0 = H - rows * 50 - 4;
+      tray = ids.map((id, k) => ({ id, x: 12 + (k % cols) * (cw + 8), y: y0 + Math.floor(k / cols) * 50, w: cw, h: 42 }));
     }
 
     const m = mountSketch(host, (p, size) => {
@@ -96,7 +97,7 @@ GAMES['tuberia-maquinas'] = (() => {
           return false;
         }
       };
-    }, 1.1);
+    }, 1.35);
 
     return {
       loaded: m.ready,

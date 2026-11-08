@@ -125,6 +125,7 @@ test('espejo-diagonal: cada punto va a (y, x)', () => {
   const P = { rounds: [{ pts: [[0, 1], [1, 3], [2, 5]] }] };
   assert.equal(g.grade({ pts: [[[1, 0], [3, 1], [5, 2]]] }, P).ok, true);
   assert.equal(g.grade({ pts: [[[0, 1], [3, 1], [5, 2]]] }, P).ok, false);
+  assert.equal(g.grade({ pts: [[[5, 2], [1, 0], [3, 1]]] }, P).ok, true, 'cualquier ficha puede ir a cualquier reflejo');
 });
 
 // ---------- cofre-candados ----------

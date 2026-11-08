@@ -5,8 +5,10 @@
 // state = { pts: [[[x, y]…]] }
 
 GAMES['espejo-diagonal'] = (() => {
-  const good = (q, pt) => !!q && q[0] === pt[1] && q[1] === pt[0];
-  const same = (qs, r) => !!qs && r.pts.every((pt, k) => good(qs[k], pt));
+  // Se compara como conjunto: no importa qué ficha llegó a cada reflejo.
+  const key = ps => ps.map(([x, y]) => `${x},${y}`).sort().join(' ');
+  const same = (qs, r) => !!qs && key(qs) === key(r.pts.map(([a, b]) => [b, a]));
+  const good = (q, r) => !!q && r.pts.some(([a, b]) => q[0] === b && q[1] === a);
 
   function grade(state, params) {
     const ok = params.rounds.every((r, i) => same(state.pts[i], r));
@@ -50,7 +52,7 @@ GAMES['espejo-diagonal'] = (() => {
         // Fichas del estudiante.
         if (!locked) { p.stroke(C.N); p.strokeWeight(2); p.noFill(); p.beginShape(); [...my].sort((u, w) => u[0] - w[0]).forEach(([x, y]) => p.vertex(v.X(x), v.Y(y))); p.endShape(); }
         my.forEach(([x, y], k) => {
-          const g = good(my[k], r.pts[k]);
+          const g = good(my[k], r);
           p.stroke(C.ink); p.strokeWeight(2); p.fill(locked ? (g ? C.ok : C.bad) : drag === k ? C.ink : C.N); p.circle(v.X(x), v.Y(y), 18);
           if (drag === k) { p.noStroke(); p.fill(C.N); p.textSize(12); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.BOTTOM); p.text(`(${numTxt(x)}, ${numTxt(y)})`, v.X(x), v.Y(y) - 12); }
         });

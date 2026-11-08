@@ -251,7 +251,7 @@ const COURSE_CALC = {
                 { mode: 'diff', f: x => Math.abs(x), g: () => 1, fTxt: '|x|', gTxt: '1', xs: [-2, -1, 0, 1, 2], xr: [-3, 3], yr: [-3, 3] },
                 { mode: 'prod', f: x => x, g: x => x - 1, fTxt: 'x', gTxt: 'x − 1', xs: [-1, 0, 1, 2], xr: [-3, 3], yr: [-3, 4] },
               ],
-            }, '1) $f + g$: $-1, -1.5, -1, -0.5, 3$. 2) $|x| - 1$: $1, 0, -1, 0, 1$ (la V baja una unidad). 3) $x(x - 1)$: $2, 0, 0, 2$.',
+            }, '1) $f + g$: $-1, -1.5, -1, 0.5, 3$. 2) $|x| - 1$: $1, 0, -1, 0, 1$ (la V baja una unidad). 3) $x(x - 1)$: $2, 0, 0, 2$.',
               { hint: 'Trabaja una x a la vez: lee la altura de f y la de g en esa x (contando cuadritos) y opéralas. La cuenta va a ese resultado.' }),
             play('tuberia-maquinas', 'Arma cada función con las máquinas, en el orden correcto', {
               chips: [
@@ -312,9 +312,9 @@ const COURSE_CALC = {
             play('dibuja-intervalo', 'Dibuja el dominio de la función algebraica $f(x) = \\sqrt{9 - x^2}$', { min: -5, max: 5, a: -3, b: 3, aClosed: true, bClosed: true, set: 'dominio de f' },
               'Se necesita $9 - x^2 \\ge 0$, es decir $x^2 \\le 9$: $-3 \\le x \\le 3$.',
               { hint: 'Dentro de la raíz no puede quedar un negativo: busca los x cuyo cuadrado no supere al número que está al lado.' }),
-            num('Una carrera de taxi cuesta $f(x) = 6000$ si $0 < x \\le 2$ y $f(x) = 6000 + 1500(x - 2)$ si $x > 2$ ($x$ en km). ¿Cuánto cuesta un viaje de 6 km?', 12000,
-              'Como $6 > 2$ se usa el segundo tramo: $6000 + 1500 \\cdot 4 = 12000$ pesos.',
-              { hint: 'Primero decide en qué tramo cae x = 6; luego usa solo la fórmula de ese tramo.', suffix: 'pesos' }),
+            num('Una carrera de taxi cuesta $f(x) = 6$ si $0 < x \\le 2$ y $f(x) = 6 + 1.5(x - 2)$ si $x > 2$ ($x$ en km, $f$ en miles de pesos). ¿Cuánto cuesta, en miles de pesos, un viaje de 6 km?', 12,
+              'Como $6 > 2$ se usa el segundo tramo: $6 + 1.5 \\cdot 4 = 12$, o sea 12 000 pesos.',
+              { hint: 'Primero decide en qué tramo cae x = 6; luego usa solo la fórmula de ese tramo.', suffix: 'mil pesos' }),
             num('Si $f(x) = |2x - 7| - 3$, ¿cuánto vale $f(1)$?', 2,
               '$|2 - 7| - 3 = |-5| - 3 = 5 - 3 = 2$.',
               { hint: 'Calcula lo que está dentro de las barras; si sale negativo, el valor absoluto le quita el signo. Después resta.' }),
