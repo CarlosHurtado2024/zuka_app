@@ -515,38 +515,85 @@ const COURSE_TRIG = {
       lessons: [
         {
           id: 'trig-151', title: 'Forma trigonométrica de un complejo',
-          // Libro UdeA §15.1. Pendiente: video y juegos p5.
+          // Clase T18 (video/clase_trig_t18): escenas de respaldo hasta enlazar el video de Bunny. Libro UdeA §15.1.
           clip: { scenes: [
             sc(6, 'Un complejo $z = a + bi$ es un punto del plano; también se describe por su **módulo** $r$ y su **argumento** $\\theta$.', { title: '$z = r(\\cos\\theta + i\\,\\sen\\theta)$', steps: ['$a = r\\cos\\theta,\\quad b = r\\,\\sen\\theta$', '$r = \\sqrt{a^2 + b^2},\\quad \\tan\\theta = \\tfrac{b}{a}$'] }),
             sc(6, 'El argumento se elige mirando el **cuadrante** del punto $(a, b)$, no solo la tangente.', { steps: ['$z = -2 - 2\\sqrt3\\,i$: $r = 4$, tercer cuadrante', '$\\tan\\theta = \\sqrt3 \\Rightarrow \\theta = \\tfrac{\\pi}{3} + \\pi = \\tfrac{4\\pi}{3}$'] }),
             sc(5, 'Los puntos sobre los ejes son los fáciles: reales positivos $\\theta = 0$, imaginarios positivos $\\theta = \\tfrac{\\pi}{2}$, reales negativos $\\theta = \\pi$, imaginarios negativos $\\theta = \\tfrac{3\\pi}{2}$.', { steps: ['$3i = 3(\\cos\\tfrac{\\pi}{2} + i\\,\\sen\\tfrac{\\pi}{2})$'] }),
           ] },
           ex: [
-            mc('¿Cuál es la forma polar del número complejo $z = 1 + i$?', ['$\\sqrt2\\,(\\cos\\tfrac{\\pi}{4} + i\\,\\sen\\tfrac{\\pi}{4})$', '$2\\,(\\cos\\tfrac{\\pi}{4} + i\\,\\sen\\tfrac{\\pi}{4})$', '$\\sqrt2\\,(\\cos\\tfrac{\\pi}{3} + i\\,\\sen\\tfrac{\\pi}{3})$', '$2\\,(\\cos\\tfrac{\\pi}{3} + i\\,\\sen\\tfrac{\\pi}{3})$'], 0, '$r = \\sqrt{1 + 1} = \\sqrt2$ y, en el primer cuadrante, $\\tan\\theta = 1$ da $\\theta = \\tfrac{\\pi}{4}$.'),
-            mc('¿Cuál es el argumento de $z = -1 + i\\sqrt3$?', ['$\\tfrac{2\\pi}{3}$', '$\\tfrac{\\pi}{3}$', '$\\tfrac{\\pi}{6}$', '$\\tfrac{5\\pi}{6}$'], 0, 'El punto $(-1, \\sqrt3)$ está en el segundo cuadrante; el ángulo de referencia es $\\tfrac{\\pi}{3}$, así que $\\theta = \\pi - \\tfrac{\\pi}{3} = \\tfrac{2\\pi}{3}$.'),
-            mc('¿Cuál es la forma polar de $z = -4i$?', ['$4\\,(\\cos 270^\\circ + i\\,\\sen 270^\\circ)$', '$4\\,(\\cos 90^\\circ + i\\,\\sen 90^\\circ)$', '$4\\,(\\cos 180^\\circ + i\\,\\sen 180^\\circ)$', '$4\\,(\\cos 0^\\circ + i\\,\\sen 0^\\circ)$'], 0, 'El punto $(0, -4)$ está sobre el eje imaginario negativo: $r = 4$ y $\\theta = 270^\\circ$.'),
-            mc('¿Cuál es el argumento de $z = 3i$?', ['$\\tfrac{\\pi}{2}$', '$0$', '$\\pi$', '$\\tfrac{3\\pi}{2}$'], 0, 'Está sobre el eje imaginario positivo: un cuarto de vuelta.'),
-            mc('¿Cuál es la forma polar de $z = 2 + 2i$?', ['$2\\sqrt2\\,(\\cos 45^\\circ + i\\,\\sen 45^\\circ)$', '$4\\,(\\cos 45^\\circ + i\\,\\sen 45^\\circ)$', '$2\\,(\\cos 45^\\circ + i\\,\\sen 45^\\circ)$', '$2\\sqrt2\\,(\\cos 90^\\circ + i\\,\\sen 90^\\circ)$'], 0, '$r = \\sqrt{4 + 4} = 2\\sqrt2$ y $\\tan\\theta = 1$ en el primer cuadrante: $45^\\circ$.'),
-            mc('¿Cuál es la forma polar de $z = -1 - i$?', ['$\\sqrt2\\,(\\cos\\tfrac{5\\pi}{4} + i\\,\\sen\\tfrac{5\\pi}{4})$', '$\\sqrt2\\,(\\cos\\tfrac{3\\pi}{4} + i\\,\\sen\\tfrac{3\\pi}{4})$', '$2\\,(\\cos\\tfrac{3\\pi}{4} + i\\,\\sen\\tfrac{3\\pi}{4})$', '$2\\,(\\cos\\tfrac{5\\pi}{4} + i\\,\\sen\\tfrac{5\\pi}{4})$'], 0, 'Tercer cuadrante con $r = \\sqrt2$: la referencia es $\\tfrac{\\pi}{4}$ y $\\theta = \\pi + \\tfrac{\\pi}{4} = \\tfrac{5\\pi}{4}$.'),
-            num('¿Cuál es el módulo de $z = 3 + 4i$?', 5, '$r = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$.'),
+            play('mapa-tesoro', 'El pirata solo entiende rumbo y pasos: programa su caminata hasta la X', {
+              rounds: [
+                { a: -1, b: Math.sqrt(3), label: '−1 + √3 i' },
+                { a: 2, b: -2, label: '2 − 2i' },
+                { a: 0, b: -3, label: '−3i' },
+                { a: -Math.sqrt(3), b: -1, label: '−√3 − i' },
+              ],
+            }, '$-1 + \\sqrt3\\,i$: $r = \\sqrt{1 + 3} = 2$, segundo cuadrante, $\\theta = 120^\\circ$. $2 - 2i$: $r = 2\\sqrt2$, cuarto cuadrante, $315^\\circ$. $-3i$: $r = 3$ sobre el eje imaginario negativo, $270^\\circ$. $-\\sqrt3 - i$: $r = 2$, tercer cuadrante, $180^\\circ + 30^\\circ = 210^\\circ$.',
+              { hint: 'Los pasos son el módulo: la raíz de a² + b². El rumbo es el argumento: busca el ángulo de referencia con |b| / |a| y luego mira en qué cuadrante está la X.' }),
+            play('mapa-tesoro', 'Cuadrantes engañosos: la tangente sola no basta', {
+              rounds: [
+                { a: -3, b: 3, label: '−3 + 3i' },
+                { a: 1, b: -Math.sqrt(3), label: '1 − √3 i' },
+                { a: -4, b: 0, label: '−4' },
+              ],
+            }, '$-3 + 3i$: $r = 3\\sqrt2$ y, aunque $\\tfrac{b}{a} = -1$, el punto está en el II: $135^\\circ$ (no $-45^\\circ$). $1 - \\sqrt3\\,i$: $r = 2$, cuarto cuadrante, $300^\\circ$. $-4$: $r = 4$ sobre el eje real negativo, $180^\\circ$.',
+              { hint: 'Dos puntos opuestos tienen la misma tangente. Ubica primero el punto en el plano y decide el cuadrante; solo después calcula el ángulo.' }),
+            play('une-parejas', 'Une cada complejo con su forma polar (cis θ = cos θ + i sen θ)', {
+              left: ['1 + i', '−4i', '−2 + 2i', '3'],
+              right: ['√2 cis 45°', '4 cis 270°', '2√2 cis 135°', '3 cis 0°', '4 cis 90°', '√2 cis 225°'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3]],
+            }, '$1 + i = \\sqrt2\\,\\mathrm{cis}\\,45^\\circ$; $-4i = 4\\,\\mathrm{cis}\\,270^\\circ$; $-2 + 2i = 2\\sqrt2\\,\\mathrm{cis}\\,135^\\circ$ (segundo cuadrante) y $3 = 3\\,\\mathrm{cis}\\,0^\\circ$.',
+              { hint: 'Para cada número calcula el módulo con Pitágoras y ubica el punto: los que están sobre un eje tienen ángulos de 0°, 90°, 180° o 270°.' }),
+            num('¿Cuál es el módulo de $z = 5 - 12i$?', 13, '$r = \\sqrt{25 + 144} = \\sqrt{169} = 13$.',
+              { hint: 'El módulo es la distancia del punto (5, −12) al origen: usa Pitágoras con los dos catetos.' }),
+            num('Argumento, en grados entre $0^\\circ$ y $360^\\circ$, de $z = -\\sqrt3 + i$', 150, 'El punto $(-\\sqrt3, 1)$ está en el segundo cuadrante; el ángulo de referencia es $30^\\circ$ porque $\\tfrac{1}{\\sqrt3} = \\tan 30^\\circ$: $\\theta = 180^\\circ - 30^\\circ = 150^\\circ$.',
+              { suffix: '°', hint: 'Ubica el punto: a negativo y b positivo. Halla el ángulo agudo con |b| / |a| y llévalo a ese cuadrante.' }),
           ],
         },
         {
           id: 'trig-152', title: 'Producto, cociente y raíces: De Moivre',
-          // Libro UdeA §15.2–15.3. Pendiente: video y juegos p5.
+          // Clase T19 (video/clase_trig_t19) y, antes de los ejercicios de raíces, la Clase T20 (clase_trig_t20) en `more`.
           clip: { scenes: [
             sc(6, 'En forma polar, **multiplicar** es multiplicar módulos y **sumar** argumentos; **dividir** es dividir módulos y **restar** argumentos.', { steps: ['$z_1 z_2 = r_1 r_2\\,[\\cos(\\theta_1 + \\theta_2) + i\\,\\sen(\\theta_1 + \\theta_2)]$', '$\\tfrac{z_1}{z_2} = \\tfrac{r_1}{r_2}\\,[\\cos(\\theta_1 - \\theta_2) + i\\,\\sen(\\theta_1 - \\theta_2)]$'] }),
+            sc(5, 'Multiplicar por $i = \\mathrm{cis}\\,90^\\circ$ **gira** el punto un cuarto de vuelta sin cambiar su tamaño.', { steps: ['$i \\cdot (3 + 2i) = -2 + 3i$', '$i^2 = -1$: dos cuartos de vuelta'] }),
             sc(6, '**Teorema de De Moivre**: elevar a $n$ es elevar el módulo a $n$ y multiplicar el argumento por $n$.', { title: '$z^n = r^n(\\cos n\\theta + i\\,\\sen n\\theta)$', steps: ['$(-1 + \\sqrt3\\,i)^{12} = 2^{12}(\\cos 8\\pi + i\\,\\sen 8\\pi) = 2^{12}$'] }),
-            sc(7, 'Todo complejo $z \\ne 0$ tiene exactamente $n$ **raíces $n$-ésimas**, repartidas en un círculo de radio $\\sqrt[n]{r}$ cada $\\tfrac{360^\\circ}{n}$.', { title: '$w_k = \\sqrt[n]{r}\\left[\\cos\\tfrac{\\theta + 360^\\circ k}{n} + i\\,\\sen\\tfrac{\\theta + 360^\\circ k}{n}\\right]$', steps: ['Raíces cuartas de $-8 - 8\\sqrt3\\,i$ ($r = 16$, $\\theta = 240^\\circ$): $2\\,\\mathrm{cis}\\,60^\\circ, 150^\\circ, 240^\\circ, 330^\\circ$'] }),
           ] },
+          more: [{ after: 3, scenes: [
+            sc(7, 'Todo complejo $z \\ne 0$ tiene exactamente $n$ **raíces $n$-ésimas**, repartidas en un círculo de radio $\\sqrt[n]{r}$ cada $\\tfrac{360^\\circ}{n}$.', { title: '$w_k = \\sqrt[n]{r}\\left[\\cos\\tfrac{\\theta + 360^\\circ k}{n} + i\\,\\sen\\tfrac{\\theta + 360^\\circ k}{n}\\right]$', steps: ['Raíces cuartas de $-8 - 8\\sqrt3\\,i$ ($r = 16$, $\\theta = 240^\\circ$): $2\\,\\mathrm{cis}\\,60^\\circ, 150^\\circ, 240^\\circ, 330^\\circ$'] }),
+          ] }],
           ex: [
-            mc('Si $z_1 = 2(\\cos\\tfrac{\\pi}{3} + i\\,\\sen\\tfrac{\\pi}{3})$ y $z_2 = 3(\\cos\\tfrac{\\pi}{6} + i\\,\\sen\\tfrac{\\pi}{6})$, entonces $z_1 z_2$ es', ['$6\\,(\\cos\\tfrac{\\pi}{2} + i\\,\\sen\\tfrac{\\pi}{2})$', '$5\\,(\\cos\\tfrac{\\pi}{2} + i\\,\\sen\\tfrac{\\pi}{2})$', '$6\\,(\\cos\\tfrac{\\pi}{3} + i\\,\\sen\\tfrac{\\pi}{3})$', '$5\\,(\\cos\\tfrac{\\pi}{3} + i\\,\\sen\\tfrac{\\pi}{3})$'], 0, 'Módulos: $2 \\cdot 3 = 6$. Argumentos: $\\tfrac{\\pi}{3} + \\tfrac{\\pi}{6} = \\tfrac{\\pi}{2}$.'),
-            mc('¿Cómo se divide $z_1 = 4(\\cos\\tfrac{\\pi}{3} + i\\,\\sen\\tfrac{\\pi}{3})$ entre $z_2 = 2(\\cos\\tfrac{\\pi}{6} + i\\,\\sen\\tfrac{\\pi}{6})$?', ['$2\\,(\\cos\\tfrac{\\pi}{6} + i\\,\\sen\\tfrac{\\pi}{6})$', '$2\\,(\\cos\\tfrac{\\pi}{2} + i\\,\\sen\\tfrac{\\pi}{2})$', '$4\\,(\\cos\\tfrac{\\pi}{2} + i\\,\\sen\\tfrac{\\pi}{2})$', '$2\\,(\\cos\\tfrac{\\pi}{3} + i\\,\\sen\\tfrac{\\pi}{3})$'], 0, 'Módulos: $4 / 2 = 2$. Argumentos: $\\tfrac{\\pi}{3} - \\tfrac{\\pi}{6} = \\tfrac{\\pi}{6}$.'),
-            mc('Sea $z = 4(\\cos 60^\\circ + i\\,\\sen 60^\\circ)$. ¿Cuál es $z^3$?', ['$64\\,(\\cos 180^\\circ + i\\,\\sen 180^\\circ)$', '$64\\,(\\cos 120^\\circ + i\\,\\sen 120^\\circ)$', '$12\\,(\\cos 180^\\circ + i\\,\\sen 180^\\circ)$', '$12\\,(\\cos 120^\\circ + i\\,\\sen 120^\\circ)$'], 0, 'De Moivre: $4^3 = 64$ y $3 \\cdot 60^\\circ = 180^\\circ$. Es el real $-64$.'),
-            mc('Según el teorema de De Moivre, $(\\cos 45^\\circ + i\\,\\sen 45^\\circ)^6$ es', ['$\\cos 270^\\circ + i\\,\\sen 270^\\circ$', '$\\cos 180^\\circ + i\\,\\sen 180^\\circ$', '$\\cos 360^\\circ + i\\,\\sen 360^\\circ$', '$\\cos 135^\\circ + i\\,\\sen 135^\\circ$'], 0, '$6 \\cdot 45^\\circ = 270^\\circ$ y el módulo $1^6 = 1$: el resultado es $-i$.'),
-            mc('El menor entero positivo $n$ tal que $\\left(\\tfrac{\\sqrt2}{2} + \\tfrac{\\sqrt2}{2}i\\right)^n = 1$ es', ['$8$', '$2$', '$4$', '$6$'], 0, 'Ese número es $\\cos 45^\\circ + i\\,\\sen 45^\\circ$; su potencia $n$ tiene argumento $45^\\circ n$, que debe ser múltiplo de $360^\\circ$: $n = 8$.'),
-            mc('Si $z = 1 + i$, entonces $z^6$ es igual a', ['$8\\,(\\cos 270^\\circ + i\\,\\sen 270^\\circ)$', '$8\\,(\\cos 225^\\circ + i\\,\\sen 225^\\circ)$', '$8\\,(\\cos 315^\\circ + i\\,\\sen 315^\\circ)$', '$8\\,(\\cos 210^\\circ + i\\,\\sen 210^\\circ)$'], 0, '$1 + i = \\sqrt2\\,\\mathrm{cis}\\,45^\\circ$, así que $z^6 = (\\sqrt2)^6\\,\\mathrm{cis}\\,270^\\circ = 8\\,\\mathrm{cis}\\,270^\\circ = -8i$.'),
-            mc('Una de las tres raíces cúbicas de $z = -1 + \\sqrt3\\,i$ es', ['$\\sqrt[3]{2}\\,(\\cos 280^\\circ + i\\,\\sen 280^\\circ)$', '$\\sqrt[3]{2}\\,(\\cos 60^\\circ + i\\,\\sen 60^\\circ)$', '$\\sqrt[3]{2}\\,(\\cos 150^\\circ + i\\,\\sen 150^\\circ)$', '$\\sqrt[3]{2}\\,(\\cos 120^\\circ + i\\,\\sen 120^\\circ)$'], 0, '$r = 2$ y $\\theta = 120^\\circ$. Las raíces son $\\sqrt[3]{2}\\,\\mathrm{cis}\\,\\tfrac{120^\\circ + 360^\\circ k}{3}$: $40^\\circ$, $160^\\circ$ y $280^\\circ$.'),
+            play('telarana-polar', 'Lleva la araña al nudo del producto o del cociente', {
+              rounds: [
+                { op: '×', z1: { r: 2, deg: 150 }, z2: { r: 3, deg: 300 } },
+                { op: '÷', z1: { r: 6, deg: 45 }, z2: { r: 2, deg: 120 } },
+                { op: '×', z1: { r: 4, deg: 60 }, z2: { r: 0.5, deg: 75 } },
+                { op: '÷', z1: { r: 5, deg: 30 }, z2: { r: 5, deg: 210 } },
+              ],
+            }, 'Producto: se multiplican los módulos y se suman los ángulos ($2 \\cdot 3 = 6$, $150^\\circ + 300^\\circ = 450^\\circ \\to 90^\\circ$; $4 \\cdot 0.5 = 2$, $135^\\circ$). Cociente: se dividen y se restan ($6 / 2 = 3$, $45^\\circ - 120^\\circ = -75^\\circ \\to 285^\\circ$; $5 / 5 = 1$, $30^\\circ - 210^\\circ = -180^\\circ \\to 180^\\circ$).',
+              { hint: 'Los hilos son módulos y los rayos son ángulos. Al multiplicar, los módulos se multiplican (no se suman) y los ángulos se suman; al dividir, todo al revés. Si el ángulo se pasa de 360° o queda negativo, súmale o réstale una vuelta.' }),
+            play('espiral-potencias', 'Multiplica por z hasta caer justo en la estrella', {
+              rounds: [
+                { z: { r: Math.SQRT2, deg: 45 }, goal: { r: 8, deg: 270 }, zLabel: '1 + i', label: '−8i' },
+                { z: { r: 1, deg: 60 }, goal: { r: 1, deg: 0 }, zLabel: 'cis 60°', label: '1' },
+                { z: { r: 2, deg: 90 }, goal: { r: 16, deg: 0 }, zLabel: '2i', label: '16' },
+                { z: { r: 1, deg: 135 }, goal: { r: 1, deg: 270 }, zLabel: 'cis 135°', label: '−i' },
+              ],
+            }, 'De Moivre: $z^n = r^n\\,\\mathrm{cis}\\,n\\theta$. $(\\sqrt2)^6 = 8$ y $6 \\cdot 45^\\circ = 270^\\circ$: $n = 6$. $6 \\cdot 60^\\circ = 360^\\circ$: $n = 6$. $2^4 = 16$ y $4 \\cdot 90^\\circ = 360^\\circ$: $n = 4$. $2 \\cdot 135^\\circ = 270^\\circ$: $n = 2$.',
+              { hint: 'Cada multiplicación suma θ al ángulo y multiplica el módulo por r. Busca un n que dé el módulo de la estrella y, a la vez, un ángulo coterminal con el suyo.' }),
+            num('Calcula $(1 - i)^4$ (es un número real)', -4, '$1 - i = \\sqrt2\\,\\mathrm{cis}\\,315^\\circ$, así que $(1 - i)^4 = 4\\,\\mathrm{cis}\\,1260^\\circ = 4\\,\\mathrm{cis}\\,180^\\circ = -4$.',
+              { hint: 'Pasa 1 − i a forma polar, eleva el módulo a la cuarta y multiplica el ángulo por 4. Quita vueltas completas para ver dónde cae.' }),
+            play('flor-de-raices', 'Gira la flor y elige su radio para que cada pétalo sea una raíz', {
+              rounds: [
+                { n: 4, r: 16, deg: 240, label: '−8 − 8√3 i' },
+                { n: 3, r: 27, deg: 180, label: '−27' },
+                { n: 2, r: 4, deg: 90, label: '4i' },
+                { n: 5, r: 32, deg: 0, label: '32' },
+              ],
+            }, 'Radio $\\sqrt[n]{r}$ y un pétalo en $\\tfrac{\\theta}{n}$; los demás cada $\\tfrac{360^\\circ}{n}$. $-8 - 8\\sqrt3\\,i = 16\\,\\mathrm{cis}\\,240^\\circ$: radio 2 y pétalos en $60^\\circ, 150^\\circ, 240^\\circ, 330^\\circ$. $-27$: radio 3, en $60^\\circ, 180^\\circ, 300^\\circ$. $4i$: radio 2, en $45^\\circ$ y $225^\\circ$. $32$: radio 2, en $0^\\circ, 72^\\circ, 144^\\circ, 216^\\circ, 288^\\circ$.',
+              { hint: 'El radio de la flor es la raíz n-ésima del módulo, no el módulo dividido entre n. Para girarla, divide el ángulo de z entre n: ahí va un pétalo, y los demás lo siguen solos.' }),
+            num('Entre las raíces cúbicas de $8i$, ¿cuál es el argumento (en grados) de la de menor argumento positivo?', 30, '$8i = 8\\,\\mathrm{cis}\\,90^\\circ$: las raíces son $2\\,\\mathrm{cis}\\,30^\\circ$, $2\\,\\mathrm{cis}\\,150^\\circ$ y $2\\,\\mathrm{cis}\\,270^\\circ$.',
+              { suffix: '°', hint: 'Escribe 8i en forma polar. Divide su ángulo entre 3 y suma 120° para las otras dos raíces.' }),
           ],
         },
       ],
