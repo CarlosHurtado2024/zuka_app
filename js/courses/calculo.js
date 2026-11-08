@@ -42,7 +42,7 @@ const COURSE_CALC = {
                 { txt: '(3 − x)/(x + 2) ≥ 0', factors: [{ txt: '3 − x', root: 3, s: -1 }, { txt: 'x + 2', root: -2, s: 1, den: true }], rel: '>=' },
               ],
             }, 'Los signos del cociente siguen la misma regla que los del producto. $\\dfrac{x - 5}{x + 1} \\le 0$ da $(-1, 5]$ y $\\dfrac{3 - x}{x + 2} \\ge 0$ da $(-2, 3]$: el cero del numerador entra (el cociente vale 0) y el del denominador nunca.',
-            { hint: 'El factor 3 − x es al revés: positivo a la izquierda de su cero y negativo a la derecha. El punto donde el denominador vale cero queda siempre vacío.' }),
+            { hint: 'Un factor con −x va al revés que uno con +x: pruébalo con un número de cada tramo. El punto donde el denominador vale cero queda siempre vacío.' }),
             play('dibuja-intervalo', 'Dibuja los números que cumplen $-5 < 3x + 1 \\le 10$', { min: -6, max: 6, a: -2, b: 3, aClosed: false, bClosed: true, set: '−5 < 3x + 1 ≤ 10' },
               'Se hace lo mismo en las tres partes: restar 1 da $-6 < 3x \\le 9$ y dividir entre 3 (positivo) da $-2 < x \\le 3$, es decir $(-2, 3]$.',
               { hint: 'Despeja x en las tres partes a la vez: lo que restes o dividas en el medio, hazlo también en los extremos. El signo estricto deja el extremo vacío.' }),
@@ -71,7 +71,7 @@ const COURSE_CALC = {
                 { txt: '|5 − x| > 2', c: 5, r: 2, out: true, closed: false },
               ],
             }, '$|x + 4| < 2$: poste en $-4$, correa 2, adentro: $(-6, -2)$. $|x - 1| \\ge 3$: afuera con puntas: $(-\\infty, -2] \\cup [4, \\infty)$. $|2x + 2| \\le 6$ es $|x + 1| \\le 3$: $[-4, 2]$. $|5 - x| = |x - 5|$, así que $|5 - x| > 2$ es $(-\\infty, 3) \\cup (7, \\infty)$.',
-            { hint: 'En |x − c| el poste está en c (ojo: |x + 4| es |x − (−4)|). «Menor que» es donde el perro alcanza; «mayor que», donde el gato está a salvo. Con ≤ o ≥ las puntas cuentan.' }),
+            { hint: 'En |x − c| el poste está en c; un + dentro de las barras deja el poste en un número negativo. «Menor que» es donde el perro alcanza; «mayor que», donde el gato está a salvo. Con ≤ o ≥ las puntas cuentan.' }),
             play('candado-absoluto', 'Gira las ruedas para escribir la desigualdad del conjunto y **abre el candado**', {
               min: -8, max: 8,
               rounds: [{ c: 3, rel: '<', r: 4 }, { c: -1, rel: '>=', r: 2.5 }, { c: 0, rel: '<=', r: 3 }],

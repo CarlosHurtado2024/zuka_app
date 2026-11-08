@@ -134,7 +134,7 @@ GAMES['sombra-equivalente'] = (() => {
           p.text(chipText(ch), b.x + b.w / 2, b.y + b.h / 2);
         });
         p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.BOTTOM);
-        p.text('cada ficha se aplica a los dos lados', W / 2, chipBoxes[0].y - 6);
+        if (!locked) p.text('cada ficha se aplica a los dos lados', W / 2, chipBoxes[0].y - 6);
         if (locked && !roundOk({ ops: ops[cur] }, r)) { p.fill(C.ok); p.textStyle(p.BOLD); p.textSize(13); p.textAlign(p.CENTER, p.CENTER); p.text(`era x ${SYM[target.rel]} ${frac(target.p)}`, W / 2, ly + 66); }
       };
 
