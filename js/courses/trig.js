@@ -547,8 +547,8 @@ const COURSE_TRIG = {
               { hint: 'Para cada número calcula el módulo con Pitágoras y ubica el punto: los que están sobre un eje tienen ángulos de 0°, 90°, 180° o 270°.' }),
             num('¿Cuál es el módulo de $z = 5 - 12i$?', 13, '$r = \\sqrt{25 + 144} = \\sqrt{169} = 13$.',
               { hint: 'El módulo es la distancia del punto (5, −12) al origen: usa Pitágoras con los dos catetos.' }),
-            num('Argumento, en grados entre $0^\\circ$ y $360^\\circ$, de $z = -\\sqrt3 + i$', 150, 'El punto $(-\\sqrt3, 1)$ está en el segundo cuadrante; el ángulo de referencia es $30^\\circ$ porque $\\tfrac{1}{\\sqrt3} = \\tan 30^\\circ$: $\\theta = 180^\\circ - 30^\\circ = 150^\\circ$.',
-              { suffix: '°', hint: 'Ubica el punto: a negativo y b positivo. Halla el ángulo agudo con |b| / |a| y llévalo a ese cuadrante.' }),
+            num('Argumento, en grados entre $0^\\circ$ y $360^\\circ$, de $z = -1 - i$', 225, 'El punto $(-1, -1)$ está en el tercer cuadrante; el ángulo de referencia es $45^\\circ$ porque $\\tfrac{1}{1} = \\tan 45^\\circ$: $\\theta = 180^\\circ + 45^\\circ = 225^\\circ$.',
+              { suffix: '°', hint: 'Ubica el punto: a y b negativos. Halla el ángulo agudo con |b| / |a| y llévalo a ese cuadrante.' }),
           ],
         },
         {
@@ -574,15 +574,15 @@ const COURSE_TRIG = {
               { hint: 'Los hilos son módulos y los rayos son ángulos. Al multiplicar, los módulos se multiplican (no se suman) y los ángulos se suman; al dividir, todo al revés. Si el ángulo se pasa de 360° o queda negativo, súmale o réstale una vuelta.' }),
             play('espiral-potencias', 'Multiplica por z hasta caer justo en la estrella', {
               rounds: [
-                { z: { r: Math.SQRT2, deg: 45 }, goal: { r: 8, deg: 270 }, zLabel: '1 + i', label: '−8i' },
-                { z: { r: 1, deg: 60 }, goal: { r: 1, deg: 0 }, zLabel: 'cis 60°', label: '1' },
+                { z: { r: Math.SQRT2, deg: 315 }, goal: { r: 8, deg: 90 }, zLabel: '1 − i', label: '8i' },
+                { z: { r: 1, deg: 72 }, goal: { r: 1, deg: 0 }, zLabel: 'cis 72°', label: '1' },
                 { z: { r: 2, deg: 90 }, goal: { r: 16, deg: 0 }, zLabel: '2i', label: '16' },
                 { z: { r: 1, deg: 135 }, goal: { r: 1, deg: 270 }, zLabel: 'cis 135°', label: '−i' },
               ],
-            }, 'De Moivre: $z^n = r^n\\,\\mathrm{cis}\\,n\\theta$. $(\\sqrt2)^6 = 8$ y $6 \\cdot 45^\\circ = 270^\\circ$: $n = 6$. $6 \\cdot 60^\\circ = 360^\\circ$: $n = 6$. $2^4 = 16$ y $4 \\cdot 90^\\circ = 360^\\circ$: $n = 4$. $2 \\cdot 135^\\circ = 270^\\circ$: $n = 2$.',
+            }, 'De Moivre: $z^n = r^n\\,\\mathrm{cis}\\,n\\theta$. $(\\sqrt2)^6 = 8$ y $6 \\cdot 315^\\circ = 1890^\\circ$, coterminal con $90^\\circ$: $n = 6$. $5 \\cdot 72^\\circ = 360^\\circ$: $n = 5$. $2^4 = 16$ y $4 \\cdot 90^\\circ = 360^\\circ$: $n = 4$. $2 \\cdot 135^\\circ = 270^\\circ$: $n = 2$.',
               { hint: 'Cada multiplicación suma θ al ángulo y multiplica el módulo por r. Busca un n que dé el módulo de la estrella y, a la vez, un ángulo coterminal con el suyo.' }),
-            num('Calcula $(1 - i)^4$ (es un número real)', -4, '$1 - i = \\sqrt2\\,\\mathrm{cis}\\,315^\\circ$, así que $(1 - i)^4 = 4\\,\\mathrm{cis}\\,1260^\\circ = 4\\,\\mathrm{cis}\\,180^\\circ = -4$.',
-              { hint: 'Pasa 1 − i a forma polar, eleva el módulo a la cuarta y multiplica el ángulo por 4. Quita vueltas completas para ver dónde cae.' }),
+            num('Calcula $(-1 + i)^4$ (es un número real)', -4, '$-1 + i = \\sqrt2\\,\\mathrm{cis}\\,135^\\circ$, así que $(-1 + i)^4 = 4\\,\\mathrm{cis}\\,540^\\circ = 4\\,\\mathrm{cis}\\,180^\\circ = -4$.',
+              { hint: 'Pasa −1 + i a forma polar, eleva el módulo a la cuarta y multiplica el ángulo por 4. Quita vueltas completas para ver dónde cae.' }),
             play('flor-de-raices', 'Gira la flor y elige su radio para que cada pétalo sea una raíz', {
               rounds: [
                 { n: 4, r: 16, deg: 240, label: '−8 − 8√3 i' },
