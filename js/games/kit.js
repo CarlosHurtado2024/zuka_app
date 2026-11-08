@@ -99,3 +99,65 @@ function nearest(points, x, y, radius) {
   });
   return best;
 }
+
+// ---------- Ayudas para juegos de funciones (plano cartesiano) ----------
+// Vista de un plano en el rectángulo `box` (píxeles) con rangos xr, yr: X/Y pasan a píxeles, toX/toY vuelven.
+function planeView(box, xr, yr) {
+  const mx = lineMap(xr[0], xr[1], box.x, box.x + box.w), my = lineMap(yr[0], yr[1], box.y + box.h, box.y);
+  return { box, xr, yr, X: mx.toPx, Y: my.toPx, toX: mx.toVal, toY: my.toVal };
+}
+
+// Tarjeta con cuadrícula entera, ejes y números (cada 1 o cada 2 según el espacio).
+function drawPlane(p, C, v) {
+  const { box, xr, yr } = v;
+  p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(box.x, box.y, box.w, box.h, 10);
+  const ux = box.w / (xr[1] - xr[0]), uy = box.h / (yr[1] - yr[0]);
+  for (let x = Math.ceil(xr[0]); x <= xr[1]; x++) { p.stroke(x === 0 ? C.mute : C.line); p.strokeWeight(x === 0 ? 1.6 : 0.6); p.line(v.X(x), box.y + 2, v.X(x), box.y + box.h - 2); }
+  for (let y = Math.ceil(yr[0]); y <= yr[1]; y++) { p.stroke(y === 0 ? C.mute : C.line); p.strokeWeight(y === 0 ? 1.6 : 0.6); p.line(box.x + 2, v.Y(y), box.x + box.w - 2, v.Y(y)); }
+  p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(10);
+  const sx = ux < 22 ? 2 : 1, sy = uy < 22 ? 2 : 1;
+  const ax = Math.min(Math.max(v.Y(0), box.y + 2), box.y + box.h - 14), ay = Math.min(Math.max(v.X(0), box.x + 12), box.x + box.w - 2);
+  p.textAlign(p.CENTER, p.TOP);
+  for (let x = Math.ceil(xr[0] / sx) * sx; x <= xr[1]; x += sx) if (x !== 0 && x > xr[0] && x < xr[1]) p.text(String(x).replace('-', '−'), v.X(x), ax + 2);
+  p.textAlign(p.RIGHT, p.CENTER);
+  for (let y = Math.ceil(yr[0] / sy) * sy; y <= yr[1]; y += sy) if (y !== 0 && y > yr[0] && y < yr[1]) p.text(String(y).replace('-', '−'), ay - 3, v.Y(y));
+  p.textAlign(p.CENTER, p.CENTER);
+}
+
+// Curva y = f(x) entre x0 y x1, recortada a la tarjeta; corta el trazo en saltos y donde f no existe.
+function drawCurve(p, v, f, x0 = v.xr[0], x1 = v.xr[1], n = 240) {
+  const lo = v.yr[0] - (v.yr[1] - v.yr[0]), hi = v.yr[1] + (v.yr[1] - v.yr[0]);
+  p.noFill(); let open = false, prev = null;
+  const ctx = p.drawingContext; ctx.save(); ctx.beginPath(); ctx.rect(v.box.x, v.box.y, v.box.w, v.box.h); ctx.clip();
+  for (let k = 0; k <= n; k++) {
+    const x = x0 + (x1 - x0) * k / n, y = f(x);
+    const good = Number.isFinite(y) && y > lo && y < hi && !(prev != null && Math.abs(y - prev) > (v.yr[1] - v.yr[0]));
+    if (good && !open) { p.beginShape(); open = true; }
+    if (!good && open) { p.endShape(); open = false; }
+    if (good) p.vertex(v.X(x), v.Y(y));
+    prev = Number.isFinite(y) ? y : null;
+  }
+  if (open) p.endShape();
+  ctx.restore();
+}
+
+// Pestañas de rondas (44 × 30 px arriba a la izquierda) y su dibujo; colorOf(i) da el borde.
+function roundTabs(n) { return Array.from({ length: n }, (_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 })); }
+function drawTabs(p, C, tabs, cur, colorOf) {
+  tabs.forEach((tb, i) => {
+    p.stroke(colorOf(i)); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(tb.x, tb.y, tb.w, tb.h, 8);
+    p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, tb.x + tb.w / 2, tb.y + tb.h / 2);
+  });
+}
+const hitBox = (b, x, y) => !!b && x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
+// Texto de un número con el signo menos tipográfico y fracciones simples (½, ⅓…).
+function numTxt(v) {
+  const s = v < 0 ? '−' : '', a = Math.abs(v), fr = { 0.5: '½', 0.25: '¼', 0.75: '¾' }, w = Math.floor(a), d = +(a - w).toFixed(4);
+  if (fr[d]) return s + (w ? w : '') + fr[d];
+  return s + String(+a.toFixed(3));
+}
+// Escribe `txt` centrado, encogiendo la letra hasta que quepa en `maxW`.
+function fitText(p, txt, x, y, maxW, size) {
+  p.textSize(size); while (size > 9 && p.textWidth(txt) > maxW) { size -= 1; p.textSize(size); }
+  p.text(txt, x, y);
+}

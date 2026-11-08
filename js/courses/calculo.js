@@ -158,97 +158,253 @@ const COURSE_CALC = {
       title: 'Funciones',
       lessons: [
         {
-          id: 'alg-52', title: 'Funciones, dominio y rango',
-          // Libro UdeA §5.3. Pendiente: video y juegos p5.
+          id: 'alg-52', title: 'Funciones: dominio, rango y simetría',
+          // Clase 4 del cronograma (C5). Spec 2026-11-08-calculo-unidad-2.
           clip: { scenes: [
-            sc(6, 'Una **función** asigna a cada elemento del dominio **exactamente un** valor. Se escribe $y = f(x)$: $x$ es el argumento y $f(x)$ su imagen.', { steps: ['$f(x) = 2x + 3 \\Rightarrow f(2) = 7$', 'Dominio: las entradas permitidas · Rango: las salidas que ocurren'] }),
-            sc(6, 'El **dominio natural** excluye lo que no se puede calcular: denominadores cero y raíces pares de negativos.', { steps: ['$f(x) = \\dfrac{1}{x^2 - x}$: dominio $\\mathbb{R} \\setminus \\{0, 1\\}$', '$g(x) = \\sqrt{x - 2}$: dominio $[2, \\infty)$'] }),
-            sc(6, 'El **rango** se lee en la gráfica como la sombra sobre el eje $y$.', { title: '$f(x) = x^2$', viz: { type: 'graph', xr: [-3, 3], yr: [0, 9], f: x => x * x }, steps: ['Rango de $x^2$: $[0, \\infty)$'] }),
-            sc(5, '**Criterio de la recta vertical**: una curva es función si ninguna recta vertical la corta dos veces.', { steps: ['$y = x^2$ sí es función de $x$', '$x = y^2$ no lo es: en $x = 4$ hay $y = 2$ y $y = -2$'] }),
+            sc(6, 'Una **función** es una máquina: a cada entrada le da **exactamente una** salida. Se escribe $y = f(x)$.', { steps: ['Una curva es función si ninguna recta vertical la corta dos veces'] }),
+            sc(6, 'El **dominio natural** son las entradas que la máquina acepta: nada de dividir entre cero ni raíces pares de negativos.', { steps: ['$\\dfrac{1}{x - 2}$: dominio $\\mathbb{R} \\setminus \\{2\\}$', '$\\sqrt{x + 1}$: dominio $[-1, \\infty)$'] }),
+            sc(6, 'El **rango** es la sombra de la gráfica sobre el eje $y$; el dominio, su sombra sobre el eje $x$.', { title: '$f(x) = x^2 - 1$', viz: { type: 'graph', xr: [-3, 3], yr: [-2, 8], f: x => x * x - 1 }, steps: ['Rango: $[-1, \\infty)$'] }),
+            sc(6, '**Par**: $f(-x) = f(x)$, espejo en el eje $y$. **Impar**: $f(-x) = -f(x)$, media vuelta en el origen.', { steps: ['$x^2$ es par · $x^3$ es impar'] }),
+            sc(5, 'Una función **crece** si al avanzar a la derecha sube y **decrece** si baja.', { steps: ['$x^2$ decrece en $(-\\infty, 0]$ y crece en $[0, \\infty)$'] }),
           ] },
           ex: [
-            mc('¿Qué es una función en matemáticas?', ['Una relación que asigna un único valor de salida a cada valor de entrada', 'Una relación que asigna varios valores de salida a un valor de entrada', 'Una operación que siempre da el mismo resultado', 'Una fórmula que describe una línea recta'], 0, 'Lo esencial es la unicidad: cada entrada tiene una sola salida; no hace falta que sea una recta.'),
-            mc('¿Cuál de las siguientes NO es una función?', ['$h(x) = \\pm\\sqrt{x}$', '$f(x) = x + 2$', '$g(x) = x^2 - 4$', '$k(x) = 3x - 7$'], 0, '$\\pm\\sqrt{x}$ da dos salidas para cada $x > 0$ (por ejemplo $\\pm 2$ para $x = 4$): viola la unicidad.'),
-            num('Si $f(x) = 2x + 3$, ¿cuál es el valor de $f(2)$?', 7, 'Se sustituye: $f(2) = 2(2) + 3 = 7$.'),
-            mc('¿Cuál es el dominio de $f(x) = \\sqrt{x - 2}$?', ['$[2, \\infty)$', '$(2, \\infty)$', '$(-\\infty, 2]$', '$(-\\infty, 2)$'], 0, 'La raíz cuadrada necesita $x - 2 \\ge 0$, es decir $x \\ge 2$; el 2 sí entra porque $\\sqrt0 = 0$.'),
-            mc('El dominio de $f(x) = \\dfrac{x + 1}{x^2 - 4}$ es', ['$\\mathbb{R} \\setminus \\{-2, 2\\}$', '$\\mathbb{R} \\setminus \\{2\\}$', '$(-\\infty, 0)$', '$[2, \\infty)$'], 0, 'El denominador $x^2 - 4 = (x - 2)(x + 2)$ se anula en $2$ y en $-2$: se excluyen los dos.'),
-            mc('¿Cuál es el rango de $f(x) = |x|$?', ['$[0, \\infty)$', '$(-\\infty, \\infty)$', '$(-\\infty, 0]$', '$(-1, 1)$'], 0, 'El valor absoluto nunca es negativo y toma todos los valores $\\ge 0$ (por ejemplo $|5| = 5$ y $|0| = 0$).'),
-            num('Si $f(x) = x^3$, ¿cuál es el valor de $f(-2)$?', -8, '$(-2)^3 = (-2)(-2)(-2) = -8$: el cubo conserva el signo.'),
+            play('proyector-sombras', 'Proyecta las sombras: marca el **dominio** (eje $x$) y el **rango** (eje $y$) de cada gráfica', {
+              rounds: [
+                { f: x => Math.sqrt(x + 3), xr: [-5, 5], yr: [-2, 5], dom: [-3, null, true, false], ran: [0, null, true, false] },
+                { f: x => 4 - x * x, xr: [-4, 4], yr: [-6, 5], dom: [-2, 3, true, false], ran: [-5, 4, false, true] },
+                { f: x => 2 - Math.abs(x - 1), xr: [-5, 5], yr: [-5, 4], dom: [null, null, false, false], ran: [null, 2, false, true] },
+              ],
+            }, '1) $\\sqrt{x + 3}$ empieza en $x = -3$ con altura 0 y sigue sin fin: dominio $[-3, \\infty)$, rango $[0, \\infty)$. 2) El trozo de $4 - x^2$ va de $x = -2$ (lleno) a $x = 3$ (vacío); su punto más alto es 4 y el más bajo se acerca a $-5$ sin tocarlo: rango $(-5, 4]$. 3) $2 - |x - 1|$ existe para todo $x$ y su pico está en 2: rango $(-\\infty, 2]$.',
+              { hint: 'La sombra sobre el eje x es lo que la gráfica cubre de izquierda a derecha; sobre el eje y, de abajo arriba. Un punto vacío no proyecta su extremo, y si la gráfica sigue sin fin el corchete va al borde (∞).' }),
+            play('dibuja-intervalo', 'Dibuja el dominio de $h(x) = \\sqrt{5 - x} + \\sqrt{x + 2}$', { min: -5, max: 7, a: -2, b: 5, aClosed: true, bClosed: true, set: 'dominio de h' },
+              'Las dos raíces deben existir a la vez: $5 - x \\ge 0$ da $x \\le 5$ y $x + 2 \\ge 0$ da $x \\ge -2$. Juntas: $[-2, 5]$ (los extremos entran porque $\\sqrt0 = 0$).',
+              { hint: 'Cada raíz cuadrada pide que lo de adentro no sea negativo. Plantea las dos condiciones y quédate con los x que cumplen ambas.' }),
+            play('completa-simetria', 'Completa la mitad izquierda para que cada gráfica tenga la simetría pedida', {
+              rounds: [
+                { mode: 'par', pts: [[1, 3], [2, 1], [3, 2]], y0: 2, yr: [-4, 4] },
+                { mode: 'impar', pts: [[1, 2], [2, 3], [3, -1]], yr: [-4, 4] },
+              ],
+            }, 'Par: $f(-1) = 3$, $f(-2) = 1$, $f(-3) = 2$ (las mismas alturas). Impar: $f(-1) = -2$, $f(-2) = -3$, $f(-3) = 1$ (alturas con el signo cambiado).',
+              { hint: 'Par: el punto en −x queda a la misma altura que el de x. Impar: queda a la misma distancia del eje x, pero del otro lado.' }),
+            num('Si $f(x) = x^2 - 3x$, ¿cuánto vale $f(-2)$?', 10,
+              '$f(-2) = (-2)^2 - 3(-2) = 4 + 6 = 10$.',
+              { hint: 'Reemplaza cada x por (−2), con paréntesis: el cuadrado de un negativo es positivo y restar un negativo es sumar.' }),
+            num('La función $f(x) = x^2 - 6x + 2$ decrece en $(-\\infty, a]$ y crece en $[a, \\infty)$. ¿Cuánto vale $a$?', 3,
+              'Es una parábola que abre hacia arriba: baja hasta el vértice y luego sube. El vértice está en $x = -\\tfrac{-6}{2} = 3$.',
+              { hint: 'Una parábola que abre hacia arriba baja hasta su vértice y desde ahí sube. El vértice está en x = −b/(2a).' }),
           ],
         },
         {
-          id: 'alg-61', title: 'Transformaciones y tipos de funciones',
-          // Libro UdeA §6.1–6.2. Pendiente: video y juegos p5.
+          id: 'calc-tipos', title: 'Tipos de funciones',
+          // Clase 5 del cronograma (C6).
           clip: { scenes: [
-            sc(6, '**Traslaciones**: $f(x) + k$ sube la gráfica $k$ unidades; $f(x - h)$ la corre $h$ a la derecha.', { steps: ['$y = x^2 + 2$: la parábola, 2 arriba', '$y = (x - 3)^2$: la parábola, 3 a la derecha'] }),
-            sc(5, '**Alargamientos**: $a \\cdot f(x)$ estira verticalmente si $a > 1$ y encoge si $0 < a < 1$; $f(cx)$ encoge horizontalmente si $c > 1$.', { steps: ['$y = 3x^2$ es más «flaca» que $y = x^2$'] }),
-            sc(6, 'Función **par**: $f(-x) = f(x)$, simétrica respecto al eje $y$. **Impar**: $f(-x) = -f(x)$, simétrica respecto al origen.', { steps: ['$x^2$, $|x|$, $x^4 + 1$ son pares', '$x$, $x^3$, $\\tfrac1x$ son impares'] }),
-            sc(6, 'Una función **por tramos** usa una fórmula distinta en cada intervalo: hay que mirar en cuál cae el $x$.', { steps: ['$f(x) = x + 2$ si $x < 0$; $3x - 1$ si $x \\ge 0$', '$f(-3) = -1 \\qquad f(0) = -1 \\qquad f(2) = 5$'] }),
-            sc(6, '**Inyectiva** (uno a uno): entradas distintas dan salidas distintas. **Sobreyectiva** (sobre): todo el codominio se alcanza. **Biyectiva**: las dos cosas.', { steps: ['$f(x) = 2x + 1$ es biyectiva en $\\mathbb{R}$', '$f(x) = x^2$ no es inyectiva: $f(2) = f(-2)$'] }),
+            sc(5, '**Constante** $f(x) = c$: una recta horizontal. **Lineal** $f(x) = mx + b$: una recta inclinada.', { steps: ['$f(x) = 3$ · $f(x) = 2x - 1$'] }),
+            sc(5, '**Cuadrática** $ax^2 + bx + c$: una parábola. **Polinómica**: suma de potencias enteras de $x$.', { steps: ['$f(x) = (x + 1)(x - 2)^2$: corta en $-1$ y rebota en $2$'] }),
+            sc(5, 'Cada raíz $r$ aporta un factor $(x - r)$. Si la raíz va dos veces, la gráfica toca el eje y rebota.', { steps: ['El signo de $a$ decide hacia dónde se va la gráfica a la derecha'] }),
+            sc(5, '**Potencia** $f(x) = x^n$: con $n$ par es simétrica en el eje $y$; con $n$ impar, en el origen.', { steps: ['$x^{1/2} = \\sqrt{x}$ también es una potencia'] }),
+            sc(6, '**Racional**: cociente de polinomios. Donde el denominador se anula hay una asíntota vertical.', { steps: ['$\\dfrac{1}{x}$: asíntotas $x = 0$ y $y = 0$', '$\\dfrac{1}{x - 2} + 1$: asíntotas $x = 2$ y $y = 1$'] }),
           ] },
           ex: [
-            mc('La gráfica de $y = f(x) + 2$ es la de $y = f(x)$', ['trasladada 2 unidades hacia arriba', 'trasladada 2 unidades a la derecha', 'alargada verticalmente al doble', 'reflejada respecto al eje $x$'], 0, 'Sumar una constante por fuera de $f$ mueve cada punto verticalmente: $(x, f(x)) \\to (x, f(x) + 2)$.'),
-            mc('La gráfica de $y = f(x - 3)$ es la de $y = f(x)$', ['trasladada 3 unidades a la derecha', 'trasladada 3 unidades a la izquierda', 'trasladada 3 unidades hacia abajo', 'encogida horizontalmente'], 0, 'Para obtener el mismo valor que $f$ daba en $x$ ahora hay que entrar con $x + 3$: la gráfica se corre a la derecha.'),
-            mc('Si $f(x) = x + 2$ para $x < 0$ y $f(x) = 3x - 1$ para $x \\ge 0$, ¿cuánto vale $f(-3)$?', ['$-1$', '$0$', '$-10$', '$5$'], 0, 'Como $-3 < 0$ se usa el primer tramo: $f(-3) = -3 + 2 = -1$.'),
-            mc('Si $f(x) = 2x - 1$ para $x < 0$, $f(0) = 0$ y $f(x) = x + 2$ para $x > 0$, ¿cuánto vale $f(0)$?', ['$0$', '$1$', '$2$', '$-1$'], 0, 'El tramo del medio dice explícitamente que $f(0) = 0$; los otros tramos no incluyen al cero.'),
-            mc('¿Cuál de las siguientes funciones es inyectiva?', ['$f(x) = 2x + 3$', '$f(x) = x^2$', '$f(x) = 1 - x^2$', '$f(x) = |x|$'], 0, 'Las otras tres repiten valores ($f(1) = f(-1)$). En $2x + 3$, si $2x_1 + 3 = 2x_2 + 3$ entonces $x_1 = x_2$.'),
-            mc('Si una función $f$ es biyectiva, entonces', ['es inyectiva y sobreyectiva a la vez', 'es inyectiva pero no sobreyectiva', 'tiene más de una preimagen para cada valor', 'no tiene inversa'], 0, 'Biyectiva = uno a uno y sobre. Justamente por eso tiene función inversa.'),
-            play('clasifica-cartas', 'Desliza cada función: ¿es **par** o **impar**?', {
-              left: 'Par', right: 'Impar',
-              cards: [
-                { text: 'f(x) = x²', side: 'left', why: '(−x)² = x²: simétrica respecto al eje y.' },
-                { text: 'f(x) = x³', side: 'right', why: '(−x)³ = −x³: simétrica respecto al origen.' },
-                { text: 'f(x) = |x|', side: 'left', why: '|−x| = |x|.' },
-                { text: 'f(x) = 1/x', side: 'right', why: '1/(−x) = −1/x.' },
-                { text: 'f(x) = x⁴ + 1', side: 'left', why: '(−x)⁴ + 1 = x⁴ + 1.' },
-                { text: 'f(x) = 5x', side: 'right', why: '5(−x) = −5x.' },
+            play('raices-imanes', 'Pon los imanes en las raíces y ajusta $a$ para calcar cada polinomio', {
+              rounds: [
+                { roots: [-1, 3], a: -1, xr: [-4, 5], yr: [-5, 6], mark: [0, 3] },
+                { roots: [-3, 0, 0], a: 1, xr: [-5, 3], yr: [-3, 7], mark: [-2, 4] },
+                { roots: [-2, 1, 3], a: 0.5, xr: [-4, 5], yr: [-6, 6], mark: [0, 3] },
               ],
-            }, 'Par: $f(-x) = f(x)$ (potencias pares, $|x|$). Impar: $f(-x) = -f(x)$ (potencias impares, $\\tfrac1x$). Sumar una constante a una función impar la vuelve ni par ni impar.'),
+            }, '1) $y = -(x + 1)(x - 3)$. 2) $y = x^2(x + 3)$: en 0 la curva rebota (raíz doble). 3) $y = \\tfrac12(x + 2)(x - 1)(x - 3)$, que en $x = 0$ vale $\\tfrac12 \\cdot 6 = 3$.',
+              { hint: 'Cada corte con el eje x es una raíz r y aporta el factor (x − r); si la curva solo toca el eje y rebota, esa raíz va dos veces. Luego cambia a hasta que la curva pase por el punto rotulado.' }),
+            play('cruz-asintotas', 'Lleva la cruz de asíntotas a su lugar en cada función racional', {
+              rounds: [
+                { p: 1, q: 2, h: -1, xr: [-6, 6], yr: [-6, 6] },
+                { p: -2, q: 5, h: 2, xr: [-6, 6], yr: [-6, 6] },
+                { p: 3, q: -3, h: -2, xr: [-6, 6], yr: [-6, 6] },
+              ],
+            }, 'La asíntota vertical está donde el denominador vale cero y la horizontal es el cociente de los coeficientes de $x$: 1) $x = -1$, $y = 1$. 2) $x = 2$, $y = -2$. 3) $x = -2$, $y = 3$.',
+              { hint: 'La vertical va donde el denominador se hace cero. Para la horizontal piensa en x enorme: los números sueltos ya no pesan y queda el cociente de los coeficientes de x.' }),
+            play('une-parejas', 'Une cada función con su tipo', {
+              left: ['f(x) = −7', 'f(x) = 4 − 3x', 'f(x) = 2x² + x', 'f(x) = x⁴ − x + 1', 'f(x) = ∛x', 'f(x) = (x + 1)/(x² − 4)'],
+              right: ['constante', 'lineal', 'cuadrática', 'polinómica de grado 4', 'potencia', 'racional', 'exponencial'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]],
+            }, 'Sin $x$: constante. Grado 1: lineal. Grado 2: cuadrática. Grado 4: polinómica. $\\sqrt[3]{x} = x^{1/3}$ es una potencia. Un polinomio entre otro es racional. Ninguna tiene la $x$ en el exponente: «exponencial» sobra.',
+              { hint: 'Mira el mayor exponente de x y si x aparece en un denominador. Una potencia es x elevado a un número fijo, que puede ser una fracción.' }),
+            num('Una función lineal cumple $f(1) = 5$ y $f(3) = 11$. ¿Cuánto vale $f(0)$?', 2,
+              'Pendiente: $\\tfrac{11 - 5}{3 - 1} = 3$. Desde $f(1) = 5$, un paso a la izquierda baja 3: $f(0) = 2$.',
+              { hint: 'Con los dos puntos sale la pendiente (subida entre avance); luego retrocede un paso desde x = 1.' }),
+            num('La función potencia $f(x) = k\\,x^3$ cumple $f(2) = 24$. ¿Cuánto vale $k$?', 3,
+              '$k \\cdot 2^3 = 24$, o sea $8k = 24$ y $k = 3$.',
+              { hint: 'Reemplaza x = 2, calcula la potencia y despeja k de la igualdad con 24.' }),
           ],
         },
         {
           id: 'alg-53', title: 'Operaciones y composición de funciones',
-          // Libro UdeA §5.4–5.5. Pendiente: video y juegos p5.
+          // Clase 6 del cronograma (C7).
           clip: { scenes: [
-            sc(6, 'Dos funciones se **suman, restan, multiplican y dividen** punto a punto. El dominio es la intersección de los dominios (y $g(x) \\ne 0$ en el cociente).', { steps: ['$(f + g)(x) = f(x) + g(x) \\qquad (fg)(x) = f(x)\\,g(x)$', '$\\left(\\tfrac{f}{g}\\right)(x) = \\dfrac{f(x)}{g(x)},\\ g(x) \\ne 0$'] }),
-            sc(6, 'La **composición** $g \\circ f$ aplica primero $f$ y luego $g$: $(g \\circ f)(x) = g(f(x))$.', { steps: ['$f(x) = \\dfrac{x - 3}{2},\\ g(x) = \\sqrt{x}$', '$g(f(x)) = \\sqrt{\\tfrac{x - 3}{2}} \\qquad f(g(x)) = \\dfrac{\\sqrt{x} - 3}{2}$'] }),
-            sc(5, 'En general $f \\circ g \\ne g \\circ f$: el orden importa. Para «desarmar» una función compuesta, busca la operación de afuera y la de adentro.', { steps: ['$h(x) = \\sqrt{x^2 + 1} = (f \\circ g)(x)$ con $f(x) = \\sqrt{x}$ y $g(x) = x^2 + 1$'] }),
+            sc(6, 'Las funciones se **suman, restan y multiplican punto a punto**: en cada $x$ se operan las alturas.', { steps: ['$(f + g)(x) = f(x) + g(x)$', 'Dominio: donde existen las dos (y $g \\ne 0$ si se divide)'] }),
+            sc(6, 'La **composición** encadena máquinas: $(g \\circ f)(x) = g(f(x))$, primero $f$ y luego $g$.', { steps: ['$f(x) = x + 1$, $g(x) = x^2$', '$g(f(3)) = g(4) = 16$', '$f(g(3)) = f(9) = 10$'] }),
+            sc(5, 'El orden importa: en general $g \\circ f \\ne f \\circ g$.', { steps: ['$(g \\circ f)(x) = (x + 1)^2$ · $(f \\circ g)(x) = x^2 + 1$'] }),
+            sc(5, 'Para **desarmar** una compuesta se busca la operación de adentro y la de afuera.', { steps: ['$(2x + 1)^3$: adentro $2x + 1$, afuera $u^3$'] }),
           ] },
           ex: [
-            mc('Dados $f(x) = 2x + 3$ y $g(x) = x^2$, ¿cuál es $(f + g)(x)$?', ['$x^2 + 2x + 3$', '$x^2 + 3x$', '$2x^2 + 3x + 3$', '$2x^2 + 3x + 2$'], 0, 'Se suman las expresiones: $2x + 3 + x^2 = x^2 + 2x + 3$.'),
-            mc('Si $f(x) = x^2 - 1$ y $g(x) = 2x + 3$, ¿cuál es $(f - g)(x)$?', ['$x^2 - 2x - 4$', '$x^2 + 2x + 4$', '$x^2 + 2x - 4$', '$2x^2 + 3x + 1$'], 0, '$x^2 - 1 - (2x + 3) = x^2 - 2x - 4$: el signo menos cambia los dos términos de $g$.'),
-            mc('Si $f(x) = 5x$ y $g(x) = x^2 - 4$, ¿cuál es $(fg)(x)$?', ['$5x^3 - 20x$', '$5x^2 - 4x$', '$5x^2 + 4x$', '$5x^2 - x + 4$'], 0, '$5x(x^2 - 4) = 5x^3 - 20x$.'),
-            mc('Si $f(x) = 2x + 1$ y $g(x) = x^2$, ¿cuál es $f(g(x))$?', ['$2x^2 + 1$', '$2x + 1$', '$4x + 1$', '$2x^2 + x$'], 0, 'Se mete $g$ dentro de $f$: $f(x^2) = 2(x^2) + 1 = 2x^2 + 1$.'),
-            mc('Si $f(x) = 2x - 3$ y $g(x) = \\dfrac1x$, ¿cuál es $g(f(x))$?', ['$\\dfrac{1}{2x - 3}$', '$\\dfrac{2}{x} - 3$', '$\\dfrac{2}{x - 3}$', '$2 - \\dfrac1x$'], 0, '$g(f(x)) = \\dfrac{1}{f(x)} = \\dfrac{1}{2x - 3}$. (La otra opción, $\\tfrac2x - 3$, sería $f(g(x))$.)'),
-            mc('Dados $f(x) = x + 3$ y $g(x) = x^2 + 1$, ¿cuál es $\\left(\\dfrac{f}{g}\\right)(x)$?', ['$\\dfrac{x + 3}{x^2 + 1}$', '$\\dfrac{x + 3}{x + 1}$', '$x^2 + 1$', '$\\dfrac{x}{x^2 + 1}$'], 0, 'Es el cociente de las expresiones; como $x^2 + 1$ nunca es cero, el dominio es todo $\\mathbb{R}$.'),
-            mc('Las funciones $f$ y $g$ tales que $(f \\circ g)(x) = |4x^3 + 7|$ son', ['$f(x) = |x|,\\ g(x) = 4x^3 + 7$', '$f(x) = x^3 + 7,\\ g(x) = |4x|$', '$f(x) = 4x^3 + 7,\\ g(x) = |x|$', '$f(x) = |4x|,\\ g(x) = x^3 + 7$'], 0, 'La operación de afuera es el valor absoluto ($f$) y lo de adentro, $4x^3 + 7$ ($g$): $f(g(x)) = |4x^3 + 7|$.'),
+            play('apila-alturas', 'Lleva cada cuenta a la altura de la operación pedida', {
+              rounds: [
+                { mode: 'sum', f: x => x - 1, g: x => x * x / 2, fTxt: 'x − 1', gTxt: 'x²/2', xs: [-2, -1, 0, 1, 2], xr: [-3, 3], yr: [-4, 4] },
+                { mode: 'diff', f: x => Math.abs(x), g: () => 1, fTxt: '|x|', gTxt: '1', xs: [-2, -1, 0, 1, 2], xr: [-3, 3], yr: [-3, 3] },
+                { mode: 'prod', f: x => x, g: x => x - 1, fTxt: 'x', gTxt: 'x − 1', xs: [-1, 0, 1, 2], xr: [-3, 3], yr: [-3, 4] },
+              ],
+            }, '1) $f + g$: $-1, -1.5, -1, -0.5, 3$. 2) $|x| - 1$: $1, 0, -1, 0, 1$ (la V baja una unidad). 3) $x(x - 1)$: $2, 0, 0, 2$.',
+              { hint: 'Trabaja una x a la vez: lee la altura de f y la de g en esa x (contando cuadritos) y opéralas. La cuenta va a ese resultado.' }),
+            play('tuberia-maquinas', 'Arma cada función con las máquinas, en el orden correcto', {
+              chips: [
+                { tpl: '□ + 2', f: x => x + 2 }, { tpl: '(□)²', f: x => x * x }, { tpl: '3(□)', f: x => 3 * x },
+                { tpl: '√(□)', f: Math.sqrt }, { tpl: '□ − 5', f: x => x - 5 }, { tpl: '1/(□)', f: x => 1 / x },
+              ],
+              rounds: [
+                { n: 2, input: 1, goal: x => (x + 2) ** 2, goalTxt: 'h(x) = (x + 2)²', tests: [-3, -1, 0, 2, 4] },
+                { n: 2, input: 2, goal: x => 3 * x * x, goalTxt: 'h(x) = 3x²', tests: [-2, -1, 1, 3] },
+                { n: 3, input: 3, goal: x => Math.sqrt(3 * x - 5), goalTxt: 'h(x) = √(3x − 5)', tests: [2, 3, 7, 10] },
+              ],
+            }, '1) Primero $+2$ y luego el cuadrado. 2) Primero el cuadrado y luego $\\times 3$ (al revés daría $9x^2$). 3) $\\times 3$, luego $-5$ y al final la raíz.',
+              { hint: 'La máquina que va primero es la que toca la x directamente (la de más adentro); la de afuera va al final. Sigue la bolita para ver qué le pasa al número.' }),
+            play('tuberia-maquinas', 'Con $f(x) = 3x$, $g(x) = x + 2$ y $h(x) = \\tfrac1x$, arma cada composición', {
+              chips: [
+                { tpl: '□ + 2', f: x => x + 2 }, { tpl: '3(□)', f: x => 3 * x }, { tpl: '1/(□)', f: x => 1 / x }, { tpl: '□ − 5', f: x => x - 5 },
+              ],
+              rounds: [
+                { n: 2, input: 1, goal: x => 3 * (x + 2), goalTxt: '(f ∘ g)(x)', tests: [-1, 0, 2] },
+                { n: 2, input: 1, goal: x => 3 * x + 2, goalTxt: '(g ∘ f)(x)', tests: [-1, 0, 2] },
+                { n: 2, input: 7, goal: x => 1 / (x - 5), goalTxt: '(h ∘ k)(x), k(x) = x − 5', tests: [3, 6, 9] },
+              ],
+            }, '$(f \\circ g)(x) = f(x + 2) = 3(x + 2)$: primero $g$. $(g \\circ f)(x) = g(3x) = 3x + 2$: primero $f$. $(h \\circ k)(x) = \\tfrac{1}{x - 5}$: primero $k$.',
+              { hint: 'En (f ∘ g)(x) = f(g(x)) actúa primero la función de la derecha; la que está a la izquierda del círculo actúa de última.' }),
+            num('Con $f(x) = x^2 + 1$ y $g(x) = 3x - 2$, calcula $(f \\circ g)(1)$.', 2,
+              '$g(1) = 3 - 2 = 1$ y $f(1) = 1 + 1 = 2$.',
+              { hint: 'Primero calcula g(1); ese resultado es la entrada de f.' }),
+            num('Con las mismas funciones, calcula $(g \\circ f)(2)$.', 13,
+              '$f(2) = 4 + 1 = 5$ y $g(5) = 15 - 2 = 13$.',
+              { hint: 'Ahora el orden se invierte: primero actúa f y su salida entra a g.' }),
           ],
         },
         {
-          id: 'alg-62', title: 'Función inversa',
-          // Libro UdeA §6.3. Pendiente: video y juegos p5.
+          id: 'calc-tramos', title: 'Funciones a tramos y valor absoluto',
+          // Clase 7 del cronograma (C8).
           clip: { scenes: [
-            sc(6, 'Si $f$ es biyectiva, su **inversa** $f^{-1}$ deshace lo que $f$ hace: $f^{-1}(y) = x$ si y solo si $y = f(x)$.', { steps: ['$f^{-1}(f(x)) = x \\qquad f(f^{-1}(y)) = y$'] }),
-            sc(6, 'Para hallarla: escribe $y = f(x)$, **despeja** $x$ y luego intercambia los nombres.', { steps: ['$y = 2x + 3 \\Rightarrow x = \\dfrac{y - 3}{2}$', '$f^{-1}(x) = \\dfrac{x - 3}{2}$'] }),
-            sc(6, 'Las gráficas de $f$ y $f^{-1}$ son **simétricas respecto a la recta $y = x$**: el punto $(a, b)$ de una es el $(b, a)$ de la otra.', { title: '$f(x) = x^3$ y $f^{-1}(x) = \\sqrt[3]{x}$', viz: { type: 'graph', xr: [-2, 2], yr: [-2, 2], f: x => x * x * x, points: [[1, 1, '(1, 1)'], [-1, -1, '(−1, −1)']] } }),
-            sc(5, 'Si $f$ no es inyectiva se **restringe** el dominio: $f(x) = x^2$ con $x \\ge 0$ tiene inversa $\\sqrt{x}$.', { steps: ['Sin restringir, $\\pm\\sqrt{y}$ no sería función'] }),
+            sc(6, 'Una función **a tramos** usa una fórmula distinta en cada parte del dominio, como la tarifa de un parqueadero.', { steps: ['Primero se mira en qué tramo cae $x$', 'Punto lleno: el corte pertenece a ese tramo · vacío: no'] }),
+            sc(6, 'El **valor absoluto** es una función a tramos: $|x| = x$ si $x \\ge 0$ y $|x| = -x$ si $x < 0$.', { steps: ['Su gráfica es una V con vértice en el origen'] }),
+            sc(6, 'Para graficar $|g(x)|$ se dobla hacia arriba lo que $g$ tiene bajo el eje $x$.', { title: '$|x^2 - 4|$', viz: { type: 'graph', xr: [-3, 3], yr: [-1, 5], f: x => Math.abs(x * x - 4) } }),
+            sc(5, 'Una función **algebraica** se arma con sumas, productos, cocientes y raíces de $x$.', { steps: ['$\\sqrt{x}$, $\\dfrac{x}{x + 1}$, $x\\sqrt{x + 3}$'] }),
           ] },
           ex: [
-            mc('Si $f(x) = 2x + 3$, ¿cuál es la inversa $f^{-1}(x)$?', ['$f^{-1}(x) = \\dfrac{x - 3}{2}$', '$f^{-1}(x) = \\dfrac{x + 3}{2}$', '$f^{-1}(x) = 2x - 3$', '$f^{-1}(x) = \\dfrac{x + 2}{3}$'], 0, 'De $y = 2x + 3$: $x = \\dfrac{y - 3}{2}$. Comprueba: $f^{-1}(f(1)) = f^{-1}(5) = 1$.'),
-            mc('¿Cuál de las siguientes funciones tiene inversa (en todo $\\mathbb{R}$)?', ['$f(x) = 2x + 1$', '$f(x) = x^2$', '$f(x) = 2 - x^2$', '$f(x) = |x|$'], 0, 'Solo la recta es inyectiva; las otras tres toman el mismo valor en $x$ y en $-x$.'),
-            mc('¿Qué relación hay entre las gráficas de $f(x)$ y de $f^{-1}(x)$?', ['Son simétricas respecto a la recta $y = x$', 'Son paralelas', 'Son perpendiculares', 'Son simétricas respecto al eje $y$'], 0, 'Intercambiar $x$ con $y$ refleja cada punto $(a, b)$ en $(b, a)$: eso es reflejar sobre la diagonal $y = x$.'),
-            mc('La inversa de $f(x) = x^3$ es', ['$f^{-1}(x) = \\sqrt[3]{x}$', '$f^{-1}(x) = \\dfrac{1}{x^3}$', '$f^{-1}(x) = 3x$', '$f^{-1}(x) = x^{-3}$'], 0, 'Despejando $x$ de $y = x^3$: $x = \\sqrt[3]{y}$. La raíz cúbica está definida para todo real.'),
-            num('Si $f(x) = 5x - 10$, ¿cuánto vale $f^{-1}(20)$?', 6, 'Se busca el $x$ con $f(x) = 20$: $5x - 10 = 20$, $x = 6$. Equivale a $f^{-1}(x) = \\dfrac{x + 10}{5}$ en $x = 20$.'),
-            mc('Si $f(x) = x^2$ con $x \\ge 0$, entonces $f^{-1}(x)$ es', ['$\\sqrt{x}$', '$\\pm\\sqrt{x}$', '$x^{-2}$', '$-\\sqrt{x}$'], 0, 'Con el dominio restringido a $x \\ge 0$ la función es biyectiva sobre $[0, \\infty)$ y la inversa es la raíz principal $\\sqrt{x}$.'),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: 'Toda función tiene inversa', truth: false, why: 'Solo las biyectivas; x² en R no la tiene.' },
-                { text: 'f⁻¹(f(x)) = x para todo x del dominio de f', truth: true, why: 'La inversa deshace lo que hace f.' },
-                { text: 'La inversa de una recta de pendiente m ≠ 0 es una recta de pendiente 1/m', truth: true, why: 'De y = mx + b sale x = (y − b)/m.' },
-                { text: '(a, b) está en f si y solo si (b, a) está en f⁻¹', truth: true, why: 'Es la definición: se intercambian entrada y salida.' },
-                { text: 'f(x) = x² es inyectiva en todo R', truth: false, why: 'f(2) = f(−2) = 4.' },
+            play('arma-tramos', 'Arma la gráfica de cada función a tramos', {
+              rounds: [
+                { c: 0, xr: [-3, 4], yr: [-6, 5], left: { m: 2, b: 1 }, right: { m: -1, b: 3 }, leftIncl: false, txt: ['2x + 1   si x < 0', '3 − x   si x ≥ 0'] },
+                { c: 2, xr: [-2, 5], yr: [-3, 4], left: { m: 0, b: 2 }, right: { m: 1, b: -3 }, leftIncl: true, txt: ['2   si x ≤ 2', 'x − 3   si x > 2'] },
               ],
-            }, 'Una función tiene inversa solo si es biyectiva; entonces $f^{-1}(f(x)) = x$, los pares $(a, b)$ se voltean y las gráficas se reflejan en $y = x$.'),
+            }, '1) El primer tramo va de $(-3, -5)$ a $(0, 1)$ vacío; el segundo, de $(0, 3)$ lleno a $(4, -1)$. 2) El primero es la recta horizontal $y = 2$ hasta $(2, 2)$ lleno; el segundo va de $(2, -1)$ vacío a $(5, 2)$.',
+              { hint: 'En cada tramo solo vale su fórmula: evalúala en los dos bordes de ese tramo. En el corte, el punto lleno es del tramo cuya condición trae ≤ o ≥.' }),
+            play('dobla-negativos', 'Dobla lo necesario para dibujar el valor absoluto de cada función', {
+              rounds: [
+                { f: x => x - 1, fTxt: 'x − 1', xr: [-3, 4], yr: [-4, 4], roots: [1] },
+                { f: x => x * x - 2 * x - 3, fTxt: 'x² − 2x − 3', xr: [-3, 5], yr: [-5, 6], roots: [-1, 3] },
+                { f: x => x ** 3 - 4 * x, fTxt: 'x³ − 4x', xr: [-3, 3], yr: [-4, 4], roots: [-2, 0, 2] },
+              ],
+            }, 'Se doblan solo los trozos bajo el eje: 1) $x < 1$. 2) Entre $-1$ y $3$. 3) $x < -2$ y $0 < x < 2$.',
+              { hint: 'El valor absoluto nunca es negativo: lo que ya está arriba del eje x se queda igual y solo se reflejan los trozos que bajan del eje.' }),
+            play('dibuja-intervalo', 'Dibuja el dominio de la función algebraica $f(x) = \\sqrt{9 - x^2}$', { min: -5, max: 5, a: -3, b: 3, aClosed: true, bClosed: true, set: 'dominio de f' },
+              'Se necesita $9 - x^2 \\ge 0$, es decir $x^2 \\le 9$: $-3 \\le x \\le 3$.',
+              { hint: 'Dentro de la raíz no puede quedar un negativo: busca los x cuyo cuadrado no supere al número que está al lado.' }),
+            num('Una carrera de taxi cuesta $f(x) = 6000$ si $0 < x \\le 2$ y $f(x) = 6000 + 1500(x - 2)$ si $x > 2$ ($x$ en km). ¿Cuánto cuesta un viaje de 6 km?', 12000,
+              'Como $6 > 2$ se usa el segundo tramo: $6000 + 1500 \\cdot 4 = 12000$ pesos.',
+              { hint: 'Primero decide en qué tramo cae x = 6; luego usa solo la fórmula de ese tramo.', suffix: 'pesos' }),
+            num('Si $f(x) = |2x - 7| - 3$, ¿cuánto vale $f(1)$?', 2,
+              '$|2 - 7| - 3 = |-5| - 3 = 5 - 3 = 2$.',
+              { hint: 'Calcula lo que está dentro de las barras; si sale negativo, el valor absoluto le quita el signo. Después resta.' }),
+          ],
+        },
+        {
+          id: 'alg-61', title: 'Transformaciones de funciones',
+          // Clase 8 del cronograma (C9).
+          clip: { scenes: [
+            sc(6, '**Subir y bajar**: $f(x) + k$ sube la gráfica $k$ unidades (si $k < 0$, baja).', { steps: ['$y = x^2 + 2$: la parábola, 2 arriba'] }),
+            sc(6, '**Correr**: $f(x - h)$ corre la gráfica $h$ a la **derecha**: va al revés de lo que parece el signo.', { steps: ['$y = (x - 3)^2$: vértice en $x = 3$'] }),
+            sc(5, '**Estirar**: $a\\,f(x)$ multiplica las alturas por $a$. **Reflejar**: $-f(x)$ en el eje $x$, $f(-x)$ en el eje $y$.', { steps: ['$y = 2x^2$ es más empinada · $y = -x^2$ abre hacia abajo'] }),
+            sc(6, 'El **orden importa**: estirar y luego subir no es lo mismo que subir y luego estirar.', { steps: ['$2\\sqrt{x} + 1 \\ne 2(\\sqrt{x} + 1) = 2\\sqrt{x} + 2$'] }),
+          ] },
+          ex: [
+            play('sellos-graficas', 'Usa los sellos para llevar la gráfica base hasta la fantasma', {
+              rounds: [
+                { base: 'sq', target: { A: 1, B: 1, C: -2, D: -3 }, xr: [-3, 5], yr: [-4, 6] },
+                { base: 'abs', target: { A: -1, B: 1, C: 1, D: 2 }, xr: [-5, 4], yr: [-4, 4] },
+                { base: 'sqrt', target: { A: 2, B: 1, C: -1, D: -1 }, xr: [-1, 7], yr: [-3, 6] },
+              ],
+            }, '1) $(x - 2)^2 - 3$: dos → y tres ↓. 2) $-|x + 1| + 2$: ←, reflejo en $x$ y dos ↑. 3) $2\\sqrt{x - 1} - 1$: →, ×2 y después ↓ (si bajas antes de estirar, la bajada también se duplica).',
+              { hint: 'Lo que va dentro con la x corre la gráfica de lado y al revés del signo; lo de afuera la sube, la baja o la estira. Estira antes de subir o bajar: un ×2 posterior también duplica la subida.' }),
+            play('sellos-graficas', 'Ahora con reflejos y encogimientos', {
+              rounds: [
+                { base: 'sqrt', target: { A: 1, B: -1, C: 0, D: 0 }, xr: [-6, 3], yr: [-2, 4] },
+                { base: 'cube', target: { A: -0.5, B: 1, C: 0, D: 0 }, xr: [-3, 3], yr: [-4, 4] },
+                { base: 'recip', target: { A: 1, B: 1, C: 2, D: -1 }, xr: [-6, 3], yr: [-4, 3] },
+              ],
+            }, '1) $\\sqrt{-x}$: reflejo en el eje $y$. 2) $-\\tfrac12 x^3$: ×½ y reflejo en el eje $x$. 3) $\\tfrac{1}{x + 2} - 1$: dos ← y uno ↓.',
+              { hint: 'Reflejar en el eje x cambia el signo de toda la función (afuera); reflejar en el eje y cambia el signo de la x (adentro).' }),
+            play('une-parejas', 'Une cada fórmula con lo que le hace a la gráfica de $f$', {
+              left: ['y = f(x) − 4', 'y = f(x + 4)', 'y = 4f(x)', 'y = f(4x)', 'y = −f(x)'],
+              right: ['baja 4', 'corre 4 a la izquierda', 'estira ×4 en vertical', 'encoge en horizontal', 'refleja en el eje x', 'corre 4 a la derecha'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+            }, 'Fuera de $f$ se actúa en vertical y tal como se lee; dentro, con la $x$, en horizontal y al revés: $f(x + 4)$ corre a la izquierda y $f(4x)$ encoge. Sobra «corre 4 a la derecha», que sería $f(x - 4)$.',
+              { hint: 'Si el cambio está fuera de f actúa en vertical, tal como se lee; si está dentro, junto a la x, actúa en horizontal y al revés de lo que parece.' }),
+            num('El punto $(2, 5)$ está en la gráfica de $f$. ¿Qué altura tiene el punto correspondiente de $y = 3f(x) - 4$?', 11,
+              'La $x$ no cambia y la altura pasa a $3 \\cdot 5 - 4 = 11$.',
+              { hint: 'La x se queda igual; a la altura de f primero se le aplica el estiramiento y luego la bajada.' }),
+            num('El punto $(1, 6)$ está en la gráfica de $f$. ¿En qué $x$ queda ese punto en la gráfica de $y = f(x + 3)$?', -2,
+              'Hace falta que $x + 3 = 1$, o sea $x = -2$: la gráfica se corrió 3 a la izquierda.',
+              { hint: 'Necesitas que lo de adentro, x + 3, valga lo mismo que la entrada original del punto.' }),
+          ],
+        },
+        {
+          id: 'alg-62', title: 'Función biyectiva e inversa',
+          // Clase 9 del cronograma (C10).
+          clip: { scenes: [
+            sc(6, '**Inyectiva**: ninguna recta horizontal corta la gráfica dos veces. **Biyectiva**: inyectiva y sobre.', { steps: ['$x^3$ es inyectiva; $x^2$ no: $f(2) = f(-2)$'] }),
+            sc(6, 'La **inversa** deshace: si $f$ lleva $a$ a $b$, $f^{-1}$ lleva $b$ a $a$. Se deshace en orden contrario, como quitarse los zapatos antes que las medias.', { steps: ['$f^{-1}(f(x)) = x$'] }),
+            sc(6, 'Para hallarla: escribe $y = f(x)$ y despeja $x$.', { steps: ['$y = 2x + 3 \\Rightarrow x = \\dfrac{y - 3}{2}$', '$f^{-1}(x) = \\dfrac{x - 3}{2}$'] }),
+            sc(6, 'Las gráficas de $f$ y $f^{-1}$ son reflejos en la recta $y = x$: $(a, b)$ pasa a $(b, a)$.', { steps: ['$(1, 5)$ en $f$ ⟹ $(5, 1)$ en $f^{-1}$'] }),
+            sc(5, 'Si no es inyectiva se **restringe** el dominio: $x^2$ con $x \\ge 0$ tiene inversa $\\sqrt{x}$.'),
+          ] },
+          ex: [
+            play('espejo-diagonal', 'Refleja los puntos de $f$ en el espejo $y = x$ para dibujar $f^{-1}$', {
+              rounds: [
+                { f: x => 2 * x - 1, fTxt: '2x − 1', pts: [[-1, -3], [0, -1], [2, 3]], t: [-2, 3], range: [-5, 5] },
+                { f: x => x ** 3 + 1, fTxt: 'x³ + 1', pts: [[-1, 0], [0, 1], [1, 2]], t: [-1.6, 1.5], range: [-5, 5] },
+                { f: x => 2 ** x, fTxt: '2ˣ', pts: [[0, 1], [1, 2], [2, 4]], t: [-4, 2.3], range: [-5, 5] },
+              ],
+            }, 'Se intercambian las coordenadas: 1) $(-3, -1)$, $(-1, 0)$, $(3, 2)$. 2) $(0, -1)$, $(1, 0)$, $(2, 1)$. 3) $(1, 0)$, $(2, 1)$, $(4, 2)$: la inversa de $2^x$ es $\\log_2 x$.',
+              { hint: 'Reflejar en la recta y = x es intercambiar las coordenadas: la entrada de f pasa a ser la salida de la inversa.' }),
+            play('cofre-candados', 'Abre cada cofre: escoge las llaves en el orden correcto', {
+              rounds: [
+                { fTxt: '3x + 4', probe: 2,
+                  locks: [{ txt: '× 3', f: x => 3 * x }, { txt: '+ 4', f: x => x + 4 }],
+                  keys: [{ txt: '÷ 3', tpl: '(□)/3', f: x => x / 3 }, { txt: '− 4', tpl: '□ − 4', f: x => x - 4 }, { txt: '+ 4', tpl: '□ + 4', f: x => x + 4 }, { txt: '× 3', tpl: '3(□)', f: x => 3 * x }],
+                  order: [1, 0] },
+                { fTxt: '(x − 1)³', probe: 3,
+                  locks: [{ txt: '− 1', f: x => x - 1 }, { txt: '³', f: x => x ** 3 }],
+                  keys: [{ txt: '∛', tpl: '∛(□)', f: Math.cbrt }, { txt: '+ 1', tpl: '□ + 1', f: x => x + 1 }, { txt: '− 1', tpl: '□ − 1', f: x => x - 1 }, { txt: '³', tpl: '(□)³', f: x => x ** 3 }],
+                  order: [0, 1] },
+                { fTxt: '2√x − 5', probe: 9,
+                  locks: [{ txt: '√', f: Math.sqrt }, { txt: '× 2', f: x => 2 * x }, { txt: '− 5', f: x => x - 5 }],
+                  keys: [{ txt: '+ 5', tpl: '□ + 5', f: x => x + 5 }, { txt: '÷ 2', tpl: '(□)/2', f: x => x / 2 }, { txt: '²', tpl: '(□)²', f: x => x * x }, { txt: '− 5', tpl: '□ − 5', f: x => x - 5 }, { txt: '√', tpl: '√(□)', f: Math.sqrt }],
+                  order: [0, 1, 2] },
+              ],
+            }, '1) $f^{-1}(x) = \\dfrac{x - 4}{3}$. 2) $f^{-1}(x) = \\sqrt[3]{x} + 1$. 3) $f^{-1}(x) = \\left(\\dfrac{x + 5}{2}\\right)^2$. Siempre se quita primero el último candado, con la operación contraria.',
+              { hint: 'Para deshacer se quita primero el último candado que se cerró, con la operación contraria. Mira qué le hace f a la x, en orden, y recórrelo al revés.' }),
+            play('dibuja-intervalo', '$f(x) = (x - 2)^2$ no es inyectiva en $[-3, 6]$. Dibuja el intervalo más grande dentro de $[-3, 6]$ que contiene a $x = 5$ y donde $f$ sí es inyectiva', { min: -3, max: 6, a: 2, b: 6, aClosed: true, bClosed: true, set: 'restricción' },
+              'La parábola baja hasta su vértice en $x = 2$ y luego sube; del lado derecho no repite valores. Con el 5 adentro: $[2, 6]$.',
+              { hint: 'Una parábola es inyectiva a cada lado de su vértice: busca el vértice, quédate con el lado donde está el 5 y llega hasta el borde.' }),
+            num('Si $f(x) = 4x - 7$, ¿cuánto vale $f^{-1}(13)$?', 5,
+              'Se busca la entrada que da 13: $4x - 7 = 13$, $4x = 20$, $x = 5$.',
+              { hint: 'Busca la entrada que f convierte en 13: plantea la ecuación f(x) = 13 y despeja.' }),
+            num('Si $f(x) = x^3 + 2$, ¿cuánto vale $f^{-1}(29)$?', 3,
+              '$x^3 + 2 = 29 \\Rightarrow x^3 = 27 \\Rightarrow x = 3$.',
+              { hint: 'Quita lo que f sumó y luego deshaz el cubo con la raíz cúbica.' }),
           ],
         },
       ],
