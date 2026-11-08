@@ -60,3 +60,7 @@ video/clase_cuadratico/*_log.txt
 video/clase_ecuaciones_exp_log/videos/
 video/clase_ecuaciones_exp_log/dist/
 video/clase_ecuaciones_exp_log/*_log.txt
+video/clase_calc_c*/videos/
+video/clase_calc_c*/dist/
+video/clase_calc_c*/*_log.txt
+video/clase_calc_c*/smoke_*.txt
