@@ -10,71 +10,146 @@ const COURSE_CALC = {
       title: 'Desigualdades, valor absoluto y la recta',
       lessons: [
         {
-          id: 'alg-32', title: 'Intervalos e inecuaciones',
-          // Libro UdeA §3.1–3.3. Pendiente: video y juegos p5.
+          id: 'alg-32', title: 'Orden, intervalos e inecuaciones',
+          // Cronograma de Cálculo 2026-2, clase 1 (Del Valle, módulo 1). Video: video/clase_calc_c1 (Cálculo · Clase C1).
+          // Spec: docs/superpowers/specs/2026-11-07-calculo-unidad-1-design.md
           clip: { scenes: [
-            sc(6, 'Un **intervalo** es un trozo de la recta. Los paréntesis excluyen el extremo y los corchetes lo incluyen.', { steps: ['$(a, b) = \\{x : a < x < b\\}$', '$[a, b] = \\{x : a \\le x \\le b\\}$', '$(-\\infty, a] = \\{x : x \\le a\\}$'] }),
-            sc(6, 'Una **inecuación** se resuelve como una ecuación, pero si multiplicas o divides por un negativo, **cambias el sentido**.', { steps: ['$5 - 2x \\ge 3x + 7 \\Rightarrow -5x \\ge 2 \\Rightarrow x \\le -\\tfrac25$', 'Solución: $(-\\infty, -\\tfrac25]$'] }),
-            sc(7, 'Con productos o cocientes se estudian los **signos** por tramos: los puntos críticos son donde cada factor vale cero (o el denominador se anula).', { steps: ['$(x - 1)(x + 2) \\le 0$: críticos $-2$ y $1$', 'Signos: $+\\;|\\;-\\;|\\;+$ \\Rightarrow solución $[-2, 1]$'] }),
-            sc(6, 'Con **valor absoluto**: $|x| < b$ es $-b < x < b$, y $|x| > b$ es $x < -b$ o $x > b$.', { steps: ['$|x - 4| \\le 3 \\Rightarrow 1 \\le x \\le 7$', '$|2x + 3| > 9 \\Rightarrow x < -6$ o $x > 3$'] }),
+            sc(6, 'Los reales están **ordenados**: entre dos números distintos siempre uno es mayor (tricotomía). Sumar lo mismo a los dos lados **conserva** la desigualdad; multiplicar por un **negativo la voltea**.', { steps: ['$2 < 5 \\Rightarrow 2 + 3 < 5 + 3$', '$2 < 5 \\Rightarrow -2 > -5$'] }),
+            sc(6, 'Un **intervalo** es un trozo de la recta: el paréntesis deja fuera el extremo y el corchete lo incluye. El infinito siempre va con paréntesis.', { steps: ['$(a, b] = \\{x : a < x \\le b\\}$', '$[a, \\infty) = \\{x : x \\ge a\\}$'] }),
+            sc(6, 'Una **inecuación lineal** se despeja como una ecuación, volteando el signo si se multiplica o divide por un negativo.', { steps: ['$3 - 2x \\le x + 9 \\Rightarrow -3x \\le 6$', '$x \\ge -2$: el intervalo $[-2, \\infty)$'] }),
+            sc(7, 'Con **productos o cocientes**: los ceros de cada factor parten la recta en tramos; en cada tramo el signo no cambia. Se arma una **tabla de signos**.', { steps: ['$(x - 2)(x + 1) \\ge 0$: tramos $+\\;|\\;-\\;|\\;+$', 'Solución $(-\\infty, -1] \\cup [2, \\infty)$'] }),
+            sc(6, 'En un **cociente**, el cero del denominador nunca entra en la solución: ahí la expresión no existe.', { steps: ['$\\dfrac{x + 3}{x - 1} < 0 \\Rightarrow (-3, 1)$'] }),
           ] },
           ex: [
-            mc('Resuelve la inecuación $5 - 2x \\ge 3x + 7$', ['$x \\le -\\tfrac25$', '$x \\ge 5$', '$x > -2$', '$x < 1$'], 0, '$5 - 7 \\ge 3x + 2x$, es decir $-2 \\ge 5x$: al dividir entre 5 (positivo) no cambia el sentido: $x \\le -\\tfrac25$.'),
-            mc('¿Cuál es la solución de $(x - 1)(x + 2) \\le 0$?', ['$-2 \\le x \\le 1$', '$x \\ge 1$', '$x \\le -2$', '$x > 1$'], 0, 'Los críticos son $-2$ y $1$. Entre ellos un factor es negativo y el otro positivo: el producto es $\\le 0$ justo en $[-2, 1]$.'),
-            mc('Halla el conjunto solución de $\\dfrac{(x - 1)(2 - x)}{x + 1} < 0$', ['$x \\in (-1, 1) \\cup (2, +\\infty)$', '$x \\in (-1, 0) \\cup (1, \\infty)$', '$x \\in (-1, 1) \\cup (2, 3)$', '$x \\in (-\\infty, -1) \\cup (1, 2)$'], 0, 'Críticos: $-1$ (denominador), $1$ y $2$. Probando un valor en cada tramo, el cociente es negativo en $(-1, 1)$ y en $(2, \\infty)$; el $-1$ nunca entra.'),
-            mc('Hallar el conjunto solución de $|x + 3| \\le 2$', ['$x \\in [-5, -1]$', '$x \\in (-5, -1]$', '$x \\in [-5, -1)$', '$x \\in [1, 5]$'], 0, '$|x + 3| \\le 2$ equivale a $-2 \\le x + 3 \\le 2$; restando 3: $-5 \\le x \\le -1$, con extremos incluidos.'),
-            mc('Halle el conjunto solución de $\\left|3 + \\dfrac{5}{x}\\right| < 5$', ['$x \\in (-\\infty, -5/8) \\cup (5/2, +\\infty)$', '$x \\in (-\\infty, -5/8] \\cup (5/2, +\\infty)$', '$x \\in (-5/8, 5/2)$', '$x \\in (-\\infty, 5/8) \\cup (5/2, +\\infty)$'], 0, '$-5 < 3 + \\tfrac5x < 5$ da $-8 < \\tfrac5x < 2$. Si $x > 0$: $\\tfrac5x < 2 \\Rightarrow x > \\tfrac52$. Si $x < 0$: $\\tfrac5x > -8 \\Rightarrow 5 < -8x \\Rightarrow x < -\\tfrac58$. Como la desigualdad es estricta, los extremos no entran.'),
-            play('clasifica-cartas', 'Desliza cada conjunto: ¿se escribe con **paréntesis** (abierto) o con **corchete** (cerrado) en ese extremo?', {
-              left: 'Abierto', right: 'Cerrado',
-              cards: [
-                { text: 'x > 3, en el extremo 3', side: 'left', why: 'El 3 no cumple 3 > 3: (3, ∞).' },
-                { text: 'x ≤ −1, en el extremo −1', side: 'right', why: 'El −1 cumple −1 ≤ −1: (−∞, −1].' },
-                { text: 'Solución de |x| < 2, en el extremo 2', side: 'left', why: '|2| = 2 no es menor que 2: (−2, 2).' },
-                { text: 'Solución de (x − 1)(x + 2) ≤ 0, en el extremo 1', side: 'right', why: 'En x = 1 el producto vale 0 y 0 ≤ 0: [−2, 1].' },
-                { text: 'Solución de 1/(x − 4) > 0, en el extremo 4', side: 'left', why: 'En x = 4 la expresión no existe: (4, ∞).' },
+            play('sombra-equivalente', 'Despeja $x$ con las fichas. Vigila las **dos sombras**: tienen que coincidir', {
+              rounds: [
+                { start: { a: -3, b: 4, rel: '<', c: 2, d: -6 }, chips: [{ op: '+', k: -2, x: true }, { op: '+', k: -4 }, { op: '/', k: -5 }, { op: '+', k: 3, x: true }, { op: '/', k: 5 }] },
+                { start: { a: 2, b: 7, rel: '>=', c: 5, d: -2 }, chips: [{ op: '+', k: -5, x: true }, { op: '+', k: -7 }, { op: '/', k: -3 }, { op: '+', k: -2, x: true }, { op: '+', k: 2 }] },
+                { start: { a: -1, b: 6, rel: '<=', c: 3, d: -10 }, chips: [{ op: '+', k: -3, x: true }, { op: '+', k: -6 }, { op: '/', k: -4 }, { op: '+', k: 1, x: true }, { op: '*', k: -1 }] },
               ],
-            }, 'El extremo entra (corchete) cuando cumple la desigualdad; queda fuera (paréntesis) cuando la desigualdad es estricta o la expresión no existe allí (denominador cero). El infinito siempre va con paréntesis.'),
+            }, '$4 - 3x < 2x - 6 \\Rightarrow -5x < -10 \\Rightarrow x > 2$. $2x + 7 \\ge 5x - 2 \\Rightarrow -3x \\ge -9 \\Rightarrow x \\le 3$. $6 - x \\le 3x - 10 \\Rightarrow -4x \\le -16 \\Rightarrow x \\ge 4$. En los tres, dividir entre un negativo voltea el signo.',
+            { hint: 'Primero junta las x en un lado y los números en el otro. Si al final divides entre un número negativo, toca el signo para voltearlo: la sombra de abajo te avisa si cambiaste la solución.' }),
+            play('semaforo-signos', 'Llena la **tabla de signos** y enciende los tramos de la solución', {
+              rounds: [
+                { txt: '(x − 4)(x + 2) < 0', factors: [{ txt: 'x − 4', root: 4, s: 1 }, { txt: 'x + 2', root: -2, s: 1 }], rel: '<' },
+                { txt: 'x(x − 3)(x + 1) ≥ 0', factors: [{ txt: 'x', root: 0, s: 1 }, { txt: 'x − 3', root: 3, s: 1 }, { txt: 'x + 1', root: -1, s: 1 }], rel: '>=' },
+              ],
+            }, 'En $(x - 4)(x + 2) < 0$ el producto es negativo solo entre los ceros: $(-2, 4)$, sin los extremos porque la desigualdad es estricta. En $x(x - 3)(x + 1) \\ge 0$ los signos son $-\\,|\\,+\\,|\\,-\\,|\\,+$: $[-1, 0] \\cup [3, \\infty)$.',
+            { hint: 'Para saber el signo de un factor en un tramo, prueba un número cualquiera de ese tramo. Un factor como x − a es negativo a la izquierda de a y positivo a la derecha.' }),
+            play('semaforo-signos', 'Ahora con un **cociente**. Ojo con el cero del denominador', {
+              rounds: [
+                { txt: '(x − 5)/(x + 1) ≤ 0', factors: [{ txt: 'x − 5', root: 5, s: 1 }, { txt: 'x + 1', root: -1, s: 1, den: true }], rel: '<=' },
+                { txt: '(3 − x)/(x + 2) ≥ 0', factors: [{ txt: '3 − x', root: 3, s: -1 }, { txt: 'x + 2', root: -2, s: 1, den: true }], rel: '>=' },
+              ],
+            }, 'Los signos del cociente siguen la misma regla que los del producto. $\\dfrac{x - 5}{x + 1} \\le 0$ da $(-1, 5]$ y $\\dfrac{3 - x}{x + 2} \\ge 0$ da $(-2, 3]$: el cero del numerador entra (el cociente vale 0) y el del denominador nunca.',
+            { hint: 'El factor 3 − x es al revés: positivo a la izquierda de su cero y negativo a la derecha. El punto donde el denominador vale cero queda siempre vacío.' }),
+            play('dibuja-intervalo', 'Dibuja los números que cumplen $-5 < 3x + 1 \\le 10$', { min: -6, max: 6, a: -2, b: 3, aClosed: false, bClosed: true, set: '−5 < 3x + 1 ≤ 10' },
+              'Se hace lo mismo en las tres partes: restar 1 da $-6 < 3x \\le 9$ y dividir entre 3 (positivo) da $-2 < x \\le 3$, es decir $(-2, 3]$.',
+              { hint: 'Despeja x en las tres partes a la vez: lo que restes o dividas en el medio, hazlo también en los extremos. El signo estricto deja el extremo vacío.' }),
+            num('¿Cuál es el **mayor entero** que cumple $7 - 2x > 3x - 8$?', 2,
+              '$7 + 8 > 3x + 2x \\Rightarrow 15 > 5x \\Rightarrow x < 3$. El 3 no cumple (la desigualdad es estricta), así que el mayor entero es $2$.',
+              { hint: 'Despeja x juntando las x en un lado. Ten en cuenta que con un signo estricto el extremo no cuenta.' }),
           ],
         },
         {
-          id: 'alg-26c', title: 'Valor absoluto y desigualdades',
+          id: 'alg-26c', title: 'Desigualdades con valor absoluto',
+          // Cronograma de Cálculo 2026-2, clase 2 (Del Valle, módulo 1). Video: video/clase_calc_c2 (Cálculo · Clase C2).
           clip: { scenes: [
-            sc(5, '$|x|$ es la distancia de $x$ al cero. Por eso $|x| < 3$ son los puntos a menos de 3 del origen.', { title: '$|x| < 3 \\iff -3 < x < 3$', viz: { type: 'numberline', range: [-5, 5], sets: [[-3, 3, false, false]], label: '(−3, 3)' } }),
-            sc(5, 'Y $|x| > 3$ son los que están más lejos: dos semirrectas.', { title: '$|X| > a \\iff X < -a \\;\\text{ o }\\; X > a$', viz: { type: 'numberline', range: [-5, 5], sets: [[-Infinity, -3, false, false], [3, Infinity, false, false]], label: '(−∞, −3) ∪ (3, ∞)' } }),
-            sc(5, 'Si multiplicas o divides una desigualdad por un **negativo**, el sentido se invierte.', { steps: ['$-2x < 6$', '$x > -3$'] }),
-            sc(6, 'Para desigualdades cuadráticas, factoriza y estudia los signos:', { title: '$x^2 - x - 6 < 0$', steps: ['$(x - 3)(x + 2) < 0$', 'negativo entre las raíces'], viz: { type: 'numberline', range: [-5, 5], sets: [[-2, 3, false, false]], label: '(−2, 3)' } }),
+            sc(6, '$|x|$ es la **distancia** de $x$ al cero, y $|x - a|$ la distancia de $x$ a $a$. Por eso nunca es negativo.', { steps: ['$|-7| = 7 \\qquad |5 - 2| = |2 - 5| = 3$'] }),
+            sc(6, 'Un perro amarrado a un poste en $a$ con una correa de largo $r$ llega a los puntos con $|x - a| \\le r$: un intervalo centrado en el poste.', { title: '$|x - 2| \\le 3 \\iff -1 \\le x \\le 5$', viz: { type: 'numberline', range: [-4, 7], sets: [[-1, 5, true, true]], label: '[−1, 5]' } }),
+            sc(6, 'El gato está a salvo **fuera** del alcance: $|x - a| > r$ son dos semirrectas.', { title: '$|x - 2| > 3 \\iff x < -1 \\;\\text{ o }\\; x > 5$', viz: { type: 'numberline', range: [-4, 7], sets: [[-Infinity, -1, false, false], [5, Infinity, false, false]], label: '(−∞, −1) ∪ (5, ∞)' } }),
+            sc(6, 'Si hay un coeficiente, primero se saca: el centro y el radio aparecen solos.', { steps: ['$|2x - 6| \\le 4 \\iff 2|x - 3| \\le 4 \\iff |x - 3| \\le 2$', 'Solución $[1, 5]$'] }),
+            sc(5, '**Desigualdad triangular**: $|a + b| \\le |a| + |b|$. Juntar dos números nunca los aleja más que sumar sus tamaños.', { steps: ['$|3 + (-5)| = 2 \\le 3 + 5 = 8$'] }),
           ] },
           ex: [
-            mc('Resuelve $|2x - 5| = 7$', ['$x = 6$ o $x = -1$', '$x = 6$', '$x = 1$ o $x = -6$', '$x = -1$'], 0, '$2x - 5 = 7$ o $2x - 5 = -7$.'),
-            mc('Solución de $x^2 - x - 6 < 0$', ['$(-2, 3)$', '$(-\\infty, -2) \\cup (3, \\infty)$', '$(-3, 2)$', '$[-2, 3]$'], 0, 'La parábola es negativa entre sus raíces $-2$ y $3$ (sin incluirlas).'),
-            mc('Si $-3x \\geq 12$, entonces…', ['$x \\leq -4$', '$x \\geq -4$', '$x \\geq 4$', '$x \\leq 4$'], 0, 'Al dividir entre $-3$ se invierte el sentido.'),
-            mc('Solución de $|3x + 1| \\geq 5$', ['$x \\leq -2$ o $x \\geq \\tfrac{4}{3}$', '$-2 \\leq x \\leq \\tfrac43$', '$x \\geq \\tfrac43$', '$x \\leq -2$'], 0, '$3x + 1 \\leq -5$ o $3x + 1 \\geq 5$.'),
+            play('correa-del-perro', 'Pon el **poste**, la **correa** y la **zona** de cada desigualdad', {
+              min: -8, max: 8,
+              rounds: [
+                { txt: '|x + 4| < 2', c: -4, r: 2, out: false, closed: false },
+                { txt: '|x − 1| ≥ 3', c: 1, r: 3, out: true, closed: true },
+                { txt: '|2x + 2| ≤ 6', c: -1, r: 3, out: false, closed: true },
+                { txt: '|5 − x| > 2', c: 5, r: 2, out: true, closed: false },
+              ],
+            }, '$|x + 4| < 2$: poste en $-4$, correa 2, adentro: $(-6, -2)$. $|x - 1| \\ge 3$: afuera con puntas: $(-\\infty, -2] \\cup [4, \\infty)$. $|2x + 2| \\le 6$ es $|x + 1| \\le 3$: $[-4, 2]$. $|5 - x| = |x - 5|$, así que $|5 - x| > 2$ es $(-\\infty, 3) \\cup (7, \\infty)$.',
+            { hint: 'En |x − c| el poste está en c (ojo: |x + 4| es |x − (−4)|). «Menor que» es donde el perro alcanza; «mayor que», donde el gato está a salvo. Con ≤ o ≥ las puntas cuentan.' }),
+            play('candado-absoluto', 'Gira las ruedas para escribir la desigualdad del conjunto y **abre el candado**', {
+              min: -8, max: 8,
+              rounds: [{ c: 3, rel: '<', r: 4 }, { c: -1, rel: '>=', r: 2.5 }, { c: 0, rel: '<=', r: 3 }],
+            }, 'El centro es el punto medio de los extremos y el radio, la mitad de la distancia entre ellos. $(-1, 7)$ es $|x - 3| < 4$; $(-\\infty, -3.5] \\cup [1.5, \\infty)$ es $|x + 1| \\ge 2.5$; $[-3, 3]$ es $|x| \\le 3$.',
+            { hint: 'El centro está justo en la mitad entre los dos extremos dibujados y el radio es la distancia del centro a un extremo. Un trozo en el medio es «menor»; dos semirrectas, «mayor». Puntos llenos: con igual.' }),
+            play('distancia-justa', 'Coloca $x$ de modo que $|x + 2| = 6$', { min: -10, max: 6, a: -2, d: 6 },
+              '$|x + 2| = |x - (-2)|$ es la distancia de $x$ a $-2$. A 6 pasos de $-2$ hay dos puntos: $4$ y $-8$.',
+              { hint: 'Lee |x + 2| como la distancia de x al número −2 (no al 2). Desde ahí se puede caminar a la derecha o a la izquierda.' }),
+            num('Una pieza debe medir 75 mm con una tolerancia de 0.4 mm: se acepta si $|L - 75| \\le 0.4$. ¿Cuál es la longitud **mínima** aceptada?', 74.6,
+              '$|L - 75| \\le 0.4 \\iff 75 - 0.4 \\le L \\le 75 + 0.4$, es decir $74.6 \\le L \\le 75.4$. La mínima es $74.6$ mm.',
+              { suffix: 'mm', tol: 0.001, hint: 'La pieza puede alejarse de la medida ideal a lo sumo la tolerancia, hacia arriba o hacia abajo. La mínima está en el extremo de abajo.' }),
+            num('La ecuación $|2x - 5| = 9$ tiene dos soluciones. ¿Cuál es su **producto**?', -14,
+              '$2x - 5 = 9 \\Rightarrow x = 7$ y $2x - 5 = -9 \\Rightarrow x = -2$. El producto es $7 \\cdot (-2) = -14$.',
+              { hint: 'Lo de adentro de las barras puede valer el número de la derecha o su opuesto: resuelve las dos ecuaciones y multiplica las soluciones.' }),
           ],
         },
         {
-          id: 'alg-51', title: 'Gráficas de ecuaciones y rectas',
-          // Libro UdeA §5.1–5.2. Pendiente: video y juegos p5.
+          id: 'alg-51', title: 'Plano cartesiano, distancia y punto medio',
+          // Cronograma de Cálculo 2026-2, clase 3 (Del Valle, módulo 2). Video: video/clase_calc_c3 (Cálculo · Clase C3).
           clip: { scenes: [
-            sc(6, 'El **plano cartesiano**: dos ejes perpendiculares que lo dividen en cuatro cuadrantes. Cada punto es un par ordenado $(x, y)$.', { steps: ['I: $x > 0, y > 0$ · II: $x < 0, y > 0$', 'III: $x < 0, y < 0$ · IV: $x > 0, y < 0$'] }),
-            sc(6, 'La **gráfica de una ecuación** son todos los puntos $(x, y)$ que la cumplen. Se arma con una tabla de valores.', { title: '$y = x^2 - 1$', viz: { type: 'graph', xr: [-3, 3], yr: [-2, 8], f: x => x * x - 1, points: [[0, -1, '(0, −1)'], [2, 3, '(2, 3)'], [-1, 0, '(−1, 0)']] } }),
-            sc(6, 'La **pendiente** mide cuánto sube la recta por cada unidad que avanza.', { title: '$m = \\dfrac{y_2 - y_1}{x_2 - x_1}$', steps: ['Por $(1, 2)$ y $(4, 11)$: $m = \\dfrac{11 - 2}{4 - 1} = 3$'] }),
-            sc(6, 'Ecuación de la recta: **pendiente-intercepto** $y = mx + b$ o **punto-pendiente** $y - y_1 = m(x - x_1)$.', { steps: ['Pendiente 2 por $(3, -1)$: $y + 1 = 2(x - 3)$', '$y = 2x - 7$'] }),
+            sc(6, 'El **plano cartesiano** es un mapa: dos ejes perpendiculares y cada punto es un par $(x, y)$. Los ejes lo parten en cuatro cuadrantes.', { steps: ['I: $(+, +)$ · II: $(-, +)$ · III: $(-, -)$ · IV: $(+, -)$'] }),
+            sc(7, 'La **distancia** entre dos puntos sale de Pitágoras: el segmento es la hipotenusa de un triángulo con catetos $\\Delta x$ y $\\Delta y$.', { title: '$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$', steps: ['$A(-1, 2),\\ B(5, 10)$: $d = \\sqrt{36 + 64} = 10$'] }),
+            sc(6, 'El **punto medio** es el promedio de las coordenadas.', { title: '$M = \\left(\\dfrac{x_1 + x_2}{2}, \\dfrac{y_1 + y_2}{2}\\right)$', steps: ['Entre $A(-1, 2)$ y $B(5, 10)$: $M = (2, 6)$'] }),
+            sc(6, 'Con pesos distintos en las puntas, el balancín se equilibra más cerca del pesado: el punto que divide el segmento en una razón es un **promedio ponderado**.', { steps: ['$G = \\dfrac{2A + B}{3}$ con $A(1, 1),\\ B(7, 4)$: $G = (3, 2)$'] }),
           ] },
           ex: [
-            mc('El punto $(-3, 2)$ está en el cuadrante', ['II', 'I', 'III', 'IV'], 0, 'Abscisa negativa y ordenada positiva: arriba a la izquierda, cuadrante II.'),
-            mc('¿Cuál punto está sobre la gráfica de $y = x^2 - 1$?', ['$(2, 3)$', '$(1, 1)$', '$(-1, -2)$', '$(0, 1)$'], 0, 'Con $x = 2$: $y = 4 - 1 = 3$. Los otros no cumplen: $1^2 - 1 = 0$, $(-1)^2 - 1 = 0$ y $0 - 1 = -1$.'),
-            mc('La pendiente de la recta que pasa por $(1, 2)$ y $(4, 11)$ es', ['$3$', '$\\tfrac13$', '$-3$', '$9$'], 0, '$m = \\dfrac{11 - 2}{4 - 1} = \\dfrac{9}{3} = 3$.'),
-            num('¿En qué valor corta al eje $y$ la recta $y = -2x + 7$?', 7, 'En el eje $y$ la abscisa es $0$: $y = -2(0) + 7 = 7$. En $y = mx + b$, el corte es $b$.'),
-            mc('La ecuación de la recta de pendiente $2$ que pasa por $(3, -1)$ es', ['$y = 2x - 7$', '$y = 2x + 5$', '$y = -2x + 5$', '$y = 2x - 1$'], 0, 'Punto-pendiente: $y - (-1) = 2(x - 3)$, es decir $y + 1 = 2x - 6$ y $y = 2x - 7$.'),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: 'Toda recta es la gráfica de una ecuación lineal ax + by = c', truth: true, why: 'Y recíprocamente: toda ecuación lineal en x, y es una recta.' },
-                { text: 'Una recta vertical tiene pendiente 0', truth: false, why: 'La pendiente no está definida (división entre x₂ − x₁ = 0); la horizontal es la de pendiente 0.' },
-                { text: 'Dos rectas con la misma pendiente son paralelas', truth: true, why: 'Suben al mismo ritmo: nunca se cortan (o coinciden).' },
-                { text: 'El punto (0, b) está sobre la recta y = mx + b', truth: true, why: 'Con x = 0 queda y = b.' },
-                { text: 'La gráfica de x = y² pasa por (4, −2)', truth: true, why: '(−2)² = 4; la parábola acostada tiene dos puntos por cada x > 0.' },
+            play('tirolesa', 'Suelta el cable justo para unir las dos torres de la **tirolesa**', {
+              rounds: [{ A: [1, 2], B: [4, 6] }, { A: [-3, 4], B: [2, -8] }, { A: [-1, -2], B: [3, 5] }, { A: [0, 3], B: [6, 1] }],
+            }, 'Con $d = \\sqrt{\\Delta x^2 + \\Delta y^2}$: $\\sqrt{9 + 16} = 5$, $\\sqrt{25 + 144} = 13$, $\\sqrt{16 + 49} = \\sqrt{65} \\approx 8.1$ y $\\sqrt{36 + 4} = \\sqrt{40} \\approx 6.3$.',
+            { hint: 'Cuenta en la cuadrícula cuánto hay que avanzar en horizontal y cuánto en vertical de una torre a la otra: son los catetos de un triángulo rectángulo y el cable es la hipotenusa.' }),
+            play('balancin', 'Mueve el **apoyo** hasta que el balancín quede en equilibrio', {
+              rounds: [{ A: [-3, 2], B: [5, -4], mA: 1, mB: 1 }, { A: [-2, 1], B: [4, 7], mA: 2, mB: 1 }, { A: [0, -3], B: [8, 1], mA: 1, mB: 3 }],
+            }, 'Con pesos iguales, el punto medio: $(1, -1)$. Con pesos 2 y 1, el apoyo va a un tercio del camino desde el pesado: $(0, 3)$. Con 1 y 3, a tres cuartos desde A: $(6, 0)$. En general $G = \\dfrac{m_A A + m_B B}{m_A + m_B}$.',
+            { hint: 'Con pesos iguales el apoyo va en la mitad. Si un lado pesa el doble, el apoyo se acerca a él: queda al doble de distancia del liviano que del pesado.' }),
+            play('cuerdas-iguales', 'Desliza el anillo por el riel hasta que las **dos cuerdas midan lo mismo**', {
+              rounds: [{ A: [2, 1], B: [4, 5], rail: 'y' }, { A: [-4, 1], B: [2, 5], rail: 'x' }, { A: [1, -3], B: [5, 1], rail: 'x' }],
+            }, 'Se igualan los cuadrados de las distancias. En el eje $y$, $P(0, y)$: $4 + (y - 1)^2 = 16 + (y - 5)^2 \\Rightarrow y = 4.5$. En el eje $x$: $(p + 4)^2 + 1 = (p - 2)^2 + 25 \\Rightarrow p = 1$ y $(p - 1)^2 + 9 = (p - 5)^2 + 1 \\Rightarrow p = 2$.',
+            { hint: 'Escribe las dos distancias desde un punto del riel (una coordenada es 0) y elévalas al cuadrado: al igualarlas, los cuadrados de la incógnita se cancelan y queda una ecuación lineal.' }),
+            num('¿Cuál es el **perímetro** del triángulo con vértices $(0, 0)$, $(6, 0)$ y $(6, 8)$?', 24,
+              'Los lados miden $6$, $8$ y $\\sqrt{36 + 64} = 10$: perímetro $6 + 8 + 10 = 24$.',
+              { hint: 'Dos lados son horizontales o verticales y se cuentan directo; el tercero se calcula con la fórmula de la distancia.' }),
+            num('El punto medio del segmento $AB$ es $M(3, -1)$ y $A = (-1, 4)$. ¿Cuál es la coordenada $y$ de $B$?', -6,
+              'Si $\\tfrac{4 + y_B}{2} = -1$, entonces $4 + y_B = -2$ y $y_B = -6$. (También: de $A$ a $M$ la $y$ baja 5, y de $M$ a $B$ baja otros 5.)',
+              { prefix: '$y_B =$', hint: 'El punto medio es el promedio: plantea la ecuación con las coordenadas y. O piensa que de A al punto medio hay el mismo salto que del punto medio a B.' }),
+          ],
+        },
+        {
+          id: 'calc-recta', title: 'La recta: pendiente, paralelas y perpendiculares',
+          // Cronograma de Cálculo 2026-2, clase 3 (Del Valle §2.3–2.5). Video: video/clase_calc_c4 (Cálculo · Clase C4).
+          clip: { scenes: [
+            sc(6, 'La **pendiente** dice cuánto sube una recta por cada paso que avanza, como una rampa: $m = \\dfrac{\\text{subida}}{\\text{avance}}$.', { title: '$m = \\dfrac{y_2 - y_1}{x_2 - x_1}$', steps: ['Por $(-1, 3)$ y $(2, -3)$: $m = \\dfrac{-6}{3} = -2$'] }),
+            sc(6, 'Formas de la ecuación: **pendiente-intercepto** $y = mx + b$, **punto-pendiente** $y - y_1 = m(x - x_1)$ y **general** $Ax + By + C = 0$.', { steps: ['$y - 3 = -2(x + 1) \\Rightarrow y = -2x + 1$', '$2x + y - 1 = 0$'] }),
+            sc(6, 'Rectas **paralelas**: la misma pendiente. **Perpendiculares**: pendientes de producto $-1$ (una es la recíproca opuesta de la otra).', { steps: ['Paralela a $y = -2x + 1$ por $(0, 4)$: $y = -2x + 4$', 'Perpendicular por $(0, 4)$: $y = \\tfrac12 x + 4$'] }),
+            sc(5, 'Una recta **horizontal** tiene pendiente 0; una **vertical** no tiene pendiente ($x = $ constante). Son perpendiculares entre sí.', { steps: ['$y = 2$ y $x = -1$ se cortan en ángulo recto'] }),
+          ] },
+          ex: [
+            play('laser-recta', 'Ajusta el láser para que atraviese **los dos cristales**', {
+              rounds: [{ P: [-3, -1], Q: [3, 3] }, { P: [1, 2], Q: [3, 6] }, { P: [-2, 4], Q: [4, 1] }],
+            }, 'La pendiente es $\\tfrac{\\Delta y}{\\Delta x}$ y el corte sale de despejar $b = y - mx$: $y = \\tfrac23 x + 1$, $y = 2x$ y $y = -\\tfrac12 x + 3$.',
+            { hint: 'Cuenta cuánto sube y cuánto avanza el rayo de un cristal al otro: esa es la pendiente. Después sube o baja el rayo con el corte b hasta que toque los cristales.' }),
+            play('rieles-paralelos', 'Gira el riel nuevo desde la estación', {
+              rounds: [
+                { base: { m: 2 / 3, b: -2 }, baseTxt: '2x − 3y = 6', through: [-1, 2], mode: 'par' },
+                { base: { m: -4, b: 1 }, baseTxt: 'y = −4x + 1', through: [2, 1], mode: 'perp' },
+                { base: { m: 0, b: 1 }, baseTxt: 'y = 1', through: [2, -1], mode: 'perp' },
+                { base: { m: -3 / 4, b: 2 }, baseTxt: '3x + 4y = 8', through: [0, -2], mode: 'perp' },
               ],
-            }, 'La pendiente de una recta por $(x_1, y_1)$ y $(x_2, y_2)$ es $\\dfrac{y_2 - y_1}{x_2 - x_1}$: cero si es horizontal, indefinida si es vertical. Rectas paralelas comparten pendiente.'),
+            }, '$2x - 3y = 6$ es $y = \\tfrac23 x - 2$: la paralela tiene pendiente $\\tfrac23$. La perpendicular a pendiente $-4$ tiene $\\tfrac14$; la perpendicular a una horizontal es vertical; y $3x + 4y = 8$ tiene pendiente $-\\tfrac34$, así que su perpendicular tiene $\\tfrac43$.',
+            { hint: 'Si la vía está en forma general, despeja y para ver su pendiente. Paralelo: la misma pendiente. Perpendicular: voltea la fracción y cámbiale el signo.' }),
+            play('ordena-terminos', 'Ordena los pasos para hallar la recta que pasa por $(2, -1)$ y $(5, 8)$', { tex: '(2, -1),\\ (5, 8)', chips: ['m = (8 − (−1))/(5 − 2) = 3', 'y − (−1) = 3(x − 2)', 'y + 1 = 3x − 6', 'y = 3x − 7', 'm = (5 − 2)/(8 + 1) = 1/3', 'y = 3x − 5'], order: [0, 1, 2, 3], sep: '⇒' },
+              'Primero la pendiente, con las $y$ arriba: $m = \\tfrac{9}{3} = 3$. Luego punto-pendiente con $(2, -1)$ y se despeja: $y = 3x - 7$. Comprobación: $3 \\cdot 5 - 7 = 8$. Poner las $x$ arriba da la recíproca, un error común.',
+              { hint: 'La pendiente es la diferencia de las y sobre la diferencia de las x (en el mismo orden). Luego usa la forma punto-pendiente con uno de los puntos y despeja y.' }),
+            num('¿En qué valor de $x$ corta la recta $3x - 2y = 12$ al eje $x$?', 4,
+              'En el eje $x$ se cumple $y = 0$: $3x = 12$ y $x = 4$.',
+              { prefix: '$x =$', hint: 'Sobre el eje horizontal la coordenada y vale cero: reemplaza y despeja x.' }),
+            num('Las rectas $y = (k - 1)x + 2$ y $y = -\\tfrac14 x + 3$ son perpendiculares. ¿Cuánto vale $k$?', 5,
+              'Perpendiculares: $(k - 1)\\left(-\\tfrac14\\right) = -1$, así que $k - 1 = 4$ y $k = 5$.',
+              { prefix: '$k =$', hint: 'El producto de las pendientes de dos rectas perpendiculares es −1. La pendiente de la primera es lo que multiplica a x.' }),
           ],
         },
       ],

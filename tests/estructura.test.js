@@ -25,7 +25,7 @@ test('álgebra: ocho unidades en el orden del cronograma 2026-2', () => {
 
 test('cálculo: recibe desigualdades, recta y funciones, y sigue su cronograma 2026-2', () => {
   assert.deepEqual([...plan(calc)], [
-    'Desigualdades, valor absoluto y la recta: alg-32 alg-26c alg-51',
+    'Desigualdades, valor absoluto y la recta: alg-32 alg-26c alg-51 calc-recta',
     'Funciones: alg-52 alg-61 alg-53 alg-62',
     'Límites y continuidad: calc-1 calc-2',
     'La derivada: calc-3 calc-4',
