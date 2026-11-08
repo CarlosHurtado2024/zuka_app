@@ -33,16 +33,16 @@ from manimlib import *
 # (el mismo de los clips de la app) y un tono por familia de números.
 # Los nombres se conservan del tema claro original para no tocar las escenas.
 # ---------------------------------------------------------------------------
-BACKGROUND_IMAGE = "fondo_trig.png"      # assets/, 1080 × 1920 (azul de trigonometría)
+BACKGROUND_IMAGE = "fondo_calculo.png"   # assets/, 1080 × 1920 (rosa de Cálculo, como en la app)
 BG_COLOR = "#0D1024"      # fondo base (rellena puntos abiertos)
-PEACH = "#12304A"         # azul profundo (tarjetas suaves)
-PEACH_DEEP = "#1B4763"
+PEACH = "#3A1838"         # ciruela (tarjetas suaves)
+PEACH_DEEP = "#4F2149"
 ORANGE = "#FF9F5A"        # acento cálido
 ORANGE_SOFT = "#FFC08F"
 INK = "#EEF0FF"           # texto principal
 MUTED = "#9AA3C7"         # texto secundario
-CARD = "#11233B"
-BORDER = "#2B5470"
+CARD = "#24142E"
+BORDER = "#5A2D55"
 TEAL = "#2DD4BF"          # acento frío para contrastar
 
 # Trigonometría: los mismos colores que la app usa en sus dibujos
