@@ -1,7 +1,7 @@
 // El mapa del tesoro (trigonometría, forma polar de un complejo): en un mapa cartesiano hay una X en el
 // punto a + bi. El pirata sale del origen y solo entiende instrucciones polares: un rumbo (se gira la
-// brújula, de 15° en 15°) y una cantidad de pasos exacta (− / + recorren √1, √2, √3, 2, √5…). El plan
-// se dibuja punteado; el cofre se abre (o no) al comprobar. Rondas con pestañas.
+// brújula, de 15° en 15°) y una cantidad de pasos exacta (− / + recorren √1, √2, √3, 2, √5…). En el mapa
+// solo se ve hacia dónde mira el pirata; la caminata (y el cofre) aparecen al comprobar. Rondas con pestañas.
 // params = { rounds: [{ a, b, label }] }   state = { walks: [{ k, deg } | null] }   (pasos = √k)
 
 GAMES['mapa-tesoro'] = (() => {
@@ -55,8 +55,10 @@ GAMES['mapa-tesoro'] = (() => {
           p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
           p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
         });
-        p.noStroke(); p.fill(C.N); p.textStyle(p.BOLD); p.textSize(16); p.textAlign(p.CENTER, p.CENTER);
-        p.text(`El tesoro está en z = ${r.label}`, W / 2, 56);
+        p.noStroke(); p.fill(C.N); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+        const ask = `El tesoro está en z = ${r.label}`;
+        let ts = 16; p.textSize(ts); while (p.textWidth(ask) > W - 16 && ts > 10) p.textSize(--ts);
+        p.text(ask, W / 2, 56);
 
         // Mapa: papel, cuadrícula y ejes.
         const u = map.s / (2 * L), X = x => map.x + map.s / 2 + x * u, Y = y => map.y + map.s / 2 - y * u;
@@ -72,7 +74,11 @@ GAMES['mapa-tesoro'] = (() => {
         p.stroke(C.I); p.strokeWeight(4); p.line(tx - 8, ty - 8, tx + 8, ty + 8); p.line(tx - 8, ty + 8, tx + 8, ty - 8);
         // El plan: rumbo y pasos, con huellas.
         const rr = Math.sqrt(P.k), rad = P.deg * Math.PI / 180, ex = X(rr * Math.cos(rad)), ey = Y(rr * Math.sin(rad));
-        if (P.touched) {
+        if (P.touched && !locked) {   // solo el rumbo: una flecha corta de largo fijo
+          const ax = X(0) + 34 * Math.cos(rad), ay = Y(0) - 34 * Math.sin(rad);
+          p.stroke(C.Z); p.strokeWeight(3); p.line(X(0), Y(0), ax, ay); p.noStroke(); p.fill(C.Z); p.circle(ax, ay, 8);
+        }
+        if (P.touched && locked) {
           p.stroke(C.Z); p.strokeWeight(2.5); p.drawingContext.setLineDash([5, 6]); p.line(X(0), Y(0), ex, ey); p.drawingContext.setLineDash([]);
           const n = Math.max(2, Math.round(rr * 2));
           for (let j = 1; j <= n; j++) { const f = j / n; p.noStroke(); p.fill(C.Z + 'aa'); p.circle(X(0) + (ex - X(0)) * f + (j % 2 ? 3 : -3), Y(0) + (ey - Y(0)) * f, 5); }
@@ -90,14 +96,16 @@ GAMES['mapa-tesoro'] = (() => {
         for (let d = 0; d < 360; d += 45) { const a = d * Math.PI / 180; p.line(comp.x + (comp.r - 6) * Math.cos(a), comp.y - (comp.r - 6) * Math.sin(a), comp.x + comp.r * Math.cos(a), comp.y - comp.r * Math.sin(a)); }
         p.stroke(C.Z); p.strokeWeight(4); p.line(comp.x, comp.y, comp.x + (comp.r - 8) * Math.cos(rad), comp.y - (comp.r - 8) * Math.sin(rad));
         p.noStroke(); p.fill(C.Z); p.circle(comp.x + (comp.r - 8) * Math.cos(rad), comp.y - (comp.r - 8) * Math.sin(rad), 12);
-        p.fill(C.ink); p.textSize(12); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text('rumbo', comp.x, comp.y + comp.r + 14);
+        p.fill(C.ink); p.textSize(12); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text('rumbo', comp.x + comp.r + 26, comp.y - comp.r + 6);
         // Pasos.
         const mid = (minus.x + plus.x + plus.w) / 2;
         p.textSize(13); p.fill(C.mute); p.text('pasos', mid, comp.y - 34);
         p.textSize(22); p.fill(P.touched ? C.ink : C.mute); p.text(radTxt(P.k), mid, comp.y - 12);
         [[minus, '−'], [plus, '+']].forEach(([b, s]) => { p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 10); p.noStroke(); p.fill(C.ink); p.textSize(22); p.text(s, b.x + b.w / 2, b.y + b.h / 2); });
-        p.textSize(14); p.fill(P.touched ? C.Z : C.mute);
-        p.text(P.touched ? `${radTxt(P.k)} pasos a ${P.deg}°` : 'gira la brújula y elige los pasos', mid, comp.y + 66);
+        p.fill(P.touched ? C.Z : C.mute);
+        const msg = P.touched ? `${radTxt(P.k)} pasos a ${P.deg}°` : 'gira la brújula y elige los pasos';
+        let fs = 14; p.textSize(fs); while (p.textWidth(msg) > W - 16 && fs > 10) p.textSize(--fs);
+        p.text(msg, W / 2, comp.y + comp.r + 34);
       };
 
       const setDeg = () => { let d = Math.atan2(comp.y - p.mouseY, p.mouseX - comp.x) * 180 / Math.PI; d = ((Math.round(d / 15) * 15) % 360 + 360) % 360; plan[cur].deg = d; plan[cur].touched = true; sync(); };

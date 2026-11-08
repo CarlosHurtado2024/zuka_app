@@ -16,10 +16,12 @@ GAMES['flor-de-raices'] = (() => {
   }
   // Radios candidatos con su etiqueta.
   function radii(R) {
-    const w = rootR(R);
-    const c = [[w, radTxt(R.n, R.r)], [R.r / R.n, isInt(R.r / R.n) ? String(R.r / R.n) : `${R.r}/${R.n}`], [Math.sqrt(R.r), radTxt(2, R.r)], [w + 1, isInt(w) ? String(Math.round(w) + 1) : `${radTxt(R.n, R.r)} + 1`]];
+    const w = rootR(R), wt = radTxt(R.n, R.r);
+    // La correcta nunca queda en un extremo: hay una trampa menor (ⁿ√r − 1 o ⁿ√r / 2) y otras mayores.
+    const low = w - 1 > 0.3 ? [w - 1, isInt(w) ? String(Math.round(w) - 1) : `${wt} − 1`] : [w / 2, `${wt}/2`];
+    const c = [[w, wt], low, [R.r / R.n, isInt(R.r / R.n) ? String(R.r / R.n) : `${R.r}/${R.n}`], [Math.sqrt(R.r), radTxt(2, R.r)], [w + 1, isInt(w) ? String(Math.round(w) + 1) : `${wt} + 1`]];
     const out = [];
-    for (const [v, t] of c) if (out.length < 3 && !out.some(o => Math.abs(o.v - v) < 1e-9)) out.push({ v, t });
+    for (const [v, t] of c) if (out.length < 4 && !out.some(o => Math.abs(o.v - v) < 1e-9)) out.push({ v, t });
     return out.sort((a, b) => a.v - b.v);
   }
   const step = R => 360 / R.n;
@@ -36,7 +38,7 @@ GAMES['flor-de-raices'] = (() => {
   function create(host, params, api) {
     const C = api.palette;
     const st = { flowers: params.rounds.map(() => null) };
-    const fl = params.rounds.map(R => ({ i: 0, rot: 10, touched: false }));
+    const fl = params.rounds.map(R => ({ i: radii(R).length - 1, rot: 10, touched: false }));   // empieza en el radio mayor, que nunca es el correcto
     let locked = false, W = 0, H = 0, cur = 0, tabs = [], cx = 0, cy = 0, Rpx = 0, minus = null, plus = null, drag = false, grabOff = 0;
 
     function layout(w, h) {
@@ -89,8 +91,10 @@ GAMES['flor-de-raices'] = (() => {
         // Lecturas.
         const y0 = cy + Rpx + 22, phi = norm(F.rot);
         p.noStroke(); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(16); p.fill(F.touched ? C.ink : C.mute);
-        p.text(F.touched ? `radio ${rads[F.i].t}  ·  pétalo dorado en ${phi}°` : 'gira la flor y elige el radio', W / 2, y0);
-        p.textSize(12); p.textStyle(p.NORMAL); p.fill(C.mute); p.text(`${R.n} × ${phi}° = ${R.n * phi}°${R.n * phi >= 360 ? `  (coterminal con ${norm(R.n * phi)}°)` : ''}`, W / 2, y0 + 20);
+        const msg = F.touched ? `radio ${rads[F.i].t}  ·  pétalo dorado en ${phi}°` : 'gira la flor y elige el radio';
+        let fs = 16; p.textSize(fs); while (p.textWidth(msg) > W - 16 && fs > 10) p.textSize(--fs);
+        p.text(msg, W / 2, y0);
+        p.textSize(12); p.textStyle(p.NORMAL); p.fill(C.mute); p.text(`los pétalos van cada ${+step(R).toFixed(2)}°`, W / 2, y0 + 20);
         if (locked && !good) { p.fill(C.ok); p.textStyle(p.BOLD); p.textSize(13); p.text(`radio ${radTxt(R.n, R.r)}, un pétalo en ${angles(R)[0]}°`, W / 2, y0 + 40); }
         [[minus, '− radio'], [plus, '+ radio']].forEach(([b, s]) => { p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 10); p.noStroke(); p.fill(C.ink); p.textSize(11); p.textStyle(p.BOLD); p.text(s, b.x + b.w / 2, b.y + b.h / 2); });
       };
@@ -122,5 +126,5 @@ GAMES['flor-de-raices'] = (() => {
     };
   }
 
-  return { grade, create, rootR, radTxt, radii, angles };
+  return { grade, create, rootR, radTxt, radii, angles, okOne };
 })();

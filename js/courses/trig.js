@@ -560,7 +560,7 @@ const COURSE_TRIG = {
             sc(6, '**Teorema de De Moivre**: elevar a $n$ es elevar el módulo a $n$ y multiplicar el argumento por $n$.', { title: '$z^n = r^n(\\cos n\\theta + i\\,\\sen n\\theta)$', steps: ['$(-1 + \\sqrt3\\,i)^{12} = 2^{12}(\\cos 8\\pi + i\\,\\sen 8\\pi) = 2^{12}$'] }),
           ] },
           more: [{ after: 3, scenes: [
-            sc(7, 'Todo complejo $z \\ne 0$ tiene exactamente $n$ **raíces $n$-ésimas**, repartidas en un círculo de radio $\\sqrt[n]{r}$ cada $\\tfrac{360^\\circ}{n}$.', { title: '$w_k = \\sqrt[n]{r}\\left[\\cos\\tfrac{\\theta + 360^\\circ k}{n} + i\\,\\sen\\tfrac{\\theta + 360^\\circ k}{n}\\right]$', steps: ['Raíces cuartas de $-8 - 8\\sqrt3\\,i$ ($r = 16$, $\\theta = 240^\\circ$): $2\\,\\mathrm{cis}\\,60^\\circ, 150^\\circ, 240^\\circ, 330^\\circ$'] }),
+            sc(7, 'Todo complejo $z \\ne 0$ tiene exactamente $n$ **raíces $n$-ésimas**, repartidas en un círculo de radio $\\sqrt[n]{r}$ cada $\\tfrac{360^\\circ}{n}$.', { title: '$w_k = \\sqrt[n]{r}\\left[\\cos\\tfrac{\\theta + 360^\\circ k}{n} + i\\,\\sen\\tfrac{\\theta + 360^\\circ k}{n}\\right]$', steps: ['Raíces cuartas de $-16$ ($r = 16$, $\\theta = 180^\\circ$): $2\\,\\mathrm{cis}\\,45^\\circ, 135^\\circ, 225^\\circ, 315^\\circ$'] }),
           ] }],
           ex: [
             play('telarana-polar', 'Lleva la araña al nudo del producto o del cociente', {
@@ -568,9 +568,9 @@ const COURSE_TRIG = {
                 { op: '×', z1: { r: 2, deg: 150 }, z2: { r: 3, deg: 300 } },
                 { op: '÷', z1: { r: 6, deg: 45 }, z2: { r: 2, deg: 120 } },
                 { op: '×', z1: { r: 4, deg: 60 }, z2: { r: 0.5, deg: 75 } },
-                { op: '÷', z1: { r: 5, deg: 30 }, z2: { r: 5, deg: 210 } },
+                { op: '÷', z1: { r: 6, deg: 30 }, z2: { r: 3, deg: 210 } },
               ],
-            }, 'Producto: se multiplican los módulos y se suman los ángulos ($2 \\cdot 3 = 6$, $150^\\circ + 300^\\circ = 450^\\circ \\to 90^\\circ$; $4 \\cdot 0.5 = 2$, $135^\\circ$). Cociente: se dividen y se restan ($6 / 2 = 3$, $45^\\circ - 120^\\circ = -75^\\circ \\to 285^\\circ$; $5 / 5 = 1$, $30^\\circ - 210^\\circ = -180^\\circ \\to 180^\\circ$).',
+            }, 'Producto: se multiplican los módulos y se suman los ángulos ($2 \\cdot 3 = 6$, $150^\\circ + 300^\\circ = 450^\\circ \\to 90^\\circ$; $4 \\cdot 0.5 = 2$, $135^\\circ$). Cociente: se dividen y se restan ($6 / 2 = 3$, $45^\\circ - 120^\\circ = -75^\\circ \\to 285^\\circ$; $6 / 3 = 2$, $30^\\circ - 210^\\circ = -180^\\circ \\to 180^\\circ$).',
               { hint: 'Los hilos son módulos y los rayos son ángulos. Al multiplicar, los módulos se multiplican (no se suman) y los ángulos se suman; al dividir, todo al revés. Si el ángulo se pasa de 360° o queda negativo, súmale o réstale una vuelta.' }),
             play('espiral-potencias', 'Multiplica por z hasta caer justo en la estrella', {
               rounds: [

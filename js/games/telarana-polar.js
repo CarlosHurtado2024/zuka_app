@@ -14,8 +14,11 @@ GAMES['telarana-polar'] = (() => {
   // Hilos: el módulo correcto y las trampas típicas, sin repetir.
   function rings(r) {
     const t = target(r).r, a = r.z1.r, b = r.z2.r;
-    const c = [t, a + b, Math.abs(a - b), a * b, a / b, b / a, a, b].map(round6).filter(v => v > 0.05);
-    return [...new Set(c)].sort((x, y) => x - y).slice(0, 7);
+    // Trampas cercanas al correcto (entre t/4 y 4t) para que los hilos no se amontonen en el centro.
+    const c = [a + b, Math.abs(a - b), a * b, a / b, b / a, a, b].map(round6).filter(v => v > 0.05 && v >= t / 4 && v <= 4 * t && Math.abs(v - t) > 1e-6);
+    const out = [...new Set([t, ...c])];
+    for (const extra of [round6(2 * t), round6(t / 2)]) if (out.length < 3 && !out.includes(extra)) out.push(extra);
+    return out.sort((x, y) => x - y).slice(0, 6);
   }
   const fmt = v => (Number.isInteger(v) ? String(v) : String(+v.toFixed(2)));
   const okOne = (pk, r) => !!pk && Math.abs(pk.r - target(r).r) < 1e-6 && norm(pk.deg) === target(r).deg;
@@ -37,8 +40,15 @@ GAMES['telarana-polar'] = (() => {
       R = Math.min(w * 0.44, (h - 200) / 2); cx = w / 2; cy = 104 + R;
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
-    const maxR = r => Math.max(...rings(r), r.z1.r, r.z2.r) * 1.08;
-    const P = (r, mod, deg) => { const k = R / maxR(r), a = deg * Math.PI / 180; return [cx + mod * k * Math.cos(a), cy - mod * k * Math.sin(a)]; };
+    // Los hilos se reparten parejo en pantalla (el i-ésimo a (i + 1)/n del radio) con su valor real escrito;
+    // entre hilos se interpola, así que las flechas z₁ y z₂ quedan bien ordenadas aunque su módulo no sea un hilo.
+    const maxR = r => Math.max(...rings(r)) * 1.08;
+    function scr(r, mod) {
+      const v = rings(r), n = v.length, xs = [0, ...v], ys = [0, ...v.map((_, i) => (i + 1) / (n + 0.4) * R)];
+      for (let i = 1; i < xs.length; i++) if (mod <= xs[i]) return ys[i - 1] + (ys[i] - ys[i - 1]) * (mod - xs[i - 1]) / (xs[i] - xs[i - 1]);
+      return Math.min(R * 1.04, ys[n] + (mod - xs[n]) / xs[n] * (ys[n] - ys[n - 1]));
+    }
+    const P = (r, mod, deg) => { const d = scr(r, mod), a = deg * Math.PI / 180; return [cx + d * Math.cos(a), cy - d * Math.sin(a)]; };
 
     const m = mountSketch(host, (p, size) => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
@@ -75,7 +85,8 @@ GAMES['telarana-polar'] = (() => {
         // Las dos flechas.
         arrow(cx, cy, ...P(r, r.z1.r, r.z1.deg), C.Z);
         arrow(cx, cy, ...P(r, r.z2.r, r.z2.deg), C.I);
-        const [l1x, l1y] = P(r, r.z1.r * 1.08 + 0.1, r.z1.deg), [l2x, l2y] = P(r, r.z2.r * 1.08 + 0.1, r.z2.deg);
+        const lab = (mod, deg) => { const [x, y] = P(r, mod, deg), a = deg * Math.PI / 180; return [x + 14 * Math.cos(a), y - 14 * Math.sin(a)]; };
+        const [l1x, l1y] = lab(r.z1.r, r.z1.deg), [l2x, l2y] = lab(r.z2.r, r.z2.deg);
         p.noStroke(); p.textStyle(p.BOLD); p.textSize(13); p.fill(C.Z); p.text('z₁', l1x, l1y); p.fill(C.I); p.text('z₂', l2x, l2y);
         // La araña.
         const sp = pk ? P(r, pk.r, pk.deg) : [cx + R + 4, cy + 26];
@@ -86,17 +97,19 @@ GAMES['telarana-polar'] = (() => {
         p.noStroke(); p.fill(col); p.ellipse(sp[0], sp[1], 14, 16);
         if (locked && !good) { const t = target(r), [gx, gy] = P(r, t.r, t.deg); p.noFill(); p.stroke(C.ok); p.strokeWeight(3); p.circle(gx, gy, 22); }
 
-        p.noStroke(); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(16); p.fill(pk ? C.ink : C.mute);
-        p.text(pk ? `araña en ${fmt(pk.r)} cis ${pk.deg}°` : 'arrastra la araña dorada a un nudo', W / 2, H - 30);
+        p.noStroke(); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.fill(pk ? C.ink : C.mute);
+        const msg = pk ? `araña en ${fmt(pk.r)} cis ${pk.deg}°` : 'arrastra la araña dorada a un nudo';
+        let fs = 16; p.textSize(fs); while (p.textWidth(msg) > W - 16 && fs > 10) p.textSize(--fs);
+        p.text(msg, W / 2, H - 30);
         if (locked && !good) { const t = target(r); p.fill(C.ok); p.textSize(13); p.text(`era ${fmt(t.r)} cis ${t.deg}°`, W / 2, H - 10); }
       };
 
       // Suelta en el nudo más cercano (hilo y rayo).
       function snap() {
-        const r = params.rounds[cur], k = R / maxR(r), dx = p.mouseX - cx, dy = cy - p.mouseY;
-        const mod = Math.hypot(dx, dy) / k, ring = rings(r).reduce((b, v) => (Math.abs(v - mod) < Math.abs(b - mod) ? v : b));
-        let d = Math.atan2(dy, dx) * 180 / Math.PI; d = norm(Math.round(d / 15) * 15);
-        st.picks[cur] = { r: ring, deg: d }; api.ready(st.picks.every(Boolean));
+        const r = params.rounds[cur], dx = p.mouseX - cx, dy = cy - p.mouseY, d = Math.hypot(dx, dy);
+        const ring = rings(r).reduce((b, v) => (Math.abs(scr(r, v) - d) < Math.abs(scr(r, b) - d) ? v : b));
+        const deg = norm(Math.round(Math.atan2(dy, dx) * 180 / Math.PI / 15) * 15);
+        st.picks[cur] = { r: ring, deg }; api.ready(st.picks.every(Boolean));
       }
       p.mousePressed = () => {
         const t = tabs.findIndex(t => inside(t, p.mouseX, p.mouseY));
@@ -117,5 +130,5 @@ GAMES['telarana-polar'] = (() => {
     };
   }
 
-  return { grade, create, target, rings };
+  return { grade, create, target, rings };   // scr (posición en pantalla) es interna
 })();

@@ -44,3 +44,19 @@ test('cada ronda se puede resolver con los controles', () => {
     assert.ok(f.radii(R).some(o => Math.abs(o.v - f.rootR(R)) < 1e-9));
   }
 });
+
+test('la flor no empieza en el radio correcto y el correcto no queda en un extremo', () => {
+  const f = G('flor-de-raices');
+  for (const e of of('flor-de-raices')) for (const R of e.params.rounds) {
+    const rs = f.radii(R), i = rs.findIndex(o => Math.abs(o.v - f.rootR(R)) < 1e-9);
+    assert.ok(i > 0 && i < rs.length - 1, `${e.id}: ${R.label} radio correcto en el índice ${i} de ${rs.length}`);
+  }
+});
+
+test('los hilos de la telaraña son pocos y cercanos al correcto (se pueden tocar en el celular)', () => {
+  const t = G('telarana-polar');
+  for (const e of of('telarana-polar')) for (const r of e.params.rounds) {
+    const v = t.rings(r), c = t.target(r).r;
+    assert.ok(v.length >= 3 && v.length <= 6 && v.every(x => x >= c / 4 - 1e-9 && x <= 4 * c + 1e-9), `${e.id}: ${v.join(', ')}`);
+  }
+});

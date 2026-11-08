@@ -1,7 +1,7 @@
-// La espiral de potencias (trigonometría, De Moivre): un punto empieza en 1. Cada «× z» lo hace saltar a
-// la siguiente potencia (gira θ y estira por r) dejando una estela en espiral; «÷ z» deshace. Hay que
-// detenerse en la potencia que cae justo en la estrella: zⁿ = rⁿ cis nθ. El marcador muestra n, rⁿ y nθ.
-// Rondas con pestañas.
+// La espiral de potencias (trigonometría, De Moivre): hay que decidir cuántas veces multiplicar por z
+// para caer justo en la estrella. «× z» y «÷ z» cambian n; la espiral queda tapada por una nube hasta
+// comprobar: entonces el punto salta potencia por potencia (zⁿ = rⁿ cis nθ) y se ve si llega. Mientras
+// tanto solo se ven z, la estrella y n. Rondas con pestañas.
 // params = { rounds: [{ z: { r, deg }, goal: { r, deg }, label?, zLabel? }] }   state = { ns: [n | null] }
 
 GAMES['espiral-potencias'] = (() => {
@@ -49,7 +49,7 @@ GAMES['espiral-potencias'] = (() => {
         p.text(ask, W / 2, 56);
 
         // Escala: que quepan la meta y la potencia actual (con animación suave).
-        const need = Math.max(r.goal.r, power(r.z, n).r, 1) * 1.15;
+        const need = Math.max(r.goal.r, locked ? power(r.z, n).r : 1, r.z.r, 1) * 1.15;
         scale = scale == null ? need : scale + (need - scale) * 0.12;
         const k = R / scale, P = (mod, deg) => [cx + mod * k * Math.cos(deg * Math.PI / 180), cy - mod * k * Math.sin(deg * Math.PI / 180)];
         p.stroke(C.line); p.strokeWeight(1.5); p.line(cx - R, cy, cx + R, cy); p.line(cx, cy - R, cx, cy + R);
@@ -60,7 +60,11 @@ GAMES['espiral-potencias'] = (() => {
         p.fill(C.N); p.noStroke(); p.beginShape();
         for (let j = 0; j < 10; j++) { const a = tw + j * Math.PI / 5, rr = j % 2 ? 5 : 12; p.vertex(gx + rr * Math.cos(a), gy + rr * Math.sin(a)); }
         p.endShape(p.CLOSE);
-        // Espiral: estela de potencias 0..n (la última se anima).
+        // z (flecha corta) siempre visible; la espiral solo al comprobar.
+        const [zx, zy] = P(r.z.r, r.z.deg); p.stroke(C.R); p.strokeWeight(3); p.line(cx, cy, zx, zy); p.noStroke(); p.fill(C.R); p.circle(zx, zy, 9);
+        p.textSize(12); p.textStyle(p.BOLD); p.text('z', zx + 10, zy - 10);
+        if (!locked) {
+        } else {
         p.noFill(); p.stroke(C.Z); p.strokeWeight(2.5); p.beginShape();
         for (let j = 0; j <= n; j++) {
           const steps = 12, lim = j === n ? Math.round(steps * anim) : steps;
@@ -73,12 +77,13 @@ GAMES['espiral-potencias'] = (() => {
         const on = st.ns[cur] != null && okOne(st.ns[cur], r) && locked;
         p.noStroke(); p.fill(locked ? (okOne(st.ns[cur], r) ? C.ok : C.bad) : C.I); p.circle(hx, hy, 16);
         if (on) { p.noFill(); p.stroke(C.ok); p.strokeWeight(3); p.circle(gx, gy, 30); }
+        }
 
         // Marcador y botones.
         const q = power(r.z, n), y0 = cy + R + 20;
         p.noStroke(); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(17); p.fill(C.ink);
-        p.text(n === 0 ? 'z⁰ = 1   (pulsa × z)' : `z^${n} = ${fmt(q.r)} cis ${q.deg}°`, W / 2, y0);
-        p.textSize(12); p.textStyle(p.NORMAL); p.fill(C.mute); p.text(n === 0 ? '' : `módulo ${fmt(r.z.r)}^${n}  ·  ángulo ${n} × ${r.z.deg}° = ${n * r.z.deg}°`, W / 2, y0 + 20);
+        p.text(n === 0 ? 'n = 0   (pulsa × z)' : `multiplicar ${n} ${n === 1 ? 'vez' : 'veces'}: z^${n}`, W / 2, y0);
+        p.textSize(12); p.textStyle(p.NORMAL); p.fill(C.mute); p.text(locked ? `z^${n} = ${fmt(q.r)} cis ${q.deg}°` : 'la espiral se revela al comprobar', W / 2, y0 + 20);
         if (locked && !okOne(st.ns[cur], r)) { p.fill(C.ok); p.textStyle(p.BOLD); p.textSize(13); p.text(`llegaba con n = ${first(r)}`, W / 2, y0 + 40); }
         [[bDiv, '÷ z'], [bMul, '× z']].forEach(([b, s]) => { p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 10); p.noStroke(); p.fill(C.ink); p.textSize(18); p.textStyle(p.BOLD); p.text(s, b.x + b.w / 2, b.y + b.h / 2); });
       };
@@ -88,7 +93,7 @@ GAMES['espiral-potencias'] = (() => {
         if (t >= 0) { cur = t; anim = 1; api.sfx?.tap?.(); return false; }
         if (locked) return;
         const n = st.ns[cur] ?? 0;
-        if (inside(bMul, p.mouseX, p.mouseY) && n < N_MAX) { st.ns[cur] = n + 1; anim = 0; api.ready(st.ns.every(v => v != null && v > 0)); api.sfx?.tap?.(); return false; }
+        if (inside(bMul, p.mouseX, p.mouseY) && n < N_MAX) { st.ns[cur] = n + 1; anim = 1; api.ready(st.ns.every(v => v != null && v > 0)); api.sfx?.tap?.(); return false; }
         if (inside(bDiv, p.mouseX, p.mouseY) && n > 0) { st.ns[cur] = n - 1; anim = 1; api.ready(st.ns.every(v => v != null && v > 0)); api.sfx?.tap?.(); return false; }
       };
     }, 1.45);
@@ -96,7 +101,7 @@ GAMES['espiral-potencias'] = (() => {
     return {
       loaded: m.ready,
       getState: () => ({ ns: [...st.ns] }),
-      lock() { locked = true; anim = 1; },
+      lock() { locked = true; anim = 0; },
       destroy: () => m.remove(),
     };
   }
