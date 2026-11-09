@@ -320,6 +320,8 @@ function startLesson(c, l) {
     <div class="lesson-top">
       <button class="icon-btn" data-close aria-label="Salir">${ICON.x}</button>
       <div class="pbar"><i></i></div>
+      ${S.unlockAll ? `<div class="rev-nav" title="Modo revisión: saltar entre ejercicios">
+        <button type="button" data-jump="-1" aria-label="Ejercicio anterior">‹</button><b class="rev-pos"></b><button type="button" data-jump="1" aria-label="Ejercicio siguiente">›</button></div>` : ''}
       <span class="tb-stat hearts">${ICON.heart}<b>${S.hearts}</b></span>
     </div>
     <div class="lesson-body"></div>
@@ -334,7 +336,11 @@ function startLesson(c, l) {
   const root = $('.lesson', ov), body = $('.lesson-body', ov), btn = $('.btn.main', ov), fb = $('.feedback', ov);
   const bar = $('.pbar i', ov), hearts = $('.lesson-top .hearts b', ov);
 
-  const updateBar = () => { bar.style.width = (solved / total) * 100 + '%'; hearts.textContent = S.hearts; };
+  const revPos = $('.rev-pos', ov);
+  const updateBar = () => {
+    bar.style.width = (solved / total) * 100 + '%'; hearts.textContent = S.hearts;
+    if (revPos) revPos.textContent = `${Math.min(pos + 1, queue.length)}/${queue.length}`;
+  };
   const teardown = () => { clearTimeout(clipTimer); clipTimer = null; player?.destroy(); player = null; handle?.destroy?.(); handle = null; };
 
   // `to`: pestaña a la que ir al salir (al tocar el menú inferior); si no, la de origen.
@@ -415,6 +421,17 @@ function startLesson(c, l) {
       if (queue[i].k === 'clip') return showReview(queue[i].n);
     }
   }
+
+  // Modo revisión: ‹ › saltan al ejercicio (o video) anterior o siguiente sin responder, para revisar
+  // el contenido. No cuenta como resuelto ni quita vidas.
+  function jump(d) {
+    if (finished) return;
+    fb.classList.remove('show');
+    review = -1;
+    pos = Math.max(0, Math.min(queue.length - 1, pos + d));
+    step();
+  }
+  ov.querySelectorAll('[data-jump]').forEach(b => { b.onclick = () => jump(+b.dataset.jump); });
 
   // Deslizar con el dedo: a la izquierda avanza, a la derecha retrocede.
   let touch = null;

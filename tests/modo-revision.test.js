@@ -30,3 +30,15 @@ test('la ruta dibuja como abiertas (no con candado) las lecciones desbloqueadas'
   const learn = body('renderLearn');
   assert.match(learn, /isUnlocked\(c, l\) \? 'open' : 'locked'/);
 });
+
+test('con el modo revisión la lección tiene botones para saltar entre ejercicios sin responder', () => {
+  const sl = body('startLesson');
+  assert.match(sl, /S\.unlockAll \? `<div class="rev-nav"/, 'la barra ‹ › solo existe en modo revisión');
+  assert.match(sl, /data-jump="-1"/);
+  assert.match(sl, /data-jump="1"/);
+  // jump mueve la posición sin contar el ejercicio como resuelto y cierra la retroalimentación abierta
+  const jump = sl.slice(sl.indexOf('function jump'), sl.indexOf('\n  }', sl.indexOf('function jump')));
+  assert.match(jump, /pos = Math\.max\(0, Math\.min\(queue\.length - 1, pos \+ d\)\)/);
+  assert.match(jump, /fb\.classList\.remove\('show'\)/);
+  assert.doesNotMatch(jump, /solved\+\+/);
+});
