@@ -1,0 +1,54 @@
+# Álgebra, unidad 1: un video por lección y juegos nuevos (2026-11-09)
+
+Unidad 1 de Álgebra: «Sistemas numéricos, razones y proporciones» (`alg-11`, `alg-12b`, `alg-12`,
+`alg-13`, `alg-13b`).
+
+## Pedido
+
+- Un video por lección (sin partes; la duración no importa, menos de 10 min), muy entretenido, con el fondo
+  morado degradado de Álgebra (como los clips de la app), **zoom de cámara** de manimgl y escenas en **3D**
+  cuando aporten.
+- Juegos originales y distintos entre sí, en lugar de las tarjetas (verdadero/falso, clasificar, unir).
+- Todo en tema claro y oscuro, y en celular.
+
+## Videos (manimgl 1.7.2, 9:16)
+
+Carpetas `video/clase_alg_u1_*`, una por lección, con la plantilla de Cálculo/Trigonometría (`mb_common.py`
+con `zoom_to` / `zoom_reset`, encabezado y fondo fijos en el encuadre) y un fondo nuevo
+`fondo_algebra_vivo.png` (`make_background.py "#8b7bff" … 0.36 0.24`, el mismo degradado de la app pero más
+vivo). Colores de acento a juego con el morado: lavanda `#B9A6FF`, miel, cielo, menta y coral (los de las
+familias de números) y un rosa `#F472B6` para resaltar.
+
+Intuición primero y fórmula después, sin preguntas al espectador, sin voz ni subtítulos quemados (guion
+`.md` y `.srt`). Los ejemplos no se repiten en los ejercicios.
+
+| Lección | Video | 3D | Zoom |
+|---|---|---|---|
+| alg-11 Sistemas numéricos | Las familias como muñecas que se abren (ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ), por qué cada una nace (restar, repartir, medir), decimales que terminan o se repiten, periódico → fracción, la diagonal del cuadrado (√2) y la del cubo (√3) | cubo girando con su diagonal; anillos apilados de las familias | la lupa sobre la recta: entre dos números siempre hay otro |
+| alg-12b Axiomas de campo y orden | Conmutativa como rectángulo que gira, asociativa del producto como caja (a·b)·c = a·(b·c), distributiva con áreas, ley de signos, orden y el espejo del negativo, valor absoluto como distancia | caja de volumen que se rearma | sobre la recta al voltear la desigualdad |
+| alg-12 Razones, proporciones y regla de tres | Receta de pintura (razón), proporción y producto cruzado, directa (recta por el origen), inversa (rectángulos de área fija), «ninguna» con cubos que duplican el lado, reparto, regla de tres simple y compuesta | cubo que duplica su lado: volumen ×8 | sobre la hipérbola y la tabla |
+| alg-13 Porcentajes y descuentos | La cuadrícula de 100 que se vuelve torre, porcentaje como razón con 100, la cruz, aumentos y descuentos como factores, descuentos sucesivos | cuadrícula 10×10 de cubitos que suben | sobre la barra del factor |
+| alg-13b Interés simple y compuesto | Pilas de monedas: simple suma la misma pila, compuesto la pila crece; fórmulas, la carrera, regla de duplicar | pilas de monedas 3D | sobre la brecha entre las curvas |
+
+Mientras el usuario sube los videos a Bunny, cada lección conserva sus videos actuales; al recibir los ID
+se pone `clip.bunny` + `duration` y se quita `more`.
+
+## Juegos nuevos (reemplazan tarjetas)
+
+| Lección | Reemplaza | Juego | Mecánica |
+|---|---|---|---|
+| alg-11 | verdadero-falso (familias) | `fuga-de-familia` | Elegir dos fichas de una familia para que la operación «se escape» de ella (resta de naturales, cociente de enteros, suma de irracionales con valor `r + k√2`) |
+| alg-11 | une-parejas | `candado-fraccion` | Girar las ruedas de numerador y denominador hasta que el decimal del visor sea el pedido; el candado se abre |
+| alg-11 | clasifica-cartas | `compas-raiz` | Elegir los catetos de un rectángulo en la cuadrícula y girar el compás desde 0: la diagonal cae en √n |
+| alg-11 | verdadero-falso (reales) | `lupa-densidad` | Acercar la lupa entre dos números muy cercanos (22/7 y π) y soltar un punto estrictamente entre ellos |
+| alg-12 | directa-inversa | `duplica-magnitud` | Cuando una magnitud se duplica (o triplica), subir la barra de la otra a su valor: el resultado revela directa, inversa o ninguna |
+| alg-12 | directa-inversa | `engranajes` | Dos engranajes engranados: dientes y vueltas son inversamente proporcionales; fijar vueltas o dientes con − / + y verlos girar |
+| alg-13 | verdadero-falso | `estira-barra` | Estirar o encoger la barra del 100 % hasta «70 % más», «9 % menos», «el 25 %» |
+| alg-13 | une-factor | `tragamonedas` | Girar los rodillos ×d.ddd hasta formar el factor de cada cambio |
+| alg-13 | verdadero-falso | `cadena-cambios` | Elegir dos sellos de cambio cuyo efecto total sea el pedido (+21 %, queda en 75 %…) |
+| alg-13b | clasifica-cartas | `crece-planta` | Hacer crecer la planta de los meses 2 y 3 sabiendo si el interés es simple o compuesto |
+| alg-13b | verdadero-falso | `alcancias-gemelas` | Ajustar la tasa simple que llena la alcancía igual que el compuesto |
+
+Cada juego: `grade` pura con pruebas, colores leídos de `api.palette` al dibujar, rondas con pestañas,
+texto que se encoge, botones − / + donde el arrastre necesite precisión, pista sin regalar la respuesta.
+Las lecciones `alg-12`, `alg-13` y `alg-13b` reciben pista en todos sus ejercicios.

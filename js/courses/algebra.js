@@ -42,16 +42,15 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Subir es sumar y bajar es restar: $2 - 6 = -4$ (pasas por la calle y llegas al sótano 4), $-3 + 3 = 0$ (un número y su opuesto suman cero: vuelves a la calle) y $-1 - 4 = -5$.',
               { hint: 'Cuenta piso por piso desde la banderita. La calle es el 0: al bajar de ella entras a los sótanos, que llevan signo menos. Subir desde un sótano te acerca a la calle.' }),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: 'Todo número natural es también racional', truth: true, why: 'ℕ ⊂ ℤ ⊂ ℚ: 12 es natural, entero y racional (12/1).' },
-                { text: 'El 0 es un número natural', truth: false, why: 'En este curso ℕ = {1, 2, 3, …}; el 0 es entero.' },
-                { text: 'Todo número entero es natural', truth: false, why: '−3 es entero, pero los naturales empiezan en 1.' },
-                { text: '0.125 es un número racional', truth: true, why: '0.125 = 1/8: su decimal termina.' },
-                { text: 'Una fracción puede tener 0 en el denominador', truth: false, why: 'n ≠ 0: repartir entre cero personas no tiene sentido.' },
+            play('fuga-de-familia', 'Mete dos fichas a la máquina para que el resultado **se escape** de su familia', {
+              rounds: [
+                { set: 'N', op: '−', tiles: [{ label: '6', r: 6, k: 0 }, { label: '2', r: 2, k: 0 }, { label: '11', r: 11, k: 0 }, { label: '9', r: 9, k: 0 }] },
+                { set: 'Z', op: '÷', tiles: [{ label: '12', r: 12, k: 0 }, { label: '−4', r: -4, k: 0 }, { label: '5', r: 5, k: 0 }, { label: '−6', r: -6, k: 0 }] },
+                { set: 'I', op: '+', tiles: [{ label: '√2', r: 0, k: 1 }, { label: '2√2', r: 0, k: 2 }, { label: '5 − √2', r: 5, k: -1 }, { label: '1 + √2', r: 1, k: 1 }] },
+                { set: 'I', op: '×', tiles: [{ label: '√2', r: 0, k: 1 }, { label: '1 + √2', r: 1, k: 1 }, { label: '3√2', r: 0, k: 3 }, { label: '2 + √2', r: 2, k: 1 }] },
               ],
-            }, 'Las familias están anidadas: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q}$, así que lo natural también es entero y racional, pero no al revés. Un racional es una fracción $\\tfrac{m}{n}$ de enteros con $n \\ne 0$.',
-              { hint: 'Piensa en las cajas: ℕ está dentro de ℤ, y ℤ dentro de ℚ. Lo que está en una caja de adentro también está en las de afuera, pero no al revés.' }),
+            }, 'Cada familia se queda corta para alguna operación, y por eso se inventó la siguiente: $2 - 11 = -9$ no es natural (nacen los enteros), $5 \\div 12 = \\tfrac{5}{12}$ no es entero (nacen los racionales). Y los irracionales tampoco se cierran: $\\sqrt2 + (5 - \\sqrt2) = 5$ y $\\sqrt2 \\cdot 3\\sqrt2 = 6$ ya son racionales.',
+              { hint: 'Busca la operación que la familia «no aguanta». Con naturales, resta un número más grande; con enteros, divide entre uno que no quepa exacto. Con raíces, junta fichas cuyas raíces se cancelen o se multipliquen por sí mismas: $\\sqrt2 \\cdot \\sqrt2 = 2$.' }),
             play('pizzeria', 'Sirve cada pedido: corta la pizza y marca las porciones que pide', {
               maxSlices: 12,
               orders: [
@@ -62,12 +61,13 @@ const COURSE_ALGEBRA = {
               ],
             }, 'La misma cantidad se puede escribir como fracción, decimal, porcentaje o con palabras: $0.6 = \\tfrac35 = \\tfrac{6}{10}$, $0.\\overline{6} = \\tfrac23 = \\tfrac{4}{6}$, $25\\,\\% = \\tfrac14 = \\tfrac{3}{12}$ y tres octavos es $\\tfrac38$. Cortar en más porciones no cambia cuánto es: son fracciones **equivalentes**.',
               { hint: 'Pasa cada pedido a fracción: 0.6 son seis décimas, un porcentaje es «de cada 100» y las palabras ya dicen la fracción. Corta la pizza en tantas porciones como diga el denominador (o en un múltiplo) y marca las del numerador.' }),
-            play('une-parejas', 'Une cada fracción con su decimal', {
-              left: ['1/8', '2/3', '11/4', '5/9', '7/20'],
-              right: ['0.125', '0.666…', '2.75', '0.555…', '0.35', '0.8', '2.5'],
-              pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
-            }, 'Dividir numerador entre denominador: $\\tfrac18 = 0.125$ y $\\tfrac{7}{20} = 0.35$ terminan; $\\tfrac23 = 0.\\overline{6}$ y $\\tfrac59 = 0.\\overline{5}$ se repiten; $\\tfrac{11}{4} = 2.75$. Las fichas $0.8$ y $2.5$ sobran.',
-              { hint: 'Divide el numerador entre el denominador. Si la división no termina, fíjate qué cifra se repite. Un denominador 9 suele dar un decimal que se repite.' }),
+            play('candado-fraccion', 'Gira las ruedas hasta que la fracción abra el candado', {
+              rounds: [
+                { dec: '0.35', num: 7, den: 20 }, { dec: '0.555…', num: 5, den: 9 }, { dec: '0.12', num: 3, den: 25 },
+                { dec: '1.333…', num: 4, den: 3 }, { dec: '2.625', num: 21, den: 8 },
+              ],
+            }, 'Un decimal que termina se escribe sobre 10, 100, 1000 y se simplifica: $0.35 = \\tfrac{35}{100} = \\tfrac{7}{20}$, $0.12 = \\tfrac{12}{100} = \\tfrac{3}{25}$ y $2.625 = \\tfrac{2625}{1000} = \\tfrac{21}{8}$. Una cifra que se repite para siempre va sobre 9: $0.\\overline{5} = \\tfrac59$ y $1.\\overline{3} = 1 + \\tfrac39 = \\tfrac43$. Cualquier fracción equivalente también abre.',
+              { hint: 'Si el decimal termina, escríbelo sobre 10, 100 o 1000 según sus cifras y simplifica. Si una cifra se repite sin fin, esa cifra va sobre 9, y si hay parte entera se suma aparte. El visor te muestra el decimal de lo que armas.' }),
             play('pon-la-rayita', 'Pon la rayita sobre el bloque que se repite para siempre', {
               rounds: [{ num: 5, den: 11 }, { num: 1, den: 6 }, { num: 23, den: 12 }, { num: 3, den: 7 }],
             }, 'La rayita cubre solo el bloque que se repite, desde donde empieza a repetirse: $\\tfrac{5}{11} = 0.\\overline{45}$, $\\tfrac16 = 0.1\\overline{6}$, $\\tfrac{23}{12} = 1.91\\overline{6}$ y $\\tfrac37 = 0.\\overline{428571}$. Los residuos lo delatan: cuando un residuo vuelve a salir, las cifras vuelven a salir en el mismo orden.',
@@ -77,43 +77,33 @@ const COURSE_ALGEBRA = {
               rounds: [{ n: 5 }, { n: 10 }], levels: 3,
             }, 'Como $2.2^2 = 4.84 < 5 < 5.29 = 2.3^2$, la raíz de 5 está entre $2.2$ y $2.3$; acercándose más, $2.236 < \\sqrt5 < 2.237$, y lo mismo $3.162 < \\sqrt{10} < 3.163$. Puedes seguir para siempre: las cifras de una raíz no exacta nunca terminan ni se repiten. Por eso es **irracional**.',
               { hint: 'Fíjate en los colores: azul si el número al cuadrado da menos que el de adentro de la raíz, coral si da más. La raíz está justo donde el azul se vuelve coral: toca ese tramo y la lupa lo abre en la siguiente línea.' }),
-            play('clasifica-cartas', 'Desliza cada número según su decimal: ¿**racional** o **irracional**?', {
-              left: 'Irracional', right: 'Racional',
-              cards: [
-                { text: '0.125', side: 'right', why: 'Termina: es 1/8.' },
-                { text: '0.777…', side: 'right', why: 'Se repite el 7: es 7/9.' },
-                { text: '1.7320508…', side: 'left', why: 'Es √3: sus cifras no se repiten nunca.' },
-                { text: '−4', side: 'right', why: 'Todo entero es racional: −4 = −4/1.' },
-                { text: '0.1010010001…', side: 'left', why: 'Hay un patrón, pero no se repite igual: cada vez hay un 0 más. No es periódico.' },
-                { text: '22/7', side: 'right', why: 'Es una fracción de enteros: racional, aunque se parezca a π.' },
-              ],
-            }, 'Racional: el decimal termina o repite un bloque fijo (período). Irracional: no termina y no repite ningún bloque fijo, como $\\sqrt3$ o $0.1010010001\\ldots$',
-              { hint: 'Mira las cifras después del punto: ¿se acaban, o repiten un bloque siempre igual? Entonces viene de una fracción. Un patrón que va cambiando no es un período.' }),
+            play('compas-raiz', 'Elige los lados del rectángulo para que el compás caiga en la banderita', {
+              rounds: [{ n: 5 }, { n: 13 }, { n: 8 }, { n: 17 }], max: 4,
+            }, 'La diagonal de un rectángulo de lados $a$ y $b$ mide $\\sqrt{a^2 + b^2}$ (Pitágoras), y el compás la acuesta sobre la recta sin cambiar su largo: $1^2 + 2^2 = 5$, $2^2 + 3^2 = 13$, $2^2 + 2^2 = 8$ y $1^2 + 4^2 = 17$. Así se ubica un irracional **exacto** en la recta, aunque su decimal nunca termine.',
+              { hint: 'La diagonal al cuadrado es $a^2 + b^2$. Busca dos cuadrados (1, 4, 9, 16) que sumen el número de adentro de la raíz.' }),
             play('cajas-numericas', 'Arrastra cada número a la caja **más pequeña** donde vive', {
               cards: [
                 { label: '12', tex: '12', set: 'N' }, { label: '−3', tex: '-3', set: 'Z' }, { label: '0', tex: '0', set: 'Z' },
                 { label: '2/5', tex: '\\tfrac25', set: 'Q' }, { label: '0.444…', tex: '0.\\overline{4}', set: 'Q' }, { label: '√49', tex: '\\sqrt{49}', set: 'N' },
-                { label: '√5', tex: '\\sqrt5', set: 'I' }, { label: 'π', tex: '\\pi', set: 'I' }, { label: '−8/2', tex: '-\\tfrac82', set: 'Z' },
+                { label: '√5', tex: '\\sqrt5', set: 'I' }, { label: 'e', tex: 'e', set: 'I' }, { label: '−8/2', tex: '-\\tfrac82', set: 'Z' },
               ],
-            }, 'Cada familia vive dentro de la siguiente: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, y la caja más pequeña es la que mejor describe al número. $\\sqrt{49} = 7$ y $-\\tfrac82 = -4$ se simplifican antes de decidir; $0.\\overline{4} = \\tfrac49$ es una fracción disfrazada; $\\sqrt5$ y $\\pi$ no son fracciones. Una caja más grande (naranja) no está mal, pero no es la más pequeña.',
+            }, 'Cada familia vive dentro de la siguiente: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, y la caja más pequeña es la que mejor describe al número. $\\sqrt{49} = 7$ y $-\\tfrac82 = -4$ se simplifican antes de decidir; $0.\\overline{4} = \\tfrac49$ es una fracción disfrazada; $\\sqrt5$ y el número $e \\approx 2.718$ no son fracciones. Una caja más grande (naranja) no está mal, pero no es la más pequeña.',
               { hint: 'Primero simplifica lo que se pueda: raíces exactas y fracciones que dan un entero. Luego prueba de la caja más pequeña a la más grande: ℕ, ℤ, ℚ. Si no se puede escribir como fracción, va en 𝕀.' }),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: '22/7 es igual a π', truth: false, why: '22/7 = 3.142857… es racional (periódico); π no tiene período. Solo se parecen.' },
-                { text: 'Un decimal que no termina siempre es irracional', truth: false, why: '0.444… no termina, pero se repite: es 4/9, racional.' },
-                { text: 'π es un número real', truth: true, why: 'π es irracional, y los irracionales están dentro de ℝ.' },
-                { text: 'ℝ = ℚ ∪ 𝕀', truth: true, why: 'Los reales son la unión de racionales e irracionales.' },
-                { text: 'Entre dos reales distintos siempre hay otro real', truth: true, why: 'Entre a y b está su promedio (a + b)/2: la recta no tiene huecos.' },
+            play('lupa-densidad', 'Acerca la lupa y suelta un punto **entre** las dos banderitas', {
+              rounds: [
+                { a: { label: '√5', value: Math.sqrt(5) }, b: { label: '2.24', value: 2.24 }, view: [2, 3] },
+                { a: { label: '0.66', value: 0.66 }, b: { label: '2/3', value: 2 / 3 }, view: [0, 1] },
+                { a: { label: 'π', value: Math.PI }, b: { label: '22/7', value: 22 / 7 }, view: [3, 4] },
               ],
-            }, 'Un decimal es racional si termina o se repite; si nunca se repite, es irracional. Juntos, racionales e irracionales forman $\\mathbb{R}$ y llenan la recta sin dejar huecos.',
-              { hint: 'Un decimal es racional si termina o si repite un bloque fijo; es irracional si nunca lo repite. Y todos, racionales e irracionales, viven en la recta real.' }),
+            }, 'De lejos parecen el mismo punto, pero son distintos y entre ellos cabe otro: $\\sqrt5 = 2.2360\\ldots < 2.238 < 2.24$, $0.66 < 0.663 < 0.\\overline{6}$ y $\\pi = 3.14159\\ldots < 3.142 < 3.142857\\ldots = \\tfrac{22}{7}$. Por eso $\\tfrac{22}{7}$ no es $\\pi$: solo se le parece. Entre dos reales distintos siempre hay otro (por ejemplo, su promedio), así que la recta no tiene huecos.',
+              { hint: 'Escribe los dos números con varios decimales y compáralos cifra por cifra: la primera cifra en que se diferencian te dice dónde abrir la lupa. Acerca hasta que las banderitas se separen.' }),
             play('ubica-en-recta', 'Suelta cada número en su lugar de la recta', {
               min: -3, max: 4, tol: 0.15,
               points: [
                 { label: '−5/2', tex: '-\\tfrac52', value: -2.5 }, { label: '1/3', tex: '\\tfrac13', value: 0.3333 },
-                { label: '√3', tex: '\\sqrt3', value: 1.7321 }, { label: '7/2', tex: '\\tfrac72', value: 3.5 }, { label: '−0.5', tex: '-0.5', value: -0.5 },
+                { label: '√6', tex: '\\sqrt6', value: 2.4495 }, { label: '7/2', tex: '\\tfrac72', value: 3.5 }, { label: '−0.5', tex: '-0.5', value: -0.5 },
               ],
-            }, 'Primero conviértelos: $-\\tfrac52 = -2.5$, $\\tfrac13 \\approx 0.33$, $\\sqrt3 \\approx 1.73$ (porque $1.73^2 \\approx 3$), $\\tfrac72 = 3.5$ y $-0.5$ está a medio paso del cero, a la izquierda.',
+            }, 'Primero conviértelos: $-\\tfrac52 = -2.5$, $\\tfrac13 \\approx 0.33$, $\\sqrt6 \\approx 2.45$ (porque $2.45^2 \\approx 6$), $\\tfrac72 = 3.5$ y $-0.5$ está a medio paso del cero, a la izquierda.',
               { hint: 'Pasa cada número a decimal antes de soltarlo; mientras arrastras, la ficha te dice el valor donde caería. Para una raíz, busca qué decimal multiplicado por sí mismo se acerca al número de adentro.' }),
             play('ordena-terminos', 'Ordena los pasos para escribir $0.\\overline{45}$ como fracción', { tex: 'x = 0.\\overline{45}', chips: ['100x = 45.4545…', '100x − x = 45', '99x = 45', 'x = 45/99 = 5/11', '10x = 4.5454…', 'x = 45/100'], order: [0, 1, 2, 3], sep: '⇒' },
               'El período tiene dos cifras, así que se multiplica por $100$: $100x = 45.\\overline{45}$. Al restar $x$ desaparece la cola: $99x = 45$ y $x = \\tfrac{45}{99} = \\tfrac{5}{11}$. Multiplicar por $10$ no alinea el período, y $\\tfrac{45}{100}$ sería $0.45$ sin la rayita.',
@@ -198,27 +188,32 @@ const COURSE_ALGEBRA = {
           // magnitudes directa e inversamente proporcionales, reparto y media proporcional).
           ex: [
             play('limonada', 'Prepara una jarra grande que sepa **igual** que el modelo', { base: [2, 3], minLemons: 4, maxEach: 12 },
-              'Una **razón** compara dos cantidades por cociente: $2 : 3$ limones por vasos. Toda mezcla con la misma razón ($4 : 6$, $6 : 9$, …) sabe igual: son razones **equivalentes**.'),
+              'Una **razón** compara dos cantidades por cociente: $2 : 3$ limones por vasos. Toda mezcla con la misma razón ($4 : 6$, $6 : 9$, …) sabe igual: son razones **equivalentes**.',
+              { hint: 'Para que sepa igual, limones y vasos se multiplican por el mismo número: si duplicas los limones, duplica también los vasos.' }),
             play('balanza-proporcion', 'Encuentra $x$ para que la balanza quede en equilibrio', { a: 3, b: 5, d: 20, min: 0, max: 30 },
-              'Una **proporción** es la igualdad de dos razones: $\\dfrac{a}{b} = \\dfrac{c}{d}$ si y solo si $ad = bc$. Aquí $3 \\cdot 20 = 5x$, así que $x = 12$.'),
-            play('directa-inversa', 'Clasifica cada situación: ¿directa, inversa o ninguna?', {
-              items: [
-                { text: 'Distancia y tiempo a velocidad fija', kind: 'directa' },
-                { text: 'Obreros y días para una obra', kind: 'inversa' },
-                { text: 'Velocidad y tiempo de un trayecto', kind: 'inversa' },
-                { text: 'Precio y cantidad del mismo producto', kind: 'directa' },
-                { text: 'Salario y horas a tarifa fija', kind: 'directa' },
-                { text: 'Lado y área de un cuadrado', kind: 'ninguna' },
+              'Una **proporción** es la igualdad de dos razones: $\\dfrac{a}{b} = \\dfrac{c}{d}$ si y solo si $ad = bc$. Aquí $3 \\cdot 20 = 5x$, así que $x = 12$.',
+              { hint: 'En una proporción los productos cruzados son iguales: multiplica en cruz y despeja $x$. También puedes ver por cuánto se multiplicó el 5 para llegar al 20.' }),
+            play('duplica-magnitud', 'Una magnitud cambió: sube o baja la barra de la otra hasta su nuevo valor', {
+              rounds: [
+                { text: 'Con 3 llaves iguales un tanque se llena en 12 horas. Ahora se abren 6 llaves.', nx: 'llaves', ny: 'horas', uy: 'horas', x0: 3, y0: 12, x1: 6, y1: 6, step: 1, ymax: 24 },
+                { text: '4 m de tela cuestan 30 mil pesos. Ahora se compran 12 m.', nx: 'metros', ny: 'miles de pesos', uy: 'mil pesos', x0: 4, y0: 30, x1: 12, y1: 90, step: 5, ymax: 120 },
+                { text: 'Un cuadrado de 2 cm de lado tiene 4 cm² de área. Ahora el lado mide 6 cm.', nx: 'lado', ny: 'área', uy: 'cm²', x0: 2, y0: 4, x1: 6, y1: 36, step: 2, ymax: 48 },
+                { text: 'A 40 km/h el viaje dura 3 horas. Ahora se va a 120 km/h.', nx: 'velocidad', ny: 'horas', uy: 'horas', x0: 40, y0: 3, x1: 120, y1: 1, step: 0.25, ymax: 4 },
               ],
-            }, '**Directa**: el cociente $y/x$ es constante (al duplicar una, se duplica la otra). **Inversa**: el producto $xy$ es constante (al duplicar una, la otra se reduce a la mitad). El área de un cuadrado es $l^2$: al duplicar el lado el área se cuadruplica, así que no es ninguna de las dos.'),
+            }, '**Directa**: si una se multiplica por 3, la otra también (12 m de tela cuestan $30 \\cdot 3 = 90$ mil). **Inversa**: si una se multiplica, la otra se divide por lo mismo (el doble de llaves, la mitad de horas: 6; el triple de velocidad, la tercera parte del tiempo: 1 hora). El área del cuadrado es $l^2$: el lado $\\times 3$ hace el área $\\times 9$, así que $4 \\cdot 9 = 36$ y la relación **no es ninguna** de las dos.',
+              { hint: 'Pregúntate primero: si esta magnitud crece, ¿la otra crece o decrece? Luego mira por cuánto se multiplicó (la flecha te lo dice) y aplica el mismo cambio, o el contrario. Con áreas, piensa en lado por lado.' }),
             play('grafica-relacion', 'Mueve los puntos para que la relación sea **directa**', { kind: 'directa', k: 1.5, given: [[2, 3]], xs: [4, 6, 8], tol: 0.25, xmax: 10, ymax: 14 },
-              'En una relación directa $y = kx$: con $(2, 3)$ la constante es $k = \\tfrac32 = 1.5$, y los puntos quedan sobre la recta que pasa por el origen: $(4, 6)$, $(6, 9)$, $(8, 12)$.'),
+              'En una relación directa $y = kx$: con $(2, 3)$ la constante es $k = \\tfrac32 = 1.5$, y los puntos quedan sobre la recta que pasa por el origen: $(4, 6)$, $(6, 9)$, $(8, 12)$.',
+              { hint: 'En una relación directa el cociente $y/x$ es siempre el mismo: calcúlalo con el punto que ya está y úsalo para los demás. Todos quedan en una recta que pasa por el origen.' }),
             play('grafica-relacion', 'Mueve los puntos para que la relación sea **inversa**', { kind: 'inversa', k: 12, given: [[2, 6]], xs: [3, 4, 6], tol: 0.25, xmax: 8, ymax: 8 },
-              'En una relación inversa $xy = k$: con $(2, 6)$ la constante es $k = 12$, y los puntos quedan sobre la curva $y = \\tfrac{12}{x}$: $(3, 4)$, $(4, 3)$, $(6, 2)$.'),
+              'En una relación inversa $xy = k$: con $(2, 6)$ la constante es $k = 12$, y los puntos quedan sobre la curva $y = \\tfrac{12}{x}$: $(3, 4)$, $(4, 3)$, $(6, 2)$.',
+              { hint: 'En una relación inversa el producto $x \\cdot y$ es siempre el mismo. Calcúlalo con el punto dado y busca para cada $x$ el $y$ que da ese producto.' }),
             play('reparto', 'Reparte 1.200.000 en partes proporcionales a 2, 3 y 5', { total: 1200000, parts: [2, 3, 5], tol: 0.02 },
-              '**Reparto proporcional**: $2 + 3 + 5 = 10$ partes, cada una vale $1\\,200\\,000 \\div 10 = 120\\,000$. Las partes son $240\\,000$, $360\\,000$ y $600\\,000$.'),
+              '**Reparto proporcional**: $2 + 3 + 5 = 10$ partes, cada una vale $1\\,200\\,000 \\div 10 = 120\\,000$. Las partes son $240\\,000$, $360\\,000$ y $600\\,000$.',
+              { hint: 'Suma los números de la proporción para saber en cuántas partes iguales se corta el total. Luego cada persona se lleva tantas partes como diga su número.' }),
             play('cuadrado-media', 'Encuentra el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$', { w: 4, h: 25, tol: 0.2 },
-              'La **media proporcional** entre 4 y 25 es el $x$ con $\\dfrac{4}{x} = \\dfrac{x}{25}$: $x^2 = 100$, $x = 10$. Geométricamente, es el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$.'),
+              'La **media proporcional** entre 4 y 25 es el $x$ con $\\dfrac{4}{x} = \\dfrac{x}{25}$: $x^2 = 100$, $x = 10$. Geométricamente, es el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$.',
+              { hint: 'Calcula el área del rectángulo. El cuadrado debe tener esa misma área, así que su lado es el número que multiplicado por sí mismo la da.' }),
             // --- Parte 2: regla de tres (el video 2 de `more` se muestra antes de estos cinco).
             play('arma-regla', 'Arma la regla de tres de cada problema', {
               problems: [
@@ -227,23 +222,25 @@ const COURSE_ALGEBRA = {
                 { text: '12 obreros terminan una obra en 30 días. ¿Cuántos obreros la terminan en 24 días?', kind: 'inversa',
                   chips: [{ label: '12 obreros', mag: 0, row: 0 }, { label: '30 días', mag: 1, row: 0 }, { label: 'x', mag: 0, row: 1 }, { label: '24 días', mag: 1, row: 1 }] },
               ],
-            }, 'La **regla de tres** busca el cuarto término de una proporción. Cada columna lleva una magnitud y cada fila una situación. Si al crecer una magnitud la otra también crece, es **directa** (flechas paralelas): $\\dfrac{150}{x} = \\dfrac{5}{7}$. Si una crece y la otra baja, es **inversa** (flechas cruzadas): $\\dfrac{12}{x} = \\dfrac{24}{30}$.'),
+            }, 'La **regla de tres** busca el cuarto término de una proporción. Cada columna lleva una magnitud y cada fila una situación. Si al crecer una magnitud la otra también crece, es **directa** (flechas paralelas): $\\dfrac{150}{x} = \\dfrac{5}{7}$. Si una crece y la otra baja, es **inversa** (flechas cruzadas): $\\dfrac{12}{x} = \\dfrac{24}{30}$.',
+              { hint: 'Pon cada magnitud en su columna (km con km, horas con horas) y cada situación en su fila. Para el tipo, pregúntate: si una crece, ¿la otra crece o baja?' }),
             play('bascula', 'Fija el precio de 5 kg de manzanas', { knownKg: 3, knownPrice: 12000, askKg: 5, max: 40000, step: 500, tol: 200 },
-              'Kilos y precio son directamente proporcionales: $\\dfrac{3}{5} = \\dfrac{12\\,000}{x}$, así que $x = \\dfrac{12\\,000 \\cdot 5}{3} = 20\\,000$. Cada kilo cuesta 4.000.'),
+              'Kilos y precio son directamente proporcionales: $\\dfrac{3}{5} = \\dfrac{12\\,000}{x}$, así que $x = \\dfrac{12\\,000 \\cdot 5}{3} = 20\\,000$. Cada kilo cuesta 4.000.',
+              { hint: 'Averigua primero cuánto cuesta un solo kilo y luego multiplica por los kilos que se piden.' }),
             play('la-obra', 'Deja en la obra los obreros justos para terminar en 24 días', { workers: 12, days: 30, askDays: 24, max: 40 },
-              'Obreros y días son inversamente proporcionales: el producto se conserva. $12 \\cdot 30 = 360 = x \\cdot 24$, así que $x = 15$. Más obreros, menos días.'),
-            play('directa-inversa', 'Regla de tres: ¿directa, inversa o ninguna?', {
-              items: [
-                { text: 'Máquinas y horas para un pedido', kind: 'inversa' },
-                { text: 'Grifos iguales y tiempo de llenado', kind: 'inversa' },
-                { text: 'Kilos y precio del mismo producto', kind: 'directa' },
-                { text: 'Velocidad y tiempo del mismo trayecto', kind: 'inversa' },
-                { text: 'Fotocopias y costo', kind: 'directa' },
-                { text: 'Lado y perímetro de un cuadrado', kind: 'directa' },
+              'Obreros y días son inversamente proporcionales: el producto se conserva. $12 \\cdot 30 = 360 = x \\cdot 24$, así que $x = 15$. Más obreros, menos días.',
+              { hint: 'La obra completa mide «obreros × días» (jornadas de trabajo). Calcula esas jornadas y repártelas en los días nuevos.' }),
+            play('engranajes', 'Completa la rueda B para que los engranajes encajen', {
+              rounds: [
+                { A: [12, 10], B: [30, null], min: 1, max: 20 },
+                { A: [18, 5], B: [null, 9], min: 6, max: 36 },
+                { A: [40, 3], B: [24, null], min: 1, max: 12 },
               ],
-            }, 'Antes de armar la regla, pregunta: si esta magnitud sube, ¿la otra sube o baja? Sube con ella → **directa** (kilos–precio, fotocopias–costo, lado–perímetro: $P = 4l$). Baja → **inversa** (más máquinas o grifos, menos tiempo; más velocidad, menos tiempo).'),
+            }, 'Por el punto de contacto pasan los mismos dientes de las dos ruedas, así que **dientes × vueltas** es igual en ambas: dientes y vueltas son **inversamente proporcionales**. $12 \\cdot 10 = 30 \\cdot 4$, $18 \\cdot 5 = 10 \\cdot 9$ y $40 \\cdot 3 = 24 \\cdot 5$. La rueda más chica es la que da más vueltas.',
+              { hint: 'Cuenta cuántos dientes pasan por el punto donde se tocan las ruedas: los de A son dientes × vueltas. Los de B tienen que ser los mismos.' }),
             play('cadena-razones', 'Voltea las razones que haga falta para que la cadena dé los días', { base: 28, unit: 'días', factors: [{ label: 'hombres', a: 9, b: 7, inverse: true }, { label: 'horas/día', a: 6, b: 8, inverse: true }], answer: 27 },
-              'En la **regla de tres compuesta** cada magnitud aporta una razón: si es inversa, la razón va al revés del cambio. Menos hombres (de 9 a 7) → más días: $\\tfrac{9}{7}$. Más horas por día (de 6 a 8) → menos días: $\\tfrac{6}{8}$. $x = 28 \\cdot \\tfrac{9}{7} \\cdot \\tfrac{6}{8} = 27$ días.'),
+              'En la **regla de tres compuesta** cada magnitud aporta una razón: si es inversa, la razón va al revés del cambio. Menos hombres (de 9 a 7) → más días: $\\tfrac{9}{7}$. Más horas por día (de 6 a 8) → menos días: $\\tfrac{6}{8}$. $x = 28 \\cdot \\tfrac{9}{7} \\cdot \\tfrac{6}{8} = 27$ días.',
+              { hint: 'Mira cada magnitud por separado: ¿con menos hombres se tardan más o menos días? ¿Y con más horas al día? Si los días deben crecer, la razón tiene que ser mayor que 1.' }),
           ],
         },
         {
@@ -255,58 +252,72 @@ const COURSE_ALGEBRA = {
           ex: [
             // --- Parte 1: porcentajes ---
             play('cuadricula-cien', 'Pinta en la cuadrícula el porcentaje que pide cada ronda', { rounds: [{ ask: '35 %', count: 35 }, { ask: '3/4', count: 75 }, { ask: '0.08', count: 8 }] },
-              'Por ciento es «de cada 100»: $35\\%$ son 35 casillas de 100. Las fracciones y los decimales se pasan a centésimas: $\\tfrac34 = \\tfrac{75}{100} = 75\\%$ y $0.08 = \\tfrac{8}{100} = 8\\%$.'),
+              'Por ciento es «de cada 100»: $35\\%$ son 35 casillas de 100. Las fracciones y los decimales se pasan a centésimas: $\\tfrac34 = \\tfrac{75}{100} = 75\\%$ y $0.08 = \\tfrac{8}{100} = 8\\%$.',
+              { hint: 'La cuadrícula tiene 100 casillas: cada una es el 1 %. Pasa fracciones y decimales a «de cada 100» antes de pintar.' }),
             play('cruz-porcentaje', 'Arma la cruz del porcentaje de cada problema', {
               problems: [
                 { text: 'Halla el 12 % de 8.000 pesos', chips: [{ label: '12', cell: 'p' }, { label: '8.000', cell: 'C' }, { label: '?', cell: 'B' }] },
                 { text: '¿De qué número es 48 el 8 %?', chips: [{ label: '8', cell: 'p' }, { label: '48', cell: 'B' }, { label: '?', cell: 'C' }] },
                 { text: '¿De qué número es 408 el 70 % más?', chips: [{ label: '170', cell: 'p' }, { label: '408', cell: 'B' }, { label: '?', cell: 'C' }, { label: '70', cell: null }] },
               ],
-            }, 'La cruz es la regla de tres $\\dfrac{100}{C} = \\dfrac{p}{B}$: $p$ es el porcentaje, $C$ el total y $B$ la parte. «El 70 % más» de un número es su $170\\%$, así que $p = 170$ y $C = \\dfrac{100 \\cdot 408}{170} = 240$.'),
+            }, 'La cruz es la regla de tres $\\dfrac{100}{C} = \\dfrac{p}{B}$: $p$ es el porcentaje, $C$ el total y $B$ la parte. «El 70 % más» de un número es su $170\\%$, así que $p = 170$ y $C = \\dfrac{100 \\cdot 408}{170} = 240$.',
+              { hint: 'El total siempre va con el 100 % y la parte con su porcentaje. Si dice «el p % más», el número dado ya es más que el total: su porcentaje es 100 + p.' }),
             play('mezcla', 'Añade agua hasta que el alcohol sea el 20 % de la mezcla', { solute: 40, target: 20, step: 10, max: 400 },
-              'Los 40 g de alcohol son el $20\\%$ de la mezcla, así que la mezcla pesa $C = \\dfrac{100 \\cdot 40}{20} = 200$ g; el agua es lo que falta: $200 - 40 = 160$ g.'),
+              'Los 40 g de alcohol son el $20\\%$ de la mezcla, así que la mezcla pesa $C = \\dfrac{100 \\cdot 40}{20} = 200$ g; el agua es lo que falta: $200 - 40 = 160$ g.',
+              { hint: 'El alcohol no cambia: solo agregas agua. Pregúntate de qué peso total son 40 g el 20 % (la quinta parte), y el agua es lo que falta para llegar.' }),
             play('rueda-porcentaje', 'Gira la aguja hasta cubrir la parte pedida y lee el porcentaje', { rounds: [{ part: 51, whole: 170 }, { part: 63, whole: 180 }, { part: 26.4, whole: 240 }], tol: 1 },
-              'Qué porcentaje es $B$ de $C$: $p = \\dfrac{100 \\cdot B}{C}$. Así, $\\dfrac{100 \\cdot 51}{170} = 30\\%$, $\\dfrac{100 \\cdot 63}{180} = 35\\%$ y $\\dfrac{100 \\cdot 26.4}{240} = 11\\%$.'),
+              'Qué porcentaje es $B$ de $C$: $p = \\dfrac{100 \\cdot B}{C}$. Así, $\\dfrac{100 \\cdot 51}{170} = 30\\%$, $\\dfrac{100 \\cdot 63}{180} = 35\\%$ y $\\dfrac{100 \\cdot 26.4}{240} = 11\\%$.',
+              { hint: 'Divide la parte entre el total y multiplica por 100. Mientras giras, compara la parte cubierta con la que pide la ronda.' }),
             play('bodegas', 'Reparte los 2.000 sacos para que, tras el viaje del 20 %, queden iguales', { total: 2000, move: 20, step: 50 },
-              'Si en A hay $x$ sacos, en B hay $2\\,000 - x$. Tras llevar el $20\\%$ de A: $0.8x = 2\\,000 - x + 0.2x$, es decir $1.6x = 2\\,000$ y $x = 1\\,250$. Había 1.250 sacos en A y 750 en B.'),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: 'El 70 % más de un número es el 170 % de ese número', truth: true, why: '100 % + 70 % = 170 %: 408 es el 170 % de 240.' },
-                { text: 'El 9 % menos de un número es el 9 % de ese número', truth: false, why: 'Es el 91 %: 100 % − 9 %.' },
-                { text: 'El 12 % de 8.000 es 96', truth: false, why: '12 · 8.000 / 100 = 960.' },
-                { text: 'El 25 % de una cantidad es su cuarta parte', truth: true, why: '25/100 = 1/4.' },
-                { text: '51 de 170 es el 30 %', truth: true, why: '100 · 51 / 170 = 30.' },
+              'Si en A hay $x$ sacos, en B hay $2\\,000 - x$. Tras llevar el $20\\%$ de A: $0.8x = 2\\,000 - x + 0.2x$, es decir $1.6x = 2\\,000$ y $x = 1\\,250$. Había 1.250 sacos en A y 750 en B.',
+              { hint: 'Llama $x$ a los sacos de A. Escribe cuántos quedan en A y cuántos llegan a B después del viaje, e iguala las dos bodegas.' }),
+            play('estira-barra', 'Estira o encoge la barra hasta lo que pide cada ronda', {
+              max: 200,
+              rounds: [
+                { base: 250, text: 'El 60 % más de 250', pct: 160 },
+                { base: 400, text: 'El 15 % menos de 400', pct: 85 },
+                { base: 90, text: 'La quinta parte de 90', pct: 20 },
+                { base: 300, text: 'Lo que queda de 300 si se le quita el 35 %', pct: 65 },
               ],
-            }, 'Porcentaje es una razón con denominador 100: $25\\% = \\tfrac14$ y $12\\%$ de 8.000 es $\\dfrac{12 \\cdot 8\\,000}{100} = 960$. «El $p\\%$ más» es el $(100 + p)\\%$ y «el $p\\%$ menos» es el $(100 - p)\\%$.'),
+            }, 'La cantidad original es el $100\\%$. «El $60\\%$ más» la estira al $160\\%$ ($250 \\cdot 1.6 = 400$); «el $15\\%$ menos» la deja en el $85\\%$ ($340$); la quinta parte es $\\tfrac15 = 20\\%$ ($18$), y quitar el $35\\%$ deja el $65\\%$ ($195$).',
+              { hint: 'La barra punteada es el 100 %. Si la ronda dice «más», la barra crece por encima de 100; si dice «menos» o «quita», queda por debajo. Una fracción como un cuarto o un quinto se pasa a «de cada 100».' }),
             // --- Parte 2: aumentos y descuentos ---
-            play('une-factor', 'Une cada cambio con el factor por el que multiplica', { changes: [25, -25, 100, -5, 0.5], factors: [1.25, 0.75, 2, 0.95, 1.005, 1.5] },
-              'Aumentar un $r\\%$ es multiplicar por $1 + \\tfrac{r}{100}$ y descontar, por $1 - \\tfrac{r}{100}$: $+25\\% \\Rightarrow \\times 1.25$, $-25\\% \\Rightarrow \\times 0.75$, $+100\\% \\Rightarrow \\times 2$ (el doble), $-5\\% \\Rightarrow \\times 0.95$ y $+0.5\\% \\Rightarrow \\times 1.005$, no $1.5$.'),
+            play('tragamonedas', 'Gira los rodillos hasta formar el factor de cada cambio', {
+              rounds: [{ change: 35 }, { change: -12 }, { change: 150 }, { change: -0.5 }, { change: 7 }],
+            }, 'Aumentar un $r\\%$ es multiplicar por $1 + \\tfrac{r}{100}$ y descontar, por $1 - \\tfrac{r}{100}$: $+35\\% \\Rightarrow \\times 1.35$, $-12\\% \\Rightarrow \\times 0.88$, $+150\\% \\Rightarrow \\times 2.5$ (dos veces y media), $-0.5\\% \\Rightarrow \\times 0.995$ y $+7\\% \\Rightarrow \\times 1.07$, no $1.7$.',
+              { hint: 'Empieza en $\\times 1.000$, que deja el precio igual. Un aumento suma su porcentaje en centésimas; un descuento lo resta. Mira el billete de 100: debe salir convertido en 100 más o menos el porcentaje.' }),
             play('etiqueta-rebaja', 'Pega en cada etiqueta el sticker del precio final', {
               items: [{ name: 'Tenis', price: 45000, change: -20 }, { name: 'Audífonos', price: 80000, change: -15 }, { name: 'Bicicleta', price: 60000, change: 30 }],
               stickers: [36000, 9000, 68000, 12000, 78000, 42000],
-            }, 'El precio final es el precio de lista por el factor: $45\\,000 \\cdot 0.8 = 36\\,000$ (9.000 es el descuento, no el precio), $80\\,000 \\cdot 0.85 = 68\\,000$ y, como la bicicleta **sube** $30\\%$, $60\\,000 \\cdot 1.3 = 78\\,000$.'),
+            }, 'El precio final es el precio de lista por el factor: $45\\,000 \\cdot 0.8 = 36\\,000$ (9.000 es el descuento, no el precio), $80\\,000 \\cdot 0.85 = 68\\,000$ y, como la bicicleta **sube** $30\\%$, $60\\,000 \\cdot 1.3 = 78\\,000$.',
+              { hint: 'Multiplica el precio por el factor del cambio. Cuidado: algunos stickers son solo el descuento, no el precio final, y no todo baja.' }),
             play('cascada', 'Pega los dos descuentos y fija el descuento único equivalente', { price: 100000, changes: [-30, -20], step: 1 },
-              'Cada descuento multiplica el precio: $100\\,000 \\cdot 0.7 = 70\\,000$ y $70\\,000 \\cdot 0.8 = 56\\,000$. El factor total es $0.7 \\cdot 0.8 = 0.56$, así que el descuento único es $1 - 0.56 = 44\\%$, no $50\\%$. El orden no importa.'),
+              'Cada descuento multiplica el precio: $100\\,000 \\cdot 0.7 = 70\\,000$ y $70\\,000 \\cdot 0.8 = 56\\,000$. El factor total es $0.7 \\cdot 0.8 = 0.56$, así que el descuento único es $1 - 0.56 = 44\\%$, no $50\\%$. El orden no importa.',
+              { hint: 'El segundo descuento se aplica sobre el precio ya rebajado. Sigue el precio paso a paso y compara el final con el original.' }),
             play('mejor-oferta', 'Lleva el carrito a la tienda donde el producto sale más barato', {
               rounds: [
                 { price: 100000, a: { label: '30 % y luego 20 % de descuento', changes: [-30, -20] }, b: { label: '45 % de descuento de una vez', changes: [-45] } },
                 { price: 80000, a: { label: 'Sube 20 % y luego baja 20 %', changes: [20, -20] }, b: { label: 'Precio de lista', changes: [] } },
                 { price: 50000, a: { label: '10 % de descuento', changes: [-10] }, b: { label: '6.000 de rebaja', off: 6000 } },
               ],
-            }, 'Se comparan los precios finales. Ronda 1: $0.7 \\cdot 0.8 = 0.56$ ($56\\,000$) contra $0.55$ ($55\\,000$): gana el 45 %. Ronda 2: $1.2 \\cdot 0.8 = 0.96$: subir y bajar el mismo porcentaje deja el precio en $76\\,800$, más barato que la lista. Ronda 3: el $10\\%$ de $50\\,000$ son $5\\,000$, menos que la rebaja fija de $6\\,000$.'),
+            }, 'Se comparan los precios finales. Ronda 1: $0.7 \\cdot 0.8 = 0.56$ ($56\\,000$) contra $0.55$ ($55\\,000$): gana el 45 %. Ronda 2: $1.2 \\cdot 0.8 = 0.96$: subir y bajar el mismo porcentaje deja el precio en $76\\,800$, más barato que la lista. Ronda 3: el $10\\%$ de $50\\,000$ son $5\\,000$, menos que la rebaja fija de $6\\,000$.',
+              { hint: 'Calcula el precio final de cada tienda paso a paso, aplicando cada cambio sobre el precio que va quedando, y compara.' }),
             play('rebote', 'Sube el precio rebajado hasta volver exactamente al original', { base: 100, drop: 10, max: 30, step: 0.1, tol: 0.06 },
-              'Tras rebajar $10\\%$ el precio queda en 90. Para volver a 100 hay que subir 10 sobre 90: $\\dfrac{10}{90} = 11.1\\%$. La subida se calcula sobre el precio rebajado, por eso no basta con $10\\%$.'),
+              'Tras rebajar $10\\%$ el precio queda en 90. Para volver a 100 hay que subir 10 sobre 90: $\\dfrac{10}{90} = 11.1\\%$. La subida se calcula sobre el precio rebajado, por eso no basta con $10\\%$.',
+              { hint: 'Después de la rebaja el precio es menor. La subida se calcula sobre ese precio rebajado: ¿qué porcentaje de él falta para volver al original?' }),
             play('dos-etapas', 'Gira la perilla hasta que la máquina produzca 8.840', { changes: [30, -20], output: 8840, max: 20000, step: 20 },
-              'Subir $30\\%$ es $\\times 1.3$ y bajar $20\\%$ es $\\times 0.8$: en total $\\times 1.04$. Entonces $1.04x = 8\\,840$ y $x = 8\\,500$.'),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: 'Dos aumentos sucesivos del 10 % equivalen a un aumento del 20 %', truth: false, why: '1.1 · 1.1 = 1.21: es un 21 %.' },
-                { text: 'Un descuento del 25 % es lo mismo que multiplicar el precio por 0.75', truth: true, why: '100 % − 25 % = 75 % = 0.75.' },
-                { text: 'Dos descuentos del 50 % dejan el producto gratis', truth: false, why: '0.5 · 0.5 = 0.25: queda el 25 % del precio.' },
-                { text: 'Subir un precio 50 % y luego bajarlo 50 % lo deja en el 75 % del original', truth: true, why: '1.5 · 0.5 = 0.75.' },
-                { text: 'Rebajar 10 % y luego subir 10 % devuelve el precio original', truth: false, why: '0.9 · 1.1 = 0.99: queda en el 99 %.' },
+              'Subir $30\\%$ es $\\times 1.3$ y bajar $20\\%$ es $\\times 0.8$: en total $\\times 1.04$. Entonces $1.04x = 8\\,840$ y $x = 8\\,500$.',
+              { hint: 'Junta los dos cambios en un solo factor multiplicando $1.3 \\cdot 0.8$. Luego busca qué número, multiplicado por ese factor, da 8.840.' }),
+            play('cadena-cambios', 'Pon dos sellos para que el precio cambie lo que pide cada ronda', {
+              stamps: [10, 10, -10, 50, -50, 20, -20, -25],
+              rounds: [
+                { goal: 1.21, text: 'Que el precio suba 21 % en total' },
+                { goal: 0.75, text: 'Que el precio quede en el 75 % del original' },
+                { goal: 0.99, text: 'Que el precio baje solo 1 % en total' },
+                { goal: 1.08, text: 'Que el precio suba 8 % en total' },
               ],
-            }, 'Los cambios sucesivos se multiplican: $1.1 \\cdot 1.1 = 1.21$, $0.9 \\cdot 1.1 = 0.99$ y $1.5 \\cdot 0.5 = 0.75$. Descontar el $p\\%$ es multiplicar por $1 - \\tfrac{p}{100}$, nunca restar $p$.'),
+            }, 'Los cambios sucesivos **se multiplican**, no se suman: $1.1 \\cdot 1.1 = 1.21$ (dos subidas del $10\\%$ dan $21\\%$), $1.5 \\cdot 0.5 = 0.75$, $0.9 \\cdot 1.1 = 0.99$ y $1.2 \\cdot 0.9 = 1.08$. Por eso subir y bajar el mismo porcentaje nunca deja el precio igual.',
+              { hint: 'Cada sello multiplica el precio: +10 % es ×1.1 y −50 % es ×0.5. Multiplica los dos factores y compara con lo que pide la ronda. Mira cómo cambia la etiqueta de 100 tras cada sello.' }),
           ],
         },
         {
@@ -319,21 +330,21 @@ const COURSE_ALGEBRA = {
           ] },
           ex: [
             play('cobra-intereses', 'Cobra mes a mes hasta juntar 180.000 pesos de interés', { capital: 1500000, rate: 0.01, target: 180000, months: 18 },
-              'Con interés simple cada mes paga lo mismo: $1\\,500\\,000 \\cdot 0.01 = 15\\,000$. Para juntar $180\\,000$ hacen falta $180\\,000 / 15\\,000 = 12$ meses: $I = C\\,r\\,t$.'),
-            play('clasifica-cartas', 'Desliza cada tabla de montos: ¿crece con interés **simple** o **compuesto**?', {
-              left: 'Simple', right: 'Compuesto',
-              cards: [
-                { text: '100 → 110 → 120 → 130', side: 'left', why: 'Suma siempre 10: crece en recta.' },
-                { text: '100 → 110 → 121 → 133.1', side: 'right', why: 'Multiplica siempre por 1.1: el interés gana interés.' },
-                { text: '200 → 206 → 212.18 → 218.55', side: 'right', why: 'Multiplica por 1.03 cada periodo (206 · 1.03 = 212.18).' },
-                { text: '400 → 420 → 440 → 460', side: 'left', why: 'Suma siempre 20: el 5 % del capital inicial.' },
-                { text: '50 → 55 → 60.5 → 66.55', side: 'right', why: 'Multiplica por 1.1: 55 · 1.1 = 60.5.' },
+              'Con interés simple cada mes paga lo mismo: $1\\,500\\,000 \\cdot 0.01 = 15\\,000$. Para juntar $180\\,000$ hacen falta $180\\,000 / 15\\,000 = 12$ meses: $I = C\\,r\\,t$.',
+              { hint: 'Con interés simple cada mes paga lo mismo. Calcula cuánto paga un mes y cuántos meses hacen falta para juntar la meta.' }),
+            play('crece-planta', 'Haz crecer las plantas de los meses 2 y 3 según el tipo de interés', {
+              rounds: [
+                { kind: 'simple', C: 400, M1: 430, step: 1 }, { kind: 'compuesto', C: 500, M1: 600, step: 1 },
+                { kind: 'compuesto', C: 1000, M1: 1100, step: 1 }, { kind: 'simple', C: 250, M1: 270, step: 1 },
               ],
-            }, 'Con interés simple el monto sube siempre la misma cantidad (una recta); con compuesto se multiplica siempre por el mismo factor $1 + r$ (una curva): $110 \\cdot 1.1 = 121$, pero $110 + 10 = 120$.'),
+            }, 'Con interés **simple** el monto sube siempre lo mismo (lo del primer mes): $400 \\to 430 \\to 460 \\to 490$. Con **compuesto** se multiplica siempre por el mismo factor: de 500 a 600 es $\\times 1.2$, así que $600 \\cdot 1.2 = 720$ y $720 \\cdot 1.2 = 864$; de 1.000 a 1.100 es $\\times 1.1$: $1\\,210$ y $1\\,331$. El compuesto crece cada vez más porque el interés también gana interés.',
+              { hint: 'Mira cuánto creció la planta del mes 0 al mes 1. Si el interés es simple, súmale eso mismo cada mes. Si es compuesto, averigua por cuánto se multiplicó y multiplica otra vez por ese número.' }),
             play('carrera-interes', 'Encuentra el primer mes en que el compuesto le saca más de 120.000 al simple', { capital: 3000000, rate: 0.02, months: 24, gap: 120000 },
-              'Simple: $M = 3\\,000\\,000(1 + 0.02n)$. Compuesto: $M = 3\\,000\\,000(1.02)^n$. La ventaja crece cada mes: en el 14 es $\\approx 118\\,400$ y en el 15 ya es $\\approx 137\\,600$.'),
+              'Simple: $M = 3\\,000\\,000(1 + 0.02n)$. Compuesto: $M = 3\\,000\\,000(1.02)^n$. La ventaja crece cada mes: en el 14 es $\\approx 118\\,400$ y en el 15 ya es $\\approx 137\\,600$.',
+              { hint: 'Calcula los dos montos mes a mes y réstalos. La diferencia empieza en 0 y crece cada mes: busca el primer mes en que pasa de 120.000.' }),
             play('ajusta-capital', 'Fija el capital que, al 3 % mensual compuesto, deja 1.125.509 en 4 meses', { rate: 0.03, periods: 4, target: 1125509, step: 50000, max: 2000000, tol: 1 },
-              'Se despeja el capital de $M = C(1 + r)^n$: $C = \\dfrac{1\\,125\\,509}{1.03^4} = \\dfrac{1\\,125\\,509}{1.12551} \\approx 1\\,000\\,000$.'),
+              'Se despeja el capital de $M = C(1 + r)^n$: $C = \\dfrac{1\\,125\\,509}{1.03^4} = \\dfrac{1\\,125\\,509}{1.12551} \\approx 1\\,000\\,000$.',
+              { hint: 'Despeja $C$ de $M = C(1 + r)^n$: divide el monto entre el factor elevado al número de meses.' }),
             play('mejor-oferta', 'Lleva el carrito al banco donde el millón queda convertido en más dinero', {
               prefer: 'high', noun: 'Banco',
               rounds: [
@@ -341,16 +352,13 @@ const COURSE_ALGEBRA = {
                 { price: 1000000, a: { label: '8 % anual simple, 5 años', changes: [40] }, b: { label: '7 % anual compuesto, 5 años', changes: [7, 7, 7, 7, 7] } },
                 { price: 1000000, a: { label: '2 % mensual compuesto, 6 meses', changes: [2, 2, 2, 2, 2, 2] }, b: { label: '12.5 % semestral simple', changes: [12.5] } },
               ],
-            }, 'Se comparan los montos. Ronda 1: simple $1.12 \\Rightarrow 1\\,120\\,000$ contra $1.01^{10} = 1.1046 \\Rightarrow 1\\,104\\,622$: gana el simple. Ronda 2: $1.40 \\Rightarrow 1\\,400\\,000$ contra $1.07^5 = 1.4026 \\Rightarrow 1\\,402\\,552$: gana el compuesto. Ronda 3: $1.02^6 = 1.1262 \\Rightarrow 1\\,126\\,162$ contra $1\\,125\\,000$: gana el compuesto por poco. La tasa y el plazo pesan más que el tipo de interés.'),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: 'Al 2 % mensual simple, en 12 meses se gana el 24 % del capital', truth: true, why: 'Interés simple: 2 % · 12 = 24 %.' },
-                { text: 'A largo plazo el interés compuesto siempre supera al simple', truth: true, why: '(1 + r)ⁿ crece más rápido que 1 + rn.' },
-                { text: 'En el primer periodo, simple y compuesto ganan lo mismo', truth: true, why: 'Los dos pagan C · r la primera vez; la diferencia empieza en el segundo.' },
-                { text: 'Con interés compuesto, duplicar la tasa duplica el monto', truth: false, why: '(1 + 2r)ⁿ no es el doble de (1 + r)ⁿ: al 10 % y 20 % en 2 años, 1.21 y 1.44.' },
-                { text: 'M = C(1 + r)ⁿ es la fórmula del interés simple', truth: false, why: 'Esa es la del compuesto; el simple es M = C(1 + rt).' },
-              ],
-            }, 'Simple: $M = C(1 + rt)$, el interés es siempre $Cr$. Compuesto: $M = C(1 + r)^n$, cada periodo multiplica. Coinciden en el primer periodo y después el compuesto gana cada vez más.'),
+            }, 'Se comparan los montos. Ronda 1: simple $1.12 \\Rightarrow 1\\,120\\,000$ contra $1.01^{10} = 1.1046 \\Rightarrow 1\\,104\\,622$: gana el simple. Ronda 2: $1.40 \\Rightarrow 1\\,400\\,000$ contra $1.07^5 = 1.4026 \\Rightarrow 1\\,402\\,552$: gana el compuesto. Ronda 3: $1.02^6 = 1.1262 \\Rightarrow 1\\,126\\,162$ contra $1\\,125\\,000$: gana el compuesto por poco. La tasa y el plazo pesan más que el tipo de interés.',
+              { hint: 'Calcula el monto final de cada banco: el simple suma tasa × periodos una sola vez; el compuesto multiplica por el factor cada periodo. A veces gana el simple, si su tasa es bastante más alta.' }),
+            play('alcancias-gemelas', 'Elige la tasa simple que llena la alcancía igual que el compuesto', {
+              tol: 0.06, max: 40,
+              rounds: [{ C: 1000, r: 10, n: 2 }, { C: 1000, r: 20, n: 2 }, { C: 2000, r: 10, n: 3 }],
+            }, 'Con la misma tasa el compuesto siempre gana desde el segundo periodo, porque el interés también gana interés. Para empatar, la tasa simple debe ser mayor: $\\dfrac{(1 + r)^n - 1}{n}$. Al $10\\%$ en 2 periodos, $1.1^2 = 1.21$: hace falta $10.5\\%$ simple. Al $20\\%$, $1.2^2 = 1.44$: hace falta $22\\%$ (duplicar la tasa no duplicó la ganancia: de $21\\%$ pasó a $44\\%$). Al $10\\%$ en 3 periodos, $1.1^3 = 1.331$: unos $11.03\\%$.',
+              { hint: 'Calcula cuánto gana en total la alcancía compuesta (multiplicando por el factor cada periodo) y reparte esa ganancia en partes iguales entre los periodos: eso es lo que debe ganar la simple en cada uno.' }),
           ],
         },
       ],

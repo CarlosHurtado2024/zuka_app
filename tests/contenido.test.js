@@ -50,14 +50,18 @@ test('alg-13: ningún texto usa coma decimal', () => {
 });
 
 // Los params que de verdad lleva la lección deben ser resolubles con el grade de cada juego.
-const games = get(loadScripts(['js/games/kit.js', 'js/games/une-factor.js', 'js/games/etiqueta-rebaja.js', 'js/games/mejor-oferta.js']), 'GAMES');
+const games = get(loadScripts(['js/games/kit.js', 'js/games/tragamonedas.js', 'js/games/etiqueta-rebaja.js', 'js/games/mejor-oferta.js']), 'GAMES');
 const exOf = g => alg13.ex.find(e => e.game === g);
 
-test('alg-13: une-factor tiene en factors el factor de cada cambio y se puede resolver', () => {
-  const { params } = exOf('une-factor');
-  const links = params.changes.map(c => params.factors.findIndex(f => Math.abs(f - (1 + c / 100)) < 1e-9));
-  assert.ok(links.every(j => j >= 0), 'falta un factor');
-  assert.equal(games['une-factor'].grade({ links }, params).ok, true);
+test('alg-13: tragamonedas tiene factores que caben en sus rodillos y se puede resolver', () => {
+  const { params } = exOf('tragamonedas');
+  const g = games['tragamonedas'];
+  const reels = params.rounds.map(r => g.reelsFor(r.change));
+  params.rounds.forEach((r, i) => {
+    assert.ok(reels[i][0] <= 3, `ronda ${i}: el entero no cabe en el rodillo`);
+    assert.ok(Math.abs(g.factorOf(reels[i]) - (1 + r.change / 100)) < 1e-9, `ronda ${i}: necesita más de tres decimales`);
+  });
+  assert.equal(g.grade({ reels }, params).ok, true);
 });
 
 test('alg-13: etiqueta-rebaja tiene el precio final de cada producto entre los stickers', () => {

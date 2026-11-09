@@ -33,9 +33,9 @@ test('alg-11: parte 1, sus ejercicios, parte 2 y los suyos', () => {
   assert.ok(l.more[0].after >= 5 && l.ex.length - l.more[0].after >= 5, 'al menos cinco ejercicios por parte');
   // Los juegos de irracionales y reales van después de la parte 2.
   const part2 = l.ex.slice(l.more[0].after).filter(e => e.type === 'play').map(e => e.game);
-  for (const g of ['cajas-numericas', 'ubica-en-recta', 'clasifica-cartas', 'ordena-terminos']) assert.ok(part2.includes(g), `${g} antes de tiempo`);
+  for (const g of ['cajas-numericas', 'ubica-en-recta', 'compas-raiz', 'lupa-densidad', 'ordena-terminos']) assert.ok(part2.includes(g), `${g} antes de tiempo`);
   const part1 = l.ex.slice(0, l.more[0].after).filter(e => e.type === 'play').map(e => e.game);
-  assert.ok(part1.includes('pizzeria') && part1.includes('une-parejas'));
+  assert.ok(part1.includes('pizzeria') && part1.includes('candado-fraccion'));
   for (const g of ['pasaporte-numeros', 'ascensor', 'pon-la-rayita']) assert.ok(part1.includes(g), `parte 1 sin ${g}`);
   assert.ok(part2.includes('acorrala-raiz'), 'parte 2 sin acorrala-raiz');
 });
