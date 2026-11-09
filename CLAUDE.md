@@ -155,6 +155,8 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   A5 `alg-13b`. Mientras llegan los ID, las lecciones siguen con sus videos viejos; al recibirlos, poner
   `clip.bunny` + `duration` y **quitar `more`** (y ajustar `tests/pistas.test.js` y `tests/contenido.test.js`,
   que hoy comprueban los ID viejos y la parte 2).
+- Álgebra unidad 1, **ejemplos resueltos** E1–E5 (`video/clase_alg_u1_ej_*`, escena `ExScene`): un video por
+  lección para justo después del de conceptos; al recibir su ID va en `more: [{ bunny, duration }]` **sin `after`**.
 - Álgebra: (la Clase 4 de interés quedó reemplazada por A5), Clase 5 progresiones (`alg-14`, 2 partes), Clase 6 sumatoria
   (`alg-15`), Clase 8 potencias (`alg-21a`), Clase 9 leyes de exponentes (`alg-21b`, parte 2 en `more`
   con `after: 6`), Clase 10 raíces (`alg-22a`), Clase 11 radicales (`alg-22b`), Clase 12 polinomio cuadrático

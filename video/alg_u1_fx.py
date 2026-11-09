@@ -208,3 +208,78 @@ def flat(mob):
     """Deja un mobject (texto, fórmula) pegado a la pantalla durante giros de cámara."""
     mob.fix_in_frame()
     return mob
+
+
+# ---------------------------------------------------------------------------
+# Ejemplos resueltos paso a paso (videos complementarios E1–E5)
+# ---------------------------------------------------------------------------
+STEP_TOP = 2.6          # primera línea de pasos (debajo de la tarjeta del enunciado)
+
+
+def why_pill(text, color):
+    """Etiqueta pequeña con el concepto que justifica un paso."""
+    words = T(text, size=22, color=color)
+    pill = RoundedRectangle(words.get_width() + 0.36, words.get_height() + 0.2, corner_radius=0.14)
+    pill.set_fill(PEACH, 1).set_stroke(color, 1.5)
+    pill.move_to(words)
+    return VGroup(pill, words)
+
+
+class ExScene(MBScene):
+    """Escena de un ejemplo resuelto: tarjeta con el enunciado arriba y pasos que bajan, cada uno con su
+    porqué. Si los pasos llegan al borde inferior, los anteriores suben y los más viejos se desvanecen."""
+
+    def problem(self, n, text, color=LAV, width_chars=34):
+        tag = get_pill(f"Ejemplo {n}", color, P_LAV if color == LAV else PEACH, size=24)
+        words = T("\n".join(textwrap.wrap(text, width_chars)), size=30, color=INK, alignment="CENTER")
+        content = VGroup(tag, words).arrange(DOWN, buff=0.22)
+        card = get_card(content, color=color, fill=CARD, buff=0.3)
+        self.card = VGroup(card, content)
+        if self.card.get_width() > LINE_WIDTH:
+            self.card.set_width(LINE_WIDTH)
+        self.card.move_to(CONTENT_TOP * UP, aligned_edge=UP)
+        self.steps = []
+        self.cursor = self.card.get_bottom()[1] - 0.45
+        self.play(FadeIn(self.card, shift=0.2 * DOWN))
+        return self.card
+
+    def make_room(self, group):
+        """Si `group` no cabe abajo, sube los pasos anteriores; los que chocarían con el enunciado se van."""
+        overflow = CONTENT_BOTTOM + 0.2 - group.get_bottom()[1]
+        if overflow <= 0:
+            return
+        limit = self.card.get_bottom()[1] - 0.25
+        olds = [g for g in self.steps if g.get_top()[1] + overflow > limit]
+        anims = [g.animate.shift(overflow * UP) for g in self.steps if g not in olds]
+        anims += [FadeOut(g, shift=overflow * UP) for g in olds]
+        self.steps = [g for g in self.steps if g not in olds]
+        group.shift(overflow * UP)
+        self.play(*anims, run_time=0.6)
+
+    def step(self, tex, why=None, color=INK, size=46, why_color=MUTED, anim="write"):
+        line = M(tex, size=size, color=color)
+        line.set_max_width(7.0)
+        group = VGroup(line)
+        if why:
+            pill = why_pill(why, why_color)
+            pill.set_max_width(7.0)
+            pill.next_to(line, DOWN, buff=0.14)
+            group.add(pill)
+        group.move_to(self.cursor * UP, aligned_edge=UP)
+        self.make_room(group)
+        if anim == "write":
+            self.play(Write(line), *(FadeIn(group[1], shift=0.1 * UP),) if why else (), run_time=1.0)
+        else:
+            self.play(FadeIn(group, shift=0.2 * UP), run_time=0.8)
+        self.steps.append(group)
+        self.cursor = group.get_bottom()[1] - 0.32
+        return group
+
+    def answer(self, tex, color=MINT, size=50):
+        card = formula_card(tex, color=color, size=size)
+        card.move_to(self.cursor * UP, aligned_edge=UP)
+        self.make_room(card)
+        self.play(FadeIn(card, scale=0.9), Flash(card.get_corner(UR), color=color))
+        self.steps.append(card)
+        self.cursor = card.get_bottom()[1] - 0.32
+        return card

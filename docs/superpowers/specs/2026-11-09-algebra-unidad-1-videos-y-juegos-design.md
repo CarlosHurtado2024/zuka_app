@@ -52,3 +52,21 @@ se pone `clip.bunny` + `duration` y se quita `more`.
 Cada juego: `grade` pura con pruebas, colores leídos de `api.palette` al dibujar, rondas con pestañas,
 texto que se encoge, botones − / + donde el arrastre necesite precisión, pista sin regalar la respuesta.
 Las lecciones `alg-12`, `alg-13` y `alg-13b` reciben pista en todos sus ejercicios.
+
+## Videos complementarios: ejemplos resueltos (E1–E5)
+
+Un segundo video por lección, para ver justo después del de conceptos (en la lección: `more: [{ bunny, duration }]`
+**sin `after`**, así `buildQueue` lo pone inmediatamente después del primero). Carpetas `video/clase_alg_u1_ej_*`.
+
+Formato: escena `ExScene` (en `alg_u1_fx.py`): tarjeta con el enunciado arriba y pasos que bajan, cada uno con
+una etiqueta del concepto que lo justifica («producto cruzado», «÷ negativo voltea el signo»…); cuando no caben,
+los pasos suben y los más viejos se desvanecen. Zoom al paso clave, una comprobación al final y un ejemplo en 3D
+por video. Los ejemplos no repiten los del video de conceptos ni los de los ejercicios.
+
+| Video | Lección | Ejemplos |
+|---|---|---|
+| E1 | alg-11 | clasificar −√25, 14/7, 1.2727…, √8; 0.4666… = 7/15; 2.1515… = 71/33; ¿termina? 7/40, 5/12, 21/75; ordenar 2.6, √7, 8/3; diagonal de cajas 2×3×6 (= 7) y 1×1×2 (√6) en 3D |
+| E2 | alg-12b | 3x + 7 = 22 con el axioma de cada paso; (−2)(5)(−3)(−1) y (−1)^2027; −3x + 4 ≤ 13; \|x + 1\| = 4; \|x − 3\| > 1; \|2 − √7\| |
+| E3 | alg-12 | harina para arepas (directa); 60 → 75 km/h (inversa); reparto de 600.000 por edades 4, 6, 10; impresoras (compuesta); maqueta 1 : 50 en 3D |
+| E4 | alg-13 | IVA 19 % de ida y de vuelta; variación 40.000 → 46.000 y 80.000 → 68.000; 25 % y luego 20 %; 25 % del 60 % con cubitos 3D |
+| E5 | alg-13b | 18 % anual simple por 10 meses; 4 % trimestral compuesto un año; hallar la tasa; bancos simple vs compuesto a 12 y 24 meses en 3D |
