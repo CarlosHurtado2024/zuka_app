@@ -98,6 +98,8 @@ const COURSE_ALGEBRA = {
             sc(5, 'Los reales llenan la **recta numérica**: cada punto tiene su número y cada número su punto.', { steps: ['$-2.7 < \\sqrt2 < e < \\pi < \\tfrac{24}{5}$', '$\\sqrt2 \\approx 1.41,\\; e \\approx 2.72,\\; \\pi \\approx 3.14$'] }),
             sc(5, 'Un decimal periódico se vuelve fracción: multiplica por 10, 100… según el período, y resta.', { steps: ['$x = 0.\\overline{36}$', '$100x - x = 36$', '$x = \\tfrac{36}{99} = \\tfrac{4}{11}$'] }),
           ] },
+          // Video de ejemplos resueltos (E1, video/clase_alg_u1_ej_*): justo después del de conceptos.
+          more: [{ bunny: '3848a920-6d9b-433b-9e8d-8d5dc3bd843f', duration: 238, scenes: [] }],
           ex: [
             // --- Parte 1: naturales, enteros y racionales (todo con juegos) ---
             play('pasaporte-numeros', 'Sella el pasaporte de cada número con **todas** las familias donde puede entrar', {

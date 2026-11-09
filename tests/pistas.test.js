@@ -1,5 +1,5 @@
 // Pistas: cada ejercicio puede llevar `hint`, un empujón que el estudiante abre si se atasca.
-// La lección 1.1 (alg-11) tiene un solo video seguido de sus ejercicios, y todos traen pista.
+// La lección 1.1 (alg-11) tiene el video de conceptos, el de ejemplos y luego sus ejercicios, todos con pista.
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { loadScripts, get } = require('./load');
@@ -16,17 +16,19 @@ test('mc, num, ord y play aceptan { hint } al final', () => {
   assert.equal(mc('q', ['a'], 0, 'e').hint, undefined);
 });
 
-test('alg-11: un solo video de Bunny con su duración', () => {
+test('alg-11: video de conceptos y video de ejemplos de Bunny con su duración', () => {
   assert.equal(l.clip.bunny, '3a8d04bc-5ae8-43e7-af64-d8af25eb2078');
   assert.equal(l.clip.duration, 259);
-  assert.ok(!l.more || l.more.length === 0, 'sin videos adicionales');
+  assert.equal(l.more.length, 1);
+  assert.equal(l.more[0].bunny, '3848a920-6d9b-433b-9e8d-8d5dc3bd843f');
+  assert.equal(l.more[0].duration, 238);
+  assert.equal(l.more[0].after, undefined, 'los ejemplos van justo tras los conceptos');
 });
 
-test('alg-11: el video y luego todos los ejercicios', () => {
+test('alg-11: conceptos, ejemplos y luego todos los ejercicios', () => {
   const q = JSON.parse(JSON.stringify(buildQueue(l)));
-  assert.deepEqual(q[0], { k: 'clip', n: 0 });
-  assert.equal(q.filter(t => t.k === 'clip').length, 1);
-  assert.equal(q.length, l.ex.length + 1);
+  assert.deepEqual(q.slice(0, 2), [{ k: 'clip', n: 0 }, { k: 'clip', n: 1 }]);
+  assert.equal(q.length, l.ex.length + 2);
 });
 
 test('alg-11: todos sus ejercicios son juegos interactivos', () => {
