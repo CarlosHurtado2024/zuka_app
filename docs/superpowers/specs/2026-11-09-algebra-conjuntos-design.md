@@ -37,3 +37,11 @@ no los repiten.
 Más dos cálculos (`num`): subconjuntos de un conjunto de 5 elementos (32) y `n(A ∪ B)` (17).
 
 Colores de los juegos desde `api.palette`: A en `C.Z`, B en `C.I`, C en `C.N`, lo pintado en `C.brand`.
+
+## Video EC0: ejemplos resueltos (`video/clase_alg_u0_ej_conjuntos`)
+
+Escena `ExScene` paso a paso, sin 3D y con un solo acercamiento (la trampa de `{2} ⊆ A`). Ejemplos:
+`{x ∈ ℕ : 3 < x ≤ 8}`; `{1, 4, 9, 16, 25}` por comprensión; letras de MATEMATICA; `∈` contra `⊆` con
+`A = {1, {2}, 3}`; `P({x, y})` y `n(P(A)) = 64 ⇒ n(A) = 6`; seis operaciones con pares y múltiplos de 3 en
+`U = {1, …, 10}`; De Morgan comprobada con listas; encuesta de 60 (35 leen, 28 ejercicio, 10 ninguna ⇒ 13 ambas).
+Al tener su ID va en `more` sin `after`, justo después de C0.
