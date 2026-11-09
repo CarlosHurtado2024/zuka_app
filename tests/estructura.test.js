@@ -10,8 +10,9 @@ const ids = c => c.units.flatMap(u => u.lessons.map(l => l.id));
 const plan = c => Array.from(c.units, u => `${u.title}: ${u.lessons.map(l => l.id).join(' ')}`);
 
 // Spec 2026-11-07-cronograma-algebra-calculo: clases 1–19 del cronograma de Álgebra y Trigonometría.
-test('álgebra: ocho unidades en el orden del cronograma 2026-2', () => {
+test('álgebra: Conjuntos y luego las ocho unidades del cronograma 2026-2', () => {
   assert.deepEqual([...plan(alg)], [
+    'Conjuntos: alg-0',
     'Sistemas numéricos, razones y proporciones: alg-11 alg-12b alg-12 alg-13 alg-13b',
     'Potenciación y radicación: alg-21a alg-21b alg-22a alg-22b',
     'Progresiones y sumatoria: alg-14 alg-15',

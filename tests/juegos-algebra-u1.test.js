@@ -171,7 +171,7 @@ test('alcancias-gemelas: la tasa simple equivalente al compuesto', () => {
 const { loadScripts, get } = require('./load');
 const NUEVOS = ['fuga-de-familia', 'candado-fraccion', 'compas-raiz', 'lupa-densidad', 'duplica-magnitud', 'engranajes', 'estira-barra', 'tragamonedas', 'cadena-cambios', 'crece-planta', 'alcancias-gemelas'];
 const ctxU1 = loadScripts(['js/content.js', 'js/courses/algebra.js', 'js/games/kit.js', ...NUEVOS.map(n => `js/games/${n}.js`)]);
-const U1 = get(ctxU1, 'COURSE_ALGEBRA').units[0].lessons;
+const U1 = get(ctxU1, 'COURSE_ALGEBRA').units.find(u => u.title.startsWith('Sistemas numéricos')).lessons;
 const GU1 = get(ctxU1, 'GAMES');
 const usos = name => U1.flatMap(l => l.ex).filter(e => e.game === name).map(e => e.params);
 

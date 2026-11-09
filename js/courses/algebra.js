@@ -8,6 +8,84 @@ const COURSE_ALGEBRA = {
   tagline: 'El lenguaje de las matemáticas: números, ecuaciones y funciones para describir el mundo.',
   units: [
     {
+      // Unidad 0 (spec 2026-11-09-algebra-conjuntos): lo básico de conjuntos antes de los sistemas numéricos.
+      title: 'Conjuntos',
+      lessons: [
+        {
+          id: 'alg-0', title: 'Conjuntos: notación, tipos y operaciones',
+          // Video C0 (video/clase_alg_u0_conjuntos): escenas de respaldo hasta tener su ID de Bunny.
+          clip: { scenes: [
+            sc(6, 'Un **conjunto** es una colección bien definida de objetos, sus **elementos**. Se nombra con mayúscula y se escribe entre llaves.', { title: '$V = \\{a, e, i, o, u\\}$', steps: ['$e \\in V$: $e$ pertenece a $V$', '$b \\notin V$: $b$ no pertenece a $V$'] }),
+            sc(6, 'Se describe por **extensión** (lista) o por **comprensión** (una condición). El orden y las repeticiones no importan.', { title: '$\\{2, 4, 6, 8\\} = \\{x \\in \\mathbb{N} : x \\text{ par},\\ x < 10\\}$', steps: ['$n(A)$: cuántos elementos tiene $A$', '$\\varnothing = \\{\\,\\}$: el conjunto vacío'] }),
+            sc(6, '$B \\subseteq A$ si todo elemento de $B$ está en $A$. Un conjunto de $n$ elementos tiene $2^n$ subconjuntos.', { title: '$B \\subseteq A$', steps: ['$\\varnothing \\subseteq A$ siempre', '$P(\\{a, b, c\\})$ tiene $2^3 = 8$ elementos'] }),
+            sc(7, 'Operaciones: unión, intersección, diferencia y complemento.', { title: '$A \\cup B \\quad A \\cap B \\quad A - B \\quad A^c$', steps: ['$A = \\{1,2,3,4\\},\\ B = \\{3,4,5,6\\}$', '$A \\cup B = \\{1,\\dots,6\\}$, $A \\cap B = \\{3, 4\\}$, $A - B = \\{1, 2\\}$', '$n(A \\cup B) = n(A) + n(B) - n(A \\cap B)$'] }),
+          ] },
+          ex: [
+            play('atrapa-elementos', 'Atrapa los elementos que cumplen la condición y escribe el conjunto por **extensión**', {
+              rounds: [
+                { name: 'A', rule: 'x ∈ ℕ : x es múltiplo de 3, x < 16', pool: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'], members: ['3', '6', '9', '12', '15'] },
+                { name: 'B', rule: 'x : x es un entero, −2 ≤ x < 3', pool: ['−4', '−3', '−2', '−1', '0', '1', '2', '3', '4', '5'], members: ['−2', '−1', '0', '1', '2'] },
+                { name: 'P', rule: 'x : x es una letra de ALGEBRA', pool: ['A', 'B', 'C', 'E', 'G', 'I', 'L', 'O', 'R', 'S'], members: ['A', 'B', 'E', 'G', 'L', 'R'] },
+                { name: 'D', rule: 'x ∈ ℕ : x² < 20', pool: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], members: ['1', '2', '3', '4'] },
+              ],
+            }, 'Por comprensión se da la condición; por extensión se listan los elementos que la cumplen: $A = \\{3, 6, 9, 12, 15\\}$; $B = \\{-2, -1, 0, 1, 2\\}$ (el $-2$ sí entra por el $\\le$, el $3$ no por el $<$); $P = \\{A, L, G, E, B, R\\}$, porque en un conjunto no se repiten elementos, así que $n(P) = 6$ aunque la palabra tenga 7 letras; y $D = \\{1, 2, 3, 4\\}$, porque $4^2 = 16 < 20$ pero $5^2 = 25$.',
+              { hint: 'Prueba cada ficha en la condición, una por una. Fíjate si el borde lleva ≤ (entra) o < (no entra), y recuerda que en un conjunto cada elemento se escribe una sola vez.' }),
+            play('mueve-circulos', 'Arrastra el círculo B para dibujar cómo se relacionan los dos conjuntos', {
+              rounds: [
+                { A: '{1, 2, 3, 4, 5, 6}', B: '{2, 4, 6}', rB: 0.5, rel: 'sub' },
+                { A: '{a, e, i, o, u}', B: '{vocales de «murciélago»}', rB: 1, rel: 'equal' },
+                { A: '{2, 4, 6, 8}', B: '{1, 3, 5, 7}', rB: 0.6, rel: 'disjoint' },
+                { A: '{1, 2, 3, 4}', B: '{4, 5, 6}', rB: 0.6, rel: 'overlap' },
+              ],
+            }, 'Todo elemento de $\\{2, 4, 6\\}$ está en el primero: $B \\subseteq A$ y su círculo va adentro. «Murciélago» tiene las cinco vocales: $A = B$, los círculos se enciman. Pares e impares no comparten nada: son **disjuntos**, $A \\cap B = \\varnothing$. Y $\\{1, 2, 3, 4\\}$ con $\\{4, 5, 6\\}$ comparten solo el 4: se cruzan.',
+              { hint: 'Busca elementos que estén en los dos conjuntos. Si todos los de B están en A, B va adentro; si no comparten ninguno, sepáralos; si comparten algunos, crúzalos. Si tienen exactamente los mismos, enciméralos.' }),
+            play('fabrica-subconjuntos', 'Llena las cajas con **todos** los subconjuntos, sin repetir ninguno', {
+              rounds: [{ elements: ['♪', '★'] }, { elements: ['1', '2', '3'] }],
+            }, 'Cada elemento entra o no entra: con 2 elementos hay $2 \\cdot 2 = 4$ subconjuntos ($\\varnothing$, $\\{♪\\}$, $\\{★\\}$, $\\{♪, ★\\}$) y con 3 hay $2^3 = 8$. El vacío $\\varnothing$ y el conjunto completo también cuentan: son subconjuntos de todo conjunto.',
+              { hint: 'Organízate por tamaños: primero la caja vacía, luego los de un elemento, luego los de dos… y al final el conjunto completo. Si una caja se pone roja, está repetida.' }),
+            num('¿Cuántos subconjuntos tiene un conjunto de 5 elementos?', 32,
+              'Cada uno de los 5 elementos entra o no entra en el subconjunto: $2 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2 = 2^5 = 32$, contando el vacío y el conjunto completo.',
+              { hint: 'Por cada elemento hay dos opciones: está o no está. Multiplica las opciones de todos los elementos.' }),
+            play('reparte-venn', 'Pon cada elemento de $U$ en su zona del diagrama de Venn', {
+              rounds: [
+                { U: ['1', '2', '3', '4', '5', '6', '7', '8', '9'], A: ['1', '2', '4', '8'], B: ['2', '3', '5', '7'] },
+                { U: ['S', 'O', 'L', 'A', 'N', 'R', 'E', 'T'], A: ['S', 'O', 'L'], B: ['L', 'A', 'N'] },
+              ],
+            }, 'Lo que está en los dos va en el centro, $A \\cap B$: el 2, y la L. Lo que está solo en uno va en su luna, y lo que no está en ninguno queda fuera de los círculos, pero dentro de $U$: el 6 y el 9, y la R, la E y la T.',
+              { hint: 'Empieza por los elementos que aparecen en A y en B a la vez: van en la parte donde se cruzan los círculos. Después reparte los demás, y los que no estén en ninguno ponlos afuera.' }),
+            play('pinta-venn', 'Pinta las zonas de cada operación', {
+              rounds: [
+                { text: 'B − A', n: 2, f: (a, b) => b && !a },
+                { text: '(A ∩ B)ᶜ', n: 2, f: (a, b) => !(a && b) },
+                { text: 'Aᶜ', n: 2, f: a => !a },
+                { text: '(A ∪ B) − (A ∩ B)', n: 2, f: (a, b) => a !== b },
+              ],
+            }, '$B - A$ es lo de $B$ que no está en $A$: solo la luna de $B$. $(A \\cap B)^c$ es todo menos el centro. $A^c$ es todo lo que queda fuera de $A$, incluida la luna de $B$ y lo de afuera. Y $(A \\cup B) - (A \\cap B)$ son las dos lunas: la **diferencia simétrica** $A \\,\\triangle\\, B$.',
+              { hint: 'Lee la operación de adentro hacia afuera. ∪ junta, ∩ deja solo lo común, − quita y ᶜ es «todo lo que no está». Primero piensa qué zonas cumplen lo de los paréntesis.' }),
+            play('pinta-venn', 'Ahora con tres conjuntos: pinta las zonas de cada operación', {
+              rounds: [
+                { text: 'A ∩ (B ∪ C)', n: 3, f: (a, b, c) => a && (b || c) },
+                { text: '(A ∩ B) ∪ C', n: 3, f: (a, b, c) => (a && b) || c },
+                { text: 'A − (B ∪ C)', n: 3, f: (a, b, c) => a && !b && !c },
+                { text: 'B ∩ C ∩ Aᶜ', n: 3, f: (a, b, c) => b && c && !a },
+              ],
+            }, '$A \\cap (B \\cup C)$: lo de $A$ que además toca $B$ o $C$, tres zonas. $(A \\cap B) \\cup C$: el círculo $C$ completo más la parte común de $A$ y $B$. $A - (B \\cup C)$: solo la parte de $A$ que no toca a nadie. $B \\cap C \\cap A^c$: lo común de $B$ y $C$ fuera de $A$.',
+              { hint: 'Resuelve primero el paréntesis y piensa qué zonas lo cumplen; luego aplica la operación de afuera. Cada zona se nombra según los círculos en los que está.' }),
+            play('encuesta-venn', 'Reparte a las personas de la encuesta en las zonas del diagrama', {
+              rounds: [
+                { text: 'En un curso de 40 estudiantes, 22 practican música, 18 hacen deporte y 7 hacen las dos cosas.', labels: ['música', 'deporte'], total: 40, a: 22, b: 18, both: 7 },
+                { text: 'De 50 personas, 30 hablan inglés, 12 hablan francés y 5 hablan los dos idiomas.', labels: ['inglés', 'francés'], total: 50, a: 30, b: 12, both: 5 },
+              ],
+            }, 'Se empieza por el centro: los que hacen las dos cosas. Solo música son $22 - 7 = 15$ y solo deporte $18 - 7 = 11$; en total $15 + 7 + 11 = 33$, así que $40 - 33 = 7$ no hacen ninguna. Con los idiomas: $25$, $5$, $7$ y $13$ ninguno. Es la fórmula $n(A \\cup B) = n(A) + n(B) - n(A \\cap B)$.',
+              { hint: 'Llena primero la zona del centro (los que están en los dos). Después, a cada grupo réstale esa cantidad para saber cuántos están solo en él. Lo que falte para el total no está en ninguno.' }),
+            num('Si $n(A) = 12$, $n(B) = 9$ y $n(A \\cap B) = 4$, ¿cuánto vale $n(A \\cup B)$?', 17,
+              'Al sumar $12 + 9$ los 4 elementos comunes se cuentan dos veces; se restan una vez: $n(A \\cup B) = 12 + 9 - 4 = 17$.',
+              { hint: 'Si sumas los elementos de A y los de B, ¿qué elementos estás contando dos veces?' }),
+          ],
+        },
+      ],
+    },
+    {
       title: 'Sistemas numéricos, razones y proporciones',
       lessons: [
         {

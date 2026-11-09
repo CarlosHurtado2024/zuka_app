@@ -30,7 +30,7 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
 | `js/app.js` | estado `S`, pestañas, ruta de lecciones, `startLesson` (cola de videos y ejercicios, retroalimentación), tema (`applyTheme`) |
 | `js/content.js` | ayudantes `sc, mc, num, ord, sld, play`, `clipsOf`, `buildQueue`, `BUNNY_CDN` |
 | `js/exercises.js` | tipos de ejercicio (`mc`, `input`, `order`, `slider`, `play`), `renderExercise`, `hintBlock` (botón «Ver pista») |
-| `js/courses/algebra.js`, `trig.js`, `calculo.js`, `js/data.js` | cursos: Álgebra (8 unidades, orden del cronograma 2026-2 de Álgebra y Trigonometría), Trigonometría (3), Cálculo Diferencial (5, cronograma 2026-2 de Cálculo; sus unidades 1–2 son lecciones `alg-*` movidas desde Álgebra, ids sin cambiar para no perder progreso); Física, etc. en `data.js`. Spec `2026-11-07-cronograma-algebra-calculo-design.md` |
+| `js/courses/algebra.js`, `trig.js`, `calculo.js`, `js/data.js` | cursos: Álgebra (unidad 0 «Conjuntos», lección `alg-0`, spec `2026-11-09-algebra-conjuntos`, y luego 8 unidades en el orden del cronograma 2026-2 de Álgebra y Trigonometría), Trigonometría (3), Cálculo Diferencial (5, cronograma 2026-2 de Cálculo; sus unidades 1–2 son lecciones `alg-*` movidas desde Álgebra, ids sin cambiar para no perder progreso); Física, etc. en `data.js`. Spec `2026-11-07-cronograma-algebra-calculo-design.md` |
 | `js/games/kit.js` | `GAMES`, `PALETTES`/`PALETTE`/`setGameTheme`, `mountSketch`, `shuffledOrder`, `lineMap`, `nearest` |
 | `js/games/*.js` | un archivo por juego (≈59) |
 | `js/player.js` | reproductor de clips (Bunny HLS o escenas animadas) |
@@ -79,7 +79,9 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
 - Pruebas de contenido por unidad (`tests/contenido-*.test.js`): índices válidos, pistas presentes, que la
   pista no regale la respuesta y que cada ronda tenga solución alcanzable con los controles.
 
-Juegos recientes: Álgebra unidad 1 (spec `2026-11-09-algebra-unidad-1-videos-y-juegos`, reemplazan las
+Juegos recientes: Álgebra unidad 0 (conjuntos) `atrapa-elementos`, `mueve-circulos`, `fabrica-subconjuntos`,
+`reparte-venn`, `pinta-venn` (operación como `f(a, b, c)` en params; zonas por máscara de bits), `encuesta-venn`;
+Álgebra unidad 1 (spec `2026-11-09-algebra-unidad-1-videos-y-juegos`, reemplazan las
 tarjetas) `fuga-de-familia` (fichas `r + k√2`), `candado-fraccion`, `compas-raiz`, `lupa-densidad`,
 `duplica-magnitud`, `engranajes`, `estira-barra`, `tragamonedas`, `cadena-cambios`, `crece-planta`,
 `alcancias-gemelas`; Álgebra 1.1 `pasaporte-numeros`, `ascensor`, `pon-la-rayita`, `acorrala-raiz`;
@@ -149,6 +151,7 @@ cualquier `L(x) = R(x)`). Reutilizables:
 ## Pendiente (a la fecha)
 
 Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):
+- Álgebra unidad 0: C0 conjuntos (`alg-0`, `video/clase_alg_u0_conjuntos`, sin 3D). Hoy la lección usa sus escenas de respaldo.
 - Álgebra unidad 1, **un video por lección** (nuevos, fondo `fondo_algebra_vivo.png`, zoom y 3D; carpetas
   `video/clase_alg_u1_*`, plantilla `video/mk_alg_class.py` + `video/alg_u1_fx.py`; borrador escena por escena con
   `bash video/render_each.sh carpeta archivo.py Escenas…`): A1 `alg-11`, A2 `alg-12b`, A3 `alg-12`, A4 `alg-13`,
