@@ -12,17 +12,14 @@ const COURSE_ALGEBRA = {
       lessons: [
         {
           id: 'alg-11', title: 'Sistemas numéricos y números reales',
-          // Clase 1 en Bunny Stream (video/clase_sistemas_numericos): la parte 1 abre la lección y la parte 2
-          // llega tras los ejercicios de la parte 1 (`after`); cada parte con sus ejercicios. Libro UdeA §1.1.
+          // Un solo video en Bunny Stream (A1, video/clase_alg_u1_*). Libro UdeA §1.1.
           // Las escenas quedan de respaldo si el video no carga. Cada ejercicio trae una pista (`hint`).
-          clip: { bunny: '86d9fad5-e354-40a1-8f0a-3e324b642b60', duration: 462, scenes: [
+          clip: { bunny: '3a8d04bc-5ae8-43e7-af64-d8af25eb2078', duration: 259, scenes: [
             sc(6, 'Los números se fueron ampliando para resolver nuevos problemas: contar, restar, repartir, medir.', { title: '$\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$', steps: ['$\\mathbb{N} = \\{1, 2, 3, \\dots\\}$: contar', '$\\mathbb{Z}$: los enteros, con negativos', '$\\mathbb{Q} = \\left\\{\\tfrac{m}{n} : n \\neq 0\\right\\}$: fracciones', '$\\mathbb{I}$: irracionales como $\\sqrt2,\\ \\pi,\\ e$'] }),
             sc(5, 'Todo decimal que **termina o se repite** es racional: viene de una fracción.', { steps: ['$\\tfrac94 = 2.25$', '$\\tfrac{177}{55} = 3.2\\overline{18}$'] }),
-          ] },
-          more: [{ after: 6, bunny: 'd5ddb99a-428e-4b8f-9f5f-496c8987ae3d', duration: 379, scenes: [
             sc(5, 'Los reales llenan la **recta numérica**: cada punto tiene su número y cada número su punto.', { steps: ['$-2.7 < \\sqrt2 < e < \\pi < \\tfrac{24}{5}$', '$\\sqrt2 \\approx 1.41,\\; e \\approx 2.72,\\; \\pi \\approx 3.14$'] }),
             sc(5, 'Un decimal periódico se vuelve fracción: multiplica por 10, 100… según el período, y resta.', { steps: ['$x = 0.\\overline{36}$', '$100x - x = 36$', '$x = \\tfrac{36}{99} = \\tfrac{4}{11}$'] }),
-          ] }],
+          ] },
           ex: [
             // --- Parte 1: naturales, enteros y racionales (todo con juegos) ---
             play('pasaporte-numeros', 'Sella el pasaporte de cada número con **todas** las familias donde puede entrar', {

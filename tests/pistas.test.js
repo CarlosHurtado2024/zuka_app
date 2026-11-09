@@ -1,6 +1,5 @@
 // Pistas: cada ejercicio puede llevar `hint`, un empujón que el estudiante abre si se atasca.
-// La lección 1.1 (alg-11) tiene la parte 1 del video, sus ejercicios, la parte 2 y los suyos,
-// y todos sus ejercicios traen pista.
+// La lección 1.1 (alg-11) tiene un solo video seguido de sus ejercicios, y todos traen pista.
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { loadScripts, get } = require('./load');
@@ -17,27 +16,17 @@ test('mc, num, ord y play aceptan { hint } al final', () => {
   assert.equal(mc('q', ['a'], 0, 'e').hint, undefined);
 });
 
-test('alg-11: los videos nuevos de Bunny con su duración', () => {
-  assert.equal(l.clip.bunny, '86d9fad5-e354-40a1-8f0a-3e324b642b60');
-  assert.equal(l.clip.duration, 462);
-  assert.equal(l.more.length, 1);
-  assert.equal(l.more[0].bunny, 'd5ddb99a-428e-4b8f-9f5f-496c8987ae3d');
-  assert.equal(l.more[0].duration, 379);
+test('alg-11: un solo video de Bunny con su duración', () => {
+  assert.equal(l.clip.bunny, '3a8d04bc-5ae8-43e7-af64-d8af25eb2078');
+  assert.equal(l.clip.duration, 259);
+  assert.ok(!l.more || l.more.length === 0, 'sin videos adicionales');
 });
 
-test('alg-11: parte 1, sus ejercicios, parte 2 y los suyos', () => {
+test('alg-11: el video y luego todos los ejercicios', () => {
   const q = JSON.parse(JSON.stringify(buildQueue(l)));
-  const at = q.findIndex(t => t.k === 'clip' && t.n === 1);
   assert.deepEqual(q[0], { k: 'clip', n: 0 });
-  assert.equal(at, l.more[0].after + 1, 'la parte 2 va justo tras los ejercicios de la parte 1');
-  assert.ok(l.more[0].after >= 5 && l.ex.length - l.more[0].after >= 5, 'al menos cinco ejercicios por parte');
-  // Los juegos de irracionales y reales van después de la parte 2.
-  const part2 = l.ex.slice(l.more[0].after).filter(e => e.type === 'play').map(e => e.game);
-  for (const g of ['cajas-numericas', 'ubica-en-recta', 'compas-raiz', 'lupa-densidad', 'ordena-terminos']) assert.ok(part2.includes(g), `${g} antes de tiempo`);
-  const part1 = l.ex.slice(0, l.more[0].after).filter(e => e.type === 'play').map(e => e.game);
-  assert.ok(part1.includes('pizzeria') && part1.includes('candado-fraccion'));
-  for (const g of ['pasaporte-numeros', 'ascensor', 'pon-la-rayita']) assert.ok(part1.includes(g), `parte 1 sin ${g}`);
-  assert.ok(part2.includes('acorrala-raiz'), 'parte 2 sin acorrala-raiz');
+  assert.equal(q.filter(t => t.k === 'clip').length, 1);
+  assert.equal(q.length, l.ex.length + 1);
 });
 
 test('alg-11: todos sus ejercicios son juegos interactivos', () => {
