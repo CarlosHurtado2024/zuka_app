@@ -35,6 +35,19 @@ const COURSE_ART = {
     <path d="M18 19h33" stroke="${ART_C.blue}" stroke-width="4.5" stroke-linecap="round"/>
     <circle cx="34" cy="19" r="5" fill="#fff" stroke="${ART_C.blue}" stroke-width="3"/>`),
 
+  // Geometría vectorial y analítica: un vector desde el origen hasta una elipse, con su componente.
+  geo: artSvg(`
+    ${ART_AXES}
+    <ellipse cx="36" cy="32" rx="20" ry="13" fill="none" stroke="${ART_C.pale}" stroke-width="2.5" stroke-dasharray="3 4" stroke-linecap="round"/>
+    <path d="M48.5 24v31" stroke="${ART_C.sun}" stroke-width="3" stroke-dasharray="4 4" stroke-linecap="round"/>
+    <g transform="translate(3 3)">
+      <path d="M9 55L41.7 27.2" stroke="${ART_C.deep}" stroke-width="5" stroke-linecap="round"/>
+      <path d="M48.5 21.3L44.9 31L38.4 23.4z" fill="${ART_C.deep}" stroke="${ART_C.deep}" stroke-width="2" stroke-linejoin="round"/>
+    </g>
+    <path d="M9 55L41.7 27.2" stroke="${ART_C.blue}" stroke-width="5" stroke-linecap="round"/>
+    <path d="M48.5 21.3L44.9 31L38.4 23.4z" fill="${ART_C.blue}" stroke="${ART_C.blue}" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="48.5" cy="55" r="4" fill="${ART_C.sun}" stroke="${ART_C.sunDeep}" stroke-width="2"/>`),
+
   // Física mecánica: bloque sobre un plano inclinado.
   fis: artSvg(`
     <path d="M6 59h52V25z" fill="${ART_C.deep}"/>
