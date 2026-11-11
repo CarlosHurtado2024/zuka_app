@@ -14,9 +14,9 @@ const COURSE_ALGEBRA = {
       lessons: [
         {
           id: 'alg-0a', title: '¿Qué es un conjunto? Notación y pertenencia',
-          // Video V1 (video/clase_alg_u0_v1_que_es): escenas de respaldo hasta tener su ID de Bunny.
+          // Video V1 (video/clase_alg_u0_v1_que_es) en Bunny; las escenas son el respaldo.
           // Spec 2026-11-11-conjuntos-desde-cero: sin números ni desigualdades; ejemplos de la vida diaria.
-          clip: { scenes: [
+          clip: { bunny: '4b5c2610-9e65-4556-8e58-875f5927efbd', duration: 237, scenes: [
             sc(6, 'Un **conjunto** es una colección de objetos **bien definida**: cualquiera puede decidir, sin dudar, si un objeto está o no está. Los objetos se llaman **elementos**.', { title: '$S = \\{\\text{rojo},\\ \\text{amarillo},\\ \\text{verde}\\}$', steps: ['Nombre en mayúscula, elementos entre llaves y separados por comas'] }),
             sc(6, '$\\in$ se lee «pertenece a» y $\\notin$ «no pertenece a».', { title: '$\\text{rojo} \\in S \\qquad \\text{azul} \\notin S$' }),
             sc(6, 'Por **extensión** se escriben todos los elementos; por **comprensión**, la condición que cumplen. «:» se lee «tal que».', { title: '$V = \\{a, e, i, o, u\\} = \\{x : x \\text{ es una vocal}\\}$' }),

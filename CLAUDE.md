@@ -152,7 +152,7 @@ cualquier `L(x) = R(x)`). Reutilizables:
 ## Pendiente (a la fecha)
 
 Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):
-- Álgebra unidad 0: V1 `alg-0a` (`video/clase_alg_u0_v1_que_es`), V2 `alg-0b` (`video/clase_alg_u0_v2_tipos`), V3 `alg-0c`
+- Álgebra unidad 0: V2 `alg-0b` (`video/clase_alg_u0_v2_tipos`), V3 `alg-0c`
   (`video/clase_alg_u0_v3_operaciones`); sin zoom ni 3D. Hoy las lecciones usan sus escenas de respaldo. Los videos
   viejos C0 y EC0 (`clase_alg_u0_conjuntos`, `clase_alg_u0_ej_conjuntos`) quedaron reemplazados.
 - Álgebra unidad 1, **un video por lección** (nuevos, fondo `fondo_algebra_vivo.png`, zoom y 3D; carpetas
