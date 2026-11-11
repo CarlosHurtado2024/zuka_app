@@ -97,8 +97,8 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-0c', title: 'Operaciones entre conjuntos',
-          // Video V3 (video/clase_alg_u0_v3_operaciones): escenas de respaldo hasta tener su ID de Bunny.
-          clip: { scenes: [
+          // Video V3 (video/clase_alg_u0_v3_operaciones) en Bunny; las escenas son el respaldo.
+          clip: { bunny: '06ed782c-e7dd-49e7-abba-fcfb38ee41f6', duration: 181, scenes: [
             sc(6, 'En un **diagrama de Venn** cada conjunto es un círculo dentro del universo $U$; lo común va donde se cruzan.', { steps: ['$A$: juegan fútbol · $B$: tocan un instrumento'] }),
             sc(6, '**Unión** («o»): está en $A$ o en $B$. **Intersección** («y»): está en los dos.', { title: '$A \\cup B \\qquad A \\cap B$' }),
             sc(6, '**Diferencia** («pero no»), **complemento** («no está») y **diferencia simétrica** («en uno solo»).', { title: '$A - B \\qquad A^c \\qquad A \\,\\triangle\\, B$' }),
