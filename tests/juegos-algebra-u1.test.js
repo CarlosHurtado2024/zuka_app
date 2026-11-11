@@ -171,7 +171,9 @@ test('alcancias-gemelas: la tasa simple equivalente al compuesto', () => {
 const { loadScripts, get } = require('./load');
 const NUEVOS = ['fuga-de-familia', 'candado-fraccion', 'compas-raiz', 'lupa-densidad', 'duplica-magnitud', 'engranajes', 'estira-barra', 'tragamonedas', 'cadena-cambios', 'crece-planta', 'alcancias-gemelas'];
 const ctxU1 = loadScripts(['js/content.js', 'js/courses/algebra.js', 'js/games/kit.js', ...NUEVOS.map(n => `js/games/${n}.js`)]);
-const U1 = get(ctxU1, 'COURSE_ALGEBRA').units.find(u => u.title.startsWith('Sistemas numéricos')).lessons;
+// La antigua unidad 1 quedó repartida: números y axiomas, el mundo de razones y porcentajes, y el interés (tras la exponencial).
+const U1 = get(ctxU1, 'COURSE_ALGEBRA').units.filter(u => ['numeros', 'razones'].includes(u.world)).flatMap(u => u.lessons)
+  .concat(get(ctxU1, 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).filter(l => l.id === 'alg-13b'));
 const GU1 = get(ctxU1, 'GAMES');
 const usos = name => U1.flatMap(l => l.ex).filter(e => e.game === name).map(e => e.params);
 

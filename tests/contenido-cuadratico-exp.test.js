@@ -11,10 +11,10 @@ const lesson = id => all.find(l => l.id === id);
 const G = name => loadGame(`js/games/${name}.js`)[name];
 const IDS = ['alg-4a', 'alg-73'];
 
-test('alg-4a va antes de las ecuaciones cuadráticas y alg-73 cierra la unidad de exponenciales', () => {
+test('alg-4a va antes de las ecuaciones cuadráticas y alg-73 cierra la unidad de exponenciales (con el interés tras la exponencial)', () => {
   const unitOf = id => alg.units.find(u => u.lessons.some(l => l.id === id));
   assert.equal(unitOf('alg-4a').lessons.map(l => l.id).join(' '), 'alg-23c alg-1 alg-4a alg-4');
-  assert.equal(unitOf('alg-73').lessons.map(l => l.id).join(' '), 'alg-71 alg-72 alg-73');
+  assert.equal(unitOf('alg-73').lessons.map(l => l.id).join(' '), 'alg-71 alg-13b alg-72 alg-73');
   assert.equal(lesson('alg-4a').title, 'Polinomio cuadrático y parábola');
   assert.equal(lesson('alg-73').title, 'Ecuaciones exponenciales y logarítmicas');
 });

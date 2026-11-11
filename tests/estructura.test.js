@@ -10,17 +10,18 @@ const ids = c => c.units.flatMap(u => u.lessons.map(l => l.id));
 const plan = c => Array.from(c.units, u => `${u.title}: ${u.lessons.map(l => l.id).join(' ')}`);
 
 // Spec 2026-11-07-cronograma-algebra-calculo: clases 1–19 del cronograma de Álgebra y Trigonometría.
-test('álgebra: Conjuntos y luego las ocho unidades del cronograma 2026-2', () => {
+test('álgebra: Conjuntos, números y axiomas, razones y porcentajes, y luego el cronograma 2026-2', () => {
   assert.deepEqual([...plan(alg)], [
     'Conjuntos: alg-0a alg-0b alg-0c',
-    'Sistemas numéricos, razones y proporciones: alg-11 alg-11b alg-11c alg-12b alg-12c alg-12d alg-12 alg-13 alg-13b',
+    'Sistemas numéricos y axiomas: alg-11 alg-11b alg-11c alg-12b alg-12c alg-12d',
+    'Razones, proporciones y porcentajes: alg-12 alg-12e alg-12f alg-13',
     'Potenciación y radicación: alg-21a alg-21b alg-22a alg-22b',
     'Progresiones y sumatoria: alg-14 alg-15',
     'Polinomios: productos notables y factorización: alg-23a alg-3 alg-24c alg-24b',
     'Números complejos y ecuaciones cuadráticas: alg-23c alg-1 alg-4a alg-4',
     'Polinomios de grado superior: alg-23b alg-92 alg-93',
     'Expresiones racionales y fracciones parciales: alg-25a alg-25b alg-101 alg-102',
-    'Funciones exponenciales y logarítmicas: alg-71 alg-72 alg-73',
+    'Funciones exponenciales y logarítmicas: alg-71 alg-13b alg-72 alg-73',
   ]);
 });
 

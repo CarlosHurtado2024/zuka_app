@@ -30,7 +30,7 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
 | `js/app.js` | estado `S`, pestañas, ruta de lecciones, `startLesson` (cola de videos y ejercicios, retroalimentación), tema (`applyTheme`) |
 | `js/content.js` | ayudantes `sc, mc, num, ord, sld, play`, `clipsOf`, `buildQueue`, `BUNNY_CDN` |
 | `js/exercises.js` | tipos de ejercicio (`mc`, `input`, `order`, `slider`, `play`), `renderExercise`, `hintBlock` (botón «Ver pista») |
-| `js/courses/algebra.js`, `trig.js`, `calculo.js`, `js/data.js` | cursos: Álgebra (unidad 0 «Conjuntos» desde cero: lecciones `alg-0a`, `alg-0b`, `alg-0c`, sin números ni desigualdades, spec `2026-11-11-conjuntos-desde-cero`, y luego 8 unidades en el orden del cronograma 2026-2 de Álgebra y Trigonometría), Trigonometría (3), Cálculo Diferencial (5, cronograma 2026-2 de Cálculo; sus unidades 1–2 son lecciones `alg-*` movidas desde Álgebra, ids sin cambiar para no perder progreso); Física, etc. en `data.js`. Spec `2026-11-07-cronograma-algebra-calculo-design.md` |
+| `js/courses/algebra.js`, `trig.js`, `calculo.js`, `js/data.js` | cursos: Álgebra (unidad 0 «Conjuntos» desde cero: lecciones `alg-0a`, `alg-0b`, `alg-0c`, sin números ni desigualdades, spec `2026-11-11-conjuntos-desde-cero`, luego «Sistemas numéricos y axiomas», el mundo «Razones, proporciones y porcentajes» (`alg-12`, `alg-12e`, `alg-12f`, `alg-13`; spec `2026-11-11-razones-desde-cero`) y el resto en el orden del cronograma 2026-2 de Álgebra y Trigonometría; el interés `alg-13b` va tras la función exponencial `alg-71`), Trigonometría (3), Cálculo Diferencial (5, cronograma 2026-2 de Cálculo; sus unidades 1–2 son lecciones `alg-*` movidas desde Álgebra, ids sin cambiar para no perder progreso); Física, etc. en `data.js`. Spec `2026-11-07-cronograma-algebra-calculo-design.md` |
 | `js/games/kit.js` | `GAMES`, `PALETTES`/`PALETTE`/`setGameTheme`, `mountSketch`, `shuffledOrder`, `lineMap`, `nearest` |
 | `js/games/*.js` | un archivo por juego (≈59) |
 | `js/player.js` | reproductor de clips (Bunny HLS o escenas animadas) |
@@ -86,7 +86,7 @@ Juegos recientes: Álgebra unidad 0 (conjuntos) `arma-notacion`, `cumple-notacio
 tarjetas) `fuga-de-familia` (fichas `r + k√2`), `candado-fraccion`, `compas-raiz`, `lupa-densidad`,
 `duplica-magnitud`, `engranajes`, `estira-barra`, `tragamonedas`, `cadena-cambios`, `crece-planta`,
 `alcancias-gemelas`; Álgebra 1.1 `recta-espejo` (opuestos en la recta de enteros), `pasaporte-numeros`, `ascensor`, `pon-la-rayita`, `acorrala-raiz`;
-Álgebra 1.2 `inversos-gemelos` (opuesto y recíproco), `corta-rectangulo` (distributiva), `cancela-balanza` (cancelativa), `tren-ordenado` (orden), `atajo-axiomas`, `arma-producto`, `dobla-la-recta`; Trigonometría U1 `rueda-angulo`,
+Álgebra 1.2 `inversos-gemelos` (opuesto y recíproco), `corta-rectangulo` (distributiva), `cancela-balanza` (cancelativa), `tren-ordenado` (orden), `atajo-axiomas`, `arma-producto`, `dobla-la-recta`; Álgebra razones `bolsa-razon` (parte a parte y parte al todo), `estira-foto` (escalar sin deformar), `sombra-arbol` (cuarto proporcional con sombras); Trigonometría U1 `rueda-angulo`,
 `corta-pizza`, `arma-triangulo`, `mide-altura`, `atrapa-punto`, `noria`, `sintoniza-onda`; Trigonometría U2
 `canon-inverso`, `tanque-pitagorico`, `detector-identidades` (funciones `f`, `g` en params), `encadena-angulos`,
 `corredores-dobles`, `pesca-raices`, `compas-ambiguo`, `brazo-robot`; Trigonometría U3 `mapa-tesoro`,
@@ -156,11 +156,17 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   (`clase_alg_u0_conjuntos`, `clase_alg_u0_ej_conjuntos`) quedaron reemplazados.
 - Álgebra unidad 1, **un video por lección** (nuevos, fondo `fondo_algebra_vivo.png`, zoom y 3D; carpetas
   `video/clase_alg_u1_*`, plantilla `video/mk_alg_class.py` + `video/alg_u1_fx.py`; borrador escena por escena con
-  `bash video/render_each.sh carpeta archivo.py Escenas…`): A3 `alg-12`, A4 `alg-13`,
-  A5 `alg-13b`. Mientras llegan los ID, las lecciones siguen con sus videos viejos; al recibirlos, poner
+  `bash video/render_each.sh carpeta archivo.py Escenas…`): A4 `alg-13`,
+  A5 `alg-13b` (A3 quedó reemplazado por R1–R3). Mientras llegan los ID, las lecciones siguen con sus videos viejos; al recibirlos, poner
   `clip.bunny` + `duration` y **quitar `more`** (y ajustar `tests/pistas.test.js` y `tests/contenido.test.js`,
   que hoy comprueban los ID viejos y la parte 2).
-- Álgebra unidad 1, **ejemplos resueltos** E3–E5 (`video/clase_alg_u1_ej_*`, escena `ExScene`): un video por
+- Álgebra, **razones desde cero** (spec `2026-11-11-razones-desde-cero`, sin zoom ni 3D, mundo `razones`): la antigua `alg-12`
+  se partió en `alg-12` (R1 razones, `video/clase_alg_u2_r1_razones`), `alg-12e` (R2 proporciones y magnitudes,
+  `…_r2_proporciones`) y `alg-12f` (R3 regla de tres, `…_r3_regla_tres`). Hoy solo tienen escenas; al recibir cada ID
+  poner `clip.bunny` + `duration`. Reemplazan a la Clase 2, la regla de tres vieja, A3 y E3. Los videos se revisan
+  solos al renderizar: `alg_u1_fx.py` anota en `videos/layout_warnings.txt` textos que se salen, se enciman, quedan
+  cortados por un recuadro o tapados por una figura o una línea (corregir hasta que no quede ninguno).
+- Álgebra unidad 1, **ejemplos resueltos** E4–E5 (`video/clase_alg_u1_ej_*`, escena `ExScene`): un video por
   lección para justo después del de conceptos; al recibir su ID va en `more: [{ bunny, duration }]` **sin `after`**.
 - Álgebra unidad 1, **sistemas numéricos desde cero** (spec `2026-11-11-sistemas-numericos-desde-cero`, sin zoom ni
   3D): la antigua `alg-11` se partió en `alg-11` (N1 naturales y enteros, `video/clase_alg_u1_n1_naturales`),

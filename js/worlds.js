@@ -38,6 +38,21 @@ const WORLDS = {
     <g stroke="#f5f0ff" stroke-width="1.8">${[18, 38, 58, 78, 98, 118, 138].map(x => `<path d="M${x} 66v8"/>`).join('')}</g>
     ${wFlag(86.3, 68, '#ffd451')}<circle cx="86.3" cy="70" r="2.4" fill="#ff5a74"/>`) },
 
+  razones: { name: 'Mercado de las Razones', art: wSvg('razones', '#9fe3ff', '#fff1c9', `
+    ${wSun(24, 16, 7)}${wCloud(124, 12, .8)}
+    ${wHill('M0 66Q50 58 100 64T160 62V80H0z', '#58c98a')}${wHill('M0 72H160V80H0z', '#3fae72')}
+    <rect x="92" y="42" width="36" height="24" rx="2" fill="#f5e6c8"/><rect x="92" y="57" width="36" height="9" fill="#c98a4b"/>
+    ${[0, 1, 2, 3].map(i => `<path d="M${92 + i * 9} 32h9v8a4.5 4.5 0 0 1-9 0z" fill="${i % 2 ? '#fff' : '#ff5a74'}"/>`).join('')}
+    <g fill="#ffd451"><circle cx="98" cy="54" r="2.6"/><circle cx="103" cy="54" r="2.6"/><circle cx="100.5" cy="50" r="2.6"/></g>
+    <g fill="#ff8a3d"><circle cx="114" cy="54" r="2.6"/><circle cx="119" cy="54" r="2.6"/><circle cx="124" cy="54" r="2.6"/><circle cx="116.5" cy="50" r="2.6"/><circle cx="121.5" cy="50" r="2.6"/></g>
+    <path d="M64 66V30M56 66h16" stroke="#6d5ce8" stroke-width="3" stroke-linecap="round"/>
+    <path d="M47 30H81" stroke="#8b7bff" stroke-width="3" stroke-linecap="round"/><circle cx="64" cy="29" r="2.6" fill="#ffd451"/>
+    <path d="M48 30l-6 13h12zM80 30l-6 13h12z" fill="none" stroke="#8b7bff" stroke-width="1.3"/>
+    <path d="M41 43h14a7 3 0 0 1-14 0zM73 43h14a7 3 0 0 1-14 0z" fill="#8b7bff"/>
+    <g fill="#ff5a74"><circle cx="45.5" cy="40.6" r="2.3"/><circle cx="50.5" cy="40.6" r="2.3"/></g>
+    <g fill="#5aa9ff"><circle cx="75.5" cy="40.6" r="2.3"/><circle cx="80" cy="40.6" r="2.3"/><circle cx="84.5" cy="40.6" r="2.3"/></g>
+    <text x="64" y="22" text-anchor="middle" font-size="8" font-weight="800" fill="#4b2d8f" font-family="system-ui,sans-serif">2 : 3</text>`) },
+
   potencias: { name: 'Torres de Potencias', art: wSvg('potencias', '#4b2d8f', '#f59ac2', `
     ${wStars([[18, 10], [40, 6], [70, 12], [150, 8], [104, 6]])}
     ${wHill('M0 68H160V80H0z', '#2b1c55')}
