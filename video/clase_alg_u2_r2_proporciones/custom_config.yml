@@ -1,0 +1,25 @@
+directories:
+  base: ""
+  subdirs:
+    output: "videos"
+    raster_images: "assets"
+    vector_images: "assets"
+tex:
+  template: "basic"
+text:
+  font: "Segoe UI"
+  alignment: "LEFT"
+mobject:
+  default_mobject_color: "#EEF0FF"
+  default_light_color: "#9AA3C7"
+camera:
+  resolution: (1080, 1920)
+  background_color: "#090B18"
+  fps: 30
+resolution_options:
+  low: (540, 960)
+  med: (720, 1280)
+  high: (1080, 1920)
+  4k: (2160, 3840)
+sizes:
+  frame_height: 14.2222

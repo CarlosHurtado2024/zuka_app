@@ -283,3 +283,126 @@ class ExScene(MBScene):
         self.steps.append(card)
         self.cursor = card.get_bottom()[1] - 0.32
         return card
+
+
+# ---------------------------------------------------------------------------
+# Encabezado que siempre cabe y revisor de solapamientos (spec 2026-11-11-razones-desde-cero)
+# ---------------------------------------------------------------------------
+HEADER_SYMBOL_MAX_H = 0.58     # una fracción como m/n ya no se sale del óvalo
+
+
+def _get_header(self, symbol_tex: str, name: str, color, fill) -> VGroup:
+    symbol = Tex(symbol_tex, font_size=46).set_color(color)
+    if symbol.get_height() > HEADER_SYMBOL_MAX_H:
+        symbol.set_height(HEADER_SYMBOL_MAX_H)
+    words = TB(name, size=32, color=INK)
+    content = VGroup(symbol, words).arrange(RIGHT, buff=0.25)
+    h = max(0.86, content.get_height() + 0.34)
+    pill = RoundedRectangle(content.get_width() + 0.7, h, corner_radius=min(0.43, h / 2))
+    pill.set_fill(fill, 1).set_stroke(color, 2)
+    pill.move_to(content)
+    group = VGroup(pill, content)
+    if group.get_width() > LINE_WIDTH + 0.4:
+        group.set_width(LINE_WIDTH + 0.4)
+    group.move_to(HEADER_Y * UP)
+    group.fix_in_frame()
+    return group
+
+
+MBScene.get_header = _get_header
+
+LAYOUT_LOG = os.path.join("videos", "layout_warnings.txt")
+
+
+def _visible(m):
+    return any(g.get_fill_opacity() > 0.05 or g.get_stroke_opacity() > 0.05 for g in m.family_members_with_points())
+
+
+def _box(m):
+    (x0, y0, _), (x1, y1, _) = m.get_corner(DL), m.get_corner(UR)
+    return x0, y0, x1, y1
+
+
+def _overlap(a, b, tol=0.03):
+    return a[0] < b[2] - tol and b[0] < a[2] - tol and a[1] < b[3] - tol and b[1] < a[3] - tol
+
+
+def _inside(a, b, tol=0.02):
+    return a[0] >= b[0] - tol and a[2] <= b[2] + tol and a[1] >= b[1] - tol and a[3] <= b[3] + tol
+
+
+def check_layout(scene):
+    """Anota en videos/layout_warnings.txt lo que se sale del cuadro útil, toca el encabezado, se encima con otro
+    texto o queda cortado por el borde de un recuadro."""
+    if getattr(scene, "skip_layout_check", False):
+        return
+    skip = {scene.background, scene.watermark, scene.header, scene.frame}
+    mobs = [m for m in scene.mobjects if m not in skip]
+    issues = []
+    hw = FRAME_WIDTH / 2 - 0.12
+    top = HEADER_Y - 0.48 if scene.header is not None else FRAME_HEIGHT / 2 - 0.1
+    texts, boxes, shapes, lines = [], [], [], []
+    for m in mobs:
+        fam = [g for g in m.get_family() if isinstance(g, StringMobject)]
+        for t in fam:
+            if _visible(t):
+                texts.append(t)
+        for g in m.get_family():
+            if isinstance(g, Rectangle) and g.get_fill_opacity() > 0.3:
+                boxes.append(g)
+            elif isinstance(g, (Circle, Polygon)) and g.get_fill_opacity() > 0.3:
+                shapes.append(g)
+            elif isinstance(g, Line) and g.get_stroke_opacity() > 0.3 and g.get_length() > 0.3:
+                lines.append(g)
+        if isinstance(m, Mobject) and not isinstance(m, ImageMobject) and not _visible(m):
+            continue
+        x0, y0, x1, y1 = _box(m)
+        if x0 < -hw or x1 > hw:
+            issues.append(f"se sale por un lado: {type(m).__name__} x=[{x0:.2f}, {x1:.2f}]")
+        if y1 > top:
+            issues.append(f"toca el encabezado: {type(m).__name__} y_top={y1:.2f}")
+        if y0 < CONTENT_BOTTOM - 0.45:
+            issues.append(f"baja demasiado: {type(m).__name__} y_bottom={y0:.2f}")
+    tb = [(t, _box(t)) for t in texts]
+    for i in range(len(tb)):
+        for j in range(i + 1, len(tb)):
+            if _overlap(tb[i][1], tb[j][1]):
+                issues.append(f"textos encimados: «{tb[i][0].get_string()[:24]}» y «{tb[j][0].get_string()[:24]}»")
+    for t, b in tb:
+        for r in boxes:
+            rb = _box(r)
+            if _overlap(b, rb) and not _inside(b, rb) and not _inside(rb, b):
+                issues.append(f"texto cortado por un recuadro: «{t.get_string()[:24]}»")
+    for t, b in tb:
+        for g in shapes:
+            gb = _box(g)
+            if _overlap(b, gb, tol=0.05) and not _inside(b, gb):
+                issues.append(f"texto encima de una figura: «{t.get_string()[:24]}» sobre {type(g).__name__}")
+    for t, b in tb:
+        inner = (b[0] + 0.04, b[1] + 0.04, b[2] - 0.04, b[3] - 0.04)
+        for ln in lines:
+            a, z = ln.get_start(), ln.get_end()
+            for k in range(1, 30):
+                x, y = a[:2] + (z[:2] - a[:2]) * k / 30
+                if inner[0] < x < inner[2] and inner[1] < y < inner[3]:
+                    issues.append(f"línea encima de un texto: «{t.get_string()[:24]}»")
+                    break
+    seen = scene.__dict__.setdefault("_layout_seen", set())
+    new = [s for s in issues if s not in seen]
+    if new:
+        seen.update(new)
+        os.makedirs(os.path.dirname(LAYOUT_LOG), exist_ok=True)
+        with open(LAYOUT_LOG, "a", encoding="utf-8") as fp:
+            for s in new:
+                fp.write(f"{scene.__class__.__name__} t={scene.time:.1f}: {s}\n")
+
+
+_mb_play = MBScene.play
+
+
+def _checked_play(self, *args, **kwargs):
+    _mb_play(self, *args, **kwargs)
+    check_layout(self)
+
+
+MBScene.play = _checked_play
