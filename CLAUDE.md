@@ -95,6 +95,16 @@ tarjetas) `fuga-de-familia` (fichas `r + k√2`), `candado-fraccion`, `compas-ra
 cualquier `L(x) = R(x)`). Reutilizables:
 `une-parejas`, `ordena-terminos` (`sep`), `clasifica-cartas`, `ubica-en-recta`, `cajas-numericas`…
 
+## Evaluaciones de fin de unidad
+
+- `unit.exam = { id, title, minutes, items: [{ lesson, review, ex }] }` (Álgebra U1–U3, al final de
+  `js/courses/algebra.js`; spec `2026-11-12-evaluaciones-algebra-u1-u3`). Nodo de trofeo al final del camino del
+  mundo (`renderWorld`); no cuenta como lección. Motor en `js/exam.js` (`startExam`, `openExamSheet`, `examReport`):
+  cronómetro, sin decir si acierta hasta el final, saltar / dejar en blanco, pista = media pregunta, informe con
+  «Lo que dominas», «Para repasar» (nota `review` + botón a la lección) y detalle; mejor resultado en `S.exams`.
+- Juegos propios de las evaluaciones (no usarlos en lecciones; cada uno tiene `solve(params)`): `laberinto-valor`,
+  `domino-equivalencias`, `piramide-numerica`, `detective-pasos`. Pruebas: `tests/evaluaciones.test.js`.
+
 ## Interfaz de la lección
 
 - Al fallar: «Incorrecto» + «La respuesta correcta es:»; la lección deja espacio abajo para ver el juego.
