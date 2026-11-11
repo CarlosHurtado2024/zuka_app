@@ -26,8 +26,8 @@ test('Perfil tiene el interruptor del modo revisión', () => {
   assert.match(app, /data-set="unlockAll"/);
 });
 
-test('la ruta dibuja como abiertas (no con candado) las lecciones desbloqueadas', () => {
-  const learn = body('renderLearn');
+test('el camino de niveles de un mundo dibuja como abiertas (no con candado) las lecciones desbloqueadas', () => {
+  const learn = body('renderWorld');
   assert.match(learn, /isUnlocked\(c, l\) \? 'open' : 'locked'/);
 });
 

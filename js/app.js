@@ -169,7 +169,7 @@ function openCoursePicker() {
       <span class="mini-bar"><i style="width:${(d / ls.length) * 100}%"></i></span></span>
       ${d === ls.length ? `<span class="cr-done">${ICON.check}</span>` : ''}</button>`;
   }).join('')}</div>`, sh => sh.querySelectorAll('.course-row').forEach(b => b.onclick = () => {
-    S.course = b.dataset.id; save(); closeSheet(); go('learn'); view.scrollTop = 0;
+    S.course = b.dataset.id; openWorld = null; save(); closeSheet(); go('learn'); view.scrollTop = 0;
   }));
 }
 
@@ -186,9 +186,19 @@ function openLessonSheet(c, l) {
 
 // ---- pestaña Aprender ----
 const OFFSETS = [0, 52, 78, 52, 0, -52, -78, -52];
-const PATH_STEP = 160;   // alto de cada fila de nivel (igual a .node-wrap en styles.css)
+const PATH_STEP = 196;   // alto de cada fila de nivel (igual a .node-wrap en styles.css)
+const W_OFFSETS = [0, 62, 0, -62];   // zigzag del camino de mundos
+const WORLD_STEP = 236;  // alto de cada fila de mundo (igual a .wnode-wrap; el botón mide 128 px)
+let openWorld = null;    // { course, i }: mundo abierto en la pestaña Aprender (null = mapa de mundos)
+function worldInfo(c, u) {
+  const wDone = u.lessons.filter(isDone).length;
+  return { w: WORLDS[u.world] || { name: u.title, art: '' }, wDone, all: wDone === u.lessons.length,
+    closed: u.lessons.every(l => !isUnlocked(c, l)) };
+}
 function renderLearn() {
   const c = courseById(S.course), ls = lessonsOf(c), doneN = ls.filter(isDone).length;
+  if (openWorld?.course === c.id && c.units[openWorld.i]) return renderWorld(c, openWorld.i);
+  openWorld = null;
   const cur = ls.find(l => !isDone(l)), goalP = Math.min(1, todayXP() / S.goal);
   view.innerHTML = `<div class="learn" style="--c:${c.color}">
     <section class="hero">
@@ -206,20 +216,45 @@ function renderLearn() {
       <button class="btn brand sm" data-install>Instalar</button>
       <button class="icon-btn" data-hide-install aria-label="Ocultar">${ICON.x}</button>
     </section>` : ''}
-    ${c.units.map((u, ui) => {
-      // Cada unidad es un mundo (js/worlds.js) y sus lecciones, niveles unidos por un sendero.
-      const w = WORLDS[u.world] || { name: u.title, art: '' };
-      const wDone = u.lessons.filter(isDone).length, all = wDone === u.lessons.length;
-      const closed = u.lessons.every(l => !isUnlocked(c, l));
-      const xs = u.lessons.map((_, i) => OFFSETS[i % OFFSETS.length]);
-      return `<section class="world${closed ? ' closed' : ''}${all ? ' complete' : ''}">
+    <div class="world-map" role="list">
+      <svg class="trail" width="1" height="1" overflow="visible" aria-hidden="true"><path d="${worldTrail(c.units.map((_, i) => W_OFFSETS[i % W_OFFSETS.length]), WORLD_STEP, 64)}"/></svg>
+      ${c.units.map((u, ui) => {
+        const { w, wDone, all, closed } = worldInfo(c, u), here = !!cur && u.lessons.includes(cur);
+        return `<div class="wnode-wrap${closed ? ' closed' : ''}${all ? ' complete' : ''}" role="listitem" style="--x:${W_OFFSETS[ui % W_OFFSETS.length]}px">
+          ${here ? '<span class="start-bubble" aria-hidden="true">AQUÍ VAS</span>' : ''}
+          <button class="wnode${here ? ' current' : ''}" data-world="${ui}" style="--p:${wDone / u.lessons.length}"
+            aria-label="Mundo ${ui + 1}: ${esc(w.name)}, ${wDone} de ${u.lessons.length} niveles${here ? ', aquí vas' : ''}">
+            <span class="wnode-art">${w.art}</span>
+            ${all ? `<span class="wnode-badge">${ICON.star}</span>` : closed ? `<span class="wnode-badge">${ICON.lock}</span>` : ''}
+          </button>
+          <span class="wnode-label" aria-hidden="true"><small>Mundo ${ui + 1} · ${wDone}/${u.lessons.length}</small>${esc(w.name)}</span></div>`;
+      }).join('')}
+    </div>
+    ${cur ? '' : `<div class="course-done">${ICON.star}<div><b>¡Curso completado!</b><p>Repasa cualquier lección o prueba otro curso.</p></div></div>`}
+  </div>`;
+  view.querySelectorAll('.wnode').forEach(b => b.onclick = () => {
+    openWorld = { course: c.id, i: +b.dataset.world }; renderLearn(); $('[data-back]', view).focus({ preventScroll: true });
+  });
+  $('[data-install]', view)?.addEventListener('click', promptInstall);
+  $('[data-hide-install]', view)?.addEventListener('click', () => { S.hideInstall = true; save(); renderLearn(); });
+  if (doneN) view.querySelector('.wnode.current')?.scrollIntoView({ block: 'center' });
+}
+
+// Vista de un mundo: su tarjeta y el camino de sus niveles (lecciones).
+function renderWorld(c, ui) {
+  const u = c.units[ui], cur = lessonsOf(c).find(l => !isDone(l));
+  const { w, wDone, all, closed } = worldInfo(c, u);
+  const xs = u.lessons.map((_, i) => OFFSETS[i % OFFSETS.length]);
+  view.innerHTML = `<div class="learn" style="--c:${c.color}">
+    <button class="world-back" data-back>${ICON.back}<span>Mundos</span></button>
+    <section class="world${closed ? ' closed' : ''}${all ? ' complete' : ''}">
       <header class="world-card">
         <div class="world-art">${w.art}
           <span class="world-tag">Mundo ${ui + 1}</span>
           <span class="world-prog" aria-label="${wDone} de ${u.lessons.length} completadas">${all ? ICON.star : closed ? ICON.lock : ''}${wDone}/${u.lessons.length}</span></div>
         <div class="world-body"><h2>${esc(w.name)}</h2><p>${esc(u.title)}</p></div>
       </header>
-      <div class="path" style="--rows:${u.lessons.length}">
+      <div class="path">
         <svg class="trail" width="1" height="1" overflow="visible" aria-hidden="true"><path d="${worldTrail(xs, PATH_STEP)}"/></svg>
         ${u.lessons.map((l, li) => {
         // 'open': desbloqueada pero no es la siguiente (en modo revisión, todas las demás).
@@ -229,14 +264,20 @@ function renderLearn() {
           ${st === 'current' ? '<span class="start-bubble">EMPIEZA</span>' : ''}
           <button class="node ${st}" data-id="${l.id}" aria-label="Nivel ${ui + 1}-${li + 1}: ${esc(l.title)}">${icon}</button>
           <span class="node-label"><small>Nivel ${ui + 1}-${li + 1}</small>${esc(l.title)}</span></div>`;
-      }).join('')}</div></section>`;
-    }).join('')}
-    ${cur ? '' : `<div class="course-done">${ICON.star}<div><b>¡Curso completado!</b><p>Repasa cualquier lección o prueba otro curso.</p></div></div>`}
+      }).join('')}</div></section>
+    ${ui + 1 < c.units.length ? `<button class="world-next" data-next>Siguiente: Mundo ${ui + 2} · ${esc((WORLDS[c.units[ui + 1].world] || c.units[ui + 1]).name || c.units[ui + 1].title)} ${ICON.right}</button>` : ''}
   </div>`;
   view.querySelectorAll('.node').forEach(b => b.onclick = () => openLessonSheet(c, findLesson(b.dataset.id).l));
-  $('[data-install]', view)?.addEventListener('click', promptInstall);
-  $('[data-hide-install]', view)?.addEventListener('click', () => { S.hideInstall = true; save(); renderLearn(); });
-  if (doneN) view.querySelector('.node.current')?.scrollIntoView({ block: 'center' });
+  $('[data-back]', view).onclick = () => {
+    openWorld = null; renderLearn();
+    const wb = view.querySelector(`.wnode[data-world="${ui}"]`);
+    wb?.scrollIntoView({ block: 'center' }); wb?.focus({ preventScroll: true });
+  };
+  $('[data-next]', view)?.addEventListener('click', () => {
+    openWorld = { course: c.id, i: ui + 1 }; renderLearn(); $('[data-back]', view).focus({ preventScroll: true });
+  });
+  view.scrollTop = 0;   // el mundo empieza arriba, o centrado en su nivel actual
+  view.querySelector('.node.current')?.scrollIntoView({ block: 'center' });
 }
 
 // ---- pestaña Clips (feed vertical) ----
@@ -616,7 +657,7 @@ function renderProfile() {
   const nameInp = $('.name-input', view);
   nameInp.onchange = () => { S.name = nameInp.value.trim(); save(); renderProfile(); };
   view.querySelectorAll('[data-goal]').forEach(b => b.onclick = () => { S.goal = +b.dataset.goal; save(); renderProfile(); });
-  view.querySelectorAll('[data-course]').forEach(b => b.onclick = () => { S.course = b.dataset.course; save(); go('learn'); });
+  view.querySelectorAll('[data-course]').forEach(b => b.onclick = () => { S.course = b.dataset.course; openWorld = null; save(); go('learn'); });
   view.querySelectorAll('[data-lesson]').forEach(b => b.onclick = () => {
     const { c, l } = findLesson(b.dataset.lesson);
     if (isUnlocked(c, l)) startLesson(c, l); else { feedFilter = c.id; go('clips'); }
@@ -626,14 +667,18 @@ function renderProfile() {
   view.querySelectorAll('[data-set]').forEach(b => b.onclick = () => { S[b.dataset.set] = !S[b.dataset.set]; save(); renderProfile(); });
   $('[data-reset]', view).onclick = () => {
     if (!confirm('¿Borrar todo tu progreso, XP y racha?')) return;
-    S = DEFAULTS(); save(); applyTheme(); go('learn');
+    S = DEFAULTS(); openWorld = null; save(); applyTheme(); go('learn');
   };
 }
 
 // ---- arranque ----
 document.querySelectorAll('#tabbar button').forEach(b => {
   b.insertAdjacentHTML('afterbegin', ICON[b.dataset.tab === 'learn' ? 'learn' : b.dataset.tab === 'clips' ? 'clips' : 'user']);
-  b.onclick = () => (lessonClose ? lessonClose(b.dataset.tab) : go(b.dataset.tab));
+  b.onclick = () => {
+    if (lessonClose) return lessonClose(b.dataset.tab);
+    if (tab === 'learn' && b.dataset.tab === 'learn') openWorld = null;   // tocar Aprender otra vez: al mapa
+    go(b.dataset.tab);
+  };
 });
 // Altura del menú inferior para lo que se acomoda encima de él. Durante una lección el menú se
 // esconde (body.in-lesson pone --tabbar-h en 0): no se guarda esa altura 0.

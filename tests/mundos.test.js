@@ -45,6 +45,12 @@ test('worldTrail pasa por todos los niveles', () => {
   assert.equal((d.match(/C/g) || []).length, 2);
 });
 
+test('worldTrail acepta el centro vertical del botón (mapa de mundos)', () => {
+  const d = worldTrail([0, 58], 200, 64);
+  assert.ok(d.startsWith('M0 64'), d);
+  assert.ok(d.trim().endsWith('58 264'), d);
+});
+
 test('js/worlds.js está en index.html y en el SHELL del service worker', () => {
   const index = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');

@@ -260,10 +260,10 @@ const WORLDS = {
     ${wArrow(64.5, 58, 96.5, 58, '#2f5bff', 3)}${wArrow(64.5, 58, 81.3, 26, '#ffd451', 3)}<circle cx="64.5" cy="58" r="3" fill="#8a3a0a"/>`) },
 };
 
-// Trazo del sendero que une los niveles: xs son los desplazamientos horizontales de cada botón (centro = 0),
-// step la altura de cada fila; el sendero pasa por el centro de cada botón (34 px bajo el borde superior).
-function worldTrail(xs, step) {
+// Trazo del sendero que une niveles o mundos: xs son los desplazamientos horizontales de cada botón
+// (centro = 0), step la altura de cada fila y cy el centro vertical del botón dentro de su fila.
+function worldTrail(xs, step, cy = 34) {
   if (xs.length < 2) return '';
-  const y = i => 34 + i * step, h = step / 2;
+  const y = i => cy + i * step, h = step / 2;
   return `M${xs[0]} ${y(0)}` + xs.slice(1).map((x, i) => ` C${xs[i]} ${y(i) + h} ${x} ${y(i + 1) - h} ${x} ${y(i + 1)}`).join('');
 }

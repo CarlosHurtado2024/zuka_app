@@ -139,11 +139,53 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 .world-body { padding: 10px 14px 12px; }
 .world-body h2 { font-size: 19px; font-weight: 800; line-height: 1.15; }
 .world-body p { margin-top: 2px; font-size: 12.5px; font-weight: 700; color: var(--mute); }
+/* Camino de mundos: botones redondos con la ilustración y un anillo de avance (--p de 0 a 1). */
+.world-map { position: relative; display: flex; flex-direction: column; align-items: center; padding: 64px 0 0; margin-top: 8px; }
+.world-map > .trail { top: 64px; }
+.world-map .trail path { stroke-width: 9; stroke-dasharray: 2 16; }
+.wnode-wrap { position: relative; height: 236px; display: flex; flex-direction: column; align-items: center; transform: translateX(var(--x)); }
+.wnode {
+  position: relative; width: 128px; height: 128px; border-radius: 50%; padding: 7px;
+  background: conic-gradient(var(--gold) calc(var(--p) * 360deg), var(--card2) 0);
+  box-shadow: 0 8px 0 color-mix(in srgb, var(--c) 40%, var(--locked-shadow)); transition: transform .1s, box-shadow .1s;
+}
+.wnode:active { transform: translateY(5px); box-shadow: 0 3px 0 color-mix(in srgb, var(--c) 40%, var(--locked-shadow)); }
+.wnode-art { display: block; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 3px solid var(--bg); }
+.wnode-art > svg { display: block; width: 100%; height: 100%; }
+.wnode.current::after {
+  content: ''; position: absolute; inset: -10px; border-radius: 50%;
+  border: 4px solid color-mix(in srgb, var(--c) 55%, transparent); animation: ring 1.8s ease-out infinite;
+}
+.wnode-badge {
+  position: absolute; right: 2px; bottom: 4px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--card2); color: var(--locked); border: 3px solid var(--bg);
+}
+.wnode-badge .i { width: 18px; height: 18px; }
+.wnode-wrap.complete .wnode-badge { background: var(--gold); color: #0b0d1a; }
+.wnode-wrap.closed .wnode-art > svg { filter: grayscale(.85) brightness(.8); }
+.wnode-wrap .start-bubble { top: -42px; }
+.wnode-label {
+  position: relative; margin-top: 12px; padding: 2px 10px; border-radius: 10px; background: var(--bg); max-width: 170px;
+  text-align: center; font-size: 14px; font-weight: 800; line-height: 1.2; color: var(--ink);
+}
+.wnode-label small { display: block; font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--c) 70%, var(--ink)); }
+.world-back {
+  display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px 6px 8px; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--line); color: var(--ink); font-weight: 800; font-size: 14px;
+}
+.world-back .i { width: 20px; height: 20px; }
+.learn > .world:first-of-type { margin-top: 14px; }
+.world-next {
+  display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-top: 18px; padding: 14px;
+  border-radius: 16px; background: var(--card); border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line));
+  color: var(--ink); font-weight: 800; font-size: 14px; text-align: center;
+}
+.world-next .i { flex: none; width: 18px; height: 18px; }
 .path { position: relative; display: flex; flex-direction: column; align-items: center; padding: 56px 0 0; }
 .trail { position: absolute; left: 50%; top: 56px; overflow: visible; pointer-events: none; }
 .trail path { fill: none; stroke: color-mix(in srgb, var(--c) 60%, var(--line)); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 2 13; }
 .node-n { font-size: 26px; font-weight: 800; line-height: 1; }
-.node-wrap { position: relative; height: 160px; display: flex; flex-direction: column; align-items: center; transform: translateX(var(--x)); }
+.node-wrap { position: relative; height: 196px; display: flex; flex-direction: column; align-items: center; transform: translateX(var(--x)); }
 .node {
   position: relative; width: 74px; height: 68px; border-radius: 50%; display: grid; place-items: center;
   background: var(--c); color: #0b0d1a; box-shadow: 0 7px 0 color-mix(in srgb, var(--c) 52%, #000); transition: transform .1s, box-shadow .1s;
@@ -159,7 +201,6 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 .node-label {
   position: relative; margin-top: 10px; padding: 2px 8px; border-radius: 10px; background: var(--bg);
   font-size: 12.5px; font-weight: 700; line-height: 1.25; color: var(--mute); max-width: 140px; text-align: center;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
 .node-label small { display: block; font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--c) 70%, var(--ink)); }
 .start-bubble {
