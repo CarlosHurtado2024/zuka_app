@@ -1394,3 +1394,156 @@ const COURSE_ALGEBRA = {
     },
   ],
 };
+
+// ---------- Evaluaciones de fin de unidad (spec 2026-11-12-evaluaciones-algebra-u1-u3) ----------
+// Cada pregunta dice qué lección evalúa (lesson) y qué repasar si se falla (review). Juegos propios de las
+// evaluaciones: laberinto-valor, domino-equivalencias, piramide-numerica y detective-pasos.
+(() => {
+  const unit = w => COURSE_ALGEBRA.units.find(u => u.world === w);
+  const cells = list => list.map(([t, ok]) => ({ t, ok }));
+  const tile = (a, av, b, bv) => ({ a, av, b, bv });
+  const k = (t, v) => ({ t, v });
+
+  unit('numeros').exam = {
+    id: 'exam-alg-1', title: 'Sistemas numéricos y axiomas', minutes: 15,
+    items: [
+      { lesson: 'alg-11', review: 'Un entero no tiene parte decimal ni fraccionaria, aunque esté escrito como fracción ($\\tfrac{12}{4} = 3$) o con signos ($-(-5) = 5$).',
+        ex: play('laberinto-valor', 'Cruza el laberinto pisando solo **números enteros** ($\\mathbb{Z}$).', { rule: 'Pisa solo números enteros', rounds: [{ cols: 4, start: 0, end: 15, cells: cells([
+          ['−7', true], ['3/2', false], ['0', true], ['−0.5', false],
+          ['12/4', true], ['√2', false], ['−(−5)', true], ['1/3', false],
+          ['−10/5', true], ['√9', true], ['4.5', false], ['−8', true],
+          ['0.1', false], ['−1', true], ['−3', true], ['100', true]]) }] },
+        'El camino pasa por $-7$, $\\tfrac{12}{4} = 3$, $\\tfrac{-10}{5} = -2$, $\\sqrt9 = 3$, $-1$, $-3$ y $100$: todos enteros. $\\tfrac32$, $-0.5$, $4.5$ y $0.1$ tienen parte decimal y $\\sqrt2$ ni siquiera es racional.',
+        { hint: 'Antes de decidir, simplifica: una fracción o una raíz puede ser un entero disfrazado.' }) },
+      { lesson: 'alg-11b', review: 'Para pasar de fracción a decimal se divide el numerador entre el denominador; un decimal periódico como $0.333\\ldots$ también es una fracción ($\\tfrac13$).',
+        ex: play('domino-equivalencias', 'Arma la cadena de dominó: cada ficha debe empezar con **el mismo número** con que terminó la anterior, escrito de otra forma.', { rounds: [{
+          start: k('0.25', 0.25), end: k('7/8', 0.875), need: 4, tiles: [
+            tile('1/4', 0.25, '0.6', 0.6), tile('3/5', 0.6, '1.5', 1.5), tile('3/2', 1.5, '0.333…', 1 / 3),
+            tile('1/3', 1 / 3, '0.875', 0.875), tile('2/5', 0.4, '0.75', 0.75), tile('5/4', 1.25, '0.3', 0.3)] }] },
+        '$0.25 = \\tfrac14$, $0.6 = \\tfrac35$, $1.5 = \\tfrac32$, $0.333\\ldots = \\tfrac13$ y $0.875 = \\tfrac78$. Las trampas: $0.3$ no es $\\tfrac13$ y $\\tfrac54$ no es $0.25$.',
+        { hint: 'Convierte cada cara a decimal dividiendo: así comparas números escritos de formas distintas.' }) },
+      { lesson: 'alg-11c', review: 'Un número es irracional si su decimal es infinito y no periódico, como $\\pi$ o $\\sqrt2$. Las raíces exactas ($\\sqrt{16}$) y los decimales finitos o periódicos son racionales.',
+        ex: play('laberinto-valor', 'Cruza el laberinto pisando solo **números irracionales**.', { rule: 'Pisa solo irracionales', rounds: [{ cols: 4, start: 0, end: 15, cells: cells([
+          ['√2', true], ['π', true], ['√16', false], ['22/7', false],
+          ['1.4142', false], ['−√7', true], ['1 + √5', true], ['0.111…', false],
+          ['√(4/9)', false], ['3.14', false], ['2π', true], ['√50', true],
+          ['√0.25', false], ['√8/√2', false], ['√3/2', true], ['√11', true]]) }] },
+        'Son irracionales $\\sqrt2$, $\\pi$, $-\\sqrt7$, $1 + \\sqrt5$, $2\\pi$, $\\tfrac{\\sqrt3}{2}$ y $\\sqrt{11}$. Las trampas son racionales: $\\sqrt{16} = 4$, $\\sqrt{4/9} = \\tfrac23$, $\\sqrt{0.25} = 0.5$, $\\tfrac{\\sqrt8}{\\sqrt2} = 2$, y $3.14$ o $1.4142$ son solo aproximaciones con decimales finitos.',
+        { hint: 'Calcula lo que se pueda: si la raíz es exacta, o el decimal termina o se repite, el número es racional.' }) },
+      { lesson: 'alg-12b', review: 'La distributiva reparte el factor a **cada** sumando: $a(b + c) = ab + ac$. Y un número más su opuesto da el neutro $0$, no $1$.',
+        ex: play('detective-pasos', 'Cada solución tiene **un paso equivocado**. Encuéntralo y elige cómo debía quedar.', { rounds: [
+          { title: 'Calcular 7·(10 + 3) con los axiomas', steps: ['7·(10 + 3)', '= 7·10 + 3', '= 70 + 3', '= 73'], wrong: 1,
+            fixes: ['= 7·10 + 7·3', '= 7·10 + 3·10', '= (7 + 10)·3', '= 7 + 10·3'], fix: 0 },
+          { title: 'Despejar x en x + 5 = 12', steps: ['x + 5 = 12', '(x + 5) + (−5) = 12 + (−5)', 'x + (5 + (−5)) = 7', 'x + 1 = 7', 'x = 6'], wrong: 3,
+            fixes: ['x + 0 = 7', 'x · 0 = 7', 'x + 1 = 7', 'x − 5 = 7'], fix: 0 }] },
+        'En la primera, la distributiva da $7 \\cdot 10 + 7 \\cdot 3 = 91$. En la segunda, $5 + (-5) = 0$ (inverso aditivo) y $x + 0 = x$ (neutro), así que $x = 7$.',
+        { hint: 'Revisa cada paso preguntándote qué axioma lo justifica: el error es el primer paso que ninguno justifica.' }) },
+      { lesson: 'alg-12c', review: 'Ley de los signos: el producto de dos números de igual signo es positivo y el de signos distintos es negativo.',
+        ex: play('piramide-numerica', 'Completa la pirámide: cada bloque es el **producto** de los dos que lo sostienen.', { op: 'prod',
+          rows: [[k('−1', -1), k('2', 2), null, k('−3', -3)], [k('−2', -2), null, null], [k('4', 4), null], [k('−24', -24)]],
+          tokens: [k('−1', -1), k('−2', -2), k('3', 3), k('−6', -6), k('1', 1), k('2', 2), k('−3', -3), k('6', 6)] },
+        'Como $(-2) \\cdot (-2) = 4$, el bloque de en medio es $-2 = 2 \\cdot (-1)$. Luego $(-1)(-3) = 3$, $(-2) \\cdot 3 = -6$ y la cima $4 \\cdot (-6) = -24$.',
+        { hint: 'Empieza por un bloque al que ya le conoces el resultado y uno de sus factores; cuida el signo con la ley de los signos.' }) },
+      { lesson: 'alg-12d', review: 'Multiplicar por un negativo voltea la desigualdad, y el valor absoluto es una distancia: nunca es negativo.',
+        ex: play('laberinto-valor', 'Cruza el laberinto pisando solo **afirmaciones verdaderas**.', { rule: 'Pisa solo lo verdadero', rounds: [{ cols: 3, start: 0, end: 11, cells: cells([
+          ['|−4| = 4', true], ['−3 < −5', false], ['|−2| = −2', false],
+          ['−1 > −2', true], ['−2·3 < −2·1', true], ['|x| ≥ 0', true],
+          ['√2 < 1.4', false], ['|5 − 9| = −4', false], ['3 < 5 ⇒ −3 > −5', true],
+          ['1/2 < 1/3', false], ['−0.5 < −0.4', true], ['|−3| + |3| = 6', true]]) }] },
+        'Son falsas $-3 < -5$ (en realidad $-3 > -5$), $|-2| = -2$ (vale $2$), $\\sqrt2 < 1.4$ (pues $\\sqrt2 \\approx 1.414$), $|5 - 9| = -4$ (vale $4$) y $\\tfrac12 < \\tfrac13$. Es verdadera $-2 \\cdot 3 < -2 \\cdot 1$ ($-6 < -2$), y al multiplicar $3 < 5$ por $-1$ el orden se voltea.',
+        { hint: 'Ubica los números en la recta: el que está más a la derecha es el mayor, aunque sea negativo.' }) },
+      { lesson: 'alg-12d', review: 'La distancia entre $a$ y $b$ en la recta es $|a - b|$: se restan y se toma el valor absoluto.',
+        ex: num('En la recta real, ¿cuál es la **distancia** entre $-3.5$ y $2.25$?', 5.75,
+          '$|2.25 - (-3.5)| = |2.25 + 3.5| = 5.75$.',
+          { hint: 'La distancia es el valor absoluto de la diferencia de los dos números, en cualquier orden.' }) },
+    ],
+  };
+
+  unit('razones').exam = {
+    id: 'exam-alg-2', title: 'Razones, proporciones y porcentajes', minutes: 12,
+    items: [
+      { lesson: 'alg-12', review: 'Dos razones son equivalentes si al dividir dan lo mismo: $4 : 6 = \\tfrac46 = \\tfrac23$.',
+        ex: play('domino-equivalencias', 'Encadena fichas uniendo **razones equivalentes**: cada ficha empieza con una razón igual a la que terminó la anterior.', { rounds: [{
+          start: k('2 : 3', 2 / 3), end: k('3 : 2', 1.5), need: 3, tiles: [
+            tile('4 : 6', 4 / 6, '10 : 4', 2.5), tile('5 : 2', 2.5, '9 : 12', 0.75), tile('3 : 4', 0.75, '1.5', 1.5),
+            tile('6 : 9', 6 / 9, '4 : 10', 0.4), tile('2 : 5', 0.4, '8 : 6', 8 / 6)] }] },
+        '$2 : 3 = 4 : 6$, $10 : 4 = 5 : 2$, $9 : 12 = 3 : 4$ y $1.5 = 3 : 2$. La ficha $6 : 9$ también empieza bien, pero su camino no llega a $3 : 2$.',
+        { hint: 'Escribe cada razón como una división: dos razones son iguales si dan el mismo cociente.' }) },
+      { lesson: 'alg-12e', review: 'En una proporción los dos términos se multiplican (o dividen) por el mismo número; sumarles lo mismo no la conserva: $3 : 5 \\neq 13 : 15$.',
+        ex: play('laberinto-valor', 'Cruza pisando solo las razones **proporcionales a $3 : 5$**.', { rule: 'Pisa solo lo proporcional a 3 : 5', rounds: [{ cols: 4, start: 0, end: 15, cells: cells([
+          ['6 : 10', true], ['9 : 15', true], ['5 : 3', false], ['4 : 6', false],
+          ['3 : 8', false], ['12 : 20', true], ['13 : 15', false], ['0.3 : 0.5', true],
+          ['5 : 7', false], ['1.5 : 2.5', true], ['30 : 50', true], ['8 : 10', false],
+          ['4 : 5', false], ['6 : 8', false], ['21 : 35', true], ['15 : 25', true]]) }] },
+        'Cada razón del camino es $3 : 5$ multiplicada por un número ($\\times 2$, $\\times 3$, $\\times 4$, $\\times 0.5$, $\\times 10$, $\\times 7$, $\\times 5$). Las trampas suman lo mismo arriba y abajo ($13 : 15$, $5 : 7$) o voltean la razón ($5 : 3$).',
+        { hint: 'Divide cada razón: es proporcional si da lo mismo que $3 \\div 5$.' }) },
+      { lesson: 'alg-12f', review: 'En la regla de tres inversa (más obreros, menos días) el producto se conserva: $4 \\cdot 6 = 3 \\cdot x$.',
+        ex: play('detective-pasos', 'Esta regla de tres tiene **un paso equivocado**. Encuéntralo y corrígelo.', { rounds: [
+          { title: '4 obreros tardan 6 días; ¿y 3 obreros?', steps: ['4 obreros → 6 días', '3 obreros → x días', 'Menos obreros, más días: es inversa', 'x = 6·3/4', 'x = 4.5 días'], wrong: 3,
+            fixes: ['x = 6·4/3', 'x = 6·3/4', 'x = 4·3/6', 'x = 6 + 4 − 3'], fix: 0 }] },
+        'Si es inversa, el trabajo total se conserva: $4 \\cdot 6 = 3 \\cdot x$, así que $x = \\tfrac{6 \\cdot 4}{3} = 8$ días. Con $4.5$ días, menos obreros terminarían antes, lo que no tiene sentido.',
+        { hint: 'Comprueba si el resultado tiene sentido: con menos obreros, ¿deberían tardar más o menos días?' }) },
+      { lesson: 'alg-13', review: 'Bajar un $20\\%$ es multiplicar por $0.8$ (lo que queda), no por $0.2$ (lo que se quita).',
+        ex: play('detective-pasos', 'Encuentra el **paso equivocado** en esta cuenta de precios y corrígelo.', { rounds: [
+          { title: 'Una chaqueta sube 20 % y luego baja 20 %', steps: ['Precio: $80 000', 'Sube 20 %: 80 000 · 1.2 = 96 000', 'Baja 20 %: 96 000 · 0.2 = 19 200', 'Precio final: $19 200'], wrong: 2,
+            fixes: ['Baja 20 %: 96 000 · 0.8 = 76 800', 'Baja 20 %: 80 000 · 0.8 = 64 000', 'Baja 20 %: 96 000 − 20 = 95 980', 'Baja 20 %: 96 000 · 1.2 = 115 200'], fix: 0 }] },
+        'Al bajar un $20\\%$ queda el $80\\%$: $96\\,000 \\cdot 0.8 = 76\\,800$. Por eso subir y bajar el mismo porcentaje no deja el precio igual.',
+        { hint: 'Piensa en qué porcentaje del precio sigue pagando el cliente después de una rebaja.' }) },
+      { lesson: 'alg-13', review: 'Un porcentaje es una fracción de 100: $25\\% = \\tfrac{25}{100} = \\tfrac14 = 0.25$.',
+        ex: play('laberinto-valor', 'Cruza pisando solo lo que **vale $25\\%$**.', { rule: 'Pisa solo lo que vale 25 %', rounds: [{ cols: 4, start: 0, end: 15, cells: cells([
+          ['1/4', true], ['2.5', false], ['0.025', false], ['4 %', false],
+          ['0.25', true], ['25/100', true], ['1 de cada 4', true], ['50/200', true],
+          ['1/25', false], ['0.52', false], ['5/20', true], ['3/12', true],
+          ['2/5', false], ['0.4', false], ['1/5', false], ['10 de 40', true]]) }] },
+        'Valen $25\\%$: $\\tfrac14$, $0.25$, $\\tfrac{25}{100}$, «1 de cada 4», $\\tfrac{50}{200}$, $\\tfrac{5}{20}$, $\\tfrac{3}{12}$ y «10 de 40». Trampas: $2.5$ es $250\\%$, $0.025$ es $2.5\\%$ y $\\tfrac1{25}$ es $4\\%$.',
+        { hint: 'Pasa todo a fracción de 100 (o a decimal): $25\\%$ es la cuarta parte.' }) },
+      { lesson: 'alg-12e', review: 'En magnitudes directamente proporcionales el cociente es constante: halla cuánto vale una unidad y multiplica.',
+        ex: num('En un mapa, $2$ cm representan $15$ km. ¿Cuántos km representan $7$ cm?', 52.5,
+          'Cada centímetro son $15 \\div 2 = 7.5$ km, así que $7$ cm son $7 \\cdot 7.5 = 52.5$ km.',
+          { suffix: 'km', hint: 'Las distancias del mapa y las reales son directamente proporcionales: busca cuántos km representa 1 cm.' }) },
+    ],
+  };
+
+  unit('potencias').exam = {
+    id: 'exam-alg-3', title: 'Potenciación y radicación', minutes: 12,
+    items: [
+      { lesson: 'alg-21a', review: 'El exponente afecta solo a lo que tiene pegado: $-8^2 = -64$, pero $(-8)^2 = 64$. Y todo número (no cero) a la $0$ da $1$.',
+        ex: play('laberinto-valor', 'Cruza pisando solo lo que **vale $64$**.', { rule: 'Pisa solo lo que vale 64', rounds: [{ cols: 4, start: 0, end: 15, cells: cells([
+          ['2⁶', true], ['4³', true], ['8²', true], ['6²', false],
+          ['−8²', false], ['2⁵', false], ['(−8)²', true], ['4²', false],
+          ['8·8·8', false], ['(−4)³', false], ['(2³)²', true], ['2³·2³', true],
+          ['64⁰', false], ['3⁴', false], ['2⁸/2²', true], ['4·4·4', true]]) }] },
+        'Valen $64$: $2^6$, $4^3$, $8^2$, $(-8)^2$, $(2^3)^2$, $2^3 \\cdot 2^3$, $\\tfrac{2^8}{2^2}$ y $4 \\cdot 4 \\cdot 4$. Trampas: $-8^2 = -64$, $(-4)^3 = -64$, $64^0 = 1$ y $8 \\cdot 8 \\cdot 8 = 512$.',
+        { hint: 'Fíjate en los paréntesis y en el signo: el exponente solo afecta a lo que tiene pegado.' }) },
+      { lesson: 'alg-21b', review: 'Al multiplicar potencias de la misma base se suman los exponentes: $2^a \\cdot 2^b = 2^{a + b}$.',
+        ex: play('piramide-numerica', 'Completa la pirámide de potencias: cada bloque es el **producto** de los dos que lo sostienen.', { op: 'prod',
+          rows: [[k('2¹', 2), k('2²', 4), null, k('2³', 8)], [k('2³', 8), null, null], [k('2⁵', 32), null], [k('2¹⁰', 1024)]],
+          tokens: [k('2⁰', 1), k('2²', 4), k('2³', 8), k('2⁵', 32), k('0', 0), k('2⁶', 64), k('2¹', 2), k('2⁴', 16)] },
+        'Los exponentes se suman: $2^5 = 2^3 \\cdot 2^2$, así que el de en medio es $2^2 = 2^2 \\cdot 2^0$; luego $2^0 \\cdot 2^3 = 2^3$, $2^2 \\cdot 2^3 = 2^5$ y $2^5 \\cdot 2^5 = 2^{10}$. Ojo: $2^0 = 1$, no $0$.',
+        { hint: 'Trabaja con los exponentes: en un producto de la misma base se suman. ¿Qué exponente le falta a cada bloque?' }) },
+      { lesson: 'alg-21b', review: 'Potencia de un producto: cada factor se eleva, $(ab)^n = a^n b^n$; potencia de una potencia: se multiplican los exponentes.',
+        ex: play('detective-pasos', 'Cada simplificación tiene **un paso equivocado**. Encuéntralo y corrígelo.', { rounds: [
+          { title: 'Simplificar (2x³)²', steps: ['(2x³)²', '= 2·x⁶', '= 2x⁶'], wrong: 1, fixes: ['= 2²·(x³)²', '= 2·(x³)²', '= 2²·x⁵', '= 4·x⁵'], fix: 0 },
+          { title: 'Simplificar (x²)³ · x', steps: ['(x²)³ · x', '= x⁵ · x', '= x⁶'], wrong: 1, fixes: ['= x⁶ · x', '= x⁸ · x', '= x⁵ · x', '= x⁹'], fix: 0 }] },
+        '$(2x^3)^2 = 2^2 (x^3)^2 = 4x^6$: el $2$ también se eleva. Y $(x^2)^3 = x^{6}$ (se multiplican los exponentes), así que $(x^2)^3 \\cdot x = x^7$.',
+        { hint: 'Revisa qué ley usa cada paso: ¿se elevó cada factor? ¿se sumaron o se multiplicaron los exponentes?' }) },
+      { lesson: 'alg-22a', review: 'Un exponente fraccionario es una raíz: $a^{m/n} = (\\sqrt[n]{a})^m$. Primero la raíz, luego la potencia.',
+        ex: play('domino-equivalencias', 'Encadena fichas uniendo **raíces y exponentes fraccionarios** que valen lo mismo.', { rounds: [{
+          start: k('√9', 3), end: k('⁴√16', 2), need: 3, tiles: [
+            tile('27^⅓', 3, '8^⅔', 4), tile('√16', 4, '125^⅓', 5), tile('√25', 5, '32^⅕', 2),
+            tile('9^½', 3, '4^(3/2)', 8), tile('16^½', 4, '27^⅔', 9)] }] },
+        '$\\sqrt9 = 27^{1/3} = 3$, $8^{2/3} = 2^2 = 4 = \\sqrt{16}$, $125^{1/3} = 5 = \\sqrt{25}$ y $32^{1/5} = 2 = \\sqrt[4]{16}$. Trampas: $9^{1/2}$ encaja al principio y $16^{1/2}$ después de $8^{2/3}$, pero llevan a $8$ y $9$, que no siguen.',
+        { hint: 'Calcula el valor de cada cara: el denominador del exponente es la raíz y el numerador, la potencia.' }) },
+      { lesson: 'alg-22b', review: 'La raíz de un producto es el producto de las raíces, pero la raíz de una suma no se separa. Y $\\sqrt3 \\cdot \\sqrt3 = 3$.',
+        ex: play('detective-pasos', 'Encuentra el **paso equivocado** de cada cuenta con radicales y corrígelo.', { rounds: [
+          { title: 'Simplificar √72', steps: ['√72', '= √(36·2)', '= √36 + √2', '= 6 + √2'], wrong: 2, fixes: ['= √36 · √2', '= 36 · √2', '= √36 + √2', '= √(36 + 2)'], fix: 0 },
+          { title: 'Racionalizar 6/√3', steps: ['6/√3', '= 6·√3 / (√3·√3)', '= 6√3 / 9', '= 2√3 / 3'], wrong: 2, fixes: ['= 6√3 / 3', '= 6√3 / 9', '= 6 / 3', '= 18 / 3'], fix: 0 }] },
+        '$\\sqrt{72} = \\sqrt{36} \\cdot \\sqrt2 = 6\\sqrt2$. Y $\\sqrt3 \\cdot \\sqrt3 = 3$, así que $\\tfrac{6}{\\sqrt3} = \\tfrac{6\\sqrt3}{3} = 2\\sqrt3$.',
+        { hint: 'Recuerda qué operaciones se pueden separar dentro de una raíz y cuánto da una raíz por sí misma.' }) },
+      { lesson: 'alg-22a', review: 'Para $a^{m/n}$ saca primero la raíz $n$-ésima (sale un número más pequeño) y después eleva a la $m$.',
+        ex: num('¿Cuánto vale $16^{3/4}$?', 8,
+          '$16^{3/4} = (\\sqrt[4]{16})^3 = 2^3 = 8$.',
+          { hint: 'En un exponente fraccionario, el denominador dice qué raíz sacar y el numerador a qué potencia elevar.' }) },
+    ],
+  };
+})();

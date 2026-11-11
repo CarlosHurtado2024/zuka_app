@@ -4,7 +4,7 @@
 const KEY = 'zuka-v1';
 const HEART_MS = 20 * 60 * 1000; // una vida cada 20 minutos
 const DEFAULTS = () => ({
-  name: '', xp: 0, done: {}, watched: {}, likes: {}, saved: {}, course: 'algebra',
+  name: '', xp: 0, done: {}, exams: {}, watched: {}, likes: {}, saved: {}, course: 'algebra',
   streak: 0, lastDay: null, hearts: 5, heartsAt: Date.now(), today: { day: null, xp: 0 },
   goal: 30, correct: 0, answered: 0, voice: false, sfx: true, theme: 'system', hideInstall: false, videoQuality: 'auto', videoMuted: false, videoSpeed: 1,
   // Modo revisión: todas las lecciones abiertas y sin perder vidas, para revisar el contenido mientras
@@ -244,7 +244,8 @@ function renderLearn() {
 function renderWorld(c, ui) {
   const u = c.units[ui], cur = lessonsOf(c).find(l => !isDone(l));
   const { w, wDone, all, closed } = worldInfo(c, u);
-  const xs = u.lessons.map((_, i) => OFFSETS[i % OFFSETS.length]);
+  // La evaluación del mundo (si tiene) es un nodo más al final del camino; no cuenta como lección.
+  const xs = [...u.lessons, ...(u.exam ? [u.exam] : [])].map((_, i) => OFFSETS[i % OFFSETS.length]);
   view.innerHTML = `<div class="learn" style="--c:${c.color}">
     <button class="world-back" data-back>${ICON.back}<span>Mundos</span></button>
     <section class="world${closed ? ' closed' : ''}${all ? ' complete' : ''}">
@@ -264,10 +265,18 @@ function renderWorld(c, ui) {
           ${st === 'current' ? '<span class="start-bubble">EMPIEZA</span>' : ''}
           <button class="node ${st}" data-id="${l.id}" aria-label="Nivel ${ui + 1}-${li + 1}: ${esc(l.title)}">${icon}</button>
           <span class="node-label"><small>Nivel ${ui + 1}-${li + 1}</small>${esc(l.title)}</span></div>`;
-      }).join('')}</div></section>
+      }).join('')}
+        ${u.exam ? (() => {
+          const best = S.exams[u.exam.id]?.best, st = best != null ? 'done' : examUnlocked(u) ? 'open' : 'locked';
+          return `<div class="node-wrap" style="--x:${xs[xs.length - 1]}px">
+          ${st === 'open' && u.lessons.every(isDone) ? '<span class="start-bubble">EVALÚATE</span>' : ''}
+          <button class="node exam ${st}" data-exam aria-label="Evaluación del mundo ${ui + 1}${best != null ? `, mejor resultado ${best}%` : ''}">${st === 'locked' ? ICON.lock : ICON.trophy}</button>
+          <span class="node-label"><small>Evaluación · ${u.exam.minutes} min</small>${best != null ? `Mejor resultado: ${best}%` : 'Pon a prueba el mundo'}</span></div>`;
+        })() : ''}</div></section>
     ${ui + 1 < c.units.length ? `<button class="world-next" data-next>Siguiente: Mundo ${ui + 2} · ${esc((WORLDS[c.units[ui + 1].world] || c.units[ui + 1]).name || c.units[ui + 1].title)} ${ICON.right}</button>` : ''}
   </div>`;
-  view.querySelectorAll('.node').forEach(b => b.onclick = () => openLessonSheet(c, findLesson(b.dataset.id).l));
+  view.querySelectorAll('.node[data-id]').forEach(b => b.onclick = () => openLessonSheet(c, findLesson(b.dataset.id).l));
+  $('[data-exam]', view)?.addEventListener('click', () => openExamSheet(c, u));
   $('[data-back]', view).onclick = () => {
     openWorld = null; renderLearn();
     const wb = view.querySelector(`.wnode[data-world="${ui}"]`);
