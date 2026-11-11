@@ -16,19 +16,13 @@ test('mc, num, ord y play aceptan { hint } al final', () => {
   assert.equal(mc('q', ['a'], 0, 'e').hint, undefined);
 });
 
-test('alg-11: video de conceptos y video de ejemplos de Bunny con su duración', () => {
-  assert.equal(l.clip.bunny, '3a8d04bc-5ae8-43e7-af64-d8af25eb2078');
-  assert.equal(l.clip.duration, 259);
-  assert.equal(l.more.length, 1);
-  assert.equal(l.more[0].bunny, '3848a920-6d9b-433b-9e8d-8d5dc3bd843f');
-  assert.equal(l.more[0].duration, 238);
-  assert.equal(l.more[0].after, undefined, 'los ejemplos van justo tras los conceptos');
-});
-
-test('alg-11: conceptos, ejemplos y luego todos los ejercicios', () => {
+// Spec 2026-11-11-sistemas-numericos-desde-cero: alg-11 es la parte 1 (naturales y enteros), con su video
+// nuevo (N1) y luego sus ejercicios; mientras llega su ID de Bunny usa escenas de respaldo.
+test('alg-11: un solo video y luego todos los ejercicios', () => {
+  assert.ok(!l.more || l.more.length === 0, 'sin videos adicionales');
   const q = JSON.parse(JSON.stringify(buildQueue(l)));
-  assert.deepEqual(q.slice(0, 2), [{ k: 'clip', n: 0 }, { k: 'clip', n: 1 }]);
-  assert.equal(q.length, l.ex.length + 2);
+  assert.deepEqual(q[0], { k: 'clip', n: 0 });
+  assert.equal(q.length, l.ex.length + 1);
 });
 
 test('alg-11: todos sus ejercicios son juegos interactivos', () => {

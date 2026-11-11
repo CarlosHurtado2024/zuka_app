@@ -154,27 +154,23 @@ const COURSE_ALGEBRA = {
       world: 'numeros', title: 'Sistemas numéricos, razones y proporciones',
       lessons: [
         {
-          id: 'alg-11', title: 'Sistemas numéricos y números reales',
-          // Un solo video en Bunny Stream (A1, video/clase_alg_u1_*). Libro UdeA §1.1.
-          // Las escenas quedan de respaldo si el video no carga. Cada ejercicio trae una pista (`hint`).
-          clip: { bunny: '3a8d04bc-5ae8-43e7-af64-d8af25eb2078', duration: 259, scenes: [
-            sc(6, 'Los números se fueron ampliando para resolver nuevos problemas: contar, restar, repartir, medir.', { title: '$\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$', steps: ['$\\mathbb{N} = \\{1, 2, 3, \\dots\\}$: contar', '$\\mathbb{Z}$: los enteros, con negativos', '$\\mathbb{Q} = \\left\\{\\tfrac{m}{n} : n \\neq 0\\right\\}$: fracciones', '$\\mathbb{I}$: irracionales como $\\sqrt2,\\ \\pi,\\ e$'] }),
-            sc(5, 'Todo decimal que **termina o se repite** es racional: viene de una fracción.', { steps: ['$\\tfrac94 = 2.25$', '$\\tfrac{177}{55} = 3.2\\overline{18}$'] }),
-            sc(5, 'Los reales llenan la **recta numérica**: cada punto tiene su número y cada número su punto.', { steps: ['$-2.7 < \\sqrt2 < e < \\pi < \\tfrac{24}{5}$', '$\\sqrt2 \\approx 1.41,\\; e \\approx 2.72,\\; \\pi \\approx 3.14$'] }),
-            sc(5, 'Un decimal periódico se vuelve fracción: multiplica por 10, 100… según el período, y resta.', { steps: ['$x = 0.\\overline{36}$', '$100x - x = 36$', '$x = \\tfrac{36}{99} = \\tfrac{4}{11}$'] }),
+          id: 'alg-11', title: 'Los números naturales y los enteros',
+          // Parte 1 de sistemas numéricos (spec 2026-11-11-sistemas-numericos-desde-cero): video N1
+          // (video/clase_alg_u1_n1_naturales). Escenas de respaldo hasta tener su ID de Bunny. Libro UdeA §1.1.
+          clip: { scenes: [
+            sc(6, 'Los números también forman **conjuntos**, con letras de doble trazo. Los **naturales** sirven para contar.', { title: '$\\mathbb{N} = \\{1, 2, 3, \\dots\\}$', steps: ['$5 \\in \\mathbb{N}$, $\\;-2 \\notin \\mathbb{N}$, $\\;\\tfrac12 \\notin \\mathbb{N}$'] }),
+            sc(6, 'Sumar o multiplicar naturales da otro natural; restar no siempre: $2 - 5$ no es natural.', { title: '$2 - 5 = -3$' }),
+            sc(6, 'Los **enteros** agregan el cero y los negativos. Cada entero tiene su **opuesto**, al otro lado del cero.', { title: '$\\mathbb{Z} = \\{\\dots, -2, -1, 0, 1, 2, \\dots\\}$', steps: ['$4 + (-4) = 0$'] }),
+            sc(6, 'Todo natural es entero: $\\mathbb{N} \\subseteq \\mathbb{Z}$. Lo que sobra es $\\mathbb{Z} - \\mathbb{N} = \\{\\dots, -2, -1, 0\\}$.', { title: '$\\mathbb{N} \\subseteq \\mathbb{Z}$' }),
           ] },
-          // Video de ejemplos resueltos (E1, video/clase_alg_u1_ej_*): justo después del de conceptos.
-          more: [{ bunny: '3848a920-6d9b-433b-9e8d-8d5dc3bd843f', duration: 238, scenes: [] }],
           ex: [
-            // --- Parte 1: naturales, enteros y racionales (todo con juegos) ---
-            play('pasaporte-numeros', 'Sella el pasaporte de cada número con **todas** las familias donde puede entrar', {
-              sets: ['N', 'Z', 'Q'],
-              numbers: [
-                { label: '9', in: ['N', 'Z', 'Q'] }, { label: '−4', in: ['Z', 'Q'] }, { label: '0', in: ['Z', 'Q'] },
-                { label: '3/5', in: ['Q'] }, { label: '−1.5', in: ['Q'] }, { label: '12/4', in: ['N', 'Z', 'Q'] },
+            play('atrapa-elementos', 'Escribe el resultado de cada operación tocando sus elementos', {
+              rounds: [
+                { expr: 'A ∩ ℕ', given: ['A = {−3, 0, 2, 7, −1, 5}', 'ℕ = {1, 2, 3, …}'], pool: ['−3', '0', '2', '7', '−1', '5'], members: ['2', '7', '5'] },
+                { expr: 'A − ℕ', given: ['A = {−3, 0, 2, 7, −1, 5}', 'ℕ = {1, 2, 3, …}'], pool: ['−3', '0', '2', '7', '−1', '5'], members: ['−3', '0', '−1'] },
               ],
-            }, 'Las familias están anidadas, $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q}$: quien entra a ℕ entra también a ℤ y a ℚ. $9$ y $\\tfrac{12}{4} = 3$ llevan los tres sellos; $-4$ y $0$ son enteros (y racionales), pero no naturales; $\\tfrac35$ y $-1.5 = -\\tfrac32$ solo son racionales.',
-              { hint: 'Un número puede llevar varios sellos. Pregunta en orden: ¿sirve para contar (ℕ)? ¿es un número sin partes, aunque sea negativo o el 0 (ℤ)? ¿se puede escribir como fracción (ℚ)? Simplifica primero las fracciones que parecen raras.' }),
+            }, 'Como en la unidad de conjuntos: $A \\cap \\mathbb{N}$ deja los elementos de $A$ que también son naturales, $\\{2, 7, 5\\}$. $A - \\mathbb{N}$ quita de $A$ los naturales y quedan $\\{-3, 0, -1\\}$: los negativos y el cero, que no sirven para contar.',
+              { hint: 'Revisa cada número de A: ¿sirve para contar objetos (uno, dos, tres…)? ¿Qué pasa con el cero: cuántos objetos cuenta?' }),
             play('ascensor', 'Lleva el ascensor al piso donde termina cada viaje', {
               min: -5, max: 6,
               rounds: [
@@ -184,15 +180,44 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Subir es sumar y bajar es restar: $2 - 6 = -4$ (pasas por la calle y llegas al sótano 4), $-3 + 3 = 0$ (un número y su opuesto suman cero: vuelves a la calle) y $-1 - 4 = -5$.',
               { hint: 'Cuenta piso por piso desde la banderita. La calle es el 0: al bajar de ella entras a los sótanos, que llevan signo menos. Subir desde un sótano te acerca a la calle.' }),
-            play('fuga-de-familia', 'Mete dos fichas a la máquina para que el resultado **se escape** de su familia', {
+            play('recta-espejo', 'Pon en la recta el número que describe cada ronda', {
+              min: -6, max: 6,
+              rounds: [
+                { text: 'el opuesto de 5', value: -5 },
+                { text: '−(−3)', value: 3 },
+                { text: 'el número que sumado con 6 da 0', value: -6 },
+                { text: 'el opuesto del opuesto de −1', value: -1 },
+                { text: '−(−(−2))', value: -2 },
+              ],
+            }, 'El opuesto de un número es su reflejo al otro lado del cero: el de $5$ es $-5$. El signo menos delante de un paréntesis también pide el opuesto: $-(-3) = 3$. El número que sumado con $6$ da $0$ es $-6$, porque $6 + (-6) = 0$. Sacar dos veces el opuesto te devuelve al número: $-1$. Y con tres signos menos: $-(-(-2)) = -(2) = -2$.',
+              { hint: 'Piensa en el espejo del cero: el opuesto queda a la misma distancia, del otro lado. Un signo menos delante significa «el opuesto de lo que sigue». Con varios signos, resuélvelos de adentro hacia afuera.' }),
+            play('pasaporte-numeros', 'Sella el pasaporte de cada número con **todas** las familias donde puede entrar', {
+              sets: ['N', 'Z'],
+              numbers: [
+                { label: '9', in: ['N', 'Z'] }, { label: '−4', in: ['Z'] }, { label: '0', in: ['Z'] },
+                { label: '−(−7)', in: ['N', 'Z'] }, { label: '−15', in: ['Z'] }, { label: '1', in: ['N', 'Z'] },
+              ],
+            }, 'Como $\\mathbb{N} \\subseteq \\mathbb{Z}$, todo natural lleva los dos sellos: $9$, $1$ y $-(-7) = 7$. Los negativos y el cero solo son enteros: $-4$, $-15$ y $0$.',
+              { hint: 'Pregunta primero: ¿sirve para contar (1, 2, 3…)? Si sí, lleva los dos sellos, porque todo natural es entero. Resuelve primero los signos dobles.' }),
+            play('fuga-de-familia', 'Mete dos fichas a la máquina para que el resultado **se escape** de los naturales', {
               rounds: [
                 { set: 'N', op: '−', tiles: [{ label: '6', r: 6, k: 0 }, { label: '2', r: 2, k: 0 }, { label: '11', r: 11, k: 0 }, { label: '9', r: 9, k: 0 }] },
-                { set: 'Z', op: '÷', tiles: [{ label: '12', r: 12, k: 0 }, { label: '−4', r: -4, k: 0 }, { label: '5', r: 5, k: 0 }, { label: '−6', r: -6, k: 0 }] },
-                { set: 'I', op: '+', tiles: [{ label: '√2', r: 0, k: 1 }, { label: '2√2', r: 0, k: 2 }, { label: '5 − √2', r: 5, k: -1 }, { label: '1 + √2', r: 1, k: 1 }] },
-                { set: 'I', op: '×', tiles: [{ label: '√2', r: 0, k: 1 }, { label: '1 + √2', r: 1, k: 1 }, { label: '3√2', r: 0, k: 3 }, { label: '2 + √2', r: 2, k: 1 }] },
+                { set: 'N', op: '−', tiles: [{ label: '8', r: 8, k: 0 }, { label: '3', r: 3, k: 0 }, { label: '1', r: 1, k: 0 }, { label: '13', r: 13, k: 0 }] },
               ],
-            }, 'Cada familia se queda corta para alguna operación, y por eso se inventó la siguiente: $2 - 11 = -9$ no es natural (nacen los enteros), $5 \\div 12 = \\tfrac{5}{12}$ no es entero (nacen los racionales). Y los irracionales tampoco se cierran: $\\sqrt2 + (5 - \\sqrt2) = 5$ y $\\sqrt2 \\cdot 3\\sqrt2 = 6$ ya son racionales.',
-              { hint: 'Busca la operación que la familia «no aguanta». Con naturales, resta un número más grande; con enteros, divide entre uno que no quepa exacto. Con raíces, junta fichas cuyas raíces se cancelen o se multipliquen por sí mismas: $\\sqrt2 \\cdot \\sqrt2 = 2$.' }),
+            }, 'Restar dos naturales no siempre da un natural: si al primero le quitas uno más grande, el resultado es negativo. Por ejemplo, $2 - 11 = -9$ y $1 - 8 = -7$. Por eso hacían falta los enteros.',
+              { hint: 'Con la resta, ¿qué pasa si al número de la izquierda le quitas uno más grande? Prueba las fichas en ese orden.' }),
+          ],
+        },
+        {
+          id: 'alg-11b', title: 'Los números racionales: fracciones y decimales',
+          // Parte 2 de sistemas numéricos: video N2 (video/clase_alg_u1_n2_racionales). Escenas de respaldo.
+          clip: { scenes: [
+            sc(6, 'Repartir no siempre da un entero: 3 panes entre 4 personas. Las **fracciones** forman los **racionales**.', { title: '$\\mathbb{Q} = \\left\\{\\tfrac{m}{n} : m, n \\in \\mathbb{Z},\\ n \\neq 0\\right\\}$' }),
+            sc(6, 'Una fracción tiene muchos nombres: $\\tfrac12 = \\tfrac24 = \\tfrac36$. Y todo entero es racional: $-3 = \\tfrac{-3}{1}$.', { title: '$\\mathbb{Z} \\subseteq \\mathbb{Q}$' }),
+            sc(6, 'El decimal de una fracción **termina** o **se repite**: la rayita marca el período.', { steps: ['$\\tfrac34 = 0.75$', '$\\tfrac{2}{11} = 0.\\overline{18}$'] }),
+            sc(6, 'Un periódico se vuelve fracción alineando las colas y restando.', { steps: ['$x = 0.\\overline{7}$', '$10x - x = 7$', '$x = \\tfrac79$'] }),
+          ] },
+          ex: [
             play('pizzeria', 'Sirve cada pedido: corta la pizza y marca las porciones que pide', {
               maxSlices: 12,
               orders: [
@@ -203,6 +228,21 @@ const COURSE_ALGEBRA = {
               ],
             }, 'La misma cantidad se puede escribir como fracción, decimal, porcentaje o con palabras: $0.6 = \\tfrac35 = \\tfrac{6}{10}$, $0.\\overline{6} = \\tfrac23 = \\tfrac{4}{6}$, $25\\,\\% = \\tfrac14 = \\tfrac{3}{12}$ y tres octavos es $\\tfrac38$. Cortar en más porciones no cambia cuánto es: son fracciones **equivalentes**.',
               { hint: 'Pasa cada pedido a fracción: 0.6 son seis décimas, un porcentaje es «de cada 100» y las palabras ya dicen la fracción. Corta la pizza en tantas porciones como diga el denominador (o en un múltiplo) y marca las del numerador.' }),
+            play('pasaporte-numeros', 'Sella el pasaporte de cada número con **todas** las familias donde puede entrar', {
+              sets: ['N', 'Z', 'Q'],
+              numbers: [
+                { label: '9', in: ['N', 'Z', 'Q'] }, { label: '−4', in: ['Z', 'Q'] }, { label: '0', in: ['Z', 'Q'] },
+                { label: '3/5', in: ['Q'] }, { label: '−1.5', in: ['Q'] }, { label: '12/4', in: ['N', 'Z', 'Q'] },
+              ],
+            }, 'Las familias están anidadas, $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q}$: quien entra a ℕ entra también a ℤ y a ℚ. $9$ y $\\tfrac{12}{4} = 3$ llevan los tres sellos; $-4$ y $0$ son enteros (y racionales), pero no naturales; $\\tfrac35$ y $-1.5 = -\\tfrac32$ solo son racionales.',
+              { hint: 'Un número puede llevar varios sellos. Pregunta en orden: ¿sirve para contar (ℕ)? ¿es un número sin partes, aunque sea negativo o el 0 (ℤ)? ¿se puede escribir como fracción (ℚ)? Simplifica primero las fracciones que parecen raras.' }),
+            play('fuga-de-familia', 'Mete dos fichas a la máquina para que el resultado **se escape** de los enteros', {
+              rounds: [
+                { set: 'Z', op: '÷', tiles: [{ label: '12', r: 12, k: 0 }, { label: '−4', r: -4, k: 0 }, { label: '5', r: 5, k: 0 }, { label: '−6', r: -6, k: 0 }] },
+                { set: 'Z', op: '÷', tiles: [{ label: '15', r: 15, k: 0 }, { label: '−3', r: -3, k: 0 }, { label: '4', r: 4, k: 0 }, { label: '−5', r: -5, k: 0 }] },
+              ],
+            }, 'Dividir enteros no siempre da un entero: $5 \\div 12 = \\tfrac{5}{12}$ y $15 \\div 4 = 3.75$ ya no son enteros. Así nacen los racionales: todos los cocientes de enteros (con divisor distinto de cero).',
+              { hint: 'Busca una división que no sea exacta: un número que no quepa un número entero de veces en el otro.' }),
             play('candado-fraccion', 'Gira las ruedas hasta que la fracción abra el candado', {
               rounds: [
                 { dec: '0.35', num: 7, den: 20 }, { dec: '0.555…', num: 5, den: 9 }, { dec: '0.12', num: 3, den: 25 },
@@ -214,7 +254,28 @@ const COURSE_ALGEBRA = {
               rounds: [{ num: 5, den: 11 }, { num: 1, den: 6 }, { num: 23, den: 12 }, { num: 3, den: 7 }],
             }, 'La rayita cubre solo el bloque que se repite, desde donde empieza a repetirse: $\\tfrac{5}{11} = 0.\\overline{45}$, $\\tfrac16 = 0.1\\overline{6}$, $\\tfrac{23}{12} = 1.91\\overline{6}$ y $\\tfrac37 = 0.\\overline{428571}$. Los residuos lo delatan: cuando un residuo vuelve a salir, las cifras vuelven a salir en el mismo orden.',
               { hint: 'Toca una cifra y mira su residuo debajo: las cifras con el mismo residuo se iluminan. Donde un residuo aparece por segunda vez, ahí empieza a repetirse todo. Las cifras de antes quedan sin rayita.' }),
-            // --- Parte 2: irracionales, reales y decimales periódicos ---
+            play('ordena-terminos', 'Ordena los pasos para escribir $0.\\overline{45}$ como fracción', { tex: 'x = 0.\\overline{45}', chips: ['100x = 45.4545…', '100x − x = 45', '99x = 45', 'x = 45/99 = 5/11', '10x = 4.5454…', 'x = 45/100'], order: [0, 1, 2, 3], sep: '⇒' },
+              'El período tiene dos cifras, así que se multiplica por $100$: $100x = 45.\\overline{45}$. Al restar $x$ desaparece la cola: $99x = 45$ y $x = \\tfrac{45}{99} = \\tfrac{5}{11}$. Multiplicar por $10$ no alinea el período, y $\\tfrac{45}{100}$ sería $0.45$ sin la rayita.',
+              { hint: 'Cuenta cuántas cifras tiene el bloque que se repite: si es una, multiplica por 10; si son dos, por 100. Luego resta $x$ para que la cola infinita desaparezca y despeja.' }),
+            play('atrapa-elementos', 'Escribe el resultado de cada operación tocando sus elementos', {
+              rounds: [
+                { expr: 'B − ℤ', given: ['B = {−2, 5/8, 0.4, 7, −1.25, 9/3}', 'ℤ = {…, −2, −1, 0, 1, 2, …}'], pool: ['−2', '5/8', '0.4', '7', '−1.25', '9/3'], members: ['5/8', '0.4', '−1.25'] },
+                { expr: 'B ∩ ℕ', given: ['B = {−2, 5/8, 0.4, 7, −1.25, 9/3}', 'ℕ = {1, 2, 3, …}'], pool: ['−2', '5/8', '0.4', '7', '−1.25', '9/3'], members: ['7', '9/3'] },
+              ],
+            }, 'Todos los elementos de $B$ son racionales. $B - \\mathbb{Z}$ deja los que no son enteros: $\\tfrac58$, $0.4$ y $-1.25$. Cuidado con $\\tfrac93$: vale $3$, así que es entero y además natural; por eso $B \\cap \\mathbb{N} = \\{7, \\tfrac93\\}$.',
+              { hint: 'Antes de decidir, simplifica: una fracción puede ser un entero disfrazado. Luego revisa si el número tiene parte decimal o no.' }),
+          ],
+        },
+        {
+          id: 'alg-11c', title: 'Los irracionales y los números reales',
+          // Parte 3 de sistemas numéricos: video N3 (video/clase_alg_u1_n3_reales). Escenas de respaldo.
+          clip: { scenes: [
+            sc(6, 'El lado de un cuadrado de área 2 no es ninguna fracción: es $\\sqrt2$, un número **irracional**. Su decimal nunca termina ni se repite.', { title: '$\\sqrt2 = 1.41421356\\dots$' }),
+            sc(6, 'Los racionales y los irracionales juntos forman los **reales**, y no comparten ningún número.', { title: '$\\mathbb{R} = \\mathbb{Q} \\cup \\mathbb{I} \\qquad \\mathbb{Q} \\cap \\mathbb{I} = \\varnothing$' }),
+            sc(6, 'Cada familia vive dentro de la siguiente.', { title: '$\\mathbb{N} \\subseteq \\mathbb{Z} \\subseteq \\mathbb{Q} \\subseteq \\mathbb{R}$' }),
+            sc(6, 'Los reales llenan la **recta**: cada punto es un número, y entre dos números siempre hay otro.', { steps: ['$\\pi = 3.14159\\dots$'] }),
+          ] },
+          ex: [
             play('acorrala-raiz', 'Acorrala la raíz: cada vez en un tramo más pequeño', {
               rounds: [{ n: 5 }, { n: 10 }], levels: 3,
             }, 'Como $2.2^2 = 4.84 < 5 < 5.29 = 2.3^2$, la raíz de 5 está entre $2.2$ y $2.3$; acercándose más, $2.236 < \\sqrt5 < 2.237$, y lo mismo $3.162 < \\sqrt{10} < 3.163$. Puedes seguir para siempre: las cifras de una raíz no exacta nunca terminan ni se repiten. Por eso es **irracional**.',
@@ -223,13 +284,21 @@ const COURSE_ALGEBRA = {
               rounds: [{ n: 5 }, { n: 13 }, { n: 8 }, { n: 17 }], max: 4,
             }, 'La diagonal de un rectángulo de lados $a$ y $b$ mide $\\sqrt{a^2 + b^2}$ (Pitágoras), y el compás la acuesta sobre la recta sin cambiar su largo: $1^2 + 2^2 = 5$, $2^2 + 3^2 = 13$, $2^2 + 2^2 = 8$ y $1^2 + 4^2 = 17$. Así se ubica un irracional **exacto** en la recta, aunque su decimal nunca termine.',
               { hint: 'La diagonal al cuadrado es $a^2 + b^2$. Busca dos cuadrados (1, 4, 9, 16) que sumen el número de adentro de la raíz.' }),
+            play('atrapa-elementos', 'Escribe el resultado de cada operación tocando sus elementos', {
+              rounds: [
+                { expr: 'C ∩ 𝕀', given: ['C = {−3, 1/2, √7, 0, π, 0.333…, √9}', '𝕀: los irracionales'], pool: ['−3', '1/2', '√7', '0', 'π', '0.333…', '√9'], members: ['√7', 'π'] },
+                { expr: 'C ∩ ℤ', given: ['C = {−3, 1/2, √7, 0, π, 0.333…, √9}', 'ℤ = {…, −2, −1, 0, 1, 2, …}'], pool: ['−3', '1/2', '√7', '0', 'π', '0.333…', '√9'], members: ['−3', '0', '√9'] },
+                { expr: 'C ∩ ℚ', given: ['C = {−3, 1/2, √7, 0, π, 0.333…, √9}', 'ℚ: las fracciones de enteros'], pool: ['−3', '1/2', '√7', '0', 'π', '0.333…', '√9'], members: ['−3', '1/2', '0', '0.333…', '√9'] },
+              ],
+            }, 'Los irracionales de $C$ son $\\sqrt7$ y $\\pi$: sus decimales no terminan ni se repiten. $\\sqrt9 = 3$ es entero, igual que $-3$ y $0$. Y todo lo que no es irracional es racional: $C \\cap \\mathbb{Q} = \\{-3, \\tfrac12, 0, 0.\\overline{3}, \\sqrt9\\}$. Como $\\mathbb{Q} \\cap \\mathbb{I} = \\varnothing$, cada número está en una sola de las dos.',
+              { hint: 'Primero simplifica las raíces exactas. Luego pregúntate de cada número: ¿se puede escribir como fracción de enteros? Si su decimal termina o se repite, sí.' }),
             play('cajas-numericas', 'Arrastra cada número a la caja **más pequeña** donde vive', {
               cards: [
                 { label: '12', tex: '12', set: 'N' }, { label: '−3', tex: '-3', set: 'Z' }, { label: '0', tex: '0', set: 'Z' },
                 { label: '2/5', tex: '\\tfrac25', set: 'Q' }, { label: '0.444…', tex: '0.\\overline{4}', set: 'Q' }, { label: '√49', tex: '\\sqrt{49}', set: 'N' },
-                { label: '√5', tex: '\\sqrt5', set: 'I' }, { label: 'e', tex: 'e', set: 'I' }, { label: '−8/2', tex: '-\\tfrac82', set: 'Z' },
+                { label: '√5', tex: '\\sqrt5', set: 'I' }, { label: '√6', tex: '\\sqrt6', set: 'I' }, { label: '−8/2', tex: '-\\tfrac82', set: 'Z' },
               ],
-            }, 'Cada familia vive dentro de la siguiente: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, y la caja más pequeña es la que mejor describe al número. $\\sqrt{49} = 7$ y $-\\tfrac82 = -4$ se simplifican antes de decidir; $0.\\overline{4} = \\tfrac49$ es una fracción disfrazada; $\\sqrt5$ y el número $e \\approx 2.718$ no son fracciones. Una caja más grande (naranja) no está mal, pero no es la más pequeña.',
+            }, 'Cada familia vive dentro de la siguiente: $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$, y la caja más pequeña es la que mejor describe al número. $\\sqrt{49} = 7$ y $-\\tfrac82 = -4$ se simplifican antes de decidir; $0.\\overline{4} = \\tfrac49$ es una fracción disfrazada; $\\sqrt5$ y $\\sqrt6$ son raíces no exactas: no son fracciones. Una caja más grande (naranja) no está mal, pero no es la más pequeña.',
               { hint: 'Primero simplifica lo que se pueda: raíces exactas y fracciones que dan un entero. Luego prueba de la caja más pequeña a la más grande: ℕ, ℤ, ℚ. Si no se puede escribir como fracción, va en 𝕀.' }),
             play('lupa-densidad', 'Acerca la lupa y suelta un punto **entre** las dos banderitas', {
               rounds: [
@@ -242,14 +311,18 @@ const COURSE_ALGEBRA = {
             play('ubica-en-recta', 'Suelta cada número en su lugar de la recta', {
               min: -3, max: 4, tol: 0.15,
               points: [
-                { label: '−5/2', tex: '-\\tfrac52', value: -2.5 }, { label: '1/3', tex: '\\tfrac13', value: 0.3333 },
-                { label: '√6', tex: '\\sqrt6', value: 2.4495 }, { label: '7/2', tex: '\\tfrac72', value: 3.5 }, { label: '−0.5', tex: '-0.5', value: -0.5 },
+                { label: '−7/4', tex: '-\\tfrac74', value: -1.75 }, { label: '1/3', tex: '\\tfrac13', value: 0.3333 },
+                { label: '√8', tex: '\\sqrt8', value: 2.8284 }, { label: '5/2', tex: '\\tfrac52', value: 2.5 }, { label: '−0.5', tex: '-0.5', value: -0.5 },
               ],
-            }, 'Primero conviértelos: $-\\tfrac52 = -2.5$, $\\tfrac13 \\approx 0.33$, $\\sqrt6 \\approx 2.45$ (porque $2.45^2 \\approx 6$), $\\tfrac72 = 3.5$ y $-0.5$ está a medio paso del cero, a la izquierda.',
+            }, 'Primero conviértelos: $-\\tfrac74 = -1.75$, $\\tfrac13 \\approx 0.33$, $\\sqrt8 \\approx 2.83$ (porque $2.83^2 \\approx 8$), $\\tfrac52 = 2.5$ y $-0.5$ está a medio paso del cero, a la izquierda.',
               { hint: 'Pasa cada número a decimal antes de soltarlo; mientras arrastras, la ficha te dice el valor donde caería. Para una raíz, busca qué decimal multiplicado por sí mismo se acerca al número de adentro.' }),
-            play('ordena-terminos', 'Ordena los pasos para escribir $0.\\overline{45}$ como fracción', { tex: 'x = 0.\\overline{45}', chips: ['100x = 45.4545…', '100x − x = 45', '99x = 45', 'x = 45/99 = 5/11', '10x = 4.5454…', 'x = 45/100'], order: [0, 1, 2, 3], sep: '⇒' },
-              'El período tiene dos cifras, así que se multiplica por $100$: $100x = 45.\\overline{45}$. Al restar $x$ desaparece la cola: $99x = 45$ y $x = \\tfrac{45}{99} = \\tfrac{5}{11}$. Multiplicar por $10$ no alinea el período, y $\\tfrac{45}{100}$ sería $0.45$ sin la rayita.',
-              { hint: 'Cuenta cuántas cifras tiene el bloque que se repite: si es una, multiplica por 10; si son dos, por 100. Luego resta $x$ para que la cola infinita desaparezca y despeja.' }),
+            play('fuga-de-familia', 'Los irracionales tampoco se cierran: mete dos fichas para que el resultado **se escape**', {
+              rounds: [
+                { set: 'I', op: '+', tiles: [{ label: '√2', r: 0, k: 1 }, { label: '2√2', r: 0, k: 2 }, { label: '5 − √2', r: 5, k: -1 }, { label: '1 + √2', r: 1, k: 1 }] },
+                { set: 'I', op: '×', tiles: [{ label: '√2', r: 0, k: 1 }, { label: '1 + √2', r: 1, k: 1 }, { label: '3√2', r: 0, k: 3 }, { label: '2 + √2', r: 2, k: 1 }] },
+              ],
+            }, 'Sumar o multiplicar dos irracionales puede dar un racional: $\\sqrt2 + (5 - \\sqrt2) = 5$ y $\\sqrt2 \\cdot 3\\sqrt2 = 6$. Las raíces se cancelan o se multiplican por sí mismas. Por eso 𝕀 no es una familia «cerrada»: los reales son el conjunto completo.',
+              { hint: 'Junta fichas cuyas raíces se cancelen al sumar, o que al multiplicarse den $\\sqrt2 \\cdot \\sqrt2 = 2$.' }),
           ],
         },
         {
