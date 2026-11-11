@@ -151,13 +151,13 @@ const COURSE_ALGEBRA = {
       ],
     },
     {
-      world: 'numeros', title: 'Sistemas numéricos, razones y proporciones',
+      world: 'numeros', title: 'Sistemas numéricos y axiomas',
       lessons: [
         {
           id: 'alg-11', title: 'Los números naturales y los enteros',
           // Parte 1 de sistemas numéricos (spec 2026-11-11-sistemas-numericos-desde-cero): video N1
-          // (video/clase_alg_u1_n1_naturales). Escenas de respaldo hasta tener su ID de Bunny. Libro UdeA §1.1.
-          clip: { scenes: [
+          // (video/clase_alg_u1_n1_naturales), en Bunny; las escenas son el respaldo. Libro UdeA §1.1.
+          clip: { bunny: 'f03de61e-bcab-4822-a777-6c9b3d03213e', duration: 235, scenes: [
             sc(6, 'Los números también forman **conjuntos**, con letras de doble trazo. Los **naturales** sirven para contar.', { title: '$\\mathbb{N} = \\{1, 2, 3, \\dots\\}$', steps: ['$5 \\in \\mathbb{N}$, $\\;-2 \\notin \\mathbb{N}$, $\\;\\tfrac12 \\notin \\mathbb{N}$'] }),
             sc(6, 'Sumar o multiplicar naturales da otro natural; restar no siempre: $2 - 5$ no es natural.', { title: '$2 - 5 = -3$' }),
             sc(6, 'Los **enteros** agregan el cero y los negativos. Cada entero tiene su **opuesto**, al otro lado del cero.', { title: '$\\mathbb{Z} = \\{\\dots, -2, -1, 0, 1, 2, \\dots\\}$', steps: ['$4 + (-4) = 0$'] }),
@@ -210,8 +210,8 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-11b', title: 'Los números racionales: fracciones y decimales',
-          // Parte 2 de sistemas numéricos: video N2 (video/clase_alg_u1_n2_racionales). Escenas de respaldo.
-          clip: { scenes: [
+          // Parte 2 de sistemas numéricos: video N2 (video/clase_alg_u1_n2_racionales), en Bunny; las escenas son el respaldo.
+          clip: { bunny: 'e7e67f1e-8d21-4585-b990-183a253d62b5', duration: 237, scenes: [
             sc(6, 'Repartir no siempre da un entero: 3 panes entre 4 personas. Las **fracciones** forman los **racionales**.', { title: '$\\mathbb{Q} = \\left\\{\\tfrac{m}{n} : m, n \\in \\mathbb{Z},\\ n \\neq 0\\right\\}$' }),
             sc(6, 'Una fracción tiene muchos nombres: $\\tfrac12 = \\tfrac24 = \\tfrac36$. Y todo entero es racional: $-3 = \\tfrac{-3}{1}$.', { title: '$\\mathbb{Z} \\subseteq \\mathbb{Q}$' }),
             sc(6, 'El decimal de una fracción **termina** o **se repite**: la rayita marca el período.', { steps: ['$\\tfrac34 = 0.75$', '$\\tfrac{2}{11} = 0.\\overline{18}$'] }),
@@ -268,8 +268,8 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-11c', title: 'Los irracionales y los números reales',
-          // Parte 3 de sistemas numéricos: video N3 (video/clase_alg_u1_n3_reales). Escenas de respaldo.
-          clip: { scenes: [
+          // Parte 3 de sistemas numéricos: video N3 (video/clase_alg_u1_n3_reales), en Bunny; las escenas son el respaldo.
+          clip: { bunny: '820f2163-284b-4f5f-bce7-1d47c483de46', duration: 258, scenes: [
             sc(6, 'El lado de un cuadrado de área 2 no es ninguna fracción: es $\\sqrt2$, un número **irracional**. Su decimal nunca termina ni se repite.', { title: '$\\sqrt2 = 1.41421356\\dots$' }),
             sc(6, 'Los racionales y los irracionales juntos forman los **reales**, y no comparten ningún número.', { title: '$\\mathbb{R} = \\mathbb{Q} \\cup \\mathbb{I} \\qquad \\mathbb{Q} \\cap \\mathbb{I} = \\varnothing$' }),
             sc(6, 'Cada familia vive dentro de la siguiente.', { title: '$\\mathbb{N} \\subseteq \\mathbb{Z} \\subseteq \\mathbb{Q} \\subseteq \\mathbb{R}$' }),
@@ -458,26 +458,70 @@ const COURSE_ALGEBRA = {
               '$|x - 2| \\le 3$ son los números a distancia **a lo sumo 3** del 2: desde $2 - 3 = -1$ hasta $2 + 3 = 5$, con los extremos incluidos: $[-1, 5]$.', { hint: 'Lee $|x - 2|$ como la distancia de $x$ al número 2. ¿Hasta dónde puedes alejarte del 2 hacia cada lado? El signo ≤ te dice si los extremos entran.' }),
           ],
         },
+      ],
+    },
+    {
+      world: 'razones', title: 'Razones, proporciones y porcentajes',
+      // Spec 2026-11-11-razones-desde-cero: razones (R1), proporciones (R2) y regla de tres (R3), y porcentajes.
+      lessons: [
         {
-          id: 'alg-12', title: 'Razones, proporciones y regla de tres',
-          // Clase 2 en Bunny Stream (video/clase_razones_proporciones); las escenas quedan como guion.
-          // Parte 2 (video/clase_regla_de_tres): se muestra tras los primeros siete ejercicios.
-          more: [{ bunny: '1cda8e9b-5fff-4633-a543-de4105860b3d', duration: 263, after: 7, scenes: [] }],
-          clip: { bunny: '4c098c45-1ab3-4f66-942a-3764b2da832a', duration: 289, scenes: [
-            sc(5, 'Una **razón** compara dos cantidades por cociente. Una **proporción** es la igualdad de dos razones.', { title: '$\\dfrac{a}{b} = \\dfrac{c}{d} \\iff ad = bc$', steps: ['$\\dfrac{3}{5} = \\dfrac{12}{20}$ porque $3 \\cdot 20 = 5 \\cdot 12$'] }),
-            sc(5, '**Directamente proporcionales**: si una se duplica, la otra también. Su gráfica es una recta por el origen.', { title: '$y = kx$', viz: { type: 'graph', xr: [0, 6], yr: [0, 9], f: (x, k) => k * x, anim: [0.5, 1.5], label: k => `k = ${fmt(k)}` } }),
-            sc(5, '**Inversamente proporcionales**: si una se duplica, la otra se reduce a la mitad. Su producto es constante.', { title: '$xy = k$', viz: { type: 'graph', xr: [0, 8], yr: [0, 8], f: x => 6 / x, draw: true, points: [[2, 3, '(2, 3)'], [3, 2, '(3, 2)']] } }),
-            sc(5, '**Reparto proporcional**: suma las partes y reparte el total en esa razón.', { steps: ['Repartir $1\\,200\\,000$ en partes proporcionales a $2, 3, 5$', '$2 + 3 + 5 = 10$, cada parte vale $120\\,000$', '$240\\,000,\\ 360\\,000,\\ 600\\,000$'] }),
+          id: 'alg-12', title: 'Razones: comparar dividiendo',
+          // Parte 1 de razones y proporciones (spec 2026-11-11-razones-desde-cero): video R1
+          // (video/clase_alg_u2_r1_razones). Escenas de respaldo hasta tener su ID de Bunny. Reemplaza a la Clase 2, A3 y E3.
+          clip: { scenes: [
+            sc(6, 'Dos cantidades se comparan **restando** (cuánto más hay) o **dividiendo** (cuántas veces cabe una en la otra). La **razón** compara dividiendo.', { title: '$a : b = \\dfrac{a}{b}$', steps: ['12 y 4: $12 - 4 = 8$ de diferencia, pero $\\tfrac{12}{4} = 3$ veces'] }),
+            sc(6, '$a : b$ se lee «$a$ es a $b$». El orden importa (la división no conmuta) y $b$ no puede ser 0.', { steps: ['18 niñas y 12 niños: $18 : 12 = 3 : 2$', 'Por cada 3 niñas hay 2 niños'] }),
+            sc(6, 'Razones **equivalentes**: se multiplican o se dividen los dos términos por el mismo número, como las fracciones. Sumar lo mismo a los dos **cambia** la razón.', { steps: ['$3 : 2 = 6 : 4$, pero $3 : 2 \\ne 4 : 3$'] }),
+            sc(6, 'Con $3 : 2$ las niñas son $\\tfrac35 = 0.6$ del grupo (parte al todo). Con unidades distintas la razón da rapidez o precio por unidad; la **escala** compara el mapa con la realidad.', { steps: ['180 km en 3 h: 60 km/h', 'Escala $1 : 100\\,000$: 1 cm del mapa es 1 km real'] }),
           ] },
-          // Siete minijuegos de p5.js (js/games/*.js) basados en el texto guía §1.1 (razón, proporción,
-          // magnitudes directa e inversamente proporcionales, reparto y media proporcional).
           ex: [
             play('limonada', 'Prepara una jarra grande que sepa **igual** que el modelo', { base: [2, 3], minLemons: 4, maxEach: 12 },
               'Una **razón** compara dos cantidades por cociente: $2 : 3$ limones por vasos. Toda mezcla con la misma razón ($4 : 6$, $6 : 9$, …) sabe igual: son razones **equivalentes**.',
               { hint: 'Para que sepa igual, limones y vasos se multiplican por el mismo número: si duplicas los limones, duplica también los vasos.' }),
+            play('bolsa-razon', 'Llena la bolsa con las bolas que pide cada ronda', {
+              max: 20,
+              rounds: [
+                { text: 'Por cada 4 rojas hay 3 azules, y hay 12 rojas', red: 12, blue: 9 },
+                { text: 'rojas : azules = 2 : 3, con 20 bolas en total', red: 8, blue: 12 },
+                { text: '1 de cada 4 bolas es roja, y hay 6 azules', red: 2, blue: 6 },
+                { text: 'Hay el doble de azules que de rojas, y 15 bolas en total', red: 5, blue: 10 },
+              ],
+            }, '**Parte a parte**: $4 : 3$ con 12 rojas es multiplicar por 3, así que hay $3 \\cdot 3 = 9$ azules. $2 : 3$ reparte la bolsa en $2 + 3 = 5$ partes; $20 \\div 5 = 4$ por parte: 8 rojas y 12 azules. **Parte al todo**: «1 de cada 4» es roja, así que por cada roja hay 3 azules; con 6 azules hay 2 rojas. El doble de azules es $1 : 2$, tres partes de $15 \\div 3 = 5$: 5 rojas y 10 azules.',
+              { hint: 'Fíjate si la razón compara rojas con azules (parte a parte) o una parte con toda la bolsa (parte al todo). Luego busca por cuánto se multiplica cada término de la razón.' }),
+            play('estira-foto', 'Amplía cada foto al ancho pedido **sin deformarla**', {
+              step: 0.5, max: 12,
+              rounds: [{ w0: 4, h0: 5, w: 8, h: 10 }, { w0: 6, h0: 4, w: 9, h: 6 }, { w0: 2, h0: 5, w: 3, h: 7.5 }],
+            }, 'La foto no se deforma si ancho : alto sigue siendo la misma razón: $4 : 5 = 8 : 10$ (los dos por 2), $6 : 4 = 9 : 6$ (los dos por 1.5) y $2 : 5 = 3 : 7.5$ (los dos por 1.5). Sumarle al alto lo mismo que al ancho (de 4 a 8 y de 5 a 9) deja la foto alargada.',
+              { hint: 'No mires cuánto le sumaron al ancho sino **por cuánto se multiplicó**. El alto se multiplica por ese mismo número; mira si el zorrito queda redondo.' }),
+            num('En un mapa a escala $1 : 200\\,000$ dos pueblos están a 7 cm. ¿A cuántos kilómetros están en la realidad?', 14,
+              '$1 : 200\\,000$ quiere decir que 1 cm del mapa son $200\\,000$ cm reales, es decir $2\\,000$ m o 2 km. Entonces 7 cm del mapa son $7 \\cdot 2 = 14$ km.',
+              { suffix: 'km', hint: 'Averigua cuántos kilómetros reales representa 1 cm del mapa (1 m tiene 100 cm y 1 km tiene 1000 m). Luego multiplica por la distancia medida en el mapa.' }),
+            num('Una bolsa de 5 kg de fríjol cuesta 13 500 pesos y una de 2 kg cuesta 5 600. ¿Cuánto cuesta un kilo en la bolsa que sale más barata por kilo?', 2700,
+              'El precio por kilo es una razón con unidades (pesos/kg): $13\\,500 \\div 5 = 2\\,700$ y $5\\,600 \\div 2 = 2\\,800$. La bolsa grande sale más barata por kilo: 2 700 pesos.',
+              { suffix: 'pesos', hint: 'Para comparar bolsas de distinto tamaño, compara lo mismo: divide el precio de cada bolsa entre sus kilos.' }),
+          ],
+        },
+        {
+          id: 'alg-12e', title: 'Proporciones y magnitudes proporcionales',
+          // Parte 2 (spec 2026-11-11-razones-desde-cero): video R2 (video/clase_alg_u2_r2_proporciones). Escenas de respaldo.
+          clip: { scenes: [
+            sc(6, 'Una **proporción** es la igualdad de dos razones: «$a$ es a $b$ como $c$ es a $d$». $a$ y $d$ son los **extremos**; $b$ y $c$, los **medios**.', { title: '$\\dfrac{a}{b} = \\dfrac{c}{d}$', steps: ['$\\dfrac{4}{6} = \\dfrac{10}{15}$: las dos valen $\\tfrac23$'] }),
+            sc(6, 'Propiedad fundamental: producto de extremos = producto de medios. Con ella se halla un término desconocido.', { title: '$\\dfrac{a}{b} = \\dfrac{c}{d} \\iff ad = bc$', steps: ['$\\dfrac{x}{8} = \\dfrac{9}{12} \\Rightarrow 12x = 72 \\Rightarrow x = 6$'] }),
+            sc(6, '**Directamente proporcionales**: el cociente $y/x$ es constante y la gráfica es una recta por el origen. **Inversamente**: el producto $xy$ es constante y la gráfica es una curva.', { steps: ['$y = kx \\qquad xy = k$'] }),
+            sc(6, '**Reparto proporcional**: se suman las partes y el total se reparte en esa razón.', { steps: ['45 000 en $2 : 3 : 4$: 9 partes de 5 000', '10 000, 15 000 y 20 000'] }),
+          ] },
+          ex: [
             play('balanza-proporcion', 'Encuentra $x$ para que la balanza quede en equilibrio', { a: 3, b: 5, d: 20, min: 0, max: 30 },
               'Una **proporción** es la igualdad de dos razones: $\\dfrac{a}{b} = \\dfrac{c}{d}$ si y solo si $ad = bc$. Aquí $3 \\cdot 20 = 5x$, así que $x = 12$.',
               { hint: 'En una proporción los productos cruzados son iguales: multiplica en cruz y despeja $x$. También puedes ver por cuánto se multiplicó el 5 para llegar al 20.' }),
+            play('sombra-arbol', 'Halla la altura del árbol con la sombra de un palo', {
+              step: 0.5, max: 12,
+              rounds: [{ stick: 2, shadow: 3, treeShadow: 12, tree: 8 }, { stick: 1.5, shadow: 2, treeShadow: 10, tree: 7.5 }, { stick: 2.5, shadow: 1, treeShadow: 4, tree: 10 }],
+            }, 'A la misma hora los rayos del sol llegan paralelos, así que altura y sombra forman la misma razón: $\\dfrac{2}{3} = \\dfrac{h}{12} \\Rightarrow 3h = 24,\\ h = 8$; $\\dfrac{1.5}{2} = \\dfrac{h}{10} \\Rightarrow 2h = 15,\\ h = 7.5$; $\\dfrac{2.5}{1} = \\dfrac{h}{4} \\Rightarrow h = 10$.',
+              { hint: 'Escribe la proporción «altura del palo es a su sombra como altura del árbol es a su sombra» y usa los productos cruzados. Si la sombra del árbol es varias veces la del palo, su altura también.' }),
+            play('cuadrado-media', 'Encuentra el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$', { w: 4, h: 25, tol: 0.2 },
+              'La **media proporcional** entre 4 y 25 es el $x$ con $\\dfrac{4}{x} = \\dfrac{x}{25}$: $x^2 = 100$, $x = 10$. Geométricamente, es el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$.',
+              { hint: 'Calcula el área del rectángulo. El cuadrado debe tener esa misma área, así que su lado es el número que multiplicado por sí mismo la da.' }),
             play('duplica-magnitud', 'Una magnitud cambió: sube o baja la barra de la otra hasta su nuevo valor', {
               rounds: [
                 { text: 'Con 3 llaves iguales un tanque se llena en 12 horas. Ahora se abren 6 llaves.', nx: 'llaves', ny: 'horas', uy: 'horas', x0: 3, y0: 12, x1: 6, y1: 6, step: 1, ymax: 24 },
@@ -496,10 +540,18 @@ const COURSE_ALGEBRA = {
             play('reparto', 'Reparte 1.200.000 en partes proporcionales a 2, 3 y 5', { total: 1200000, parts: [2, 3, 5], tol: 0.02 },
               '**Reparto proporcional**: $2 + 3 + 5 = 10$ partes, cada una vale $1\\,200\\,000 \\div 10 = 120\\,000$. Las partes son $240\\,000$, $360\\,000$ y $600\\,000$.',
               { hint: 'Suma los números de la proporción para saber en cuántas partes iguales se corta el total. Luego cada persona se lleva tantas partes como diga su número.' }),
-            play('cuadrado-media', 'Encuentra el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$', { w: 4, h: 25, tol: 0.2 },
-              'La **media proporcional** entre 4 y 25 es el $x$ con $\\dfrac{4}{x} = \\dfrac{x}{25}$: $x^2 = 100$, $x = 10$. Geométricamente, es el lado del cuadrado con la misma área que el rectángulo $4 \\times 25$.',
-              { hint: 'Calcula el área del rectángulo. El cuadrado debe tener esa misma área, así que su lado es el número que multiplicado por sí mismo la da.' }),
-            // --- Parte 2: regla de tres (el video 2 de `more` se muestra antes de estos cinco).
+          ],
+        },
+        {
+          id: 'alg-12f', title: 'Regla de tres simple y compuesta',
+          // Parte 3 (spec 2026-11-11-razones-desde-cero): video R3 (video/clase_alg_u2_r3_regla_tres). Escenas de respaldo.
+          clip: { scenes: [
+            sc(6, 'La **regla de tres** resuelve una proporción con tres datos conocidos. Se arma una tabla: una columna por magnitud y una fila por situación.', { steps: ['4 kg cuestan 10 000; ¿cuánto cuestan 7 kg?'] }),
+            sc(6, '**Directa**: si una magnitud crece, la otra también. Se reduce a la unidad o se igualan los cocientes.', { steps: ['1 kg: $10\\,000 \\div 4 = 2\\,500$', '7 kg: $7 \\cdot 2\\,500 = 17\\,500$'] }),
+            sc(6, '**Inversa**: si una crece, la otra decrece; lo que se conserva es el **producto**.', { steps: ['Comida para 8 personas 15 días: $8 \\cdot 15 = 120$', '12 personas: $12x = 120 \\Rightarrow x = 10$ días'] }),
+            sc(6, '**Compuesta**: con varias magnitudes se cambia una a la vez y cada una decide si es directa o inversa.', { steps: ['3 impresoras, 900 hojas, 5 min', '5 impresoras, 1 800 hojas: $5 \\cdot \\tfrac35 \\cdot 2 = 6$ min'] }),
+          ] },
+          ex: [
             play('arma-regla', 'Arma la regla de tres de cada problema', {
               problems: [
                 { text: 'Un ciclista recorre 150 km en 5 horas. ¿Cuántos km recorre en 7 horas?', kind: 'directa',
@@ -603,47 +655,6 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Los cambios sucesivos **se multiplican**, no se suman: $1.1 \\cdot 1.1 = 1.21$ (dos subidas del $10\\%$ dan $21\\%$), $1.5 \\cdot 0.5 = 0.75$, $0.9 \\cdot 1.1 = 0.99$ y $1.2 \\cdot 0.9 = 1.08$. Por eso subir y bajar el mismo porcentaje nunca deja el precio igual.',
               { hint: 'Cada sello multiplica el precio: +10 % es ×1.1 y −50 % es ×0.5. Multiplica los dos factores y compara con lo que pide la ronda. Mira cómo cambia la etiqueta de 100 tras cada sello.' }),
-          ],
-        },
-        {
-          id: 'alg-13b', title: 'Interés simple y compuesto',
-          // Clase 4 (video/clase_interes_sc): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
-          clip: { scenes: [
-            sc(6, 'El **interés** es lo que gana el dinero prestado; el **monto** es capital más interés.', { title: '$M = C + I$', steps: ['$C$ capital · $r$ tasa por periodo · $t$ periodos', '500.000 al 2 % mensual: $I_{\\text{mes}} = 500\\,000 \\cdot 0.02 = 10\\,000$'] }),
-            sc(6, 'Interés **simple**: siempre sobre el capital inicial, cada periodo paga lo mismo. Crece en línea recta.', { title: '$I = C\\,r\\,t \\qquad M = C\\,(1 + r\\,t)$', steps: ['1.200.000 al 1.5 % mensual, 8 meses: $I = 144\\,000$', '$M = 1\\,200\\,000 \\cdot 1.12 = 1\\,344\\,000$'] }),
-            sc(7, 'Interés **compuesto**: el interés se suma al capital y también gana interés. Crece en curva.', { title: '$M = C\\,(1 + r)^n$', steps: ['500.000 al 2 % mensual, 3 meses: $500\\,000 \\cdot 1.02^3 = 530\\,604$', '1.000.000 al 10 % anual, 10 años: simple 2.000.000 · compuesto 2.593.742'], viz: { type: 'graph', xr: [0, 10], yr: [0, 1.8], f: t => 1.1 ** t - 1, points: [[10, 1.59, 'compuesto 1.59']] } }),
-          ] },
-          ex: [
-            play('cobra-intereses', 'Cobra mes a mes hasta juntar 180.000 pesos de interés', { capital: 1500000, rate: 0.01, target: 180000, months: 18 },
-              'Con interés simple cada mes paga lo mismo: $1\\,500\\,000 \\cdot 0.01 = 15\\,000$. Para juntar $180\\,000$ hacen falta $180\\,000 / 15\\,000 = 12$ meses: $I = C\\,r\\,t$.',
-              { hint: 'Con interés simple cada mes paga lo mismo. Calcula cuánto paga un mes y cuántos meses hacen falta para juntar la meta.' }),
-            play('crece-planta', 'Haz crecer las plantas de los meses 2 y 3 según el tipo de interés', {
-              rounds: [
-                { kind: 'simple', C: 400, M1: 430, step: 1 }, { kind: 'compuesto', C: 500, M1: 600, step: 1 },
-                { kind: 'compuesto', C: 1000, M1: 1100, step: 1 }, { kind: 'simple', C: 250, M1: 270, step: 1 },
-              ],
-            }, 'Con interés **simple** el monto sube siempre lo mismo (lo del primer mes): $400 \\to 430 \\to 460 \\to 490$. Con **compuesto** se multiplica siempre por el mismo factor: de 500 a 600 es $\\times 1.2$, así que $600 \\cdot 1.2 = 720$ y $720 \\cdot 1.2 = 864$; de 1.000 a 1.100 es $\\times 1.1$: $1\\,210$ y $1\\,331$. El compuesto crece cada vez más porque el interés también gana interés.',
-              { hint: 'Mira cuánto creció la planta del mes 0 al mes 1. Si el interés es simple, súmale eso mismo cada mes. Si es compuesto, averigua por cuánto se multiplicó y multiplica otra vez por ese número.' }),
-            play('carrera-interes', 'Encuentra el primer mes en que el compuesto le saca más de 120.000 al simple', { capital: 3000000, rate: 0.02, months: 24, gap: 120000 },
-              'Simple: $M = 3\\,000\\,000(1 + 0.02n)$. Compuesto: $M = 3\\,000\\,000(1.02)^n$. La ventaja crece cada mes: en el 14 es $\\approx 118\\,400$ y en el 15 ya es $\\approx 137\\,600$.',
-              { hint: 'Calcula los dos montos mes a mes y réstalos. La diferencia empieza en 0 y crece cada mes: busca el primer mes en que pasa de 120.000.' }),
-            play('ajusta-capital', 'Fija el capital que, al 3 % mensual compuesto, deja 1.125.509 en 4 meses', { rate: 0.03, periods: 4, target: 1125509, step: 50000, max: 2000000, tol: 1 },
-              'Se despeja el capital de $M = C(1 + r)^n$: $C = \\dfrac{1\\,125\\,509}{1.03^4} = \\dfrac{1\\,125\\,509}{1.12551} \\approx 1\\,000\\,000$.',
-              { hint: 'Despeja $C$ de $M = C(1 + r)^n$: divide el monto entre el factor elevado al número de meses.' }),
-            play('mejor-oferta', 'Lleva el carrito al banco donde el millón queda convertido en más dinero', {
-              prefer: 'high', noun: 'Banco',
-              rounds: [
-                { price: 1000000, a: { label: '1.2 % mensual simple, 10 meses', changes: [12] }, b: { label: '1 % mensual compuesto, 10 meses', changes: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1] } },
-                { price: 1000000, a: { label: '8 % anual simple, 5 años', changes: [40] }, b: { label: '7 % anual compuesto, 5 años', changes: [7, 7, 7, 7, 7] } },
-                { price: 1000000, a: { label: '2 % mensual compuesto, 6 meses', changes: [2, 2, 2, 2, 2, 2] }, b: { label: '12.5 % semestral simple', changes: [12.5] } },
-              ],
-            }, 'Se comparan los montos. Ronda 1: simple $1.12 \\Rightarrow 1\\,120\\,000$ contra $1.01^{10} = 1.1046 \\Rightarrow 1\\,104\\,622$: gana el simple. Ronda 2: $1.40 \\Rightarrow 1\\,400\\,000$ contra $1.07^5 = 1.4026 \\Rightarrow 1\\,402\\,552$: gana el compuesto. Ronda 3: $1.02^6 = 1.1262 \\Rightarrow 1\\,126\\,162$ contra $1\\,125\\,000$: gana el compuesto por poco. La tasa y el plazo pesan más que el tipo de interés.',
-              { hint: 'Calcula el monto final de cada banco: el simple suma tasa × periodos una sola vez; el compuesto multiplica por el factor cada periodo. A veces gana el simple, si su tasa es bastante más alta.' }),
-            play('alcancias-gemelas', 'Elige la tasa simple que llena la alcancía igual que el compuesto', {
-              tol: 0.06, max: 40,
-              rounds: [{ C: 1000, r: 10, n: 2 }, { C: 1000, r: 20, n: 2 }, { C: 2000, r: 10, n: 3 }],
-            }, 'Con la misma tasa el compuesto siempre gana desde el segundo periodo, porque el interés también gana interés. Para empatar, la tasa simple debe ser mayor: $\\dfrac{(1 + r)^n - 1}{n}$. Al $10\\%$ en 2 periodos, $1.1^2 = 1.21$: hace falta $10.5\\%$ simple. Al $20\\%$, $1.2^2 = 1.44$: hace falta $22\\%$ (duplicar la tasa no duplicó la ganancia: de $21\\%$ pasó a $44\\%$). Al $10\\%$ en 3 periodos, $1.1^3 = 1.331$: unos $11.03\\%$.',
-              { hint: 'Calcula cuánto gana en total la alcancía compuesta (multiplicando por el factor cada periodo) y reparte esa ganancia en partes iguales entre los periodos: eso es lo que debe ganar la simple en cada uno.' }),
           ],
         },
       ],
@@ -1233,6 +1244,48 @@ const COURSE_ALGEBRA = {
             num('Resuelve $2^{x - 1} = 8$', 4, '$8 = 2^3$, entonces $x - 1 = 3$ y $x = 4$.'),
             mc('Resuelve la ecuación $4^{x + 1} = 64$', ['$x = 2$', '$x = 1$', '$x = 3$', '$x = 4$'], 0, '$64 = 4^3$: $x + 1 = 3$, $x = 2$.'),
             mc('Una población de hormigas era de 3000 en el año 2000 y crece de forma continua al 6 % anual, $P(t) = 3000\\,e^{0.06t}$. ¿Cuántas había en 2018?', ['$\\approx 8834$', '$\\approx 1833$', '$\\approx 32400$', '$\\approx 18834$'], 0, 'Con $t = 18$: $e^{0.06 \\cdot 18} = e^{1.08} \\approx 2.945$ y $3000 \\cdot 2.945 \\approx 8834$.'),
+          ],
+        },
+        {
+          id: 'alg-13b', title: 'Interés simple y compuesto',
+          // Tras la función exponencial (spec 2026-11-11-razones-desde-cero): M = C(1 + r)^n es una exponencial en n.
+          // Clase 4 (video/clase_interes_sc): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
+          clip: { scenes: [
+            sc(6, 'El **interés** es lo que gana el dinero prestado; el **monto** es capital más interés.', { title: '$M = C + I$', steps: ['$C$ capital · $r$ tasa por periodo · $t$ periodos', '500.000 al 2 % mensual: $I_{\\text{mes}} = 500\\,000 \\cdot 0.02 = 10\\,000$'] }),
+            sc(6, 'Interés **simple**: siempre sobre el capital inicial, cada periodo paga lo mismo. Crece en línea recta.', { title: '$I = C\\,r\\,t \\qquad M = C\\,(1 + r\\,t)$', steps: ['1.200.000 al 1.5 % mensual, 8 meses: $I = 144\\,000$', '$M = 1\\,200\\,000 \\cdot 1.12 = 1\\,344\\,000$'] }),
+            sc(7, 'Interés **compuesto**: el interés se suma al capital y también gana interés. Crece en curva.', { title: '$M = C\\,(1 + r)^n$', steps: ['500.000 al 2 % mensual, 3 meses: $500\\,000 \\cdot 1.02^3 = 530\\,604$', '1.000.000 al 10 % anual, 10 años: simple 2.000.000 · compuesto 2.593.742'], viz: { type: 'graph', xr: [0, 10], yr: [0, 1.8], f: t => 1.1 ** t - 1, points: [[10, 1.59, 'compuesto 1.59']] } }),
+          ] },
+          ex: [
+            play('cobra-intereses', 'Cobra mes a mes hasta juntar 180.000 pesos de interés', { capital: 1500000, rate: 0.01, target: 180000, months: 18 },
+              'Con interés simple cada mes paga lo mismo: $1\\,500\\,000 \\cdot 0.01 = 15\\,000$. Para juntar $180\\,000$ hacen falta $180\\,000 / 15\\,000 = 12$ meses: $I = C\\,r\\,t$.',
+              { hint: 'Con interés simple cada mes paga lo mismo. Calcula cuánto paga un mes y cuántos meses hacen falta para juntar la meta.' }),
+            play('crece-planta', 'Haz crecer las plantas de los meses 2 y 3 según el tipo de interés', {
+              rounds: [
+                { kind: 'simple', C: 400, M1: 430, step: 1 }, { kind: 'compuesto', C: 500, M1: 600, step: 1 },
+                { kind: 'compuesto', C: 1000, M1: 1100, step: 1 }, { kind: 'simple', C: 250, M1: 270, step: 1 },
+              ],
+            }, 'Con interés **simple** el monto sube siempre lo mismo (lo del primer mes): $400 \\to 430 \\to 460 \\to 490$. Con **compuesto** se multiplica siempre por el mismo factor: de 500 a 600 es $\\times 1.2$, así que $600 \\cdot 1.2 = 720$ y $720 \\cdot 1.2 = 864$; de 1.000 a 1.100 es $\\times 1.1$: $1\\,210$ y $1\\,331$. El compuesto crece cada vez más porque el interés también gana interés.',
+              { hint: 'Mira cuánto creció la planta del mes 0 al mes 1. Si el interés es simple, súmale eso mismo cada mes. Si es compuesto, averigua por cuánto se multiplicó y multiplica otra vez por ese número.' }),
+            play('carrera-interes', 'Encuentra el primer mes en que el compuesto le saca más de 120.000 al simple', { capital: 3000000, rate: 0.02, months: 24, gap: 120000 },
+              'Simple: $M = 3\\,000\\,000(1 + 0.02n)$. Compuesto: $M = 3\\,000\\,000(1.02)^n$. La ventaja crece cada mes: en el 14 es $\\approx 118\\,400$ y en el 15 ya es $\\approx 137\\,600$.',
+              { hint: 'Calcula los dos montos mes a mes y réstalos. La diferencia empieza en 0 y crece cada mes: busca el primer mes en que pasa de 120.000.' }),
+            play('ajusta-capital', 'Fija el capital que, al 3 % mensual compuesto, deja 1.125.509 en 4 meses', { rate: 0.03, periods: 4, target: 1125509, step: 50000, max: 2000000, tol: 1 },
+              'Se despeja el capital de $M = C(1 + r)^n$: $C = \\dfrac{1\\,125\\,509}{1.03^4} = \\dfrac{1\\,125\\,509}{1.12551} \\approx 1\\,000\\,000$.',
+              { hint: 'Despeja $C$ de $M = C(1 + r)^n$: divide el monto entre el factor elevado al número de meses.' }),
+            play('mejor-oferta', 'Lleva el carrito al banco donde el millón queda convertido en más dinero', {
+              prefer: 'high', noun: 'Banco',
+              rounds: [
+                { price: 1000000, a: { label: '1.2 % mensual simple, 10 meses', changes: [12] }, b: { label: '1 % mensual compuesto, 10 meses', changes: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1] } },
+                { price: 1000000, a: { label: '8 % anual simple, 5 años', changes: [40] }, b: { label: '7 % anual compuesto, 5 años', changes: [7, 7, 7, 7, 7] } },
+                { price: 1000000, a: { label: '2 % mensual compuesto, 6 meses', changes: [2, 2, 2, 2, 2, 2] }, b: { label: '12.5 % semestral simple', changes: [12.5] } },
+              ],
+            }, 'Se comparan los montos. Ronda 1: simple $1.12 \\Rightarrow 1\\,120\\,000$ contra $1.01^{10} = 1.1046 \\Rightarrow 1\\,104\\,622$: gana el simple. Ronda 2: $1.40 \\Rightarrow 1\\,400\\,000$ contra $1.07^5 = 1.4026 \\Rightarrow 1\\,402\\,552$: gana el compuesto. Ronda 3: $1.02^6 = 1.1262 \\Rightarrow 1\\,126\\,162$ contra $1\\,125\\,000$: gana el compuesto por poco. La tasa y el plazo pesan más que el tipo de interés.',
+              { hint: 'Calcula el monto final de cada banco: el simple suma tasa × periodos una sola vez; el compuesto multiplica por el factor cada periodo. A veces gana el simple, si su tasa es bastante más alta.' }),
+            play('alcancias-gemelas', 'Elige la tasa simple que llena la alcancía igual que el compuesto', {
+              tol: 0.06, max: 40,
+              rounds: [{ C: 1000, r: 10, n: 2 }, { C: 1000, r: 20, n: 2 }, { C: 2000, r: 10, n: 3 }],
+            }, 'Con la misma tasa el compuesto siempre gana desde el segundo periodo, porque el interés también gana interés. Para empatar, la tasa simple debe ser mayor: $\\dfrac{(1 + r)^n - 1}{n}$. Al $10\\%$ en 2 periodos, $1.1^2 = 1.21$: hace falta $10.5\\%$ simple. Al $20\\%$, $1.2^2 = 1.44$: hace falta $22\\%$ (duplicar la tasa no duplicó la ganancia: de $21\\%$ pasó a $44\\%$). Al $10\\%$ en 3 periodos, $1.1^3 = 1.331$: unos $11.03\\%$.',
+              { hint: 'Calcula cuánto gana en total la alcancía compuesta (multiplicando por el factor cada periodo) y reparte esa ganancia en partes iguales entre los periodos: eso es lo que debe ganar la simple en cada uno.' }),
           ],
         },
         {
