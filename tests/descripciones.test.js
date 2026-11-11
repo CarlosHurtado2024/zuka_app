@@ -4,7 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { loadScripts, get } = require('./load');
 
-const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/calculo.js', 'js/data.js']);
+const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/calculo.js', 'js/courses/geometria.js', 'js/data.js']);
 const courses = get(ctx, 'COURSES');
 
 test('cada curso tiene una descripción corta, sin el libro ni la UdeA', () => {

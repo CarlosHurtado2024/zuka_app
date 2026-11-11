@@ -1,10 +1,11 @@
 // Contenido de Zuka: cursos → unidades → lecciones. Cada lección = 1 clip vertical + ejercicios.
-// Álgebra, Trigonometría y Cálculo Diferencial viven en js/courses/; las ayudas para escribir contenido, en js/content.js.
+// Álgebra, Trigonometría, Cálculo Diferencial y Geometría Vectorial viven en js/courses/; las ayudas para escribir contenido, en js/content.js.
 
 const COURSES = [
   COURSE_ALGEBRA,
   COURSE_TRIG,
   COURSE_CALC,
+  COURSE_GEO,
   {
     id: 'fis', level: 'Semestre 1', name: 'Física Mecánica', icon: 'F', color: '#facc15',
     tagline: 'Por qué las cosas se mueven: fuerzas, energía y movimiento.',

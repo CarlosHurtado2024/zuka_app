@@ -4,7 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { loadScripts, get } = require('./load');
 
-const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/calculo.js', 'js/data.js']);
+const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/calculo.js', 'js/courses/geometria.js', 'js/data.js']);
 const alg = get(ctx, 'COURSE_ALGEBRA'), trig = get(ctx, 'COURSE_TRIG'), calc = get(ctx, 'COURSE_CALC');
 const ids = c => c.units.flatMap(u => u.lessons.map(l => l.id));
 const plan = c => Array.from(c.units, u => `${u.title}: ${u.lessons.map(l => l.id).join(' ')}`);
