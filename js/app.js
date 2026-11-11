@@ -186,10 +186,10 @@ function openLessonSheet(c, l) {
 
 // ---- pestaña Aprender ----
 const OFFSETS = [0, 52, 78, 52, 0, -52, -78, -52];
+const PATH_STEP = 160;   // alto de cada fila de nivel (igual a .node-wrap en styles.css)
 function renderLearn() {
   const c = courseById(S.course), ls = lessonsOf(c), doneN = ls.filter(isDone).length;
   const cur = ls.find(l => !isDone(l)), goalP = Math.min(1, todayXP() / S.goal);
-  let k = 0;
   view.innerHTML = `<div class="learn" style="--c:${c.color}">
     <section class="hero">
       <div class="hero-body"><p class="eyebrow">${esc(c.level)}</p><h1>${esc(c.name)}</h1><p class="sub">${esc(c.tagline)}</p>
@@ -206,17 +206,31 @@ function renderLearn() {
       <button class="btn brand sm" data-install>Instalar</button>
       <button class="icon-btn" data-hide-install aria-label="Ocultar">${ICON.x}</button>
     </section>` : ''}
-    ${c.units.map((u, ui) => `<section class="unit">
-      <header class="unit-banner"><p>Unidad ${ui + 1}</p><h2>${esc(u.title)}</h2></header>
-      <div class="path">${u.lessons.map(l => {
+    ${c.units.map((u, ui) => {
+      // Cada unidad es un mundo (js/worlds.js) y sus lecciones, niveles unidos por un sendero.
+      const w = WORLDS[u.world] || { name: u.title, art: '' };
+      const wDone = u.lessons.filter(isDone).length, all = wDone === u.lessons.length;
+      const closed = u.lessons.every(l => !isUnlocked(c, l));
+      const xs = u.lessons.map((_, i) => OFFSETS[i % OFFSETS.length]);
+      return `<section class="world${closed ? ' closed' : ''}${all ? ' complete' : ''}">
+      <header class="world-card">
+        <div class="world-art">${w.art}
+          <span class="world-tag">Mundo ${ui + 1}</span>
+          <span class="world-prog" aria-label="${wDone} de ${u.lessons.length} completadas">${all ? ICON.star : closed ? ICON.lock : ''}${wDone}/${u.lessons.length}</span></div>
+        <div class="world-body"><h2>${esc(w.name)}</h2><p>${esc(u.title)}</p></div>
+      </header>
+      <div class="path" style="--rows:${u.lessons.length}">
+        <svg class="trail" width="1" height="1" overflow="visible" aria-hidden="true"><path d="${worldTrail(xs, PATH_STEP)}"/></svg>
+        ${u.lessons.map((l, li) => {
         // 'open': desbloqueada pero no es la siguiente (en modo revisión, todas las demás).
         const st = isDone(l) ? 'done' : l === cur ? 'current' : isUnlocked(c, l) ? 'open' : 'locked';
-        const icon = st === 'done' ? ICON.check : st === 'locked' ? ICON.lock : ICON.play;
-        return `<div class="node-wrap" style="--x:${OFFSETS[k++ % OFFSETS.length]}px">
+        const icon = st === 'done' ? ICON.check : st === 'locked' ? ICON.lock : `<b class="node-n">${li + 1}</b>`;
+        return `<div class="node-wrap" style="--x:${xs[li]}px">
           ${st === 'current' ? '<span class="start-bubble">EMPIEZA</span>' : ''}
-          <button class="node ${st}" data-id="${l.id}" aria-label="${esc(l.title)}">${icon}</button>
-          <span class="node-label">${esc(l.title)}</span></div>`;
-      }).join('')}</div></section>`).join('')}
+          <button class="node ${st}" data-id="${l.id}" aria-label="Nivel ${ui + 1}-${li + 1}: ${esc(l.title)}">${icon}</button>
+          <span class="node-label"><small>Nivel ${ui + 1}-${li + 1}</small>${esc(l.title)}</span></div>`;
+      }).join('')}</div></section>`;
+    }).join('')}
     ${cur ? '' : `<div class="course-done">${ICON.star}<div><b>¡Curso completado!</b><p>Repasa cualquier lección o prueba otro curso.</p></div></div>`}
   </div>`;
   view.querySelectorAll('.node').forEach(b => b.onclick = () => openLessonSheet(c, findLesson(b.dataset.id).l));

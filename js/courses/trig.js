@@ -8,7 +8,7 @@ const COURSE_TRIG = {
   tagline: 'Ángulos, triángulos y ondas: medir lo que no se puede alcanzar con una regla.',
   units: [
     {
-      title: 'Funciones trigonométricas, propiedades y gráficas',
+      world: 'ondas', title: 'Funciones trigonométricas, propiedades y gráficas',
       lessons: [
         {
           id: 'trig-41a', title: 'Grados y radianes',
@@ -274,7 +274,7 @@ const COURSE_TRIG = {
       ],
     },
     {
-      title: 'Funciones trigonométricas inversas y aplicaciones',
+      world: 'inversas', title: 'Funciones trigonométricas inversas y aplicaciones',
       lessons: [
         {
           id: 'trig-45', title: 'Seno, coseno y tangente inversos',
@@ -511,7 +511,7 @@ const COURSE_TRIG = {
       ],
     },
     {
-      title: 'Forma polar de números complejos',
+      world: 'polar', title: 'Forma polar de números complejos',
       lessons: [
         {
           id: 'trig-151', title: 'Forma trigonométrica de un complejo',

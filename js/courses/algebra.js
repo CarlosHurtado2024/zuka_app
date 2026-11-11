@@ -10,7 +10,7 @@ const COURSE_ALGEBRA = {
     {
       // Unidad 0 (specs 2026-11-09-algebra-conjuntos y 2026-11-11-conjuntos-desde-cero): conjuntos desde cero,
       // tres lecciones, cada una con su video y luego sus ejercicios; sin números ni desigualdades.
-      title: 'Conjuntos',
+      world: 'conjuntos', title: 'Conjuntos',
       lessons: [
         {
           id: 'alg-0a', title: '¿Qué es un conjunto? Notación y pertenencia',
@@ -151,7 +151,7 @@ const COURSE_ALGEBRA = {
       ],
     },
     {
-      title: 'Sistemas numéricos, razones y proporciones',
+      world: 'numeros', title: 'Sistemas numéricos, razones y proporciones',
       lessons: [
         {
           id: 'alg-11', title: 'Sistemas numéricos y números reales',
@@ -506,7 +506,7 @@ const COURSE_ALGEBRA = {
       ],
     },
     {
-      title: 'Potenciación y radicación',
+      world: 'potencias', title: 'Potenciación y radicación',
       lessons: [
         {
           id: 'alg-21a', title: 'Potencias y exponentes',
@@ -664,7 +664,7 @@ const COURSE_ALGEBRA = {
       ],
     },
     {
-      title: 'Progresiones y sumatoria',
+      world: 'progresiones', title: 'Progresiones y sumatoria',
       lessons: [
         {
           id: 'alg-14', title: 'Progresiones aritméticas y geométricas',
@@ -779,7 +779,7 @@ const COURSE_ALGEBRA = {
       ],
     },
     {
-      title: 'Polinomios: productos notables y factorización',
+      world: 'polinomios', title: 'Polinomios: productos notables y factorización',
       lessons: [
         {
           id: 'alg-23a', title: 'Grado y operaciones',
@@ -842,7 +842,7 @@ const COURSE_ALGEBRA = {
       ],
     },
     {
-      title: 'Números complejos y ecuaciones cuadráticas',
+      world: 'cuadraticas', title: 'Números complejos y ecuaciones cuadráticas',
       lessons: [
         {
           id: 'alg-23c', title: 'Números complejos',
@@ -943,7 +943,7 @@ const COURSE_ALGEBRA = {
       ],
     },
     {
-      title: 'Polinomios de grado superior',
+      world: 'grado-superior', title: 'Polinomios de grado superior',
       lessons: [
         {
           id: 'alg-23b', title: 'División e igualdad de polinomios',
@@ -1000,7 +1000,7 @@ const COURSE_ALGEBRA = {
       ],
     },
     {
-      title: 'Expresiones racionales y fracciones parciales',
+      world: 'racionales', title: 'Expresiones racionales y fracciones parciales',
       lessons: [
         {
           id: 'alg-25a', title: 'Dominio y simplificación',
@@ -1071,7 +1071,7 @@ const COURSE_ALGEBRA = {
       ],
     },
     {
-      title: 'Funciones exponenciales y logarítmicas',
+      world: 'exp-log', title: 'Funciones exponenciales y logarítmicas',
       lessons: [
         {
           id: 'alg-71', title: 'Función exponencial',

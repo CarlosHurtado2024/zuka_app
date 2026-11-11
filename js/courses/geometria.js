@@ -9,7 +9,7 @@ const COURSE_GEO = {
   units: [
     // ---------------------------------------------------------------- Parcial 1 (semanas 1–4)
     {
-      title: 'Sistemas de ecuaciones y matrices',
+      world: 'sistemas', title: 'Sistemas de ecuaciones y matrices',
       lessons: [
         {
           id: 'geo-1', title: 'Sistemas 2×2 y 3×3 y su geometría',
@@ -147,7 +147,7 @@ const COURSE_GEO = {
     },
     // ---------------------------------------------------------------- Parcial 2 (semanas 5–8)
     {
-      title: 'Inversa y determinantes',
+      world: 'determinantes', title: 'Inversa y determinantes',
       lessons: [
         {
           id: 'geo-5', title: 'Gauss-Jordan para la inversa',
@@ -268,7 +268,7 @@ const COURSE_GEO = {
     },
     // ---------------------------------------------------------------- Parcial 2–3 (semanas 7–9)
     {
-      title: 'Vectores y lugares geométricos',
+      world: 'vectores', title: 'Vectores y lugares geométricos',
       lessons: [
         {
           id: 'geo-9', title: 'Vectores libres y sus operaciones',
@@ -429,7 +429,7 @@ const COURSE_GEO = {
     },
     // ---------------------------------------------------------------- Parcial 3 (semanas 10–12)
     {
-      title: 'Producto escalar y producto vectorial',
+      world: 'productos', title: 'Producto escalar y producto vectorial',
       lessons: [
         {
           id: 'geo-14', title: 'Producto escalar',
@@ -590,7 +590,7 @@ const COURSE_GEO = {
     },
     // ---------------------------------------------------------------- Parcial 4 (semanas 13–14)
     {
-      title: 'Vectores en la mecánica',
+      world: 'mecanica', title: 'Vectores en la mecánica',
       lessons: [
         {
           id: 'geo-19', title: 'Fuerzas coplanarias y concurrentes',
@@ -691,7 +691,7 @@ const COURSE_GEO = {
     },
     // ---------------------------------------------------------------- Parcial 4 (semanas 15–16)
     {
-      title: 'Las cónicas',
+      world: 'conicas', title: 'Las cónicas',
       lessons: [
         {
           id: 'geo-22', title: 'La circunferencia y la parábola',

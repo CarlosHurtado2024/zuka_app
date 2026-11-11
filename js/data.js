@@ -11,7 +11,7 @@ const COURSES = [
     tagline: 'Por qué las cosas se mueven: fuerzas, energía y movimiento.',
     units: [
       {
-        title: 'Cinemática',
+        world: 'cinematica', title: 'Cinemática',
         lessons: [
           {
             id: 'fis-1', title: 'MRU y MRUA',
@@ -47,7 +47,7 @@ const COURSES = [
         ],
       },
       {
-        title: 'Dinámica',
+        world: 'dinamica', title: 'Dinámica',
         lessons: [
           {
             id: 'fis-3', title: 'Leyes de Newton',
@@ -106,7 +106,7 @@ const COURSES = [
     tagline: 'Sumar lo infinitamente pequeño: áreas, volúmenes y acumulación.',
     units: [
       {
-        title: 'La integral',
+        world: 'integral', title: 'La integral',
         lessons: [
           {
             id: 'int-1', title: 'Área bajo la curva',
@@ -147,7 +147,7 @@ const COURSES = [
     tagline: 'Vectores y matrices: el idioma del espacio y sus transformaciones.',
     units: [
       {
-        title: 'Vectores y matrices',
+        world: 'lineal', title: 'Vectores y matrices',
         lessons: [
           {
             id: 'lin-1', title: 'Vectores',

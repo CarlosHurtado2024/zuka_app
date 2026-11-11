@@ -7,7 +7,7 @@ const COURSE_CALC = {
   tagline: 'La matemática del cambio: qué tan rápido crece, cae o se mueve algo.',
   units: [
     {
-      title: 'Desigualdades, valor absoluto y la recta',
+      world: 'intervalos', title: 'Desigualdades, valor absoluto y la recta',
       lessons: [
         {
           id: 'alg-32', title: 'Orden, intervalos e inecuaciones',
@@ -155,7 +155,7 @@ const COURSE_CALC = {
       ],
     },
     {
-      title: 'Funciones',
+      world: 'funciones', title: 'Funciones',
       lessons: [
         {
           id: 'alg-52', title: 'Funciones: dominio, rango y simetría',
@@ -410,7 +410,7 @@ const COURSE_CALC = {
       ],
     },
     {
-      title: 'Límites y continuidad',
+      world: 'limites', title: 'Límites y continuidad',
       lessons: [
         {
           id: 'calc-1', title: '¿Qué es un límite?',
@@ -442,7 +442,7 @@ const COURSE_CALC = {
       ],
     },
     {
-      title: 'La derivada',
+      world: 'derivada', title: 'La derivada',
       lessons: [
         {
           id: 'calc-3', title: 'La derivada como pendiente',
@@ -478,7 +478,7 @@ const COURSE_CALC = {
       ],
     },
     {
-      title: 'Aplicaciones de la derivada',
+      world: 'aplicaciones', title: 'Aplicaciones de la derivada',
       lessons: [
         {
           id: 'calc-5', title: 'Máximos y mínimos',
