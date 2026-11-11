@@ -31,7 +31,7 @@ GAMES['candado-fraccion'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      tabs = roundTabs(R.length);
+      tabs = roundTabs(R.length, w);
       const ww = Math.min(52, (w - 80) / 4), gap = 10, total = 4 * ww + 3 * gap + 30, x0 = w / 2 - total / 2, y = h * 0.6;
       // ruedas: 0 decenas num, 1 unidades num, 2 decenas den, 3 unidades den
       wheels = [0, 1, 2, 3].map(k => {

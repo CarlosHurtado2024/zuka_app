@@ -142,7 +142,11 @@ function drawCurve(p, v, f, x0 = v.xr[0], x1 = v.xr[1], n = 240) {
 }
 
 // Pestañas de rondas (44 × 30 px arriba a la izquierda) y su dibujo; colorOf(i) da el borde.
-function roundTabs(n) { return Array.from({ length: n }, (_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 })); }
+// Con `w` (ancho del lienzo) las pestañas se encogen si no caben: así 5 o 6 rondas entran en 256 px.
+function roundTabs(n, w) {
+  const step = w ? Math.min(52, (w - 20) / n) : 52;
+  return Array.from({ length: n }, (_, i) => ({ x: 12 + i * step, y: 8, w: step - 8, h: 30 }));
+}
 function drawTabs(p, C, tabs, cur, colorOf) {
   tabs.forEach((tb, i) => {
     p.stroke(colorOf(i)); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(tb.x, tb.y, tb.w, tb.h, 8);

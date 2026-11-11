@@ -8,79 +8,144 @@ const COURSE_ALGEBRA = {
   tagline: 'El lenguaje de las matemáticas: números, ecuaciones y funciones para describir el mundo.',
   units: [
     {
-      // Unidad 0 (spec 2026-11-09-algebra-conjuntos): lo básico de conjuntos antes de los sistemas numéricos.
+      // Unidad 0 (specs 2026-11-09-algebra-conjuntos y 2026-11-11-conjuntos-desde-cero): conjuntos desde cero,
+      // tres lecciones, cada una con su video y luego sus ejercicios; sin números ni desigualdades.
       title: 'Conjuntos',
       lessons: [
         {
-          id: 'alg-0', title: 'Conjuntos: notación, tipos y operaciones',
-          // Video C0 (video/clase_alg_u0_conjuntos): escenas de respaldo hasta tener su ID de Bunny.
+          id: 'alg-0a', title: '¿Qué es un conjunto? Notación y pertenencia',
+          // Video V1 (video/clase_alg_u0_v1_que_es): escenas de respaldo hasta tener su ID de Bunny.
+          // Spec 2026-11-11-conjuntos-desde-cero: sin números ni desigualdades; ejemplos de la vida diaria.
           clip: { scenes: [
-            sc(6, 'Un **conjunto** es una colección bien definida de objetos, sus **elementos**. Se nombra con mayúscula y se escribe entre llaves.', { title: '$V = \\{a, e, i, o, u\\}$', steps: ['$e \\in V$: $e$ pertenece a $V$', '$b \\notin V$: $b$ no pertenece a $V$'] }),
-            sc(6, 'Se describe por **extensión** (lista) o por **comprensión** (una condición). El orden y las repeticiones no importan.', { title: '$\\{2, 4, 6, 8\\} = \\{x \\in \\mathbb{N} : x \\text{ par},\\ x < 10\\}$', steps: ['$n(A)$: cuántos elementos tiene $A$', '$\\varnothing = \\{\\,\\}$: el conjunto vacío'] }),
-            sc(6, '$B \\subseteq A$ si todo elemento de $B$ está en $A$. Un conjunto de $n$ elementos tiene $2^n$ subconjuntos.', { title: '$B \\subseteq A$', steps: ['$\\varnothing \\subseteq A$ siempre', '$P(\\{a, b, c\\})$ tiene $2^3 = 8$ elementos'] }),
-            sc(7, 'Operaciones: unión, intersección, diferencia y complemento.', { title: '$A \\cup B \\quad A \\cap B \\quad A - B \\quad A^c$', steps: ['$A = \\{1,2,3,4\\},\\ B = \\{3,4,5,6\\}$', '$A \\cup B = \\{1,\\dots,6\\}$, $A \\cap B = \\{3, 4\\}$, $A - B = \\{1, 2\\}$', '$n(A \\cup B) = n(A) + n(B) - n(A \\cap B)$'] }),
+            sc(6, 'Un **conjunto** es una colección de objetos **bien definida**: cualquiera puede decidir, sin dudar, si un objeto está o no está. Los objetos se llaman **elementos**.', { title: '$S = \\{\\text{rojo},\\ \\text{amarillo},\\ \\text{verde}\\}$', steps: ['Nombre en mayúscula, elementos entre llaves y separados por comas'] }),
+            sc(6, '$\\in$ se lee «pertenece a» y $\\notin$ «no pertenece a».', { title: '$\\text{rojo} \\in S \\qquad \\text{azul} \\notin S$' }),
+            sc(6, 'Por **extensión** se escriben todos los elementos; por **comprensión**, la condición que cumplen. «:» se lee «tal que».', { title: '$V = \\{a, e, i, o, u\\} = \\{x : x \\text{ es una vocal}\\}$' }),
+            sc(6, 'El orden no importa y no se repite ningún elemento. El **cardinal** $n(A)$ cuenta los elementos distintos.', { steps: ['Letras de PAPAYA: $\\{P, A, Y\\}$', '$n = 3$'] }),
           ] },
           ex: [
+            play('arma-notacion', 'Toca las fichas en orden para escribir cada conjunto por **extensión**', {
+              rounds: [
+                { prompt: 'B: los colores de la bandera de Colombia', name: 'B', members: ['amarillo', 'azul', 'rojo'], chips: ['B', '=', '{', '}', ',', '(', ')', 'amarillo', 'azul', 'rojo', 'verde'] },
+                { prompt: 'P: los puntos cardinales', name: 'P', members: ['norte', 'sur', 'este', 'oeste'], chips: ['P', '=', '{', '}', ',', '[', ']', 'norte', 'sur', 'este', 'oeste', 'arriba'] },
+                { prompt: 'G: las vocales de la palabra GATO', name: 'G', members: ['a', 'o'], chips: ['G', '=', '{', '}', ',', '(', ')', 'a', 'o', 'e', 'g', 't'] },
+              ],
+            }, 'Un conjunto por extensión se escribe así: su nombre en mayúscula, el signo $=$, una llave que abre, los elementos separados por comas y una llave que cierra: $B = \\{\\text{amarillo}, \\text{azul}, \\text{rojo}\\}$. Los paréntesis y los corchetes no sirven para conjuntos. El orden de los elementos no importa, pero ninguno se repite: en GATO las vocales son solo $a$ y $o$.',
+              { hint: 'Empieza por el nombre del conjunto y el signo =. Luego abre la llave, pon un elemento, una coma, otro elemento… y cierra la llave. Cuidado con las fichas que no pertenecen.' }),
+            play('cumple-notacion', 'Mete o saca cada ficha de la bolsa para que **todas** las frases sean ciertas', {
+              rounds: [
+                { set: 'M', tokens: ['perro', 'gato', 'pez', 'ballena', 'rana', 'loro'], inside: [true, true, false, true, false, false] },
+                { set: 'R', tokens: ['fresa', 'cereza', 'limón', 'banano'], inside: [true, true, false, false] },
+              ],
+            }, '$\\in$ dice que el elemento está dentro del conjunto y $\\notin$ que está afuera. Con las frases de la primera ronda, $M = \\{\\text{perro}, \\text{gato}, \\text{ballena}\\}$ (los mamíferos); en la segunda, $R = \\{\\text{fresa}, \\text{cereza}\\}$.',
+              { hint: 'Lee cada frase en voz alta: «∈» es «pertenece a» (va adentro de la bolsa) y «∉» es «no pertenece a» (se queda afuera). Al lado de cada frase aparece un ✓ cuando ya se cumple.' }),
             play('atrapa-elementos', 'Atrapa los elementos que cumplen la condición y escribe el conjunto por **extensión**', {
               rounds: [
-                { name: 'A', rule: 'x ∈ ℕ : x es múltiplo de 3, x < 16', pool: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'], members: ['3', '6', '9', '12', '15'] },
-                { name: 'B', rule: 'x : x es un entero, −2 ≤ x < 3', pool: ['−4', '−3', '−2', '−1', '0', '1', '2', '3', '4', '5'], members: ['−2', '−1', '0', '1', '2'] },
-                { name: 'P', rule: 'x : x es una letra de ALGEBRA', pool: ['A', 'B', 'C', 'E', 'G', 'I', 'L', 'O', 'R', 'S'], members: ['A', 'B', 'E', 'G', 'L', 'R'] },
-                { name: 'D', rule: 'x ∈ ℕ : x² < 20', pool: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], members: ['1', '2', '3', '4'] },
+                { name: 'E', rule: 'x : x es una estación del año', pool: ['primavera', 'enero', 'verano', 'lluvia', 'otoño', 'sol', 'invierno', 'julio'], members: ['primavera', 'verano', 'otoño', 'invierno'] },
+                { name: 'J', rule: 'x : x es un mes que empieza por J', pool: ['enero', 'junio', 'jueves', 'julio', 'agosto', 'febrero'], members: ['junio', 'julio'] },
+                { name: 'O', rule: 'x : x es un océano', pool: ['Pacífico', 'Caribe', 'Atlántico', 'Índico', 'Amazonas', 'Ártico', 'Antártico', 'Andes'], members: ['Pacífico', 'Atlántico', 'Índico', 'Ártico', 'Antártico'] },
               ],
-            }, 'Por comprensión se da la condición; por extensión se listan los elementos que la cumplen: $A = \\{3, 6, 9, 12, 15\\}$; $B = \\{-2, -1, 0, 1, 2\\}$ (el $-2$ sí entra por el $\\le$, el $3$ no por el $<$); $P = \\{A, L, G, E, B, R\\}$, porque en un conjunto no se repiten elementos, así que $n(P) = 6$ aunque la palabra tenga 7 letras; y $D = \\{1, 2, 3, 4\\}$, porque $4^2 = 16 < 20$ pero $5^2 = 25$.',
-              { hint: 'Prueba cada ficha en la condición, una por una. Fíjate si el borde lleva ≤ (entra) o < (no entra), y recuerda que en un conjunto cada elemento se escribe una sola vez.' }),
+            }, 'Por comprensión se da la condición; por extensión se listan los elementos que la cumplen. $E$ tiene las cuatro estaciones (enero y julio son meses). $J = \\{\\text{junio}, \\text{julio}\\}$: jueves empieza por J pero es un día, no un mes. Y los océanos son cinco; el Caribe es un mar y el Amazonas, un río.',
+              { hint: 'Prueba cada ficha en la condición, leyéndola completa: no basta con que «suene» parecido. Por ejemplo, ¿jueves es un mes?' }),
+            play('tacha-repetidos', 'Tacha las letras que sobran para que quede el conjunto de letras de cada palabra', {
+              rounds: [{ word: 'BANANA', name: 'L' }, { word: 'COCODRILO', name: 'C' }, { word: 'PERRERA', name: 'P' }],
+            }, 'En un conjunto cada elemento se escribe una sola vez, así que las letras repetidas sobran: BANANA tiene 6 letras, pero su conjunto de letras es $\\{B, A, N\\}$ y $n = 3$. COCODRILO da $\\{C, O, D, R, I, L\\}$ y PERRERA da $\\{P, E, R, A\\}$.',
+              { hint: 'Deja una sola copia de cada letra y tacha las demás. Las letras que todavía están repetidas se ven en amarillo.' }),
+            num('¿Cuántos elementos tiene el conjunto de las letras de la palabra CARACOL?', 5,
+              'Las letras distintas de CARACOL son $C, A, R, O, L$: el conjunto es $\\{C, A, R, O, L\\}$ y su cardinal es $5$, aunque la palabra tenga 7 letras.',
+              { hint: 'Escribe las letras una por una y no repitas las que ya escribiste. Luego cuenta.' }),
+          ],
+        },
+        {
+          id: 'alg-0b', title: 'Tipos de conjuntos y relaciones entre ellos',
+          // Video V2 (video/clase_alg_u0_v2_tipos): escenas de respaldo hasta tener su ID de Bunny.
+          clip: { scenes: [
+            sc(6, 'El conjunto **vacío** no tiene elementos: $\\varnothing = \\{\\ \\}$. Un conjunto **unitario** tiene uno solo.', { steps: ['$\\{x : x \\text{ es la capital de Colombia}\\} = \\{\\text{Bogotá}\\}$', '$\\{\\varnothing\\}$ no es vacío: tiene un elemento'] }),
+            sc(6, '$B \\subseteq A$ (subconjunto) cuando todo elemento de $B$ está en $A$. El vacío es subconjunto de todo conjunto.', { title: '$\\{a, e, i, o, u\\} \\subseteq \\{\\text{letras}\\}$' }),
+            sc(6, 'Dos conjuntos son **iguales** si tienen los mismos elementos, y **disjuntos** si no comparten ninguno.', { steps: ['Letras de AMOR = letras de ROMA', 'frutas y herramientas: disjuntos'] }),
+            sc(6, 'Con los toppings fresa, mora y coco hay 8 combinaciones posibles, desde ninguno hasta los tres: el **conjunto de partes**.', { title: '$P(\\{f, m, c\\})$' }),
+          ] },
+          ex: [
+            play('arma-conjunto', 'Arma en las llaves un conjunto que cumpla lo que pide cada ronda', {
+              pool: ['perro', 'gato', 'loro', 'pez', 'vaca', 'oveja'],
+              sets: { A: ['perro', 'gato', 'loro'], B: ['vaca', 'oveja'] },
+              rounds: [
+                { text: 'Un conjunto vacío (usa «∅ Vaciar»)', rule: { size: 0 }, example: [] },
+                { text: 'Un conjunto unitario que sea subconjunto de A', rule: { size: 1, subsetOf: ['perro', 'gato', 'loro'] }, example: ['gato'] },
+                { text: 'Un conjunto igual a B', rule: { equal: ['vaca', 'oveja'] }, example: ['oveja', 'vaca'] },
+                { text: 'Un conjunto disjunto de A, con al menos dos elementos', rule: { disjointFrom: ['perro', 'gato', 'loro'], minSize: 2 }, example: ['pez', 'vaca'] },
+                { text: 'Un conjunto con cuatro elementos del que A sea subconjunto', rule: { contains: ['perro', 'gato', 'loro'], size: 4 }, example: ['perro', 'gato', 'loro', 'pez'] },
+              ],
+            }, 'El vacío no lleva nada: $\\varnothing$. Un unitario tiene un solo elemento, y si es subconjunto de $A$ ese elemento debe estar en $A$ (sirven $\\{\\text{perro}\\}$, $\\{\\text{gato}\\}$ o $\\{\\text{loro}\\}$). Igual a $B$ es tener justo vaca y oveja, en cualquier orden. Disjunto de $A$ es no compartir ningún elemento con $A$. Y para que $A$ sea subconjunto de tu conjunto, este debe tener los tres elementos de $A$, y uno más.',
+              { hint: 'Lee la condición palabra por palabra: «vacío» es sin elementos (el botón «∅ Vaciar» deja las llaves sin nada), «unitario» es uno solo, «subconjunto de A» es usar solo elementos de A, «disjunto» es no compartir ninguno. Puede haber varias respuestas buenas.' }),
             play('mueve-circulos', 'Arrastra el círculo B para dibujar cómo se relacionan los dos conjuntos', {
               rounds: [
-                { A: '{1, 2, 3, 4, 5, 6}', B: '{2, 4, 6}', rB: 0.5, rel: 'sub' },
-                { A: '{a, e, i, o, u}', B: '{vocales de «murciélago»}', rB: 1, rel: 'equal' },
-                { A: '{2, 4, 6, 8}', B: '{1, 3, 5, 7}', rB: 0.6, rel: 'disjoint' },
-                { A: '{1, 2, 3, 4}', B: '{4, 5, 6}', rB: 0.6, rel: 'overlap' },
+                { A: '{do, re, mi, fa, sol, la, si}', B: '{do, mi, sol}', rB: 0.5, rel: 'sub' },
+                { A: '{x : x es una vocal de PERA}', B: '{e, a}', rB: 1, rel: 'equal' },
+                { A: '{mar, río, lago}', B: '{montaña, volcán}', rB: 0.6, rel: 'disjoint' },
+                { A: '{rojo, azul, amarillo}', B: '{azul, verde}', rB: 0.6, rel: 'overlap' },
               ],
-            }, 'Todo elemento de $\\{2, 4, 6\\}$ está en el primero: $B \\subseteq A$ y su círculo va adentro. «Murciélago» tiene las cinco vocales: $A = B$, los círculos se enciman. Pares e impares no comparten nada: son **disjuntos**, $A \\cap B = \\varnothing$. Y $\\{1, 2, 3, 4\\}$ con $\\{4, 5, 6\\}$ comparten solo el 4: se cruzan.',
-              { hint: 'Busca elementos que estén en los dos conjuntos. Si todos los de B están en A, B va adentro; si no comparten ninguno, sepáralos; si comparten algunos, crúzalos. Si tienen exactamente los mismos, enciméralos.' }),
+            }, 'Las tres notas de $B$ están en $A$: $B \\subseteq A$ y su círculo va adentro. Las vocales de PERA son justo $e$ y $a$: $A = B$, los círculos se enciman. Agua y montañas no comparten nada: son **disjuntos**. Y los colores comparten solo el azul: los círculos se cruzan.',
+              { hint: 'Busca elementos que estén en los dos conjuntos. Si todos los de B están en A, B va adentro; si no comparten ninguno, sepáralos; si comparten algunos, crúzalos; si tienen exactamente los mismos, enciméralos.' }),
             play('fabrica-subconjuntos', 'Llena las cajas con **todos** los subconjuntos, sin repetir ninguno', {
-              rounds: [{ elements: ['♪', '★'] }, { elements: ['1', '2', '3'] }],
-            }, 'Cada elemento entra o no entra: con 2 elementos hay $2 \\cdot 2 = 4$ subconjuntos ($\\varnothing$, $\\{♪\\}$, $\\{★\\}$, $\\{♪, ★\\}$) y con 3 hay $2^3 = 8$. El vacío $\\varnothing$ y el conjunto completo también cuentan: son subconjuntos de todo conjunto.',
-              { hint: 'Organízate por tamaños: primero la caja vacía, luego los de un elemento, luego los de dos… y al final el conjunto completo. Si una caja se pone roja, está repetida.' }),
-            num('¿Cuántos subconjuntos tiene un conjunto de 5 elementos?', 32,
-              'Cada uno de los 5 elementos entra o no entra en el subconjunto: $2 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2 = 2^5 = 32$, contando el vacío y el conjunto completo.',
-              { hint: 'Por cada elemento hay dos opciones: está o no está. Multiplica las opciones de todos los elementos.' }),
+              rounds: [{ elements: ['🍕', '🍔'] }, { elements: ['🎸', '🥁', '🎹'] }],
+            }, 'Cada elemento entra o no entra en la caja. Con dos hay 4 subconjuntos: $\\varnothing$, uno solo de cada uno y los dos juntos. Con tres instrumentos hay 8: la caja vacía, tres de uno, tres de dos y la banda completa. El vacío y el conjunto completo también cuentan.',
+              { hint: 'Organízate por tamaños: primero la caja vacía, luego las de un elemento, luego las de dos… y al final todos juntos. Si una caja se pone roja, está repetida.' }),
+            num('En un pasillo hay 4 bombillos, y cada uno puede estar prendido o apagado. ¿De cuántas formas distintas se puede ver el pasillo, contando todos apagados?', 16,
+              'Cada forma es el conjunto de bombillos prendidos: un subconjunto de los 4. Por tamaños: ninguno prendido (1), uno (4), dos (6), tres (4) y los cuatro (1): $1 + 4 + 6 + 4 + 1 = 16$. Es lo mismo que duplicar con cada bombillo nuevo: $2 \\cdot 2 \\cdot 2 \\cdot 2 = 16$.',
+              { hint: 'Cuenta por tamaños, como en el video: ¿cuántas formas hay con ningún bombillo prendido?, ¿con uno?, ¿con dos?… Y suma todo.' }),
+          ],
+        },
+        {
+          id: 'alg-0c', title: 'Operaciones entre conjuntos',
+          // Video V3 (video/clase_alg_u0_v3_operaciones): escenas de respaldo hasta tener su ID de Bunny.
+          clip: { scenes: [
+            sc(6, 'En un **diagrama de Venn** cada conjunto es un círculo dentro del universo $U$; lo común va donde se cruzan.', { steps: ['$A$: juegan fútbol · $B$: tocan un instrumento'] }),
+            sc(6, '**Unión** («o»): está en $A$ o en $B$. **Intersección** («y»): está en los dos.', { title: '$A \\cup B \\qquad A \\cap B$' }),
+            sc(6, '**Diferencia** («pero no»), **complemento** («no está») y **diferencia simétrica** («en uno solo»).', { title: '$A - B \\qquad A^c \\qquad A \\,\\triangle\\, B$' }),
+            sc(6, 'Para contar la unión, lo común se cuenta una sola vez.', { title: '$n(A \\cup B) = n(A) + n(B) - n(A \\cap B)$' }),
+          ] },
+          ex: [
             play('reparte-venn', 'Pon cada elemento de $U$ en su zona del diagrama de Venn', {
               rounds: [
-                { U: ['1', '2', '3', '4', '5', '6', '7', '8', '9'], A: ['1', '2', '4', '8'], B: ['2', '3', '5', '7'] },
-                { U: ['S', 'O', 'L', 'A', 'N', 'R', 'E', 'T'], A: ['S', 'O', 'L'], B: ['L', 'A', 'N'] },
+                { U: ['Luis', 'Sara', 'Tomás', 'Vera', 'Iván', 'Rosa', 'Nico'], A: ['Luis', 'Sara', 'Tomás', 'Vera'], B: ['Sara', 'Vera', 'Iván'] },
+                { U: ['mango', 'uva', 'pera', 'kiwi', 'limón', 'coco'], A: ['mango', 'uva', 'kiwi'], B: ['kiwi', 'limón'] },
               ],
-            }, 'Lo que está en los dos va en el centro, $A \\cap B$: el 2, y la L. Lo que está solo en uno va en su luna, y lo que no está en ninguno queda fuera de los círculos, pero dentro de $U$: el 6 y el 9, y la R, la E y la T.',
-              { hint: 'Empieza por los elementos que aparecen en A y en B a la vez: van en la parte donde se cruzan los círculos. Después reparte los demás, y los que no estén en ninguno ponlos afuera.' }),
+            }, 'Lo que está en los dos conjuntos va en el centro ($A \\cap B$): Sara y Vera, y el kiwi. Lo que está en uno solo va en su luna, y lo que no está en ninguno queda fuera de los círculos, pero dentro de $U$: Rosa y Nico, y la pera y el coco.',
+              { hint: 'Empieza por los elementos que aparecen en las dos listas: van donde se cruzan los círculos. Después reparte los demás, y los que no estén en ninguna lista déjalos afuera.' }),
+            play('atrapa-elementos', 'Escribe el resultado de cada operación tocando sus elementos', {
+              rounds: [
+                { expr: 'A ∪ B', given: ['A = {rojo, azul, verde, negro}', 'B = {verde, blanco, negro}'], pool: ['rojo', 'azul', 'verde', 'negro', 'blanco', 'gris'], members: ['rojo', 'azul', 'verde', 'negro', 'blanco'] },
+                { expr: 'A ∩ B', given: ['A = {rojo, azul, verde, negro}', 'B = {verde, blanco, negro}'], pool: ['rojo', 'azul', 'verde', 'negro', 'blanco', 'gris'], members: ['verde', 'negro'] },
+                { expr: 'A − B', given: ['A = {rojo, azul, verde, negro}', 'B = {verde, blanco, negro}'], pool: ['rojo', 'azul', 'verde', 'negro', 'blanco', 'gris'], members: ['rojo', 'azul'] },
+                { expr: 'Bᶜ', given: ['U = {rojo, azul, verde, negro, blanco, gris}', 'B = {verde, blanco, negro}'], pool: ['rojo', 'azul', 'verde', 'negro', 'blanco', 'gris'], members: ['rojo', 'azul', 'gris'] },
+              ],
+            }, 'La unión junta las dos listas sin repetir: $\\{\\text{rojo}, \\text{azul}, \\text{verde}, \\text{negro}, \\text{blanco}\\}$. La intersección deja lo común: verde y negro. $A - B$ quita de $A$ lo que también está en $B$: rojo y azul. Y el complemento de $B$ es lo del universo que no está en $B$: rojo, azul y gris.',
+              { hint: 'Traduce el símbolo a palabras: ∪ es «está en A o en B», ∩ es «está en los dos», − es «está en A pero no en B» y ᶜ es «no está». Revisa ficha por ficha.' }),
             play('pinta-venn', 'Pinta las zonas de cada operación', {
               rounds: [
                 { text: 'B − A', n: 2, f: (a, b) => b && !a },
-                { text: '(A ∩ B)ᶜ', n: 2, f: (a, b) => !(a && b) },
-                { text: 'Aᶜ', n: 2, f: a => !a },
-                { text: '(A ∪ B) − (A ∩ B)', n: 2, f: (a, b) => a !== b },
+                { text: '(A ∪ B)ᶜ', n: 2, f: (a, b) => !(a || b) },
+                { text: 'A △ B', n: 2, f: (a, b) => a !== b },
+                { text: 'Bᶜ', n: 2, f: (a, b) => !b },
               ],
-            }, '$B - A$ es lo de $B$ que no está en $A$: solo la luna de $B$. $(A \\cap B)^c$ es todo menos el centro. $A^c$ es todo lo que queda fuera de $A$, incluida la luna de $B$ y lo de afuera. Y $(A \\cup B) - (A \\cap B)$ son las dos lunas: la **diferencia simétrica** $A \\,\\triangle\\, B$.',
-              { hint: 'Lee la operación de adentro hacia afuera. ∪ junta, ∩ deja solo lo común, − quita y ᶜ es «todo lo que no está». Primero piensa qué zonas cumplen lo de los paréntesis.' }),
+            }, '$B - A$ es solo la luna de $B$. $(A \\cup B)^c$ es lo de afuera de los dos círculos. $A \\,\\triangle\\, B$ son las dos lunas (lo que está en uno solo). Y $B^c$ es todo lo que no está en $B$: la luna de $A$ y lo de afuera.',
+              { hint: 'Piensa en cada zona por separado y pregúntate: ¿esta zona está en A?, ¿está en B? Luego mira si cumple la operación.' }),
             play('pinta-venn', 'Ahora con tres conjuntos: pinta las zonas de cada operación', {
               rounds: [
+                { text: 'A ∩ B ∩ C', n: 3, f: (a, b, c) => a && b && c },
                 { text: 'A ∩ (B ∪ C)', n: 3, f: (a, b, c) => a && (b || c) },
-                { text: '(A ∩ B) ∪ C', n: 3, f: (a, b, c) => (a && b) || c },
                 { text: 'A − (B ∪ C)', n: 3, f: (a, b, c) => a && !b && !c },
-                { text: 'B ∩ C ∩ Aᶜ', n: 3, f: (a, b, c) => b && c && !a },
+                { text: '(A ∩ B) ∪ C', n: 3, f: (a, b, c) => (a && b) || c },
               ],
-            }, '$A \\cap (B \\cup C)$: lo de $A$ que además toca $B$ o $C$, tres zonas. $(A \\cap B) \\cup C$: el círculo $C$ completo más la parte común de $A$ y $B$. $A - (B \\cup C)$: solo la parte de $A$ que no toca a nadie. $B \\cap C \\cap A^c$: lo común de $B$ y $C$ fuera de $A$.',
-              { hint: 'Resuelve primero el paréntesis y piensa qué zonas lo cumplen; luego aplica la operación de afuera. Cada zona se nombra según los círculos en los que está.' }),
+            }, '$A \\cap B \\cap C$ es la zona del centro, común a los tres. $A \\cap (B \\cup C)$ es lo de $A$ que también toca a $B$ o a $C$. $A - (B \\cup C)$ es la parte de $A$ que no toca a nadie. Y $(A \\cap B) \\cup C$ es todo el círculo $C$ más lo común de $A$ y $B$.',
+              { hint: 'Resuelve primero lo de los paréntesis y piensa qué zonas lo cumplen; después aplica la operación de afuera.' }),
             play('encuesta-venn', 'Reparte a las personas de la encuesta en las zonas del diagrama', {
               rounds: [
+                { text: 'En un grupo de 30 amigos, 18 tienen perro, 12 tienen gato y 5 tienen los dos.', labels: ['perro', 'gato'], total: 30, a: 18, b: 12, both: 5 },
                 { text: 'En un curso de 40 estudiantes, 22 practican música, 18 hacen deporte y 7 hacen las dos cosas.', labels: ['música', 'deporte'], total: 40, a: 22, b: 18, both: 7 },
-                { text: 'De 50 personas, 30 hablan inglés, 12 hablan francés y 5 hablan los dos idiomas.', labels: ['inglés', 'francés'], total: 50, a: 30, b: 12, both: 5 },
               ],
-            }, 'Se empieza por el centro: los que hacen las dos cosas. Solo música son $22 - 7 = 15$ y solo deporte $18 - 7 = 11$; en total $15 + 7 + 11 = 33$, así que $40 - 33 = 7$ no hacen ninguna. Con los idiomas: $25$, $5$, $7$ y $13$ ninguno. Es la fórmula $n(A \\cup B) = n(A) + n(B) - n(A \\cap B)$.',
-              { hint: 'Llena primero la zona del centro (los que están en los dos). Después, a cada grupo réstale esa cantidad para saber cuántos están solo en él. Lo que falte para el total no está en ninguno.' }),
-            num('Si $n(A) = 12$, $n(B) = 9$ y $n(A \\cap B) = 4$, ¿cuánto vale $n(A \\cup B)$?', 17,
-              'Al sumar $12 + 9$ los 4 elementos comunes se cuentan dos veces; se restan una vez: $n(A \\cup B) = 12 + 9 - 4 = 17$.',
-              { hint: 'Si sumas los elementos de A y los de B, ¿qué elementos estás contando dos veces?' }),
+            }, 'Se empieza por el centro: los que están en los dos. Solo perro: $18 - 5 = 13$; solo gato: $12 - 5 = 7$; así van $13 + 5 + 7 = 25$ y quedan $30 - 25 = 5$ sin ninguna mascota. En el curso: 15 solo música, 7 las dos, 11 solo deporte y 7 ninguna.',
+              { hint: 'Llena primero la zona del centro. Después, a cada grupo réstale esa cantidad para saber cuántos están solo en él. Lo que falte para el total no está en ninguno.' }),
           ],
         },
       ],

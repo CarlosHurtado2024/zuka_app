@@ -72,3 +72,8 @@ video/clase_alg_u1_*/*_log.txt
 video/clase_alg_u1_*/draft.txt
 video/clase_alg_u1_*/videos_*.log
 video/clase_alg_u1_*/__pycache__/
+video/clase_alg_u0_*/videos/
+video/clase_alg_u0_*/dist/
+video/clase_alg_u0_*/*_log.txt
+video/clase_alg_u0_*/videos_*.log
+video/clase_alg_u0_*/__pycache__/

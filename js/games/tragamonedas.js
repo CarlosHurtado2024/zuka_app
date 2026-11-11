@@ -30,7 +30,7 @@ GAMES['tragamonedas'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      tabs = roundTabs(R.length);
+      tabs = roundTabs(R.length, w);
       const rw = Math.min(56, (w - 130) / 4), gap = 8, total = 4 * rw + 3 * gap + 18, x0 = w / 2 - total / 2 + 14, y = h * 0.36;
       reels = [0, 1, 2, 3].map(k => ({ x: x0 + k * (rw + gap) + (k >= 1 ? 18 : 0), y, w: rw, h: 110 }));
     }
