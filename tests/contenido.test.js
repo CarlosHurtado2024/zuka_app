@@ -14,7 +14,7 @@ function strings(v, out = []) {
 }
 
 const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js']);
-const lessons = get(ctx, 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).filter(l => ['alg-11', 'alg-12', 'alg-13', 'alg-13b', 'alg-14', 'alg-15'].includes(l.id));
+const lessons = get(ctx, 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).filter(l => ['alg-11', 'alg-12', 'alg-13', 'alg-13b', 'alg-14', 'alg-14b', 'alg-14c', 'alg-14d', 'alg-15'].includes(l.id));
 
 for (const l of lessons) {
   test(`${l.id}: ningún texto de ejercicio tiene caracteres de control ni comandos TeX sin barra`, () => {

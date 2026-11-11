@@ -73,7 +73,7 @@ test('progresiones: cada lección con su video (escenas) y luego juegos con pist
 test('progresiones: los ejemplos de los videos no se repiten en los ejercicios', () => {
   const bad = {
     'alg-14': ['a_3 = 10', '"first":2,"last":18', '7, 11, 15', '20, 25, 30'],
-    'alg-14b': ['1 + 2 + 3', '3, 5, 7, 9, 11', '"a1":3,"d":2,"n":5', '720'],
+    'alg-14b': ['1 + 2 + 3', '3, 5, 7, 9, 11', '"a1":3,"d":2,"n":5', '720', '"a1":1,"d":2'],
     'alg-14c': ['1, 3, 9, 27', '800', '"first":2,"last":162', '3, 6, 12'],
     'alg-14d': ['2^{10}', '{3}{10}', '1 + 2 + 4'],
   };
@@ -96,11 +96,12 @@ test('progresiones: cada ronda se puede ganar con sus controles y los cálculos 
   assert.equal(G['suma-filas'].grade({ rows: 10 }, uses(lesson('alg-14b'), 'suma-filas')[0].params).ok, true);
   assert.equal(G['torre-producto'].grade({ n: 7 }, uses(lesson('alg-14c'), 'torre-producto')[0].params).ok, true);
   assert.equal(G['limite-serie'].grade({ guess: 13.5 }, uses(lesson('alg-14d'), 'limite-serie')[0].params).ok, true);
+  assert.equal(G['limite-serie'].grade({ guess: 16 }, uses(lesson('alg-14d'), 'limite-serie')[1].params).ok, true);
   for (const id of ['alg-14', 'alg-14c']) for (const e of uses(lesson(id), 'rellena-medios')) {
     const want = G['rellena-medios'].means(e.params), slots = want.map(v => e.params.chips.indexOf(v));
     assert.ok(slots.every(j => j >= 0), 'falta un medio entre las fichas');
     assert.equal(G['rellena-medios'].grade({ slots }, e.params).ok, true);
   }
   const answers = IDS.flatMap(id => lesson(id).ex.filter(e => e.type === 'input').map(e => e.answer));
-  for (const a of [149, 860, 486, 728, 3]) assert.ok(answers.includes(a), `falta el cálculo ${a}`);
+  for (const a of [149, 860, 486, 315, 3]) assert.ok(answers.includes(a), `falta el cálculo ${a}`);
 });

@@ -19,9 +19,9 @@ GAMES['rebota-pelota'] = (() => {
 
     function layout(w, h) { W = w; H = h; tabs = roundTabs(R.length, w); }
     const geo = () => {
-      const ground = H - 70, v = (ground - 112) / MAX, L = [0, 1, 2, 3].map(k => 46 + (k * (W - 62)) / 3);
+      const ground = H - 70, v = (ground - 116) / MAX, L = [0, 1, 2, 3].map(k => 46 + (k * (W - 62)) / 3);
       const peaks = [0, 1, 2].map(k => (L[k] + L[k + 1]) / 2);
-      const btn = peaks.map(x => ({ m: { x: x - 31, y: H - 52, w: 28, h: 34 }, p: { x: x + 3, y: H - 52, w: 28, h: 34 } }));
+      const btn = peaks.map(x => ({ m: { x: x - 29, y: H - 52, w: 26, h: 34 }, p: { x: x + 3, y: H - 52, w: 26, h: 34 } }));
       return { ground, v, L, peaks, btn };
     };
     function set(k, val) {
@@ -45,7 +45,7 @@ GAMES['rebota-pelota'] = (() => {
         const { ground, v, L, peaks, btn } = G;
         drawTabs(p, C, tabs, cur, i => (locked ? (okRound(S[i].h, R[i]) ? C.ok : C.bad) : i === cur ? C.brand : S[i].touched ? C.Q : C.line));
         p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(W < 300 ? 13 : 14); p.textAlign(p.CENTER, p.TOP); p.textLeading(17);
-        p.text(`Cae desde ${r.h0} cm y cada rebote sube ${r.rTex} de la altura anterior`, 14, 46, W - 28, 40);
+        p.text(`Cae desde ${r.h0} cm y cada rebote sube ${r.rTex} de la altura anterior`, 14, 44, W - 28, 54);
         p.textAlign(p.CENTER, p.CENTER);
         // Suelo y caída inicial
         p.stroke(C.mute); p.strokeWeight(2); p.line(8, ground, W - 8, ground);
@@ -66,7 +66,7 @@ GAMES['rebota-pelota'] = (() => {
             p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(17); p.text(t, bb.x + bb.w / 2, bb.y + bb.h / 2 - 1);
           }
         }
-        if (locked && !good) { p.noStroke(); p.fill(C.ok); p.textStyle(p.BOLD); fitText(p, `Eran ${want(r).join(', ')}`, W / 2, 98, W - 24, 12); }
+        if (locked && !good) { p.noStroke(); p.fill(C.ok); p.textStyle(p.BOLD); fitText(p, `Eran ${want(r).join(', ')}`, W / 2, 106, W - 24, 12); }
       };
 
       p.mousePressed = () => {
