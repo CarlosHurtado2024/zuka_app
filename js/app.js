@@ -686,5 +686,19 @@ const setTabbarHeight = () => { const h = $('#tabbar').offsetHeight; if (h) docu
 setTabbarHeight();
 addEventListener('resize', setTabbarHeight);
 document.addEventListener('visibilitychange', () => { if (document.hidden) Narrator.stop(); });
+// Quita la portada (#boot de index.html) cuando la app ya está pintada y con su fuente, para que
+// aparezca completa de una vez; si la fuente tarda (o no hay conexión), no espera más de 1.2 s.
+// La espera se arma antes de pintar: si el arranque fallara, la portada igual se va.
+function hideBoot() {
+  const b = $('#boot');
+  if (!b || b.classList.contains('out')) return;
+  b.classList.add('out');
+  setTimeout(() => b.remove(), 300);
+}
+const fontsReady = document.fonts?.load
+  ? Promise.all(['400', '600', '700', '800'].map(w => document.fonts.load(`${w} 1em "Plus Jakarta Sans"`))).catch(() => {})
+  : null;
+Promise.race([fontsReady, new Promise(r => setTimeout(r, 1200))])
+  .then(() => requestAnimationFrame(() => requestAnimationFrame(hideBoot)));
 applyTheme();
 go('learn');
