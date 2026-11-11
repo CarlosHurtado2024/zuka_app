@@ -57,8 +57,8 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-0b', title: 'Tipos de conjuntos y relaciones entre ellos',
-          // Video V2 (video/clase_alg_u0_v2_tipos): escenas de respaldo hasta tener su ID de Bunny.
-          clip: { scenes: [
+          // Video V2 (video/clase_alg_u0_v2_tipos) en Bunny; las escenas son el respaldo.
+          clip: { bunny: 'f56e026e-8127-40d7-b344-14eb34e91fad', duration: 226, scenes: [
             sc(6, 'El conjunto **vacío** no tiene elementos: $\\varnothing = \\{\\ \\}$. Un conjunto **unitario** tiene uno solo.', { steps: ['$\\{x : x \\text{ es la capital de Colombia}\\} = \\{\\text{Bogotá}\\}$', '$\\{\\varnothing\\}$ no es vacío: tiene un elemento'] }),
             sc(6, '$B \\subseteq A$ (subconjunto) cuando todo elemento de $B$ está en $A$. El vacío es subconjunto de todo conjunto.', { title: '$\\{a, e, i, o, u\\} \\subseteq \\{\\text{letras}\\}$' }),
             sc(6, 'Dos conjuntos son **iguales** si tienen los mismos elementos, y **disjuntos** si no comparten ninguno.', { steps: ['Letras de AMOR = letras de ROMA', 'frutas y herramientas: disjuntos'] }),
