@@ -327,9 +327,9 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-12b', title: 'Axiomas de campo: las reglas de la suma y el producto',
-          // Parte 1 de axiomas (spec 2026-11-11-axiomas-desde-cero): video F1 (video/clase_alg_u1_f1_campo).
-          // Escenas de respaldo hasta tener su ID de Bunny. Libro UdeA §1.2.
-          clip: { scenes: [
+          // Parte 1 de axiomas (spec 2026-11-11-axiomas-desde-cero): video F1 (video/clase_alg_u1_f1_campo), en Bunny;
+          // las escenas son el respaldo. Libro UdeA §1.2.
+          clip: { bunny: '3c46885f-3797-4cd8-850d-34ad602b9cc5', duration: 350, scenes: [
             sc(6, 'Un **axioma** es una regla que se acepta sin demostrar, como las reglas de un juego. Las letras representan **cualquier** número real.', { title: '$\\forall\\, a, b \\in \\mathbb{R}$', steps: ['«para todo $a$ y $b$ que pertenecen a los reales»'] }),
             sc(6, 'El orden y los paréntesis no cambian una suma ni un producto: **conmutativa** y **asociativa**. La resta no es conmutativa.', { steps: ['$a + b = b + a \\qquad ab = ba$', '$(a + b) + c = a + (b + c) \\qquad (ab)c = a(bc)$'] }),
             sc(6, 'Los **neutros** no cambian nada; los **inversos** llevan al neutro. El $0$ no tiene recíproco.', { steps: ['$a + 0 = a \\qquad a \\cdot 1 = a$', '$a + (-a) = 0 \\qquad a \\cdot \\tfrac{1}{a} = 1\\ \\ (a \\neq 0)$'] }),
@@ -392,8 +392,8 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-12c', title: 'Consecuencias de los axiomas: restar, dividir y los signos',
-          // Parte 2 de axiomas: video F2 (video/clase_alg_u1_f2_consecuencias). Escenas de respaldo.
-          clip: { scenes: [
+          // Parte 2 de axiomas: video F2 (video/clase_alg_u1_f2_consecuencias), en Bunny; las escenas son el respaldo.
+          clip: { bunny: '01a50ba2-7dff-4a96-bfee-8a76c4a2d3d4', duration: 193, scenes: [
             sc(6, 'Restar es sumar el **opuesto**; dividir es multiplicar por el **recíproco**. Por eso no se divide entre $0$.', { steps: ['$a - b = a + (-b)$', '$a \\div b = a \\cdot \\tfrac1b \\quad (b \\neq 0)$'] }),
             sc(6, 'Cualquier número por cero da cero, y la ley de los signos sale de los axiomas.', { steps: ['$a \\cdot 0 = 0$', '$(-a)b = -(ab) \\qquad (-a)(-b) = ab$'] }),
             sc(6, 'La **ley cancelativa**: lo mismo a los dos lados se puede quitar (si multiplica, que no sea $0$).', { steps: ['$a + b = a + c \\Rightarrow b = c$', '$ab = ac,\\ a \\neq 0 \\Rightarrow b = c$'] }),
@@ -425,8 +425,8 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-12d', title: 'Axiomas de orden y valor absoluto',
-          // Parte 3 de axiomas: video F3 (video/clase_alg_u1_f3_orden). Escenas de respaldo. Libro UdeA §1.3.
-          clip: { scenes: [
+          // Parte 3 de axiomas: video F3 (video/clase_alg_u1_f3_orden), en Bunny; las escenas son el respaldo. Libro UdeA §1.3.
+          clip: { bunny: '33375c84-4d32-49ce-80de-b0e5299ca8ef', duration: 220, scenes: [
             sc(6, 'Todo real es **positivo**, **cero** o **negativo** (tricotomía). $a < b$ quiere decir que $b - a$ es positivo: $b$ está más a la derecha.', { steps: ['$a < b \\iff b - a > 0$', '$\\le$: «menor o igual»'] }),
             sc(6, 'Sumar conserva el orden; multiplicar por un positivo también; por un **negativo** lo **voltea**.', { steps: ['$a < b,\\ c > 0 \\Rightarrow ac < bc$', '$a < b,\\ c < 0 \\Rightarrow ac > bc$'] }),
             sc(6, 'El **valor absoluto** es la distancia al cero: nunca es negativo. $|b - a|$ es la distancia entre $a$ y $b$.', { title: '$|a| = a$ si $a \\ge 0$, $\\;|a| = -a$ si $a < 0$' }),
@@ -821,67 +821,106 @@ const COURSE_ALGEBRA = {
       world: 'progresiones', title: 'Progresiones y sumatoria',
       lessons: [
         {
-          id: 'alg-14', title: 'Progresiones aritméticas y geométricas',
-          // Clase 5 (video/clase_progresiones): Parte 1 aritméticas, Parte 2 geométricas tras el quinto ejercicio.
-          // Escenas de respaldo hasta enlazar los videos de Bunny (bunny + duration).
+          id: 'alg-14', title: 'Sucesiones y progresiones aritméticas',
+          // Parte 1 de progresiones (spec 2026-11-11-progresiones-desde-cero): video P1 (video/clase_alg_u3_p1_aritmeticas).
+          // Escenas de respaldo hasta tener su ID de Bunny. Reemplaza a la Clase 5 (video/clase_progresiones).
           clip: { scenes: [
-            sc(6, 'Una **sucesión** es una lista ordenada; si hay patrón, el **término general** da el término del puesto $n$.', { title: '$a_n = 3n - 1$', steps: ['$2, 5, 8, 11, \\dots$', '$a_{50} = 3 \\cdot 50 - 1 = 149$'] }),
-            sc(6, 'En una progresión **aritmética** se suma siempre la misma diferencia $d$.', { title: '$a_n = a_1 + (n - 1)d$', viz: { type: 'graph', xr: [0, 7], yr: [0, 32], f: () => NaN, points: [[1, 4, '4'], [2, 9, '9'], [3, 14, '14'], [4, 19, '19'], [5, 24, '24'], [6, 29, '29']] } }),
-            sc(6, 'Gauss sumó del 1 al 100 emparejando extremos: cada pareja suma lo mismo.', { title: '$S_n = \\dfrac{n}{2}(a_1 + a_n)$', steps: ['$1 + 100 = 2 + 99 = \\dots = 101$', '$S_{100} = 50 \\cdot 101 = 5050$', '$2 + 5 + \\dots + 59$: $n = 20$, $S = 610$'] }),
+            sc(6, 'Una **sucesión** es una lista ordenada de números. Cada uno tiene su puesto $n = 1, 2, 3, \\dots$ (un natural) y se escribe $a_n$.', { title: '$a_1, a_2, a_3, \\dots, a_n, \\dots$', steps: ['Cuadrados: $1, 4, 9, 16, \\dots$, $a_n = n^2$'] }),
+            sc(6, 'En una progresión **aritmética** se suma siempre la misma **diferencia** $d$ (positiva, negativa o cero).', { steps: ['$20, 25, 30, 35, \\dots$: $d = 5$', '$30, 28, 26, \\dots$: $d = -2$'] }),
+            sc(6, 'Del primer término al término $n$ hay $n - 1$ saltos de tamaño $d$.', { title: '$a_n = a_1 + (n - 1)\\,d$', steps: ['$7, 11, 15, \\dots$: $a_{20} = 7 + 19 \\cdot 4 = 83$'] }),
+            sc(6, 'Con dos términos se halla todo: $a_8 - a_3 = 5d$. Los **medios aritméticos** son los términos que van entre dos dados.', { steps: ['$a_3 = 10,\\ a_8 = 25 \\Rightarrow d = 3,\\ a_1 = 4$', 'Entre 2 y 18, tres medios: $6, 10, 14$'] }),
           ] },
-          more: [{ after: 5, scenes: [
-            sc(6, 'En una progresión **geométrica** se multiplica siempre por la misma razón $r$.', { title: '$a_n = a_1 r^{n-1}$', viz: { type: 'graph', xr: [0, 6], yr: [0, 170], f: () => NaN, points: [[1, 2, '2'], [2, 6, '6'], [3, 18, '18'], [4, 54, '54'], [5, 162, '162']] } }),
-            sc(6, 'La suma de los primeros $n$ términos tiene fórmula.', { title: '$S_n = a_1 \\dfrac{r^n - 1}{r - 1}$', steps: ['$3 + 6 + 12 + \\dots + 384$: $n = 8$', '$S_8 = 3 \\cdot 255 = 765$'] }),
-            sc(6, 'Si $|r| < 1$, la suma infinita converge:', { title: '$S_\\infty = \\dfrac{a_1}{1 - r}$', steps: ['$8 + 4 + 2 + 1 + \\cdots = \\dfrac{8}{1 - \\frac12} = 16$'] }),
-          ] }],
           ex: [
-            // --- Parte 1: aritméticas ---
-            play('clasifica-cartas', 'Desliza cada sucesión: ¿**aritmética** o **geométrica**?', {
-              left: 'Aritmética', right: 'Geométrica',
-              cards: [
-                { text: '7, 10, 13, 16, …', side: 'left', why: 'Suma siempre 3.' },
-                { text: '5, 10, 20, 40, …', side: 'right', why: 'Multiplica siempre por 2.' },
-                { text: '100, 90, 80, 70, …', side: 'left', why: 'Suma siempre −10.' },
-                { text: '81, 27, 9, 3, …', side: 'right', why: 'Multiplica siempre por 1/3.' },
-                { text: '1.5, 3, 4.5, 6, …', side: 'left', why: 'Suma siempre 1.5 (aunque 1.5 → 3 parezca doblar, 3 → 4.5 no).' },
-                { text: '1, −2, 4, −8, …', side: 'right', why: 'Multiplica siempre por −2: los signos se alternan.' },
+            play('pisa-huellas', 'Elige el primer paso y el salto para que las huellas pisen las banderas', {
+              rounds: [
+                { known: [[3, 13], [7, 25]], a1: 7, d: 3 },
+                { known: [[2, 18], [6, 6]], a1: 21, d: -3 },
+                { known: [[4, 5], [9, 15]], a1: -1, d: 2 },
               ],
-            }, 'Aritmética: la **diferencia** entre términos consecutivos es constante ($10 - 7 = 13 - 10 = 3$). Geométrica: el **cociente** es constante ($10 / 5 = 20 / 10 = 2$). Mira siempre dos saltos, no uno.'),
+            }, 'Entre dos pasos conocidos hay tantos saltos como la resta de sus números: del paso 3 al 7 hay 4 saltos y $25 - 13 = 12$, así que $d = 3$; para llegar al paso 3 se dieron 2 saltos desde el primero: $a_1 = 13 - 2 \\cdot 3 = 7$. En la ronda 2 la distancia baja: $6 - 18 = -12$ en 4 saltos, $d = -3$ y $a_1 = 21$. En la 3, $10$ en 5 saltos: $d = 2$ y $a_1 = 5 - 3 \\cdot 2 = -1$.',
+              { hint: 'Cuenta cuántos saltos hay entre los dos pasos conocidos y reparte entre ellos la distancia de una bandera a la otra. Luego retrocede desde una bandera hasta el paso 1.' }),
             play('escalera-aritmetica', 'Ajusta la escalera para que el décimo peldaño mida 42', { a1: 6, n: 10, target: 42, step: 1, max: 10 },
-              'El peldaño $n$ mide $a_n = a_1 + (n - 1)d$. Con $a_1 = 6$ y $n = 10$: $6 + 9d = 42$, así que $9d = 36$ y $d = 4$.'),
-            play('parejas-gauss', 'Une las parejas de Gauss y descubre cuánto suma la progresión', { terms: [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43] },
-              'Extremos emparejados: $3 + 43 = 7 + 39 = \\dots = 46$. Son 5 parejas de 46 más el 23 del centro: $5 \\cdot 46 + 23 = 253$, igual que $S_{11} = \\dfrac{11 (3 + 43)}{2} = 253$.'),
+              'El peldaño $n$ mide $a_n = a_1 + (n - 1)d$. Con $a_1 = 6$ y $n = 10$: $6 + 9d = 42$, así que $9d = 36$ y $d = 4$.',
+              { hint: 'Del primer peldaño al décimo hay 9 subidas iguales. ¿Cuánto hay que subir en total y cuánto toca a cada subida?' }),
             play('rellena-medios', 'Rellena los tres medios aritméticos entre 10 y 26', { first: 10, last: 26, k: 3, kind: 'aritmetica', chips: [13, 14, 18, 20, 22, 24] },
-              'Con 3 medios hay 5 términos: $26 = 10 + 4d$, así que $d = 4$ y los medios son $14, 18, 22$.'),
+              'Con 3 medios hay 5 términos y 4 saltos: $26 = 10 + 4d$, así que $d = 4$ y los medios son $14, 18, 22$.',
+              { hint: 'Si metes 3 números entre los extremos, ¿cuántos saltos iguales quedan? Reparte la distancia de 10 a 26 entre esos saltos.' }),
+            num('En la progresión $4, 9, 14, 19, \\dots$ ¿cuánto vale el término 30?', 149,
+              'La diferencia es $d = 5$ y del término 1 al 30 hay 29 saltos: $a_{30} = 4 + 29 \\cdot 5 = 149$.',
+              { hint: 'Halla el salto restando dos términos seguidos. ¿Cuántos saltos hay del primer término al término 30?' }),
+          ],
+        },
+        {
+          id: 'alg-14b', title: 'La suma de una progresión aritmética',
+          // Parte 2 (spec 2026-11-11-progresiones-desde-cero): video P2 (video/clase_alg_u3_p2_suma_aritmetica). Escenas de respaldo.
+          clip: { scenes: [
+            sc(6, 'Gauss sumó del 1 al 100 escribiendo la suma al derecho y al revés: cada columna suma lo mismo.', { title: '$1 + 2 + \\dots + 100 = \\dfrac{100 \\cdot 101}{2} = 5050$' }),
+            sc(6, 'Dos escaleras iguales forman un rectángulo de $n$ por $a_1 + a_n$: cada escalera es la mitad.', { title: '$S_n = \\dfrac{n\\,(a_1 + a_n)}{2}$', steps: ['$3 + 5 + 7 + 9 + 11 = \\dfrac{5 \\cdot 14}{2} = 35$'] }),
+            sc(6, 'Los impares forman cuadrados.', { title: '$1 + 3 + 5 + \\dots + (2n - 1) = n^2$' }),
+          ] },
+          ex: [
+            play('dos-escaleras', 'Sube o baja la tapa hasta que las dos escaleras encajen', {
+              max: 20,
+              rounds: [{ a1: 2, d: 3, n: 5 }, { a1: 1, d: 2, n: 6 }, { a1: 4, d: 1, n: 7 }],
+            }, 'Las escaleras encajan cuando la tapa está a $a_1 + a_n$: $2 + 14 = 16$, $1 + 11 = 12$ y $4 + 10 = 14$. El rectángulo mide $n(a_1 + a_n)$ y cada escalera es la mitad: $\\dfrac{5 \\cdot 16}{2} = 40$, $\\dfrac{6 \\cdot 12}{2} = 36$ y $\\dfrac{7 \\cdot 14}{2} = 49$.',
+              { hint: 'Mira la primera columna: abajo está el escalón más bajo y arriba cuelga el más alto. ¿Qué altura debe tener la tapa para que justo se toquen?' }),
+            play('parejas-gauss', 'Une las parejas de Gauss y descubre cuánto suma la progresión', { terms: [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43] },
+              'Extremos emparejados: $3 + 43 = 7 + 39 = \\dots = 46$. Son 5 parejas de 46 más el 23 del centro: $5 \\cdot 46 + 23 = 253$, igual que $S_{11} = \\dfrac{11 (3 + 43)}{2} = 253$.',
+              { hint: 'Empieza por los extremos: el primero con el último. ¿Cuánto suman? Busca las otras parejas que sumen lo mismo; con un número impar de fichas, una queda sola.' }),
             play('suma-filas', 'Añade filas al teatro hasta tener exactamente 170 sillas', { first: 8, d: 2, target: 170, max: 14, item: 'sillas' },
-              'Las sillas por fila son $8, 10, 12, \\dots$ y el total es $S_n = \\dfrac{n(2 \\cdot 8 + (n - 1) 2)}{2} = n(n + 7)$. Con $n = 10$: $10 \\cdot 17 = 170$.'),
-            // --- Parte 2: geométricas ---
-            play('rellena-medios', 'Rellena los tres medios geométricos entre 5 y 405', { first: 5, last: 405, k: 3, kind: 'geometrica', chips: [15, 25, 45, 90, 135, 225] },
-              'Con 3 medios hay 5 términos: $405 = 5 r^4$, así que $r^4 = 81$ y $r = 3$: los medios son $15, 45, 135$.'),
+              'Las sillas por fila son $8, 10, 12, \\dots$ y con $n$ filas el total es $S_n = \\dfrac{n(2 \\cdot 8 + (n - 1) 2)}{2} = n(n + 7)$. Con $n = 10$: $10 \\cdot 17 = 170$.',
+              { hint: 'Suma con la fórmula de Gauss: número de filas por (primera fila + última fila) entre 2. Prueba con distintas cantidades de filas.' }),
+            num('Calcula la suma $5 + 9 + 13 + \\dots + 81$', 860,
+              'Es aritmética con $d = 4$. Términos: $81 = 5 + (n - 1)4$ da $n = 20$. Suma: $S_{20} = \\dfrac{20\\,(5 + 81)}{2} = 10 \\cdot 86 = 860$.',
+              { hint: 'Primero averigua cuántos términos hay (cuántos saltos de 4 llevan del 5 al 81, más uno). Luego usa la suma de Gauss.' }),
+          ],
+        },
+        {
+          id: 'alg-14c', title: 'Progresiones geométricas',
+          // Parte 3 (spec 2026-11-11-progresiones-desde-cero): video P3 (video/clase_alg_u3_p3_geometricas). Escenas de respaldo.
+          clip: { scenes: [
+            sc(6, 'En una progresión **geométrica** se multiplica siempre por la misma **razón** $r$: el cociente de dos términos seguidos.', { steps: ['$1, 3, 9, 27, \\dots$: $r = 3$', '$800, 400, 200, \\dots$: $r = \\tfrac12$', '$1, -2, 4, -8, \\dots$: $r = -2$'] }),
+            sc(6, 'Del primer término al término $n$ hay $n - 1$ multiplicaciones por $r$: una potencia.', { title: '$a_n = a_1\\,r^{\\,n-1}$', steps: ['$3, 6, 12, \\dots$: $a_7 = 3 \\cdot 2^6 = 192$'] }),
+            sc(6, 'Sumar crece en línea recta; multiplicar crece cada vez más rápido. Los **medios geométricos** van entre dos términos dados.', { steps: ['Entre 2 y 162, tres medios: $r^4 = 81$, $r = 3$: $6, 18, 54$'] }),
+          ] },
+          ex: [
+            play('rebota-pelota', 'Ajusta la altura de los tres primeros rebotes', {
+              max: 130,
+              rounds: [{ h0: 81, r: 2 / 3, rTex: '2/3' }, { h0: 64, r: 3 / 4, rTex: '3/4' }, { h0: 125, r: 2 / 5, rTex: '2/5' }],
+            }, 'Cada rebote es el anterior por $r$: $81 \\cdot \\tfrac23 = 54$, $54 \\cdot \\tfrac23 = 36$, $36 \\cdot \\tfrac23 = 24$; $64 \\to 48 \\to 36 \\to 27$ con $r = \\tfrac34$; y $125 \\to 50 \\to 20 \\to 8$ con $r = \\tfrac25$. La pelota pierde cada vez menos altura: no se resta lo mismo, se multiplica por lo mismo.',
+              { hint: 'Toma la altura anterior, divídela entre el denominador de la fracción y multiplícala por el numerador. Repite con el rebote que acabas de calcular.' }),
+            play('torre-producto', 'Duplica las bacterias hora a hora hasta llegar exactamente a 6 400', { kind: 'ratio', start: 50, r: 2, target: 6400, max: 10, unit: 'bacterias', period: 'hora' },
+              'Es una progresión geométrica con $a_1 = 50$ y $r = 2$: tras $n$ horas hay $50 \\cdot 2^n$. Como $6\\,400 / 50 = 128 = 2^7$, son 7 horas.',
+              { hint: 'Divide la meta entre las bacterias del comienzo: ese número debe ser una potencia de 2. ¿Cuántas veces se duplicó?' }),
+            play('rellena-medios', 'Rellena los tres medios geométricos entre 2 y 512', { first: 2, last: 512, k: 3, kind: 'geometrica', chips: [6, 8, 16, 32, 64, 128] },
+              'Con 3 medios hay 5 términos y 4 multiplicaciones: $512 = 2 r^4$, así que $r^4 = 256$ y $r = 4$: los medios son $8, 32, 128$.',
+              { hint: 'Entre los extremos hay 4 multiplicaciones por la misma razón. ¿Por cuánto se multiplicó el 2 en total para llegar a 512? Busca el número que elevado a la 4 da eso.' }),
+            num('En la progresión $2, 6, 18, 54, \\dots$ ¿cuánto vale el sexto término?', 486,
+              'La razón es $r = 6 / 2 = 3$ y del término 1 al 6 hay 5 multiplicaciones: $a_6 = 2 \\cdot 3^5 = 2 \\cdot 243 = 486$.',
+              { hint: 'Divide dos términos seguidos para hallar la razón. ¿Cuántas veces hay que multiplicar por ella para pasar del primer término al sexto?' }),
+          ],
+        },
+        {
+          id: 'alg-14d', title: 'Suma geométrica y suma infinita',
+          // Parte 4 (spec 2026-11-11-progresiones-desde-cero): video P4 (video/clase_alg_u3_p4_suma_geometrica). Escenas de respaldo.
+          clip: { scenes: [
+            sc(6, 'Para sumar una geométrica se multiplica por $r$ y se resta: casi todo se cancela.', { title: '$S_n = a_1\\,\\dfrac{r^n - 1}{r - 1}$', steps: ['$1 + 2 + 4 + \\dots + 2^9 = 2^{10} - 1 = 1023$'] }),
+            sc(6, 'Si $|r| < 1$ los términos se achican tanto que la suma infinita se acerca a un número.', { title: '$S_\\infty = \\dfrac{a_1}{1 - r}$', steps: ['$\\tfrac12 + \\tfrac14 + \\tfrac18 + \\dots = 1$', '$0.333\\ldots = \\tfrac{3}{10} + \\tfrac{3}{100} + \\dots = \\tfrac13$'] }),
+            sc(5, 'Si $|r| \\ge 1$ la suma no se estabiliza: **diverge**.', { steps: ['$1 + 2 + 4 + \\dots$ crece sin parar', '$1 - 1 + 1 - 1 + \\dots$ salta entre 1 y 0'] }),
+          ] },
+          ex: [
+            num('Calcula la suma de los seis primeros términos de $2 + 6 + 18 + \\dots$', 728,
+              'Con $a_1 = 2$, $r = 3$ y $n = 6$: $S_6 = 2 \\cdot \\dfrac{3^6 - 1}{3 - 1} = 2 \\cdot \\dfrac{728}{2} = 728$. Comprobación: $2 + 6 + 18 + 54 + 162 + 486 = 728$.',
+              { hint: 'Halla la razón y usa la suma geométrica: primer término por (razón elevada al número de términos, menos 1) entre (razón menos 1). También puedes escribir los seis términos.' }),
             play('limite-serie', 'Suma términos y lleva el marcador al valor al que se acerca 9 + 3 + 1 + …', { a1: 9, r: 1 / 3, rTex: '\\tfrac13', max: 20, step: 0.5, tol: 0.26 },
-              'La razón es $\\tfrac13$, menor que 1, así que la suma converge: $S_\\infty = \\dfrac{a_1}{1 - r} = \\dfrac{9}{1 - \\frac13} = \\dfrac{9}{2/3} = 13.5$. Las sumas parciales $9, 12, 13, 13.33, \\dots$ se acercan sin pasarse.'),
-            play('clasifica-cartas', 'Desliza cada serie: ¿la suma infinita **converge** o **diverge**?', {
-              left: 'Converge', right: 'Diverge',
-              cards: [
-                { text: '1 + 1/2 + 1/4 + 1/8 + …', side: 'left', why: 'r = 1/2: suma 2.' },
-                { text: '2 + 4 + 8 + 16 + …', side: 'right', why: 'r = 2: los términos crecen sin parar.' },
-                { text: '10 − 5 + 2.5 − 1.25 + …', side: 'left', why: 'r = −1/2, |r| < 1: suma 10 / 1.5 = 6.67.' },
-                { text: '0.9 + 0.81 + 0.729 + …', side: 'left', why: 'r = 0.9: suma 0.9 / 0.1 = 9.' },
-                { text: '1 − 1 + 1 − 1 + …', side: 'right', why: 'r = −1: la suma salta entre 1 y 0, no se estabiliza.' },
-                { text: '100 + 100 + 100 + …', side: 'right', why: 'r = 1: la suma crece sin límite.' },
-              ],
-            }, 'Una serie geométrica converge solo si $|r| < 1$: entonces $S_\\infty = \\dfrac{a_1}{1 - r}$. Con $|r| \\ge 1$ los términos no se hacen pequeños y la suma no se estabiliza.'),
-            play('torre-producto', 'Duplica las bacterias hora a hora hasta llegar exactamente a 6.400', { kind: 'ratio', start: 50, r: 2, target: 6400, max: 10, unit: 'bacterias', period: 'hora' },
-              'Es una progresión geométrica con $a_1 = 50$ y $r = 2$: tras $n$ horas hay $50 \\cdot 2^n$. Como $6\\,400 / 50 = 128 = 2^7$, son 7 horas.'),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: 'En una progresión aritmética la diferencia entre términos consecutivos es constante', truth: true, why: 'Esa es la definición: d fija.' },
-                { text: 'En una progresión geométrica se suma siempre lo mismo', truth: false, why: 'Se multiplica siempre por lo mismo (la razón r).' },
-                { text: 'Si |r| < 1, la suma infinita de una geométrica existe', truth: true, why: 'Converge a a₁ / (1 − r).' },
-                { text: 'La sucesión 3, 6, 12, 24 tiene razón 3', truth: false, why: '6 / 3 = 2: la razón es 2 (3 es la diferencia del primer salto, no la razón).' },
-                { text: 'La suma de los primeros n impares es n²', truth: true, why: '1 + 3 + 5 + … + (2n − 1) = n(1 + 2n − 1)/2 = n².' },
-              ],
-            }, 'Aritmética: $a_n = a_1 + (n - 1)d$ y $S_n = \\dfrac{n(a_1 + a_n)}{2}$. Geométrica: $a_n = a_1 r^{n-1}$, $S_n = a_1 \\dfrac{r^n - 1}{r - 1}$ y, si $|r| < 1$, $S_\\infty = \\dfrac{a_1}{1 - r}$.'),
+              'La razón es $\\tfrac13$, menor que 1, así que la suma converge: $S_\\infty = \\dfrac{a_1}{1 - r} = \\dfrac{9}{1 - \\frac13} = \\dfrac{9}{2/3} = 13.5$. Las sumas parciales $9, 12, 13, 13.33, \\dots$ se acercan sin pasarse.',
+              { hint: 'Mira cómo se achican los saltos: cada uno es la tercera parte del anterior. La suma se acerca a primer término entre (1 menos la razón).' }),
+            num('El decimal periódico $0.2727\\ldots$ es la suma $\\tfrac{27}{100} + \\tfrac{27}{10\\,000} + \\dots$ Escríbelo como $\\tfrac{x}{11}$: ¿cuánto vale $x$?', 3,
+              'Es geométrica con $a_1 = \\tfrac{27}{100}$ y $r = \\tfrac{1}{100}$: $S_\\infty = \\dfrac{27/100}{1 - 1/100} = \\dfrac{27/100}{99/100} = \\dfrac{27}{99} = \\dfrac{3}{11}$.',
+              { hint: 'Cada término es el anterior entre 100. Usa la suma infinita con ese primer término y esa razón, y simplifica la fracción que te quede.' }),
+            num('Una pelota cae desde 6 m y cada rebote sube la mitad del anterior. Si rebotara para siempre, ¿cuántos metros recorrería en total, subiendo y bajando?', 18,
+              'Baja 6 m y luego cada rebote sube y baja: $2(3 + 1.5 + 0.75 + \\dots) = 2 \\cdot \\dfrac{3}{1 - \\frac12} = 12$. En total $6 + 12 = 18$ m: una distancia finita aunque los rebotes no terminen.',
+              { hint: 'Separa la primera caída de los rebotes. Cada rebote se recorre dos veces (subida y bajada), y sus alturas forman una geométrica de razón un medio.' }),
           ],
         },
         {

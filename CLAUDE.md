@@ -174,8 +174,8 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   ya están en Bunny. Reemplazan a A1 y E1 (`alg-11`).
 - Álgebra unidad 1, **axiomas desde cero** (spec `2026-11-11-axiomas-desde-cero`, sin zoom ni 3D): la antigua `alg-12b`
   se partió en `alg-12b` (F1 campo, `video/clase_alg_u1_f1_campo`), `alg-12c` (F2 consecuencias: resta, división,
-  signos, cancelativa, `…_f2_consecuencias`) y `alg-12d` (F3 orden y valor absoluto, `…_f3_orden`). Hoy solo tienen
-  escenas; al recibir cada ID poner `clip.bunny` + `duration`. Reemplazan al video viejo de la Clase 7 y a A2/E2.
+  signos, cancelativa, `…_f2_consecuencias`) y `alg-12d` (F3 orden y valor absoluto, `…_f3_orden`). Los tres ya están
+  en Bunny. Reemplazan al video viejo de la Clase 7 y a A2/E2.
 - Álgebra: (la Clase 4 de interés quedó reemplazada por A5), Clase 5 progresiones (`alg-14`, 2 partes), Clase 6 sumatoria
   (`alg-15`), Clase 8 potencias (`alg-21a`), Clase 9 leyes de exponentes (`alg-21b`, parte 2 en `more`
   con `after: 6`), Clase 10 raíces (`alg-22a`), Clase 11 radicales (`alg-22b`), Clase 12 polinomio cuadrático
