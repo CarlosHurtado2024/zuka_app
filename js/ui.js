@@ -45,12 +45,70 @@ const ICON = {
 };
 
 function toast(msg) {
+  document.querySelectorAll('.toast').forEach(t => t.remove());   // uno a la vez: no se apilan
   const t = document.createElement('div');
   t.className = 'toast';
+  t.setAttribute('role', 'status');
   t.innerHTML = msg;
   document.body.appendChild(t);
   setTimeout(() => t.classList.add('out'), 2200);
   setTimeout(() => t.remove(), 2600);
+}
+
+// Diálogo propio (en lugar de la ventana de confirmación del navegador): tarjeta centrada con la mascota, con los
+// colores del tema. ask({ title, text, ok, cancel, danger }) → Promise<boolean>; con ok: null solo
+// queda el botón de cancelar. Tocar el fondo, Esc o el botón «atrás» del celular (js/back.js) cancelan.
+let dialogDone = null;
+const dialogOpen = () => !!dialogDone;
+function dismissDialog() { dialogDone?.(false); }
+function ask({ title, text = '', ok = 'Aceptar', cancel = 'Cancelar', danger = false } = {}) {
+  dismissDialog();
+  return new Promise(resolve => {
+    const d = document.createElement('div');
+    d.className = 'dialog';
+    d.innerHTML = `<div class="dialog-bg"></div>
+      <div class="dialog-card${danger ? ' danger' : ''}" aria-modal="true" aria-labelledby="dlg-title"${text ? ' aria-describedby="dlg-text"' : ''}>
+        <img class="dialog-art" src="brand/mascota.png" alt="" width="88" height="91">
+        <h3 id="dlg-title">${esc(title)}</h3>${text ? `<p id="dlg-text">${esc(text)}</p>` : ''}
+        <div class="dialog-actions">${ok ? `<button class="btn" type="button" data-ok>${esc(ok)}</button>` : ''}
+          <button class="btn${ok ? ' ghost' : ''}" type="button" data-cancel>${esc(cancel)}</button></div>
+      </div>`;
+    const card = d.querySelector('.dialog-card'), before = document.activeElement;
+    card.setAttribute('role', 'alertdialog');
+    // Los toques y clics se quedan en el diálogo: p5 escucha en window y el juego de abajo no debe moverse.
+    ['mousedown', 'mouseup', 'mousemove', 'touchstart', 'touchmove', 'touchend', 'pointerdown', 'pointerup']
+      .forEach(t => d.addEventListener(t, e => e.stopPropagation()));
+    // Ninguna tecla llega a la lección de atrás (Enter, flechas, números); Esc cancela y Tab da la vuelta.
+    const key = e => {
+      e.stopPropagation();
+      if (e.key === 'Escape') { e.preventDefault(); finish(false); }
+      if (e.key === 'Tab') {
+        const bs = [...card.querySelectorAll('button')], i = bs.indexOf(document.activeElement);
+        e.preventDefault(); bs[(i + (e.shiftKey ? bs.length - 1 : 1)) % bs.length].focus();
+      }
+    };
+    // Mientras el diálogo está abierto, el resto de la página queda inerte (lectores de pantalla y foco).
+    const others = [...document.body.children].filter(el => !el.inert);
+    function finish(v) {
+      if (dialogDone !== finish) return;
+      dialogDone = null;
+      document.removeEventListener('keydown', key, true);
+      others.forEach(el => { el.inert = false; });
+      d.classList.add('out');
+      setTimeout(() => d.remove(), 200);
+      before?.focus?.({ preventScroll: true });
+      resolve(v);
+    }
+    d.querySelector('.dialog-bg').onclick = () => finish(false);
+    d.querySelector('[data-cancel]').onclick = () => finish(false);
+    if (ok) d.querySelector('[data-ok]').onclick = () => finish(true);
+    dialogDone = finish;
+    document.addEventListener('keydown', key, true);
+    others.forEach(el => { el.inert = true; });
+    document.body.appendChild(d);
+    requestAnimationFrame(() => d.classList.add('open'));
+    d.querySelector(danger || !ok ? '[data-cancel]' : '[data-ok]').focus({ preventScroll: true });
+  });
 }
 
 // Efectos de sonido sintetizados (sin archivos de audio).

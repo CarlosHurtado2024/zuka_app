@@ -569,23 +569,32 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 /* ---------- aviso de versión nueva ---------- */
 .update-bar {
   position: fixed; left: 50%; bottom: calc(var(--tabbar-h, 0px) + 12px); z-index: 60; transform: translateX(-50%);
-  display: flex; align-items: center; gap: 10px; width: min(440px, 94vw); padding: 10px 12px; border-radius: 16px;
-  background: var(--ink); color: var(--bg); box-shadow: 0 10px 30px rgba(0,0,0,.3); animation: rise .3s cubic-bezier(.2,.8,.2,1);
+  display: flex; align-items: center; gap: 12px; width: min(440px, calc(100vw - 24px)); padding: 12px 14px; border-radius: 20px;
+  background: var(--bg2); color: var(--ink); border: 2px solid var(--line);
+  box-shadow: 0 5px 0 var(--line), 0 14px 34px rgba(0,0,0,.28); animation: rise .3s cubic-bezier(.2,.8,.2,1);
 }
-.update-bar img { width: 36px; height: 36px; object-fit: contain; flex: none; }
-.update-bar .ub-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
-.update-bar .ub-text b { font-size: 14px; }
-.update-bar .ub-text span { opacity: .75; }
-.update-bar .ub-actions { display: flex; flex-direction: column; gap: 6px; flex: none; }
-.update-bar .btn.small { padding: 7px 12px; font-size: 13px; border-radius: 10px; }
-.update-bar .btn.small:not(.main) { background: transparent; color: var(--bg); border: 1.5px solid rgba(255,255,255,.35); }
+.update-bar img { width: 44px; height: 45px; object-fit: contain; flex: none; }
+.update-bar .ub-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-size: 13px; line-height: 1.35; }
+.update-bar .ub-text b { font-size: 14.5px; font-weight: 800; }
+.update-bar .ub-text span { color: var(--mute); }
+.update-bar .ub-actions { display: flex; flex-direction: column; gap: 8px; flex: none; }
+.update-bar .btn.small { width: auto; padding: 8px 12px; font-size: 12px; border-radius: 12px; letter-spacing: .04em; }
+.update-bar .btn.small.main { --c: var(--brand); color: #fff; }
+.update-bar .btn.small:not(.main) { background: transparent; color: var(--ink); border: 2px solid var(--line); box-shadow: 0 3px 0 var(--line); }
 @keyframes rise { from { opacity: 0; transform: translate(-50%, 12px); } }
+@media (max-width: 340px) {   /* celular angosto: los botones del aviso van debajo del texto */
+  .update-bar { flex-wrap: wrap; }
+  .update-bar .ub-text { flex-basis: calc(100% - 56px); }
+  .update-bar .ub-actions { flex-direction: row; width: 100%; }
+  .update-bar .ub-actions .btn { flex: 1; }
+}
 
 /* ---------- toast ---------- */
 .toast {
   position: fixed; left: 50%; top: max(16px, env(safe-area-inset-top)); z-index: 60; transform: translateX(-50%);
-  display: flex; align-items: center; gap: 6px; max-width: min(440px, 92vw); padding: 11px 16px; border-radius: 14px;
-  background: var(--ink); color: var(--bg); font-weight: 700; font-size: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.3); animation: drop .3s cubic-bezier(.2,.8,.2,1);
+  display: flex; align-items: center; gap: 8px; width: max-content; max-width: min(440px, calc(100vw - 24px)); padding: 12px 16px; border-radius: 16px;
+  background: var(--bg2); color: var(--ink); border: 2px solid var(--line); font-weight: 700; font-size: 14px; line-height: 1.35;
+  box-shadow: 0 4px 0 var(--line), 0 12px 30px rgba(0,0,0,.25); animation: drop .3s cubic-bezier(.2,.8,.2,1);
 }
 .toast .i { width: 18px; height: 18px; color: var(--gold); }
 .toast.out { opacity: 0; transform: translate(-50%, -10px); transition: .3s; }
@@ -700,3 +709,23 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .er-q-body { padding: 0 12px 12px; font-size: 14px; line-height: 1.45; }
 .er-q-body > p:first-child { margin-bottom: 10px; }
 .er-again { margin-top: 18px; }
+
+/* ---------- diálogo propio (ask() en js/ui.js; reemplaza confirm() del navegador) ---------- */
+.dialog { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 24px 16px; }
+.dialog-bg { position: absolute; inset: 0; background: rgba(4, 6, 18, .62); opacity: 0; transition: opacity .2s; }
+.dialog-card {
+  position: relative; width: min(360px, 100%); padding: 56px 20px 20px; border-radius: 26px; text-align: center;
+  background: var(--bg2); color: var(--ink); border: 2px solid var(--line); box-shadow: 0 6px 0 var(--line), 0 24px 60px rgba(0,0,0,.35);
+  opacity: 0; transform: translateY(16px) scale(.96); transition: opacity .2s, transform .25s cubic-bezier(.2,.8,.2,1);
+}
+.dialog.open .dialog-bg { opacity: 1; }
+.dialog.open .dialog-card { opacity: 1; transform: none; }
+.dialog.out .dialog-bg, .dialog.out .dialog-card { opacity: 0; transition-duration: .15s; }
+.dialog-art { position: absolute; left: 50%; top: -46px; width: 88px; height: auto; transform: translateX(-50%); filter: drop-shadow(0 6px 10px rgba(0,0,0,.25)); }
+.dialog-card h3 { font-size: 20px; font-weight: 800; line-height: 1.25; }
+.dialog-card p { margin-top: 8px; color: var(--mute); font-size: 14.5px; line-height: 1.45; }
+.dialog-actions { display: grid; gap: 10px; margin-top: 20px; }
+.dialog-actions .btn { --c: var(--brand); color: #fff; }
+.dialog-actions .btn.ghost { color: var(--ink); }
+.dialog-card.danger .dialog-actions [data-ok] { --c: var(--bad); }
+@media (prefers-reduced-motion: reduce) { .dialog-card { transform: none; } }

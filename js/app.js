@@ -70,7 +70,7 @@ function showUpdateBar(apply, dismiss) {
   bar.className = 'update-bar';
   bar.setAttribute('role', 'status');
   bar.innerHTML = `<img src="brand/mascota.png" alt=""><div class="ub-text"><b>Hay una versión nueva de Zuka</b><span>Actualiza para tener lo último.</span></div>
-    <div class="ub-actions"><button class="btn small" data-later type="button">Más tarde</button><button class="btn small main" data-update type="button">Actualizar</button></div>`;
+    <div class="ub-actions"><button class="btn small main" data-update type="button">Actualizar</button><button class="btn small" data-later type="button">Más tarde</button></div>`;
   $('[data-update]', bar).onclick = () => { $('[data-update]', bar).textContent = 'Actualizando…'; apply(); };
   $('[data-later]', bar).onclick = () => { bar.remove(); dismiss(); };
   document.body.appendChild(bar);
@@ -409,7 +409,10 @@ function startLesson(c, l) {
 
   // `to`: pestaña a la que ir al salir (al tocar el menú inferior); si no, la de origen.
   function close(to) {
-    if (!finished && pos > 0 && !confirm('¿Salir de la lección? Perderás el progreso de esta lección.')) return;
+    if (!finished && pos > 0) {
+      return ask({ title: '¿Salir de la lección?', text: 'Perderás el progreso de esta lección.', ok: 'Salir', cancel: 'Seguir aprendiendo', danger: true })
+        .then(yes => { if (yes && lessonClose === close) { finished = true; close(to); } });
+    }
     teardown(); Narrator.stop();
     document.removeEventListener('keydown', onKey);
     ov.classList.remove('open'); ov.innerHTML = '';
@@ -675,8 +678,8 @@ function renderProfile() {
   $('[data-install]', view)?.addEventListener('click', promptInstall);
   view.querySelectorAll('[data-set]').forEach(b => b.onclick = () => { S[b.dataset.set] = !S[b.dataset.set]; save(); renderProfile(); });
   $('[data-reset]', view).onclick = () => {
-    if (!confirm('¿Borrar todo tu progreso, XP y racha?')) return;
-    S = DEFAULTS(); openWorld = null; save(); applyTheme(); go('learn');
+    ask({ title: '¿Borrar todo tu progreso?', text: 'Se borran tu XP, tu racha y las lecciones completadas. No se puede deshacer.', ok: 'Borrar todo', cancel: 'Cancelar', danger: true })
+      .then(yes => { if (yes) { S = DEFAULTS(); openWorld = null; save(); applyTheme(); go('learn'); } });
   };
 }
 
@@ -711,3 +714,4 @@ Promise.race([fontsReady, new Promise(r => setTimeout(r, 1200))])
   .then(() => requestAnimationFrame(() => requestAnimationFrame(hideBoot)));
 applyTheme();
 go('learn');
+setupBack();   // botón «atrás» del celular (js/back.js)

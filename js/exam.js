@@ -82,7 +82,10 @@ function startExam(c, u) {
 
   function teardown() { handle?.destroy?.(); handle = null; }
   function close(to) {
-    if (!finished && !confirm('¿Salir de la evaluación? No se guardará tu resultado.')) return;
+    if (!finished) {
+      return ask({ title: '¿Salir de la evaluación?', text: 'No se guardará tu resultado.', ok: 'Salir', cancel: 'Seguir', danger: true })
+        .then(yes => { if (yes && lessonClose === close) { finished = true; close(to); } });
+    }
     finished = true; clearInterval(timer); teardown();
     document.removeEventListener('keydown', onKey);
     ov.classList.remove('open'); ov.innerHTML = '';
@@ -141,6 +144,7 @@ function startExam(c, u) {
   function finish(timeUp) {
     if (finished) return;
     finished = true; clearInterval(timer); teardown();
+    dismissDialog();   // si se acabó el tiempo con «¿Salir?» abierto: el resultado ya se guarda y se muestra
     const used = Math.min(E.minutes * 60, Math.round((Date.now() - t0) / 1000));
     const rep = examReport(E, results), prev = S.exams[E.id];
     // Primera vez: hasta 25 XP según el resultado. Al repetir, solo lo que se mejore (y 2 XP por practicar).
