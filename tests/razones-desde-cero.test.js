@@ -42,7 +42,7 @@ test('sombra-arbol: la altura del árbol es proporcional a su sombra', () => {
 test('mundos: razones y porcentajes en un mundo propio tras sistemas numéricos; el interés tras la exponencial', () => {
   const plan = alg.units.map(u => `${u.world}: ${u.lessons.map(l => l.id).join(' ')}`);
   assert.equal(plan[1], 'numeros: alg-11 alg-11b alg-11c alg-12b alg-12c alg-12d');
-  assert.equal(plan[2], 'razones: alg-12 alg-12e alg-12f alg-13');
+  assert.equal(plan[2], 'razones: alg-12 alg-12e alg-12f alg-13 alg-13c alg-13d');
   assert.equal(alg.units.find(u => u.world === 'exp-log').lessons.map(l => l.id).join(' '), 'alg-71 alg-13b alg-72 alg-73');
   assert.equal(alg.units[2].title, 'Razones, proporciones y porcentajes');
   assert.equal(alg.units[1].title, 'Sistemas numéricos y axiomas');

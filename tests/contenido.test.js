@@ -14,7 +14,7 @@ function strings(v, out = []) {
 }
 
 const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js']);
-const lessons = get(ctx, 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).filter(l => ['alg-11', 'alg-12', 'alg-13', 'alg-13b', 'alg-14', 'alg-14b', 'alg-14c', 'alg-14d', 'alg-15'].includes(l.id));
+const lessons = get(ctx, 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).filter(l => ['alg-11', 'alg-12', 'alg-13', 'alg-13b', 'alg-13c', 'alg-13d', 'alg-14', 'alg-14b', 'alg-14c', 'alg-14d', 'alg-15'].includes(l.id));
 
 for (const l of lessons) {
   test(`${l.id}: ningún texto de ejercicio tiene caracteres de control ni comandos TeX sin barra`, () => {
@@ -23,25 +23,14 @@ for (const l of lessons) {
   });
 }
 
-// La lección 1.3 es «Porcentajes y descuentos»: el interés simple y compuesto queda para otra
-// lección, los dos videos vienen de Bunny y todo el texto usa punto decimal.
-const alg13 = lessons.find(l => l.id === 'alg-13');
+// Porcentajes y descuentos son tres lecciones (spec 2026-11-11-porcentajes-desde-cero): alg-13, alg-13c y alg-13d.
+// Aquí se revisan juntas como si fueran una; el interés simple y compuesto va en otra lección.
+const pct = ['alg-13', 'alg-13c', 'alg-13d'].map(id => lessons.find(l => l.id === id));
+const alg13 = { ex: pct.flatMap(l => l.ex), clip: pct.map(l => l.clip), more: [] };
 
-test('alg-13: se llama «Porcentajes y descuentos» y no tiene ejercicios de interés', () => {
-  assert.equal(alg13.title, 'Porcentajes y descuentos');
+test('alg-13: los porcentajes no tienen ejercicios de interés', () => {
   assert.ok(!alg13.ex.some(e => e.game === 'carrera-interes'));
   assert.deepEqual(strings(alg13.ex).filter(s => /inter[eé]s/i.test(s)), []);
-});
-
-test('alg-13: los dos videos vienen de Bunny y el segundo va tras el sexto ejercicio', () => {
-  assert.equal(alg13.clip.bunny, '59348bd7-b5b5-4c29-bf79-31a54b439a1b');
-  assert.equal(alg13.clip.duration, 224);
-  assert.equal(alg13.clip.scenes.length, 0);
-  assert.equal(alg13.more.length, 1);
-  assert.equal(alg13.more[0].bunny, '3b666757-462f-4ccf-8f95-a8c816e33141');
-  assert.equal(alg13.more[0].duration, 131);
-  assert.equal(alg13.more[0].after, 6);
-  assert.equal(alg13.more[0].scenes.length, 0);
 });
 
 test('alg-13: ningún texto usa coma decimal', () => {

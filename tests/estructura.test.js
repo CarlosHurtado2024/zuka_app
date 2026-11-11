@@ -14,7 +14,7 @@ test('álgebra: Conjuntos, números y axiomas, razones y porcentajes, y luego el
   assert.deepEqual([...plan(alg)], [
     'Conjuntos: alg-0a alg-0b alg-0c',
     'Sistemas numéricos y axiomas: alg-11 alg-11b alg-11c alg-12b alg-12c alg-12d',
-    'Razones, proporciones y porcentajes: alg-12 alg-12e alg-12f alg-13',
+    'Razones, proporciones y porcentajes: alg-12 alg-12e alg-12f alg-13 alg-13c alg-13d',
     'Potenciación y radicación: alg-21a alg-21b alg-22a alg-22b',
     'Progresiones y sumatoria: alg-14 alg-14b alg-14c alg-14d alg-15',
     'Polinomios: productos notables y factorización: alg-23a alg-3 alg-24c alg-24b',

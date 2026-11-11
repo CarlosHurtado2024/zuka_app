@@ -581,16 +581,31 @@ const COURSE_ALGEBRA = {
           ],
         },
         {
-          id: 'alg-13', title: 'Porcentajes y descuentos',
-          // Parte 1 «Porcentajes» (Bunny, 3:44).
-          clip: { bunny: '59348bd7-b5b5-4c29-bf79-31a54b439a1b', duration: 224, scenes: [] },
-          // Parte 2 «Aumentos y descuentos» (Bunny, 2:11), después del sexto ejercicio.
-          more: [{ bunny: '3b666757-462f-4ccf-8f95-a8c816e33141', duration: 131, after: 6, scenes: [] }],
+          id: 'alg-13', title: 'Porcentajes: qué son y cómo se calculan',
+          // Parte 1 de porcentajes (spec 2026-11-11-porcentajes-desde-cero): video C1 (video/clase_alg_u2_c1_porcentajes).
+          // Escenas de respaldo hasta tener su ID de Bunny. Reemplaza a los dos videos viejos de porcentajes y descuentos.
+          clip: { scenes: [
+            sc(6, '«Por ciento» quiere decir **de cada 100**. Un porcentaje es una fracción con denominador 100.', { title: '$35\\% = \\dfrac{35}{100} = 0.35$', steps: ['$\\tfrac12 = 50\\%,\\ \\tfrac14 = 25\\%,\\ \\tfrac15 = 20\\%,\\ \\tfrac1{10} = 10\\%$'] }),
+            sc(6, 'Es una razón parte : todo escalada para que el todo sea 100.', { steps: ['9 de 25 usan gafas: $\\dfrac{9}{25} = \\dfrac{36}{100} = 36\\%$'] }),
+            sc(6, 'La proporción $\\dfrac{\\text{parte}}{\\text{todo}} = \\dfrac{p}{100}$ responde las tres preguntas.', { steps: ['15 % de 80: $80 \\cdot 0.15 = 12$', '18 de 72: $\\tfrac{18}{72} = 0.25 = 25\\%$', '30 es el 40 % de $30 \\div 0.4 = 75$'] }),
+            sc(5, 'Hay porcentajes mayores que 100 y menores que 1.', { steps: ['150 % de 40 = 60', '0.5 % de 2 000 = 10'] }),
+          ] },
           ex: [
-            // --- Parte 1: porcentajes ---
-            play('cuadricula-cien', 'Pinta en la cuadrícula el porcentaje que pide cada ronda', { rounds: [{ ask: '35 %', count: 35 }, { ask: '3/4', count: 75 }, { ask: '0.08', count: 8 }] },
-              'Por ciento es «de cada 100»: $35\\%$ son 35 casillas de 100. Las fracciones y los decimales se pasan a centésimas: $\\tfrac34 = \\tfrac{75}{100} = 75\\%$ y $0.08 = \\tfrac{8}{100} = 8\\%$.',
+            play('pinta-personas', 'Pinta a las personas que pide cada ronda', {
+              rounds: [
+                { total: 20, pct: 35, what: 'van en bicicleta' },
+                { total: 25, pct: 12, what: 'tienen perro' },
+                { total: 40, pct: 75, what: 'desayunaron' },
+                { total: 8, pct: 12.5, what: 'son zurdos' },
+              ],
+            }, 'El porcentaje es de cada 100, así que se pasa al total del grupo: parte $= \\text{total} \\cdot \\tfrac{p}{100}$. $20 \\cdot 0.35 = 7$, $25 \\cdot 0.12 = 3$, $40 \\cdot 0.75 = 30$ y $8 \\cdot 0.125 = 1$.',
+              { hint: 'Pasa el porcentaje a decimal (o a fracción) y multiplícalo por las personas del grupo. Con 25 personas, cada persona es el 4 %; con 20, cada una es el 5 %.' }),
+            play('cuadricula-cien', 'Pinta en la cuadrícula el porcentaje que pide cada ronda', { rounds: [{ ask: '42 %', count: 42 }, { ask: '2/5', count: 40 }, { ask: '0.06', count: 6 }] },
+              'Por ciento es «de cada 100»: $42\\%$ son 42 casillas de 100. Las fracciones y los decimales se pasan a centésimas: $\\tfrac25 = \\tfrac{40}{100} = 40\\%$ y $0.06 = \\tfrac{6}{100} = 6\\%$.',
               { hint: 'La cuadrícula tiene 100 casillas: cada una es el 1 %. Pasa fracciones y decimales a «de cada 100» antes de pintar.' }),
+            play('rueda-porcentaje', 'Gira la aguja hasta cubrir la parte pedida y lee el porcentaje', { rounds: [{ part: 51, whole: 170 }, { part: 63, whole: 180 }, { part: 26.4, whole: 240 }], tol: 1 },
+              'Qué porcentaje es $B$ de $C$: $p = \\dfrac{100 \\cdot B}{C}$. Así, $\\dfrac{100 \\cdot 51}{170} = 30\\%$, $\\dfrac{100 \\cdot 63}{180} = 35\\%$ y $\\dfrac{100 \\cdot 26.4}{240} = 11\\%$.',
+              { hint: 'Divide la parte entre el total y multiplica por 100. Mientras giras, compara la parte cubierta con la que pide la ronda.' }),
             play('cruz-porcentaje', 'Arma la cruz del porcentaje de cada problema', {
               problems: [
                 { text: 'Halla el 12 % de 8.000 pesos', chips: [{ label: '12', cell: 'p' }, { label: '8.000', cell: 'C' }, { label: '?', cell: 'B' }] },
@@ -602,12 +617,25 @@ const COURSE_ALGEBRA = {
             play('mezcla', 'Añade agua hasta que el alcohol sea el 20 % de la mezcla', { solute: 40, target: 20, step: 10, max: 400 },
               'Los 40 g de alcohol son el $20\\%$ de la mezcla, así que la mezcla pesa $C = \\dfrac{100 \\cdot 40}{20} = 200$ g; el agua es lo que falta: $200 - 40 = 160$ g.',
               { hint: 'El alcohol no cambia: solo agregas agua. Pregúntate de qué peso total son 40 g el 20 % (la quinta parte), y el agua es lo que falta para llegar.' }),
-            play('rueda-porcentaje', 'Gira la aguja hasta cubrir la parte pedida y lee el porcentaje', { rounds: [{ part: 51, whole: 170 }, { part: 63, whole: 180 }, { part: 26.4, whole: 240 }], tol: 1 },
-              'Qué porcentaje es $B$ de $C$: $p = \\dfrac{100 \\cdot B}{C}$. Así, $\\dfrac{100 \\cdot 51}{170} = 30\\%$, $\\dfrac{100 \\cdot 63}{180} = 35\\%$ y $\\dfrac{100 \\cdot 26.4}{240} = 11\\%$.',
-              { hint: 'Divide la parte entre el total y multiplica por 100. Mientras giras, compara la parte cubierta con la que pide la ronda.' }),
             play('bodegas', 'Reparte los 2.000 sacos para que, tras el viaje del 20 %, queden iguales', { total: 2000, move: 20, step: 50 },
               'Si en A hay $x$ sacos, en B hay $2\\,000 - x$. Tras llevar el $20\\%$ de A: $0.8x = 2\\,000 - x + 0.2x$, es decir $1.6x = 2\\,000$ y $x = 1\\,250$. Había 1.250 sacos en A y 750 en B.',
               { hint: 'Llama $x$ a los sacos de A. Escribe cuántos quedan en A y cuántos llegan a B después del viaje, e iguala las dos bodegas.' }),
+          ],
+        },
+        {
+          id: 'alg-13c', title: 'Aumentos y descuentos',
+          // Parte 2 (spec 2026-11-11-porcentajes-desde-cero): video C2 (video/clase_alg_u2_c2_aumentos). Escenas de respaldo.
+          clip: { scenes: [
+            sc(6, 'Un descuento del 25 % deja pagar el 75 %: se multiplica por el **factor** $0.75$ (distributiva).', { title: '$60\\,000 \\cdot (1 - 0.25) = 45\\,000$' }),
+            sc(6, 'Aumentar $r\\%$ es multiplicar por $1 + \\tfrac{r}{100}$; descontar, por $1 - \\tfrac{r}{100}$.', { steps: ['IVA del 19 %: $50\\,000 \\cdot 1.19 = 59\\,500$'] }),
+            sc(6, 'Para volver al precio de antes se **divide** entre el factor, no se resta el porcentaje.', { steps: ['$71\\,400 \\div 1.19 = 60\\,000$'] }),
+            sc(6, 'El cambio porcentual se mide sobre el valor de antes.', { title: '$\\dfrac{\\text{nuevo} - \\text{viejo}}{\\text{viejo}} \\cdot 100$', steps: ['$2\\,500 \\to 3\\,000$: $+20\\%$; de vuelta: $-16.7\\%$'] }),
+          ] },
+          ex: [
+            play('porcentaje-cambio', 'Fija en qué porcentaje cambió cada cantidad', {
+              rounds: [{ from: 40, to: 50, unit: 'personas' }, { from: 50, to: 40, unit: 'personas' }, { from: 80, to: 200, unit: 'kg' }, { from: 120, to: 90, unit: 'minutos' }],
+            }, 'El cambio se mide sobre el valor de antes: $\\tfrac{50 - 40}{40} = 0.25$ es $+25\\%$, pero $\\tfrac{40 - 50}{50} = -0.2$ es $-20\\%$ (no es simétrico). $\\tfrac{200 - 80}{80} = 1.5$ es $+150\\%$ y $\\tfrac{90 - 120}{120} = -0.25$ es $-25\\%$.',
+              { hint: 'Resta lo nuevo menos lo viejo y divide entre lo viejo, que es el 100 %. Si bajó, el cambio es negativo.' }),
             play('estira-barra', 'Estira o encoge la barra hasta lo que pide cada ronda', {
               max: 200,
               rounds: [
@@ -618,7 +646,6 @@ const COURSE_ALGEBRA = {
               ],
             }, 'La cantidad original es el $100\\%$. «El $60\\%$ más» la estira al $160\\%$ ($250 \\cdot 1.6 = 400$); «el $15\\%$ menos» la deja en el $85\\%$ ($340$); la quinta parte es $\\tfrac15 = 20\\%$ ($18$), y quitar el $35\\%$ deja el $65\\%$ ($195$).',
               { hint: 'La barra punteada es el 100 %. Si la ronda dice «más», la barra crece por encima de 100; si dice «menos» o «quita», queda por debajo. Una fracción como un cuarto o un quinto se pasa a «de cada 100».' }),
-            // --- Parte 2: aumentos y descuentos ---
             play('tragamonedas', 'Gira los rodillos hasta formar el factor de cada cambio', {
               rounds: [{ change: 35 }, { change: -12 }, { change: 150 }, { change: -0.5 }, { change: 7 }],
             }, 'Aumentar un $r\\%$ es multiplicar por $1 + \\tfrac{r}{100}$ y descontar, por $1 - \\tfrac{r}{100}$: $+35\\% \\Rightarrow \\times 1.35$, $-12\\% \\Rightarrow \\times 0.88$, $+150\\% \\Rightarrow \\times 2.5$ (dos veces y media), $-0.5\\% \\Rightarrow \\times 0.995$ y $+7\\% \\Rightarrow \\times 1.07$, no $1.7$.',
@@ -628,6 +655,20 @@ const COURSE_ALGEBRA = {
               stickers: [36000, 9000, 68000, 12000, 78000, 42000],
             }, 'El precio final es el precio de lista por el factor: $45\\,000 \\cdot 0.8 = 36\\,000$ (9.000 es el descuento, no el precio), $80\\,000 \\cdot 0.85 = 68\\,000$ y, como la bicicleta **sube** $30\\%$, $60\\,000 \\cdot 1.3 = 78\\,000$.',
               { hint: 'Multiplica el precio por el factor del cambio. Cuidado: algunos stickers son solo el descuento, no el precio final, y no todo baja.' }),
+            num('Un celular cuesta 476 000 pesos con el IVA del 19 % incluido. ¿Cuánto cuesta sin IVA?', 400000,
+              'Con IVA se paga el $119\\%$: precio $\\cdot 1.19 = 476\\,000$, así que el precio sin IVA es $476\\,000 \\div 1.19 = 400\\,000$. Restar el 19 % de 476 000 daría 385 560, que está mal: el 19 % se calculó sobre el precio sin IVA.',
+              { prefix: '$', hint: 'El precio con IVA es el precio sin IVA multiplicado por un factor. Para deshacer una multiplicación, divide entre ese mismo factor.' }),
+          ],
+        },
+        {
+          id: 'alg-13d', title: 'Cambios sucesivos',
+          // Parte 3 (spec 2026-11-11-porcentajes-desde-cero): video C3 (video/clase_alg_u2_c3_sucesivos). Escenas de respaldo.
+          clip: { scenes: [
+            sc(6, 'Dos descuentos seguidos **se multiplican**, no se suman. El orden no importa.', { steps: ['20 % y luego 10 %: $0.8 \\cdot 0.9 = 0.72$', 'descuento único del 28 %, no del 30 %'] }),
+            sc(6, 'Subir y bajar el mismo porcentaje no deja el precio igual.', { steps: ['$+50\\%$ y $-50\\%$: $1.5 \\cdot 0.5 = 0.75$', 'tras $-20\\%$ hay que subir $25\\%$ para volver'] }),
+            sc(6, 'Crecer el mismo porcentaje varias veces es una potencia del factor.', { steps: ['10 % tres años: $1.1^3 = 1.331$, es decir $+33.1\\%$'] }),
+          ] },
+          ex: [
             play('cascada', 'Pega los dos descuentos y fija el descuento único equivalente', { price: 100000, changes: [-30, -20], step: 1 },
               'Cada descuento multiplica el precio: $100\\,000 \\cdot 0.7 = 70\\,000$ y $70\\,000 \\cdot 0.8 = 56\\,000$. El factor total es $0.7 \\cdot 0.8 = 0.56$, así que el descuento único es $1 - 0.56 = 44\\%$, no $50\\%$. El orden no importa.',
               { hint: 'El segundo descuento se aplica sobre el precio ya rebajado. Sigue el precio paso a paso y compara el final con el original.' }),
@@ -639,12 +680,6 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Se comparan los precios finales. Ronda 1: $0.7 \\cdot 0.8 = 0.56$ ($56\\,000$) contra $0.55$ ($55\\,000$): gana el 45 %. Ronda 2: $1.2 \\cdot 0.8 = 0.96$: subir y bajar el mismo porcentaje deja el precio en $76\\,800$, más barato que la lista. Ronda 3: el $10\\%$ de $50\\,000$ son $5\\,000$, menos que la rebaja fija de $6\\,000$.',
               { hint: 'Calcula el precio final de cada tienda paso a paso, aplicando cada cambio sobre el precio que va quedando, y compara.' }),
-            play('rebote', 'Sube el precio rebajado hasta volver exactamente al original', { base: 100, drop: 10, max: 30, step: 0.1, tol: 0.06 },
-              'Tras rebajar $10\\%$ el precio queda en 90. Para volver a 100 hay que subir 10 sobre 90: $\\dfrac{10}{90} = 11.1\\%$. La subida se calcula sobre el precio rebajado, por eso no basta con $10\\%$.',
-              { hint: 'Después de la rebaja el precio es menor. La subida se calcula sobre ese precio rebajado: ¿qué porcentaje de él falta para volver al original?' }),
-            play('dos-etapas', 'Gira la perilla hasta que la máquina produzca 8.840', { changes: [30, -20], output: 8840, max: 20000, step: 20 },
-              'Subir $30\\%$ es $\\times 1.3$ y bajar $20\\%$ es $\\times 0.8$: en total $\\times 1.04$. Entonces $1.04x = 8\\,840$ y $x = 8\\,500$.',
-              { hint: 'Junta los dos cambios en un solo factor multiplicando $1.3 \\cdot 0.8$. Luego busca qué número, multiplicado por ese factor, da 8.840.' }),
             play('cadena-cambios', 'Pon dos sellos para que el precio cambie lo que pide cada ronda', {
               stamps: [10, 10, -10, 50, -50, 20, -20, -25],
               rounds: [
@@ -655,6 +690,12 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Los cambios sucesivos **se multiplican**, no se suman: $1.1 \\cdot 1.1 = 1.21$ (dos subidas del $10\\%$ dan $21\\%$), $1.5 \\cdot 0.5 = 0.75$, $0.9 \\cdot 1.1 = 0.99$ y $1.2 \\cdot 0.9 = 1.08$. Por eso subir y bajar el mismo porcentaje nunca deja el precio igual.',
               { hint: 'Cada sello multiplica el precio: +10 % es ×1.1 y −50 % es ×0.5. Multiplica los dos factores y compara con lo que pide la ronda. Mira cómo cambia la etiqueta de 100 tras cada sello.' }),
+            play('rebote', 'Sube el precio rebajado hasta volver exactamente al original', { base: 100, drop: 10, max: 30, step: 0.1, tol: 0.06 },
+              'Tras rebajar $10\\%$ el precio queda en 90. Para volver a 100 hay que subir 10 sobre 90: $\\dfrac{10}{90} = 11.1\\%$. La subida se calcula sobre el precio rebajado, por eso no basta con $10\\%$.',
+              { hint: 'Después de la rebaja el precio es menor. La subida se calcula sobre ese precio rebajado: ¿qué porcentaje de él falta para volver al original?' }),
+            play('dos-etapas', 'Gira la perilla hasta que la máquina produzca 8.840', { changes: [30, -20], output: 8840, max: 20000, step: 20 },
+              'Subir $30\\%$ es $\\times 1.3$ y bajar $20\\%$ es $\\times 0.8$: en total $\\times 1.04$. Entonces $1.04x = 8\\,840$ y $x = 8\\,500$.',
+              { hint: 'Junta los dos cambios en un solo factor multiplicando $1.3 \\cdot 0.8$. Luego busca qué número, multiplicado por ese factor, da 8.840.' }),
           ],
         },
       ],
@@ -1532,7 +1573,7 @@ const COURSE_ALGEBRA = {
             fixes: ['x = 6·4/3', 'x = 6·3/4', 'x = 4·3/6', 'x = 6 + 4 − 3'], fix: 0 }] },
         'Si es inversa, el trabajo total se conserva: $4 \\cdot 6 = 3 \\cdot x$, así que $x = \\tfrac{6 \\cdot 4}{3} = 8$ días. Con $4.5$ días, menos obreros terminarían antes, lo que no tiene sentido.',
         { hint: 'Comprueba si el resultado tiene sentido: con menos obreros, ¿deberían tardar más o menos días?' }) },
-      { lesson: 'alg-13', review: 'Bajar un $20\\%$ es multiplicar por $0.8$ (lo que queda), no por $0.2$ (lo que se quita).',
+      { lesson: 'alg-13d', review: 'Bajar un $20\\%$ es multiplicar por $0.8$ (lo que queda), no por $0.2$ (lo que se quita).',
         ex: play('detective-pasos', 'Encuentra el **paso equivocado** en esta cuenta de precios y corrígelo.', { rounds: [
           { title: 'Una chaqueta sube 20 % y luego baja 20 %', steps: ['Precio: $80 000', 'Sube 20 %: 80 000 · 1.2 = 96 000', 'Baja 20 %: 96 000 · 0.2 = 19 200', 'Precio final: $19 200'], wrong: 2,
             fixes: ['Baja 20 %: 96 000 · 0.8 = 76 800', 'Baja 20 %: 80 000 · 0.8 = 64 000', 'Baja 20 %: 96 000 − 20 = 95 980', 'Baja 20 %: 96 000 · 1.2 = 115 200'], fix: 0 }] },
@@ -1546,6 +1587,12 @@ const COURSE_ALGEBRA = {
           ['2/5', false], ['0.4', false], ['1/5', false], ['10 de 40', true]]) }] },
         'Valen $25\\%$: $\\tfrac14$, $0.25$, $\\tfrac{25}{100}$, «1 de cada 4», $\\tfrac{50}{200}$, $\\tfrac{5}{20}$, $\\tfrac{3}{12}$ y «10 de 40». Trampas: $2.5$ es $250\\%$, $0.025$ es $2.5\\%$ y $\\tfrac1{25}$ es $4\\%$.',
         { hint: 'Pasa todo a fracción de 100 (o a decimal): $25\\%$ es la cuarta parte.' }) },
+      { lesson: 'alg-13c', review: 'Un descuento del $r\\%$ deja pagar el $(100 - r)\\%$: se multiplica por $1 - \\tfrac{r}{100}$.',
+        ex: play('detective-pasos', 'Encuentra el **paso equivocado** en este descuento y corrígelo.', { rounds: [
+          { title: 'Un pantalón de $90 000 con 30 % de descuento', steps: ['Precio: $90 000', 'Con 30 % de descuento se paga el 30 %', 'Factor: 0.7', 'Precio final: 90 000 · 0.7 = 63 000'], wrong: 1,
+            fixes: ['Con 30 % de descuento se paga el 70 %', 'Con 30 % de descuento se paga el 130 %', 'Con 30 % de descuento se paga el 3 %', 'Con 30 % de descuento no se paga nada'], fix: 0 }] },
+        'Si se descuenta el $30\\%$, el cliente paga lo que queda: el $70\\%$. Por eso el factor es $0.7$ y el precio final $90\\,000 \\cdot 0.7 = 63\\,000$.',
+        { hint: 'Piensa en qué parte del precio sigue pagando el cliente después del descuento.' }) },
       { lesson: 'alg-12e', review: 'En magnitudes directamente proporcionales el cociente es constante: halla cuánto vale una unidad y multiplica.',
         ex: num('En un mapa, $2$ cm representan $15$ km. ¿Cuántos km representan $7$ cm?', 52.5,
           'Cada centímetro son $15 \\div 2 = 7.5$ km, así que $7$ cm son $7 \\cdot 7.5 = 52.5$ km.',
