@@ -259,9 +259,12 @@ class VideoClip {
     const base = clip.bunny ? `https://${BUNNY_CDN}/${clip.bunny}` : '';
     const src = clip.bunny ? `${base}/playlist.m3u8` : clip.video;
     const el = (this.el = document.createElement('div'));
-    el.className = 'clip paused is-video' + (opts.feed ? ' in-feed' : '');
+    // En la lección no hay miniatura: mientras carga se ve la rueda (.clip-loading) sobre fondo liso,
+    // y no una imagen fija que luego salta al video. En el feed de Clips la miniatura sí ayuda a hojear.
+    el.className = 'clip paused is-video' + (opts.feed ? ' in-feed' : ' loading');
     el.style.setProperty('--c', course.color);
-    el.innerHTML = `<video playsinline preload="metadata"${base ? ` poster="${esc(base)}/thumbnail.jpg"` : ''}></video>
+    el.innerHTML = `<video playsinline preload="metadata"${opts.feed && base ? ` poster="${esc(base)}/thumbnail.jpg"` : ''}></video>
+      <div class="clip-loading" role="status" aria-label="Cargando video"><i></i></div>
       <div class="clip-play">${ICON.play}</div>${VIDEO_UI}${MUTE_BTN}${SPEED_UI}
       <div class="v-quality" hidden>
         <button class="v-q-btn" type="button" aria-haspopup="true">Auto</button>
@@ -286,6 +289,12 @@ class VideoClip {
     // Arranque automático: si play() se pidió antes de que el video estuviera listo (HLS carga
     // aparte) o el navegador lo pospuso, se vuelve a intentar en cuanto se puede reproducir.
     this.v.addEventListener('canplay', () => { if (this.wantPlay && this.v.paused) this.play(); });
+    // La rueda se ve desde que se pide reproducir hasta el primer cuadro en movimiento, y vuelve si
+    // el video se queda esperando datos (conexión lenta).
+    const loading = on => this.el.classList.toggle('loading', on);
+    this.v.addEventListener('playing', () => loading(false));
+    this.v.addEventListener('waiting', () => loading(this.wantPlay && !this.opts.feed));
+    this.v.addEventListener('error', () => this.stall());
     this.v.addEventListener('ended', () => {
       opts.onEnd?.();
       if (opts.loop) { this.v.currentTime = 0; this.play(); } else this.el.classList.add('paused');
@@ -321,6 +330,8 @@ class VideoClip {
       this.hls.attachMedia(this.v);
       this.hls.on(Hls.Events.MANIFEST_PARSED, () => this.setupQuality());
       this.hls.on(Hls.Events.LEVEL_SWITCHED, () => this.showQuality());
+      // Sin red o sin el video, hls.js no dispara 'error' en el <video>: se avisa aquí.
+      this.hls.on(Hls.Events.ERROR, (_, d) => { if (d.fatal) this.stall(); });
     } else {
       // Safari en iPhone reproduce HLS por sí mismo; ahí la calidad es siempre automática.
       this.v.src = src;
@@ -385,13 +396,20 @@ class VideoClip {
     this.wantPlay = true;
     this.v.autoplay = true;
     this.el.classList.remove('paused');
-    this.v.play().catch(() => {
+    if (!this.opts.feed && (this.v.paused || this.v.readyState < 3)) this.el.classList.add('loading');
+    this.v.play().catch(e => {
       // Si el navegador bloquea el sonido, arranca en silencio y ofrece activarlo.
-      if (!this.v.muted && this.wantPlay) { this.v.muted = true; this.v.play().catch(() => {}); }
+      // Si ni en silencio deja arrancar, se quita la rueda y queda el botón de reproducir.
+      const blocked = er => { if (er?.name === 'NotAllowedError') this.pause(); };
+      if (this.v.muted || !this.wantPlay) return blocked(e);
+      this.v.muted = true; this.v.play().catch(blocked);
     });
   }
 
-  pause() { this.wantPlay = false; this.v.autoplay = false; this.v.pause(); this.el.classList.add('paused'); }
+  // El video no pudo cargar: sin rueda, con el botón de reproducir para reintentar.
+  stall() { this.wantPlay = false; this.el.classList.remove('loading'); this.el.classList.add('paused'); }
+
+  pause() { this.wantPlay = false; this.v.autoplay = false; this.v.pause(); this.el.classList.add('paused'); this.el.classList.remove('loading'); }
   speak() {}
 
   destroy() {

@@ -272,6 +272,12 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 .clip-play { position: absolute; inset: 0; z-index: 3; display: grid; place-items: center; opacity: 0; transition: opacity .2s; pointer-events: none; }
 .clip-play .i { width: 72px; height: 72px; padding: 22px; border-radius: 50%; background: rgba(0,0,0,.5); color: #fff; }
 .clip.paused .clip-play { opacity: 1; }
+/* Rueda de carga del video: arco del color del curso sobre un aro tenue (el reproductor es oscuro en los dos temas). */
+.clip-loading { position: absolute; inset: 0; z-index: 4; display: grid; place-items: center; opacity: 0; transition: opacity .25s; pointer-events: none; }
+.clip-loading i { width: 52px; height: 52px; border-radius: 50%; border: 5px solid rgba(255,255,255,.18); border-top-color: var(--c, #8b7bff); animation: spin .8s linear infinite; }
+.clip.loading .clip-loading { opacity: 1; }
+.clip.loading .clip-play { opacity: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
 .in-feed .clip-prog { top: 60px; }
 .in-feed .clip-head { top: 74px; right: 80px; }
 .in-feed .clip-title { top: 22%; }
@@ -634,4 +640,5 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 @keyframes pop { from { transform: scale(.3); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .clip-loading i { animation-duration: 2.4s !important; animation-iteration-count: infinite !important; }
 }
