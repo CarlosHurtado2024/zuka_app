@@ -44,18 +44,19 @@ GAMES['bolsa-razon'] = (() => {
       p.draw = () => {
         p.background(C.bg);
         const r = R[cur], s = S[cur], good = okRound([s.red, s.blue], r);
+        const v = locked && !good ? { red: r.red, blue: r.blue } : s;   // al fallar se ve la bolsa correcta en verde
         drawTabs(p, C, tabs, cur, i => (locked ? (okRound([S[i].red, S[i].blue], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : S[i].touched ? C.Q : C.line));
         // Enunciado (hasta tres líneas)
         p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(W < 300 ? 13 : 14); p.textAlign(p.CENTER, p.TOP); p.textLeading(17);
         p.text(r.text, 14, 46, W - 28, 56);
         // La bolsa
-        const top = 106, bot = H - 96, bx = 26, bwid = W - 52;
+        const top = 106, bot = H - 106, bx = 26, bwid = W - 52;
         p.textAlign(p.CENTER, p.CENTER);
-        p.stroke(C.line); p.strokeWeight(2); p.fill(C.card);
+        p.stroke(locked && !good ? C.ok : C.line); p.strokeWeight(2); p.fill(C.card);
         p.rect(bx, top + 10, bwid, bot - top - 10, 18);
         p.noFill(); p.stroke(C.mute); p.strokeWeight(2.5);
         p.line(W / 2 - 22, top + 10, W / 2 - 8, top); p.line(W / 2 + 22, top + 10, W / 2 + 8, top);
-        const balls = [...Array(s.red).fill('r'), ...Array(s.blue).fill('b')];
+        const balls = [...Array(v.red).fill("r"), ...Array(v.blue).fill("b")];
         const perRow = 10, d = Math.min(20, (bwid - 16) / perRow - 3), rows = Math.ceil(balls.length / perRow);
         const step = Math.min(d + 3, (bot - top - 26) / Math.max(rows, 1));
         balls.forEach((c, k) => {
@@ -67,9 +68,9 @@ GAMES['bolsa-razon'] = (() => {
         // Cuentas
         p.noStroke(); p.textStyle(p.BOLD);
         const ly = H - 72;
-        p.fill(C.bad); fitText(p, `rojas: ${s.red}`, W / 4, ly, W / 2 - 16, 14);
-        p.fill(C.Z); fitText(p, `azules: ${s.blue}`, (3 * W) / 4, ly, W / 2 - 16, 14);
-        p.fill(locked ? (good ? C.ok : C.bad) : C.mute); p.textStyle(p.NORMAL);
+        p.fill(C.bad); fitText(p, `rojas: ${v.red}`, W / 4, ly, W / 2 - 16, 14);
+        p.fill(C.Z); fitText(p, `azules: ${v.blue}`, (3 * W) / 4, ly, W / 2 - 16, 14);
+        p.fill(locked ? C.ok : C.mute); p.textStyle(p.NORMAL);
         fitText(p, locked && !good ? `Era: ${r.red} rojas y ${r.blue} azules` : `en total: ${s.red + s.blue}`, W / 2, H - 90, W - 24, 12);
         button(B.rMinus, '−', C.bad); button(B.rPlus, '+', C.bad); button(B.bMinus, '−', C.Z); button(B.bPlus, '+', C.Z);
         p.noStroke(); p.fill(C.bad); p.circle((B.rMinus.x + B.rMinus.w + B.rPlus.x) / 2, B.rMinus.y + 18, 18);

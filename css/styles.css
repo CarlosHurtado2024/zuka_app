@@ -367,6 +367,7 @@ body[data-tab=clips] .clip.in-feed .seek, body[data-tab=clips] .clip.in-feed .se
 .lesson.clip-mode .clip:not(.is-video) .clip-head { top: 70px; }
 /* La fórmula de la escena empieza debajo del encabezado bajado (antes una \dfrac lo pisaba en el celular). */
 .lesson.clip-mode .clip:not(.is-video) .clip-title { top: max(15%, 148px); }
+.lesson.clip-mode .clip:not(.is-video) .clip-steps { top: max(30%, 230px); }
 .lesson.clip-mode .lesson-foot {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; border: 0;
   background: linear-gradient(transparent, rgba(0, 0, 0, .8));
