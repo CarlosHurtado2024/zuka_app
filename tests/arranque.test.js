@@ -13,9 +13,8 @@ const darkBg = css.match(/:root\s*\{[^}]*--bg:\s*(#[0-9a-f]{6})/i)[1].toLowerCas
 const lightBg = css.match(/:root\[data-theme="light"\]\s*\{[^}]*--bg:\s*(#[0-9a-f]{6})/i)[1].toLowerCase();
 const inline = (index.match(/<style>([^<]*)<\/style>/) || [])[1] || '';
 
-test('el manifest usa el fondo oscuro de la app (sin destello blanco al abrir)', () => {
-  assert.equal(manifest.background_color.toLowerCase(), darkBg);
-  assert.equal(manifest.theme_color.toLowerCase(), darkBg);
+test('la pantalla de inicio de Android es blanca como el fondo del icono', () => {
+  assert.equal(manifest.background_color.toLowerCase(), '#ffffff');
 });
 
 test('la portada #boot está en el HTML antes de #app y tiene su estilo en línea', () => {
@@ -28,15 +27,19 @@ test('la portada #boot está en el HTML antes de #app y tiene su estilo en líne
 test('la portada y el documento usan exactamente el --bg de cada tema', () => {
   assert.ok(inline.includes(`html{background:${darkBg}}`), 'fondo oscuro del documento');
   assert.ok(inline.includes(`html[data-theme="light"]{background:${lightBg}}`), 'fondo claro del documento');
-  assert.match(inline, new RegExp(`#boot\\{[^}]*background:${darkBg}`), 'la portada tiene fondo propio (no hereda el de body)');
+  assert.match(inline, new RegExp(`#boot\{[^}]*background:${darkBg}`), 'la portada tiene fondo propio (no hereda el de body)');
   assert.ok(inline.includes(`html[data-theme="light"] #boot{background:${lightBg}}`));
-  // En la app instalada la pantalla de inicio es oscura: la portada empieza oscura y se funde con la app clara.
-  assert.ok(inline.includes(`@media (display-mode:standalone){html[data-theme="light"] #boot{background:${darkBg}}}`));
 });
 
-test('la portada no anima tamaño (el icono no crece ni se acomoda)', () => {
-  const style = index.match(/<style>([^<]*)<\/style>/)[1];
-  assert.doesNotMatch(style, /scale|@keyframes|width\s*\.|transition:[^;}]*(width|height|transform)/);
+test('en la app instalada la portada sigue la pantalla de inicio: blanca y sin un segundo icono', () => {
+  assert.ok(inline.includes('@media (display-mode:standalone){#boot,html[data-theme="light"] #boot{background:#ffffff}}'));
+  const boot = index.slice(index.indexOf('id="boot"'), index.indexOf('</div>', index.indexOf('id="boot"')));
+  assert.doesNotMatch(boot, /<img/, 'un icono propio no coincide con el de Android y parece que salta');
+  assert.doesNotMatch(index, /rel="preload" as="image" href="icons\/icon-192\.png"/);
+});
+
+test('la portada solo se desvanece: nada se mueve ni cambia de tamaño', () => {
+  assert.doesNotMatch(inline, /scale|@keyframes|transform|transition:[^;}]*(width|height|transform)/);
 });
 
 test('la app quita la portada al estar lista y hay un respaldo si el JS falla', () => {
