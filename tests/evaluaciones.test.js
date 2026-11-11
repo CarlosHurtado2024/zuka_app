@@ -13,14 +13,19 @@ const GAMES = get(ctx, 'GAMES'), ALG = get(ctx, 'COURSE_ALGEBRA');
 const examReport = get(ctx, 'examReport'), fmtClock = get(ctx, 'fmtClock');
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 
-const UNITS = [1, 2, 3].map(i => ALG.units[i]);
+const UNITS = [0, 1, 2, 3].map(i => ALG.units[i]);
 
-test('las unidades 1, 2 y 3 de Álgebra tienen evaluación; las demás todavía no', () => {
-  assert.deepEqual(UNITS.map(u => u.title), ['Sistemas numéricos y axiomas', 'Razones, proporciones y porcentajes', 'Potenciación y radicación']);
+test('las unidades 0 (Conjuntos), 1, 2 y 3 de Álgebra tienen evaluación', () => {
+  assert.deepEqual(UNITS.map(u => u.title), ['Conjuntos', 'Sistemas numéricos y axiomas', 'Razones, proporciones y porcentajes', 'Potenciación y radicación']);
   UNITS.forEach(u => assert.ok(u.exam, `${u.title} sin evaluación`));
   const ids = UNITS.map(u => u.exam.id);
-  assert.equal(new Set(ids).size, 3);
-  assert.equal(JSON.stringify(UNITS.map(u => u.exam.minutes)), '[15,12,12]');
+  assert.equal(new Set(ids).size, 4);
+  assert.equal(JSON.stringify(UNITS.map(u => u.exam.minutes)), '[10,15,12,12]');
+});
+
+test('el examen de Conjuntos no usa sistemas numéricos: sus elementos son letras, palabras y colores', () => {
+  const txt = JSON.stringify(ALG.units[0].exam.items.map(it => it.ex.params || {}));
+  assert.ok(!/ℤ|ℚ|ℝ|√|π|[<>≤≥]/.test(txt), 'la unidad 0 es «desde cero», sin números reales ni desigualdades');
 });
 
 for (const u of UNITS) {

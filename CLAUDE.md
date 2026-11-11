@@ -97,7 +97,7 @@ cualquier `L(x) = R(x)`). Reutilizables:
 
 ## Evaluaciones de fin de unidad
 
-- `unit.exam = { id, title, minutes, items: [{ lesson, review, ex }] }` (Álgebra U1–U3, al final de
+- `unit.exam = { id, title, minutes, items: [{ lesson, review, ex }] }` (Álgebra U0 Conjuntos y U1–U3, al final de
   `js/courses/algebra.js`; spec `2026-11-12-evaluaciones-algebra-u1-u3`). Nodo de trofeo al final del camino del
   mundo (`renderWorld`); no cuenta como lección. Motor en `js/exam.js` (`startExam`, `openExamSheet`, `examReport`):
   cronómetro, sin decir si acierta hasta el final, saltar / dejar en blanco, pista = media pregunta, informe con

@@ -1404,6 +1404,55 @@ const COURSE_ALGEBRA = {
   const tile = (a, av, b, bv) => ({ a, av, b, bv });
   const k = (t, v) => ({ t, v });
 
+  unit('conjuntos').exam = {
+    id: 'exam-alg-0', title: 'Conjuntos', minutes: 10,
+    items: [
+      { lesson: 'alg-0a', review: 'Un elemento pertenece ($\\in$) al conjunto; $\\{M\\}$ es un conjunto, no un elemento. El orden no cambia un conjunto, y $n(A)$ cuenta sus elementos.',
+        ex: play('laberinto-valor', 'Sea $A = \\{M, A, R\\}$, las letras de MAR. Cruza el laberinto pisando solo **afirmaciones verdaderas**.', { rule: 'Pisa solo lo verdadero (A = {M, A, R})', rounds: [{ cols: 3, start: 0, end: 11, cells: cells([
+          ['M ∈ A', true], ['O ∈ A', false], ['n(A) = 4', false],
+          ['R ∈ A', true], ['E ∉ A', true], ['A = {A, R, M}', true],
+          ['{M} ∈ A', false], ['R ∉ A', false], ['n(A) = 3', true],
+          ['A = {M, R}', false], ['A ∈ A', true], ['A = {R, M, A}', true]]) }] },
+        'Son verdaderas: $M \\in A$, $R \\in A$, $E \\notin A$, la letra $A \\in A$, $n(A) = 3$ y que $A$ es igual a $\\{A, R, M\\}$ y a $\\{R, M, A\\}$: el orden no importa. $\\{M\\} \\in A$ es falsa porque $\\{M\\}$ es un conjunto, no una letra de $A$.',
+        { hint: 'Antes de cada casilla, mira si habla de un elemento (una letra) o de un conjunto (entre llaves).' }) },
+      { lesson: 'alg-0a', review: 'Un conjunto se puede escribir por comprensión (una descripción) o por extensión (la lista de sus elementos, sin repetir).',
+        ex: play('domino-equivalencias', 'Encadena fichas uniendo una **descripción** del conjunto con su **lista de elementos** (o al revés): cada ficha empieza con el mismo conjunto con que terminó la anterior.', { rounds: [{
+          start: k('Vocales', 'V'), end: k('Letras de PERA', 'PERA'), need: 3, tiles: [
+            tile('{A, E, I, O, U}', 'V', 'Letras de LUNA', 'LUNA'), tile('{L, U, N, A}', 'LUNA', 'Letras de NATA', 'NAT'),
+            tile('{N, A, T}', 'NAT', '{P, E, R, A}', 'PERA'), tile('{S, O, L}', 'SOL', '{N, A}', 'NA'),
+            tile('{A, E, I}', 'AEI', 'Letras de TAN', 'NAT')] }] },
+        'Las vocales son $\\{A, E, I, O, U\\}$; las letras de LUNA son $\\{L, U, N, A\\}$; las de NATA son $\\{N, A, T\\}$ (la $A$ no se repite) y las de PERA, $\\{P, E, R, A\\}$. Trampas: $\\{N, A\\}$ no son todas las letras de NATA, y $\\{A, E, I\\}$ no son todas las vocales.',
+        { hint: 'Para cada palabra, escribe sus letras sin repetir; el orden no importa.' }) },
+      { lesson: 'alg-0b', review: '$X \\subseteq B$ si **todos** los elementos de $X$ están en $B$. El vacío y el mismo $B$ también son subconjuntos; una letra suelta no es un conjunto.',
+        ex: play('laberinto-valor', 'Sea $B = \\{a, b, c, d\\}$. Cruza pisando solo los **subconjuntos de $B$**.', { rule: 'Pisa solo subconjuntos de B = {a, b, c, d}', rounds: [{ cols: 4, start: 0, end: 15, cells: cells([
+          ['{a}', true], ['∅', true], ['{e}', false], ['{a, e}', false],
+          ['a', false], ['{a, b}', true], ['{{a}}', false], ['{c}', true],
+          ['{a, b, c, d, e}', false], ['B', true], ['{b, d}', true], ['{x}', false],
+          ['{f, a}', false], ['{d, c}', true], ['{b, c, d}', true], ['{d}', true]]) }] },
+        'Un camino posible: $\\{a\\}$, $\\varnothing$, $\\{a, b\\}$, $B$, $\\{b, d\\}$ (o $\\{d, c\\}$), $\\{b, c, d\\}$ y $\\{d\\}$: todos sus elementos están en $B$. Trampas: $a$ es un elemento (no un conjunto), $\\{\\{a\\}\\}$ tiene como elemento al conjunto $\\{a\\}$, y los que traen $e$, $f$ o $x$ se salen de $B$.',
+        { hint: 'Revisa cada casilla elemento por elemento: basta uno que no esté en $B$ para que no sea subconjunto.' }) },
+      { lesson: 'alg-0b', review: 'Cada elemento nuevo duplica la cantidad de subconjuntos, porque puede estar o no estar en cada uno de los que ya había.',
+        ex: num('¿Cuántos subconjuntos tiene el conjunto de las letras de la palabra PLATO (contando el vacío y el conjunto completo)?', 32,
+          'Las letras de PLATO son $\\{P, L, A, T, O\\}$: $5$ elementos. Cada uno puede estar o no estar, así que cada elemento duplica la cuenta: $2 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2 = 32$ subconjuntos.',
+          { hint: 'Primero arma el conjunto sin letras repetidas y cuenta sus elementos; cada elemento puede estar o no estar en un subconjunto.' }) },
+      { lesson: 'alg-0c', review: '$A - B$ deja lo que está en $A$ y **no** en $B$. Y para contar $A \\cup B$ hay que restar los del medio: $n(A \\cup B) = n(A) + n(B) - n(A \\cap B)$.',
+        ex: play('detective-pasos', 'Cada solución tiene **un paso equivocado**. Encuéntralo y corrígelo.', { rounds: [
+          { title: 'A = {p, q, r, s}, B = {r, s, t, u}', steps: ['A ∪ B = {p, q, r, s, t, u}', 'A ∩ B = {r, s}', 'A − B = {p, q, t, u}', 'n(A − B) = 4'], wrong: 2,
+            fixes: ['A − B = {p, q}', 'A − B = {t, u}', 'A − B = {p, q, t, u}', 'A − B = {r, s}'], fix: 0 },
+          { title: '15 leen, 11 dibujan y 4 hacen las dos cosas', steps: ['n(L) = 15, n(D) = 11', 'n(L ∩ D) = 4', 'n(L ∪ D) = 15 + 11', 'n(L ∪ D) = 26 personas'], wrong: 2,
+            fixes: ['n(L ∪ D) = 15 + 11 − 4', 'n(L ∪ D) = 15 − 11 + 4', 'n(L ∪ D) = 15 + 11 + 4', 'n(L ∪ D) = 15 · 11'], fix: 0 }] },
+        'En la primera, $t$ y $u$ no están en $A$, así que $A - B = \\{p, q\\}$ y $n(A - B) = 2$. En la segunda, los $4$ que hacen las dos cosas se contaron dos veces: $n(L \\cup D) = 15 + 11 - 4 = 22$.',
+        { hint: 'Comprueba cada línea con la definición de la operación, y en los conteos pregúntate si alguien quedó contado dos veces.' }) },
+      { lesson: 'alg-0c', review: 'Unión: lo de los dos; intersección: lo común; diferencia $A - B$: lo de $A$ que no está en $B$; diferencia simétrica: lo que está en uno solo; complemento: lo de $U$ que falta.',
+        ex: play('domino-equivalencias', 'Con $U = \\{a, b, c, d, e\\}$, $A = \\{a, b, c\\}$ y $B = \\{b, c, d\\}$: encadena cada **operación** con su **resultado**.', { rounds: [{
+          start: k('A ∩ B', 'bc'), end: k('{d, e}', 'de'), need: 3, tiles: [
+            tile('{b, c}', 'bc', 'A − B', 'a'), tile('{a}', 'a', 'A △ B', 'ad'), tile('{a, d}', 'ad', 'Aᶜ', 'de'),
+            tile('{b, c, d}', 'bcd', 'B − A', 'd'), tile('{a, b, c, d}', 'abcd', 'Bᶜ', 'ae')] }] },
+        '$A \\cap B = \\{b, c\\}$, $A - B = \\{a\\}$, $A \\,\\triangle\\, B = \\{a, d\\}$ (lo que está en uno solo) y $A^c = \\{d, e\\}$ (lo que le falta a $A$ para ser $U$).',
+        { hint: 'Calcula cada operación aparte, con los elementos de $A$, $B$ y $U$ a la vista, y luego busca la ficha que empieza con ese resultado.' }) },
+    ],
+  };
+
   unit('numeros').exam = {
     id: 'exam-alg-1', title: 'Sistemas numéricos y axiomas', minutes: 15,
     items: [

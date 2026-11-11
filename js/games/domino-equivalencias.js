@@ -42,22 +42,31 @@ GAMES['domino-equivalencias'] = (() => {
   function create(host, params, api) {
     const C = api.palette, R = params.rounds;
     const CH = R.map(() => []);
+    // Columnas de la bandeja: se deciden una vez, con el ancho inicial, igual que el alto del lienzo.
+    const cols = Math.floor(host.clientWidth || 320) < 340 ? 1 : 2;
     const TRAY = R.map((r, i) => shuffledOrder(r.tiles.length, `dom${i}${r.tiles.map(t => t.a).join()}`));
     let locked = false, W = 0, H = 0, cur = 0, tabs = [], hits = [];
 
     function layout(w, h) { W = w; H = h; tabs = R.length > 1 ? roundTabs(R.length, w) : []; }
 
+    // Cara con texto: si no cabe a 12 px y tiene espacios, va en dos líneas (corte cerca del centro).
+    function faceText(p, t, cx, cy, maxW) {
+      p.textSize(12);
+      const sp = [...t].reduce((best, ch, i) => (ch === ' ' && (best < 0 || Math.abs(i - t.length / 2) < Math.abs(best - t.length / 2)) ? i : best), -1);
+      if (p.textWidth(t) > maxW && sp > 0) { fitText(p, t.slice(0, sp), cx, cy - 7, maxW, 13); fitText(p, t.slice(sp + 1), cx, cy + 8, maxW, 13); }
+      else fitText(p, t, cx, cy, maxW, 16);
+    }
     function tile(p, x, y, w, h, a, b, col, fillCol) {
       p.stroke(col); p.strokeWeight(2.5); p.fill(fillCol || C.card); p.rect(x, y, w, h, 9);
       p.strokeWeight(1.5); p.line(x + w / 2, y + 6, x + w / 2, y + h - 6);
       p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD);
-      fitText(p, a, x + w / 4, y + h / 2, w / 2 - 10, 16); fitText(p, b, x + 3 * w / 4, y + h / 2, w / 2 - 10, 16);
+      faceText(p, a, x + w / 4, y + h / 2, w / 2 - 10); faceText(p, b, x + 3 * w / 4, y + h / 2, w / 2 - 10);
     }
     function face(p, x, y, w, h, t, col, dashed) {
       p.stroke(col); p.strokeWeight(2.5); p.fill(C.card);
       if (dashed) p.drawingContext.setLineDash([6, 5]);
       p.rect(x, y, w, h, 9); p.drawingContext.setLineDash([]);
-      p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); fitText(p, t, x + w / 2, y + h / 2, w - 12, 16);
+      p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); faceText(p, t, x + w / 2, y + h / 2, w - 12);
     }
 
     const m = mountSketch(host, (p, size) => {
@@ -95,9 +104,9 @@ GAMES['domino-equivalencias'] = (() => {
         p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12);
         p.text(locked ? (good ? '¡Cadena completa!' : 'Así se encadenaban') : 'Toca una ficha para ponerla en la cadena', W / 2, y + 2);
         y += 16;
-        const free = TRAY[cur].filter(k => !CH[cur].includes(k)), bw = (W - 36) / 2;
+        const free = TRAY[cur].filter(k => !CH[cur].includes(k)), bw = cols === 1 ? Math.min(W - 24, 260) : (W - 36) / 2;
         free.forEach((k, j) => {
-          const x = 12 + (j % 2) * (bw + 12), yy = y + Math.floor(j / 2) * (th + 10), t = r.tiles[k];
+          const x = cols === 1 ? (W - bw) / 2 : 12 + (j % 2) * (bw + 12), yy = y + Math.floor(j / cols) * (th + 10), t = r.tiles[k];
           tile(p, x, yy, bw, th, t.a, t.b, locked ? C.line : C.R);
           hits.push({ x, y: yy, w: bw, h: th, tray: k });
         });
@@ -117,7 +126,7 @@ GAMES['domino-equivalencias'] = (() => {
         api.ready(CH.every((ch, i) => ch.length === R[i].need));
         return false;
       };
-    }, aspectFor(host, Math.max(...R.map(r => (R.length > 1 ? 50 : 10) + 54 * (r.need + 1) + 38 + 34 + 48 * Math.ceil((r.tiles.length) / 2) + 6))));
+    }, aspectFor(host, Math.max(...R.map(r => (R.length > 1 ? 50 : 10) + 54 * (r.need + 1) + 38 + 34 + 48 * Math.ceil(r.tiles.length / cols) + 6))));
 
     return {
       loaded: m.ready,
