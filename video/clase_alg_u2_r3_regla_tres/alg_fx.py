@@ -348,11 +348,11 @@ def check_layout(scene):
             if _visible(t):
                 texts.append(t)
         for g in m.get_family():
-            if isinstance(g, Rectangle) and g.get_fill_opacity() > 0.3:
+            if isinstance(g, Rectangle) and g.has_points() and (g.get_fill_opacity() > 0.3 or g.get_stroke_opacity() > 0.3 and g.get_stroke_width() > 0.5):
                 boxes.append(g)
             elif isinstance(g, (Circle, Polygon)) and g.get_fill_opacity() > 0.3:
                 shapes.append(g)
-            elif isinstance(g, Line) and g.get_stroke_opacity() > 0.3 and g.get_length() > 0.3:
+            elif isinstance(g, Line) and g.has_points() and g.get_stroke_opacity() > 0.3 and g.get_length() > 0.3:
                 lines.append(g)
         if isinstance(m, Mobject) and not isinstance(m, ImageMobject) and not _visible(m):
             continue
