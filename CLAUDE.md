@@ -86,7 +86,7 @@ Juegos recientes: Álgebra unidad 0 (conjuntos) `arma-notacion`, `cumple-notacio
 tarjetas) `fuga-de-familia` (fichas `r + k√2`), `candado-fraccion`, `compas-raiz`, `lupa-densidad`,
 `duplica-magnitud`, `engranajes`, `estira-barra`, `tragamonedas`, `cadena-cambios`, `crece-planta`,
 `alcancias-gemelas`; Álgebra 1.1 `recta-espejo` (opuestos en la recta de enteros), `pasaporte-numeros`, `ascensor`, `pon-la-rayita`, `acorrala-raiz`;
-Álgebra 1.2 `atajo-axiomas`, `arma-producto`, `dobla-la-recta`; Trigonometría U1 `rueda-angulo`,
+Álgebra 1.2 `inversos-gemelos` (opuesto y recíproco), `corta-rectangulo` (distributiva), `cancela-balanza` (cancelativa), `tren-ordenado` (orden), `atajo-axiomas`, `arma-producto`, `dobla-la-recta`; Trigonometría U1 `rueda-angulo`,
 `corta-pizza`, `arma-triangulo`, `mide-altura`, `atrapa-punto`, `noria`, `sintoniza-onda`; Trigonometría U2
 `canon-inverso`, `tanque-pitagorico`, `detector-identidades` (funciones `f`, `g` en params), `encadena-angulos`,
 `corredores-dobles`, `pesca-raices`, `compas-ambiguo`, `brazo-robot`; Trigonometría U3 `mapa-tesoro`,
@@ -156,16 +156,20 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   (`clase_alg_u0_conjuntos`, `clase_alg_u0_ej_conjuntos`) quedaron reemplazados.
 - Álgebra unidad 1, **un video por lección** (nuevos, fondo `fondo_algebra_vivo.png`, zoom y 3D; carpetas
   `video/clase_alg_u1_*`, plantilla `video/mk_alg_class.py` + `video/alg_u1_fx.py`; borrador escena por escena con
-  `bash video/render_each.sh carpeta archivo.py Escenas…`): A2 `alg-12b`, A3 `alg-12`, A4 `alg-13`,
+  `bash video/render_each.sh carpeta archivo.py Escenas…`): A3 `alg-12`, A4 `alg-13`,
   A5 `alg-13b`. Mientras llegan los ID, las lecciones siguen con sus videos viejos; al recibirlos, poner
   `clip.bunny` + `duration` y **quitar `more`** (y ajustar `tests/pistas.test.js` y `tests/contenido.test.js`,
   que hoy comprueban los ID viejos y la parte 2).
-- Álgebra unidad 1, **ejemplos resueltos** E2–E5 (`video/clase_alg_u1_ej_*`, escena `ExScene`): un video por
+- Álgebra unidad 1, **ejemplos resueltos** E3–E5 (`video/clase_alg_u1_ej_*`, escena `ExScene`): un video por
   lección para justo después del de conceptos; al recibir su ID va en `more: [{ bunny, duration }]` **sin `after`**.
 - Álgebra unidad 1, **sistemas numéricos desde cero** (spec `2026-11-11-sistemas-numericos-desde-cero`, sin zoom ni
   3D): la antigua `alg-11` se partió en `alg-11` (N1 naturales y enteros, `video/clase_alg_u1_n1_naturales`),
   `alg-11b` (N2 racionales, `…_n2_racionales`) y `alg-11c` (N3 irracionales y reales, `…_n3_reales`). Hoy solo
   tienen escenas; al recibir cada ID poner `clip.bunny` + `duration`. Reemplazan a A1 y E1 (`alg-11`).
+- Álgebra unidad 1, **axiomas desde cero** (spec `2026-11-11-axiomas-desde-cero`, sin zoom ni 3D): la antigua `alg-12b`
+  se partió en `alg-12b` (F1 campo, `video/clase_alg_u1_f1_campo`), `alg-12c` (F2 consecuencias: resta, división,
+  signos, cancelativa, `…_f2_consecuencias`) y `alg-12d` (F3 orden y valor absoluto, `…_f3_orden`). Hoy solo tienen
+  escenas; al recibir cada ID poner `clip.bunny` + `duration`. Reemplazan al video viejo de la Clase 7 y a A2/E2.
 - Álgebra: (la Clase 4 de interés quedó reemplazada por A5), Clase 5 progresiones (`alg-14`, 2 partes), Clase 6 sumatoria
   (`alg-15`), Clase 8 potencias (`alg-21a`), Clase 9 leyes de exponentes (`alg-21b`, parte 2 en `more`
   con `after: 6`), Clase 10 raíces (`alg-22a`), Clase 11 radicales (`alg-22b`), Clase 12 polinomio cuadrático

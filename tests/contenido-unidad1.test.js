@@ -65,8 +65,8 @@ test('los ejercicios no repiten los ejemplos resueltos en los videos', () => {
 
 test('alg-11 se queda con los sistemas numericos: sus juegos de orden y valor absoluto viven en alg-12b', () => {
   const games = l => l.ex.filter(e => e.type === 'play').map(e => e.game);
-  const a11 = [...games(lesson('alg-11')), ...games(lesson('alg-11b')), ...games(lesson('alg-11c'))], a12 = games(lesson('alg-12b'));
+  const a11 = [...games(lesson('alg-11')), ...games(lesson('alg-11b')), ...games(lesson('alg-11c'))], a12 = ['alg-12b', 'alg-12c', 'alg-12d'].flatMap(id => games(lesson(id)));
   for (const g of ['reglas-del-juego', 'dibuja-intervalo', 'distancia-justa']) assert.ok(!a11.includes(g), `alg-11 todavia tiene ${g}`);
-  for (const g of ['dibuja-intervalo', 'distancia-justa']) assert.ok(a12.includes(g), `alg-12b no tiene ${g}`);
+  for (const g of ['dibuja-intervalo', 'distancia-justa']) assert.ok(a12.includes(g), `alg-12b/12c/12d no tiene ${g}`);
   for (const g of ['cajas-numericas', 'ubica-en-recta', 'pizzeria', 'compas-raiz', 'ordena-terminos', 'candado-fraccion', 'lupa-densidad', 'fuga-de-familia']) assert.ok(a11.includes(g), `alg-11/11b/11c sin ${g}`);
 });

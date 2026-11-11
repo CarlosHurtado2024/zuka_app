@@ -326,16 +326,36 @@ const COURSE_ALGEBRA = {
           ],
         },
         {
-          id: 'alg-12b', title: 'Axiomas de campo y orden',
-          // Clase 7 en Bunny Stream (video/clase_axiomas). Las escenas quedan de respaldo si el video no carga. Libro UdeA §1.2–1.3.
-          clip: { bunny: '1992ff97-e3e7-438e-b9c4-8d79b91865a8', duration: 383, scenes: [
-            sc(6, 'Los **axiomas de campo** son las reglas de la suma y el producto en $\\mathbb{R}$: conmutativa, asociativa, neutros, inversos y distributiva.', { steps: ['$a + b = b + a \\qquad ab = ba$', '$a + 0 = a \\qquad a \\cdot 1 = a$', '$a(b + c) = ab + ac$'] }),
-            sc(6, 'De ellos salen las propiedades que usas sin pensar: la **ley cancelativa**, $0 \\cdot a = 0$ y la regla de los signos.', { steps: ['$a + b = a + c \\Rightarrow b = c$', '$(-a)(-b) = ab \\qquad (-a)b = -(ab)$'] }),
-            sc(6, 'Los **axiomas de orden**: $a < b$ significa que $b - a$ es positivo. Multiplicar por un negativo **invierte** la desigualdad.', { steps: ['Tricotomía: $a > b$, $a = b$ o $a < b$', '$a < b,\\ c > 0 \\Rightarrow ac < bc$', '$a < b,\\ c < 0 \\Rightarrow ac > bc$'] }),
-            sc(5, 'El **valor absoluto** es la distancia al cero: nunca es negativo.', { title: '$|a| = a$ si $a \\ge 0$, $\\;|a| = -a$ si $a < 0$', steps: ['$|-3| = 3 \\qquad |2 - \\sqrt2| = 2 - \\sqrt2$', '$|\\sqrt2 - 2| = 2 - \\sqrt2$'] }),
+          id: 'alg-12b', title: 'Axiomas de campo: las reglas de la suma y el producto',
+          // Parte 1 de axiomas (spec 2026-11-11-axiomas-desde-cero): video F1 (video/clase_alg_u1_f1_campo).
+          // Escenas de respaldo hasta tener su ID de Bunny. Libro UdeA §1.2.
+          clip: { scenes: [
+            sc(6, 'Un **axioma** es una regla que se acepta sin demostrar, como las reglas de un juego. Las letras representan **cualquier** número real.', { title: '$\\forall\\, a, b \\in \\mathbb{R}$', steps: ['«para todo $a$ y $b$ que pertenecen a los reales»'] }),
+            sc(6, 'El orden y los paréntesis no cambian una suma ni un producto: **conmutativa** y **asociativa**. La resta no es conmutativa.', { steps: ['$a + b = b + a \\qquad ab = ba$', '$(a + b) + c = a + (b + c) \\qquad (ab)c = a(bc)$'] }),
+            sc(6, 'Los **neutros** no cambian nada; los **inversos** llevan al neutro. El $0$ no tiene recíproco.', { steps: ['$a + 0 = a \\qquad a \\cdot 1 = a$', '$a + (-a) = 0 \\qquad a \\cdot \\tfrac{1}{a} = 1\\ \\ (a \\neq 0)$'] }),
+            sc(6, 'La **distributiva** reparte un factor sobre una suma: es partir un rectángulo en dos.', { title: '$a(b + c) = ab + ac$' }),
           ] },
           ex: [
-            // Solo juegos: axiomas de campo, ley de signos, orden y valor absoluto (sin tarjetas ni opción múltiple).
+            play('inversos-gemelos', 'Arma el **opuesto** de cada número: la suma debe dar el neutro $0$', {
+              op: '+',
+              rounds: [
+                { label: '−7', v: -7, sol: '7' }, { label: '5/3', v: 5 / 3, sol: '−5/3' },
+                { label: '−0.25', v: -0.25, sol: '1/4 = 0.25' }, { label: '√6', v: Math.sqrt(6), sol: '−√6' },
+              ],
+            }, 'El opuesto de $a$ es $-a$: su reflejo al otro lado del cero, y $a + (-a) = 0$. Así, $-7 + 7 = 0$, $\\tfrac53 + (-\\tfrac53) = 0$, $-0.25 + 0.25 = 0$ (y $0.25 = \\tfrac14$) y $\\sqrt6 + (-\\sqrt6) = 0$. Solo cambia el signo.',
+              { hint: 'Piensa en el espejo del cero: el opuesto está a la misma distancia, del otro lado. ¿Qué cambia y qué se queda igual? Un decimal se puede escribir antes como fracción.' }),
+            play('inversos-gemelos', 'Arma el **recíproco** de cada número: el producto debe dar el neutro $1$', {
+              op: '×',
+              rounds: [
+                { label: '3/8', v: 3 / 8, sol: '8/3' }, { label: '−6', v: -6, sol: '−1/6' }, { label: '0.2', v: 0.2, sol: '5' },
+                { label: '1', v: 1, sol: '1' }, { label: '0', v: 0, sol: 'no tiene' },
+              ],
+            }, 'El recíproco de $a$ es $\\tfrac1a$, y $a \\cdot \\tfrac1a = 1$: se **voltea** la fracción. $\\tfrac38 \\cdot \\tfrac83 = 1$; $-6 = -\\tfrac61$, así que su recíproco es $-\\tfrac16$ (el signo se queda); $0.2 = \\tfrac15$ y su recíproco es $5$; el $1$ es su propio recíproco. El $0$ no tiene: $0$ por cualquier número da $0$, nunca $1$.',
+              { hint: 'Escribe el número como fracción (un entero va sobre 1, un decimal en décimas) y voltéala. El signo se queda igual: compruébalo en la máquina. ¿Existe algo que multiplicado por 0 dé 1?' }),
+            play('corta-rectangulo', 'Usa la distributiva: corta cada rectángulo para que la cuenta salga de cabeza', {
+              rounds: [{ h: 8, w: 14, piece: 80 }, { h: 7, w: 23, piece: 140 }, { h: 9, w: 12, piece: 90 }],
+            }, 'Cortar el rectángulo es repartir el factor: $8 \\cdot 14 = 8 \\cdot (10 + 4) = 8 \\cdot 10 + 8 \\cdot 4 = 80 + 32 = 112$. Igual $7 \\cdot 23 = 7 \\cdot 20 + 7 \\cdot 3 = 140 + 21 = 161$ y $9 \\cdot 12 = 9 \\cdot 10 + 9 \\cdot 2 = 90 + 18 = 108$. Es la distributiva: $a(b + c) = ab + ac$.',
+              { hint: 'El área de una pieza es alto × ancho. ¿Cuántas columnas de cuadritos necesitas para que la pieza tenga el área pedida? Las decenas hacen fácil la cuenta.' }),
             play('atajo-axiomas', 'Llega a la meta reescribiendo con axiomas: toca la regla que quieres usar', {
               rounds: [
                 { start: '(4 + a) + (−4)', target: 'a', states: {
@@ -365,11 +385,61 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Cada paso del álgebra es un axioma: la **conmutativa** cambia el orden, la **asociativa** mueve los paréntesis, la **distributiva** reparte el factor, el **inverso** convierte $4 + (-4)$ en $0$ y $\\tfrac13 \\cdot 3$ en $1$, y el **neutro** borra el $+\\,0$ y el $1 \\cdot$. Por ejemplo: $(4 + a) + (-4) = (a + 4) + (-4) = a + (4 + (-4)) = a + 0 = a$.',
               { hint: 'Busca juntar cada número con su opuesto (o con su recíproco): primero cambia el orden o los paréntesis hasta que queden vecinos, después usa el inverso para volverlos 0 (o 1) y al final el neutro para borrarlo. Si hay un número por un paréntesis, empieza repartiéndolo.' }),
+            num('Calcula de cabeza, sin calculadora: $4 \\cdot 19 \\cdot 25$', 1900,
+              'Con la **conmutativa** se cambia el orden y con la **asociativa** se agrupa: $4 \\cdot 19 \\cdot 25 = 19 \\cdot (4 \\cdot 25) = 19 \\cdot 100 = 1900$.',
+              { tol: 0.5, hint: 'No tienes que multiplicar en el orden en que aparecen. ¿Qué dos factores, juntos, dan un número redondo?' }),
+          ],
+        },
+        {
+          id: 'alg-12c', title: 'Consecuencias de los axiomas: restar, dividir y los signos',
+          // Parte 2 de axiomas: video F2 (video/clase_alg_u1_f2_consecuencias). Escenas de respaldo.
+          clip: { scenes: [
+            sc(6, 'Restar es sumar el **opuesto**; dividir es multiplicar por el **recíproco**. Por eso no se divide entre $0$.', { steps: ['$a - b = a + (-b)$', '$a \\div b = a \\cdot \\tfrac1b \\quad (b \\neq 0)$'] }),
+            sc(6, 'Cualquier número por cero da cero, y la ley de los signos sale de los axiomas.', { steps: ['$a \\cdot 0 = 0$', '$(-a)b = -(ab) \\qquad (-a)(-b) = ab$'] }),
+            sc(6, 'La **ley cancelativa**: lo mismo a los dos lados se puede quitar (si multiplica, que no sea $0$).', { steps: ['$a + b = a + c \\Rightarrow b = c$', '$ab = ac,\\ a \\neq 0 \\Rightarrow b = c$'] }),
+          ] },
+          ex: [
             play('arma-producto', 'Mete fichas a la máquina hasta que el producto dé la meta', {
-              tiles: [-3, 2, -1, 4, -2, 0],
-              rounds: [{ target: 12 }, { target: -24 }, { target: 6 }],
-            }, 'El signo de un producto depende de cuántos factores negativos tiene: una cantidad par da positivo y una impar, negativo. Por ejemplo $(-3) \\cdot (-1) \\cdot 4 = 12$ (dos negativos), $(-3) \\cdot 2 \\cdot 4 = -24$ (uno) y $(-3) \\cdot (-2) = 6$. Y el $0$ anula todo: $0 \\cdot a = 0$.',
+              tiles: [-2, 5, -1, 3, -4, 0],
+              rounds: [{ target: 8 }, { target: -30 }, { target: 60 }],
+            }, 'El signo de un producto depende de cuántos factores negativos tiene: una cantidad par da positivo y una impar, negativo. Por ejemplo $(-2)(-4) = 8$ (dos negativos), $(-2) \\cdot 5 \\cdot 3 = -30$ (uno) y $5 \\cdot 3 \\cdot (-4)(-1) = 60$ (dos). Y el $0$ anula todo: $a \\cdot 0 = 0$.',
               { hint: 'Primero decide el signo: para un resultado positivo necesitas una cantidad par de fichas negativas; para uno negativo, impar. Después ajusta el tamaño con los valores. Ojo con el 0: si entra a la máquina, todo da 0.' }),
+            play('cancela-balanza', 'Deja la $x$ sola: quita de los dos platillos fichas iguales', {
+              rounds: [
+                { op: '+', left: ['x', '8', '−3'], right: ['−3', '15', '8'], ans: 'x = 15' },
+                { op: '·', left: ['−2', 'x', '5'], right: ['5', '−7', '−2'], ans: 'x = −7' },
+                { op: '+', left: ['√2', 'x', '1/4'], right: ['1/4', '√2', '−6'], ans: 'x = −6' },
+              ],
+            }, 'Es la **ley cancelativa**: si $a + b = a + c$, entonces $b = c$; y si $ab = ac$ con $a \\neq 0$, también $b = c$. De $x + 8 + (-3) = -3 + 15 + 8$ se quitan el $8$ y el $-3$ y queda $x = 15$. De $(-2) \\cdot x \\cdot 5 = 5 \\cdot (-7) \\cdot (-2)$ queda $x = -7$. Con raíces y fracciones funciona igual: $x = -6$.',
+              { hint: 'Busca la misma ficha en los dos platillos: quitar lo mismo de los dos lados no rompe el equilibrio. Toca primero la de la izquierda y luego su gemela de la derecha. El orden de las fichas no importa (conmutativa).' }),
+            play('ordena-terminos', 'Ordena los pasos que demuestran que $(-1) \\cdot a$ es el opuesto de $a$', {
+              tex: 'a + (-1) \\cdot a = 0',
+              chips: ['a + (−1) · a', '1 · a + (−1) · a', '(1 + (−1)) · a', '0 · a', '0', '(1 − 1) + a', '−a · a'],
+              order: [0, 1, 2, 3, 4], sep: '=',
+            }, 'Se escribe $a$ como $1 \\cdot a$ (neutro), se saca el factor $a$ (distributiva), $1 + (-1) = 0$ (inverso) y $0 \\cdot a = 0$. Como $a + (-1)a = 0$, el número $(-1)a$ es el opuesto de $a$: $(-1) \\cdot a = -a$. Multiplicar por $-1$ refleja en el espejo del cero.',
+              { hint: 'Empieza por la expresión de la izquierda y en cada paso usa un solo axioma: primero el neutro del producto, luego la distributiva al revés (sacar factor común), después el inverso y al final lo que pasa al multiplicar por cero.' }),
+            num('Divide multiplicando por el recíproco: $\\tfrac56 \\div \\tfrac{10}{9}$ (escribe una fracción o un decimal)', 0.75,
+              'Dividir es multiplicar por el recíproco: $\\tfrac56 \\div \\tfrac{10}{9} = \\tfrac56 \\cdot \\tfrac{9}{10} = \\tfrac{45}{60} = \\tfrac34 = 0.75$.',
+              { tol: 0.001, answerText: '3/4', hint: 'Voltea la segunda fracción y multiplica numerador con numerador y denominador con denominador. Al final simplifica.' }),
+          ],
+        },
+        {
+          id: 'alg-12d', title: 'Axiomas de orden y valor absoluto',
+          // Parte 3 de axiomas: video F3 (video/clase_alg_u1_f3_orden). Escenas de respaldo. Libro UdeA §1.3.
+          clip: { scenes: [
+            sc(6, 'Todo real es **positivo**, **cero** o **negativo** (tricotomía). $a < b$ quiere decir que $b - a$ es positivo: $b$ está más a la derecha.', { steps: ['$a < b \\iff b - a > 0$', '$\\le$: «menor o igual»'] }),
+            sc(6, 'Sumar conserva el orden; multiplicar por un positivo también; por un **negativo** lo **voltea**.', { steps: ['$a < b,\\ c > 0 \\Rightarrow ac < bc$', '$a < b,\\ c < 0 \\Rightarrow ac > bc$'] }),
+            sc(6, 'El **valor absoluto** es la distancia al cero: nunca es negativo. $|b - a|$ es la distancia entre $a$ y $b$.', { title: '$|a| = a$ si $a \\ge 0$, $\\;|a| = -a$ si $a < 0$' }),
+          ] },
+          ex: [
+            play('tren-ordenado', 'Ordena cada tren de menor a mayor', {
+              rounds: [
+                { items: [{ label: '3', v: 3 }, { label: '−7', v: -7 }, { label: '0', v: 0 }, { label: '−2', v: -2 }, { label: '−10', v: -10 }] },
+                { items: [{ label: '0.6', v: 0.6 }, { label: '2/3', v: 2 / 3 }, { label: '−1/2', v: -0.5 }, { label: '5/8', v: 0.625 }, { label: '−0.45', v: -0.45 }] },
+                { items: [{ label: '√5', v: Math.sqrt(5) }, { label: '9/4', v: 2.25 }, { label: '2.2', v: 2.2 }, { label: '7/3', v: 7 / 3 }, { label: 'π − 1', v: Math.PI - 1 }] },
+              ],
+            }, '$a < b$ quiere decir que $b - a$ es positivo: $b$ queda a la derecha. Entre negativos, el más lejano del cero es el menor: $-10 < -7 < -2 < 0 < 3$. Con fracciones conviene pasar a decimal: $-\\tfrac12 < -0.45 < 0.6 < \\tfrac58 = 0.625 < \\tfrac23 = 0.\\overline{6}$. Y con irracionales: $\\pi - 1 \\approx 2.14 < 2.2 < \\sqrt5 \\approx 2.236 < \\tfrac94 = 2.25 < \\tfrac73 \\approx 2.33$.',
+              { hint: 'Imagina cada número en la recta: el menor va a la izquierda. Con negativos, el que está más lejos del cero es el más pequeño. Pasa fracciones y raíces a decimal y compara cifra por cifra.' }),
             play('voltea-desigualdad', 'Sigue los puntos en la recta y elige el signo correcto tras cada operación', { a: -1, b: 2, steps: [{ op: '+', k: 3 }, { op: '×', k: 2 }, { op: '×', k: -1 }, { op: '+', k: -4 }] },
               'Sumar o restar lo mismo a los dos lados **conserva** el orden; multiplicar por un positivo también. Multiplicar por un negativo **refleja** la recta y voltea el signo: de $4 < 10$ se pasa a $-4 > -10$.', { hint: 'Sumar o restar el mismo número a los dos lados no cambia el signo, y multiplicar por un positivo tampoco. Solo multiplicar por un negativo voltea la desigualdad.' }),
             play('dobla-la-recta', 'Dobla la recta por el cero: ¿dónde cae el valor absoluto?', {

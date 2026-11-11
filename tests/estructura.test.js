@@ -13,7 +13,7 @@ const plan = c => Array.from(c.units, u => `${u.title}: ${u.lessons.map(l => l.i
 test('álgebra: Conjuntos y luego las ocho unidades del cronograma 2026-2', () => {
   assert.deepEqual([...plan(alg)], [
     'Conjuntos: alg-0a alg-0b alg-0c',
-    'Sistemas numéricos, razones y proporciones: alg-11 alg-11b alg-11c alg-12b alg-12 alg-13 alg-13b',
+    'Sistemas numéricos, razones y proporciones: alg-11 alg-11b alg-11c alg-12b alg-12c alg-12d alg-12 alg-13 alg-13b',
     'Potenciación y radicación: alg-21a alg-21b alg-22a alg-22b',
     'Progresiones y sumatoria: alg-14 alg-15',
     'Polinomios: productos notables y factorización: alg-23a alg-3 alg-24c alg-24b',

@@ -63,24 +63,28 @@ test('dobla la recta: |x| es el reflejo de x en el cero (con tolerancia)', () =>
 });
 
 const { loadScripts, get } = require('./load');
-const l12 = get(loadScripts(['js/content.js', 'js/courses/algebra.js']), 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).find(l => l.id === 'alg-12b');
+const L = get(loadScripts(['js/content.js', 'js/courses/algebra.js']), 'COURSE_ALGEBRA').units.flatMap(u => u.lessons);
+const l12 = L.find(l => l.id === 'alg-12b');
+// Spec 2026-11-11-axiomas-desde-cero: la antigua alg-12b se repartió en alg-12b (campo), alg-12c (consecuencias) y alg-12d (orden).
+const ax = ['alg-12b', 'alg-12c', 'alg-12d'].map(id => L.find(l => l.id === id));
+const axEx = ax.flatMap(l => l.ex);
 
-test('alg-12b: abre con el video de la Clase 7 en Bunny (y escenas de respaldo)', () => {
-  assert.equal(l12.clip.bunny, '1992ff97-e3e7-438e-b9c4-8d79b91865a8');
-  assert.equal(l12.clip.duration, 383);   // la que reporta Bunny
+test('alg-12b: el video viejo de la Clase 7 se reemplazó por F1 (escenas de respaldo hasta tener su ID)', () => {
+  assert.notEqual(l12.clip.bunny, '1992ff97-e3e7-438e-b9c4-8d79b91865a8');
   assert.ok(l12.clip.scenes.length >= 3);
   assert.ok(!l12.more || !l12.more.length, 'es un solo video');
 });
 
-test('alg-12b: solo juegos, con los tres nuevos y sin tarjetas, etiquetas ni opción múltiple', () => {
-  const games = l12.ex.map(e => (e.type === 'play' ? e.game : e.type));
+test('axiomas: solo juegos (y algún cálculo), con los tres de antes y sin tarjetas, etiquetas ni opción múltiple', () => {
+  const games = axEx.map(e => (e.type === 'play' ? e.game : e.type));
   for (const g of ['atajo-axiomas', 'arma-producto', 'dobla-la-recta']) assert.ok(games.includes(g), `falta ${g}`);
-  for (const g of ['mc', 'input', 'order', 'verdadero-falso', 'clasifica-cartas', 'reglas-del-juego']) assert.ok(!games.includes(g), `sigue ${g}`);
+  for (const g of ['mc', 'order', 'verdadero-falso', 'clasifica-cartas', 'reglas-del-juego']) assert.ok(!games.includes(g), `sigue ${g}`);
   assert.ok(l12.ex.length >= 5);
+  assert.ok(games.filter(g => g === 'input').length <= 2, 'demasiados cálculos sueltos');
 });
 
 test('alg-12b: las explicaciones y pistas no tienen comandos de KaTeX rotos (\\cdot, \\tfrac sin barra)', () => {
-  for (const e of l12.ex) for (const s of [e.explain, e.hint]) {
+  for (const e of axEx) for (const s of [e.explain, e.hint]) {
     assert.ok(!/\tfrac|(^|[^\\a-z])cdot/.test(s), `fórmula rota en «${s.slice(0, 60)}»`);
   }
 });
@@ -88,6 +92,6 @@ test('alg-12b: las explicaciones y pistas no tienen comandos de KaTeX rotos (\\c
 test('alg-12b: las rondas del atajo son coherentes (cada meta se alcanza desde su inicio)', () => {
   const ex = l12.ex.find(e => e.game === 'atajo-axiomas');
   for (const r of ex.params.rounds) assert.ok(atajo.shortest(r).length >= 2, `${r.start} no llega a ${r.target}`);
-  const m = l12.ex.find(e => e.game === 'arma-producto');
+  const m = axEx.find(e => e.game === 'arma-producto');
   for (const r of m.params.rounds) assert.equal(maquina.grade({ picks: [[]] }, { tiles: m.params.tiles, rounds: [r] }).solution.includes('$' + r.target + '$'), false, `la meta ${r.target} no se puede armar`);
 });
