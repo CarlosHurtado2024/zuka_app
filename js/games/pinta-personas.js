@@ -20,7 +20,7 @@ GAMES['pinta-personas'] = (() => {
     function layout(w, h) { W = w; H = h; tabs = roundTabs(R.length, w); }
     // Cuadrícula de la ronda actual (se calcula igual al dibujar y al tocar, aunque aún no se haya redibujado).
     function grid() {
-      const r = R[cur], cols = r.total <= 10 ? r.total : r.total <= 25 ? 5 : 8, rows = Math.ceil(r.total / cols);
+      const r = R[cur], cols = r.total <= 8 ? 4 : r.total <= 25 ? 5 : 8, rows = Math.ceil(r.total / cols);
       const top = 98, bot = H - 52, cw = (W - 24) / cols, ch = (bot - top) / rows;
       return { cols, cw, ch, s: Math.min(cw, ch) * 0.82,
         cells: Array.from({ length: r.total }, (_, i) => ({ x: 12 + (i % cols) * cw, y: top + Math.floor(i / cols) * ch, w: cw, h: ch })) };
@@ -48,7 +48,7 @@ GAMES['pinta-personas'] = (() => {
         const { s, cells } = grid(), shown = locked && !good ? want(r) : null;
         cells.forEach((c, i) => {
           const on = shown == null ? P[cur][i] : i < shown;
-          person(c.x + c.w / 2, c.y + c.h / 2, s, on ? (locked ? C.ok : C.Q) : C.line);
+          person(c.x + c.w / 2, c.y + c.h / 2, s, on ? (locked ? C.ok : C.Q) : C.mute);
         });
         const msg = locked && !good ? `Eran ${want(r)} de ${r.total}` : `pintadas: ${k} de ${r.total}`;
         p.fill(locked ? C.ok : C.ink); p.textStyle(p.BOLD); fitText(p, msg, W / 2, H - 26, W - 24, 15);
@@ -62,7 +62,7 @@ GAMES['pinta-personas'] = (() => {
         const i = grid().cells.findIndex(c => hitBox(c, x, y));
         if (i >= 0) { P[cur][i] = !P[cur][i]; touched[cur] = true; api.ready(touched.every(Boolean)); api.sfx?.tap?.(); return false; }
       };
-    }, 1.15);
+    }, 1.35);
 
     return {
       loaded: m.ready,

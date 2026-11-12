@@ -66,7 +66,7 @@ test('alg-13: mejor-oferta no tiene empates y gana b, a, b como dice la explicac
   const winners = params.rounds.map(r => { const a = finalPrice(r.price, r.a), b = finalPrice(r.price, r.b); assert.notEqual(a, b); return a < b ? 'a' : 'b'; });
   assert.equal(winners.join(''), 'bab');
   assert.equal(grade({ picks: winners }, params).ok, true);
-  for (const n of ['56\\,000', '55\\,000', '76\\,800']) assert.ok(explain.includes(n), n);
+  for (const n of ['56\\,000', '55\\,000', '86\\,400']) assert.ok(explain.includes(n), n);
 });
 
 test('alg-13: las ofertas de mejor-oferta dicen que son descuentos', () => {

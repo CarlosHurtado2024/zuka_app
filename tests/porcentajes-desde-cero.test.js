@@ -59,8 +59,8 @@ test('porcentajes: cada lección con su video (escenas) y luego juegos con pista
 test('porcentajes: los ejemplos de los videos no se repiten en los ejercicios', () => {
   const bad = {
     'alg-13': ['"ask":"35 %"', '15 %', '18 de 72', '40 %', '150 %', '0.5 %', 'gafas'],
-    'alg-13c': ['60 000', '50 000', '71 400', '2 500', '"change":8', '"from":2500'],
-    'alg-13d': ['80 000', '72 000', '1.331', '50 % y', '"drop":20'],
+    'alg-13c': ['60 000', '50 000', '71 400', '2 500', '"change":8', '"from":2500', '"price":60000'],
+    'alg-13d': ['80 000', '72 000', '1.331', '50 % y', '"drop":20', '"goal":0.75', '"goal":1.21'],
   };
   for (const [id, words] of Object.entries(bad)) {
     const t = JSON.stringify(lesson(id).ex);

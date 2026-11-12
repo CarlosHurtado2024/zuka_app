@@ -55,7 +55,9 @@ const EX = {
     setTimeout(() => inp.focus({ preventScroll: true }), 300);
     return {
       check() {
-        const v = parseNum(inp.value), tol = ex.tol ?? 0.001 * Math.max(1, Math.abs(ex.answer));
+        // «400.000» con puntos de miles: si la respuesta es un entero grande, los puntos separan miles.
+        const raw = inp.value.trim(), miles = Number.isInteger(ex.answer) && Math.abs(ex.answer) >= 1000 && /^-?\d{1,3}(\.\d{3})+$/.test(raw);
+        const v = miles ? +raw.replace(/\./g, '') : parseNum(inp.value), tol = ex.tol ?? 0.001 * Math.max(1, Math.abs(ex.answer));
         return { ok: Math.abs(v - ex.answer) <= tol, solution: ex.answerText || `$${ex.answer}$${ex.suffix ? ' ' + ex.suffix : ''}` };
       },
       lock(ok) { inp.disabled = true; inp.parentElement.classList.add(ok ? 'right' : 'wrong'); },
