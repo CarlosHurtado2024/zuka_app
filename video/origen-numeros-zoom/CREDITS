@@ -1,0 +1,21 @@
+El origen de los números (zoom) — corto para la pestaña Clips de Zuka (estilo «Scale Zoom Explainer» de Lemo-Opuscar)
+
+IMÁGENES
+- Ninguna. Todo es SVG dibujado en código (film.js). Sin fotos, sin imágenes generadas, sin modelos 3D.
+
+MOTOR
+- flat.js (paleta y dibujo plano) y orbi.js (la guía con lente) vienen de la demo del estilo «Scale Zoom Explainer»
+  de Lemo-Opuscar (github.com/lemomo-ai/lemo-opuscar), licencia MIT. film.js es propio.
+
+LETRA
+- Jost, de Owen Earl (indestructible type*), SIL Open Font License 1.1; texto en fonts/Jost-OFL.txt.
+  No va en git: build.sh la descarga de github.com/google/fonts.
+
+SONIDO
+- Muestras (CC0 1.0): VS Chamber Orchestra: Community Edition y Versilian Community Sample Library (Versilian
+  Studios) — marimba, xilófono, glockenspiel, vibráfono (baqueta y arco), arpa y contrabajo en pizzicato.
+- Efectos: sintetizados en mix.py con core/audio/sfx.py de Lemo-Opuscar.
+
+DATOS
+- Ver ../origen-numeros/FACTS.md (mismos datos que la versión de pizarra). Añadido aquí: el nombre de Brahmagupta
+  aparece en la narración; el texto del usuario lo cita como autor del Brahma-sphuta-siddhanta (año 628).

@@ -1,0 +1,52 @@
+1
+00:00:00,800 --> 00:00:04,400
+Durante miles de años, contar fue hacer rayitas.
+
+2
+00:00:04,800 --> 00:00:10,200
+Este hueso tiene unos veinte mil años. Cada muesca es una cosa contada.
+
+3
+00:00:12,800 --> 00:00:17,000
+En Egipto, cada potencia de diez tenía su propio dibujo.
+
+4
+00:00:17,200 --> 00:00:21,200
+Para escribir novecientos nueve hacían falta dieciocho signos.
+
+5
+00:00:23,600 --> 00:00:29,800
+En Babilonia bastaban dos: una cuña para el uno y un gancho para el diez.
+
+6
+00:00:30,100 --> 00:00:35,100
+Contaban de sesenta en sesenta. Por eso una hora tiene sesenta minutos.
+
+7
+00:00:35,400 --> 00:00:41,200
+Pero si no había nada que contar, dejaban un hueco. Nadie sabía escribir «nada».
+
+8
+00:00:43,800 --> 00:00:49,600
+En la India, ese hueco recibió un signo: primero un punto, luego un círculo.
+
+9
+00:00:49,900 --> 00:00:56,100
+En el año seiscientos veintiocho, Brahmagupta le puso reglas. El cero ya era un número.
+
+10
+00:00:56,400 --> 00:01:01,000
+Los mayas, al otro lado del océano, inventaron su propio cero.
+
+11
+00:01:01,300 --> 00:01:06,300
+Con el cero, diez signos alcanzan para todo. Novecientos nueve: solo tres.
+
+12
+00:01:08,700 --> 00:01:13,300
+Hoy, todo lo digital se escribe con dos signos: uno y cero.
+
+13
+00:01:13,800 --> 00:01:17,800
+Una marca y un hueco. Igual que al principio.
+

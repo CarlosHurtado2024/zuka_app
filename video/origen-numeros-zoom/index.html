@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<title>El origen de los números · zoom</title>
+<style>
+@font-face{font-family:Jost;src:url(fonts/Jost.ttf) format('truetype');font-weight:100 900;}
+html,body{margin:0;background:#1D2052;overflow:hidden}
+svg{display:block}
+text{font-family:Jost,sans-serif}
+</style></head>
+<body>
+<svg id="s" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="flat.js"></script>
+<script src="orbi.js"></script>
+<script src="film.js"></script>
+<script>
+svg = document.getElementById('s');
+window.render = function (t) {
+  svg.innerHTML = ''; uid = 0; defs = el('defs', {}, svg);
+  film(Math.max(0, Math.min(DUR_FILM, t)));
+};
+document.fonts.load('700 100px Jost').then(() => document.fonts.ready).then(() => {
+  window.DUR = DUR_FILM;
+  window.EV = filmEvents();
+  window.TEXTS = t => {
+    window.__TXT = []; window.render(t);
+    const out = window.__TXT.filter(e => e.isConnected && e.textContent.trim()).map(e => { const r = e.getBoundingClientRect(); return { id: e.textContent, text: e.textContent, x0: r.left, y0: r.top, x1: r.right, y1: r.bottom, pass: /PRÓXIMA|^=|^\d+$|años|hoy$/.test(e.textContent) }; });
+    window.__TXT = null; return out;
+  };
+  window.render(+(new URLSearchParams(location.search).get('t') || 0));
+  window.READY = true;
+});
+</script>
+</body></html>

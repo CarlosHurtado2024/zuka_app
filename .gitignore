@@ -15,6 +15,12 @@ video/origen-numeros/fonts/*.svg
 video/origen-numeros/events.json
 video/origen-numeros/build_log.txt
 video/origen-numeros/origen-numeros.mp4
+video/origen-numeros-zoom/out/
+video/origen-numeros-zoom/stills/
+video/origen-numeros-zoom/fonts/*.ttf
+video/origen-numeros-zoom/events.json
+video/origen-numeros-zoom/build_log.txt
+video/origen-numeros-zoom/origen-numeros-zoom.mp4
 video/clase_sistemas_numericos/videos/
 video/clase_sistemas_numericos/dist/
 video/clase_sistemas_numericos/build_log.txt

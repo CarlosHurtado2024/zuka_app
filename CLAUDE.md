@@ -203,11 +203,15 @@ material extra (promos, cortos, efectos, 3D, audio).
 - Para la app: `ffmpeg -i origen-numeros.mp4 -vf scale=720:1280 -c:v libx264 -preset slow -crf 26 -movflags +faststart
   -c:a aac -b:a 112k media/clips/<nombre>.mp4` y una entrada en `CURIOS`. El HD se entrega en Descargas para Bunny.
 - Revisar con hoja de contacto (`fps=1/3,scale=200:-1,tile=10x3`): que no se asome texto de la columna vecina.
+- `video/origen-numeros-zoom` es la versión que usa la app: estilo «Scale Zoom Explainer» (SVG plano, 24 fps, 80 s), un
+  solo zoom continuo por cinco niveles (`DIVE` en `film.js`: punto de afuera, radio del anillo y punto de adentro),
+  guía con lente (`orbi.js`), cinta «hace … años» y etiquetas con placa opaca. `NARR` en `film.js` es la narración;
+  `mix.py` la escribe como `origen-numeros-zoom.srt`. El video no lleva voz: la mezcla deja sitio para ponerla.
 
 ## Pendiente (a la fecha)
 
 Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):
-- Clips: `cur-origen-numeros` (HD en `Downloads/Zuka_Clips`); al recibir el ID, cambiar `clip.video` por `clip.bunny`,
+- Clips: `cur-origen-numeros` (HD `origen-numeros-zoom.mp4` y su `.srt` en `Downloads/Zuka_Clips`); al recibir el ID, cambiar `clip.video` por `clip.bunny`,
   poner la `duration` de Bunny y borrar `media/clips/origen-numeros.mp4`. Ideas del mismo texto que no cupieron: Grecia y
   la demostración, al-Juarismi y Fibonacci, quipus y yupana, binario y hexadecimal.
 - Álgebra unidad 0: los tres videos (alg-0a, alg-0b, alg-0c) ya están en Bunny. Los videos viejos C0 y EC0

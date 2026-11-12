@@ -15,7 +15,7 @@ const CURIOS = [
     title: 'El origen de los números',
     fact: 'Contamos con rayitas durante miles de años. El cero, el signo para «nada», llegó mucho después.',
     clip: {
-      video: 'media/clips/origen-numeros.mp4', duration: 83,
+      video: 'media/clips/origen-numeros.mp4', duration: 80,
       scenes: [
         sc(6, 'Hace unos 20 000 años ya se contaba con muescas en un hueso.', { title: '||||' }),
         sc(7, 'En Babilonia contaban de 60 en 60: por eso una hora tiene 60 minutos.', { title: '$1\\text{ h} = 60\\text{ min}$' }),
