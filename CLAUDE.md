@@ -211,8 +211,9 @@ material extra (promos, cortos, efectos, 3D, audio).
 ## Pendiente (a la fecha)
 
 Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):
-- Clips: `cur-origen-numeros` (HD `origen-numeros-zoom.mp4` y su `.srt` en `Downloads/Zuka_Clips`); al recibir el ID, cambiar `clip.video` por `clip.bunny`,
-  poner la `duration` de Bunny y borrar `media/clips/origen-numeros.mp4`. Ideas del mismo texto que no cupieron: Grecia y
+- Clips: `cur-origen-numeros` ya está en Bunny (versión zoom, 80 s). Un clip nuevo puede vivir como mp4 en `media/clips/`
+  mientras llega su ID; al recibirlo, cambiar `clip.video` por `clip.bunny`, poner la `duration` de Bunny y borrar el mp4.
+  Bunny solo responde con `Referer` de la app o de localhost. Ideas del mismo texto que no cupieron: Grecia y
   la demostración, al-Juarismi y Fibonacci, quipus y yupana, binario y hexadecimal.
 - Álgebra unidad 0: los tres videos (alg-0a, alg-0b, alg-0c) ya están en Bunny. Los videos viejos C0 y EC0
   (`clase_alg_u0_conjuntos`, `clase_alg_u0_ej_conjuntos`) quedaron reemplazados.
