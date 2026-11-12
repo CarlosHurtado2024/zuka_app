@@ -12,7 +12,7 @@ function backStep(s) {
   if (s.sheet) return 'sheet';         // hoja inferior: se cierra
   if (s.lesson) return 'lesson';       // lección o evaluación: se sale (pregunta si hay progreso)
   if (s.world) return 'world';         // dentro de un mundo: vuelve al mapa
-  if (s.tab !== 'learn') return 'tab'; // Clips o Perfil: vuelve a Aprender
+  if (s.tab !== 'learn') return 'tab'; // Clips, Tutorías o Perfil: vuelve a Aprender
   return 'ask-exit';
 }
 

@@ -22,6 +22,8 @@ const TOUR_STEPS = [
     review: 'La llama cuenta tus días seguidos, el rayo tu experiencia (XP) y el corazón tus vidas. En modo revisión, como ahora, no las pierdes al fallar.' },
   { id: 'clips', view: 'world', target: ['#tabbar [data-tab="clips"]'], title: 'Clips: datos curiosos',
     text: 'Videos cortos con curiosidades de matemáticas y ciencia. Desliza hacia arriba para ver el siguiente y guarda los que te gusten.' },
+  { id: 'tutorias', view: 'world', target: ['#tabbar [data-tab="tutorias"]'], title: 'Tutorías: ayuda en vivo',
+    text: '¿Te trabaste con un tema? Separa una asesoría virtual con un tutor: eliges el día, la hora y qué quieres repasar.' },
   { id: 'perfil', view: 'world', target: ['#tabbar [data-tab="profile"]'], title: 'Tu perfil',
     text: 'Aquí pones tu nombre, tu meta diaria y el tema claro u oscuro. También puedes repetir este recorrido cuando quieras.' },
   { id: 'fin', view: 'world', target: ['.path .node.current', '.path .node'], art: 'mascot', title: '¡Todo listo!',

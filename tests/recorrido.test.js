@@ -21,7 +21,7 @@ test('sale solo a quien abre la app por primera vez', () => {
 
 test('cubre curso, mundos, niveles, video, ejercicios, progreso, Clips y Perfil, en ese orden', () => {
   assert.equal(STEPS.map(s => s.id).join(),
-    'hola,curso,mundos,niveles,video,ejercicios,progreso,clips,perfil,fin');
+    'hola,curso,mundos,niveles,video,ejercicios,progreso,clips,tutorias,perfil,fin');
 });
 
 test('cada paso tiene título y un texto corto que cabe en el celular', () => {
@@ -139,7 +139,7 @@ test('la app lo arranca al inicio, lo recuerda y deja repetirlo desde Perfil', (
   assert.match(app, /data-tour/);
   assert.match(app, /Ver el recorrido otra vez/);
   // Reiniciar el progreso no vuelve a lanzar el recorrido.
-  assert.match(app, /S = Object\.assign\(DEFAULTS\(\), \{ tourDone: S\.tourDone \}\)/);
+  assert.match(app, /S = Object\.assign\(DEFAULTS\(\), \{ tourDone: S\.tourDone, /);
 });
 
 test('la capa usa los colores del tema, queda bajo los diálogos y sobre hojas y avisos', () => {

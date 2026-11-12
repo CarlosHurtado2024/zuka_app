@@ -11,6 +11,7 @@ const DEFAULTS = () => ({
   // se construye. Se apaga en Perfil → Ajustes (o aquí, con false, antes de abrirla a estudiantes).
   unlockAll: true,
   tourDone: false,   // recorrido guiado de bienvenida (js/tour.js): ya visto o saltado
+  tutorias: [],      // asesorías separadas en la pestaña Tutorías (js/tutorias.js)
 });
 
 let S = (() => {
@@ -131,7 +132,7 @@ function go(t) {
   document.body.dataset.tab = t;
   document.querySelectorAll('#tabbar button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
   renderTop();
-  ({ learn: renderLearn, clips: renderClips, profile: renderProfile })[t]();
+  ({ learn: renderLearn, clips: renderClips, tutorias: renderTutorias, profile: renderProfile })[t]();
 }
 
 function renderTop() {
@@ -679,14 +680,14 @@ function renderProfile() {
   view.querySelectorAll('[data-set]').forEach(b => b.onclick = () => { S[b.dataset.set] = !S[b.dataset.set]; save(); renderProfile(); });
   $('[data-tour]', view).onclick = startTour;
   $('[data-reset]', view).onclick = () => {
-    ask({ title: '¿Borrar todo tu progreso?', text: 'Se borran tu XP, tu racha y las lecciones completadas. No se puede deshacer.', ok: 'Borrar todo', cancel: 'Cancelar', danger: true })
-      .then(yes => { if (yes) { S = Object.assign(DEFAULTS(), { tourDone: S.tourDone }); openWorld = null; save(); applyTheme(); go('learn'); } });
+    ask({ title: '¿Borrar todo tu progreso?', text: 'Se borran tu XP, tu racha y las lecciones completadas. Tus asesorías separadas se conservan. No se puede deshacer.', ok: 'Borrar todo', cancel: 'Cancelar', danger: true })
+      .then(yes => { if (yes) { S = Object.assign(DEFAULTS(), { tourDone: S.tourDone, tutorias: S.tutorias }); openWorld = null; save(); applyTheme(); go('learn'); } });
   };
 }
 
 // ---- arranque ----
 document.querySelectorAll('#tabbar button').forEach(b => {
-  b.insertAdjacentHTML('afterbegin', ICON[b.dataset.tab === 'learn' ? 'learn' : b.dataset.tab === 'clips' ? 'clips' : 'user']);
+  b.insertAdjacentHTML('afterbegin', ICON[{ learn: 'learn', clips: 'clips', tutorias: 'calendar' }[b.dataset.tab] || 'user']);
   b.onclick = () => {
     if (lessonClose) return lessonClose(b.dataset.tab);
     if (tab === 'learn' && b.dataset.tab === 'learn') openWorld = null;   // tocar Aprender otra vez: al mapa
