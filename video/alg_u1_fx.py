@@ -366,7 +366,7 @@ def check_layout(scene):
     tb = [(t, _box(t)) for t in texts]
     for i in range(len(tb)):
         for j in range(i + 1, len(tb)):
-            if _overlap(tb[i][1], tb[j][1]):
+            if _overlap(tb[i][1], tb[j][1], tol=-0.05):   # también los que quedan pegados
                 issues.append(f"textos encimados: «{tb[i][0].get_string()[:24]}» y «{tb[j][0].get_string()[:24]}»")
     for t, b in tb:
         for r in boxes:
