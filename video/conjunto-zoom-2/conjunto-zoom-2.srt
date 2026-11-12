@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Hay conjuntos de muchos tipos.
+
+2
+00:00:04,000 --> 00:00:06,400
+Aquí hay tres bolsas.
+
+3
+00:00:06,800 --> 00:00:09,500
+La primera está vacía: es el conjunto vacío.
+
+4
+00:00:09,700 --> 00:00:12,600
+Como los meses de treinta y dos días.
+
+5
+00:00:12,800 --> 00:00:15,800
+La segunda tiene uno solo: es un conjunto unitario.
+
+6
+00:00:16,000 --> 00:00:18,400
+La capital de Colombia: solo Bogotá.
+
+7
+00:00:19,000 --> 00:00:21,800
+Y la tercera guarda una bolsa vacía.
+
+8
+00:00:22,000 --> 00:00:24,800
+Por eso no está vacía: tiene un elemento.
+
+9
+00:00:25,000 --> 00:00:27,400
+Ahora, conjuntos dentro de otros.
+
+10
+00:00:30,400 --> 00:00:33,000
+Este círculo es L: las letras.
+
+11
+00:00:33,200 --> 00:00:35,800
+Dentro está V, el de las vocales.
+
+12
+00:00:36,200 --> 00:00:39,000
+Cada vocal también es una letra.
+
+13
+00:00:39,200 --> 00:00:41,600
+Por eso V es subconjunto de L.
+
+14
+00:00:42,000 --> 00:00:44,800
+El vacío es subconjunto de cualquier conjunto.
+
+15
+00:00:45,000 --> 00:00:47,600
+No tiene ningún elemento que pueda faltar.
+
+16
+00:00:48,000 --> 00:00:51,000
+Pero a y siete juntos no caben en L.
+
+17
+00:00:51,200 --> 00:00:54,000
+El siete no es letra, y basta uno.
+
+18
+00:00:54,400 --> 00:00:57,000
+Ahora comparemos conjuntos.
+
+19
+00:00:59,800 --> 00:01:02,400
+Las letras de AMOR y las de ROMA…
+
+20
+00:01:02,600 --> 00:01:06,200
+son las mismas: son conjuntos iguales.
+
+21
+00:01:06,800 --> 00:01:09,600
+Frutas y herramientas no comparten nada.
+
+22
+00:01:09,800 --> 00:01:12,600
+Son conjuntos disjuntos.
+
+23
+00:01:13,000 --> 00:01:15,800
+Si comparten algunos, los círculos se cruzan.
+
+24
+00:01:16,000 --> 00:01:18,800
+Comparten la manzana: ni iguales ni disjuntos.
+
+25
+00:01:18,800 --> 00:01:21,400
+Sigamos por la manzana.
+
+26
+00:01:24,200 --> 00:01:27,000
+En la heladería hay tres toppings:
+
+27
+00:01:27,200 --> 00:01:29,600
+fresa, mora y coco.
+
+28
+00:01:30,000 --> 00:01:33,000
+Contemos todas las combinaciones, por tamaños.
+
+29
+00:01:33,200 --> 00:01:36,000
+Ninguno, uno, dos o los tres.
+
+30
+00:01:36,600 --> 00:01:39,400
+Uno, más tres, más tres, más uno: ocho.
+
+31
+00:01:39,600 --> 00:01:42,000
+Es el conjunto de partes de T.
+
+32
+00:01:42,400 --> 00:01:45,200
+Otra forma: cada topping entra o no.
+
+33
+00:01:45,400 --> 00:01:47,600
+Dos por dos por dos: ocho.
+
+34
+00:01:48,600 --> 00:01:52,800
+Vacío, unitario, subconjunto, iguales y disjuntos.
+
+35
+00:01:53,000 --> 00:01:57,000
+Y el conjunto de partes, que reúne todos los subconjuntos.
+

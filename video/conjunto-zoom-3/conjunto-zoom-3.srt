@@ -1,0 +1,136 @@
+1
+00:00:00,800 --> 00:00:03,600
+Siete amigos comparten el patio.
+
+2
+00:00:04,000 --> 00:00:06,400
+Ahí están: Ana y los demás.
+
+3
+00:00:06,800 --> 00:00:09,400
+Todos juntos forman el universo, U.
+
+4
+00:00:09,600 --> 00:00:12,200
+Es todo lo que vamos a estudiar.
+
+5
+00:00:12,800 --> 00:00:15,600
+A: los que juegan fútbol.
+
+6
+00:00:15,800 --> 00:00:18,400
+Ana, Beto, Caro y Dani.
+
+7
+00:00:19,000 --> 00:00:21,600
+B: los que tocan un instrumento.
+
+8
+00:00:21,800 --> 00:00:24,400
+Caro, Dani y Eva.
+
+9
+00:00:24,800 --> 00:00:27,600
+Caro y Dani van en el cruce.
+
+10
+00:00:27,800 --> 00:00:30,200
+Fede y Gabi, en ninguno.
+
+11
+00:00:32,800 --> 00:00:35,600
+La unión junta los dos conjuntos.
+
+12
+00:00:35,800 --> 00:00:38,800
+Está en A o en B: cinco amigos.
+
+13
+00:00:40,000 --> 00:00:42,800
+La intersección se queda con lo común.
+
+14
+00:00:43,000 --> 00:00:46,000
+Está en A y en B: Caro y Dani.
+
+15
+00:00:46,400 --> 00:00:49,200
+«O» junta: la unión crece.
+
+16
+00:00:49,400 --> 00:00:52,000
+«Y» filtra: la intersección se achica.
+
+17
+00:00:52,600 --> 00:00:56,000
+Ahora miremos lo que sobra.
+
+18
+00:00:59,000 --> 00:01:02,000
+A menos B: en A, pero no en B.
+
+19
+00:01:02,200 --> 00:01:05,000
+Quedan Ana y Beto.
+
+20
+00:01:05,400 --> 00:01:08,400
+Complemento de A: lo que no está en A.
+
+21
+00:01:08,600 --> 00:01:11,400
+Eva, Fede y Gabi.
+
+22
+00:01:11,800 --> 00:01:14,800
+La diferencia simétrica: lo que está en uno solo.
+
+23
+00:01:15,000 --> 00:01:18,000
+Ana, Beto y Eva. Caro y Dani no.
+
+24
+00:01:18,600 --> 00:01:22,000
+Y ahora, a contar.
+
+25
+00:01:25,000 --> 00:01:27,600
+A tiene cuatro elementos; B tiene tres.
+
+26
+00:01:27,800 --> 00:01:30,800
+Eso es n de A y n de B.
+
+27
+00:01:31,000 --> 00:01:33,800
+Si sumamos, cuatro más tres da siete.
+
+28
+00:01:34,000 --> 00:01:36,600
+Pero en la unión solo hay cinco.
+
+29
+00:01:37,000 --> 00:01:40,000
+Caro y Dani se contaron dos veces.
+
+30
+00:01:40,200 --> 00:01:42,800
+Hay que restar los dos comunes: queda cinco.
+
+31
+00:01:42,900 --> 00:01:46,600
+Es n de A más n de B, menos n del cruce.
+
+32
+00:01:46,800 --> 00:01:49,600
+Así lo común se cuenta una sola vez.
+
+33
+00:01:50,200 --> 00:01:54,600
+Unión, intersección, diferencias y complemento:
+
+34
+00:01:54,800 --> 00:01:59,000
+cada operación es una manera de leer el diagrama.
+

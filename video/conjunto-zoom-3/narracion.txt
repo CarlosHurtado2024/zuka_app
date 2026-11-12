@@ -1,0 +1,7 @@
+Siete amigos comparten el patio. Ahí están: Ana y los demás. Todos juntos forman el universo, U. Es todo lo que vamos a estudiar. A: los que juegan fútbol. Ana, Beto, Caro y Dani. B: los que tocan un instrumento. Caro, Dani y Eva. Caro y Dani van en el cruce. Fede y Gabi, en ninguno.
+
+La unión junta los dos conjuntos. Está en A o en B: cinco amigos. La intersección se queda con lo común. Está en A y en B: Caro y Dani. «O» junta: la unión crece. «Y» filtra: la intersección se achica. Ahora miremos lo que sobra.
+
+A menos B: en A, pero no en B. Quedan Ana y Beto. Complemento de A: lo que no está en A. Eva, Fede y Gabi. La diferencia simétrica: lo que está en uno solo. Ana, Beto y Eva. Caro y Dani no. Y ahora, a contar.
+
+A tiene cuatro elementos; B tiene tres. Eso es n de A y n de B. Si sumamos, cuatro más tres da siete. Pero en la unión solo hay cinco. Caro y Dani se contaron dos veces. Hay que restar los dos comunes: queda cinco. Es n de A más n de B, menos n del cruce. Así lo común se cuenta una sola vez. Unión, intersección, diferencias y complemento: cada operación es una manera de leer el diagrama.

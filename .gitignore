@@ -119,3 +119,15 @@ video/conjunto-zoom/fonts/*.ttf
 video/conjunto-zoom/events.json
 video/conjunto-zoom/build_log.txt
 video/conjunto-zoom/conjunto-zoom.mp4
+video/conjunto-zoom-2/out/
+video/conjunto-zoom-2/stills/
+video/conjunto-zoom-2/fonts/*.ttf
+video/conjunto-zoom-2/events.json
+video/conjunto-zoom-2/build_log.txt
+video/conjunto-zoom-2/conjunto-zoom-2.mp4
+video/conjunto-zoom-3/out/
+video/conjunto-zoom-3/stills/
+video/conjunto-zoom-3/fonts/*.ttf
+video/conjunto-zoom-3/events.json
+video/conjunto-zoom-3/build_log.txt
+video/conjunto-zoom-3/conjunto-zoom-3.mp4

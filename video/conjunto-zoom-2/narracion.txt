@@ -1,0 +1,7 @@
+Hay conjuntos de muchos tipos. Aquí hay tres bolsas. La primera está vacía: es el conjunto vacío. Como los meses de treinta y dos días. La segunda tiene uno solo: es un conjunto unitario. La capital de Colombia: solo Bogotá. Y la tercera guarda una bolsa vacía. Por eso no está vacía: tiene un elemento. Ahora, conjuntos dentro de otros.
+
+Este círculo es L: las letras. Dentro está V, el de las vocales. Cada vocal también es una letra. Por eso V es subconjunto de L. El vacío es subconjunto de cualquier conjunto. No tiene ningún elemento que pueda faltar. Pero a y siete juntos no caben en L. El siete no es letra, y basta uno. Ahora comparemos conjuntos.
+
+Las letras de AMOR y las de ROMA… son las mismas: son conjuntos iguales. Frutas y herramientas no comparten nada. Son conjuntos disjuntos. Si comparten algunos, los círculos se cruzan. Comparten la manzana: ni iguales ni disjuntos. Sigamos por la manzana.
+
+En la heladería hay tres toppings: fresa, mora y coco. Contemos todas las combinaciones, por tamaños. Ninguno, uno, dos o los tres. Uno, más tres, más tres, más uno: ocho. Es el conjunto de partes de T. Otra forma: cada topping entra o no. Dos por dos por dos: ocho. Vacío, unitario, subconjunto, iguales y disjuntos. Y el conjunto de partes, que reúne todos los subconjuntos.

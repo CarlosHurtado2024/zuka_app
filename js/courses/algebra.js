@@ -143,9 +143,9 @@ const COURSE_ALGEBRA = {
             play('encuesta-venn', 'Reparte a las personas de la encuesta en las zonas del diagrama', {
               rounds: [
                 { text: 'En un grupo de 30 amigos, 18 tienen perro, 12 tienen gato y 5 tienen los dos.', labels: ['perro', 'gato'], total: 30, a: 18, b: 12, both: 5 },
-                { text: 'En un curso de 40 estudiantes, 22 practican música, 18 hacen deporte y 7 hacen las dos cosas.', labels: ['música', 'deporte'], total: 40, a: 22, b: 18, both: 7 },
+                { text: 'En un curso de 40 estudiantes, a 22 les gusta leer, a 18 dibujar y a 7 las dos cosas.', labels: ['leer', 'dibujar'], total: 40, a: 22, b: 18, both: 7 },
               ],
-            }, 'Se empieza por el centro: los que están en los dos. Solo perro: $18 - 5 = 13$; solo gato: $12 - 5 = 7$; así van $13 + 5 + 7 = 25$ y quedan $30 - 25 = 5$ sin ninguna mascota. En el curso: 15 solo música, 7 las dos, 11 solo deporte y 7 ninguna.',
+            }, 'Se empieza por el centro: los que están en los dos. Solo perro: $18 - 5 = 13$; solo gato: $12 - 5 = 7$; así van $13 + 5 + 7 = 25$ y quedan $30 - 25 = 5$ sin ninguna mascota. En el curso: 15 solo leen, 7 hacen las dos, 11 solo dibujan y 7 ninguna.',
               { hint: 'Llena primero la zona del centro. Después, a cada grupo réstale esa cantidad para saber cuántos están solo en él. Lo que falte para el total no está en ninguno.' }),
           ],
         },
