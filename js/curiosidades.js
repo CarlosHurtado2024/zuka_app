@@ -30,7 +30,7 @@ const CURIOS = [
     title: 'Matemáticas de abeja',
     fact: 'Una abeja baila un ángulo y una distancia para decir dónde hay flores: son coordenadas polares.',
     clip: {
-      video: 'media/clips/abejas.mp4', duration: 76,
+      bunny: '22dee0b2-14ba-4b3a-ad2e-fe2b793794a6', duration: 76,
       scenes: [
         sc(6, 'Una abeja encontró flores. Adentro de la colmena está oscuro: no lo dice, lo baila.', { title: 'El baile del ocho' }),
         sc(7, 'El tramo recto es una flecha. Hacia arriba significa hacia el sol.', { title: '$30^\\circ$' }),

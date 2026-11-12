@@ -216,7 +216,7 @@ material extra (promos, cortos, efectos, 3D, audio).
 ## Pendiente (a la fecha)
 
 Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):
-- Clips: `cur-origen-numeros` ya está en Bunny (versión zoom, 80 s). `cur-abejas` espera su ID (HD `abejas.mp4` y `abejas.srt` en `Downloads/Zuka_Clips`; hoy usa `media/clips/abejas.mp4`). Un clip nuevo puede vivir como mp4 en `media/clips/`
+- Clips: `cur-origen-numeros` ya está en Bunny (versión zoom, 80 s). `cur-abejas` también (75.5 s). Un clip nuevo puede vivir como mp4 en `media/clips/`
   mientras llega su ID; al recibirlo, cambiar `clip.video` por `clip.bunny`, poner la `duration` de Bunny y borrar el mp4.
   Bunny solo responde con `Referer` de la app o de localhost. Ideas del mismo texto que no cupieron: Grecia y
   la demostración, al-Juarismi y Fibonacci, quipus y yupana, binario y hexadecimal.
