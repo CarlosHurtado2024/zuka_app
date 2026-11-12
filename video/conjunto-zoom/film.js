@@ -6,6 +6,41 @@
 const S0 = [W / 2, H / 2];
 const DUR_FILM = 116.5;
 
+// ---------- narración (el video no la lleva; mix.py la escribe como conjunto-zoom.srt con los tiempos de la imagen) ----------
+const NARR = [
+  [0.8, 3.4, 'Antes de las fórmulas, una idea muy sencilla.'],
+  [3.8, 5.8, 'Mira este semáforo en la pradera.'],
+  [6.0, 8.4, 'Un conjunto es una colección de objetos.'],
+  [8.6, 10.9, 'Aquí juntamos los colores del semáforo.'],
+  [11.2, 16.2, 'Debe estar bien definida: cualquiera decide, sin dudar, si algo está o no está.'],
+  [16.6, 20.9, '«Los colores bonitos» no: cada quien opina distinto. No es un conjunto.'],
+  [21.2, 24.2, 'Entremos en el semáforo.'],
+  [27.0, 30.0, 'Los objetos de un conjunto se llaman elementos.'],
+  [30.2, 33.0, 'Este tiene tres: rojo, amarillo y verde.'],
+  [33.4, 35.6, 'Ahora, a escribirlo.'],
+  [35.8, 41.2, 'El conjunto lleva un nombre en mayúscula, S, y sus elementos van entre llaves, separados por comas.'],
+  [41.6, 43.6, 'Llega el azul… y rebota.'],
+  [44.0, 47.8, 'Rojo pertenece a S. Este símbolo se lee «pertenece a».'],
+  [48.2, 51.6, 'Azul no está: se lee «no pertenece a».'],
+  [52.0, 55.0, 'Sigamos por la letra S.'],
+  [57.8, 60.6, 'Hay dos maneras de escribir un conjunto.'],
+  [60.8, 64.2, 'Por extensión, se escriben todos sus elementos: las cinco vocales.'],
+  [64.6, 67.0, 'Por comprensión, se escribe la condición.'],
+  [67.2, 70.8, 'Las consonantes no la cumplen, así que se quedan afuera.'],
+  [71.2, 76.0, 'Los dos puntos se leen «tal que»: las x tal que x es una vocal.'],
+  [76.6, 79.8, 'Y dentro de una vocal, una palabra.'],
+  [82.8, 85.6, 'PAPAYA tiene seis letras.'],
+  [85.8, 88.2, 'Pero solo tres son distintas.'],
+  [88.6, 91.4, 'Cada elemento se escribe una sola vez.'],
+  [91.6, 94.8, 'Las letras de PAPAYA forman el conjunto L.'],
+  [95.2, 98.2, 'Si cambiamos el orden, el conjunto no cambia.'],
+  [98.4, 100.8, 'Sigue siendo el mismo conjunto L.'],
+  [101.2, 104.0, 'Ahora contamos: uno, dos, tres.'],
+  [104.2, 107.2, 'El cardinal de L es tres: n de L.'],
+  [108.0, 111.6, 'Un conjunto: una colección bien definida, escrita entre llaves.'],
+  [111.8, 115.8, 'Sin orden, sin repetidos, y su cardinal cuenta cuántos elementos tiene.'],
+];
+
 // ---------- suavizados (funciones puras de t) ----------
 const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
 const lerp = (a, b, k) => a + (b - a) * k;
@@ -474,5 +509,6 @@ function filmEvents() {
   ev.push({ t: 102.6, type: 'card' }, { t: 107.2, type: 'away', d: .6 }, { t: 107.8, type: 'rise' });
   for (let k = 0; k < 5; k++) ev.push({ t: 108.4 + k * .55, type: 'stop', i: k });
   ev.push({ t: 110.6, type: 'end' });
+  ev.push({ t: 0, type: 'narr', lines: NARR });
   return ev.sort((a, b) => a.t - b.t);
 }

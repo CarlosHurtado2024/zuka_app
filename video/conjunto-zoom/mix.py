@@ -133,3 +133,10 @@ if len(mix) < N: mix = np.pad(mix, ((0, N - len(mix)), (0, 0)))
 sf.write(os.path.join(HERE, 'out', 'mix.wav'), mix, SR, subtype='PCM_24')
 print(f'mix.wav  {DUR:.2f} s  {lufs(mix):.1f} LUFS  pistas {raw}')
 print(S.credits(['marimba', 'contrabass_pizz', 'vibraphone', 'vibraphone_bowed', 'glockenspiel', 'xylophone', 'harp']))
+
+# la narración como .srt (los tiempos son los de la imagen; el video no lleva voz)
+def ts(x): h = int(x // 3600); m = int(x % 3600 // 60); s = x % 60; return f'{h:02d}:{m:02d}:{int(s):02d},{int(round((s - int(s)) * 1000)):03d}'
+lines = of('narr')[0]['lines']
+open(os.path.join(HERE, 'conjunto-zoom.srt'), 'w', encoding='utf-8', newline='\n').write(
+    ''.join(f'{i + 1}\n{ts(a)} --> {ts(b)}\n{txt}\n\n' for i, (a, b, txt) in enumerate(lines)))
+print('srt', len(lines), 'líneas')

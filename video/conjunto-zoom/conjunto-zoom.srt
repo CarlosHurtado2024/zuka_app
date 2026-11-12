@@ -1,0 +1,124 @@
+1
+00:00:00,800 --> 00:00:03,400
+Antes de las fórmulas, una idea muy sencilla.
+
+2
+00:00:03,800 --> 00:00:05,800
+Mira este semáforo en la pradera.
+
+3
+00:00:06,000 --> 00:00:08,400
+Un conjunto es una colección de objetos.
+
+4
+00:00:08,600 --> 00:00:10,900
+Aquí juntamos los colores del semáforo.
+
+5
+00:00:11,200 --> 00:00:16,200
+Debe estar bien definida: cualquiera decide, sin dudar, si algo está o no está.
+
+6
+00:00:16,600 --> 00:00:20,900
+«Los colores bonitos» no: cada quien opina distinto. No es un conjunto.
+
+7
+00:00:21,200 --> 00:00:24,200
+Entremos en el semáforo.
+
+8
+00:00:27,000 --> 00:00:30,000
+Los objetos de un conjunto se llaman elementos.
+
+9
+00:00:30,200 --> 00:00:33,000
+Este tiene tres: rojo, amarillo y verde.
+
+10
+00:00:33,400 --> 00:00:35,600
+Ahora, a escribirlo.
+
+11
+00:00:35,800 --> 00:00:41,200
+El conjunto lleva un nombre en mayúscula, S, y sus elementos van entre llaves, separados por comas.
+
+12
+00:00:41,600 --> 00:00:43,600
+Llega el azul… y rebota.
+
+13
+00:00:44,000 --> 00:00:47,800
+Rojo pertenece a S. Este símbolo se lee «pertenece a».
+
+14
+00:00:48,200 --> 00:00:51,600
+Azul no está: se lee «no pertenece a».
+
+15
+00:00:52,000 --> 00:00:55,000
+Sigamos por la letra S.
+
+16
+00:00:57,800 --> 00:01:00,600
+Hay dos maneras de escribir un conjunto.
+
+17
+00:01:00,800 --> 00:01:04,200
+Por extensión, se escriben todos sus elementos: las cinco vocales.
+
+18
+00:01:04,600 --> 00:01:07,000
+Por comprensión, se escribe la condición.
+
+19
+00:01:07,200 --> 00:01:10,800
+Las consonantes no la cumplen, así que se quedan afuera.
+
+20
+00:01:11,200 --> 00:01:16,000
+Los dos puntos se leen «tal que»: las x tal que x es una vocal.
+
+21
+00:01:16,600 --> 00:01:19,800
+Y dentro de una vocal, una palabra.
+
+22
+00:01:22,800 --> 00:01:25,600
+PAPAYA tiene seis letras.
+
+23
+00:01:25,800 --> 00:01:28,200
+Pero solo tres son distintas.
+
+24
+00:01:28,600 --> 00:01:31,400
+Cada elemento se escribe una sola vez.
+
+25
+00:01:31,600 --> 00:01:34,800
+Las letras de PAPAYA forman el conjunto L.
+
+26
+00:01:35,200 --> 00:01:38,200
+Si cambiamos el orden, el conjunto no cambia.
+
+27
+00:01:38,400 --> 00:01:40,800
+Sigue siendo el mismo conjunto L.
+
+28
+00:01:41,200 --> 00:01:44,000
+Ahora contamos: uno, dos, tres.
+
+29
+00:01:44,200 --> 00:01:47,200
+El cardinal de L es tres: n de L.
+
+30
+00:01:48,000 --> 00:01:51,600
+Un conjunto: una colección bien definida, escrita entre llaves.
+
+31
+00:01:51,800 --> 00:01:55,800
+Sin orden, sin repetidos, y su cardinal cuenta cuántos elementos tiene.
+
