@@ -25,7 +25,7 @@ node core/render/events.mjs "$HERE" --size $SIZE
 node core/render/video.mjs "$HERE" --size $SIZE --fps $FPS --workers ${WORKERS:-3} --out "$HERE/out/video.mp4"
 sh core/render/mux.sh "$HERE/out/video.mp4" "$HERE/out/mix.wav" "$HERE/$NAME.mp4" $FPS 0
 node core/render/readcheck.mjs "$HERE" --size $SIZE > "$HERE/out/readcheck.txt" && echo "lectura ok" || { grep -v "^OK\|^--" "$HERE/out/readcheck.txt" | tail -20; echo "lectura: revisar out/readcheck.txt"; }
-T=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$HERE/events.json','utf8')).dur - 1)")
+T=$(cd "$HERE" && node -e "console.log(JSON.parse(require('fs').readFileSync('events.json','utf8')).dur - 1)")
 node core/render/still.mjs "$HERE" $T --size $SIZE --out "$HERE/out" --prefix poster_
 cp "$HERE/out/poster_$T.jpg" "$HERE/poster.jpg"
 echo "listo: $HERE/$NAME.mp4"
