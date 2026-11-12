@@ -25,6 +25,16 @@ const clipsOf = l => [l.clip, ...(l.more || [])];
 // Orden de las tareas de una lección: { k: 'clip', n } (índice en clipsOf) y { k: 'ex', i }.
 // Un video de `more` con `after: n` va justo antes del ejercicio n (o al final si n ≥ ex.length);
 // los demás videos van tras el principal, en su orden.
+// Gesto de la lección: se pasa del video a los ejercicios deslizando en vertical, como al hacer scroll.
+// El dedo sube → 'next'; el dedo baja → 'prev' (el video anterior). En un ejercicio el gesto vertical es
+// primero para desplazar el contenido: solo cuenta arriba del todo (volver) o, ya respondido, al final (seguir).
+function lessonSwipe({ dx, dy, ms, clip, atTop, atBottom, answered }) {
+  if (ms >= 700 || Math.abs(dy) <= 60 || Math.abs(dy) <= 1.5 * Math.abs(dx)) return null;
+  if (clip) return dy < 0 ? 'next' : 'prev';
+  if (dy > 0) return atTop ? 'prev' : null;
+  return answered && atBottom ? 'next' : null;
+}
+
 function buildQueue(l) {
   const clips = clipsOf(l), ex = l.ex || [];
   const queue = [];

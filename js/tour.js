@@ -14,7 +14,7 @@ const TOUR_STEPS = [
   { id: 'niveles', view: 'world', target: ['.path .node.current', '.path .node'], title: 'Cada nivel es una lección',
     text: 'Toca un nivel y luego «Empezar». Cada lección trae un video corto y después ejercicios para practicar lo que viste.' },
   { id: 'video', view: 'world', art: 'video', title: 'Primero, el video',
-    text: 'Toca la pantalla para pausar y arrastra la barra de abajo para repetir una parte. Al empezar y en pausa aparece un botón para pasar a lo que sigue.' },
+    text: 'Toca la pantalla para pausar y arrastra la barra de abajo para repetir una parte. Para pasar a los ejercicios, desliza hacia arriba, como en Clips.' },
   { id: 'ejercicios', view: 'world', art: 'ex', title: 'Después, los ejercicios',
     text: 'Casi todos son juegos: arrastra, toca o escribe tu respuesta y pulsa «Comprobar». Si te trabas, busca «Ver pista»: te orienta sin darte la respuesta.' },
   { id: 'progreso', view: 'world', target: ['.tb-stats'], title: 'Racha, experiencia y vidas',

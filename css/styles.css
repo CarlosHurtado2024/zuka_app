@@ -432,8 +432,17 @@ body[data-tab=clips] .clip.in-feed .seek, body[data-tab=clips] .clip.in-feed .se
 body.in-lesson { --tabbar-h: 0px; }
 body.in-lesson #tabbar { display: none; }
 body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset-bottom) + 8px)); }
-/* touch-action: el desplazamiento horizontal lo maneja la app (deslizar entre videos y ejercicios) */
-.lesson { touch-action: pan-y; }
+/* Se pasa del video a los ejercicios deslizando en vertical (lessonSwipe, js/content.js). En un ejercicio
+   el navegador desplaza el contenido (pan-y); sobre el video el gesto es todo de la app. overscroll-behavior:
+   tirar hacia abajo no recarga la página. */
+.lesson { touch-action: pan-y; overscroll-behavior: contain; }
+.lesson.clip-mode { touch-action: none; }
+.lesson-body { overscroll-behavior: contain; }
+.lesson-body.enter-up { animation: lesson-up .26s cubic-bezier(.2,.8,.2,1); }
+.lesson-body.enter-down { animation: lesson-down .26s cubic-bezier(.2,.8,.2,1); }
+@keyframes lesson-up { from { opacity: 0; transform: translateY(48px); } }
+@keyframes lesson-down { from { opacity: 0; transform: translateY(-48px); } }
+@media (prefers-reduced-motion: reduce) { .lesson-body.enter-up, .lesson-body.enter-down { animation: none; } }
 .lesson-body.nudge { animation: nudge .35s; }
 @keyframes nudge { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
 .lesson { position: relative; max-width: 480px; height: 100%; margin: 0 auto; background: var(--bg); display: flex; flex-direction: column; overflow: hidden; }

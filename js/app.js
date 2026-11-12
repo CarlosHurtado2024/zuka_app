@@ -391,7 +391,7 @@ function startLesson(c, l) {
     <div class="lesson-foot"><button class="btn main">Comprobar</button></div>
     <div class="feedback" role="status"></div>
     <button class="icon-btn clip-close" data-close aria-label="Salir">${ICON.x}</button>
-    <button class="clip-skip" type="button">Ejercicios →</button>
+    <button class="clip-skip" type="button">Ejercicios ↓</button>
     <span class="clip-part"></span>
   </div>`;
   ov.classList.add('open');
@@ -425,11 +425,13 @@ function startLesson(c, l) {
   // `pos` es la tarea actual. `review` es el video que se vuelve a ver al deslizar hacia
   // atrás (−1 si no se está repasando) y `reviewPos` su lugar en la cola; repasar no cambia el progreso.
   let review = -1, reviewPos = -1;
+  let enterDir = 1;   // por dónde entra lo siguiente: 1 desde abajo (avanzar), −1 desde arriba (volver)
 
   function reset() {
     teardown(); updateBar();
     root.classList.remove('fb-open', 'clip-mode', 'clip-ended', 'clip-fresh');
     body.className = 'lesson-body';
+    void body.offsetWidth; body.classList.add(enterDir < 0 ? 'enter-down' : 'enter-up'); enterDir = 1;
     body.scrollTop = 0;
     body.style.paddingBottom = '';
   }
@@ -451,7 +453,7 @@ function startLesson(c, l) {
     // El botón anuncia lo que sigue: otro video (en repaso, el siguiente video ya visto) o los ejercicios.
     const clipAt = i => (queue[i]?.k === 'clip' ? queue[i] : null);
     const after = review >= 0 ? queue.find((t, i) => i > reviewPos && i < pos && t.k === 'clip') ?? clipAt(pos) : clipAt(pos + 1);
-    $('.clip-skip', root).textContent = after ? `Parte ${after.n + 1} →` : review >= 0 && queue[pos]?.k === 'ex' ? 'Al ejercicio →' : 'Ejercicios →';
+    $('.clip-skip', root).textContent = after ? `Parte ${after.n + 1} ↓` : review >= 0 && queue[pos]?.k === 'ex' ? 'Al ejercicio ↓' : 'Ejercicios ↓';
     $('.clip-part', root).textContent = clips.length > 1 ? `Parte ${n + 1} de ${clips.length}` : '';
     player.play();
     btn.textContent = 'Continuar'; btn.disabled = false;
@@ -484,7 +486,7 @@ function startLesson(c, l) {
   function prev() {
     if (finished || fb.classList.contains('show')) return;
     for (let i = (review >= 0 ? reviewPos : pos) - 1; i >= 0; i--) {
-      if (queue[i].k === 'clip') return showReview(queue[i].n);
+      if (queue[i].k === 'clip') { enterDir = -1; return showReview(queue[i].n); }
     }
   }
 
@@ -499,19 +501,24 @@ function startLesson(c, l) {
   }
   ov.querySelectorAll('[data-jump]').forEach(b => { b.onclick = () => jump(+b.dataset.jump); });
 
-  // Deslizar con el dedo: a la izquierda avanza, a la derecha retrocede.
+  // Deslizar con el dedo en vertical, como al hacer scroll: el dedo sube y viene lo que sigue; baja y vuelve
+  // el video anterior (lessonSwipe, en content.js). Con eventos de toque: el desplazamiento del navegador
+  // no los cancela, así que en un ejercicio se sabe si el contenido ya estaba arriba o al final.
   let touch = null;
-  root.addEventListener('pointerdown', e => {
-    if (e.pointerType === 'mouse' || e.target.closest('.seek, .v-q-menu, input, .sim, .play, .feedback')) { touch = null; return; }
-    touch = { x: e.clientX, y: e.clientY, t: Date.now() };
-  });
-  root.addEventListener('pointerup', e => {
+  const edges = () => ({ atTop: body.scrollTop <= 0, atBottom: body.scrollHeight - body.clientHeight - body.scrollTop <= 2 });
+  root.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1 || e.target.closest('.seek, .v-q-menu, input, textarea, .sim, .play, .feedback')) { touch = null; return; }
+    touch = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now(), ...edges() };
+  }, { passive: true });
+  root.addEventListener('touchend', e => {
     if (!touch) return;
-    const dx = e.clientX - touch.x, dy = e.clientY - touch.y, fast = Date.now() - touch.t < 700;
+    const p = e.changedTouches[0], now = edges(), t0 = touch;
     touch = null;
-    if (fast && Math.abs(dx) > 60 && Math.abs(dx) > 1.5 * Math.abs(dy)) dx < 0 ? next() : prev();
-  });
-  root.addEventListener('pointercancel', () => { touch = null; });
+    const act = lessonSwipe({ dx: p.clientX - t0.x, dy: p.clientY - t0.y, ms: Date.now() - t0.t, clip: root.classList.contains('clip-mode'),
+      atTop: t0.atTop && now.atTop, atBottom: t0.atBottom && now.atBottom, answered: fb.classList.contains('show') });
+    if (act === 'next') next(); else if (act === 'prev') prev();
+  }, { passive: true });
+  root.addEventListener('touchcancel', () => { touch = null; }, { passive: true });
 
   function step() {
     review = -1;
@@ -598,6 +605,10 @@ function startLesson(c, l) {
     } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && e.target.tagName !== 'INPUT') {
       // En computador, las flechas hacen lo mismo que deslizar.
       e.key === 'ArrowRight' ? next() : prev();
+    } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && root.classList.contains('clip-mode')) {
+      // Sobre el video, abajo y arriba también: como al hacer scroll.
+      e.preventDefault();
+      e.key === 'ArrowDown' ? next() : prev();
     }
   }
   document.addEventListener('keydown', onKey);
