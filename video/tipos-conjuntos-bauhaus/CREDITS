@@ -1,0 +1,12 @@
+Tipos de conjuntos y relaciones entre ellos · video de la lección alg-0b de Zuka
+
+Material de terceros que aparece en la película:
+
+- Tipografía Jost (variable), de Owen Earl / indestructible type*. Licencia SIL Open Font License 1.1
+  (fonts/OFL-Jost.txt). Fuente: https://github.com/google/fonts/tree/main/ofl/jost
+
+Todo lo demás está hecho en código para este video: las formas y la animación (index.html, film.js), y la
+música y los efectos, sintetizados con numpy (mix.py). No hay muestras de instrumentos, voz ni imágenes ajenas.
+
+Herramientas: biblioteca lemo-opuscar (render, efectos de sonido y máster), estilo «Bauhaus Shapes».
+Contenido: Manual de Álgebra y Trigonometría (Zarrazola, UdeA, 2024), unidad de conjuntos.

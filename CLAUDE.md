@@ -221,7 +221,7 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   mientras llega su ID; al recibirlo, cambiar `clip.video` por `clip.bunny`, poner la `duration` de Bunny y borrar el mp4.
   Bunny solo responde con `Referer` de la app o de localhost. Ideas del mismo texto que no cupieron: Grecia y
   la demostración, al-Juarismi y Fibonacci, quipus y yupana, binario y hexadecimal.
-- Álgebra unidad 0: los tres videos (alg-0a, alg-0b, alg-0c) ya están en Bunny. Los videos viejos C0 y EC0
+- Álgebra unidad 0: los tres videos (alg-0a, alg-0b, alg-0c) ya están en Bunny. **Nuevo video de `alg-0b` en estilo Bauhaus Shapes** (lemo-opuscar; `video/tipos-conjuntos-bauhaus`, 237.5 s, `sh video/tipos-conjuntos-bauhaus/build.sh`, unos 25 min con 2 trabajadores: con 3 la captura se cuelga): entregado, espera su ID de Bunny. Al recibirlo, cambiar `clip.bunny` + `duration` de `alg-0b` y poner sus `scenes` de respaldo al día con los ejemplos nuevos ({s, a} frente a las letras de SOL, redondas y cuadradas, las formas {●, ■, ▲}). `film.js` trae escenas en pulsos de 0.625 s (`BEATS`), una función por escena, `EV` (sonido) y `NARR` (narración → `.srt`). Los videos viejos C0 y EC0
   (`clase_alg_u0_conjuntos`, `clase_alg_u0_ej_conjuntos`) quedaron reemplazados.
 - Álgebra unidad 1, **un video por lección** (nuevos, fondo `fondo_algebra_vivo.png`, zoom y 3D; carpetas
   `video/clase_alg_u1_*`, plantilla `video/mk_alg_class.py` + `video/alg_u1_fx.py`; borrador escena por escena con
