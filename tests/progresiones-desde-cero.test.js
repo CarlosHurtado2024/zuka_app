@@ -70,6 +70,13 @@ test('progresiones: cada lección con su video (escenas) y luego juegos con pist
   assert.equal(uses(lesson('alg-14c'), 'rellena-medios')[0].params.kind, 'geometrica');
 });
 
+test('progresiones: el video P3 (alg-14c) viene de Bunny y conserva sus escenas de respaldo', () => {
+  const c = lesson('alg-14c').clip;
+  assert.equal(c.bunny, '3a0b2b72-92f0-49fd-8946-8daf8b6fb21b');
+  assert.equal(c.duration, 217);
+  assert.ok(c.scenes.length >= 3);
+});
+
 test('progresiones: los ejemplos de los videos no se repiten en los ejercicios', () => {
   const bad = {
     'alg-14': ['a_3 = 10', '"first":2,"last":18', '7, 11, 15', '20, 25, 30'],

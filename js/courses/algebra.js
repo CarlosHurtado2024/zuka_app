@@ -918,8 +918,8 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-14c', title: 'Progresiones geométricas',
-          // Parte 3 (spec 2026-11-11-progresiones-desde-cero): video P3 (video/clase_alg_u3_p3_geometricas). Escenas de respaldo.
-          clip: { scenes: [
+          // Parte 3 (spec 2026-11-11-progresiones-desde-cero): video P3 (video/clase_alg_u3_p3_geometricas), en Bunny (3:37).
+          clip: { bunny: '3a0b2b72-92f0-49fd-8946-8daf8b6fb21b', duration: 217, scenes: [
             sc(6, 'En una progresión **geométrica** se multiplica siempre por la misma **razón** $r$: el cociente de dos términos seguidos.', { steps: ['$1, 3, 9, 27, \\dots$: $r = 3$', '$800, 400, 200, \\dots$: $r = \\tfrac12$', '$1, -2, 4, -8, \\dots$: $r = -2$'] }),
             sc(6, 'Del primer término al término $n$ hay $n - 1$ multiplicaciones por $r$: una potencia.', { title: '$a_n = a_1\\,r^{\\,n-1}$', steps: ['$3, 6, 12, \\dots$: $a_7 = 3 \\cdot 2^6 = 192$'] }),
             sc(6, 'Sumar crece en línea recta; multiplicar crece cada vez más rápido. Los **medios geométricos** van entre dos términos dados.', { steps: ['Entre 2 y 162, tres medios: $r^4 = 81$, $r = \\pm 3$: $6, 18, 54$ o $-6, 18, -54$'] }),

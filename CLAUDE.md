@@ -234,7 +234,7 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   cada ID poner `clip.bunny` + `duration`. Reemplazan a los dos videos viejos de porcentajes.
 - Álgebra, **progresiones desde cero** (spec `2026-11-11-progresiones-desde-cero`, sin zoom ni 3D): la antigua `alg-14` se partió
   en `alg-14` (P1 sucesiones y aritméticas, `video/clase_alg_u3_p1_aritmeticas`), `alg-14b` (P2 suma aritmética,
-  `…_p2_suma_aritmetica`), `alg-14c` (P3 geométricas, `…_p3_geometricas`) y `alg-14d` (P4 suma geométrica e infinita,
+  `…_p2_suma_aritmetica`), `alg-14c` (P3 geométricas, `…_p3_geometricas`, ya en Bunny) y `alg-14d` (P4 suma geométrica e infinita,
   `…_p4_suma_geometrica`). Hoy solo tienen escenas; al recibir cada ID poner `clip.bunny` + `duration`. Reemplazan a la
   Clase 5 (`video/clase_progresiones`).
 - Álgebra unidad 1, **ejemplos resueltos** E4–E5 (`video/clase_alg_u1_ej_*`, escena `ExScene`): un video por
