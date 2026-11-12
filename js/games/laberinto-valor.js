@@ -1,7 +1,8 @@
 // Laberinto de valores (evaluaciones). Una cuadrícula de casillas con números o afirmaciones; se traza un
 // camino de la entrada (verde) a la salida (bandera) pisando solo las casillas que cumplen la regla del
 // enunciado. Se avanza tocando o arrastrando por casillas vecinas (arriba, abajo, izquierda, derecha); tocar
-// la última casilla del camino la quita, y tocar una anterior recorta el camino hasta ahí.
+// la última casilla del camino la quita, y tocar una anterior recorta el camino hasta ahí (al soltar el dedo,
+// si no se movió a otra casilla: arrastrar desde la punta alarga el camino).
 // params = { rule, rounds: [{ cols, cells: [{ t, ok }], start, end }] }   state = { paths: [[índice, …] por ronda] }
 
 GAMES['laberinto-valor'] = (() => {
@@ -45,6 +46,9 @@ GAMES['laberinto-valor'] = (() => {
     const C = api.palette, R = params.rounds;
     const P = R.map(r => [r.start]);
     let locked = false, W = 0, H = 0, cur = 0, tabs = [], dragging = false;
+    // Casilla ya recorrida que se tocó: quitarla o recortar el camino se hace al soltar, y solo si el dedo no
+    // salió de ella. Así arrastrar desde la punta alarga el camino, y un toque que se cancela no borra nada.
+    let pending = -1;
 
     function layout(w, h) { W = w; H = h; tabs = R.length > 1 ? roundTabs(R.length, w) : []; }
     const geo = () => {
@@ -124,15 +128,21 @@ GAMES['laberinto-valor'] = (() => {
         if (locked) return;
         const k = cellAt(x, y);
         if (k < 0) return;
-        dragging = true; touch(k, false); return false;
+        dragging = true;
+        if (P[cur].includes(k)) pending = k; else touch(k, false);
+        return false;
       };
       p.mouseDragged = () => {
         if (!dragging || locked) return;
         const k = cellAt(p.mouseX, p.mouseY);
+        if (k !== pending) pending = -1;
         if (k >= 0 && k !== P[cur][P[cur].length - 1]) touch(k, true);
         return false;
       };
-      p.mouseReleased = () => { dragging = false; };
+      p.mouseReleased = () => {
+        if (pending >= 0 && dragging && !locked) touch(pending, false);
+        pending = -1; dragging = false;
+      };
     }, (() => {   // alto para que las casillas salgan cuadradas con el ancho disponible (también a 260 px)
       const w = Math.max(240, Math.floor(host.clientWidth || 320)), top = R.length > 1 ? 84 : 52;
       return Math.max(...R.map(r => (top + Math.ceil(r.cells.length / r.cols) * ((w - 20) / r.cols) + 12) / w));
@@ -147,7 +157,7 @@ GAMES['laberinto-valor'] = (() => {
     return {
       loaded: m.ready,
       getState: () => ({ paths: P.map(p => [...p]) }),
-      lock() { locked = true; dragging = false; },
+      lock() { locked = true; dragging = false; pending = -1; },
       destroy: () => m.remove(),
     };
   }
