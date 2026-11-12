@@ -34,6 +34,7 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
 | `js/games/kit.js` | `GAMES`, `PALETTES`/`PALETTE`/`setGameTheme`, `mountSketch`, `shuffledOrder`, `lineMap`, `nearest` |
 | `js/games/*.js` | un archivo por juego (≈59) |
 | `js/player.js` | reproductor de clips (Bunny HLS o escenas animadas) |
+| `js/curiosidades.js`, `media/clips/` | pestaña Clips: videos cortos de datos curiosos (`CURIOS`, `CURIO_TOPICS`, `curioFeed`, `findCurio`); spec `2026-11-12-clips-curiosidades`, pruebas `tests/curiosidades.test.js` |
 | `sw.js` | service worker: `VERSION` y lista `SHELL` |
 | `tests/` | `node --test tests/` (≈352 pruebas); `tests/load.js` carga scripts en un `vm` |
 | `video/` | videos con manimgl (ver abajo) |
@@ -119,6 +120,11 @@ cualquier `L(x) = R(x)`). Reutilizables:
 - **Recorrido guiado de bienvenida** (`js/tour.js`, spec `2026-11-12-recorrido-guiado`, pruebas `tests/recorrido.test.js`):
   sale solo la primera vez (`S.tourDone` falso y sin progreso) y se repite en Perfil → Ajustes. Pasos en `TOUR_STEPS`
   (hueco iluminado sobre el elemento real + tarjeta); si cambia la interfaz que describen, actualizar sus textos y selectores.
+- **Pestaña Clips = curiosidades**, nunca videos de lecciones. Cada clip es `{ id: 'cur-…', topic, title, fact, clip }`
+  en `js/curiosidades.js`; `clip.video` apunta a un mp4 de `media/clips/` (720×1280, unos 5 MB; el service worker no
+  lo guarda) o `clip.bunny` a su id. Riel: «Me gusta» y «Guardar»; sonido y velocidad en esa misma columna; el pie
+  (tema, título, dato) solo se ve en pausa. Si el video falla, el feed cambia a `clip.scenes`. En el video, lo que se
+  lee debe quedar entre el 14 % y el 86 % del ancho y por encima del 85 % del alto.
 - Durante una lección el menú inferior se esconde (`body.in-lesson`); en la pestaña Clips se esconde
   mientras el video se reproduce y vuelve al pausar.
 
@@ -176,7 +182,8 @@ material extra (promos, cortos, efectos, 3D, audio).
   `lemo-opuscar` (cortos hechos en código en 99 estilos; biblioteca en `~/lemo-opuscar`, paquetes base ya
   instalados; voz y música con `sh ~/.claude/skills/lemo-opuscar/scripts/setup.sh deps voice music`) y `pixelfx`
   (244 efectos de pixel art; copia en `~/pixelfx`, `node tools/render.mjs fire/torch` deja la hoja en `records/`).
-  Los tres necesitan `ffmpeg` en el PATH: `export PATH="<repo>/video/.venv-gl/Scripts:$PATH"`.
+  Los tres necesitan `ffmpeg` y `ffprobe` en el PATH: están instalados con winget (`Gyan.FFmpeg`; las sesiones nuevas
+  los ven solos; en una vieja, anteponer `%LOCALAPPDATA%/Microsoft/WinGet/Packages/Gyan.FFmpeg_*/ffmpeg-*/bin`).
 - MCP de Blender: servidor `blender` (`uvx mcp-for-blender`) en `~/.claude.json`. Blender 5.3 y su complemento
   (`blender_mcp`) ya están instalados y activados. Para usarlo: abrir Blender y revisar el panel lateral
   (tecla `N` → «MCP for Blender»; «Start MCP Server» si no está corriendo).
@@ -186,9 +193,23 @@ material extra (promos, cortos, efectos, 3D, audio).
   `@react-three/rapier` (física) y `@react-three/postprocessing`; `npm run dev` (puerto 5183, vista previa
   «estudio-3d»). La app Zuka no usa React ni three: no añadirlos al PWA.
 
+## Cortos de curiosidades (lemo-opuscar)
+
+- Un corto por carpeta `video/<nombre>/` (el primero: `video/origen-numeros`, estilo pizarra con tiza, 1080×1920, 30 fps,
+  sin voz): `TREATMENT.md`, `FACTS.md` (cada dato con su respaldo), `CREDITS`, `js/film.js` (toda la película como datos:
+  columnas de 900 de ancho en una pizarra de 6400×1700, cámara por claves, textos con `lat()`), `audio.py` y `build.sh`.
+- Construir: `sh video/origen-numeros/build.sh` (unos 6 min; baja letra y grabaciones de tiza la primera vez). Deja
+  `origen-numeros.mp4` y `poster.jpg`; `out/readcheck.txt` comprueba que cada texto alcanza a leerse.
+- Para la app: `ffmpeg -i origen-numeros.mp4 -vf scale=720:1280 -c:v libx264 -preset slow -crf 26 -movflags +faststart
+  -c:a aac -b:a 112k media/clips/<nombre>.mp4` y una entrada en `CURIOS`. El HD se entrega en Descargas para Bunny.
+- Revisar con hoja de contacto (`fps=1/3,scale=200:-1,tile=10x3`): que no se asome texto de la columna vecina.
+
 ## Pendiente (a la fecha)
 
 Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):
+- Clips: `cur-origen-numeros` (HD en `Downloads/Zuka_Clips`); al recibir el ID, cambiar `clip.video` por `clip.bunny`,
+  poner la `duration` de Bunny y borrar `media/clips/origen-numeros.mp4`. Ideas del mismo texto que no cupieron: Grecia y
+  la demostración, al-Juarismi y Fibonacci, quipus y yupana, binario y hexadecimal.
 - Álgebra unidad 0: los tres videos (alg-0a, alg-0b, alg-0c) ya están en Bunny. Los videos viejos C0 y EC0
   (`clase_alg_u0_conjuntos`, `clase_alg_u0_ej_conjuntos`) quedaron reemplazados.
 - Álgebra unidad 1, **un video por lección** (nuevos, fondo `fondo_algebra_vivo.png`, zoom y 3D; carpetas

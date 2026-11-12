@@ -1,0 +1,26 @@
+El origen de los números — corto para la pestaña Clips de Zuka (estilo «Chalkboard» de Lemo-Opuscar)
+
+IMÁGENES
+- Ninguna. La pared, la pizarra, el marco, la bandeja y la tiza se dibujan en código (js/stage.js, js/chalk.js,
+  js/app.js). Sin fotos, sin escaneos, sin imágenes generadas, sin modelos 3D.
+- Los dibujos (rayitas, hueso con muescas, cuñas, espirales egipcias, concha maya) son trazos propios (js/film.js).
+
+MOTOR
+- Motor de tiza del estilo «Chalkboard» de Lemo-Opuscar (github.com/lemomo-ai/lemo-opuscar), licencia MIT:
+  js/chalk.js, js/hand.js, js/r2d.js, js/stage.js, js/post.js, js/props.js, tools/foley_lib.py; js/app.js adaptado.
+
+LETRA (SIL Open Font License 1.1; texto en fonts/OFL-EMS.txt; no va en git, build.sh la descarga)
+- EMS Delight, fuente SVG de un solo trazo derivada de Delius (Natalia Raices); conversión de Sheldon B. Michaels
+  y Windell H. Oskay, gitlab.com/oskay/svg-fonts.
+
+SONIDO
+- Grabaciones de tiza de Wikimedia Commons, cortadas en granos por tools/foley_lib.py (no van en git):
+  - «chalk-on-chalkboard» de fattirewhitey (freesound.org/people/fattirewhitey/sounds/264944; archivo de Commons
+    «264944 chalk-on-chalkboard.wav») — CC0 1.0.
+  - «Chalkboard-writing.ogg» de Tomproberts (Commons) — CC0 1.0.
+- Muestras musicales (CC0 1.0): VS Chamber Orchestra: Community Edition y Versilian Community Sample Library
+  (Versilian Studios) — marimba, vibráfono y contrabajo en pizzicato.
+- Tono de sala, paneos, latigazos y pasada de borrador: sintetizados en audio.py.
+
+DATOS
+- Ver FACTS.md.

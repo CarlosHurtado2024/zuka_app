@@ -6,6 +6,15 @@ video/render_log.txt
 video/__pycache__/
 video/.venv-gl/
 video/.venv-audio/
+
+# Cortos de la pestaña Clips (lemo-opuscar): lo que build.sh descarga o genera
+video/origen-numeros/out/
+video/origen-numeros/stills/
+video/origen-numeros/foley/
+video/origen-numeros/fonts/*.svg
+video/origen-numeros/events.json
+video/origen-numeros/build_log.txt
+video/origen-numeros/origen-numeros.mp4
 video/clase_sistemas_numericos/videos/
 video/clase_sistemas_numericos/dist/
 video/clase_sistemas_numericos/build_log.txt

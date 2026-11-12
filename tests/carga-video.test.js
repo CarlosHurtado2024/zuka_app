@@ -24,7 +24,7 @@ test('el reproductor de video tiene una rueda de carga', () => {
 test('la rueda nunca queda girando para siempre: autoplay bloqueado o red caída dejan el botón de play', () => {
   assert.match(videoClip, /if \(this\.v\.muted \|\| !this\.wantPlay\) return blocked\(e\)/, 'bloqueo con el video ya en silencio');
   assert.match(videoClip, /Hls\.Events\.ERROR[\s\S]{0,120}fatal[\s\S]{0,120}this\.stall\(\)/, 'error fatal de hls.js quita la rueda');
-  assert.match(videoClip, /addEventListener\('error', \(\) => this\.stall\(\)\)/, 'error del <video> deja el botón de play');
+  assert.match(videoClip, /addEventListener\('error', \(\) => \{ this\.stall\(\);/, 'error del <video> deja el botón de play');
   assert.match(videoClip, /stall\(\)\s*\{[^}]*remove\('loading'\)[^}]*add\('paused'\)/, 'stall quita la rueda y muestra el play');
 });
 

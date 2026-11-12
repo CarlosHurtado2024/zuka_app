@@ -311,8 +311,9 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 .v-quality[hidden], .v-q-menu[hidden] { display: none; }
 /* Velocidad: encima del botón de calidad */
 .v-speed { position: absolute; right: 12px; bottom: 104px; z-index: 6; }
-.clip.in-feed .v-speed { right: 76px; }
-.clip.in-feed .v-mute { right: 76px; }
+/* En el feed, sonido y velocidad van en la columna del riel (encima de «Me gusta»), fuera del texto del video. */
+.clip.in-feed .v-speed { right: 12px; bottom: 226px; }
+.clip.in-feed .v-mute { right: 8px; bottom: 268px; }
 .v-q-btn {
   padding: 8px 12px; border-radius: 999px; background: rgba(0, 0, 0, .6); color: #fff;
   font-size: 13px; font-weight: 800;
@@ -415,6 +416,13 @@ body[data-tab=clips] .clip.in-feed .seek, body[data-tab=clips] .clip.in-feed .se
 .rail-btn.like .i { fill: rgba(255,255,255,.95); stroke: none; transition: transform .2s; }
 .rail-btn.like.on .i { fill: #ff3d68; transform: scale(1.15); }
 .rail-btn.save.on .i { fill: var(--gold); stroke: var(--gold); }
+/* El pie (tema, título y dato) solo se ve en pausa: mientras el clip corre taparía lo escrito en el video. */
+.feed-cap { position: absolute; left: 14px; right: 76px; bottom: 96px; z-index: 3; opacity: 0; transition: opacity .2s, bottom .25s; display: flex; flex-direction: column; gap: 3px; color: #fff; text-shadow: 0 1px 4px #000, 0 0 12px rgba(0,0,0,.6); pointer-events: none; }
+/* En pausa aparecen la barra de adelantar y el tiempo abajo a la izquierda: el pie sube para no quedar debajo. */
+.feed-item:has(.clip.paused) .feed-cap { opacity: 1; bottom: calc(var(--tabbar-h, 60px) + 58px); }
+.feed-cap small { font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--c); }
+.feed-cap b { font-size: 16px; line-height: 1.2; }
+.feed-cap span { font-size: 13px; line-height: 1.35; color: rgba(255,255,255,.88); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .rail-btn.practice .i { width: 50px; height: 50px; padding: 12px; border-radius: 50%; background: var(--c); color: #0b0d1a; box-shadow: 0 4px 0 color-mix(in srgb, var(--c) 55%, #000); filter: none; }
 
 /* ---------- lección ---------- */

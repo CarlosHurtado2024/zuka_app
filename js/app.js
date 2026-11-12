@@ -290,14 +290,8 @@ function renderWorld(c, ui) {
   view.querySelector('.node.current')?.scrollIntoView({ block: 'center' });
 }
 
-// ---- pestaña Clips (feed vertical) ----
-let feedFilter = 'all';
-function feedItems() {
-  if (feedFilter !== 'all') { const c = courseById(feedFilter); return lessonsOf(c).map(l => ({ c, l })); }
-  const lists = COURSES.map(c => lessonsOf(c).map(l => ({ c, l }))), out = [];
-  for (let i = 0; i < Math.max(...lists.map(x => x.length)); i++) lists.forEach(x => x[i] && out.push(x[i]));
-  return out;
-}
+// ---- pestaña Clips (feed vertical de curiosidades; ver js/curiosidades.js) ----
+let feedFilter = 'all', feedStart = null;   // feedStart: id del clip en el que debe abrirse el feed
 function likeCount(l) {
   const base = [...l.id].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7) % 4800 + 200;
   const n = base + (S.likes[l.id] ? 1 : 0);
@@ -305,31 +299,42 @@ function likeCount(l) {
 }
 
 function renderClips() {
-  const items = feedItems();
-  view.innerHTML = `<div class="feed-wrap">
-    <div class="chips">${[{ id: 'all', name: 'Para ti' }, ...COURSES].map(c =>
-      `<button class="chip${feedFilter === c.id ? ' on' : ''}" data-f="${c.id}">${esc(c.name)}</button>`).join('')}</div>
+  const topics = curioTopics();
+  if (!topics.some(t => t.id === feedFilter)) feedFilter = 'all';
+  const items = curioFeed(feedFilter);
+  // Con un solo tema no hay nada que filtrar: sin chips.
+  const chips = topics.length > 1 ? `<div class="chips">${[{ id: 'all', name: 'Para ti' }, ...topics].map(c =>
+    `<button class="chip${feedFilter === c.id ? ' on' : ''}" data-f="${c.id}">${esc(c.name)}</button>`).join('')}</div>` : '';
+  view.innerHTML = `<div class="feed-wrap">${chips}
     <div class="feed">${items.map(({ c, l }) => `<section class="feed-item" data-id="${l.id}">
       <div class="clip-host"></div>
+      <div class="feed-cap"><small style="--c:${c.color}">${esc(c.name)}</small><b>${esc(l.title)}</b><span>${esc(l.fact)}</span></div>
       <aside class="rail" style="--c:${c.color}">
         <button class="rail-btn like${S.likes[l.id] ? ' on' : ''}" data-act="like" aria-label="Me gusta">${ICON.heart}<small>${likeCount(l)}</small></button>
         <button class="rail-btn save${S.saved[l.id] ? ' on' : ''}" data-act="save" aria-label="Guardar">${ICON.bookmark}<small>Guardar</small></button>
-        <button class="rail-btn voice" data-act="voice" aria-label="Narración">${S.voice ? ICON.sound : ICON.mute}<small>Voz</small></button>
-        <button class="rail-btn practice" data-act="practice" aria-label="Practicar">${ICON.bolt}<small>Practicar</small></button>
       </aside></section>`).join('')}</div></div>`;
 
   const feed = $('.feed', view), players = new Map();
+  if (feedStart) { feed.querySelector(`.feed-item[data-id="${feedStart}"]`)?.scrollIntoView(); feedStart = null; }
+  const onScreen = new Set();
+  // Si el video de un clip no carga (sin conexión, archivo ausente), se cambia por sus escenas animadas.
+  function mountClip(host, c, l, clip = l.clip) {
+    const p = makePlayer(host, { ...l, clip }, c, { loop: true, feed: true, onEnd: () => watched(l),
+      onFail: () => {
+        if (!clip.scenes?.length || !(clip.video || clip.bunny) || players.get(l.id) !== p) return;
+        p.destroy();
+        const q = mountClip(host, c, l, { scenes: clip.scenes }); players.set(l.id, q);
+        if (onScreen.has(l.id)) q.play();
+      } });
+    return p;
+  }
   const io = new IntersectionObserver(entries => entries.forEach(e => {
     const id = e.target.dataset.id;
     if (e.isIntersecting) {
-      let p = players.get(id);
-      if (!p) {
-        const { c, l } = findLesson(id);
-        p = makePlayer(e.target.querySelector('.clip-host'), l, c, { loop: true, feed: true, onEnd: () => watched(l) });
-        players.set(id, p);
-      }
-      p.play();
-    } else players.get(id)?.pause();
+      onScreen.add(id);
+      if (!players.has(id)) { const { c, l } = findCurio(id); players.set(id, mountClip(e.target.querySelector('.clip-host'), c, l)); }
+      players.get(id).play();
+    } else { onScreen.delete(id); players.get(id)?.pause(); }
   }), { root: feed, threshold: 0.65 });
   feed.querySelectorAll('.feed-item').forEach(el => io.observe(el));
 
@@ -337,7 +342,7 @@ function renderClips() {
   feed.addEventListener('click', e => {
     const b = e.target.closest('.rail-btn');
     if (!b) return;
-    const id = b.closest('.feed-item').dataset.id, { c, l } = findLesson(id);
+    const id = b.closest('.feed-item').dataset.id, { l } = findCurio(id);
     const act = b.dataset.act;
     if (act === 'like') {
       S.likes[id] = !S.likes[id]; b.classList.toggle('on', S.likes[id]);
@@ -345,14 +350,6 @@ function renderClips() {
     } else if (act === 'save') {
       S.saved[id] = !S.saved[id]; b.classList.toggle('on', S.saved[id]);
       toast(S.saved[id] ? 'Guardado en tu perfil' : 'Eliminado de guardados');
-    } else if (act === 'voice') {
-      S.voice = !S.voice;
-      feed.querySelectorAll('.rail-btn.voice').forEach(x => { x.innerHTML = `${S.voice ? ICON.sound : ICON.mute}<small>Voz</small>`; });
-      if (S.voice) players.get(id)?.speak?.(); else Narrator.stop();
-      toast(S.voice ? 'Narración activada' : 'Narración desactivada');
-    } else if (act === 'practice') {
-      if (isUnlocked(c, l)) startLesson(c, l);
-      else toast(`Primero completa las lecciones anteriores de ${esc(c.name)}.`);
     }
     save();
   });
@@ -586,7 +583,7 @@ function startLesson(c, l) {
     body.innerHTML = `<div class="done-screen">
       <div class="trophy sad">${ICON.heartLine}</div>
       <h2>Te quedaste sin vidas</h2>
-      <p class="muted">Recuperas una vida cada 20 minutos. Mientras tanto, mira clips para repasar.</p></div>`;
+      <p class="muted">Recuperas una vida cada 20 minutos. Mientras tanto, mira clips de curiosidades.</p></div>`;
     root.classList.remove('fb-open');
     btn.textContent = 'Salir'; btn.disabled = false; btn.onclick = close;
   }
@@ -610,7 +607,7 @@ function startLesson(c, l) {
 function renderProfile() {
   const all = COURSES.flatMap(lessonsOf), doneN = all.filter(isDone).length;
   const acc = S.answered ? Math.round((100 * S.correct) / S.answered) : 0;
-  const saved = Object.keys(S.saved).filter(id => S.saved[id]).map(findLesson).filter(Boolean);
+  const saved = Object.keys(S.saved).filter(id => S.saved[id]).map(id => findCurio(id) || findLesson(id)).filter(Boolean);
   const installed = isStandalone();
   view.innerHTML = `<div class="profile">
     <div class="brand-row">
@@ -645,7 +642,7 @@ function renderProfile() {
       }).join('')}
     </section>
     ${saved.length ? `<section class="card"><h3>Clips guardados</h3>${saved.map(({ c, l }) =>
-      `<button class="saved-row" data-lesson="${l.id}" style="--c:${c.color}">${ICON.bookmark}<span><b>${esc(l.title)}</b><small>${esc(c.name)}</small></span></button>`).join('')}</section>` : ''}
+      `<button class="saved-row" data-${l.fact ? 'curio' : 'lesson'}="${l.id}" style="--c:${c.color}">${ICON.bookmark}<span><b>${esc(l.title)}</b><small>${esc(c.name)}</small></span></button>`).join('')}</section>` : ''}
     <section class="card">
       <h3>Apariencia</h3>
       <div class="seg seg-3">${[['light', 'Claro'], ['dark', 'Oscuro'], ['system', 'Sistema']].map(([v, l]) =>
@@ -661,7 +658,7 @@ function renderProfile() {
     </section>
     <section class="card">
       <h3>Ajustes</h3>
-      <button class="toggle-row" data-set="voice"><span>Narración por voz en los clips</span><span class="toggle${S.voice ? ' on' : ''}"></span></button>
+      <button class="toggle-row" data-set="voice"><span>Narración por voz en las lecciones sin video</span><span class="toggle${S.voice ? ' on' : ''}"></span></button>
       <button class="toggle-row" data-set="sfx"><span>Efectos de sonido</span><span class="toggle${S.sfx ? ' on' : ''}"></span></button>
       <button class="toggle-row" data-set="unlockAll"><span>Modo revisión: todas las lecciones abiertas y sin perder vidas</span><span class="toggle${S.unlockAll ? ' on' : ''}"></span></button>
       <button class="btn ghost tour-again" data-tour>Ver el recorrido otra vez</button>
@@ -674,8 +671,9 @@ function renderProfile() {
   view.querySelectorAll('[data-course]').forEach(b => b.onclick = () => { S.course = b.dataset.course; openWorld = null; save(); go('learn'); });
   view.querySelectorAll('[data-lesson]').forEach(b => b.onclick = () => {
     const { c, l } = findLesson(b.dataset.lesson);
-    if (isUnlocked(c, l)) startLesson(c, l); else { feedFilter = c.id; go('clips'); }
+    if (isUnlocked(c, l)) startLesson(c, l); else toast(`Primero completa las lecciones anteriores de ${esc(c.name)}.`);
   });
+  view.querySelectorAll('[data-curio]').forEach(b => b.onclick = () => { feedFilter = 'all'; feedStart = b.dataset.curio; go('clips'); });
   view.querySelectorAll('[data-theme-opt]').forEach(b => b.onclick = () => { S.theme = b.dataset.themeOpt; save(); applyTheme(); renderProfile(); });
   $('[data-install]', view)?.addEventListener('click', promptInstall);
   view.querySelectorAll('[data-set]').forEach(b => b.onclick = () => { S[b.dataset.set] = !S[b.dataset.set]; save(); renderProfile(); });

@@ -294,7 +294,8 @@ class VideoClip {
     const loading = on => this.el.classList.toggle('loading', on);
     this.v.addEventListener('playing', () => loading(false));
     this.v.addEventListener('waiting', () => loading(this.wantPlay && !this.opts.feed));
-    this.v.addEventListener('error', () => this.stall());
+    // Si el video no carga, quien creó el reproductor puede cambiarlo por las escenas de respaldo (opts.onFail).
+    this.v.addEventListener('error', () => { this.stall(); opts.onFail?.(); });
     this.v.addEventListener('ended', () => {
       opts.onEnd?.();
       if (opts.loop) { this.v.currentTime = 0; this.play(); } else this.el.classList.add('paused');
