@@ -77,3 +77,10 @@ test('sistemas numéricos: cada ronda de atrapa y recta-espejo se puede ganar', 
     }
   }
 });
+
+test('sistemas numéricos: el video N1 (alg-11) es el nuevo de Bunny', () => {
+  const c = lesson('alg-11').clip;
+  assert.equal(c.bunny, '44717b9d-7851-4cd6-a19a-d17070db835a');
+  assert.equal(c.duration, 269);
+  assert.ok(c.scenes.length >= 3);
+});
