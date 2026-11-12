@@ -25,6 +25,21 @@ const CURIOS = [
       ],
     },
   },
+  {
+    id: 'cur-abejas', topic: 'ciencia',
+    title: 'Matemáticas de abeja',
+    fact: 'Una abeja baila un ángulo y una distancia para decir dónde hay flores: son coordenadas polares.',
+    clip: {
+      video: 'media/clips/abejas.mp4', duration: 76,
+      scenes: [
+        sc(6, 'Una abeja encontró flores. Adentro de la colmena está oscuro: no lo dice, lo baila.', { title: 'El baile del ocho' }),
+        sc(7, 'El tramo recto es una flecha. Hacia arriba significa hacia el sol.', { title: '$30^\\circ$' }),
+        sc(7, 'Un ángulo y una distancia: en matemáticas se llaman coordenadas polares.', { title: '$(r,\\ \\theta)$' }),
+        sc(7, 'El hexágono guarda la mayor cantidad de miel con la menor cantidad de cera.', { title: 'Más miel, menos cera' }),
+        sc(6, 'Además cuentan hasta cuatro y entienden el cero.', { title: '$0\\;\\;1\\;\\;2\\;\\;3\\;\\;4$' }),
+      ],
+    },
+  },
 ];
 
 const curioTopic = id => CURIO_TOPICS.find(t => t.id === id);

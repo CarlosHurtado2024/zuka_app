@@ -207,11 +207,16 @@ material extra (promos, cortos, efectos, 3D, audio).
   solo zoom continuo por cinco niveles (`DIVE` en `film.js`: punto de afuera, radio del anillo y punto de adentro),
   guía con lente (`orbi.js`), cinta «hace … años» y etiquetas con placa opaca. `NARR` en `film.js` es la narración;
   `mix.py` la escribe como `origen-numeros-zoom.srt`. El video no lleva voz: la mezcla deja sitio para ponerla.
+- `video/abejas` («Matemáticas de abeja», tema Ciencia): estilo «Tablet Sketch Explainer» (lienzo crema, lápiz y luego
+  color, 24 fps, 75.5 s). Una página alta de 1200 × 5320 unidades que se recorre de arriba abajo; `film.js` la dibuja con
+  `PEN` (lápiz), `BLOB` (bloque de color corrido), `TXT` (letra Caveat trazo a trazo) y `arrow`; `CAM` son los gestos de
+  dos dedos; `NARR` es la narración (`mix.py` escribe `abejas.srt`). `engine.js`/`engine2.js` son el motor de la demo en
+  vertical. Renderiza con 2 trabajadores (cada página usa cerca de 1 GB). Datos y lo que quedó fuera: `FACTS.md`.
 
 ## Pendiente (a la fecha)
 
 Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):
-- Clips: `cur-origen-numeros` ya está en Bunny (versión zoom, 80 s). Un clip nuevo puede vivir como mp4 en `media/clips/`
+- Clips: `cur-origen-numeros` ya está en Bunny (versión zoom, 80 s). `cur-abejas` espera su ID (HD `abejas.mp4` y `abejas.srt` en `Downloads/Zuka_Clips`; hoy usa `media/clips/abejas.mp4`). Un clip nuevo puede vivir como mp4 en `media/clips/`
   mientras llega su ID; al recibirlo, cambiar `clip.video` por `clip.bunny`, poner la `duration` de Bunny y borrar el mp4.
   Bunny solo responde con `Referer` de la app o de localhost. Ideas del mismo texto que no cupieron: Grecia y
   la demostración, al-Juarismi y Fibonacci, quipus y yupana, binario y hexadecimal.

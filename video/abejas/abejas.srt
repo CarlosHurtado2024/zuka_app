@@ -1,0 +1,52 @@
+1
+00:00:00,800 --> 00:00:04,300
+Una abeja encontró flores, lejos de la colmena.
+
+2
+00:00:04,700 --> 00:00:09,000
+Adentro está oscuro. Así que no lo dice: lo baila.
+
+3
+00:00:10,200 --> 00:00:15,300
+Camina en forma de ocho, y en el tramo recto menea el abdomen.
+
+4
+00:00:15,700 --> 00:00:20,400
+Ese tramo es una flecha. Hacia arriba significa: hacia el sol.
+
+5
+00:00:20,800 --> 00:00:25,900
+Si se inclina treinta grados, las flores están a treinta grados del sol.
+
+6
+00:00:26,400 --> 00:00:31,500
+Y el ritmo dice la distancia: dieciocho vueltas por minuto son mil metros.
+
+7
+00:00:32,000 --> 00:00:36,300
+Un ángulo y una distancia. En matemáticas se llaman coordenadas polares.
+
+8
+00:00:36,800 --> 00:00:41,500
+Karl von Frisch descifró este baile y ganó el Nobel en 1973.
+
+9
+00:00:42,600 --> 00:00:49,300
+También son arquitectas. El hexágono guarda la mayor cantidad de miel con la menor cantidad de cera.
+
+10
+00:00:50,400 --> 00:00:57,500
+Y una abeja australiana construye en espiral, sin plano: cada una solo mira la celda de al lado.
+
+11
+00:00:57,900 --> 00:01:01,800
+Es la misma regla con la que crece un cristal.
+
+12
+00:01:02,800 --> 00:01:06,300
+Además cuentan hasta cuatro. Y entienden el cero.
+
+13
+00:01:07,400 --> 00:01:10,300
+Matemáticas, sin escribir un solo número.
+

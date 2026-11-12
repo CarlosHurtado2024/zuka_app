@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "video/abejas/index.html"
+        ],
+        "createdAt": "2026-11-12T16:19:49.523Z",
+        "reason": "Claude: el estilo Tablet Sketch Explainer que pidió el usuario define el lienzo como papel crema (STYLE.md de lemo-opuscar); no es una página de interfaz"
+      }
+    ]
+  }
+}
