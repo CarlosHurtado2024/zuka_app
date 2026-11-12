@@ -1,0 +1,132 @@
+1
+00:00:06,500 --> 00:00:16,500
+Todos los días agrupamos cosas sin darnos cuenta. Los útiles que van en la maleta, las canciones de una lista, los jugadores de un equipo.
+
+2
+00:00:16,950 --> 00:00:25,350
+En matemáticas, a una agrupación así se le llama conjunto, y a cada cosa que está adentro se le llama elemento.
+
+3
+00:00:27,300 --> 00:00:38,100
+Pero no cualquier agrupación sirve. Un conjunto tiene que estar bien definido: cualquier persona, mirando un objeto, debe poder decir sin dudar si está o no está.
+
+4
+00:00:38,550 --> 00:00:50,550
+Los colores del semáforo están bien definidos: son rojo, amarillo y verde, y todo el mundo está de acuerdo. Nadie discute si el morado está o no está: no está.
+
+5
+00:00:51,000 --> 00:01:03,000
+En cambio, «los colores bonitos» no es un conjunto: a una persona le encanta el morado y a otra no. Depende de quién opine, así que no se puede decidir.
+
+6
+00:01:03,450 --> 00:01:11,450
+Una prueba sencilla: si dos personas cualesquiera, revisando el mismo objeto, siempre deciden lo mismo, el conjunto está bien definido.
+
+7
+00:01:13,400 --> 00:01:20,200
+Ahora aprendamos a escribirlo. Vamos a armar, pieza por pieza, el conjunto de los colores del semáforo.
+
+8
+00:01:20,650 --> 00:01:26,250
+Primero el nombre del conjunto. Se usa una letra mayúscula; aquí, ese de semáforo.
+
+9
+00:01:26,700 --> 00:01:29,900
+Luego el signo igual, que se lee «es».
+
+10
+00:01:30,350 --> 00:01:37,950
+Después una llave que abre. Las llaves son la marca de los conjuntos: no se usan paréntesis ni corchetes.
+
+11
+00:01:38,400 --> 00:01:44,000
+Adentro van los elementos, separados por comas. Los elementos se escriben normalmente en minúscula.
+
+12
+00:01:44,450 --> 00:01:47,250
+Y al final, la llave que cierra.
+
+13
+00:01:47,700 --> 00:01:54,100
+Todo junto se lee así: «ese es el conjunto cuyos elementos son rojo, amarillo y verde».
+
+14
+00:01:56,050 --> 00:02:00,050
+Tres errores que hay que evitar al escribir un conjunto.
+
+15
+00:02:10,500 --> 00:02:19,700
+Para decir que un objeto está dentro de un conjunto hay un símbolo especial, parecido a una e redondeada. Se lee «pertenece a».
+
+16
+00:02:20,150 --> 00:02:28,950
+Si el objeto no está, el mismo símbolo se tacha con una rayita: «no pertenece a». El azul no pertenece a ese.
+
+17
+00:02:29,400 --> 00:02:38,200
+Fíjate en el orden: a la izquierda del símbolo va el objeto, y a la derecha va el conjunto. Nunca al revés.
+
+18
+00:02:40,150 --> 00:02:46,550
+Otro ejemplo. Sea efe el conjunto de los días del fin de semana: sábado y domingo.
+
+19
+00:02:47,000 --> 00:02:55,800
+Domingo pertenece a efe. Lunes no pertenece a efe. Y así con cada día: cada uno está o no está, sin dudas.
+
+20
+00:02:57,750 --> 00:03:06,550
+Hay dos maneras de describir un conjunto. La primera, por extensión, es escribir la lista completa de sus elementos. Como las vocales.
+
+21
+00:03:08,500 --> 00:03:19,700
+La segunda, por comprensión, es dar la condición que cumplen los elementos. Imagina una máquina que revisa cada objeto y solo deja pasar los que cumplen la condición.
+
+22
+00:03:21,650 --> 00:03:29,650
+Se escribe así. La equis representa a cualquier objeto que estemos revisando, y los dos puntos se leen «tal que».
+
+23
+00:03:30,100 --> 00:03:38,900
+La comprensión es muy útil cuando la lista sería larguísima, como los estudiantes de todo un colegio: basta con decir la condición.
+
+24
+00:03:40,850 --> 00:03:47,650
+En un conjunto solo importa qué elementos están. El orden en que se escriben no cambia nada.
+
+25
+00:03:48,100 --> 00:03:54,500
+Es como una bolsa: da igual qué metiste primero, lo que hay adentro es lo mismo.
+
+26
+00:03:56,450 --> 00:04:01,250
+Además, ningún elemento se repite. Mira las letras de la palabra oso.
+
+27
+00:04:01,700 --> 00:04:12,100
+La palabra tiene tres letras, pero la o aparece dos veces. Como elemento, la o es una sola: estar dos veces no la hace dos elementos.
+
+28
+00:04:14,050 --> 00:04:22,450
+A veces queremos saber cuántos elementos distintos tiene un conjunto. Ese número se llama cardinal, y se escribe ene de A.
+
+29
+00:04:22,900 --> 00:04:27,700
+El fin de semana tiene dos días: ene de efe es dos.
+
+30
+00:04:28,150 --> 00:04:35,750
+Con las letras de papaya hay que tener cuidado: la palabra tiene seis letras, pero solo tres letras distintas.
+
+31
+00:04:37,700 --> 00:04:46,500
+Un conjunto también se puede dibujar: una línea cerrada, como una bolsa, con sus elementos adentro. Lo que no pertenece queda afuera.
+
+32
+00:04:46,950 --> 00:04:55,350
+Este dibujo y la escritura con llaves dicen exactamente lo mismo. Más adelante dibujaremos varios conjuntos a la vez para compararlos.
+
+33
+00:04:57,300 --> 00:05:05,700
+Un conjunto es una agrupación bien definida. Se escribe con mayúscula, llaves y comas, y cada elemento pertenece o no pertenece.
+

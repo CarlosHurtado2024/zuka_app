@@ -1,0 +1,19 @@
+¿Qué es un conjunto? Notación y pertenencia (alg-0a) — versión Bauhaus Shapes para Zuka
+
+IMÁGENES
+- Ninguna. Todo se dibuja en código (film.js). Sin fotos ni imágenes generadas.
+
+MOTOR
+- El acabado de tinta sobre cartulina (index.html: buildTooth, finish) viene de la demo del estilo «Bauhaus Shapes»
+  de Lemo-Opuscar (github.com/lemomo-ai/lemo-opuscar, MIT). film.js es propio.
+
+LETRA
+- Jost, de Owen Earl (indestructible type*), SIL Open Font License 1.1 (fonts/OFL-Jost.txt). build.sh la descarga si falta.
+
+SONIDO
+- Muestras (CC0 1.0): VS Chamber Orchestra: Community Edition y Versilian Community Sample Library (Versilian
+  Studios) — marimba, vibráfono, arpa y contrabajo en pizzicato.
+- Golpes, toques, clics y soplos: sintetizados en mix.py.
+
+CONTENIDO
+- El mismo de la lección alg-0a y de su video anterior (video/clase_alg_u0_v1_que_es).

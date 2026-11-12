@@ -29,6 +29,11 @@ video/abejas/build_log.txt
 video/abejas/abejas.mp4
 video/reel-zuka/node_modules/
 video/n1-sketchnote/out/
+video/conjunto-bauhaus/out/
+video/conjunto-bauhaus/fonts/*.ttf
+video/conjunto-bauhaus/events.json
+video/conjunto-bauhaus/build_log.txt
+video/conjunto-bauhaus/conjunto-bauhaus.mp4
 video/n1-sketchnote/fonts/*.ttf
 video/n1-sketchnote/glyphs.json
 video/n1-sketchnote/events.json
@@ -108,3 +113,9 @@ video/clase_alg_u0_*/dist/
 video/clase_alg_u0_*/*_log.txt
 video/clase_alg_u0_*/videos_*.log
 video/clase_alg_u0_*/__pycache__/
+video/conjunto-zoom/out/
+video/conjunto-zoom/stills/
+video/conjunto-zoom/fonts/*.ttf
+video/conjunto-zoom/events.json
+video/conjunto-zoom/build_log.txt
+video/conjunto-zoom/conjunto-zoom.mp4

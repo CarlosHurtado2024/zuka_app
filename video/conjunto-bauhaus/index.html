@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>¿Qué es un conjunto?</title>
+<style>
+  @font-face{font-family:"BH Sans";src:url(fonts/Jost.ttf) format("truetype");font-weight:100 900}
+  html,body{margin:0;overflow:hidden;background:#F8F7F3}
+  canvas{display:block}
+</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas>
+<script type="module">
+// Bauhaus Shapes · «¿Qué es un conjunto?» (film.js). Material tomado de la demo del estilo (Lemo-Opuscar, MIT):
+// tinta opaca sobre cartulina mate: diente de papel fino y una deriva de densidad muy lenta, estática.
+import { mulberry, clamp, lerp } from '/core/lib.js';
+import { setupFilm } from './film.js';
+const W = 1080, H = 1920;
+const cv = document.getElementById('c'), g = cv.getContext('2d', { willReadFrequently: true });
+let TOOTH = null;
+function buildTooth(){
+  const rnd = mulberry(11), N = new Float32Array(W*H);
+  const gw = 28, gh = 48, grid = Array.from({length:(gw+1)*(gh+1)}, ()=>rnd()*2-1);
+  const vn = (x,y)=>{ const fx=x/W*gw, fy=y/H*gh, ix=Math.floor(fx), iy=Math.floor(fy), tx=fx-ix, ty=fy-iy;
+    const s=t=>t*t*(3-2*t), a=grid[iy*(gw+1)+ix], b=grid[iy*(gw+1)+ix+1], c=grid[(iy+1)*(gw+1)+ix], d=grid[(iy+1)*(gw+1)+ix+1];
+    return lerp(lerp(a,b,s(tx)),lerp(c,d,s(tx)),s(ty)); };
+  for (let y=0;y<H;y++) for (let x=0;x<W;x++){
+    const fibre = Math.sin(x*0.013+y*0.0035+Math.sin(y*0.002)*3)*0.5 + Math.sin(x*0.0021-y*0.011)*0.5;
+    N[y*W+x] = (rnd()-0.5)*1.0 + fibre*0.14 + vn(x,y)*0.22;
+  }
+  return N;
+}
+function finish(){
+  if (!TOOTH) TOOTH = buildTooth();
+  g.setTransform(1,0,0,1,0,0);
+  const img = g.getImageData(0,0,W,H), d = img.data;
+  for (let i=0,p=0;i<d.length;i+=4,p++){
+    const n = TOOTH[p], lum = (d[i]*0.3+d[i+1]*0.59+d[i+2]*0.11)/255, amp = 7.5 - lum*2.5;
+    d[i] = clamp(d[i]+n*amp,0,255); d[i+1] = clamp(d[i+1]+n*amp,0,255); d[i+2] = clamp(d[i+2]+n*amp*0.85,0,255);
+  }
+  g.putImageData(img,0,0);
+}
+await document.fonts.load('800 100px "BH Sans"'); await document.fonts.load('300 100px "BH Sans"'); await document.fonts.load('500 100px "BH Sans"');
+const F = setupFilm(g, W, H);
+window.DUR = F.FULL; window.EV = F.events(); window.TEXTS = t => F.texts(t);
+window.render = t => { F.render(t); finish(); };
+const Q = new URLSearchParams(location.search);
+if (Q.has('dbg')) console.warn('DUR ' + F.FULL + ' SEC ' + JSON.stringify(F.SEC));
+window.render(+(Q.get('t') || 0));
+window.READY = true;
+</script>
+</body></html>
