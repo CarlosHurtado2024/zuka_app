@@ -1,5 +1,5 @@
-// Pestaña Tutorías: cupos de un tutor, separar y cancelar una asesoría, etiquetas y registro en la app.
-// Diseño: docs/superpowers/specs/2026-11-12-tutorias.md.
+// Pestaña Tutorías: el estudiante separa una asesoría eligiendo materia, temas (del contenido de la app),
+// día y hora. Sin nombres de tutores. Diseño: docs/superpowers/specs/2026-11-12-tutorias.md.
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
@@ -9,115 +9,115 @@ const { loadScripts, get, ROOT } = require('./load');
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 const ctx = loadScripts(['js/tutorias.js']);
 const g = n => get(ctx, n);
-const TUTORS = g('TUTORS'), CFG = g('TUTORIAS');
-const tutorDays = g('tutorDays'), nextFree = g('nextFree'), bookTutoria = g('bookTutoria');
-const activeTutorias = g('activeTutorias'), cancelTutoria = g('cancelTutoria');
-const dayLabel = g('dayLabel'), hourLabel = g('hourLabel'), tutorsFor = g('tutorsFor');
-const tutoriaText = g('tutoriaText'), tutoriaLink = g('tutoriaLink');
+const CFG = g('TUTORIAS');
+const tutoriaDays = g('tutoriaDays'), nextFree = g('nextFree'), bookTutoria = g('bookTutoria');
+const activeTutorias = g('activeTutorias'), cancelTutoria = g('cancelTutoria'), toggleTopic = g('toggleTopic');
+const dayLabel = g('dayLabel'), hourLabel = g('hourLabel'), tutoriaText = g('tutoriaText'), tutoriaLink = g('tutoriaLink');
 
 // Jueves 12 de noviembre de 2026, 3:30 p. m. (hora local).
 const at = (d, h, m = 0) => new Date(2026, 10, d, h, m).getTime();
 const NOW = at(12, 15, 30);
-// Tutor de prueba: jueves (4) a las 4, 5 y 6 p. m.; lunes (1) a las 9 a. m.
-const T = { id: 't1', name: 'Ana Ruiz', courses: ['algebra', 'trig'], mins: 45, hours: { 4: ['16:00', '17:00', '18:00'], 1: ['09:00'] } };
-const all = [T];
-const req = (o = {}) => ({ tutor: 't1', date: '2026-11-12', time: '17:00', course: 'algebra', topic: 'regla de tres', ...o });
+// Horario de prueba: jueves (4) a las 4, 5 y 6 p. m.; lunes (1) a las 9 a. m.
+const H = { 4: ['16:00', '17:00', '18:00'], 1: ['09:00'] };
+// Contenido de prueba: qué lecciones tiene cada materia.
+const CAT = { algebra: ['alg-1', 'alg-2', 'alg-3', 'alg-4', 'alg-5'], trig: ['trig-1'] };
+const req = (o = {}) => ({ course: 'algebra', topics: ['alg-2'], date: '2026-11-12', time: '17:00', note: '', ...o });
+const book = (mine, o, now = NOW) => bookTutoria(mine, req(o), now, CAT, H);
 
-test('tutorDays da los próximos 7 días con los cupos de cada uno', () => {
-  const days = tutorDays(T, NOW, []);
-  assert.equal(days.length, 7);
+test('tutoriaDays da los próximos 7 días con sus cupos', () => {
+  const days = tutoriaDays(NOW, [], H);
   assert.equal(days.map(d => d.date).join(), '2026-11-12,2026-11-13,2026-11-14,2026-11-15,2026-11-16,2026-11-17,2026-11-18');
   assert.equal(days[4].slots.map(s => s.time).join(), '09:00', 'el lunes');
-  assert.equal(days[1].slots.length, 0, 'el viernes no atiende');
+  assert.equal(days[1].slots.length, 0, 'el viernes no hay');
 });
 
 test('hoy solo quedan los cupos con una hora de anticipación', () => {
-  // Son las 3:30: el de las 4:00 ya no se puede separar; 5:00 y 6:00 sí.
-  assert.equal(tutorDays(T, NOW, [])[0].slots.map(s => s.time).join(), '17:00,18:00');
-  assert.equal(tutorDays(T, at(12, 15, 0), [])[0].slots.map(s => s.time).join(), '16:00,17:00,18:00', 'justo una hora antes sí');
-  assert.equal(tutorDays(T, at(12, 20), [])[0].slots.length, 0);
+  assert.equal(tutoriaDays(NOW, [], H)[0].slots.map(s => s.time).join(), '17:00,18:00');
+  assert.equal(tutoriaDays(at(12, 15, 0), [], H)[0].slots.map(s => s.time).join(), '16:00,17:00,18:00', 'justo una hora antes sí');
+  assert.equal(tutoriaDays(at(12, 20), [], H)[0].slots.length, 0);
 });
 
-test('un cupo que choca con otra asesoría del estudiante sale ocupado', () => {
-  const mine = [{ id: 'a', tutor: 'otro', date: '2026-11-12', time: '17:00', mins: 45 }];
-  const s = tutorDays(T, NOW, mine)[0].slots;
-  assert.equal(s.map(x => `${x.time}:${x.free}`).join(), '17:00:false,18:00:true');
+test('el choque con otra asesoría del estudiante es por intervalo: pegadas no chocan, montadas sí', () => {
+  const free = mine => tutoriaDays(NOW, mine, H)[0].slots.map(s => s.free).join();
+  const b = (time, mins) => [{ id: 'a', course: 'trig', topics: ['trig-1'], date: '2026-11-12', time, mins }];
+  assert.equal(free(b('17:00', 45)), 'false,true');
+  assert.equal(free(b('16:30', 30)), 'true,true', 'termina justo a las 5:00');
+  assert.equal(free(b('17:30', 45)), 'false,false', '5:30 a 6:15 toca los dos cupos');
 });
 
 test('nextFree es el primer cupo libre', () => {
-  assert.equal(JSON.stringify(nextFree(T, NOW, [])), JSON.stringify({ date: '2026-11-12', time: '17:00' }));
-  assert.equal(nextFree(T, at(12, 20), []).date, '2026-11-16');
-  assert.equal(nextFree({ ...T, hours: {} }, NOW, []), null);
+  assert.equal(JSON.stringify(nextFree(NOW, [], H)), JSON.stringify({ date: '2026-11-12', time: '17:00' }));
+  assert.equal(nextFree(at(12, 20), [], H).date, '2026-11-16');
+  assert.equal(nextFree(NOW, [], {}), null);
 });
 
-test('separar una asesoría la guarda con sus datos y no cambia la lista original', () => {
+test('separar guarda materia, temas, día y hora, y no cambia la lista original', () => {
   const mine = [];
-  const r = bookTutoria(mine, req({ topic: '  regla de tres  ' }), NOW, all);
+  const r = book(mine, { topics: ['alg-2', 'alg-4'], note: '  factorizar  ' });
   assert.equal(r.ok, true);
   assert.equal(mine.length, 0);
-  assert.equal(r.list.length, 1);
   const b = r.booking;
-  assert.equal([b.tutor, b.date, b.time, b.mins, b.course, b.topic, b.made].join('|'), `t1|2026-11-12|17:00|45|algebra|regla de tres|${NOW}`);
+  assert.equal([b.course, b.topics.join('+'), b.date, b.time, b.mins, b.note, b.made].join('|'), `algebra|alg-2+alg-4|2026-11-12|17:00|${CFG.mins}|factorizar|${NOW}`);
   assert.ok(b.id);
+  assert.equal(r.list.length, 1);
 });
 
-test('no se separa lo que no existe, lo que ya pasó, lo que choca ni más del tope', () => {
-  const err = (mine, o, now = NOW) => bookTutoria(mine, req(o), now, all).error;
-  assert.equal(err([], { tutor: 'nadie' }), 'tutor');
-  assert.equal(err([], { time: '15:00' }), 'slot', 'ese tutor no atiende a esa hora');
-  assert.equal(err([], { time: '16:00' }), 'slot', 'falta menos de una hora');
-  assert.equal(err([], { date: '2026-11-19', time: '17:00' }), 'slot', 'más allá de los 7 días');
-  assert.equal(err([], { course: 'fis' }), 'course', 'ese tutor no enseña ese curso');
-  const one = bookTutoria([], req(), NOW, all).list;
-  assert.equal(err(one, {}), 'busy');
-  const three = [0, 1, 2].map(i => ({ id: 'x' + i, tutor: 'z', date: '2026-11-14', time: `1${i}:00`, mins: 45 }));
-  assert.equal(err(three, {}), 'max');
+test('hay que elegir una materia de la app y al menos un tema suyo (máximo 4)', () => {
+  assert.equal(book([], { course: 'quimica' }).error, 'course');
+  assert.equal(book([], { topics: [] }).error, 'topics');
+  assert.equal(book([], { topics: undefined }).error, 'topics');
+  assert.equal(book([], { topics: ['trig-1'] }).error, 'topics', 'ese tema es de otra materia');
+  assert.equal(book([], { topics: ['alg-1', 'alg-2', 'alg-3', 'alg-4', 'alg-5'] }).error, 'topics');
+  assert.equal(book([], { topics: ['alg-1', 'alg-1'] }).booking.topics.join(), 'alg-1', 'sin repetidos');
+  assert.equal(CFG.maxTopics, 4);
+});
+
+test('no se separa un cupo que no existe o ya pasó, ni chocando, ni más del tope', () => {
+  assert.equal(book([], { time: '15:00' }).error, 'slot');
+  assert.equal(book([], { time: '16:00' }).error, 'slot', 'falta menos de una hora');
+  assert.equal(book([], { date: '2026-11-19' }).error, 'slot', 'más allá de los 7 días');
+  const one = book([]).list;
+  assert.equal(book(one).error, 'busy');
+  const three = [0, 1, 2].map(i => ({ id: 'x' + i, course: 'trig', topics: ['trig-1'], date: '2026-11-14', time: `1${i}:00`, mins: 45 }));
+  assert.equal(book(three).error, 'max');
   assert.equal(CFG.max, 3);
-  // Las que ya terminaron no cuentan para el tope.
-  const old = [0, 1, 2].map(i => ({ id: 'o' + i, tutor: 'z', date: '2026-11-10', time: `1${i}:00`, mins: 45 }));
-  assert.equal(bookTutoria(old, req(), NOW, all).ok, true);
+  const old = three.map(b => ({ ...b, date: '2026-11-10' }));
+  assert.equal(book(old).ok, true, 'las que ya terminaron no cuentan');
 });
 
-test('el texto de lo que quiere repasar se recorta a 140 letras', () => {
-  assert.equal(bookTutoria([], req({ topic: 'x'.repeat(300) }), NOW, all).booking.topic.length, 140);
-  assert.equal(bookTutoria([], req({ topic: undefined }), NOW, all).booking.topic, '');
+test('la nota se recorta a 140 letras', () => {
+  assert.equal(book([], { note: 'x'.repeat(300) }).booking.note.length, 140);
+  assert.equal(book([], { note: undefined }).booking.note, '');
+});
+
+test('toggleTopic marca y desmarca temas sin pasar del máximo', () => {
+  assert.equal(toggleTopic([], 'a').join(), 'a');
+  assert.equal(toggleTopic(['a', 'b'], 'a').join(), 'b');
+  assert.equal(toggleTopic(['a', 'b', 'c', 'd'], 'e').join(), 'a,b,c,d', 'el quinto no entra');
+  assert.equal(toggleTopic(['a', 'b', 'c', 'd'], 'd').join(), 'a,b,c');
 });
 
 test('las asesorías pendientes salen en orden y desaparecen cuando terminan', () => {
-  const mine = [
-    { id: 'b', tutor: 't1', date: '2026-11-16', time: '09:00', mins: 45 },
-    { id: 'a', tutor: 't1', date: '2026-11-12', time: '15:00', mins: 45 },   // empezó 3:00, termina 3:45
-    { id: 'c', tutor: 't1', date: '2026-11-11', time: '17:00', mins: 45 },   // ayer
-  ];
-  assert.equal(activeTutorias(mine, NOW).map(b => b.id).join(), 'a,b', 'la que está en curso sigue visible');
-  assert.equal(activeTutorias(mine, at(12, 15, 45)).map(b => b.id).join(), 'b');
-  assert.equal(activeTutorias(undefined, NOW).length, 0);
+  const b = (id, date, time) => ({ id, course: 'algebra', topics: ['alg-1'], date, time, mins: 45 });
+  const mine = [b('b', '2026-11-16', '09:00'), b('a', '2026-11-12', '15:00'), b('c', '2026-11-11', '17:00')];
+  assert.equal(activeTutorias(mine, NOW).map(x => x.id).join(), 'a,b', 'la que está en curso sigue visible');
+  assert.equal(activeTutorias(mine, at(12, 15, 45)).map(x => x.id).join(), 'b');
 });
 
-test('datos dañados del almacenamiento no rompen nada: se descartan', () => {
-  const bad = [null, 'x', { id: 'a' }, { id: 'b', date: '2026-11-13' }, { id: 'c', date: 'ayer', time: '17:00' },
-    { id: 'ok', tutor: 't1', date: '2026-11-13', time: '10:00' }];
-  assert.equal(activeTutorias(bad, NOW).map(b => b.id).join(), 'ok', 'sin mins dura 45');
-  for (const junk of [{}, 'x', 7, null]) {
+test('datos dañados o del formato viejo (con tutor, sin temas) se descartan sin romper nada', () => {
+  const bad = [null, 'x', { id: 'a' }, { id: 'c', date: 'ayer', time: '17:00', topics: [] },
+    { id: 'viejo', tutor: 'tut-laura', date: '2026-11-13', time: '10:00', mins: 45, course: 'algebra', topic: 'x' },
+    { id: 'ok', course: 'algebra', topics: ['alg-1'], date: '2026-11-13', time: '10:00' }];
+  const fine = { course: 'algebra', topics: ['alg-1'], date: '2026-11-13', time: '10:00' };
+  bad.push({ ...fine }, { ...fine, id: 'eterna', mins: 1e9 }, { ...fine, id: 'neg', mins: -5 });   // sin id no se podría cancelar
+  assert.equal(activeTutorias(bad, NOW).map(b => b.id).join(), 'ok', 'sin mins dura lo normal');
+  for (const junk of [{}, 'x', 7, null, undefined]) {
     assert.equal(activeTutorias(junk, NOW).length, 0);
-    assert.equal(tutorDays(T, NOW, junk)[0].slots.length, 2);
-    assert.equal(bookTutoria(junk, req(), NOW, all).list.length, 1);
+    assert.equal(tutoriaDays(NOW, junk, H)[0].slots.length, 2);
+    assert.equal(book(junk).list.length, 1);
     assert.equal(cancelTutoria(junk, 'a').length, 0);
   }
-  assert.equal(bookTutoria(bad, req(), NOW, all).list.length, 2, 'al separar solo queda lo válido');
-});
-
-test('el choque es por intervalo: pegadas no chocan, montadas sí', () => {
-  const free = mine => tutorDays(T, NOW, mine)[0].slots.map(s => s.free).join();
-  assert.equal(free([{ id: 'a', date: '2026-11-12', time: '16:30', mins: 30 }]), 'true,true', 'termina justo a las 5:00');
-  assert.equal(free([{ id: 'a', date: '2026-11-12', time: '16:30', mins: 45 }]), 'false,true');
-  assert.equal(free([{ id: 'a', date: '2026-11-12', time: '17:30', mins: 45 }]), 'false,false', '5:30 a 6:15 toca los dos cupos');
-});
-
-test('los días siguen bien al cruzar fin de año', () => {
-  const d = tutorDays(T, new Date(2026, 11, 29, 8).getTime(), []);
-  assert.equal(d.map(x => x.date).slice(2, 5).join(), '2026-12-31,2027-01-01,2027-01-02');
-  assert.equal(dayLabel('2027-01-04', new Date(2026, 11, 29, 8).getTime()), 'lun 4 ene');
+  assert.equal(book(bad).list.length, 2, 'al separar solo queda lo válido');
 });
 
 test('cancelar quita solo esa asesoría', () => {
@@ -126,53 +126,63 @@ test('cancelar quita solo esa asesoría', () => {
   assert.equal(mine.length, 2);
 });
 
-test('etiquetas de día y de hora en español', () => {
+test('etiquetas de día y de hora en español, también al cruzar fin de año', () => {
   assert.equal(dayLabel('2026-11-12', NOW), 'Hoy');
   assert.equal(dayLabel('2026-11-13', NOW), 'Mañana');
   assert.equal(dayLabel('2026-11-16', NOW), 'lun 16 nov');
   assert.equal(dayLabel('2026-11-12', at(12, 23, 59)), 'Hoy');
+  const dec = new Date(2026, 11, 29, 8).getTime();
+  assert.equal(tutoriaDays(dec, [], H).map(x => x.date).slice(2, 5).join(), '2026-12-31,2027-01-01,2027-01-02');
+  assert.equal(dayLabel('2027-01-04', dec), 'lun 4 ene');
   assert.equal(hourLabel('09:00'), '9:00 a. m.');
   assert.equal(hourLabel('12:30'), '12:30 p. m.');
   assert.equal(hourLabel('16:00'), '4:00 p. m.');
   assert.equal(hourLabel('00:15'), '12:15 a. m.');
 });
 
-test('el aviso por WhatsApp lleva tutor, día, hora y tema; sin número no hay enlace', () => {
-  const b = bookTutoria([], req(), NOW, all).booking;
-  const txt = tutoriaText(b, T, 'Sara', 'Álgebra', NOW);
-  for (const part of ['Sara', 'Ana Ruiz', 'Hoy', '5:00 p. m.', 'Álgebra', 'regla de tres']) assert.ok(txt.includes(part), part);
+test('el aviso por WhatsApp lleva materia, temas, día y hora; sin número no hay enlace', () => {
+  const b = book([], { note: 'voy perdido' }).booking;
+  const txt = tutoriaText(b, 'Sara', 'Álgebra', ['Regla de tres', 'Porcentajes'], NOW);
+  for (const part of ['Sara', 'Hoy', '5:00 p. m.', 'Álgebra', 'Regla de tres; Porcentajes', 'voy perdido']) assert.ok(txt.includes(part), part);
   assert.equal(tutoriaLink(txt, ''), '');
   assert.equal(tutoriaLink('hola & chao', '57 300-123'), 'https://wa.me/57300123?text=hola%20%26%20chao');
 });
 
-test('los tutores están bien escritos: cursos que existen, horas válidas y algún cupo en la semana', () => {
-  const courses = ['algebra', 'trig', 'calc', 'geo', 'fis', 'int', 'lin'];
-  assert.ok(TUTORS.length >= 3);
-  assert.equal(new Set(TUTORS.map(t => t.id)).size, TUTORS.length);
-  for (const t of TUTORS) {
-    assert.ok(t.name && t.role && t.bio && /^#[0-9a-f]{6}$/i.test(t.color), t.id);
-    assert.ok(t.bio.length <= 110, `${t.id}: bio de ${t.bio.length} letras`);
-    assert.ok(t.courses.length && t.courses.every(c => courses.includes(c)), `${t.id}: cursos`);
-    assert.ok(t.mins >= 20 && t.mins <= 60);
-    const times = Object.entries(t.hours);
-    assert.ok(times.length, `${t.id}: sin horario`);
-    for (const [dow, hs] of times) {
-      assert.ok(+dow >= 0 && +dow <= 6);
-      assert.ok(hs.length && hs.every(h => /^([01]\d|2[0-3]):[0-5]\d$/.test(h)), `${t.id}: horas del día ${dow}`);
-      assert.equal(hs.join(), [...hs].sort().join(), `${t.id}: horas en orden`);
+test('el horario de la app está bien escrito y siempre hay cupos en la semana', () => {
+  const days = Object.entries(CFG.hours);
+  assert.ok(days.length >= 3);
+  for (const [dow, hs] of days) {
+    assert.ok(+dow >= 0 && +dow <= 6);
+    assert.ok(hs.length && hs.every(h => /^([01]\d|2[0-3]):[0-5]\d$/.test(h)), `horas del día ${dow}`);
+    assert.equal(hs.join(), [...hs].sort().join(), 'horas en orden');
+    for (let i = 1; i < hs.length; i++) {
+      const min = t => +t.slice(0, 2) * 60 + +t.slice(3);
+      assert.ok(min(hs[i]) - min(hs[i - 1]) >= CFG.mins, 'los cupos no se montan');
     }
-    assert.ok(nextFree(t, NOW, []), `${t.id}: sin cupos esta semana`);
-    if (t.link) assert.match(t.link, /^https:\/\//);
   }
-  for (const c of ['algebra', 'trig', 'calc']) assert.ok(tutorsFor(c).length, `nadie enseña ${c}`);
-  assert.equal(tutorsFor('all').length, TUTORS.length);
-});
-
-test('mientras sean tutores de ejemplo, la pestaña lo dice', () => {
-  const src = read('js/tutorias.js');
-  if (CFG.demo) assert.match(src, /TUTORIAS\.demo \?/);
+  assert.ok(nextFree(NOW, []));
   assert.equal(CFG.leadMin, 60);
   assert.equal(CFG.days, 7);
+});
+
+test('no hay nombres de tutores en la app', () => {
+  const src = read('js/tutorias.js');
+  assert.doesNotMatch(src, /TUTORS|Laura|Andrés Ríos|Camila|Mateo/);
+});
+
+test('las materias y los temas salen del contenido real de la app', () => {
+  const c = loadScripts(['js/ui.js', 'js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/tutorias.js']);
+  const catalog = get(c, 'tutoriaCatalog')([get(c, 'COURSE_ALGEBRA'), get(c, 'COURSE_TRIG')]);
+  assert.ok(catalog.algebra.includes('alg-0a') && catalog.trig.length > 5);
+  const r = bookTutoria([], req({ topics: ['alg-0a'] }), NOW, catalog, H);
+  assert.equal(r.ok, true);
+});
+
+test('los títulos de unidades y lecciones son texto simple (la pestaña los muestra sin KaTeX)', () => {
+  const c = loadScripts(['js/ui.js', 'js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/calculo.js', 'js/courses/geometria.js', 'js/data.js']);
+  for (const course of get(c, 'COURSES')) for (const u of course.units) {
+    for (const t of [u.title, ...u.lessons.map(l => l.title)]) assert.doesNotMatch(t, /[$\\*<>]/, `${course.id}: ${t}`);
+  }
 });
 
 test('Tutorías está en el menú, en index.html, en el service worker y en el recorrido', () => {
@@ -183,6 +193,7 @@ test('Tutorías está en el menú, en index.html, en el service worker y en el r
   assert.match(app, /tutorias: renderTutorias/);
   assert.match(app, /tutorias: \[\]/);
   assert.match(app, /tutorias: S\.tutorias/, 'reiniciar el progreso no borra las citas');
-  const steps = get(loadScripts(['js/tour.js']), 'TOUR_STEPS');
-  assert.match(steps.find(s => s.id === 'tutorias').target.join(), /data-tab="tutorias"/);
+  const step = get(loadScripts(['js/tour.js']), 'TOUR_STEPS').find(s => s.id === 'tutorias');
+  assert.match(step.target.join(), /data-tab="tutorias"/);
+  assert.match(step.text, /materia/);
 });

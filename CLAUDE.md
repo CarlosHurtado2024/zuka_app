@@ -35,7 +35,7 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
 | `js/games/*.js` | un archivo por juego (≈59) |
 | `js/player.js` | reproductor de clips (Bunny HLS o escenas animadas) |
 | `js/curiosidades.js`, `media/clips/` | pestaña Clips: videos cortos de datos curiosos (`CURIOS`, `CURIO_TOPICS`, `curioFeed`, `findCurio`); spec `2026-11-12-clips-curiosidades`, pruebas `tests/curiosidades.test.js` |
-| `js/tutorias.js` | pestaña Tutorías: separar una asesoría virtual con un tutor (`TUTORIAS`, `TUTORS`, `tutorDays`, `bookTutoria`, `renderTutorias`, `openBooking`); reservas en `S.tutorias`, sin servidor. Hoy `TUTORIAS.demo` es `true`: **los tutores son de ejemplo**; para tutores reales poner `TUTORS`, su `link` de videollamada, `TUTORIAS.whatsapp` y `demo: false`. Spec `2026-11-12-tutorias`, pruebas `tests/tutorias.test.js` |
+| `js/tutorias.js` | pestaña Tutorías: el estudiante separa una asesoría virtual eligiendo materia, temas (lecciones de esa materia), día y hora; **sin nombres de tutores** (`TUTORIAS` con el horario `hours`, `tutoriaDays`, `bookTutoria`, `renderTutorias`, `openBooking`). Reservas en `S.tutorias`, sin servidor: solo quedan en el celular hasta poner `TUTORIAS.whatsapp`. Spec `2026-11-12-tutorias`, pruebas `tests/tutorias.test.js` |
 | `sw.js` | service worker: `VERSION` y lista `SHELL` |
 | `tests/` | `node --test tests/` (≈352 pruebas); `tests/load.js` carga scripts en un `vm` |
 | `video/` | videos con manimgl (ver abajo) |
