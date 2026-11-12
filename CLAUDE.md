@@ -172,9 +172,9 @@ material extra (promos, cortos, efectos, 3D, audio).
   instalados; voz y música con `sh ~/.claude/skills/lemo-opuscar/scripts/setup.sh deps voice music`) y `pixelfx`
   (244 efectos de pixel art; copia en `~/pixelfx`, `node tools/render.mjs fire/torch` deja la hoja en `records/`).
   Los tres necesitan `ffmpeg` en el PATH: `export PATH="<repo>/video/.venv-gl/Scripts:$PATH"`.
-- MCP de Blender: servidor `blender` (`uvx mcp-for-blender`) en `~/.claude.json`. Para usarlo: abrir Blender,
-  instalar el complemento una vez con `uvx mcp-for-blender install-addon` y activar el servidor en el panel
-  lateral (tecla `N` → «MCP for Blender»).
+- MCP de Blender: servidor `blender` (`uvx mcp-for-blender`) en `~/.claude.json`. Blender 5.3 y su complemento
+  (`blender_mcp`) ya están instalados y activados. Para usarlo: abrir Blender y revisar el panel lateral
+  (tecla `N` → «MCP for Blender»; «Start MCP Server» si no está corriendo).
 - Audio: `video/.venv-audio` (Python 3.12 de uv) con `librosa` y `soundfile`, para sacar tempo y golpes de una
   pista y sincronizar animaciones. No instalar librosa en `.venv-gl`: su Python de miniconda no tiene `lzma`.
 - 3D: `C:\Users\User Acer\Documents\estudio_3d` (Vite + React) con `three`, `@react-three/fiber`, `drei`,
