@@ -162,6 +162,25 @@ cualquier `L(x) = R(x)`). Reutilizables:
 - Python con acentos en la salida: `python -X utf8`. `ffmpeg` está en `video/.venv-gl/Scripts`.
 - Cambiar de rama mientras se renderiza puede fallar por archivos bloqueados.
 
+## Herramientas de contenido (instaladas en el equipo, fuera del repositorio)
+
+Sirven para este y otros proyectos. Los videos de las lecciones siguen saliendo con manimgl; esto es para
+material extra (promos, cortos, efectos, 3D, audio).
+
+- Skills globales en `~/.claude/skills/`: `video-shotcraft` (promos con Remotion a partir de páginas reales),
+  `lemo-opuscar` (cortos hechos en código en 99 estilos; biblioteca en `~/lemo-opuscar`, paquetes base ya
+  instalados; voz y música con `sh ~/.claude/skills/lemo-opuscar/scripts/setup.sh deps voice music`) y `pixelfx`
+  (244 efectos de pixel art; copia en `~/pixelfx`, `node tools/render.mjs fire/torch` deja la hoja en `records/`).
+  Los tres necesitan `ffmpeg` en el PATH: `export PATH="<repo>/video/.venv-gl/Scripts:$PATH"`.
+- MCP de Blender: servidor `blender` (`uvx mcp-for-blender`) en `~/.claude.json`. Para usarlo: abrir Blender,
+  instalar el complemento una vez con `uvx mcp-for-blender install-addon` y activar el servidor en el panel
+  lateral (tecla `N` → «MCP for Blender»).
+- Audio: `video/.venv-audio` (Python 3.12 de uv) con `librosa` y `soundfile`, para sacar tempo y golpes de una
+  pista y sincronizar animaciones. No instalar librosa en `.venv-gl`: su Python de miniconda no tiene `lzma`.
+- 3D: `C:\Users\User Acer\Documents\estudio_3d` (Vite + React) con `three`, `@react-three/fiber`, `drei`,
+  `@react-three/rapier` (física) y `@react-three/postprocessing`; `npm run dev` (puerto 5183, vista previa
+  «estudio-3d»). La app Zuka no usa React ni three: no añadirlos al PWA.
+
 ## Pendiente (a la fecha)
 
 Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):

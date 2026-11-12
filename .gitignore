@@ -5,6 +5,7 @@ video/media/
 video/render_log.txt
 video/__pycache__/
 video/.venv-gl/
+video/.venv-audio/
 video/clase_sistemas_numericos/videos/
 video/clase_sistemas_numericos/dist/
 video/clase_sistemas_numericos/build_log.txt
