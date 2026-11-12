@@ -25,7 +25,7 @@ GAMES['rebote'] = (() => {
       W = w; H = h;
       const bw = Math.min(64, (w * 0.6) / 3 - 10), x0 = 24;
       bars = [0, 1, 2].map(i => ({ x: x0 + i * (bw + 14), w: bw }));
-      rail = { x: w - 56, y: 90, h: h * 0.55 };
+      rail = { x: w - 56, y: 90, h: h * 0.5 };   // deja sitio a los botones y a la ayuda de dos renglones
       buttons = [
         { d: -1, x: w - 100, y: rail.y + rail.h + 22, w: 40, h: 32, t: '−' },
         { d: 1, x: w - 54, y: rail.y + rail.h + 22, w: 40, h: 32, t: '+' },
@@ -73,15 +73,14 @@ GAMES['rebote'] = (() => {
         p.fill(C.card); p.stroke(col); p.strokeWeight(3); p.circle(rail.x, hy, 28);
         p.noStroke(); p.fill(col); p.textAlign(p.CENTER, p.BOTTOM); p.textStyle(p.BOLD); p.textSize(15);
         p.text(st.up === null ? '— %' : `${fmt1(st.up)} %`, rail.x, rail.y - 8);
-        p.fill(C.mute); p.textSize(10); p.textStyle(p.NORMAL); p.text('% de subida', rail.x, rail.y - 26);
-        p.textAlign(p.CENTER, p.TOP); p.text(`0 – ${params.max}`, rail.x, rail.y + rail.h + 6);
+        p.fill(C.mute); p.textSize(10); p.textStyle(p.NORMAL); p.text(`% de subida (0 a ${params.max})`, rail.x, rail.y - 26);
         buttons.forEach(b => {
           p.stroke(locked ? C.line : C.brand); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
           p.noStroke(); p.fill(C.ink); p.textSize(18); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2);
         });
         if (locked) { const ay = rail.y + rail.h - (ans / params.max) * rail.h; p.stroke(C.ok); p.strokeWeight(2); p.line(rail.x - 14, ay, rail.x + 14, ay); }
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
-        p.text(locked && !good ? `Hacía falta subir ${fmt1(ans)} %` : 'Arrastra la manija o toca ± hasta que «nuevo» llegue a la línea', W / 2, H - 12);
+        p.text(locked && !good ? `Hacía falta subir ${fmt1(ans)} %` : 'Arrastra la manija o toca ± hasta que «nuevo» llegue a la línea', 12, H - 30, W - 24, 28);
       };
 
       p.mousePressed = () => {

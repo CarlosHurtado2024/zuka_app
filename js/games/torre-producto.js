@@ -7,17 +7,20 @@ GAMES['torre-producto'] = (() => {
   const valueAt = (n, p) => (p.kind === 'factorial' ? Array.from({ length: n }, (_, k) => k + 1).reduce((a, b) => a * b, 1) : p.start * p.r ** n);
   const answerOf = p => { for (let n = 1; n <= p.max; n++) if (valueAt(n, p) === p.target) return n; return null; };
   const fmt = n => Math.round(n).toLocaleString('es-CO');
+  // «1 doblez», «9 dobleces»; «1 día», «3 días».
+  const plural = (w, n) => (n === 1 ? w : /z$/.test(w) ? `${w.slice(0, -1)}ces` : /[aeiouáéíóú]$/.test(w) ? `${w}s` : `${w}es`);
   const tex = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\\,');   // miles con \, dentro de TeX
 
   function grade(state, params) {
     const ok = state.n > 0 && valueAt(state.n, params) === params.target;
     const n = answerOf(params);
     const how = params.kind === 'factorial' ? `$${n}! = ${tex(params.target)}$` : `$${params.start} \\cdot ${params.r}^{${n}} = ${tex(params.target)}$`;
-    return { ok, solution: n === null ? `Ningún paso llega justo a ${fmt(params.target)}` : `${how}: ${n} ${params.period}${n === 1 ? '' : 's'}` };
+    return { ok, solution: n === null ? `Ningún paso llega justo a ${fmt(params.target)}` : `${how}: ${n} ${plural(params.period, n)}` };
   }
 
   function create(host, params, api) {
     const C = api.palette;
+    const unitOf = v => (v === 1 ? String(params.unit).replace(/s$/, '') : params.unit);   // «1 capa», «2 capas»
     const fact = params.kind === 'factorial';
     const st = { n: 0 };
     let locked = false, W = 0, H = 0, buttons = [], tower = null;
@@ -42,7 +45,7 @@ GAMES['torre-producto'] = (() => {
         p.background(C.bg);
         const v = valueAt(st.n, params), good = v === params.target;
         p.noStroke(); p.fill(C.N); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(14);
-        p.text(fact ? `Multiplica 1 · 2 · 3 · … hasta llegar a ${fmt(params.target)}` : `${params.start} ${params.unit}; cada ${params.period} se multiplican por ${params.r} · meta ${fmt(params.target)}`, 12, 8, W - 24, 40);
+        p.text(fact ? `Multiplica 1 · 2 · 3 · … hasta llegar a ${fmt(params.target)}` : `Empiezas con ${params.start} ${unitOf(params.start)}; cada ${params.period} se multiplica por ${params.r} · meta ${fmt(params.target)}`, 12, 8, W - 24, 40);
         // Torre: un bloque por paso, el ancho crece con el logaritmo del valor (para que quepa).
         const rowH = Math.min(26, tower.h / Math.max(params.max + 1, 1)), lg = Math.log(Math.max(params.target, valueAt(params.max, params)));
         for (let k = 0; k <= st.n; k++) {
@@ -53,7 +56,7 @@ GAMES['torre-producto'] = (() => {
           p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(10); p.textAlign(p.LEFT, p.CENTER); p.text(fact ? (k ? `× ${k}` : '') : `${params.period} ${k}`, tower.x, y + (rowH - 2) / 2);
         }
         p.noStroke(); p.fill(locked ? (good ? C.ok : C.bad) : C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(18);
-        p.text(fact ? (st.n ? `${st.n}! = ${fmt(v)}` : '1') : `${st.n} ${params.period}${st.n === 1 ? '' : 's'} · ${fmt(v)} ${params.unit}`, W / 2, H - 118);
+        p.text(fact ? (st.n ? `${st.n}! = ${fmt(v)}` : '1') : `${st.n} ${plural(params.period, st.n)} · ${fmt(v)} ${unitOf(v)}`, W / 2, H - 118);
         buttons.forEach(b => {
           const dim = locked || (b.v < 0 ? st.n === 0 : st.n >= params.max);
           p.stroke(dim ? C.line : b.col); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 12);
@@ -61,7 +64,7 @@ GAMES['torre-producto'] = (() => {
         });
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         const ans = answerOf(params);
-        p.text(locked ? (good ? '¡Justo la meta!' : ans === null ? `Ningún paso llega justo a ${fmt(params.target)}` : `Eran ${ans} ${params.period}s`) : `Multiplica hasta llegar exactamente a ${fmt(params.target)}`, 12, H - 30, W - 24, 24);
+        p.text(locked ? (good ? '¡Justo la meta!' : ans === null ? `Ningún paso llega justo a ${fmt(params.target)}` : `${ans === 1 ? 'Era' : 'Eran'} ${ans} ${plural(params.period, ans)}`) : `Multiplica hasta llegar exactamente a ${fmt(params.target)}`, 12, H - 30, W - 24, 24);
       };
 
       p.mousePressed = () => {

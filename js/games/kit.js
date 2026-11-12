@@ -43,33 +43,109 @@ function loadP5() {
 // (4:5 por defecto). sketch(p, size) recibe la instancia y { w, h }. Devuelve { ready: Promise, remove() }.
 // El lienzo nunca se escala con CSS (p5 no corrige esa escala al leer el dedo): si el contenedor
 // cambia de ancho, se redimensiona y se llama p.onResize() para que el juego reacomode todo.
+// Los juegos se diseñaron para un lienzo de unos 328 px de ancho (celular de 375) y colocan muchas
+// piezas con medidas fijas: en un celular más angosto el lienzo conserva el alto de ese diseño
+// (heightFor), así lo que va apilado no se encima ni se sale por abajo.
+const DESIGN_W = 328;
+const heightFor = (w, aspect) => Math.round(Math.max(w, DESIGN_W) * aspect);
 function mountSketch(host, sketch, aspect = 1.25) {
-  let inst = null, removed = false, ro = null;
+  let inst = null, removed = false, ro = null, grabbed = false;
   const widthOf = () => Math.max(240, Math.floor(host.clientWidth || 320));
   const ready = loadP5().then(P5 => {
     if (removed) return;
     const size = { w: widthOf(), h: 0 };
-    size.h = Math.round(size.w * aspect);
+    size.h = heightFor(size.w, aspect);
     inst = new P5(p => {
       sketch(p, size);
+      // Red de seguridad para celulares angostos: ningún texto se sale del lienzo ni queda cortado.
+      if (typeof p.text === 'function') { const raw = p.text.bind(p); p.text = (...a) => safeText(p, raw, ...a); }
       // p5 1.9 no cae de touchstart/touchend a mousePressed/mouseReleased (solo touchmove cae en
       // mouseDragged), así que en el celular el toque nunca agarraba nada. Los juegos escriben solo
       // los manejadores de ratón; aquí se enlazan los táctiles, devolviendo el mismo valor
       // (false cancela el toque y evita el clic emulado que el móvil dispara después).
-      p.touchStarted ??= (...a) => p.mousePressed?.(...a);
-      p.touchMoved ??= (...a) => p.mouseDragged?.(...a);
-      p.touchEnded ??= (...a) => p.mouseReleased?.(...a);
+      // El lienzo deja desplazar la lección con el dedo (touch-action: pan-y): un toque es del juego
+      // solo si su mousePressed devuelve false (agarró algo); si no, es un desplazamiento y el juego
+      // no recibe ni el arrastre ni el final de ese toque.
+      // p5 escucha los toques en toda la ventana: los que no empiezan en el lienzo no son del juego.
+      const outside = e => !!(e && e.target && p.canvas && e.target !== p.canvas);
+      p.touchStarted ??= (...a) => { if (outside(a[0])) { grabbed = false; return undefined; } const r = p.mousePressed?.(...a); grabbed = r === false; return r; };
+      p.touchMoved ??= (...a) => (grabbed ? p.mouseDragged?.(...a) : undefined);
+      p.touchEnded ??= (...a) => { const mine = grabbed; grabbed = false; return mine ? p.mouseReleased?.(...a) : undefined; };
     }, host);
     ro = new ResizeObserver(() => {
       const w = widthOf();
       if (!inst || w === size.w) return;
-      size.w = w; size.h = Math.round(w * aspect);
+      size.w = w; size.h = heightFor(w, aspect);
       inst.resizeCanvas(size.w, size.h);
       inst.onResize?.();
     });
     ro.observe(host);
+    // p5 no escucha touchcancel (llamada entrante, gesto del sistema): se suelta lo que el juego tenía agarrado.
+    host.addEventListener?.('touchcancel', () => { if (grabbed) { grabbed = false; inst?.mouseReleased?.(); } });
   });
   return { ready, remove() { removed = true; ro?.disconnect(); inst?.remove(); inst = null; } };
+}
+
+// ---------- Texto que siempre cabe ----------
+// Parte `txt` en renglones que caben en maxW (por palabras); measure(s) da el ancho de s.
+function wrapWords(txt, maxW, measure) {
+  const out = [];
+  for (const para of String(txt).split('\n')) {
+    let cur = '';
+    for (const w of para.split(' ')) {
+      const t = cur ? `${cur} ${w}` : w;
+      if (cur && measure(t) > maxW) { out.push(cur); cur = w; } else cur = t;
+    }
+    out.push(cur);
+  }
+  return out;
+}
+// Cuánto hay que correr un tramo [start, start + len] para que quede dentro de [lo, hi]. Si no cabe,
+// se centra; si casi todo está fuera (algo escondido a propósito o que entra animado), no se toca.
+function spanShift(start, len, lo, hi) {
+  const seen = Math.min(start + len, hi) - Math.max(start, lo);
+  if (seen < len * 0.4) return 0;
+  if (len > hi - lo) return (lo + hi) / 2 - (start + len / 2);
+  if (start < lo) return lo - start;
+  if (start + len > hi) return hi - (start + len);
+  return 0;
+}
+// p.text de todos los juegos pasa por aquí (lo enlaza mountSketch). Un texto suelto más ancho que el
+// lienzo se encoge (hasta 9 px) y, si se sale por un borde, se corre hacia adentro. Un texto en caja
+// (x, y, ancho, alto) que no cabe en su alto, o cuya caja se sale por abajo, se encoge y se dibuja
+// renglón a renglón dentro del lienzo: p5 solo cortaría los renglones que sobran. Con el lienzo
+// trasladado o girado (cartas, rótulos girados) no se toca nada: ahí las coordenadas son otras.
+function safeText(p, raw, str, x, y, bw, bh) {
+  const r = p._renderer, W = p.width, H = p.height;
+  const m = p.drawingContext?.getTransform?.();
+  if (!r || str == null || !m || Math.abs(m.b) > 1e-6 || Math.abs(m.c) > 1e-6 || Math.abs(m.e) > 0.5 || Math.abs(m.f) > 0.5) return raw(str, x, y, bw, bh);
+  const s = String(str), size0 = r._textSize, align = r._textAlign, base = r._textBaseline;
+  const measure = t => p.textWidth(t);
+  if (bw == null) {
+    const lines = s.split('\n'), width = () => Math.max(...lines.map(measure));
+    let size = size0, tw = width();
+    while (tw > W - 8 && size > 9) { size -= 0.5; p.textSize(size); tw = width(); }
+    const left = align === 'center' ? x - tw / 2 : align === 'right' ? x - tw : x;
+    const top = base === 'center' ? y - size / 2 : base === 'top' ? y : y - size;
+    const dx = spanShift(left, tw, 4, W - 4), dy = lines.length === 1 ? spanShift(top, size, 1, H - 1) : 0;
+    raw(s, x + dx, y + dy);
+    if (size !== size0) p.textSize(size0);
+    return;
+  }
+  if (bh == null) return raw(str, x, y, bw);
+  // Interlineado: el del juego si lo fijó (textLeading), si no el de p5 (1.25 × letra); se encoge con la letra.
+  const k = r._leadingSet && r._textLeading ? r._textLeading / size0 : 1.25;
+  let size = size0, lines = wrapWords(s, bw, measure);
+  const need = () => (lines.length - 1) * size * k + size;
+  while (need() > bh + 1 && size > 9) { size -= 0.5; p.textSize(size); lines = wrapWords(s, bw, measure); }
+  const total = need(), lead = size * k;
+  let top = base === 'center' ? y + (bh - total) / 2 : base === 'bottom' ? y + bh - total : base === 'alphabetic' ? y - size : y;
+  top = Math.max(2, Math.min(H - 3 - total, top));
+  const lx = align === 'center' ? x + bw / 2 : align === 'right' ? x + bw : x;
+  p.textAlign(align, 'top');
+  lines.forEach((ln, i) => raw(ln, lx, top + i * lead));
+  p.textAlign(align, base);
+  if (size !== size0) p.textSize(size0);
 }
 
 // Permutación determinista de 0..n−1 a partir de una semilla de texto (nunca la identidad si n > 1):

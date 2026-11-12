@@ -21,7 +21,8 @@ GAMES['lado-del-cuadrado'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      tabs = params.rounds.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
+      const step = Math.min(52, (w - 124) / params.rounds.length);   // las pestañas no pisan los botones − y +
+      tabs = params.rounds.map((_, i) => ({ x: 12 + i * step, y: 8, w: step - 8, h: 30 }));
       btns = [{ x: w - 104, y: 8, w: 44, h: 30, d: -1 }, { x: w - 56, y: 8, w: 44, h: 30, d: 1 }];
       const size = Math.min(w - 110, h - 190);
       box = { x: 48, y: h - 70, size };   // esquina inferior izquierda fija; crece hacia arriba y a la derecha
@@ -60,8 +61,8 @@ GAMES['lado-del-cuadrado'] = (() => {
         p.stroke(col); p.strokeWeight(2.5); p.noFill(); p.rect(box.x, box.y - px, px, px);
         p.noStroke(); p.fill(col); p.circle(box.x + px, box.y - px, 16);
         // Rótulos del lado y del área.
-        p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(13); p.textAlign(p.CENTER, p.TOP); p.text(`lado ${fmt(s)}`, box.x + px / 2, box.y + 6);
-        p.textAlign(p.RIGHT, p.CENTER); p.push(); p.translate(box.x - 8, box.y - px / 2); p.rotate(-Math.PI / 2); p.textAlign(p.CENTER, p.BOTTOM); p.text(`lado ${fmt(s)}`, 0, 0); p.pop();
+        p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(13); p.textAlign(p.CENTER, p.TOP); if (px > 44) p.text(`lado ${fmt(s)}`, box.x + px / 2, box.y + 6);
+        p.textAlign(p.RIGHT, p.CENTER); if (px > 44) { p.push(); p.translate(box.x - 8, box.y - px / 2); p.rotate(-Math.PI / 2); p.textAlign(p.CENTER, p.BOTTOM); p.text(`lado ${fmt(s)}`, 0, 0); p.pop(); }   // con el cuadrado aún diminuto los dos rótulos se encimarían
         p.fill(locked ? col : C.ink); p.textSize(18); p.textAlign(p.CENTER, p.CENTER);
         p.text(`área = ${fmt(s)}² = ${fmt(area)}`, W / 2, 96);
         if (locked && !good) { p.fill(C.ok); p.textSize(12); p.text(`el lado era √${fmt(r.area)} ≈ ${fmt(Math.sqrt(r.area))}`, W / 2, 118); }

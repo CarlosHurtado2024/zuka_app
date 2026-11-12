@@ -86,8 +86,10 @@ GAMES['acorrala-raiz'] = (() => {
         // Leyenda.
         const yl = H - 40;
         p.noStroke(); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.LEFT, p.CENTER);
-        p.fill(C.Z); p.circle(18, yl, 8); p.fill(C.mute); p.text(`al cuadrado da menos de ${n}`, 26, yl);
-        p.fill(C.I); p.circle(W / 2 + 12, yl, 8); p.fill(C.mute); p.text(`da más de ${n}`, W / 2 + 20, yl);
+        // La segunda marca va después del primer rótulo: en un lienzo angosto no se le monta encima.
+        const l1 = `al cuadrado da menos de ${n}`, x2 = Math.max(W / 2 + 12, 26 + p.textWidth(l1) + 16);
+        p.fill(C.Z); p.circle(18, yl, 8); p.fill(C.mute); p.text(l1, 26, yl);
+        p.fill(C.I); p.circle(x2, yl, 8); p.fill(C.mute); p.text(x2 + 8 + p.textWidth(`da más de ${n}`) > W - 4 ? `más de ${n}` : `da más de ${n}`, x2 + 8, yl);
         p.textAlign(p.CENTER, p.CENTER);
         p.text(locked ? (grade(st, params).ok ? '¡Raíces acorraladas! Y las cifras siguen sin fin' : 'El tramo correcto va punteado en verde') : picks.length === L ? 'Puedes cambiar un tramo de arriba o pasar a la otra pestaña' : 'Toca entre dos marcas para elegir el tramo', 12, H - 16, W - 24, 18);
       };

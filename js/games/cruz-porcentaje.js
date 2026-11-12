@@ -27,10 +27,11 @@ GAMES['cruz-porcentaje'] = (() => {
       tabs = params.problems.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
       const cw = Math.min(118, (w - 60) / 2), ch = 44, cx = w / 2, cy = h * 0.47;
       slots = {
-        100: { x: cx - cw - 8, y: cy - ch - 6, w: cw, h: ch },
-        p: { x: cx + 8, y: cy - ch - 6, w: cw, h: ch },
-        C: { x: cx - cw - 8, y: cy + 6, w: cw, h: ch },
-        B: { x: cx + 8, y: cy + 6, w: cw, h: ch },
+        // 24 px entre las dos filas: ahí va el rótulo de la casilla de arriba.
+        100: { x: cx - cw - 8, y: cy - ch - 12, w: cw, h: ch },
+        p: { x: cx + 8, y: cy - ch - 12, w: cw, h: ch },
+        C: { x: cx - cw - 8, y: cy + 12, w: cw, h: ch },
+        B: { x: cx + 8, y: cy + 12, w: cw, h: ch },
       };
       tray = [];
       const chips = params.problems[cur].chips, tw = 70, gap = 8;

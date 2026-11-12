@@ -497,9 +497,21 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 /* Minijuegos (p5.js) */
 .play {
   position: relative; border-radius: 18px; overflow: hidden; background: var(--play-bg); border: 2px solid var(--line);
-  touch-action: none; user-select: none; min-height: 200px;
+  touch-action: pan-y; user-select: none; min-height: 200px; transition: border-color .2s;
 }
-.play canvas { display: block; }
+/* pan-y: sobre el juego se puede desplazar la lección con el dedo; cuando el juego agarra una pieza
+   cancela el toque (js/games/kit.js) y la página no se mueve. */
+.play canvas { display: block; animation: play-in .28s ease-out; }
+@keyframes play-in { from { opacity: 0; } }
+/* Mientras carga p5.js (la primera vez) el marco muestra que algo viene. */
+.play:empty::after {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px; border-radius: 50%;
+  border: 3px solid var(--line); border-top-color: var(--c, var(--brand)); animation: play-spin .8s linear infinite;
+}
+@keyframes play-spin { to { transform: rotate(360deg); } }
+.play.right { border-color: var(--ok); }
+.play.wrong { border-color: var(--bad); animation: play-no .32s ease-in-out; }
+@keyframes play-no { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 .play-msg { padding: 40px 18px; text-align: center; color: var(--mute); font-weight: 700; }
 .sim { position: relative; aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden; background: #0f1226; border: 2px solid var(--line); }
 .sim.right { border-color: var(--ok); } .sim.wrong { border-color: var(--bad); }
@@ -652,7 +664,7 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 @keyframes pop { from { transform: scale(.3); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .clip-loading i { animation-duration: 2.4s !important; animation-iteration-count: infinite !important; }
+  .clip-loading i, .play:empty::after { animation-duration: 2.4s !important; animation-iteration-count: infinite !important; }
 }
 
 /* ---------- evaluación de fin de mundo (js/exam.js) ---------- */

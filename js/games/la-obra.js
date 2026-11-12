@@ -68,7 +68,9 @@ GAMES['la-obra'] = (() => {
         crowd(bench, Math.max(0, params.max - st.workers), C.mute, 4);
         crowd(site, st.workers, col, 5);
         p.noStroke(); p.fill(C.ink); p.textSize(16); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
-        p.text(`${st.workers} obrero${st.workers === 1 ? '' : 's'}`, site.x + site.w / 2, buttons[0].y + 16);
+        // Entre los botones − y +: si el hueco es angosto queda solo el número.
+        const gap = site.w - 104;
+        fitText(p, gap < 64 ? String(st.workers) : `${st.workers} obrero${st.workers === 1 ? '' : 's'}`, site.x + site.w / 2, buttons[0].y + 16, Math.max(24, gap), 16);
         buttons.forEach(b => {
           p.stroke(C.line); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
           p.noStroke(); p.fill(C.ink); p.textSize(18); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2);

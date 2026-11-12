@@ -119,7 +119,7 @@ GAMES['piramide-numerica'] = (() => {
         const x = p.mouseX, y = p.mouseY, t = tokenAt(x, y);
         if (t != null) { drag = { t, x, y, x0: x, y0: y }; return false; }
         const b = blankAt(x, y);
-        if (!b) { sel = null; return; }
+        if (!b) return;   // un toque en vacío (o un desplazamiento) no quita la ficha elegida
         if (sel != null) { place(sel, b); sel = null; } else if (fill[b[0]][b[1]] != null) { fill[b[0]][b[1]] = null; api.sfx?.tap?.(); update(); }
         return false;
       };

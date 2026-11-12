@@ -69,6 +69,11 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   colores fijos para texto o fondo.
 - `mountSketch(host, (p, size) => {...}, aspecto)`; solo escribir `mousePressed/Dragged/Released`
   (los toques se enlazan solos). `p.onResize` para reacomodar.
+- **Celular angosto** (spec `2026-11-12-juegos-algebra-u1-u3-calidad`, pruebas `tests/juegos-celular.test.js`): el lienzo
+  conserva el alto de diseño (`heightFor`: `max(ancho, 328) × aspecto`) y todo `p.text` pasa por `safeText` (encoge o
+  corre lo que se sale; el texto en caja se dibuja renglón a renglón y nunca se corta). Sobre el lienzo se puede
+  desplazar la lección (`touch-action: pan-y`): **`mousePressed` debe devolver `false` siempre que agarre o toque
+  algo**; si no, ese toque se toma como desplazamiento y el juego no recibe el arrastre ni el final.
 - `api.ready(true)` cuando se puede comprobar; `lock()` congela y muestra la solución en verde.
 - Patrón común: pestañas de rondas (44×30 px arriba), texto que se encoge con `textWidth` para caber,
   botones − / + cuando un arrastre necesita precisión.

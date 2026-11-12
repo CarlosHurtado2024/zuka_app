@@ -65,7 +65,10 @@ GAMES['mezcla'] = (() => {
         const yOf = v => gauge.y + gauge.h - (v / 100) * gauge.h;
         p.noStroke(); p.fill(col); p.rect(gauge.x + 3, yOf(pct), gauge.w - 6, gauge.y + gauge.h - yOf(pct) - 3, 4);
         p.stroke(C.ok); p.strokeWeight(2); p.line(gauge.x - 8, yOf(params.target), gauge.x + gauge.w + 8, yOf(params.target));
-        p.noStroke(); p.fill(C.ok); p.textSize(11); p.textAlign(p.LEFT, p.CENTER); p.text(`meta ${params.target} %`, gauge.x + gauge.w + 12, yOf(params.target));
+        p.noStroke(); p.fill(C.ok); p.textSize(11); p.textAlign(p.LEFT, p.CENTER);
+        // Si «meta 20 %» no cabe a la derecha del medidor, queda solo el número.
+        const meta = `meta ${params.target} %`;
+        p.text(gauge.x + gauge.w + 12 + p.textWidth(meta) > W - 4 ? `${params.target} %` : meta, gauge.x + gauge.w + 12, yOf(params.target));
         p.fill(col); p.textSize(20); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD);
         p.text(`${pct.toFixed(1)} %`, gauge.x + gauge.w / 2, gauge.y + gauge.h + 8);
         p.fill(C.mute); p.textSize(10); p.textStyle(p.NORMAL); p.text('de alcohol', gauge.x + gauge.w / 2, gauge.y + gauge.h + 32);

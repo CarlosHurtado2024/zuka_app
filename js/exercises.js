@@ -136,7 +136,8 @@ EX.play = (area, ex, ready) => {
   });
   return {
     check: () => game.grade(inst.getState(), ex.params),
-    lock: ok => inst.lock(ok),
+    // El marco del juego se pinta del color del resultado (y se sacude si falló).
+    lock: ok => { inst.lock(ok); box.classList.add(ok ? 'right' : 'wrong'); },
     destroy: () => inst.destroy(),
   };
 };
