@@ -8,6 +8,7 @@
 function backStep(s) {
   if (s.exitAsk) return 'exit';        // se estaba preguntando si salir: segundo atrás
   if (s.dialog) return 'dialog';       // diálogo abierto: se cancela
+  if (s.tour) return 'tour';           // recorrido guiado (js/tour.js): se salta
   if (s.sheet) return 'sheet';         // hoja inferior: se cierra
   if (s.lesson) return 'lesson';       // lección o evaluación: se sale (pregunta si hay progreso)
   if (s.world) return 'world';         // dentro de un mundo: vuelve al mapa
@@ -28,7 +29,7 @@ function setupBack() {
 
   addEventListener('popstate', () => {
     const step = backStep({
-      exitAsk, tab, dialog: dialogOpen(), sheet: $('#sheet').classList.contains('open'),
+      exitAsk, tab, dialog: dialogOpen(), tour: tourOpen(), sheet: $('#sheet').classList.contains('open'),
       lesson: !!lessonClose, world: tab === 'learn' && !!openWorld,
     });
     if (step === 'exit') { exitAsk = false; dismissDialog(); history.back(); return; }
@@ -48,6 +49,7 @@ function setupBack() {
     }
     cover();
     if (step === 'dialog') dismissDialog();
+    else if (step === 'tour') endTour();
     else if (step === 'sheet') closeSheet();
     else if (step === 'lesson') lessonClose();
     else if (step === 'world') { openWorld = null; renderLearn(); }

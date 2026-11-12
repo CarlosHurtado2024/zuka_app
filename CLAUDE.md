@@ -111,6 +111,9 @@ cualquier `L(x) = R(x)`). Reutilizables:
 - **Modo revisión** (`S.unlockAll`, activo por defecto en `DEFAULTS` de `js/app.js`): todas las lecciones
   abiertas y sin perder vidas; interruptor en Perfil → Ajustes. Apagarlo (o poner `false`) antes de abrir
   la app a estudiantes.
+- **Recorrido guiado de bienvenida** (`js/tour.js`, spec `2026-11-12-recorrido-guiado`, pruebas `tests/recorrido.test.js`):
+  sale solo la primera vez (`S.tourDone` falso y sin progreso) y se repite en Perfil → Ajustes. Pasos en `TOUR_STEPS`
+  (hueco iluminado sobre el elemento real + tarjeta); si cambia la interfaz que describen, actualizar sus textos y selectores.
 - Durante una lección el menú inferior se esconde (`body.in-lesson`); en la pestaña Clips se esconde
   mientras el video se reproduce y vuelve al pausar.
 

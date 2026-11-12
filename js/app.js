@@ -10,6 +10,7 @@ const DEFAULTS = () => ({
   // Modo revisión: todas las lecciones abiertas y sin perder vidas, para revisar el contenido mientras
   // se construye. Se apaga en Perfil → Ajustes (o aquí, con false, antes de abrirla a estudiantes).
   unlockAll: true,
+  tourDone: false,   // recorrido guiado de bienvenida (js/tour.js): ya visto o saltado
 });
 
 let S = (() => {
@@ -663,6 +664,7 @@ function renderProfile() {
       <button class="toggle-row" data-set="voice"><span>Narración por voz en los clips</span><span class="toggle${S.voice ? ' on' : ''}"></span></button>
       <button class="toggle-row" data-set="sfx"><span>Efectos de sonido</span><span class="toggle${S.sfx ? ' on' : ''}"></span></button>
       <button class="toggle-row" data-set="unlockAll"><span>Modo revisión: todas las lecciones abiertas y sin perder vidas</span><span class="toggle${S.unlockAll ? ' on' : ''}"></span></button>
+      <button class="btn ghost tour-again" data-tour>Ver el recorrido otra vez</button>
       <button class="btn ghost danger" data-reset>Reiniciar progreso</button>
     </section>
   </div>`;
@@ -677,9 +679,10 @@ function renderProfile() {
   view.querySelectorAll('[data-theme-opt]').forEach(b => b.onclick = () => { S.theme = b.dataset.themeOpt; save(); applyTheme(); renderProfile(); });
   $('[data-install]', view)?.addEventListener('click', promptInstall);
   view.querySelectorAll('[data-set]').forEach(b => b.onclick = () => { S[b.dataset.set] = !S[b.dataset.set]; save(); renderProfile(); });
+  $('[data-tour]', view).onclick = startTour;
   $('[data-reset]', view).onclick = () => {
     ask({ title: '¿Borrar todo tu progreso?', text: 'Se borran tu XP, tu racha y las lecciones completadas. No se puede deshacer.', ok: 'Borrar todo', cancel: 'Cancelar', danger: true })
-      .then(yes => { if (yes) { S = DEFAULTS(); openWorld = null; save(); applyTheme(); go('learn'); } });
+      .then(yes => { if (yes) { S = Object.assign(DEFAULTS(), { tourDone: S.tourDone }); openWorld = null; save(); applyTheme(); go('learn'); } });
   };
 }
 
@@ -715,3 +718,5 @@ Promise.race([fontsReady, new Promise(r => setTimeout(r, 1200))])
 applyTheme();
 go('learn');
 setupBack();   // botón «atrás» del celular (js/back.js)
+// Primera vez en la app: recorrido guiado (js/tour.js).
+if (tourShouldStart(S)) startTour();
