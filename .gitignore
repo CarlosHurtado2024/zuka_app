@@ -28,6 +28,12 @@ video/abejas/events.json
 video/abejas/build_log.txt
 video/abejas/abejas.mp4
 video/reel-zuka/node_modules/
+video/n1-sketchnote/out/
+video/n1-sketchnote/fonts/*.ttf
+video/n1-sketchnote/glyphs.json
+video/n1-sketchnote/events.json
+video/n1-sketchnote/build_log.txt
+video/n1-sketchnote/n1-sketchnote.mp4
 video/reel-zuka/out/
 video/reel-zuka/sheet-cap.jpg
 video/clase_sistemas_numericos/videos/

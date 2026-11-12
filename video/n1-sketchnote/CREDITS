@@ -1,0 +1,22 @@
+Los números naturales y los enteros (alg-11) — versión Sketchnote para Zuka
+
+IMÁGENES
+- Ninguna. Todo se dibuja en código (film.js). Sin fotos ni imágenes generadas.
+
+MOTOR
+- engine.js viene de la demo del estilo «Sketchnote» de Lemo-Opuscar (github.com/lemomo-ai/lemo-opuscar, MIT):
+  estilógrafo, marcador, letra trazo a trazo, cinta, flechas. tools/skeleton.py es su herramienta de trazos de letra,
+  con los signos del español. Las letras de doble trazo y los símbolos ∈ ∉ ⊆ están dibujados en film.js.
+
+LETRAS (SIL Open Font License 1.1; textos en fonts/; no van en git, build.sh las descarga de github.com/google/fonts)
+- Kalam Bold (Indian Type Foundry) — títulos y fórmulas.
+- Patrick Hand (Patrick Wagesreiter) — notas.
+
+SONIDO
+- Muestras (CC0 1.0): VS Chamber Orchestra: Community Edition y Versilian Community Sample Library (Versilian
+  Studios) — marimba, glockenspiel, arpa, vibráfono y contrabajo en pizzicato.
+- Lápiz, papel y movimientos de cámara: sintetizados en mix.py.
+
+CONTENIDO
+- El mismo de la lección alg-11 y de su video anterior (video/clase_alg_u1_n1_naturales); basado en el Manual de
+  Álgebra y Trigonometría de la UdeA.
