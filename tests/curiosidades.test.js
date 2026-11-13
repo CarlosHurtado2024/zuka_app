@@ -98,7 +98,7 @@ test('«La razón que no cambia» (Art Deco) está en Clips con su video y escen
   const q = CURIOS.find(c => c.id === 'cur-razon-deco');
   assert.ok(q, 'falta cur-razon-deco');
   assert.equal(q.topic, 'mate');
-  assert.ok(q.clip.video === 'media/clips/razon-deco.mp4' || q.clip.bunny);
+  assert.equal(q.clip.bunny, '688591e8-3c66-4151-a1b8-f26ef0623bb9');
   assert.equal(q.clip.duration, 90);
   assert.ok(q.clip.scenes.length >= 4);
   assert.match(q.fact, /0\.5 mL/);

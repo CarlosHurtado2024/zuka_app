@@ -76,7 +76,7 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   (anime.js 3.2.2 en `js/vendor/anime.min.js`; sin anime o con «reducir movimiento» pone el valor final).
   Piezas de dibujo de los videos, al final de `kit.js`: `drawTile` (ficha con relieve; negativos coral, cero sol),
   `drawSlot`, `drawKicker` (rótulo con barrita), `drawPill`, `drawDot`, `drawNumLine`, `shade`. Cambian alineación,
-  estilo y relleno: volver a fijarlos después. **Álgebra U0 (Conjuntos), U1 y el mundo de Razones y porcentajes ya están rediseñados con ellas**; faltan las demás unidades.
+  estilo y relleno: volver a fijarlos después. **Álgebra U0 (Conjuntos), U1, Razones y porcentajes, y Progresiones y sumatoria ya están rediseñados con ellas**; faltan las demás unidades.
 - `mountSketch(host, (p, size) => {...}, aspecto)`; solo escribir `mousePressed/Dragged/Released`
   (los toques se enlazan solos). `p.onResize` para reacomodar.
 - **Celular angosto** (spec `2026-11-12-juegos-algebra-u1-u3-calidad`, pruebas `tests/juegos-celular.test.js`): el lienzo
@@ -228,8 +228,8 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
 - Clips: `cur-origen-numeros` ya está en Bunny (versión zoom, 80 s). `cur-abejas` también (75.5 s). Un clip nuevo puede vivir como mp4 en `media/clips/`
   mientras llega su ID; al recibirlo, cambiar `clip.video` por `clip.bunny`, poner la `duration` de Bunny y borrar el mp4.
   Bunny solo responde con `Referer` de la app o de localhost. **`cur-razon-deco`** («La razón que no cambia», estilo Art Deco,
-  90 s, `video/razon-deco`, `sh video/razon-deco/build.sh`, unos 10 min): vive como `media/clips/razon-deco.mp4`; el HD está en
-  `Downloads/Zuka_Razon_deco` y espera su ID de Bunny. Una barra partida en razón áurea (el único elemento en coral) va de
+  90 s, `video/razon-deco`, `sh video/razon-deco/build.sh`, unos 10 min): ya está en Bunny (`688591e8-…`, 90 s); el HD está en
+  `Downloads/Zuka_Razon_deco`. Una barra partida en razón áurea (el único elemento en coral) va de
   Euclides a Pacioli, el SI, el Modulor y la regla de tres de la gentamicina (80 mg / 2 mL → 20 mg = 0.5 mL); motor deco de
   lemo-opuscar copiado en `engine/` (MIT); rótulos = `CARDS` en `film.js` (también el `.srt`). Ideas del mismo texto que no cupieron: Grecia y
   la demostración, al-Juarismi y Fibonacci, quipus y yupana, binario y hexadecimal.

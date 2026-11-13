@@ -45,7 +45,7 @@ const CURIOS = [
     title: 'La razón que no cambia',
     fact: 'De Euclides a un hospital: si 80 mg vienen en 2 mL, para 20 mg se cargan 0.5 mL.',
     clip: {
-      video: 'media/clips/razon-deco.mp4', duration: 90,
+      bunny: '688591e8-3c66-4151-a1b8-f26ef0623bb9', duration: 90,
       scenes: [
         sc(7, 'Hacia el 300 a. C., Euclides buscó el corte perfecto de una línea: la razón áurea.', { title: '$(a+b) : a = a : b$' }),
         sc(6, 'En 1509, Luca Pacioli la llamó «la divina proporción»; Leonardo dibujó las figuras.', { title: '$1.618\\ldots$' }),
