@@ -1,0 +1,64 @@
+1
+00:00:00,400 --> 00:00:04,530
+Un rey quiso premiar al inventor del ajedrez.
+
+2
+00:00:04,800 --> 00:00:08,470
+Pidió un grano en la primera casilla,
+
+3
+00:00:08,600 --> 00:00:12,470
+y en cada una, el doble que en la anterior.
+
+4
+00:00:12,700 --> 00:00:15,500
+El rey se rió y aceptó.
+
+5
+00:00:20,000 --> 00:00:23,530
+En la casilla 10 el arroz ya no cabe.
+
+6
+00:00:24,200 --> 00:00:27,530
+Y el tablero tiene 64 casillas.
+
+7
+00:00:28,000 --> 00:00:31,800
+Cada 10 casillas hay unas mil veces más.
+
+8
+00:00:32,400 --> 00:00:36,270
+Espera a la última: guarda una sorpresa.
+
+9
+00:00:37,600 --> 00:00:41,470
+Casilla 64: más de 9 trillones de granos.
+
+10
+00:00:42,000 --> 00:00:45,600
+Unos 230 000 millones de toneladas.
+
+11
+00:00:46,300 --> 00:00:50,100
+Cada placa: el arroz del mundo de un año.
+
+12
+00:00:50,700 --> 00:00:54,700
+Una torre: la 64. La otra: las 63 restantes.
+
+13
+00:00:54,900 --> 00:00:58,430
+Cada una: unos 443 años de cosecha.
+
+14
+00:00:58,900 --> 00:01:02,830
+La 64: un grano más que las otras 63 juntas.
+
+15
+00:01:03,500 --> 00:01:07,830
+Duplicar y duplicar: crecimiento exponencial.
+
+16
+00:01:08,200 --> 00:01:11,470
+Todo empezó con un solo grano.
+

@@ -113,3 +113,14 @@ test('«La cuerda del escriba» (acuarela, Egipto) está en Clips con su video y
   assert.ok(q.clip.scenes.length >= 5);
   assert.match(q.fact, /3, 4 y 5/);
 });
+
+test('«El arroz del rey» (Data Physicalization, ajedrez) está en Clips con su video y escenas de respaldo', () => {
+  const q = CURIOS.find(c => c.id === 'cur-arroz');
+  assert.ok(q, 'falta cur-arroz');
+  assert.equal(q.topic, 'mate');
+  assert.ok(q.clip.video === 'media/clips/arroz-ajedrez.mp4' || q.clip.bunny);
+  if (q.clip.video) assert.ok(fs.existsSync(path.join(ROOT, q.clip.video)), 'falta el mp4');
+  assert.equal(q.clip.duration, 72.5);
+  assert.ok(q.clip.scenes.length >= 5);
+  assert.match(q.fact, /18 trillones/);
+});

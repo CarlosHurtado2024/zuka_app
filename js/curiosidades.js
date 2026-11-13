@@ -71,6 +71,22 @@ const CURIOS = [
       ],
     },
   },
+  {
+    id: 'cur-arroz', topic: 'mate',
+    title: 'El arroz del rey',
+    fact: 'Un grano que se duplica en las 64 casillas del ajedrez suma más de 18 trillones de granos.',
+    clip: {
+      video: 'media/clips/arroz-ajedrez.mp4', duration: 72.5,
+      scenes: [
+        sc(6, 'Un inventor pidió un grano de arroz en la primera casilla y el doble en cada una de las siguientes.', { title: '$1,\\ 2,\\ 4,\\ 8,\\ \\ldots$' }),
+        sc(6, 'En la casilla 10 ya hay 512 granos: el montón no cabe en su casilla.', { title: '$2^{9} = 512$' }),
+        sc(6, 'Cada 10 casillas hay unas mil veces más arroz.', { title: '$2^{10} = 1024$' }),
+        sc(7, 'En la casilla 64 hay más de 9 trillones de granos.', { title: '$2^{63} \\approx 9.2 \\times 10^{18}$' }),
+        sc(7, 'La última casilla tiene un grano más que todas las anteriores juntas.', { title: '$2^{63} = (2^{63} - 1) + 1$' }),
+        sc(6, 'Con 25 mg por grano, todo el tablero sería la cosecha mundial de arroz de unos 887 años.', { title: '$2^{64} - 1$' }),
+      ],
+    },
+  },
 ];
 
 const curioTopic = id => CURIO_TOPICS.find(t => t.id === id);

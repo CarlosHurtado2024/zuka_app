@@ -155,3 +155,8 @@ video/egipto-acuarela/paper.jpg
 video/egipto-acuarela/events.json
 video/egipto-acuarela/build_log.txt
 video/egipto-acuarela/egipto-acuarela.mp4
+video/arroz-ajedrez/out/
+video/arroz-ajedrez/fonts/*.ttf
+video/arroz-ajedrez/events.json
+video/arroz-ajedrez/build_log.txt
+video/arroz-ajedrez/arroz-ajedrez.mp4

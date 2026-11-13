@@ -1,0 +1,15 @@
+El arroz del rey · clip de curiosidades de Zuka (estilo Data Physicalization)
+
+Material de terceros que aparece en la película:
+
+- Tipografías Inter (Rasmus Andersson), JetBrains Mono (JetBrains) y Noto Serif (Google).
+  Licencia SIL Open Font License 1.1. Fuente: https://github.com/google/fonts/tree/main/ofl (build.sh las descarga).
+- Luz de estudio «Photo Studio Loft Hall» (HDRI) y textura de nogal de Poly Haven (https://polyhaven.com). Licencia CC0.
+- Gramática del estilo (piezas apiladas, lecturas, cámara) y post-proceso (core/three/post.js) de la biblioteca
+  Lemo-Opuscar (https://github.com/lemomo-ai/lemo-opuscar). Licencia MIT. three.js (MIT).
+
+Todo lo demás está hecho en código para este video: la escena (film.js), los datos (data.js) y la música y los
+efectos, sintetizados con numpy (mix.py). No hay muestras de instrumentos, voz ni imágenes ajenas.
+
+Datos: cosecha mundial de arroz 2023/24 según USDA ERS, Rice Outlook (dominio público); peso de un grano: supuesto de
+25 mg. Cuentas y fuentes en FACTS.md. Historia: leyenda tradicional del inventor del ajedrez.
