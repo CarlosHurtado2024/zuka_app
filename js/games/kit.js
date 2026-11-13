@@ -463,3 +463,51 @@ function drawBanner(p, C, title, sub, cy, col) {
   fitText(p, title, p.width / 2, sub ? cy - 13 : cy, w - 24, 18);
   if (sub) { p.fill(C.mute); p.textStyle(p.NORMAL); fitText(p, sub, p.width / 2, cy + 15, w - 24, 12); }
 }
+
+// Base de un juego dinámico por rondas (spec 2026-11-13-juegos-dinamicos-valle). Lleva la fase («idle» espera el
+// toque de empezar, «play», «won» pausa corta antes de la ronda siguiente, «lost» sin vidas: se reintenta, «all»
+// todo terminado), la ronda, las vidas y el aviso. on = { start(ronda), lost(ronda) }.
+function makeArcade(n, lives, api, on = {}) {
+  const a = {
+    phase: 'idle', cur: 0, lives, max: lives, wait: 0, toast: null, stopped: false, slow: reducedMotion() ? 0.6 : 1,
+    start() { a.phase = 'play'; a.lives = lives; on.start?.(a.cur); },
+    say(text, col) { a.toast = { text, col, t: 1.6 }; },
+    hit() { api.sfx?.ok?.(); },
+    win() { a.phase = 'won'; a.wait = 1.3; api.sfx?.win?.(); },
+    // Un error: quita una vida. Devuelve true si la ronda se perdió (hay que reintentarla).
+    miss() { a.lives--; api.sfx?.bad?.(); if (a.lives <= 0) { a.phase = 'lost'; on.lost?.(a.cur); return true; } return false; },
+    tick(dt) {
+      if (a.toast && (a.toast.t -= dt) <= 0) a.toast = null;
+      if (a.phase === 'won' && (a.wait -= dt) <= 0) { if (a.cur < n - 1) { a.cur++; a.phase = 'idle'; } else { a.phase = 'all'; api.ready(true); } }
+    },
+    // Toque común: 'off' no es del juego (terminado), 'start' empezó la ronda, 'play' está jugando, 'wait' en pausa.
+    tap(locked) {
+      if (locked || a.phase === 'all') return 'off';
+      if (a.phase === 'idle' || a.phase === 'lost') { a.start(); api.sfx?.tap?.(); return 'start'; }
+      return a.phase === 'play' ? 'play' : 'wait';
+    },
+  };
+  return a;
+}
+function drawArcadeHead(p, C, a, n) {
+  drawKicker(p, C, `Ronda ${a.cur + 1} de ${n}`, 14, 18);
+  drawHearts(p, C, p.width - 12, 18, a.phase === 'play' || a.phase === 'won' ? a.lives : a.max, a.max);
+}
+function drawArcadeBanner(p, C, a, cy, t = {}) {
+  if (a.phase === 'idle') drawBanner(p, C, 'Toca para empezar', t.idle, cy);
+  else if (a.phase === 'lost') drawBanner(p, C, t.lost || 'Se acabaron las vidas', 'Toca para intentar otra vez', cy, C.coral);
+  else if (a.phase === 'won') drawBanner(p, C, t.won || '¡Ronda lista!', null, cy, C.ok);
+}
+function arcadeToast(p, C, a, x, y, locked) {
+  if (a.toast && !locked && (a.phase === 'play' || a.phase === 'won' || a.phase === 'lost')) drawPill(p, C, a.toast.text, x, y, a.toast.col, 13);
+}
+// Terminado o calificado: se deja de dibujar (no gasta batería); queda el último cuadro.
+function arcadeStop(p, a, locked) { if ((locked || a.phase === 'all') && !a.stopped) { a.stopped = true; p.noLoop(); } }
+// Resumen al terminar: una línea por ronda, verde si se completó.
+function drawArcadeSummary(p, C, lines, cy, w) {
+  p.noStroke(); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+  lines.forEach((ln, i) => { p.fill(ln.ok ? C.ok : C.mute); fitText(p, ln.text, p.width / 2, cy - (lines.length - 1) * 13 + i * 26, w ?? p.width - 28, 14); });
+}
+const inCanvas = p => p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height;
+const frameDt = p => Math.min(0.05, (p.deltaTime || 16) / 1000);
+const negTxt = v => String(v).replace('-', '−');

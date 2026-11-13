@@ -237,6 +237,31 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Restar dos naturales no siempre da un natural: si al primero le quitas uno más grande, el resultado es negativo. Por ejemplo, $2 - 11 = -9$ y $1 - 8 = -7$. Por eso hacían falta los enteros.',
               { hint: 'Con la resta, ¿qué pasa si al número de la izquierda le quitas uno más grande? Prueba las fichas en ese orden.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-valle).
+            play('buzo-enteros', 'Lleva al buzo a la altura del resultado antes de que lleguen las perlas', {
+              min: -6, max: 6,
+              rounds: [
+                { title: 'Sube y baja', items: [
+                  { text: 'Estás en 3 y bajas 5', value: -2, traps: [2, -5] },
+                  { text: 'Estás en −4 y subes 6', value: 2, traps: [-2, 6] },
+                  { text: 'Estás en −1 y bajas 3', value: -4, traps: [2, -3] },
+                  { text: 'Estás en 5 y bajas 5', value: 0, traps: [5, -5] },
+                ] },
+                { title: 'Opuestos', items: [
+                  { text: 'El opuesto de 5', value: -5, traps: [5, 0] },
+                  { text: 'El opuesto de −2', value: 2, traps: [-2, 0] },
+                  { text: '−(−6)', value: 6, traps: [-6, 0] },
+                  { text: 'El opuesto de −3', value: 3, traps: [-3, 0] },
+                ] },
+                { title: 'Restas', items: [
+                  { text: '1 − 4', value: -3, traps: [3, 5] },
+                  { text: '−2 − 3', value: -5, traps: [1, -1] },
+                  { text: '3 − 9', value: -6, traps: [6, -3] },
+                  { text: '0 − 2', value: -2, traps: [2, 0] },
+                ] },
+              ],
+            }, 'En la recta, sumar es subir y restar es bajar: desde $3$, bajar $5$ deja en $-2$, bajo el nivel del mar. El opuesto de un número queda a la misma distancia del $0$, del otro lado: el de $5$ es $-5$ y el de $-2$ es $2$; por eso $-(-6) = 6$. Y una resta en la que se quita más de lo que hay da un entero negativo: $1 - 4 = -3$.',
+              { hint: 'Cuenta los pasos en la recta de la izquierda: subir es hacia arriba y bajar es hacia abajo, pasando por el nivel del mar. El opuesto está a la misma distancia del nivel del mar, del otro lado.' }),
           ],
         },
         {
@@ -295,6 +320,36 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Todos los elementos de $B$ son racionales. $B - \\mathbb{Z}$ deja los que no son enteros: $\\tfrac58$, $0.4$ y $-1.25$. Cuidado con $\\tfrac93$: vale $3$, así que es entero y además natural; por eso $B \\cap \\mathbb{N} = \\{7, \\tfrac93\\}$.',
               { hint: 'Antes de decidir, simplifica: una fracción puede ser un entero disfrazado. Luego revisa si el número tiene parte decimal o no.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-valle).
+            play('carrera-fracciones', 'Corre por la puerta que vale lo mismo que el número de arriba', {
+              rounds: [
+                { title: 'De fracción a decimal', items: [
+                  { ask: '1/2', options: ['0.5', '0.2', '1.2'], answer: 0 },
+                  { ask: '1/4', options: ['0.25', '0.4', '1.4'], answer: 0 },
+                  { ask: '3/5', options: ['0.6', '0.35', '3.5'], answer: 0 },
+                  { ask: '7/10', options: ['0.7', '7.1', '0.07'], answer: 0 },
+                ] },
+                { title: 'De decimal a fracción', items: [
+                  { ask: '0.2', options: ['1/5', '2/1', '1/2'], answer: 0 },
+                  { ask: '0.9', options: ['9/10', '1/9', '9/100'], answer: 0 },
+                  { ask: '1.5', options: ['3/2', '1/5', '15/100'], answer: 0 },
+                  { ask: '0.125', options: ['1/8', '1/25', '12/5'], answer: 0 },
+                ] },
+                { title: 'Fracciones equivalentes', items: [
+                  { ask: '2/3', options: ['4/6', '3/2', '2/6'], answer: 0 },
+                  { ask: '4/10', options: ['2/5', '4/5', '10/4'], answer: 0 },
+                  { ask: '5/20', options: ['1/4', '5/2', '4/1'], answer: 0 },
+                  { ask: '12/18', options: ['2/3', '18/12', '1/6'], answer: 0 },
+                ] },
+                { title: 'Enteros disfrazados', items: [
+                  { ask: '8/2', options: ['4', '6', '16'], answer: 0 },
+                  { ask: '−6/3', options: ['−2', '2', '−3'], answer: 0 },
+                  { ask: '0/5', options: ['0', '5', '1/5'], answer: 0 },
+                  { ask: '7/7', options: ['1', '7', '0'], answer: 0 },
+                ] },
+              ],
+            }, 'Una fracción es una división: $\\tfrac14 = 1 \\div 4 = 0.25$ y $\\tfrac35 = 0.6$. Para pasar un decimal a fracción se lee su último lugar: $0.9$ son nueve décimos, $\\tfrac{9}{10}$, y $0.125$ son $125$ milésimos, que se simplifican a $\\tfrac18$. Dos fracciones son equivalentes si una sale de la otra multiplicando o dividiendo arriba y abajo por el mismo número: $\\tfrac{12}{18} = \\tfrac23$. Y cuando la división es exacta, la fracción es un entero: $\\tfrac82 = 4$.',
+              { hint: 'Haz la división de la fracción (arriba entre abajo) o simplifícala antes de que llegue la fila de puertas. Las puertas salen en un orden distinto cada vez: lee las tres.' }),
           ],
         },
         {
@@ -354,6 +409,27 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Sumar o multiplicar dos irracionales puede dar un racional: $\\sqrt2 + (5 - \\sqrt2) = 5$ y $\\sqrt2 \\cdot 3\\sqrt2 = 6$. Las raíces se cancelan o se multiplican por sí mismas. Por eso 𝕀 no es una familia «cerrada»: los reales son el conjunto completo.',
               { hint: 'Junta fichas cuyas raíces se cancelen al sumar, o que al multiplicarse den $\\sqrt2 \\cdot \\sqrt2 = 2$.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-valle).
+            play('frena-aguja', 'Frena la aguja justo donde queda cada número en la recta', {
+              rounds: [
+                { title: 'Raíces', min: 0, max: 4, tol: 0.22, items: [
+                  { label: '√2', value: 1.414, why: '1² = 1 y 2² = 4: √2 queda entre 1 y 2, un poco antes de la mitad.' },
+                  { label: '√7', value: 2.646, why: '2² = 4 y 3² = 9: √7 queda entre 2 y 3, más cerca del 3.' },
+                  { label: '√10', value: 3.162, why: '3² = 9: √10 es apenas un poco más que 3.' },
+                ] },
+                { title: 'Más fino', min: 0, max: 4, tol: 0.16, items: [
+                  { label: '√8', value: 2.828, why: '√9 = 3: √8 queda un poco antes del 3.' },
+                  { label: 'π', value: 3.1416, why: 'π es un poco más que 3.' },
+                  { label: '√13', value: 3.606, why: '3² = 9 y 4² = 16: √13 queda entre 3 y 4, un poco después de la mitad.' },
+                ] },
+                { title: 'Con negativos', min: -4, max: 4, tol: 0.2, items: [
+                  { label: '−√5', value: -2.236, why: '√5 queda entre 2 y 3, cerca del 2; −√5 es su opuesto: el mismo lugar, a la izquierda del 0.' },
+                  { label: '√6', value: 2.449, why: '2² = 4 y 3² = 9: √6 queda entre 2 y 3, hacia la mitad.' },
+                  { label: '−π', value: -3.1416, why: 'π es un poco más que 3; −π queda un poco a la izquierda del −3.' },
+                ] },
+              ],
+            }, 'Un irracional no se puede escribir con todas sus cifras, pero sí tiene un lugar exacto en la recta. Para ubicar una raíz se encierra entre cuadrados conocidos: como $2^2 = 4$ y $3^2 = 9$, $\\sqrt7$ está entre $2$ y $3$, más cerca del $3$ ($\\sqrt7 \\approx 2.65$). $\\pi \\approx 3.14$ queda un poco después del $3$, y los negativos quedan en el lugar opuesto, a la izquierda del $0$.',
+              { hint: 'Antes de tocar, decide entre qué dos enteros queda el número: ¿qué cuadrados conocidos lo encierran? Luego mira si queda más cerca de uno o del otro, y frena la aguja al pasar por ahí.' }),
           ],
         },
         {
@@ -419,6 +495,27 @@ const COURSE_ALGEBRA = {
             num('Calcula de cabeza, sin calculadora: $4 \\cdot 19 \\cdot 25$', 1900,
               'Con la **conmutativa** se cambia el orden y con la **asociativa** se agrupa: $4 \\cdot 19 \\cdot 25 = 19 \\cdot (4 \\cdot 25) = 19 \\cdot 100 = 1900$.',
               { tol: 0.5, hint: 'No tienes que multiplicar en el orden en que aparecen. ¿Qué dos factores, juntos, dan un número redondo?' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-valle).
+            play('dispara-inverso', 'Apunta y dispara cada ficha a su pareja', {
+              rounds: [
+                { kind: 'sum', title: 'Opuestos', mission: 'Suma 0: dispárale a su opuesto', items: [
+                  { ball: '7', targets: ['−7', '1/7', '7', '0'], answer: 0, say: '7 + (−7) = 0' },
+                  { ball: '−3', targets: ['1/3', '3', '−3', '1'], answer: 1, say: '−3 + 3 = 0' },
+                  { ball: '1/2', targets: ['2', '1/2', '−1/2', '0'], answer: 2, say: '1/2 + (−1/2) = 0' },
+                ] },
+                { kind: 'prod', title: 'Recíprocos', mission: 'Producto 1: dispárale a su recíproco', items: [
+                  { ball: '4', targets: ['−4', '1/4', '4', '0'], answer: 1, say: '4 · 1/4 = 1' },
+                  { ball: '2/5', targets: ['5/2', '−2/5', '2/5', '1'], answer: 0, say: '2/5 · 5/2 = 1' },
+                  { ball: '1/6', targets: ['−1/6', '−6', '1', '6'], answer: 3, say: '1/6 · 6 = 1' },
+                ] },
+                { kind: 'neutro', title: 'Neutros', mission: 'Dispárale al número que la deja igual', items: [
+                  { ball: '9 + ?', targets: ['0', '1', '−9', '9'], answer: 0, say: '9 + 0 = 9' },
+                  { ball: '9 · ?', targets: ['0', '1', '1/9', '9'], answer: 1, say: '9 · 1 = 9' },
+                  { ball: '? · 12', targets: ['12', '0', '1', '−12'], answer: 2, say: '1 · 12 = 12' },
+                ] },
+              ],
+            }, 'Cada número real tiene un opuesto, con el que suma $0$: $7 + (-7) = 0$. Y todo número distinto de $0$ tiene un recíproco, con el que da producto $1$: $\\tfrac25 \\cdot \\tfrac52 = 1$. Los neutros no cambian nada: sumar $0$ deja el número igual, y multiplicar por $1$ también.',
+              { hint: 'Lee la misión de la ronda antes de disparar: ¿busca que la suma dé 0 o que el producto dé 1? El opuesto cambia el signo; el recíproco voltea la fracción. Las burbujas se mueven: apunta un poco adelante.' }),
           ],
         },
         {
@@ -452,6 +549,24 @@ const COURSE_ALGEBRA = {
             num('Divide multiplicando por el recíproco: $\\tfrac56 \\div \\tfrac{10}{9}$ (escribe una fracción o un decimal)', 0.75,
               'Dividir es multiplicar por el recíproco: $\\tfrac56 \\div \\tfrac{10}{9} = \\tfrac56 \\cdot \\tfrac{9}{10} = \\tfrac{45}{60} = \\tfrac34 = 0.75$.',
               { tol: 0.001, answerText: '3/4', hint: 'Voltea la segunda fracción y multiplica numerador con numerador y denominador con denominador. Al final simplifica.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-valle).
+            play('salta-signos', 'Salta las fichas del signo que dice la misión y atrapa las demás corriendo', {
+              rounds: [
+                { title: 'Productos', mission: 'neg', items: [
+                  { text: '(−3)(−4)', sign: 1 }, { text: '(−2)(5)', sign: -1 }, { text: '(6)(−1)', sign: -1 },
+                  { text: '(−7)(−2)', sign: 1 }, { text: '(3)(8)', sign: 1 }, { text: '(−5)(4)', sign: -1 },
+                ] },
+                { title: 'Cocientes y opuestos', mission: 'pos', items: [
+                  { text: '−(−8)', sign: 1 }, { text: '10 ÷ (−2)', sign: -1 }, { text: '(−9) ÷ (−3)', sign: 1 },
+                  { text: '−(6)', sign: -1 }, { text: '(−8) ÷ 4', sign: -1 }, { text: '−20 ÷ (−5)', sign: 1 },
+                ] },
+                { title: 'Restas', mission: 'neg', items: [
+                  { text: '3 − 8', sign: -1 }, { text: '−2 − (−6)', sign: 1 }, { text: '5 − (−1)', sign: 1 },
+                  { text: '−4 − 3', sign: -1 }, { text: '1 − 7', sign: -1 }, { text: '−1 − (−9)', sign: 1 },
+                ] },
+              ],
+            }, 'Al multiplicar o dividir, signos iguales dan positivo y signos distintos dan negativo: $(-3)(-4) = 12$ y $(-2)(5) = -10$. El opuesto del opuesto es el mismo número: $-(-8) = 8$. Y restar es sumar el opuesto: $-2 - (-6) = -2 + 6 = 4$, mientras que $3 - 8 = 3 + (-8) = -5$.',
+              { hint: 'No hace falta hacer la cuenta completa: solo decide el signo. En productos y cocientes, cuenta los signos menos. En las restas, cámbialas por «sumar el opuesto» y mira cuál de los dos números pesa más.' }),
           ],
         },
         {
@@ -487,6 +602,15 @@ const COURSE_ALGEBRA = {
               '$|b - a|$ es la distancia entre $a$ y $b$. Desde $-3$, a 5 unidades hay dos puntos: $-3 + 5 = 2$ y $-3 - 5 = -8$.', { hint: '$|b - a|$ es cuántos pasos hay entre $a$ y $b$. Desde $a$ puedes caminar hacia la derecha o hacia la izquierda: hay dos lugares posibles.' }),
             play('dibuja-intervalo', 'Dibuja en la recta los números que cumplen $|x - 2| \\le 3$', { min: -4, max: 8, a: -1, b: 5, aClosed: true, bClosed: true, set: '|x − 2| ≤ 3' },
               '$|x - 2| \\le 3$ son los números a distancia **a lo sumo 3** del 2: desde $2 - 3 = -1$ hasta $2 + 3 = 5$, con los extremos incluidos: $[-1, 5]$.', { hint: 'Lee $|x - 2|$ como la distancia de $x$ al número 2. ¿Hasta dónde puedes alejarte del 2 hacia cada lado? El signo ≤ te dice si los extremos entran.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-valle).
+            play('serpiente-orden', 'Guía a la serpiente para que se coma los números de menor a mayor', {
+              rounds: [
+                { title: 'Enteros', items: [{ label: '−5', value: -5 }, { label: '2', value: 2 }, { label: '−1', value: -1 }, { label: '4', value: 4 }, { label: '0', value: 0 }] },
+                { title: 'Fracciones y decimales', items: [{ label: '−1/2', value: -0.5 }, { label: '0.3', value: 0.3 }, { label: '−2', value: -2 }, { label: '3/2', value: 1.5 }, { label: '1', value: 1 }] },
+                { title: 'Con valor absoluto', items: [{ label: '|−4|', value: 4 }, { label: '−3', value: -3 }, { label: '|2|', value: 2 }, { label: '−|−1|', value: -1 }, { label: '|−7|', value: 7 }] },
+              ],
+            }, 'En la recta, un número es menor que otro si queda más a la izquierda: todo negativo es menor que $0$ y que cualquier positivo, y entre dos negativos es menor el que está más lejos del $0$ ($-5 < -1$). El valor absoluto es la distancia al $0$, así que nunca es negativo: $|-4| = 4$ y $|-7| = 7$, pero $-|-1| = -1$.',
+              { hint: 'Antes de moverte, calcula los valores absolutos y ordena los números con la mirada: primero los negativos (el más lejano del 0 va primero), luego el 0 y luego los positivos. Rodea las fichas que todavía no tocan.' }),
           ],
         },
       ],
