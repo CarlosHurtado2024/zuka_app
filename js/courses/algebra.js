@@ -267,7 +267,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-11b', title: 'Los números racionales: fracciones y decimales',
           // Parte 2 de sistemas numéricos: video N2 (video/clase_alg_u1_n2_racionales), en Bunny; las escenas son el respaldo.
-          clip: { bunny: 'e7e67f1e-8d21-4585-b990-183a253d62b5', duration: 237, scenes: [
+          clip: { bunny: '154c9a1f-bfd0-4034-9efa-33c8b146512a', duration: 128, scenes: [
             sc(6, 'Repartir no siempre da un entero: 3 panes entre 4 personas. Las **fracciones** forman los **racionales**.', { title: '$\\mathbb{Q} = \\left\\{\\tfrac{m}{n} : m, n \\in \\mathbb{Z},\\ n \\neq 0\\right\\}$' }),
             sc(6, 'Una fracción tiene muchos nombres: $\\tfrac12 = \\tfrac24 = \\tfrac36$. Y todo entero es racional: $-3 = \\tfrac{-3}{1}$.', { title: '$\\mathbb{Z} \\subseteq \\mathbb{Q}$' }),
             sc(6, 'El decimal de una fracción **termina** o **se repite**: la rayita marca el período.', { steps: ['$\\tfrac34 = 0.75$', '$\\tfrac{2}{11} = 0.\\overline{18}$'] }),
