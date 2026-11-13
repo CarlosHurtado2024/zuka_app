@@ -93,3 +93,13 @@ test('el recorrido guiado presenta Clips como curiosidades, no como videos de le
   assert.match(s.title + s.text, /curios/i);
   assert.doesNotMatch(s.text, /todas las lecciones|Practicar/);
 });
+
+test('«La razón que no cambia» (Art Deco) está en Clips con su video y escenas de respaldo', () => {
+  const q = CURIOS.find(c => c.id === 'cur-razon-deco');
+  assert.ok(q, 'falta cur-razon-deco');
+  assert.equal(q.topic, 'mate');
+  assert.ok(q.clip.video === 'media/clips/razon-deco.mp4' || q.clip.bunny);
+  assert.equal(q.clip.duration, 90);
+  assert.ok(q.clip.scenes.length >= 4);
+  assert.match(q.fact, /0\.5 mL/);
+});

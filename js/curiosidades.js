@@ -40,6 +40,21 @@ const CURIOS = [
       ],
     },
   },
+  {
+    id: 'cur-razon-deco', topic: 'mate',
+    title: 'La razón que no cambia',
+    fact: 'De Euclides a un hospital: si 80 mg vienen en 2 mL, para 20 mg se cargan 0.5 mL.',
+    clip: {
+      video: 'media/clips/razon-deco.mp4', duration: 90,
+      scenes: [
+        sc(7, 'Hacia el 300 a. C., Euclides buscó el corte perfecto de una línea: la razón áurea.', { title: '$(a+b) : a = a : b$' }),
+        sc(6, 'En 1509, Luca Pacioli la llamó «la divina proporción»; Leonardo dibujó las figuras.', { title: '$1.618\\ldots$' }),
+        sc(6, 'En 1960 el mundo acordó un solo sistema de medidas: el SI.', { title: '$1\\text{ g} = 1000\\text{ mg}$' }),
+        sc(6, 'Le Corbusier midió el cuerpo: cabeza a 183 cm, ombligo a 113 cm.', { title: '$183 \\div 113 \\approx 1.62$' }),
+        sc(7, 'Una ámpula trae 80 mg en 2 mL; el médico pide 20 mg.', { title: '$x = \\dfrac{20 \\cdot 2}{80} = 0.5\\text{ mL}$' }),
+      ],
+    },
+  },
 ];
 
 const curioTopic = id => CURIO_TOPICS.find(t => t.id === id);

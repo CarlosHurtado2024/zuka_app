@@ -1,0 +1,15 @@
+La razón que no cambia · clip de curiosidades de Zuka (estilo Art Deco)
+
+Material de terceros que aparece en la película:
+
+- Tipografías Limelight (Eduardo Tunni), Poiret One (Denis Masharov), Josefin Sans (Santiago Orozco) e Italiana
+  (Santiago Orozco). Licencia SIL Open Font License 1.1 (fonts/OFL-*.txt).
+  Fuente: https://github.com/google/fonts/tree/main/ofl
+- Motor de dibujo deco (engine/deco.js, engine/type.js, engine/bulbs.js), copiado del estilo «Art Deco» de la
+  biblioteca Lemo-Opuscar (https://github.com/lemomo-ai/lemo-opuscar). Licencia MIT.
+
+Todo lo demás está hecho en código para este video: la película (index.html, film.js) y la música y los efectos,
+sintetizados con numpy (mix.py). No hay muestras de instrumentos, voz ni imágenes ajenas.
+
+Herramientas: biblioteca Lemo-Opuscar (render, efectos de sonido y máster).
+Contenido: datos y respaldo en FACTS.md. El ejemplo de la gentamicina viene del informe que entregó el usuario.

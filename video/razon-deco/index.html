@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>La razón que no cambia · Art Deco</title>
+<style>
+  @font-face{font-family:'Limelight';src:url(fonts/Limelight-Regular.ttf)}
+  @font-face{font-family:'Poiret';src:url(fonts/PoiretOne-Regular.ttf)}
+  @font-face{font-family:'Josefin';src:url(fonts/JosefinSans.ttf);font-weight:100 700}
+  @font-face{font-family:'Italiana';src:url(fonts/Italiana-Regular.ttf)}
+  html,body{margin:0;overflow:hidden;background:#0b0806}
+  canvas{display:block}
+</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas>
+<script type="module">
+// Zuka · clip de curiosidades «La razón que no cambia», estilo Art Deco (vertical 1080×1920, 30 fps). La película está en film.js.
+import { setup, render, EV, FULL } from './film.js';
+const g = document.getElementById('c').getContext('2d');
+setup(g);
+window.DUR = FULL; window.EV = EV;
+window.render = t => render(t);
+window.TEXTS = t => { const R = []; render(t, R); return R; };
+await Promise.all(['Limelight', 'Poiret', 'Italiana'].map(f => document.fonts.load(`80px ${f}`)).concat([document.fonts.load('600 80px Josefin'), document.fonts.load('700 80px Josefin')]));
+window.READY = true;
+</script>
+</body></html>

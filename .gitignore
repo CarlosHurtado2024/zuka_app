@@ -142,3 +142,8 @@ video/naturales-zoom/fonts/*.ttf
 video/naturales-zoom/events.json
 video/naturales-zoom/build_log.txt
 video/naturales-zoom/naturales-zoom.mp4
+video/razon-deco/out/
+video/razon-deco/fonts/*.ttf
+video/razon-deco/events.json
+video/razon-deco/build_log.txt
+video/razon-deco/razon-deco.mp4
