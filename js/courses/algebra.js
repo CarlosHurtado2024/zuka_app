@@ -321,7 +321,7 @@ const COURSE_ALGEBRA = {
             }, 'Todos los elementos de $B$ son racionales. $B - \\mathbb{Z}$ deja los que no son enteros: $\\tfrac58$, $0.4$ y $-1.25$. Cuidado con $\\tfrac93$: vale $3$, así que es entero y además natural; por eso $B \\cap \\mathbb{N} = \\{7, \\tfrac93\\}$.',
               { hint: 'Antes de decidir, simplifica: una fracción puede ser un entero disfrazado. Luego revisa si el número tiene parte decimal o no.' }),
             // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-valle).
-            play('carrera-fracciones', 'Corre por la puerta que vale lo mismo que el número de arriba', {
+            play('carrera-fracciones', 'Un mismo número tiene muchos nombres. Toca una puerta para **medirla** en la regla y pasa por la que mide lo mismo que el número de arriba', {
               rounds: [
                 { title: 'De fracción a decimal', items: [
                   { ask: '1/2', options: ['0.5', '0.2', '1.2'], answer: 0 },
@@ -342,14 +342,14 @@ const COURSE_ALGEBRA = {
                   { ask: '12/18', options: ['2/3', '18/12', '1/6'], answer: 0 },
                 ] },
                 { title: 'Enteros disfrazados', items: [
-                  { ask: '8/2', options: ['4', '6', '16'], answer: 0 },
+                  { ask: '8/2', options: ['4', '6', '3'], answer: 0 },
                   { ask: '−6/3', options: ['−2', '2', '−3'], answer: 0 },
                   { ask: '0/5', options: ['0', '5', '1/5'], answer: 0 },
                   { ask: '7/7', options: ['1', '7', '0'], answer: 0 },
                 ] },
               ],
             }, 'Una fracción es una división: $\\tfrac14 = 1 \\div 4 = 0.25$ y $\\tfrac35 = 0.6$. Para pasar un decimal a fracción se lee su último lugar: $0.9$ son nueve décimos, $\\tfrac{9}{10}$, y $0.125$ son $125$ milésimos, que se simplifican a $\\tfrac18$. Dos fracciones son equivalentes si una sale de la otra multiplicando o dividiendo arriba y abajo por el mismo número: $\\tfrac{12}{18} = \\tfrac23$. Y cuando la división es exacta, la fracción es un entero: $\\tfrac82 = 4$.',
-              { hint: 'Haz la división de la fracción (arriba entre abajo) o simplifícala antes de que llegue la fila de puertas. Las puertas salen en un orden distinto cada vez: lee las tres.' }),
+              { hint: 'No hay prisa: la fila de puertas te espera. Mira en cuántas partes corta la unidad cada nombre y hasta dónde llega su barra. Si las dos barras terminan en el mismo punto, son el mismo número.' }),
           ],
         },
         {
@@ -410,7 +410,7 @@ const COURSE_ALGEBRA = {
             }, 'Sumar o multiplicar dos irracionales puede dar un racional: $\\sqrt2 + (5 - \\sqrt2) = 5$ y $\\sqrt2 \\cdot 3\\sqrt2 = 6$. Las raíces se cancelan o se multiplican por sí mismas. Por eso 𝕀 no es una familia «cerrada»: los reales son el conjunto completo.',
               { hint: 'Junta fichas cuyas raíces se cancelen al sumar, o que al multiplicarse den $\\sqrt2 \\cdot \\sqrt2 = 2$.' }),
             // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-valle).
-            play('frena-aguja', 'Frena la aguja justo donde queda cada número en la recta', {
+            play('frena-aguja', 'Construye cada número irracional: arrastra el punto hasta que el cuadrado tenga el **área** pedida (o la rueda dé **una vuelta**)', {
               rounds: [
                 { title: 'Raíces', min: 0, max: 4, tol: 0.22, items: [
                   { label: '√2', value: 1.414, why: '1² = 1 y 2² = 4: √2 queda entre 1 y 2, un poco antes de la mitad.' },
@@ -429,7 +429,7 @@ const COURSE_ALGEBRA = {
                 ] },
               ],
             }, 'Un irracional no se puede escribir con todas sus cifras, pero sí tiene un lugar exacto en la recta. Para ubicar una raíz se encierra entre cuadrados conocidos: como $2^2 = 4$ y $3^2 = 9$, $\\sqrt7$ está entre $2$ y $3$, más cerca del $3$ ($\\sqrt7 \\approx 2.65$). $\\pi \\approx 3.14$ queda un poco después del $3$, y los negativos quedan en el lugar opuesto, a la izquierda del $0$.',
-              { hint: 'Antes de tocar, decide entre qué dos enteros queda el número: ¿qué cuadrados conocidos lo encierran? Luego mira si queda más cerca de uno o del otro, y frena la aguja al pasar por ahí.' }),
+              { hint: 'El lado del cuadrado es el número que buscas: mira cómo cambia el área al mover el punto y acércate de a poco con los botones − y +. Con la rueda, fíjate en la marca roja: una vuelta termina cuando vuelve a tocar el suelo.' }),
           ],
         },
         {

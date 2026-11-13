@@ -73,7 +73,7 @@ test('carrera-fracciones (alg-11b): la opción marcada vale lo mismo que la preg
 });
 
 // Mejoras (spec 2026-11-14-mejoras-carrera-y-aguja): ayuda tras fallar y turbo por racha.
-test('carrera-fracciones: valor de un texto, ayuda que no regala el resultado y turbo por racha', () => {
+test('carrera-fracciones: valor de un texto, reglas para comparar y ayuda que no regala el resultado', () => {
   const g = G('carrera-fracciones');
   assert.equal(g.valueOf('1/4'), 0.25);
   assert.equal(g.valueOf('−6/3'), -2);
@@ -87,10 +87,26 @@ test('carrera-fracciones: valor de un texto, ayuda que no regala el resultado y 
   assert.equal(g.helpOf({ ask: '0.125', options: ['1/8', '1/25', '12/5'], answer: 0 }), '0.125 son 125 milésimas');
   assert.equal(g.helpOf({ ask: '1.5', options: ['3/2', '1/5', '15/100'], answer: 0 }), '1.5 son 15 décimas');
   assert.match(g.helpOf({ ask: '12/18', options: ['2/3', '18/12', '1/6'], answer: 0 }), /arriba y abajo/);
-  assert.equal(g.turbo(0), 1);
-  assert.ok(g.turbo(3) > g.turbo(1) && g.turbo(1) > 1);
-  assert.equal(g.turbo(50), g.turbo(5), 'la racha tiene tope');
-  assert.ok(g.turbo(50) <= 1.5);
+  // Enfoque conceptual (spec 2026-11-14-juegos-conceptuales-valle): cada nombre corta la unidad en sus partes.
+  assert.equal(g.partsOf('1/4'), 4);
+  assert.equal(g.partsOf('−6/3'), 3);
+  assert.equal(g.partsOf('0.25'), 100);
+  assert.equal(g.partsOf('0.5'), 10);
+  assert.equal(g.partsOf('4'), 1);
+  assert.equal(g.rangeOf({ ask: '1/4', options: ['0.25', '0.4', '1.4'] }).join(), '0,2');
+  assert.equal(g.rangeOf({ ask: '−6/3', options: ['−2', '2', '−3'] }).join(), '-3,2');
+  assert.equal(g.rangeOf({ ask: '1/2', options: ['0.5', '0.2', '0.7'] }).join(), '0,1');
+});
+
+test('carrera-fracciones: no hay cuentas a contrarreloj (la fila espera) y las reglas del contenido caben', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/games/carrera-fracciones.js'), 'utf8');
+  assert.match(src, /state === 'waiting'\) return;/, 'la fila se detiene hasta que se elige');
+  assert.ok(!/turbo/.test(src), 'sin turbo de velocidad');
+  const g = GAMES['carrera-fracciones'];
+  for (const r of paramsOf('alg-11b').rounds) for (const it of r.items) {
+    const [lo, hi] = g.rangeOf(it);
+    assert.ok(hi - lo <= 8, `${it.ask}: la regla va de ${lo} a ${hi}`);
+  }
 });
 
 test('carrera-fracciones (alg-11b): la ayuda de cada pregunta existe y no trae la respuesta', () => {
@@ -114,13 +130,20 @@ test('frena-aguja: estrellas según la puntería y enteros que encierran al núm
 });
 
 // ---------- frena-aguja ----------
-test('frena-aguja: la aguja va y vuelve por la recta, y acierta dentro de la tolerancia', () => {
+test('frena-aguja: se construye el número (cuadrado o rueda), sin aguja que frenar a tiempo', () => {
   const g = G('frena-aguja');
-  assert.equal(g.needleAt(0, 0, 4, 2), 0);
-  assert.equal(g.needleAt(0.5, 0, 4, 2), 2);
-  assert.equal(g.needleAt(1, 0, 4, 2), 4);
-  assert.equal(g.needleAt(1.5, 0, 4, 2), 2);
-  assert.equal(g.needleAt(2, 0, 4, 2), 0);
+  assert.equal(g.needleAt, undefined, 'ya no hay aguja que se mueva sola');
+  assert.equal(g.kindOf('√7'), 'square');
+  assert.equal(g.kindOf('−π'), 'wheel');
+  assert.equal(g.areaOf({ label: '√7', value: 2.646 }), 7);
+  assert.equal(g.areaOf({ label: '−√5', value: -2.236 }), 5);
+  assert.ok(Math.abs(g.turnsOf(Math.PI) - 1) < 1e-12 && Math.abs(g.turnsOf(-Math.PI) - 1) < 1e-12);
+  assert.equal(g.digitsOf({ label: '√2', value: 1.414 }), '1.414213');
+  assert.equal(g.digitsOf({ label: '−π', value: -3.1416 }), '−3.141592');
+  for (const r of paramsOf('alg-11c').rounds) for (const it of r.items) {
+    const exact = g.kindOf(it.label) === 'wheel' ? Math.PI : Math.sqrt(g.areaOf(it));
+    assert.ok(Math.abs(Math.abs(it.value) - exact) < 0.002, `${it.label}: el valor del contenido es el del cuadrado o la rueda`);
+  }
   assert.equal(g.hits(2.3, 2.236, 0.2), true);
   assert.equal(g.hits(2.5, 2.236, 0.2), false);
 });

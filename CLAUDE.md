@@ -14,6 +14,10 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
 - Ejercicios **creativos y originales**: juegos interactivos; evitar opción múltiple y tarjetas
   (verdadero/falso, clasificar). Puede quedar algún cálculo numérico (`num`).
 - **Cada ejercicio con pista** (`hint`) que oriente sin dar la respuesta.
+- **Entender, no mecanizar:** los juegos no deben exigir cálculos rápidos ni reflejos. Nada de responder antes de que
+  algo llegue o se acabe; si algo avanza solo, se detiene y espera. El juego dibuja la idea del video (barras, áreas,
+  vueltas) y el estudiante compara, construye o ajusta; las cuentas las hace y las muestra el juego. Spec
+  `2026-11-14-juegos-conceptuales-valle`.
 - Videos: explicar con **intuición primero y fórmula después**, ejemplos resueltos con detalle,
   **sin ejercicios ni preguntas al espectador**, sin voz ni subtítulos quemados. Los ejemplos del video
   **no se repiten** en los ejercicios. Narración de videos y clips según `docs/storytelling-videos.md` (personaje con
@@ -96,8 +100,9 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   tiempo globos con conjuntos: subconjunto, iguales, disjuntos, unitario) y `luciernagas-venn` (tocar luciérnagas cuando
   están en la zona de la operación); Valle de los Números (spec `2026-11-13-juegos-dinamicos-valle`, pruebas
   `tests/juegos-dinamicos-valle.test.js`) → `buzo-enteros` (subir y bajar a la altura del resultado), `carrera-fracciones`
-  (tres carriles y puertas; racha con turbo, ayuda tras fallar con `helpOf` y meta) y `frena-aguja` (parar una aguja en la
-  recta; estrellas por puntería y lupa de décimas al acertar; ambos mejorados en la spec `2026-11-14-mejoras-carrera-y-aguja`), `dispara-inverso` (apuntar a burbujas que pasan),
+  (la fila de puertas espera; tocar una puerta la mide en una regla junto al número pedido y tocarla otra vez hace pasar) y
+  `frena-aguja` (conserva el nombre, pero ya no hay aguja: se arrastra un punto y crece un cuadrado de área pedida, o rueda
+  una rueda de diámetro 1 para π; ambos rehechos sin prisa en la spec `2026-11-14-juegos-conceptuales-valle`), `dispara-inverso` (apuntar a burbujas que pasan),
   `salta-signos` (saltar según el signo) y `serpiente-orden` (comer de menor a mayor). Razones, proporciones y porcentajes (spec `2026-11-13-juegos-dinamicos-razones`,
   pruebas `tests/juegos-dinamicos-razones.test.js`) → `sirve-la-razon` (mantener presionado para servir y soltar),
   `corta-proporciones` (cortar fichas al vuelo con el dedo), `resortera-tres` (estirar y soltar), `caja-veloz` (teclado
