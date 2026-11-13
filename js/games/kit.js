@@ -5,16 +5,23 @@
 const GAMES = {};
 
 // Colores de los juegos en cada tema: un tono por familia de números y los del lienzo.
+// Son los de los videos zoom de las lecciones (video/*-zoom/flat.js): azul noche, crema, sol, coral,
+// menta y azul. En el tema claro el papel es crema y los mismos tonos van más oscuros para leerse.
+// sun, coral, mint, sky, cream, night: rellenos de adorno (fichas, confeti); star y halo: el fondo.
 const PALETTES = {
   dark: {
-    N: '#FFC53D', Z: '#4FA8FF', Q: '#34D399', I: '#FF6B7A', R: '#B9A6FF',
-    brand: '#8B7BFF', bg: '#0f1226', card: '#1B2144', line: '#3A4170',
-    ink: '#EEF0FF', mute: '#9AA3C7', ok: '#2FD68F', bad: '#FF5A74',
+    N: '#FFC84A', Z: '#56CCF2', Q: '#3FD8AE', I: '#FF6B5E', R: '#C3A6FF',
+    brand: '#5B8CFF', bg: '#1D2052', card: '#272C68', line: '#444B96',
+    ink: '#FFF4E2', mute: '#A7ACE0', ok: '#2FE08F', bad: '#FF5A74',
+    sun: '#FFC84A', coral: '#FF6B5E', mint: '#3FD8AE', sky: '#4D7CFE', cream: '#FFF4E2', night: '#1D2052',
+    star: '#9298D4', halo: '#252A63',
   },
   light: {
-    N: '#A86F00', Z: '#1C64D6', Q: '#0B8A61', I: '#D42F4F', R: '#6A4BE6',
-    brand: '#5B47F5', bg: '#FFFFFF', card: '#F1F3FA', line: '#C3CADF',
-    ink: '#0B1533', mute: '#5D6688', ok: '#0F9A5C', bad: '#D8314F',
+    N: '#A86F00', Z: '#1479C9', Q: '#0B8A61', I: '#E0453A', R: '#6A4BE6',
+    brand: '#3A5FD9', bg: '#FFF6E6', card: '#FFFFFF', line: '#E2CFAE',
+    ink: '#1D2052', mute: '#5B6090', ok: '#0F9A5C', bad: '#D8314F',
+    sun: '#FFB627', coral: '#FF6B5E', mint: '#22B38C', sky: '#4D7CFE', cream: '#FFFFFF', night: '#1D2052',
+    star: '#F3CE96', halo: '#FBE8C8',
   },
 };
 // `api.palette` de todos los juegos: el mismo objeto cambia de valores con el tema, y como los
@@ -23,7 +30,99 @@ const PALETTE = { ...PALETTES.dark };
 function setGameTheme(theme) { Object.assign(PALETTE, PALETTES[theme] || PALETTES.dark); }
 setGameTheme(typeof document !== 'undefined' ? document.documentElement?.dataset?.theme : 'dark');
 
-const P5_URL = 'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js';
+// ---------- Estilo «video» (spec 2026-11-13-juegos-estilo-video) ----------
+// Letra de los videos (Jost); mientras carga, o sin conexión, se ve la del sistema.
+// p5 toma el nombre como una sola familia (no admite lista de respaldo): se da Jost solo si ya cargó.
+// `document.fonts.check` dice «sí» aunque Jost no esté declarada (sin conexión): hay que ver una cara ya cargada.
+let jostReady = false;
+function jostLoaded(fonts) {
+  try { return [...(fonts || [])].some(f => /Jost/i.test(f.family) && f.status === 'loaded'); } catch { return false; }
+}
+const gameFont = () => ((jostReady ||= typeof document !== 'undefined' && jostLoaded(document.fonts)) ? 'Jost' : 'system-ui');
+const reducedMotion = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Tinta que se lee sobre un relleno: azul noche sobre tonos claros, blanca sobre oscuros.
+function inkOn(hex, fallback = '#FFFFFF') {
+  if (typeof hex !== 'string' || !/^#[0-9a-f]{6}$/i.test(hex)) return fallback;
+  const v = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(c => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2] > 0.215 ? '#1D2052' : '#FFFFFF';   // 0.215: donde el azul noche empieza a contrastar más que el blanco
+}
+
+// Anima los valores de un objeto con anime.js (js/vendor/anime.min.js). Sin anime (pruebas) o con
+// «reducir movimiento», deja el valor final de una vez.
+function fxTween(target, props, opts = {}) {
+  if (typeof anime !== 'function' || reducedMotion()) { Object.assign(target, props); opts.complete?.(); return null; }
+  return anime({ targets: target, duration: 420, easing: 'easeOutCubic', ...props, ...opts });
+}
+
+// Estrellas del fondo: puntos fijos (siempre los mismos para un tamaño de lienzo), con su fase de titileo.
+function backdropDots(w, h) {
+  let s = 20261113;
+  const rnd = () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; };
+  const n = Math.round(w * h / 5200);
+  return Array.from({ length: n }, () => ({ x: +(rnd() * w).toFixed(1), y: +(rnd() * h).toFixed(1), r: +(0.7 + rnd() * 1.5).toFixed(2), ph: +(rnd() * 6.28).toFixed(2) }));
+}
+// Fondo de los videos: color del tema, dos halos de círculos en las esquinas y estrellas que titilan.
+const BACKDROPS = new WeakMap();
+function drawBackdrop(p) {
+  const ctx = p.drawingContext, W = p.width, H = p.height, C = PALETTE;
+  if (!ctx?.save) return;
+  let b = BACKDROPS.get(p);
+  if (!b || b.w !== W || b.h !== H) BACKDROPS.set(p, b = { w: W, h: H, dots: backdropDots(W, H), still: reducedMotion() });
+  const d = typeof p.pixelDensity === 'function' ? p.pixelDensity() : 1, t = b.still ? 0 : performance.now() / 1000;
+  const disc = (x, y, r) => { ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill(); };
+  ctx.save(); ctx.setTransform(d, 0, 0, d, 0, 0);
+  ctx.fillStyle = C.halo;
+  ctx.globalAlpha = 0.55; disc(W + 6, H * 0.2, 116); disc(-10, H + 6, 96);
+  ctx.globalAlpha = 0.5; disc(W + 6, H * 0.2, 72); disc(-10, H + 6, 56);
+  ctx.fillStyle = C.star;
+  for (const o of b.dots) { ctx.globalAlpha = b.still ? 0.45 : 0.3 + 0.3 * (1 + Math.sin(t * 1.4 + o.ph)) / 2 + 0.1; disc(o.x, o.y, o.r); }
+  ctx.restore();
+}
+
+// Onda que sale donde el juego agarra o toca algo (la dibuja mountSketch encima de cada cuadro).
+function drawRipples(p, list) {
+  if (!list.length) return;
+  const ctx = p.drawingContext, d = typeof p.pixelDensity === 'function' ? p.pixelDensity() : 1;
+  ctx.save(); ctx.setTransform(d, 0, 0, d, 0, 0); ctx.strokeStyle = inkOn(PALETTE.bg) === '#FFFFFF' ? PALETTE.sun : PALETTE.coral; ctx.lineWidth = 2.5;   // sol sobre la noche, coral sobre el crema
+  for (const r of list) { ctx.globalAlpha = Math.max(0, r.a); ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, 6.2832); ctx.stroke(); }
+  ctx.restore();
+}
+
+// Trozos de confeti (círculos, cuadrados y triángulos planos, como las formas de los videos): hacia
+// dónde vuela cada uno, cuánto gira, su color (clave de la paleta) y su forma.
+function confettiBits(n) {
+  const colors = ['sun', 'coral', 'mint', 'sky'], shapes = ['dot', 'sq', 'tri'];
+  return Array.from({ length: n }, (_, i) => {
+    const a = (i / n) * 2 * Math.PI + (Math.random() - 0.5) * 0.5, d = 60 + Math.random() * 120;
+    return { dx: Math.round(Math.cos(a) * d), dy: Math.round(Math.sin(a) * d * 0.85 - 10), rot: Math.round((Math.random() - 0.5) * 540), size: 7 + Math.round(Math.random() * 7), color: colors[i % colors.length], shape: shapes[(i * 7 + (i >> 2)) % shapes.length] };
+  });
+}
+// Celebración sobre el recuadro del juego al acertar: un aro que crece y confeti que sale del centro.
+function playFx(box, ok) {
+  if (!ok || !box || typeof anime !== 'function' || reducedMotion()) return;
+  const layer = document.createElement('div');
+  layer.className = 'play-fx';
+  const ring = document.createElement('i'); ring.className = 'fx-ring'; layer.appendChild(ring);
+  const bits = confettiBits(20).map(b => {
+    const el = document.createElement('i');
+    el.className = `fx-bit ${b.shape}`;
+    el.style.width = el.style.height = b.size + 'px';
+    el.style.color = PALETTE[b.color];
+    layer.appendChild(el);
+    return { el, b };
+  });
+  box.appendChild(layer);
+  anime({ targets: ring, scale: [0.2, 3.2], opacity: [0.9, 0], duration: 700, easing: 'easeOutCubic' });
+  anime({
+    targets: bits.map(x => x.el), duration: 1100, easing: 'easeOutExpo', delay: anime.stagger(12),
+    translateX: (_, i) => bits[i].b.dx, translateY: (_, i) => [0, bits[i].b.dy], rotate: (_, i) => bits[i].b.rot,
+    scale: [{ value: [0, 1.15], duration: 220 }, { value: 0, duration: 520, delay: 360, easing: 'easeInCubic' }],
+    complete: () => layer.remove(),
+  });
+}
+
+const P5_URL ='https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js';
 let p5Promise = null;
 
 // Carga p5.js una sola vez; si falla (sin conexión), la próxima llamada lo reintenta.
@@ -50,6 +149,7 @@ const DESIGN_W = 328;
 const heightFor = (w, aspect) => Math.round(Math.max(w, DESIGN_W) * aspect);
 function mountSketch(host, sketch, aspect = 1.25) {
   let inst = null, removed = false, ro = null, grabbed = false;
+  const ripples = [];
   const widthOf = () => Math.max(240, Math.floor(host.clientWidth || 320));
   const ready = loadP5().then(P5 => {
     if (removed) return;
@@ -57,6 +157,22 @@ function mountSketch(host, sketch, aspect = 1.25) {
     size.h = heightFor(size.w, aspect);
     inst = new P5(p => {
       sketch(p, size);
+      // Estilo de los videos en todos los juegos: la letra, el fondo con estrellas (cada vez que el
+      // juego limpia el lienzo con C.bg) y una onda donde el juego agarra o toca algo.
+      const rawFont = p.textFont?.bind(p), rawBg = p.background?.bind(p);
+      if (rawFont) p.textFont = (f, ...a) => rawFont(f === 'system-ui' ? gameFont() : f, ...a);
+      if (rawBg) p.background = (...a) => { const r = rawBg(...a); if (a.length === 1 && a[0] === PALETTE.bg) drawBackdrop(p); return r; };
+      const draw0 = p.draw, press0 = p.mousePressed;
+      if (draw0) p.draw = () => { draw0(); drawRipples(p, ripples); };
+      if (press0) p.mousePressed = (...a) => {
+        const r = press0(...a);
+        if (r === false && p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height && !reducedMotion() && typeof anime === 'function') {
+          const rp = { x: p.mouseX, y: p.mouseY, r: 6, a: 0.8 };
+          ripples.push(rp);
+          fxTween(rp, { r: 30, a: 0 }, { duration: 460, complete: () => ripples.splice(ripples.indexOf(rp), 1) });
+        }
+        return r;
+      };
       // Red de seguridad para celulares angostos: ningún texto se sale del lienzo ni queda cortado.
       if (typeof p.text === 'function') { const raw = p.text.bind(p); p.text = (...a) => safeText(p, raw, ...a); }
       // p5 1.9 no cae de touchstart/touchend a mousePressed/mouseReleased (solo touchmove cae en
@@ -80,6 +196,13 @@ function mountSketch(host, sketch, aspect = 1.25) {
       inst.onResize?.();
     });
     ro.observe(host);
+    // El lienzo entra subiendo (solo se traslada: escalarlo con CSS descuadraría la lectura del dedo).
+    if (typeof anime === 'function' && !reducedMotion() && inst?.canvas) anime({ targets: inst.canvas, translateY: [16, 0], opacity: [0, 1], duration: 520, easing: 'easeOutCubic' });
+    // Si Jost aún no había cargado, el juego arrancó con la letra del sistema: al llegar, se cambia.
+    if (typeof document !== 'undefined' && gameFont() !== 'Jost') {
+      Promise.all([document.fonts?.load?.('700 14px Jost'), document.fonts?.load?.('400 14px Jost')])
+        .then(() => { if (inst && gameFont() === 'Jost') inst.textFont('system-ui'); }).catch(() => {});
+    }
     // p5 no escucha touchcancel (llamada entrante, gesto del sistema): se suelta lo que el juego tenía agarrado.
     host.addEventListener?.('touchcancel', () => { if (grabbed) { grabbed = false; inst?.mouseReleased?.(); } });
   });
@@ -223,10 +346,20 @@ function roundTabs(n, w) {
   const step = w ? Math.min(52, (w - 20) / n) : 52;
   return Array.from({ length: n }, (_, i) => ({ x: 12 + i * step, y: 8, w: step - 8, h: 30 }));
 }
+// Son fichas como las de los videos: la que falta va apagada (tarjeta y número gris); la respondida,
+// la actual y las calificadas se rellenan con su color. La actual lleva un aro color sol y rebota al cambiar.
+const TAB_FX = new WeakMap();
 function drawTabs(p, C, tabs, cur, colorOf) {
+  let fx = TAB_FX.get(p);
+  if (!fx) TAB_FX.set(p, fx = { cur, k: 1 });
+  if (fx.cur !== cur) { fx.cur = cur; fx.k = 0.7; fxTween(fx, { k: 1 }, { duration: 560, easing: 'easeOutElastic(1, .55)' }); }
   tabs.forEach((tb, i) => {
-    p.stroke(colorOf(i)); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(tb.x, tb.y, tb.w, tb.h, 8);
-    p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, tb.x + tb.w / 2, tb.y + tb.h / 2);
+    const col = colorOf(i), on = i === cur, plain = col === C.line, k = on ? fx.k : 1;
+    const w = tb.w * k, h = tb.h * k, x = tb.x + (tb.w - w) / 2, y = tb.y + (tb.h - h) / 2;
+    if (on) { p.noFill(); p.stroke(C.sun); p.strokeWeight(2.5); p.rect(x - 3, y - 3, w + 6, h + 6, 11); }
+    if (plain) { p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); } else { p.noStroke(); p.fill(col); }
+    p.rect(x, y, w, h, 8);
+    p.noStroke(); p.fill(plain ? C.mute : inkOn(col, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(14); p.text(i + 1, tb.x + tb.w / 2, tb.y + tb.h / 2);
   });
 }
 const hitBox = (b, x, y) => !!b && x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;

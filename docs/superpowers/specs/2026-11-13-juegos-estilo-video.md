@@ -1,0 +1,46 @@
+# Minijuegos con el estilo de los videos
+
+Fecha: 2026-11-13
+
+## Qué se pidió
+
+Que los minijuegos de los ejercicios sigan el estilo de los videos de las lecciones (los «Scale Zoom Explainer»:
+azul noche, formas planas, crema, sol, coral, menta y azul, rótulo con barra), que sean coloridos en tema claro y
+oscuro, llamativos, con animaciones (anime.js) y que se entiendan bien.
+
+## Decisión
+
+Los 137 juegos leen sus colores de `api.palette` y montan el lienzo con `mountSketch`. El estilo se pone en el kit
+(`js/games/kit.js`) y llega a todos sin tocar cada juego.
+
+| Pieza | Cómo |
+|---|---|
+| Colores | `PALETTES` usa los de `video/*-zoom/flat.js`. Oscuro: fondo `#1D2052`, tinta crema. Claro: papel crema `#FFF6E6`, tinta azul noche y los mismos tonos más oscuros (contraste ≥ 3 sobre el fondo, lo exige `tests/tema-juegos.test.js`). Claves nuevas de adorno: `sun, coral, mint, sky, cream, night, star, halo`. |
+| Fondo | Cuando un juego limpia con `p.background(C.bg)`, el kit dibuja encima dos halos de círculos en las esquinas y estrellas que titilan (`drawBackdrop`, `backdropDots`). |
+| Letra | Jost, la de los videos: `p.textFont('system-ui')` se cambia por Jost si ya cargó; si no, sigue la del sistema y se cambia al llegar. |
+| Rondas | `drawTabs` dibuja fichas: apagada la que falta, rellena la respondida, y la actual con aro color sol que rebota al cambiar. El número usa `inkOn(color)`. |
+| Toque | Onda color sol donde el juego agarra o toca algo (cuando su `mousePressed` devuelve `false`). |
+| Acierto | `playFx(box, ok)`: aro y confeti de círculos, cuadrados y triángulos sobre el recuadro. |
+| Entrada | El lienzo entra subiendo (solo traslación; escalarlo descuadra la lectura del dedo). |
+| Enunciado | `.ex-head`: barra color sol a la izquierda del tipo de ejercicio y del enunciado, como el rótulo de los videos. |
+
+Animaciones con anime.js 3.2.2 (`js/vendor/anime.min.js`, MIT, del repositorio `juliangarnier/anime`), dentro de la
+app para que funcione sin conexión. `fxTween(obj, props, opts)` anima valores de un objeto; sin anime (pruebas en
+Node) o con «reducir movimiento» deja el valor final de una vez. Con «reducir movimiento» no hay titileo, ondas,
+confeti ni entrada.
+
+## Para juegos nuevos
+
+- Seguir leyendo los colores de `C` al dibujar; para rellenos vivos usar `C.sun, C.coral, C.mint, C.sky` y para el
+  texto encima `inkOn(color)`.
+- Para animar algo propio: `fxTween(estado, { x: 10 }, { duration: 400, easing: 'easeOutElastic(1, .6)' })`.
+
+## Lo que no cubre
+
+El dibujo propio de cada juego (sus piezas y su distribución) sigue igual: cambia de colores, letra y fondo, pero no
+se rediseñó juego por juego.
+
+## Pruebas
+
+`tests/estilo-video.test.js` (paleta, `inkOn`, estrellas, `fxTween`, confeti, fichas, registro de anime.js) y
+`tests/tema-juegos.test.js` (contraste y `--play-bg`).

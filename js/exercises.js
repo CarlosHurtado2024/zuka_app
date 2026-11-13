@@ -137,7 +137,7 @@ EX.play = (area, ex, ready) => {
   return {
     check: () => game.grade(inst.getState(), ex.params),
     // El marco del juego se pinta del color del resultado (y se sacude si falló).
-    lock: ok => { inst.lock(ok); box.classList.add(ok ? 'right' : 'wrong'); },
+    lock: ok => { inst.lock(ok); box.classList.add(ok ? 'right' : 'wrong'); playFx(box, ok); },
     destroy: () => inst.destroy(),
   };
 };
@@ -150,7 +150,7 @@ function hintBlock(ex) {
 }
 
 function renderExercise(el, ex, ready) {
-  el.innerHTML = `<div class="ex"><p class="ex-kind">${EX_KIND[ex.type]}</p><h2 class="ex-q">${tex(ex.q)}</h2>${hintBlock(ex)}<div class="ex-area"></div></div>`;
+  el.innerHTML = `<div class="ex"><header class="ex-head"><p class="ex-kind">${EX_KIND[ex.type]}</p><h2 class="ex-q">${tex(ex.q)}</h2></header>${hintBlock(ex)}<div class="ex-area"></div></div>`;
   const hb = el.querySelector('.hint-btn');
   if (hb) hb.onclick = () => { hb.hidden = true; el.querySelector('.hint-text').hidden = false; Sfx.tap(); };
   return EX[ex.type](el.querySelector('.ex-area'), ex, ready);

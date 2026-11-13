@@ -69,6 +69,11 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
 - `const C = api.palette` y **leer los colores al dibujar** (`C.bg, C.card, C.line, C.ink, C.mute, C.brand,
   C.ok, C.bad`, familias `C.N, C.Z, C.Q, C.I, C.R`). Así se repintan solos al cambiar de tema. Nada de
   colores fijos para texto o fondo.
+- **Estilo de los videos** (spec `2026-11-13-juegos-estilo-video`, pruebas `tests/estilo-video.test.js`): el kit pone a
+  todos los juegos la paleta de los videos zoom (azul noche / papel crema), fondo con estrellas al limpiar con
+  `p.background(C.bg)`, letra Jost, pestañas como fichas, onda al tocar y confeti al acertar (`playFx`). Rellenos
+  vivos: `C.sun, C.coral, C.mint, C.sky`; texto encima con `inkOn(color)`. Animar con `fxTween(obj, props, opts)`
+  (anime.js 3.2.2 en `js/vendor/anime.min.js`; sin anime o con «reducir movimiento» pone el valor final).
 - `mountSketch(host, (p, size) => {...}, aspecto)`; solo escribir `mousePressed/Dragged/Released`
   (los toques se enlazan solos). `p.onResize` para reacomodar.
 - **Celular angosto** (spec `2026-11-12-juegos-algebra-u1-u3-calidad`, pruebas `tests/juegos-celular.test.js`): el lienzo

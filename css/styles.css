@@ -8,7 +8,7 @@
   --outer: #070913; --glow: #121a45; --track: rgba(255,255,255,.08);
   --locked: #59608e; --locked-shadow: #10142b;
   --fb-ok: #0e2c24; --fb-bad: #33111b;
-  --play-bg: #0f1226;   /* = PALETTES.dark.bg de js/games/kit.js */
+  --play-bg: #1d2052;   /* = PALETTES.dark.bg de js/games/kit.js */
   --r: 20px;
   --font: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   color-scheme: dark;
@@ -21,7 +21,7 @@
   --outer: #e8ecf6; --glow: #d6e2ff; --track: rgba(11,21,51,.08);
   --locked: #9aa2c0; --locked-shadow: #c9cfe2;
   --fb-ok: #e3f7ec; --fb-bad: #fde8ec;
-  --play-bg: #ffffff;   /* = PALETTES.light.bg de js/games/kit.js */
+  --play-bg: #fff6e6;   /* = PALETTES.light.bg de js/games/kit.js */
   color-scheme: light;
 }
 html, body { height: 100%; }
@@ -477,6 +477,10 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .ex { padding-top: 10px; animation: rise .35s cubic-bezier(.2,.8,.2,1); }
 .ex-kind { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--c-ink); }
 .ex-q { font-size: 21px; font-weight: 800; line-height: 1.4; margin: 6px 0 22px; }
+/* Rótulo como el de los videos: barra color sol a la izquierda del tipo de ejercicio y del enunciado. */
+.ex-head { position: relative; padding-left: 14px; margin-bottom: 22px; }
+.ex-head::before { content: ''; position: absolute; left: 0; top: 3px; bottom: 3px; width: 4px; border-radius: 4px; background: var(--gold); }
+.ex-head .ex-q { margin-bottom: 0; }
 .opts { display: grid; gap: 10px; }
 .opt {
   display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; padding: 14px; border-radius: 16px;
@@ -518,8 +522,15 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 }
 /* pan-y: sobre el juego se puede desplazar la lección con el dedo; cuando el juego agarra una pieza
    cancela el toque (js/games/kit.js) y la página no se mueve. */
-.play canvas { display: block; animation: play-in .28s ease-out; }
-@keyframes play-in { from { opacity: 0; } }
+.play canvas { display: block; }   /* la entrada la anima anime.js (mountSketch) */
+/* Celebración al acertar (playFx en js/games/kit.js): aro y confeti de formas planas. */
+.play-fx { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.play-fx i { position: absolute; left: 50%; top: 46%; display: block; }
+.fx-ring { width: 120px; height: 120px; margin: -60px; border-radius: 50%; border: 5px solid var(--gold); opacity: 0; }
+.fx-bit { margin: -5px; background: currentColor; transform: scale(0); }
+.fx-bit.dot { border-radius: 50%; }
+.fx-bit.sq { border-radius: 2px; }
+.fx-bit.tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
 /* Mientras carga p5.js (la primera vez) el marco muestra que algo viene. */
 .play:empty::after {
   content: ''; position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px; border-radius: 50%;
