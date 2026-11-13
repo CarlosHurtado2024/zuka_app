@@ -48,8 +48,8 @@ GAMES['bascula'] = (() => {
       // Báscula: plato con las manzanas pedidas y pantalla con el precio fijado.
       function scale(cx, cy, kg, price, col) {
         const sink = 6 + kg * 2;
-        p.stroke(C.line); p.strokeWeight(4); p.line(cx, cy + 10, cx, cy + 60);
-        p.noStroke(); p.fill(C.line); p.rect(cx - 34, cy + 58, 68, 8, 4);
+        p.stroke(C.mute); p.strokeWeight(4); p.line(cx, cy + 10, cx, cy + 60);
+        p.noStroke(); p.fill(C.mute); p.rect(cx - 34, cy + 58, 68, 8, 4);
         p.stroke(C.ink); p.strokeWeight(3); p.noFill(); p.arc(cx, cy + sink, 90, 24, 0, p.PI);
         for (let i = 0; i < kg; i++) apple(cx - 28 + (i % 4) * 19, cy + sink - 10 - Math.floor(i / 4) * 16, 9);
         p.fill(C.card); p.stroke(col); p.strokeWeight(2); p.rect(cx - 44, cy + 70, 88, 30, 8);
@@ -64,7 +64,8 @@ GAMES['bascula'] = (() => {
         const ans = answerOf(params), good = st.price !== null && Math.abs(st.price - ans) <= params.tol;
         // Dato conocido.
         p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(12);
-        p.text('En el mercado', W / 2, 8);
+        drawKicker(p, C, 'En el mercado', W / 2, 14, { center: true });
+        p.noStroke(); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD);
         p.fill(C.ink); p.textSize(18); p.text(`${params.knownKg} kg de manzanas → $ ${fmt(params.knownPrice)}`, W / 2, 24);
         p.fill(C.N); p.textSize(14); p.text(`¿Cuánto cuestan ${params.askKg} kg?`, W / 2, 50);
         for (let i = 0; i < params.knownKg; i++) apple(W / 2 - (params.knownKg - 1) * 11 + i * 22, 86, 9);
@@ -80,8 +81,7 @@ GAMES['bascula'] = (() => {
         p.fill(C.ink); p.textSize(Math.min(20, wheel.w / 4.6)); p.text(st.price === null ? '0' : fmt(v), wheel.x + wheel.w / 2, cy);
         p.fill(C.mute); p.textSize(11); p.text('precio', wheel.x + wheel.w / 2, wheel.y - 10);
         buttons.forEach(b => {
-          p.stroke(C.line); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textSize(18); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2);
+          drawTile(p, C, b, b.t, { fill: C.sky, r: 8, lift: 2, size: 18 });
         });
         p.fill(C.mute); p.textSize(11); p.text('arrastra la rueda o toca ±', wheel.x + wheel.w / 2, buttons[0].y + 46);
         if (locked && !good) { p.fill(C.bad); p.textSize(13); p.text(`Debía ser $ ${fmt(ans)}`, W * 0.27, H * 0.42 + 134); }

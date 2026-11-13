@@ -61,7 +61,7 @@ GAMES['mejor-oferta'] = (() => {
         const col = locked ? (pick ? (good ? C.ok : C.bad) : good ? C.ok : C.line) : pick ? C.brand : C.line;
         // Toldo y vitrina.
         p.noStroke(); p.fill(key === 'a' ? C.N : C.Q);
-        for (let i = 0; i < 6; i++) { p.fill(i % 2 ? C.card : key === 'a' ? C.N : C.Q); p.rect(b.x + (i * b.w) / 6, b.y, b.w / 6, 14); }
+        for (let i = 0; i < 6; i++) { p.fill(i % 2 ? C.cream : key === 'a' ? C.coral : C.sky); p.rect(b.x + (i * b.w) / 6, b.y, b.w / 6, 14); }
         p.stroke(col); p.strokeWeight(pick ? 2.5 : 1.5); p.fill(C.card); p.rect(b.x, b.y + 14, b.w, b.h - 14, 0, 0, 12, 12);
         p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
         p.text(`${params.noun || 'Tienda'} ${key.toUpperCase()}`, b.x + 4, b.y + 22, b.w - 8, 20);
@@ -79,9 +79,9 @@ GAMES['mejor-oferta'] = (() => {
         const r = params.rounds[cur];
         tabs.forEach((t, i) => {
           const best = cheaper(params.rounds[i], params), v = st.picks[i];
-          const col = locked ? (v !== null && (best === null || v === best) ? C.ok : C.bad) : i === cur ? C.brand : v !== null ? C.ok : C.line;
-          p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
+          const col = locked ? (v !== null && (best === null || v === best) ? C.ok : C.bad) : i === cur ? C.brand : v !== null ? C.Z : C.line;   // respondida (no «correcta»): azul, no verde
+          const plain = col === C.line;   // ficha de ronda, como las de drawTabs
+          drawTile(p, C, t, i + 1, { fill: plain ? C.card : col, ink: plain ? C.mute : undefined, r: 8, lift: 0, size: 14, ring: i === cur ? C.sun : null });
         });
         p.noStroke(); p.fill(C.N); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(13);
         p.text(params.prefer === 'high' ? `$ ${fmt(r.price)} en los dos: ¿dónde queda más dinero?` : `Precio de lista $ ${fmt(r.price)} en las dos: ¿dónde sale más barato?`, 12, 44, W - 24, 42);

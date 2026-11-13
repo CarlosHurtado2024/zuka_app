@@ -73,8 +73,8 @@ GAMES['estira-foto'] = (() => {
         for (let k = 0; k <= r.w; k++) p.line(x + k * u, top, x + k * u, top + MAX * u);
         for (let k = 0; k <= MAX; k++) p.line(x, top + k * u, x + r.w * u, top + k * u);
         p.push(); p.translate(x, top); p.scale((r.w * u) / r.w0, (h * u) / r.h0); picture(p, C, r.w0, r.h0); p.pop();
-        p.noFill(); p.stroke(locked ? C.ok : C.brand); p.strokeWeight(2.5); p.rect(x, top, r.w * u, h * u);
-        if (!locked) { p.noStroke(); p.fill(C.brand); p.rect(x + (r.w * u) / 2 - 18, top + h * u - 4, 36, 8, 4); }
+        p.noFill(); p.stroke(locked ? C.ok : C.coral); p.strokeWeight(3); p.rect(x, top, r.w * u, h * u);
+        if (!locked) { p.noStroke(); p.fill(C.coral); p.rect(x + (r.w * u) / 2 - 18, top + h * u - 4, 36, 8, 4); }
         // Medidas
         p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.BOTTOM); p.textSize(12);
         p.text(String(r.w), x + (r.w * u) / 2, top - 2);
@@ -84,8 +84,7 @@ GAMES['estira-foto'] = (() => {
         const msg = locked && !good ? `Era ${String(r.h)} de alto` : `ancho : alto = ${String(r.w)} : ${String(h)}`;
         p.fill(locked ? C.ok : C.ink); fitText(p, msg, W / 2, H - 28, W - 132, 14);
         for (const [b, t] of [[B.minus, '−'], [B.plus, '+']]) {
-          p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 9);
-          p.noStroke(); p.fill(C.ink); p.textSize(20); p.text(t, b.x + b.w / 2, b.y + b.h / 2 - 1);
+          drawTile(p, C, b, t, { fill: C.sky, r: 9, lift: 2, size: 20 });
         }
       };
 

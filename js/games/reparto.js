@@ -31,7 +31,8 @@ GAMES['reparto'] = (() => {
         const cuts = [...st.cuts].sort((a, b) => a - b), got = amounts(st.cuts, params.total);
         const want = shares(params);
         p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
-        p.text(`Reparte ${fmt(params.total)} en la razón ${params.parts.join(' : ')}`, W / 2, 10);
+        drawKicker(p, C, `Reparte ${fmt(params.total)} en la razón ${params.parts.join(' : ')}`, W / 2, 16, { center: true });
+        p.noStroke(); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD);
         p.fill(C.ink); p.textSize(12); p.text('Arrastra los separadores', W / 2, 30);
         // Barra en tres tramos.
         const edges = [0, ...cuts, 1];

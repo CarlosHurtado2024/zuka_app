@@ -60,14 +60,14 @@ GAMES['dos-etapas'] = (() => {
         p.text(`Subió ${params.changes[0]} % y luego bajó ${Math.abs(params.changes[1])} %; terminó en ${fmt(params.output)}. ¿Cuánto valía al principio?`, 12, 6, W - 24, 50);
         // Perilla.
         const ang = (valueOf() / TURN) * Math.PI * 2 - Math.PI / 2;
-        p.stroke(C.line); p.strokeWeight(3); p.fill(C.card); p.circle(knob.x, knob.y, knob.r * 2);
+        // Perilla: disco color sol con relieve y aguja azul noche.
+        p.noStroke(); p.fill(shade(C.sun, 0.74)); p.circle(knob.x, knob.y + 4, knob.r * 2); p.fill(C.sun); p.circle(knob.x, knob.y, knob.r * 2);
         for (let k = 0; k < 12; k++) { const a = (k / 12) * Math.PI * 2; p.stroke(C.mute); p.strokeWeight(1.5); p.line(knob.x + Math.cos(a) * (knob.r + 4), knob.y + Math.sin(a) * (knob.r + 4), knob.x + Math.cos(a) * (knob.r + 9), knob.y + Math.sin(a) * (knob.r + 9)); }
-        p.stroke(col); p.strokeWeight(5); p.line(knob.x, knob.y, knob.x + Math.cos(ang) * (knob.r - 10), knob.y + Math.sin(ang) * (knob.r - 10));
-        p.noStroke(); p.fill(C.ink); p.circle(knob.x, knob.y, 10);
+        p.stroke(C.night); p.strokeWeight(5); p.line(knob.x, knob.y, knob.x + Math.cos(ang) * (knob.r - 10), knob.y + Math.sin(ang) * (knob.r - 10));
+        p.noStroke(); p.fill(C.night); p.circle(knob.x, knob.y, 10);
         p.fill(C.mute); p.textSize(10); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.TOP); p.text(`una vuelta = ${fmt(TURN)}`, knob.x, knob.y - knob.r - 22);
         buttons.forEach(b => {
-          p.stroke(C.line); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textSize(12); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2);
+          drawTile(p, C, b, b.t, { fill: C.sky, r: 8, lift: 2, size: 12 });
         });
         // Máquina: cajas en columna con flechas.
         boxes.forEach((b, i) => {

@@ -50,18 +50,21 @@ GAMES['tragamonedas'] = (() => {
         const r = R[cur], dg = st.reels[cur], f = factorOf(dg), ok = good(dg, r);
         glow += 0.08;
         drawTabs(p, C, tabs, cur, i => (locked ? (good(st.reels[i], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : touched[i] ? C.Z : C.line));
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
-        p.text('Arma el factor por el que se multiplica:', 14, 56);
+        drawKicker(p, C, 'Arma el factor por el que se multiplica', 14, 56);
+        p.noStroke(); p.textAlign(p.LEFT, p.CENTER);
         p.fill(r.change > 0 ? C.Q : C.I); p.textStyle(p.BOLD); p.textSize(28); p.text(pct(r.change), 14, 84);
 
         // Cuerpo de la máquina con luces
         const b0 = reels[0], bx = Math.max(4, b0.x - 50), bw = reels[3].x + reels[3].w + 18 - bx, by = b0.y - 26, bh = b0.h + 52;
-        p.stroke(ok ? C.ok : C.R); p.strokeWeight(3); p.fill(C.card); p.rect(bx, by, bw, bh, 18);
+        // La máquina: bloque coral con relieve (menta cuando el factor es el correcto).
+        const body = ok ? C.mint : C.coral, onBody = inkOn(body, C.ink);
+        p.noStroke(); p.fill(shade(body, 0.74)); p.rect(bx, by + 5, bw, bh, 18);
+        p.fill(body); p.rect(bx, by, bw, bh, 18);
         for (let k = 0; k < 9; k++) {
           const on = ok ? (Math.floor(glow * 2) + k) % 2 === 0 : k % 3 === Math.floor(glow) % 3;
-          p.noStroke(); p.fill(on ? C.N : C.line); p.circle(bx + 14 + k * (bw - 28) / 8, by + 12, 7);
+          p.noStroke(); p.fill(on ? C.sun : C.cream); p.circle(bx + 14 + k * (bw - 28) / 8, by + 12, 7);
         }
-        p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(30); p.textAlign(p.CENTER, p.CENTER);
+        p.noStroke(); p.fill(onBody); p.textStyle(p.BOLD); p.textSize(30); p.textAlign(p.CENTER, p.CENTER);
         p.text('×', bx + 28, b0.y + b0.h / 2);
         p.text('.', (reels[0].x + reels[0].w + reels[1].x) / 2, b0.y + b0.h / 2 + 10);
         // Palanca (decorativa)
@@ -70,15 +73,15 @@ GAMES['tragamonedas'] = (() => {
         reels.forEach((b, k) => {
           anim[cur][k] *= 0.75;
           const top = k === 0 ? MAXI + 1 : 10, off = anim[cur][k] * 34;
-          p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.bg); p.rect(b.x, b.y, b.w, b.h, 10);
+          p.noStroke(); p.fill(C.cream); p.rect(b.x, b.y, b.w, b.h, 10);   // rodillo: ventana crema
           const ctx = p.drawingContext; ctx.save(); ctx.beginPath(); ctx.rect(b.x, b.y, b.w, b.h); ctx.clip();
           for (let j = -2; j <= 2; j++) {
             const v = ((dg[k] - j) % top + top) % top, y = b.y + b.h / 2 + j * 34 + off;
-            p.noStroke(); p.fill(j === 0 ? (k === 0 ? C.N : C.Z) : C.mute); p.textStyle(p.BOLD); p.textSize(j === 0 ? 32 : 20);
+            p.noStroke(); p.fill(j === 0 ? C.night : '#9A9DBB'); p.textStyle(p.BOLD); p.textSize(j === 0 ? 32 : 20);
             p.text(v, b.x + b.w / 2, y);
           }
           ctx.restore();
-          p.noStroke(); p.fill(C.mute); p.textSize(10); p.textStyle(p.NORMAL);
+          p.noStroke(); p.fill(onBody); p.textSize(10); p.textStyle(p.NORMAL);
           p.text('▲', b.x + b.w / 2, b.y - 10); p.text('▼', b.x + b.w / 2, b.y + b.h + 10);
         });
         // El billete de prueba

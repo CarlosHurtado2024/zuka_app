@@ -42,15 +42,14 @@ GAMES['cadena-cambios'] = (() => {
       p.onResize = () => layout(size.w, size.h);
 
       function stamp(b, s, col) {
-        p.stroke(col); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 10);
-        p.noStroke(); p.fill(s > 0 ? C.Q : C.I); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-        fitText(p, pct(s), b.x + b.w / 2, b.y + b.h / 2 + 1, b.w - 8, 17);
+        // Sello relleno: menta si sube, coral si baja.
+        drawTile(p, C, b, pct(s), { fill: s > 0 ? C.mint : C.coral, size: 17, ring: col === C.brand ? C.sun : null });
       }
       function tag(x, y, v, col) {
-        p.stroke(col); p.strokeWeight(2); p.fill(C.bg);
+        p.stroke(col); p.strokeWeight(2.5); p.fill(C.cream);
         p.beginShape(); p.vertex(x - 30, y - 18); p.vertex(x + 22, y - 18); p.vertex(x + 34, y); p.vertex(x + 22, y + 18); p.vertex(x - 30, y + 18); p.endShape(p.CLOSE);
         p.noStroke(); p.fill(col); p.circle(x + 20, y, 5);
-        p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, num(v), x - 5, y + 1, 50, 15);
+        p.fill(inkOn(C.cream, C.ink)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, num(v), x - 5, y + 1, 50, 15);
       }
 
       p.draw = () => {
@@ -61,7 +60,7 @@ GAMES['cadena-cambios'] = (() => {
         p.text(r.text, 14, 48, W - 28, 48);
         // Banda transportadora con las dos estaciones
         const beltY = 200;
-        p.stroke(C.line); p.strokeWeight(3); p.line(14, beltY + 22, W - 14, beltY + 22);
+        p.stroke(C.mute); p.strokeWeight(3); p.line(14, beltY + 22, W - 14, beltY + 22);
         for (let k = 0; k < 14; k++) { const x = 14 + ((k * 28 + (locked ? 0 : p.frameCount * 0.6)) % (W - 28)); p.strokeWeight(1.5); p.line(x, beltY + 26, x - 6, beltY + 34); }
         stations.forEach((b, k) => {
           p.stroke(C.mute); p.strokeWeight(2); p.line(b.x + b.w / 2, b.y + b.h, b.x + b.w / 2, beltY - 22);
@@ -81,7 +80,7 @@ GAMES['cadena-cambios'] = (() => {
           p.text(`total: ×${num(v2 / 100)}  (${d === 0 ? 'igual' : d > 0 ? `sube ${num(d)} %` : `baja ${num(-d)} %`})`, W / 2, beltY + 54);
         } else { p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.text('Toca dos sellos de la bandeja', W / 2, beltY + 54); }
         tray.forEach((b, i) => {
-          if (pk.includes(i)) { p.noFill(); p.stroke(C.line); p.strokeWeight(1.5); p.drawingContext.setLineDash([4, 4]); p.rect(b.x, b.y, b.w, b.h, 10); p.drawingContext.setLineDash([]); }
+          if (pk.includes(i)) drawSlot(p, C, b);
           else stamp(b, S[i], locked ? C.line : C.mute);
         });
         p.noStroke(); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);

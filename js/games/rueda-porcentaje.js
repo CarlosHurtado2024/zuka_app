@@ -53,14 +53,14 @@ GAMES['rueda-porcentaje'] = (() => {
         const good = pct !== null && Math.abs(pct - ans) <= params.tol;
         const col = locked ? (good ? C.ok : C.bad) : C.brand;
         if (pct !== null && pct > 0) {
-          p.noStroke(); p.fill(col + '99');
+          p.noStroke(); p.fill(locked ? col : C.sun);   // la parte cubierta, rellena
           p.arc(cx, cy, R * 2, R * 2, angOf(0), angOf(pct), p.PIE);
         }
         // Marcas en unidades (cada décimo del total) y anillo exterior en % (20 marcas, sin números).
         for (let k = 0; k < 10; k++) {
           const a = angOf(k * 10), x1 = cx + Math.cos(a) * (R - 8), y1 = cy + Math.sin(a) * (R - 8);
           p.stroke(C.mute); p.strokeWeight(1.5); p.line(x1, y1, cx + Math.cos(a) * R, cy + Math.sin(a) * R);
-          p.noStroke(); p.fill(C.mute); p.textSize(10); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
+          p.noStroke(); p.fill(pct !== null && k * 10 < pct - 3 ? inkOn(locked ? col : C.sun, C.ink) : C.mute); p.textSize(10); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
           p.text(fmt((k * r.whole) / 10), cx + Math.cos(a) * (R - 22), cy + Math.sin(a) * (R - 22));
         }
         for (let k = 0; k < 20; k++) {

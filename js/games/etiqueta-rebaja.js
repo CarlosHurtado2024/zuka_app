@@ -43,9 +43,10 @@ GAMES['etiqueta-rebaja'] = (() => {
       p.onResize = () => layout(size.w, size.h);
 
       function sticker(b, label, col) {
-        p.stroke(col); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-        p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(b.w < 80 ? 12 : 14);
-        p.text(label, b.x + b.w / 2, b.y + b.h / 2);
+        // Hueco vacío: solo el borde (el punteado lo pone quien llama). Sticker: crema en la bandeja, color sol ya pegado.
+        if (label === '') { p.stroke(col === C.line ? C.mute : col); p.strokeWeight(1.5); p.noFill(); p.rect(b.x, b.y, b.w, b.h, 8); return; }
+        const f = col === C.ok || col === C.bad ? col : col === C.brand ? C.sun : C.cream;
+        drawTile(p, C, b, label, { fill: f, r: 8, lift: 2, size: b.w < 80 ? 12 : 14 });
       }
 
       p.draw = () => {

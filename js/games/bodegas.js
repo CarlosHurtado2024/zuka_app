@@ -60,22 +60,22 @@ GAMES['bodegas'] = (() => {
         p.text(`${fmt(params.total)} sacos. Si de A se lleva el ${params.move} % a B, quedan iguales. ¿Cuántos había en cada una?`, 12, 6, W - 24, 50);
         // Barra divisoria.
         const xOf = v => bar.x + (v / params.total) * bar.w;
-        p.noStroke(); p.fill(C.N + 'AA'); p.rect(bar.x, bar.y, xOf(st.a) - bar.x, bar.h, 8, 0, 0, 8);
-        p.fill(C.Z + 'AA'); p.rect(xOf(st.a), bar.y, bar.x + bar.w - xOf(st.a), bar.h, 0, 8, 8, 0);
+        p.noStroke(); p.fill(C.sun); p.rect(bar.x, bar.y, xOf(st.a) - bar.x, bar.h, 8, 0, 0, 8);
+        p.fill(C.sky); p.rect(xOf(st.a), bar.y, bar.x + bar.w - xOf(st.a), bar.h, 0, 8, 8, 0);
         p.stroke(C.ink); p.strokeWeight(3); p.line(xOf(st.a), bar.y - 6, xOf(st.a), bar.y + bar.h + 6);
-        p.noStroke(); p.fill(C.card); p.stroke(C.brand); p.strokeWeight(2); p.circle(xOf(st.a), bar.y + bar.h / 2, 26);
+        p.fill(C.cream); p.stroke(C.creamD); p.strokeWeight(3); p.circle(xOf(st.a), bar.y + bar.h / 2, 26);
         p.noStroke(); p.fill(C.ink); p.textSize(11); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.text(`A: ${fmt(st.a)}`, bar.x + 6, bar.y + bar.h + 16);
         p.textAlign(p.RIGHT, p.CENTER); p.text(`B: ${fmt(params.total - st.a)}`, bar.x + bar.w - 6, bar.y + bar.h + 16);
         // Bodegas con el reparto actual; sacos viajando durante la animación.
         const t = anim > 0 ? 1 - anim / 36 : 1;
         const moving = (st.a * params.move) / 100;
-        pile(boxA, Math.round(st.a - moving * t), C.N, 'Bodega A');
-        pile(boxB, Math.round(params.total - st.a + moving * t), C.Z, 'Bodega B');
+        pile(boxA, Math.round(st.a - moving * t), C.sun, 'Bodega A');
+        pile(boxB, Math.round(params.total - st.a + moving * t), C.sky, 'Bodega B');
         if (anim > 0) {
           anim--;
           for (let i = 0; i < 3; i++) {
             const k = Math.min(1, Math.max(0, t * 1.4 - i * 0.15));
-            sack(boxA.x + boxA.w - 10 + (boxB.x + 10 - boxA.x - boxA.w + 10) * k, boxA.y + boxA.h * 0.5 - Math.sin(k * Math.PI) * 40 + i * 14, 14, C.N);
+            sack(boxA.x + boxA.w - 10 + (boxB.x + 10 - boxA.x - boxA.w + 10) * k, boxA.y + boxA.h * 0.5 - Math.sin(k * Math.PI) * 40 + i * 14, 14, C.sun);
           }
         }
         p.stroke(C.mute); p.strokeWeight(2); p.line(boxA.x + boxA.w + 4, boxA.y + boxA.h * 0.5, boxB.x - 4, boxA.y + boxA.h * 0.5);
@@ -84,7 +84,7 @@ GAMES['bodegas'] = (() => {
         const y0 = boxA.y + boxA.h + 16;
         p.fill(C.mute); p.textSize(11); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.NORMAL); p.text('después del viaje', W / 2, y0);
         p.fill(col); p.textSize(18); p.textStyle(p.BOLD);
-        p.text(`A ${fmt(r.a)}   ${good ? '=' : '≠'}   B ${fmt(r.b)}`, W / 2, y0 + 16);
+        drawPill(p, C, `A ${fmt(r.a)}   ${good ? '=' : '≠'}   B ${fmt(r.b)}`, W / 2, y0 + 28, col, 16);
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked && !good ? `Debían ser ${fmt(answerOf(params))} en A y ${fmt(params.total - answerOf(params))} en B` : 'Arrastra el divisor y suelta para ver el viaje', W / 2, H - 12);
       };

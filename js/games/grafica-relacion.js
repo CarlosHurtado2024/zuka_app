@@ -35,7 +35,8 @@ GAMES['grafica-relacion'] = (() => {
       p.draw = () => {
         p.background(C.bg);
         p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
-        p.text(params.kind === 'directa' ? 'Mueve los puntos para que sea DIRECTA' : 'Mueve los puntos para que sea INVERSA', W / 2, 8);
+        drawKicker(p, C, params.kind === 'directa' ? 'Mueve los puntos: que sea directa' : 'Mueve los puntos: que sea inversa', W / 2, 14, { center: true });
+        p.noStroke(); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD);
         p.fill(C.ink); p.textSize(12);
         p.text(params.kind === 'directa' ? 'y/x constante · recta por el origen' : 'x·y constante · si x se duplica, y se reduce a la mitad', W / 2, 25);
         // Cuadrícula y ejes.
@@ -53,7 +54,7 @@ GAMES['grafica-relacion'] = (() => {
         }
         // Punto dado (fijo) y puntos movibles.
         params.given.forEach(([x, y]) => {
-          p.noStroke(); p.fill(C.R); p.circle(...px(x, y), 16);
+          drawDot(p, C, ...px(x, y), 14, C.sun);
           p.fill(C.ink); p.textSize(11); p.textAlign(p.LEFT, p.BOTTOM); p.text(`(${x}, ${y})`, mx.toPx(x) + 10, my.toPx(y) - 6);
         });
         params.xs.forEach((x, i) => {

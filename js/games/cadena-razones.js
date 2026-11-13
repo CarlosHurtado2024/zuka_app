@@ -38,7 +38,8 @@ GAMES['cadena-razones'] = (() => {
         p.background(C.bg);
         const x = result(params, st.flipped), good = params.factors.every((f, i) => st.flipped[i] === correct(f));
         p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(12);
-        p.text('Regla de tres compuesta', W / 2, 8);
+        drawKicker(p, C, 'Regla de tres compuesta', W / 2, 14, { center: true });
+        p.noStroke(); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD);
         p.fill(C.ink); p.textSize(13);
         [`9 hombres hacen una obra en ${params.base} ${params.unit} a 6 h/día.`, '¿Cuántos días tardan 7 hombres a 8 h/día?'].forEach((ln, i) => p.text(ln, W / 2, 26 + i * 17));
         p.fill(C.N); p.textSize(12); p.text('Toca una tarjeta para voltear su razón', W / 2, 66);
@@ -52,10 +53,12 @@ GAMES['cadena-razones'] = (() => {
           const [n, d] = shownFrac(f, anim[i] > 0.5 ? !st.flipped[i] : st.flipped[i]);
           const col = locked ? (st.flipped[i] === correct(f) ? C.ok : C.bad) : C.brand;
           p.push(); p.translate(c.x + c.w / 2, cy); p.scale(sx, 1);
-          p.stroke(col); p.strokeWeight(2.5); p.fill(C.card); p.rect(-c.w / 2, -c.h / 2, c.w, c.h, 12);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(20);
+          // Tarjeta crema con relieve y borde del color del estado.
+          p.noStroke(); p.fill(C.creamD); p.rect(-c.w / 2, -c.h / 2 + 4, c.w, c.h, 12);
+          p.stroke(col); p.strokeWeight(2.5); p.fill(C.cream); p.rect(-c.w / 2, -c.h / 2, c.w, c.h, 12);
+          p.noStroke(); p.fill(inkOn(C.cream, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textSize(20);
           p.text(n, 0, -16); p.text(d, 0, 18);
-          p.stroke(C.ink); p.strokeWeight(2); p.line(-16, 0, 16, 0);
+          p.stroke(inkOn(C.cream, C.ink)); p.strokeWeight(2); p.line(-16, 0, 16, 0);
           p.pop();
           if (i < cards.length - 1) { p.noStroke(); p.fill(C.ink); p.textSize(20); p.textAlign(p.CENTER, p.CENTER); p.text('×', c.x + c.w + 17, cy); }
           p.noStroke(); p.fill(C.mute); p.textSize(11); p.textAlign(p.CENTER, p.TOP); p.text(f.label, c.x + c.w / 2, c.y + c.h + 6);

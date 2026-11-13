@@ -53,23 +53,22 @@ GAMES['estira-barra'] = (() => {
           if (big) { p.noStroke(); p.fill(C.mute); p.textSize(10); p.textAlign(p.CENTER, p.BOTTOM); p.text(`${k}%`, x, bar.y - bar.h / 2 - 15); p.stroke(C.line); }
         }
         // El 100 % de referencia y la barra elástica
-        const col = locked ? (good ? C.ok : C.bad) : pc > 100 ? C.Q : pc < 100 ? C.I : C.R;
+        const col = locked ? (good ? C.ok : C.bad) : pc > 100 ? C.mint : pc < 100 ? C.coral : C.sky;
         p.noStroke(); p.fill(col); p.rect(bar.x0, bar.y - bar.h / 2, Math.max(0, X(pc) - bar.x0), bar.h, 10);
         p.noFill(); p.stroke(C.ink); p.strokeWeight(2); p.drawingContext.setLineDash([6, 5]);
         p.rect(bar.x0, bar.y - bar.h / 2 - 6, X(100) - bar.x0, bar.h + 12, 12); p.drawingContext.setLineDash([]);
         // Tirador
-        p.stroke(C.ink); p.strokeWeight(2); p.fill(C.card); p.rect(X(pc) - 9, bar.y - 30, 18, 60, 8);
+        p.stroke(C.creamD); p.strokeWeight(2); p.fill(C.cream); p.rect(X(pc) - 9, bar.y - 30, 18, 60, 8);
         p.stroke(C.mute); p.strokeWeight(1.5); p.line(X(pc) - 3, bar.y - 10, X(pc) - 3, bar.y + 10); p.line(X(pc) + 3, bar.y - 10, X(pc) + 3, bar.y + 10);
         // Lecturas
         p.noStroke(); p.textAlign(p.CENTER, p.CENTER);
-        p.fill(col); p.textStyle(p.BOLD); p.textSize(28); p.text(`${pc} %`, W / 2, bar.y + 62);
+        drawPill(p, C, `${pc} %`, W / 2, bar.y + 62, col, 24);
         p.fill(C.ink); p.textSize(16); p.text(`vale ${fmt(valueAt(r.base, pc))}`, W / 2, bar.y + 94);
         const diff = pc - 100;
         p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12);
         p.text(diff === 0 ? 'igual que el original' : diff > 0 ? `el original y ${diff} % más` : `el original menos el ${-diff} %`, W / 2, bar.y + 120);
         [[minus, '−'], [plus, '+']].forEach(([b, s]) => {
-          p.stroke(locked ? C.line : C.brand); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-          p.noStroke(); p.fill(locked ? C.mute : C.brand); p.textSize(20); p.text(s, b.x + b.w / 2, b.y + b.h / 2);
+          drawTile(p, C, b, s, { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, r: 8, lift: 2, size: 20 });
         });
         if (locked && !good) { p.fill(C.ok); p.textStyle(p.BOLD); p.textSize(12); fitText(p, `Era el ${r.pct} %: ${fmt(valueAt(r.base, r.pct))}`, W / 2, minus.y + 19, W - 170, 12); }
       };

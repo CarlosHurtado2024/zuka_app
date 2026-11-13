@@ -64,19 +64,18 @@ GAMES['rebote'] = (() => {
         // Línea del precio original cruzando las tres barras.
         p.drawingContext.setLineDash([5, 4]); p.stroke(C.ok); p.strokeWeight(1.5); p.line(16, yOf(params.base), rail.x - 24, yOf(params.base)); p.drawingContext.setLineDash([]);
         bar(bars[0], params.base, C.mute, 'original');
-        bar(bars[1], low, C.I, 'rebajado', `−${params.drop} %`);
+        bar(bars[1], low, C.coral, 'rebajado', `−${params.drop} %`);
         bar(bars[2], now, col, 'nuevo', st.up === null ? '' : `+${fmt1(st.up)} %`);
         // Manija vertical del % de subida.
-        p.stroke(C.line); p.strokeWeight(6); p.line(rail.x, rail.y, rail.x, rail.y + rail.h);
+        p.stroke(C.mute); p.strokeWeight(6); p.line(rail.x, rail.y, rail.x, rail.y + rail.h);
         const hy = rail.y + rail.h - (upOf() / params.max) * rail.h;
         if (st.up !== null) { p.stroke(col); p.line(rail.x, hy, rail.x, rail.y + rail.h); }
-        p.fill(C.card); p.stroke(col); p.strokeWeight(3); p.circle(rail.x, hy, 28);
+        p.fill(C.cream); p.stroke(col); p.strokeWeight(3); p.circle(rail.x, hy, 28);
         p.noStroke(); p.fill(col); p.textAlign(p.CENTER, p.BOTTOM); p.textStyle(p.BOLD); p.textSize(15);
         p.text(st.up === null ? '— %' : `${fmt1(st.up)} %`, rail.x, rail.y - 8);
         p.fill(C.mute); p.textSize(10); p.textStyle(p.NORMAL); p.text(`% de subida (0 a ${params.max})`, rail.x, rail.y - 26);
         buttons.forEach(b => {
-          p.stroke(locked ? C.line : C.brand); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textSize(18); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2);
+          drawTile(p, C, b, b.t, { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, r: 8, lift: 2, size: 18 });
         });
         if (locked) { const ay = rail.y + rail.h - (ans / params.max) * rail.h; p.stroke(C.ok); p.strokeWeight(2); p.line(rail.x - 14, ay, rail.x + 14, ay); }
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);

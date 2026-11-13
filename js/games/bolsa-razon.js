@@ -37,8 +37,7 @@ GAMES['bolsa-razon'] = (() => {
       p.onResize = () => layout(size.w, size.h);
 
       function button(b, label, col) {
-        p.stroke(col); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 9);
-        p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(20); p.text(label, b.x + b.w / 2, b.y + b.h / 2 - 1);
+        drawTile(p, C, b, label, { fill: col === C.bad ? C.coral : C.sky, r: 9, lift: 2, size: 20 });
       }
 
       p.draw = () => {
@@ -62,7 +61,7 @@ GAMES['bolsa-razon'] = (() => {
         balls.forEach((c, k) => {
           const row = Math.floor(k / perRow), col = k % perRow;
           const x = bx + 8 + (col + 0.5) * ((bwid - 16) / perRow), y = bot - 8 - (row + 0.5) * step;
-          p.noStroke(); p.fill(c === 'r' ? C.bad : C.Z); p.circle(x, y, Math.min(d, step - 2));
+          p.noStroke(); p.fill(c === 'r' ? C.coral : C.sky); p.circle(x, y, Math.min(d, step - 2));
         });
         if (!balls.length) { p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.text('bolsa vacía', W / 2, (top + bot) / 2); }
         // Cuentas
@@ -73,8 +72,8 @@ GAMES['bolsa-razon'] = (() => {
         p.fill(locked ? C.ok : C.mute); p.textStyle(p.NORMAL);
         fitText(p, locked && !good ? `Era: ${r.red} rojas y ${r.blue} azules` : `en total: ${s.red + s.blue}`, W / 2, H - 90, W - 24, 12);
         button(B.rMinus, '−', C.bad); button(B.rPlus, '+', C.bad); button(B.bMinus, '−', C.Z); button(B.bPlus, '+', C.Z);
-        p.noStroke(); p.fill(C.bad); p.circle((B.rMinus.x + B.rMinus.w + B.rPlus.x) / 2, B.rMinus.y + 18, 18);
-        p.fill(C.Z); p.circle((B.bMinus.x + B.bMinus.w + B.bPlus.x) / 2, B.bMinus.y + 18, 18);
+        p.noStroke(); p.fill(C.coral); p.circle((B.rMinus.x + B.rMinus.w + B.rPlus.x) / 2, B.rMinus.y + 18, 18);
+        p.fill(C.sky); p.circle((B.bMinus.x + B.bMinus.w + B.bPlus.x) / 2, B.bMinus.y + 18, 18);
       };
 
       p.mousePressed = () => {

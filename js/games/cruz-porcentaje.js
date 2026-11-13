@@ -48,9 +48,10 @@ GAMES['cruz-porcentaje'] = (() => {
       p.onResize = () => layout(size.w, size.h);
 
       function chip(x, y, w, h, label, col, fill) {
-        p.stroke(col); p.strokeWeight(2); p.fill(fill); p.rect(x, y, w, h, 10);
-        p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(15);
-        p.text(label, x + w / 2, y + h / 2);
+        // Casilla vacía: solo el borde (el punteado lo pone quien llama). Ficha: crema en la bandeja, color sol ya puesta.
+        if (label === '') { p.stroke(col === C.line ? C.mute : col); p.strokeWeight(1.5); p.noFill(); p.rect(x, y, w, h, 10); return; }
+        const f = col === C.ok || col === C.bad ? col : col === C.brand ? C.sun : C.cream;
+        drawTile(p, C, { x, y, w, h }, label, { fill: f, lift: 2, size: 15 });
       }
 
       p.draw = () => {
@@ -59,9 +60,9 @@ GAMES['cruz-porcentaje'] = (() => {
         tabs.forEach((t, i) => {
           const done = CELLS.every(c => st.problems[i].cells[c] !== null);
           const good = CELLS.every(c => params.problems[i].chips[st.problems[i].cells[c]]?.cell === c);
-          const col = locked ? (good ? C.ok : C.bad) : i === cur ? C.brand : done ? C.ok : C.line;
-          p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
+          const col = locked ? (good ? C.ok : C.bad) : i === cur ? C.brand : done ? C.Z : C.line;   // respondida (no «correcta»): azul, no verde
+          const plain = col === C.line;   // ficha de ronda, como las de drawTabs
+          drawTile(p, C, t, i + 1, { fill: plain ? C.card : col, ink: plain ? C.mute : undefined, r: 8, lift: 0, size: 14, ring: i === cur ? C.sun : null });
         });
         p.noStroke(); p.fill(C.N); p.textAlign(p.LEFT, p.CENTER); p.textSize(14); p.textStyle(p.BOLD);
         p.text(pr.text, 12, 62, W - 24, 44);

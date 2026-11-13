@@ -48,7 +48,7 @@ GAMES['pinta-personas'] = (() => {
         const { s, cells } = grid(), shown = locked && !good ? want(r) : null;
         cells.forEach((c, i) => {
           const on = shown == null ? P[cur][i] : i < shown;
-          person(c.x + c.w / 2, c.y + c.h / 2, s, on ? (locked ? C.ok : C.Q) : C.mute);
+          person(c.x + c.w / 2, c.y + c.h / 2, s, on ? (locked ? C.ok : C.sun) : C.mute);
         });
         const msg = locked && !good ? `Eran ${want(r)} de ${r.total}` : `pintadas: ${k} de ${r.total}`;
         p.fill(locked ? C.ok : C.ink); p.textStyle(p.BOLD); fitText(p, msg, W / 2, H - 26, W - 24, 15);

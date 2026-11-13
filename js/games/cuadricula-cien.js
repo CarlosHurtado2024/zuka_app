@@ -44,7 +44,7 @@ GAMES['cuadricula-cien'] = (() => {
 
       function mini(k, x, y, s) {
         for (let i = 0; i < 100; i++) {
-          p.fill(cells[k][i] ? C.brand : C.line); p.noStroke();
+          p.fill(cells[k][i] ? C.N : C.line); p.noStroke();   // C.N: en el tema claro el sol casi no se distingue de lo vacío
           p.rect(x + (i % 10) * s, y + Math.floor(i / 10) * s, s - 0.6, s - 0.6);
         }
       }
@@ -64,7 +64,7 @@ GAMES['cuadricula-cien'] = (() => {
         const g = cells[round];
         for (let i = 0; i < 100; i++) {
           const x = grid.x + (i % 10) * grid.c, y = grid.y + Math.floor(i / 10) * grid.c;
-          p.stroke(C.line); p.strokeWeight(1); p.fill(g[i] ? C.brand : C.card);
+          p.stroke(C.line); p.strokeWeight(1); p.fill(g[i] ? C.sun : C.card);
           p.rect(x, y, grid.c, grid.c, 3);
         }
         const n = count(round), good = n === params.rounds[round].count;
@@ -72,8 +72,7 @@ GAMES['cuadricula-cien'] = (() => {
         p.noStroke(); p.fill(col); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(18);
         p.text(`${n} de 100`, grid.x + 2, nextBtn.y + nextBtn.h / 2);
         if (!locked && round < N - 1) {
-          p.stroke(C.brand); p.strokeWeight(2); p.fill(C.card); p.rect(nextBtn.x, nextBtn.y, nextBtn.w, nextBtn.h, 10);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(14); p.text('Siguiente ronda →', nextBtn.x + nextBtn.w / 2, nextBtn.y + nextBtn.h / 2);
+          drawTile(p, C, nextBtn, 'Siguiente ronda →', { fill: C.sky, size: 14 });
         }
         p.fill(C.mute); p.textSize(11); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.NORMAL);
         p.text(locked && !good ? `Eran ${params.rounds[round].count} casillas` : 'Arrastra el dedo para pintar; vuelve a pasar para borrar', W / 2, H - 12);

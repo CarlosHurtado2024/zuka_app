@@ -50,7 +50,7 @@ GAMES['mezcla'] = (() => {
         const hA = params.solute * unit, hW = st.water * unit, bottom = beaker.y + beaker.h;
         p.noStroke(); p.fill(ALCOHOL); p.rect(beaker.x, bottom - hA, beaker.w, hA);
         p.fill(WATER); p.rect(beaker.x, bottom - hA - hW, beaker.w, hW);
-        p.stroke(C.line); p.strokeWeight(3); p.noFill(); p.rect(beaker.x, beaker.y, beaker.w, beaker.h, 0, 0, 14, 14);
+        p.stroke(C.ink); p.strokeWeight(3); p.noFill(); p.rect(beaker.x, beaker.y, beaker.w, beaker.h, 0, 0, 14, 14);
         for (let g = 100; g < full; g += 100) { const y = bottom - g * unit; p.strokeWeight(1); p.line(beaker.x, y, beaker.x + 10, y); }
         p.noStroke(); p.fill(C.ink); p.textSize(12); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD);
         p.text(`alcohol ${params.solute} g`, beaker.x + 14, bottom - hA / 2);
@@ -74,8 +74,7 @@ GAMES['mezcla'] = (() => {
         p.fill(C.mute); p.textSize(10); p.textStyle(p.NORMAL); p.text('de alcohol', gauge.x + gauge.w / 2, gauge.y + gauge.h + 32);
         [0, 50, 100].forEach(v => { p.fill(C.mute); p.textSize(10); p.textAlign(p.RIGHT, p.CENTER); p.text(v, gauge.x - 4, yOf(v)); });
         buttons.forEach(b => {
-          p.stroke(locked ? C.line : C.brand); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 10);
-          p.noStroke(); p.fill(C.ink); p.textSize(14); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2);
+          drawTile(p, C, b, b.t, { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, size: 14 });
         });
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked && !good ? `Hacían falta ${answerOf(params)} g de agua` : 'Toca o mantén el grifo para añadir agua', W / 2, H - 12);

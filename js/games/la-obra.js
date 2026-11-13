@@ -39,7 +39,7 @@ GAMES['la-obra'] = (() => {
       function worker(x, y, s, col) {
         p.noStroke(); p.fill(col); p.circle(x, y - s * 0.45, s * 0.45);
         p.rect(x - s * 0.3, y - s * 0.2, s * 0.6, s * 0.75, s * 0.12);
-        p.fill('#FFC53D'); p.arc(x, y - s * 0.5, s * 0.55, s * 0.4, p.PI, p.TWO_PI); // casco
+        p.fill(C.sun); p.arc(x, y - s * 0.5, s * 0.55, s * 0.4, p.PI, p.TWO_PI); // casco
       }
       // Obreros en cuadrícula dentro de una caja.
       function crowd(box, n, col, cols) {
@@ -72,8 +72,7 @@ GAMES['la-obra'] = (() => {
         const gap = site.w - 104;
         fitText(p, gap < 64 ? String(st.workers) : `${st.workers} obrero${st.workers === 1 ? '' : 's'}`, site.x + site.w / 2, buttons[0].y + 16, Math.max(24, gap), 16);
         buttons.forEach(b => {
-          p.stroke(C.line); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textSize(18); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2);
+          drawTile(p, C, b, b.t, { fill: C.sky, r: 8, lift: 2, size: 18 });
         });
         p.fill(C.mute); p.textSize(11); p.text(locked && !good ? `Debían ser ${ans} obreros para ${params.askDays} días` : 'Arrastra obreros a la obra o toca ±', W / 2, H - 12);
         if (drag) worker(p.mouseX, p.mouseY, 30, C.brand);

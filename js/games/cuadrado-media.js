@@ -34,27 +34,28 @@ GAMES['cuadrado-media'] = (() => {
         const area = st.side * st.side, want = params.w * params.h;
         const good = Math.abs(st.side - target) <= params.tol;
         p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
-        p.text('Iguala el área del rectángulo con un cuadrado', W / 2, 8);
+        drawKicker(p, C, 'Iguala el área con un cuadrado', W / 2, 14, { center: true });
+        p.noStroke(); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD);
         p.fill(C.ink); p.textSize(18); p.text(`${params.w}/x = x/${params.h}`, W / 2, 26);
         // Rectángulo w × h.
-        p.stroke(C.R); p.strokeWeight(2); p.fill(p.red(p.color(C.R)), p.green(p.color(C.R)), p.blue(p.color(C.R)), 60);
+        p.noStroke(); p.fill(C.sky);   // el rectángulo, relleno
         p.rect(rect.x, rect.y - params.h * scale, params.w * scale, params.h * scale, 4);
         p.noStroke(); p.fill(C.R); p.textSize(12); p.textAlign(p.CENTER, p.TOP);
         p.text(`${params.w} × ${params.h}`, rect.x + params.w * scale / 2, rect.y + 6);
         p.text(`área ${want}`, rect.x + params.w * scale / 2, rect.y + 20);
         // Cuadrado x × x.
         const col = locked ? (good ? C.ok : C.bad) : good ? C.ok : C.brand;
-        p.stroke(col); p.strokeWeight(2.5); p.fill(p.red(p.color(col)), p.green(p.color(col)), p.blue(p.color(col)), 60);
+        p.stroke(col); p.strokeWeight(2.5); p.fill(p.red(p.color(col)), p.green(p.color(col)), p.blue(p.color(col)), 120);
         p.rect(sq.x, sq.y - st.side * scale, st.side * scale, st.side * scale, 4);
         if (locked) { p.noFill(); p.stroke(C.ok); p.strokeWeight(2); p.drawingContext.setLineDash([5, 4]); p.rect(sq.x, sq.y - target * scale, target * scale, target * scale, 4); p.drawingContext.setLineDash([]); }
         const c = corner();
-        p.noStroke(); p.fill(drag ? C.ink : col); p.circle(c.x, c.y, 20);
+        drawDot(p, C, c.x, c.y, 20, drag ? C.ink : col);
         p.fill(C.bg); p.textAlign(p.CENTER, p.CENTER); p.textSize(12); p.text('⤡', c.x, c.y);
         p.fill(col); p.textSize(12); p.textAlign(p.CENTER, p.TOP);
         p.text(`x = ${st.side.toFixed(1)}`, sq.x + Math.max(st.side * scale / 2, 30), sq.y + 6);
         p.text(`área ${area.toFixed(1)}`, sq.x + Math.max(st.side * scale / 2, 30), sq.y + 20);
         p.textAlign(p.CENTER, p.CENTER); p.textSize(14); p.fill(col);
-        p.text(good ? '¡Las áreas coinciden!' : area < want ? 'Al cuadrado le falta área' : 'Al cuadrado le sobra área', W / 2, 60);
+        drawPill(p, C, good ? '¡Las áreas coinciden!' : area < want ? 'Al cuadrado le falta área' : 'Al cuadrado le sobra área', W / 2, 62, col, 13);
       };
 
       p.mousePressed = () => {

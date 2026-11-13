@@ -76,19 +76,19 @@ GAMES['arma-regla'] = (() => {
         const good = locked && tableOk(prob, s.cells) && s.arrow === prob.kind;
         tabs.forEach((t, k) => {
           const done = st[k].arrow && st[k].cells.flat().every(i => i != null);
-          p.stroke(k === cur ? C.brand : C.line); p.strokeWeight(2); p.fill(k === cur ? C.brand + '33' : C.card); p.rect(t.x, t.y, t.w, t.h, 13);
-          p.noStroke(); p.fill(k === cur ? C.ink : C.mute); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(12);
+          if (k === cur) { p.noFill(); p.stroke(C.sun); p.strokeWeight(2.5); p.rect(t.x - 3, t.y - 3, t.w + 6, t.h + 6, 16); }
+          p.noStroke(); p.fill(k === cur ? C.brand : C.card); p.rect(t.x, t.y, t.w, t.h, 13);
+          p.fill(k === cur ? inkOn(C.brand, C.ink) : C.mute); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(12);
           p.text(`${k + 1}${done ? ' ✓' : ''}`, t.x + t.w / 2, t.y + t.h / 2 + 1);
         });
         p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.TOP); p.textSize(13); p.textStyle(p.BOLD);
         wrap(p, prob.text, W - 24).slice(0, 3).forEach((ln, i) => p.text(ln, W / 2, 44 + i * 17));
         // Tabla.
-        cells.forEach(row => row.forEach(cell => { p.stroke(C.line); p.strokeWeight(2); p.drawingContext.setLineDash([6, 5]); p.noFill(); p.rect(cell.x, cell.y, cell.w, cell.h, 10); p.drawingContext.setLineDash([]); }));
+        cells.forEach(row => row.forEach(cell => { p.stroke(C.mute); p.strokeWeight(2); p.drawingContext.setLineDash([6, 5]); p.noFill(); p.rect(cell.x, cell.y, cell.w, cell.h, 10); p.drawingContext.setLineDash([]); }));
         if (s.arrow) arrows(s.arrow, locked ? (s.arrow === prob.kind ? C.ok : C.bad) : C.brand);
         arrowBtns.forEach(b => {
           const on = s.arrow === b.k;
-          p.stroke(on ? C.brand : C.line); p.strokeWeight(2); p.fill(on ? C.brand + '33' : C.card); p.rect(b.x, b.y, b.w, b.h, 10);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(13); p.text(b.k === 'directa' ? '⇉ paralelas' : '⤧ cruzadas', b.x + b.w / 2, b.y + b.h / 2 + 1);
+          drawTile(p, C, b, b.k === 'directa' ? '⇉ paralelas' : '⤧ cruzadas', { fill: on ? C.sun : C.cream, size: 13, lift: on ? 1 : 3 });
         });
         if (locked) {
           const ch = s.cells, lab = (r, c) => (ch[r][c] == null ? '?' : num(prob.chips[ch[r][c]].label));
@@ -101,8 +101,9 @@ GAMES['arma-regla'] = (() => {
           if (c.i !== drag) { c.x = p.lerp(c.x, c.tx, 0.25); c.y = p.lerp(c.y, c.ty, 0.25); }
           // Dentro de una celda la ficha toma el ancho de la celda; en la bandeja, el suyo.
           const inCell = cellOf(cur, c.i), cw = inCell && c.i !== drag ? inCell.w - 4 : c.w;
-          p.stroke(c.i === drag ? C.brand : inCell ? (locked ? (good ? C.ok : C.bad) : C.brand) : C.line); p.strokeWeight(2); p.fill(C.card); p.rect(c.x, c.y, cw, c.h, 9);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(Math.min(14, cw / 8)); p.text(c.label, c.x + cw / 2, c.y + c.h / 2 + 1);
+          // Ficha crema; color sol al arrastrarla o ya puesta en la tabla; al calificar, del color del resultado.
+          const tcol = inCell && locked ? (good ? C.ok : C.bad) : inCell || c.i === drag ? C.sun : C.cream;
+          drawTile(p, C, { x: c.x, y: c.y, w: cw, h: c.h }, c.label, { fill: tcol, r: 9, lift: 2, size: Math.min(14, cw / 8) });
         });
       };
 

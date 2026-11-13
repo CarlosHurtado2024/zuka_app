@@ -38,7 +38,7 @@ GAMES['limonada'] = (() => {
         const fill = Math.min(1, (l + w) / cap), lvl = j.h * (0.1 + 0.85 * fill);
         p.noStroke(); p.fill(mix(p, l, w)); p.rect(j.x + 3, j.y + j.h - lvl, j.w - 6, lvl - 3, 0, 0, 12, 12);
         // Limones flotando.
-        p.fill('#FFC53D'); p.stroke('#B8860B'); p.strokeWeight(1);
+        p.fill(C.sun); p.stroke(shade(C.sun, 0.7)); p.strokeWeight(1);
         for (let i = 0; i < Math.min(l, 24); i++) p.circle(j.x + 12 + (i % 4) * (j.w - 24) / 3, j.y + j.h - 12 - Math.floor(i / 4) * 14, 9);
         p.stroke(C.ink); p.strokeWeight(2.5); p.noFill(); p.rect(j.x, j.y, j.w, j.h, 4, 4, 14, 14);
         p.line(j.x + j.w, j.y + 10, j.x + j.w + 10, j.y + 18); p.line(j.x + j.w + 10, j.y + 18, j.x + j.w, j.y + j.h - 18);
@@ -50,7 +50,7 @@ GAMES['limonada'] = (() => {
       p.draw = () => {
         p.background(C.bg);
         p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
-        p.text('Que sepa igual que el modelo', W / 2, 10);
+        drawKicker(p, C, 'Que sepa igual que el modelo', W / 2, 16, { center: true });
         jar(jars.model, bl, bw, 'Modelo', bl + bw);
         jar(jars.big, st.lemons, st.water, 'Tu jarra', 2 * params.maxEach);
         pour = Math.max(0, pour - 0.05);
@@ -61,8 +61,7 @@ GAMES['limonada'] = (() => {
         const msg = locked && !good ? `Debía ser ${bl} : ${bw} con ≥ ${params.minLemons} limones` : same ? (st.lemons >= params.minLemons ? '¡Mismo sabor y jarra grande!' : 'Mismo sabor… pero la jarra es pequeña') : st.lemons + st.water ? 'El color no coincide con el modelo' : 'Toca los botones para agregar';
         p.text(msg, W / 2, H * 0.72);
         buttons.forEach(b => {
-          p.stroke(C.line); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 10);
-          p.noStroke(); p.fill(C.ink); p.textSize(15); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2 + 1);
+          drawTile(p, C, b, b.t, { size: 15 });
         });
       };
 

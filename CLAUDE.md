@@ -76,7 +76,7 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   (anime.js 3.2.2 en `js/vendor/anime.min.js`; sin anime o con «reducir movimiento» pone el valor final).
   Piezas de dibujo de los videos, al final de `kit.js`: `drawTile` (ficha con relieve; negativos coral, cero sol),
   `drawSlot`, `drawKicker` (rótulo con barrita), `drawPill`, `drawDot`, `drawNumLine`, `shade`. Cambian alineación,
-  estilo y relleno: volver a fijarlos después. **Álgebra U1 ya está rediseñada con ellas**; faltan las demás unidades.
+  estilo y relleno: volver a fijarlos después. **Álgebra U1 y el mundo de Razones y porcentajes ya están rediseñados con ellas**; faltan las demás unidades.
 - `mountSketch(host, (p, size) => {...}, aspecto)`; solo escribir `mousePressed/Dragged/Released`
   (los toques se enlazan solos). `p.onResize` para reacomodar.
 - **Celular angosto** (spec `2026-11-12-juegos-algebra-u1-u3-calidad`, pruebas `tests/juegos-celular.test.js`): el lienzo
@@ -227,7 +227,11 @@ material extra (promos, cortos, efectos, 3D, audio).
 Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):
 - Clips: `cur-origen-numeros` ya está en Bunny (versión zoom, 80 s). `cur-abejas` también (75.5 s). Un clip nuevo puede vivir como mp4 en `media/clips/`
   mientras llega su ID; al recibirlo, cambiar `clip.video` por `clip.bunny`, poner la `duration` de Bunny y borrar el mp4.
-  Bunny solo responde con `Referer` de la app o de localhost. Ideas del mismo texto que no cupieron: Grecia y
+  Bunny solo responde con `Referer` de la app o de localhost. **`cur-razon-deco`** («La razón que no cambia», estilo Art Deco,
+  90 s, `video/razon-deco`, `sh video/razon-deco/build.sh`, unos 10 min): vive como `media/clips/razon-deco.mp4`; el HD está en
+  `Downloads/Zuka_Razon_deco` y espera su ID de Bunny. Una barra partida en razón áurea (el único elemento en coral) va de
+  Euclides a Pacioli, el SI, el Modulor y la regla de tres de la gentamicina (80 mg / 2 mL → 20 mg = 0.5 mL); motor deco de
+  lemo-opuscar copiado en `engine/` (MIT); rótulos = `CARDS` en `film.js` (también el `.srt`). Ideas del mismo texto que no cupieron: Grecia y
   la demostración, al-Juarismi y Fibonacci, quipus y yupana, binario y hexadecimal.
 - Álgebra unidad 0: los tres videos (alg-0a, alg-0b, alg-0c) ya están en Bunny. **Nuevo video de `alg-0a` en estilo Scale Zoom Explainer** (lemo-opuscar; `video/conjunto-zoom`, 116.5 s, sin voz, `sh video/conjunto-zoom/build.sh`, 1 trabajador si otro render corre a la vez): entregado en `Downloads/Zuka_Conjuntos_zoom`, espera su ID de Bunny. Al recibirlo, cambiar `clip.bunny` + `duration` de `alg-0a`; sus escenas de respaldo ya usan los mismos ejemplos (semáforo, azul, vocales, PAPAYA; el conjunto de PAPAYA se llama L y su cardinal es n(L) = 3). **Videos zoom de `alg-0b` y `alg-0c`** (`video/conjunto-zoom-2` y `-3`, 118 y 120 s, mismo estilo; el motor común es `zoomkit.js`, copiado en cada carpeta; `mix.py` escribe además `<nombre>.srt` y `narracion.txt` desde `FILM.NARR`): entregados en `Downloads/Zuka_Conjuntos_zoom`, **ya están en Bunny y puestos en las lecciones** (2026-11-13: `de65d162-…`, 118 s y `099c6af5-…`, 120 s), con las `scenes` de respaldo al día (alg-0b: meses de 32 días, {Bogotá}, {∅}, letras y vocales, AMOR/ROMA, frutas y herramientas, toppings; alg-0c: siete amigos, fútbol y música). **Nuevo video de `alg-0b` en estilo Bauhaus Shapes** (lemo-opuscar; `video/tipos-conjuntos-bauhaus`, 237.5 s, `sh video/tipos-conjuntos-bauhaus/build.sh`, unos 25 min con 2 trabajadores: con 3 la captura se cuelga): entregado, espera su ID de Bunny. Al recibirlo, cambiar `clip.bunny` + `duration` de `alg-0b` y poner sus `scenes` de respaldo al día con los ejemplos nuevos ({s, a} frente a las letras de SOL, redondas y cuadradas, las formas {●, ■, ▲}). `film.js` trae escenas en pulsos de 0.625 s (`BEATS`), una función por escena, `EV` (sonido) y `NARR` (narración → `.srt`). Los videos viejos C0 y EC0
   (`clase_alg_u0_conjuntos`, `clase_alg_u0_ej_conjuntos`) quedaron reemplazados.

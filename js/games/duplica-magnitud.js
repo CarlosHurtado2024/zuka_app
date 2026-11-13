@@ -66,10 +66,10 @@ GAMES['duplica-magnitud'] = (() => {
         p.text('Antes', W * 0.27, 118); p.text('Después', W * 0.73, 118);
         p.textSize(11); p.textStyle(p.NORMAL);
         p.fill(C.N); p.text(`■ ${r.nx}`, W * 0.27, 136); p.fill(C.Z); p.text(`■ ${r.ny}`, W * 0.73, 136);
-        bar(bars[0], r.x0, xt, C.N, `${fmt(r.x0)}`, false);
-        bar(bars[1], r.y0, r.ymax, C.Z, `${fmt(r.y0)}`, false);
-        bar(bars[2], r.x1, xt, C.N, `${fmt(r.x1)}`, false);
-        if (y1 != null) bar(bars[3], y1, r.ymax, good && locked ? C.ok : C.Z, `${fmt(y1)}`, !locked);
+        bar(bars[0], r.x0, xt, C.sun, `${fmt(r.x0)}`, false);
+        bar(bars[1], r.y0, r.ymax, C.sky, `${fmt(r.y0)}`, false);
+        bar(bars[2], r.x1, xt, C.sun, `${fmt(r.x1)}`, false);
+        if (y1 != null) bar(bars[3], y1, r.ymax, good && locked ? C.ok : C.sky, `${fmt(y1)}`, !locked);
         else { p.noStroke(); p.fill(C.card); p.rect(bars[3].x, area.y0, bars[3].w, area.y1 - area.y0, 8); p.fill(C.mute); p.textSize(22); p.textStyle(p.BOLD); p.text('?', bars[3].x + bars[3].w / 2, (area.y0 + area.y1) / 2); }
         // Cuánto se multiplicó cada una (debajo de las barras)
         p.noStroke(); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
@@ -78,8 +78,7 @@ GAMES['duplica-magnitud'] = (() => {
         if (y1) { p.fill(C.Z); fitText(p, `${r.ny} ${times(r.y0, y1)}`, W * 0.72, yy, W * 0.42, 12); }
         // Botones y pie
         [[minus, '−'], [plus, '+']].forEach(([b, s]) => {
-          p.stroke(locked ? C.line : C.brand); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-          p.noStroke(); p.fill(locked ? C.mute : C.brand); p.textSize(20); p.text(s, b.x + b.w / 2, b.y + b.h / 2);
+          drawTile(p, C, b, s, { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, r: 8, lift: 2, size: 20 });
         });
         p.noStroke(); p.textSize(12); p.textAlign(p.CENTER, p.CENTER);
         if (locked) {

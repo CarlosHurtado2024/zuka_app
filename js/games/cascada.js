@@ -79,9 +79,9 @@ GAMES['cascada'] = (() => {
         p.fill(C.mute); p.textSize(12); p.textStyle(p.BOLD); p.textAlign(p.LEFT, p.BOTTOM); p.text('descuento único', slider.x, slider.y - 14);
         p.textAlign(p.RIGHT, p.BOTTOM); p.fill(col); p.textSize(16);
         p.text(st.single === null ? '— %' : `${st.single} %  →  $ ${fmt(params.price * (1 - st.single / 100))}`, slider.x + slider.w, slider.y - 12);
-        p.stroke(C.line); p.strokeWeight(6); p.line(slider.x, slider.y, slider.x + slider.w, slider.y);
+        p.stroke(C.mute); p.strokeWeight(6); p.line(slider.x, slider.y, slider.x + slider.w, slider.y);
         if (st.single !== null) { p.stroke(col); p.line(slider.x, slider.y, xOf(st.single), slider.y); }
-        p.noStroke(); p.fill(C.card); p.stroke(col); p.strokeWeight(3); p.circle(xOf(st.single ?? 0), slider.y, 26);
+        p.fill(C.cream); p.stroke(col); p.strokeWeight(3); p.circle(xOf(st.single ?? 0), slider.y, 26);
         if (locked) { p.noStroke(); p.fill(C.ok); p.textSize(11); p.textAlign(p.CENTER, p.TOP); p.text(`${ans} %`, xOf(ans), slider.y + 16); p.stroke(C.ok); p.strokeWeight(2); p.line(xOf(ans), slider.y - 10, xOf(ans), slider.y + 10); }
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked && !good ? `El descuento único era ${ans} %` : 'Arrastra los stickers a la etiqueta; luego el deslizador', W / 2, H - 12);

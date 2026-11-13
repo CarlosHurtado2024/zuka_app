@@ -40,16 +40,16 @@ GAMES['engranajes'] = (() => {
       function gear(cx, cy, teeth, rad, ang, col) {
         const tooth = Math.min(10, rad * 0.22), n = teeth;
         p.push(); p.translate(cx, cy); p.rotate(ang);
-        p.stroke(col); p.strokeWeight(2); p.fill(C.card);
+        p.noStroke(); p.fill(col);   // rueda rellena, como las formas planas de los videos
         p.beginShape();
         for (let k = 0; k < n; k++) {
           const a0 = (k / n) * Math.PI * 2, da = Math.PI * 2 / n;
           [[0, rad - tooth / 2], [0.15, rad + tooth / 2], [0.45, rad + tooth / 2], [0.6, rad - tooth / 2]].forEach(([f, rr]) => p.vertex(rr * Math.cos(a0 + f * da), rr * Math.sin(a0 + f * da)));
         }
         p.endShape(p.CLOSE);
-        p.noFill(); p.strokeWeight(1.5); p.circle(0, 0, rad * 0.9);
+        p.noFill(); p.stroke(inkOn(col, C.ink)); p.strokeWeight(1.5); p.circle(0, 0, rad * 0.9);
         p.line(0, 0, rad * 0.6, 0);
-        p.noStroke(); p.fill(col); p.circle(0, 0, 10);
+        p.noStroke(); p.fill(inkOn(col, C.ink)); p.circle(0, 0, 10);
         p.pop();
       }
 
@@ -58,8 +58,7 @@ GAMES['engranajes'] = (() => {
         const r = R[cur], u = unknownOf(r), v = st.vals[cur] ?? cur0(r);
         const tB = u === 0 ? v : r.B[0], vB = u === 1 ? v : r.B[1], ok = good(st.vals[cur], r);
         drawTabs(p, C, tabs, cur, i => (locked ? (good(st.vals[i], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : st.vals[i] != null ? C.Z : C.line));
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
-        p.text(u === 0 ? 'Elige los dientes de la rueda B' : 'Elige las vueltas de la rueda B', 14, 56);
+        drawKicker(p, C, u === 0 ? 'Elige los dientes de la rueda B' : 'Elige las vueltas de la rueda B', 14, 56);
 
         // Tamaños: radio proporcional a los dientes; las dos ruedas caben a lo ancho.
         const tMax = Math.max(r.A[0], u === 0 ? r.max : r.B[0]);
@@ -69,10 +68,10 @@ GAMES['engranajes'] = (() => {
         const cxA = 30 + rA, cxB = cxA + rA + rB + 2;
         t += locked ? 0 : 0.012;
         const angA = t, angB = -t * r.A[0] / tB + Math.PI / tB;
-        gear(cxA, cy, r.A[0], rA, angA, C.N);
-        gear(cxB, cy, tB, rB, angB, ok && locked ? C.ok : C.Z);
+        gear(cxA, cy, r.A[0], rA, angA, C.sun);
+        gear(cxB, cy, tB, rB, angB, ok && locked ? C.ok : C.sky);
         p.noStroke(); p.textStyle(p.BOLD); p.textSize(14); p.textAlign(p.CENTER, p.CENTER);
-        p.fill(C.N); p.text('A', cxA, cy - 22); p.fill(C.Z); p.text('B', cxB, cy - 22);
+        drawPill(p, C, 'A', cxA, cy - 22, C.cream, 12); drawPill(p, C, 'B', cxB, cy - 22, C.cream, 12);
 
         // Fichas de datos y contadores de dientes que pasan
         const colW = (W - 36) / 2;
@@ -86,8 +85,7 @@ GAMES['engranajes'] = (() => {
           p.fill(C.mute); p.textSize(12); p.text(unset ? 'pasan ?' : `pasan ${tt} · ${vv} = ${tt * vv}`, x + 10, y0 + 70);
         });
         [[minus, '−'], [plus, '+']].forEach(([b, s]) => {
-          p.stroke(locked ? C.line : C.brand); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-          p.noStroke(); p.fill(locked ? C.mute : C.brand); p.textSize(20); p.textAlign(p.CENTER, p.CENTER); p.text(s, b.x + b.w / 2, b.y + b.h / 2);
+          drawTile(p, C, b, s, { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, r: 8, lift: 2, size: 20 });
         });
         p.noStroke(); p.textAlign(p.CENTER, p.CENTER); p.textSize(12);
         if (locked && !ok) { p.fill(C.ok); p.textStyle(p.BOLD); fitText(p, `Era ${answerOf(r)}: ${r.A[0]} · ${r.A[1]} = ${r.A[0] * r.A[1]}`, W / 2, minus.y + 19, W - 170, 12); }

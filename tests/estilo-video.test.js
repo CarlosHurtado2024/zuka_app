@@ -138,3 +138,8 @@ test('los juegos de Álgebra U1 dibujan con las piezas de los videos', () => {
   const U1 = 'atrapa-elementos ascensor recta-espejo pasaporte-numeros fuga-de-familia pizzeria candado-fraccion pon-la-rayita ordena-terminos acorrala-raiz compas-raiz cajas-numericas lupa-densidad ubica-en-recta inversos-gemelos corta-rectangulo atajo-axiomas arma-producto cancela-balanza tren-ordenado voltea-desigualdad dobla-la-recta distancia-justa dibuja-intervalo'.split(' ');
   for (const g of U1) assert.match(read(`js/games/${g}.js`), /draw(Tile|Pill|Kicker|NumLine|Dot|Slot)\(/, g);
 });
+
+test('los juegos de razones y porcentajes (Álgebra U2) dibujan con las piezas de los videos', () => {
+  const U2 = 'limonada bolsa-razon estira-foto balanza-proporcion sombra-arbol cuadrado-media duplica-magnitud grafica-relacion reparto arma-regla bascula la-obra engranajes cadena-razones pinta-personas cuadricula-cien rueda-porcentaje cruz-porcentaje mezcla porcentaje-cambio estira-barra tragamonedas etiqueta-rebaja bodegas cascada mejor-oferta cadena-cambios rebote dos-etapas'.split(' ');
+  for (const g of U2) assert.match(read(`js/games/${g}.js`), /draw(Tile|Pill|Kicker|NumLine|Dot|Slot)\(|C\.(sun|coral|mint|sky|cream)\b/, g);
+});

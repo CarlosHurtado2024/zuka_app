@@ -56,7 +56,9 @@ que el siguiente texto necesite.
 ## Lo que no cubre
 
 Fuera de Álgebra U1, el dibujo propio de cada juego (sus piezas y su distribución) sigue igual: cambia de colores,
-letra y fondo, pero no se ha rediseñado juego por juego. Unidades siguientes: Conjuntos (U0), Razones y porcentajes.
+letra y fondo, pero no se ha rediseñado juego por juego. El mundo «Razones, proporciones y porcentajes» (29 juegos) se
+rediseñó después con las mismas piezas: botones − / + en fichas azules, objetos rellenos (engranajes, tragamonedas
+coral, perilla color sol), sellos menta si suben y coral si bajan. Siguiente: Conjuntos (U0) y Progresiones.
 
 ## Pruebas
 

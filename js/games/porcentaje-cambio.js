@@ -51,8 +51,8 @@ GAMES['porcentaje-cambio'] = (() => {
           p.stroke(C.line); p.strokeWeight(big ? 1.5 : 0.8); p.line(xa - (big ? 10 : 5), y, xb + bw, y);
           if (big) { p.noStroke(); p.fill(C.mute); p.textSize(9); p.textAlign(p.RIGHT, p.CENTER); p.text(`${k * 10} %`, xa - 12, y); p.textAlign(p.CENTER, p.CENTER); }
         }
-        p.noStroke(); p.fill(C.Z); p.rect(xa, base - hh(r.from), bw, hh(r.from), 6, 6, 0, 0);
-        p.fill(C.N); p.rect(xb, base - hh(r.to), bw, hh(r.to), 6, 6, 0, 0);
+        p.noStroke(); p.fill(C.sky); p.rect(xa, base - hh(r.from), bw, hh(r.from), 6, 6, 0, 0);
+        p.fill(C.sun); p.rect(xb, base - hh(r.to), bw, hh(r.to), 6, 6, 0, 0);
         if (locked && !good) {   // al fallar: lo elegido (rojo) y lo correcto (verde) aplicados a «antes»
           const mine = r.from * (1 + V[cur] / 100);
           p.drawingContext.setLineDash([5, 4]); p.noFill(); p.strokeWeight(2);
@@ -63,15 +63,14 @@ GAMES['porcentaje-cambio'] = (() => {
         p.stroke(C.mute); p.strokeWeight(2); p.line(16, base, W - 16, base);
         // Los valores van dentro de las barras: arriba de ellas cruzaría la regla.
         p.noStroke(); p.fill(C.bg); p.textStyle(p.BOLD); p.textSize(13);
-        p.text(String(r.from), xa + bw / 2, base - hh(r.from) + 12); p.text(String(r.to), xb + bw / 2, base - hh(r.to) + 12);
+        p.fill(inkOn(C.sky, C.bg)); p.text(String(r.from), xa + bw / 2, base - hh(r.from) + 12); p.fill(inkOn(C.sun, C.bg)); p.text(String(r.to), xb + bw / 2, base - hh(r.to) + 12);
         p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11);
         p.text('antes (100 %)', xa + bw / 2, base + 12); p.text('después', xb + bw / 2, base + 12);
         // Lectura del cambio elegido
         p.fill(locked ? C.ok : C.brand); p.textStyle(p.BOLD);
-        fitText(p, `cambio: ${sign(v)} %`, W / 2, base + 38, W - 24, 18);
+        drawPill(p, C, `cambio: ${sign(v)} %`, W / 2, base + 38, locked ? C.ok : C.sun, 16);
         for (const b of B) {
-          p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 9);
-          p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(15); p.text(b.d > 0 ? `+${b.d}` : `−${-b.d}`, b.x + b.w / 2, b.y + b.h / 2);
+          drawTile(p, C, b, b.d > 0 ? `+${b.d}` : `−${-b.d}`, { fill: b.d > 0 ? C.mint : C.coral, r: 9, lift: 2, size: 15 });
         }
       };
 

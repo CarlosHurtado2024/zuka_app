@@ -54,19 +54,19 @@ GAMES['sombra-arbol'] = (() => {
         fitText(p, '¿Cuánto mide el árbol?', W / 2, 56, W - 24, 15);
         p.fill(C.mute); p.textStyle(p.NORMAL); fitText(p, 'Su sombra termina en la banderita: usa la proporción', W / 2, 76, W - 24, 12);
         // Suelo
-        p.stroke(C.mute); p.strokeWeight(2); p.line(8, ground, W - 8, ground);
+        p.stroke(C.mint); p.strokeWeight(4); p.line(8, ground, W - 8, ground);
         // Palo y su sombra
         const sEnd = xs + r.shadow * u;
-        p.noStroke(); p.fill(C.line); p.rect(xs, ground - 1, r.shadow * u, 5, 2);
+        p.noStroke(); p.fill(C.mute); p.rect(xs, ground + 2, r.shadow * u, 5, 2);
         p.stroke(C.ink); p.strokeWeight(4); p.line(xs, ground, xs, ground - r.stick * u);
-        p.stroke(C.N); p.strokeWeight(1.5); dashed(xs, ground - r.stick * u, sEnd, ground);
+        p.stroke(C.N); p.strokeWeight(2); dashed(xs, ground - r.stick * u, sEnd, ground);
         p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(11);
         p.textAlign(p.CENTER, p.BOTTOM); p.text(`${String(r.stick)} m`, Math.max(xs, 18), ground - r.stick * u - 5);
         p.textAlign(p.CENTER, p.TOP); p.fill(C.mute); p.text(`${String(r.shadow)} m`, xs + (r.shadow * u) / 2, ground + 8);
         // Banderita: donde termina la sombra medida del árbol
         const fx = xt + r.treeShadow * u;
         p.stroke(C.ink); p.strokeWeight(1.5); p.line(fx, ground, fx, ground - 16);
-        p.noStroke(); p.fill(C.bad); p.triangle(fx, ground - 16, fx + 10, ground - 12.5, fx, ground - 9);
+        p.noStroke(); p.fill(C.coral); p.triangle(fx, ground - 18, fx + 12, ground - 13.5, fx, ground - 9);
         p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.text(`sombra: ${String(r.treeShadow)} m`, (xt + fx) / 2, ground + 8);
         // Árbol. Mientras se juega solo se ve su altura (hay que calcularla con la proporción); al comprobar
         // aparece el rayo de su copa, y si estaba mal, el árbol correcto en verde con su rayo justo a la banderita.
@@ -74,9 +74,9 @@ GAMES['sombra-arbol'] = (() => {
         const top = ground - hv * u, end = xt + shadowOf(hv, r) * u;
         p.stroke('#8a5a2b'); p.strokeWeight(5); p.line(xt, ground, xt, top + Math.min(14, hv * u * 0.35));
         const d = Math.max(16, Math.min(34, hv * u * 0.45));
-        p.noStroke(); p.fill(locked ? C.ok : C.Q); p.circle(xt, top + d / 2, d);
+        p.noStroke(); p.fill(locked ? C.ok : C.mint); p.circle(xt, top + d / 2, d);
         if (locked) {
-          p.stroke(C.N); p.strokeWeight(1.5); const x2 = Math.min(end, W - 6);   // si la sombra se sale del lienzo, el rayo se corta en el borde
+          p.stroke(C.N); p.strokeWeight(2); const x2 = Math.min(end, W - 6);   // si la sombra se sale del lienzo, el rayo se corta en el borde
           dashed(xt, top, x2, top + ((x2 - xt) * (hv * u)) / Math.max(1e-6, end - xt));
         }
         // Rótulo a la izquierda del tronco: el rayo sale hacia la derecha y no lo tapa.
@@ -87,8 +87,7 @@ GAMES['sombra-arbol'] = (() => {
         const msg = locked && !good ? `Medía ${String(r.tree)} m` : `árbol: ${String(h)} m`;
         p.fill(locked ? C.ok : C.ink); fitText(p, msg, W / 2, H - 28, W - 132, 14);
         for (const [b, t] of [[B.minus, '−'], [B.plus, '+']]) {
-          p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 9);
-          p.noStroke(); p.fill(C.ink); p.textSize(20); p.text(t, b.x + b.w / 2, b.y + b.h / 2 - 1);
+          drawTile(p, C, b, t, { fill: C.sky, r: 9, lift: 2, size: 20 });
         }
       };
 
