@@ -108,7 +108,7 @@ test('«La cuerda del escriba» (acuarela, Egipto) está en Clips con su video y
   const q = CURIOS.find(c => c.id === 'cur-egipto');
   assert.ok(q, 'falta cur-egipto');
   assert.equal(q.topic, 'mate');
-  assert.ok(q.clip.video === 'media/clips/egipto-acuarela.mp4' || q.clip.bunny);
+  assert.equal(q.clip.bunny, '1f59075f-c1ec-411d-907e-750671cccce2');
   assert.equal(q.clip.duration, 109.5);
   assert.ok(q.clip.scenes.length >= 5);
   assert.match(q.fact, /3, 4 y 5/);

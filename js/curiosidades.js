@@ -60,7 +60,7 @@ const CURIOS = [
     title: 'La cuerda del escriba',
     fact: 'En Egipto, se cree que una cuerda con nudos tensada en 3, 4 y 5 tramos daba un ángulo recto.',
     clip: {
-      video: 'media/clips/egipto-acuarela.mp4', duration: 109.5,
+      bunny: '1f59075f-c1ec-411d-907e-750671cccce2', duration: 109.5,
       scenes: [
         sc(6, 'Cada verano, el Nilo crecía y borraba los linderos de los campos.', { title: 'La cuerda del escriba' }),
         sc(7, 'Se cree que una cuerda de 12 nudos, tensada en 3, 4 y 5 tramos, formaba el ángulo recto.', { title: '$3^2 + 4^2 = 5^2$' }),
