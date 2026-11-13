@@ -266,7 +266,7 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   mientras llega su ID; al recibirlo, cambiar `clip.video` por `clip.bunny`, poner la `duration` de Bunny y borrar el mp4.
   Bunny solo responde con `Referer` de la app o de localhost. **`cur-arroz`** («El arroz del rey», estilo Data Physicalization, 72.5 s, `video/arroz-ajedrez`,
   `sh video/arroz-ajedrez/build.sh`, unos 25 min; escena 3D con three.js; `render.mjs` guarda cuadro a cuadro y reintenta si el GPU
-  se cuelga, porque `video.mjs` aborta): vive como mp4 en `media/clips/` y el HD está en `Downloads/Zuka_Arroz_rey`, espera su ID de Bunny.
+  se cuelga, porque `video.mjs` aborta): ya está en Bunny (`f68c6ba7-…`, 72.5 s); el HD está en `Downloads/Zuka_Arroz_rey`.
   Granos reales en las casillas 1–10 y luego 1 placa = un año de cosecha mundial (443 + 443); datos en `FACTS.md`, pruebas `tests/arroz-ajedrez.test.js`. **`cur-razon-deco`** («La razón que no cambia», estilo Art Deco,
   90 s, `video/razon-deco`, `sh video/razon-deco/build.sh`, unos 10 min): ya está en Bunny (`688591e8-…`, 90 s); el HD está en
   `Downloads/Zuka_Razon_deco`. Una barra partida en razón áurea (el único elemento en coral) va de

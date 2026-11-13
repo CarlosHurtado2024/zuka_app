@@ -76,7 +76,7 @@ const CURIOS = [
     title: 'El arroz del rey',
     fact: 'Un grano que se duplica en las 64 casillas del ajedrez suma más de 18 trillones de granos.',
     clip: {
-      video: 'media/clips/arroz-ajedrez.mp4', duration: 72.5,
+      bunny: 'f68c6ba7-c0a4-45a7-b265-b8931c49ea4e', duration: 72.5,
       scenes: [
         sc(6, 'Un inventor pidió un grano de arroz en la primera casilla y el doble en cada una de las siguientes.', { title: '$1,\\ 2,\\ 4,\\ 8,\\ \\ldots$' }),
         sc(6, 'En la casilla 10 ya hay 512 granos: el montón no cabe en su casilla.', { title: '$2^{9} = 512$' }),

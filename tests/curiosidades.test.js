@@ -118,7 +118,7 @@ test('«El arroz del rey» (Data Physicalization, ajedrez) está en Clips con su
   const q = CURIOS.find(c => c.id === 'cur-arroz');
   assert.ok(q, 'falta cur-arroz');
   assert.equal(q.topic, 'mate');
-  assert.ok(q.clip.video === 'media/clips/arroz-ajedrez.mp4' || q.clip.bunny);
+  assert.equal(q.clip.bunny, 'f68c6ba7-c0a4-45a7-b265-b8931c49ea4e');
   if (q.clip.video) assert.ok(fs.existsSync(path.join(ROOT, q.clip.video)), 'falta el mp4');
   assert.equal(q.clip.duration, 72.5);
   assert.ok(q.clip.scenes.length >= 5);
