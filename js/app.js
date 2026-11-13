@@ -186,6 +186,19 @@ function openLessonSheet(c, l) {
   </div>`, sh => sh.querySelector('[data-go]')?.addEventListener('click', () => { closeSheet(); startLesson(c, l); }));
 }
 
+// Jefe final de un mundo (unit.boss): una batalla que usa todo lo del mundo. Se abre al terminar sus lecciones.
+const bossUnlocked = u => S.unlockAll || u.lessons.every(isDone);
+function openBossSheet(c, u) {
+  const b = u.boss, open = bossUnlocked(u);
+  openSheet(`<div class="ls" style="--c:${c.color}">
+    <p class="eyebrow">Jefe final · ${esc((WORLDS[u.world] || {}).name || u.title)}</p><h3>${esc(b.title)}</h3>
+    <p class="ls-meta"><span>${ICON.crown} Batalla por turnos</span><span>${ICON.clock} Sin reloj: se gana pensando</span></p>
+    ${open
+      ? `<button class="btn" data-go>${isDone(b) ? 'Volver a pelear · +5 XP' : 'Pelear · +10 XP'}</button>`
+      : '<p class="muted">Completa las lecciones de este mundo para enfrentar al jefe.</p><button class="btn" disabled>Bloqueado</button>'}
+  </div>`, sh => sh.querySelector('[data-go]')?.addEventListener('click', () => { closeSheet(); startLesson(c, b); }));
+}
+
 // ---- pestaña Aprender ----
 const OFFSETS = [0, 52, 78, 52, 0, -52, -78, -52];
 const PATH_STEP = 196;   // alto de cada fila de nivel (igual a .node-wrap en styles.css)
@@ -246,8 +259,8 @@ function renderLearn() {
 function renderWorld(c, ui) {
   const u = c.units[ui], cur = lessonsOf(c).find(l => !isDone(l));
   const { w, wDone, all, closed } = worldInfo(c, u);
-  // La evaluación del mundo (si tiene) es un nodo más al final del camino; no cuenta como lección.
-  const xs = [...u.lessons, ...(u.exam ? [u.exam] : [])].map((_, i) => OFFSETS[i % OFFSETS.length]);
+  // El jefe final y la evaluación del mundo (si tiene) son nodos más al final del camino; no cuentan como lecciones.
+  const xs = [...u.lessons, ...(u.boss ? [u.boss] : []), ...(u.exam ? [u.exam] : [])].map((_, i) => OFFSETS[i % OFFSETS.length]);
   view.innerHTML = `<div class="learn" style="--c:${c.color}">
     <button class="world-back" data-back>${ICON.back}<span>Mundos</span></button>
     <section class="world${closed ? ' closed' : ''}${all ? ' complete' : ''}">
@@ -268,6 +281,13 @@ function renderWorld(c, ui) {
           <button class="node ${st}" data-id="${l.id}" aria-label="Nivel ${ui + 1}-${li + 1}: ${esc(l.title)}">${icon}</button>
           <span class="node-label"><small>Nivel ${ui + 1}-${li + 1}</small>${esc(l.title)}</span></div>`;
       }).join('')}
+        ${u.boss ? (() => {
+          const st = isDone(u.boss) ? 'done' : bossUnlocked(u) ? 'open' : 'locked';
+          return `<div class="node-wrap" style="--x:${xs[u.lessons.length]}px">
+          ${st === 'open' && u.lessons.every(isDone) ? '<span class="start-bubble">JEFE FINAL</span>' : ''}
+          <button class="node boss ${st}" data-boss aria-label="Jefe final del mundo ${ui + 1}: ${esc(u.boss.title)}">${st === 'locked' ? ICON.lock : ICON.crown}</button>
+          <span class="node-label"><small>Jefe final</small>${esc(u.boss.title)}</span></div>`;
+        })() : ''}
         ${u.exam ? (() => {
           const best = S.exams[u.exam.id]?.best, st = best != null ? 'done' : examUnlocked(u) ? 'open' : 'locked';
           return `<div class="node-wrap" style="--x:${xs[xs.length - 1]}px">
@@ -281,6 +301,7 @@ function renderWorld(c, ui) {
   </div>`;
   view.querySelectorAll('.node[data-id]').forEach(b => b.onclick = () => openLessonSheet(c, findLesson(b.dataset.id).l));
   $('[data-exam]', view)?.addEventListener('click', () => openExamSheet(c, u));
+  $('[data-boss]', view)?.addEventListener('click', () => openBossSheet(c, u));
   $('[data-back]', view).onclick = () => {
     openWorld = null; renderLearn();
     const wb = view.querySelector(`.wnode[data-world="${ui}"]`);

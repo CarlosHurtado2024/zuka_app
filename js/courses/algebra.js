@@ -1754,6 +1754,45 @@ const COURSE_ALGEBRA = {
   const tile = (a, av, b, bv) => ({ a, av, b, bv });
   const k = (t, v) => ({ t, v });
 
+  // Jefe final de la Pradera de Venn (spec 2026-11-14-jefe-final-pradera): un nodo propio al final del camino, antes de
+  // la evaluación. No es una lección (no cuenta en el avance del mundo): es una batalla por turnos, sin reloj, con lo
+  // visto en alg-0a (pertenencia y notación), alg-0b (tipos y relaciones) y alg-0c (operaciones).
+  unit('conjuntos').boss = {
+    id: 'jefe-alg-0', title: 'El Guardián de la Pradera',
+    clip: { scenes: [
+      sc(5, 'Al final de la pradera vive el **Guardián**. Solo deja pasar a quien hable su idioma: el de los conjuntos.', { title: 'Jefe final' }),
+      sc(5, 'Aquí no gana el más rápido, sino el que **piensa**: arma el conjunto que pide y ataca. Tienes todo el tiempo. Los dos puntos se leen «tal que».', { steps: ['Fase 1: pertenencia', 'Fase 2: relaciones', 'Fase 3: operaciones'] }),
+    ] },
+    ex: [
+      play('jefe-venn', 'Vence al Guardián: en cada turno arma en el diagrama **el conjunto que pide** y toca «¡Atacar!»', {
+        rounds: [
+          { title: 'Fase 1 · Pertenencia', mode: 'pick', zones: { a: [1, 2], ab: [4], b: [3, 6], out: [5] }, orders: [
+            { say: '{ x : x ∈ A }', pick: (x, a) => a, yes: 'Los que están dentro del círculo A' },
+            { say: '{ x ∈ U : x ∉ B }', pick: (x, a, b) => !b, yes: 'Todo lo del universo que queda fuera de B' },
+            { say: '{ x ∈ U : x es par y x > 2 }', pick: x => x % 2 === 0 && x > 2, yes: 'Manda la condición, no los círculos' },
+          ] },
+          { title: 'Fase 2 · Relaciones', mode: 'move', zones: { a: [1, 2], ab: [3], b: [4, 5], out: [6] }, orders: [
+            { say: 'A y B sean disjuntos (ninguno vacío)', check: (A, B) => A.length > 0 && B.length > 0 && !A.some(x => B.includes(x)),
+              sample: { a: [1, 2], ab: [], b: [4, 5, 3], out: [6] }, no: (A, B) => (A.length && B.length ? 'Disjuntos: no comparten ningún elemento' : 'Ninguno de los dos puede quedar vacío'), yes: 'Nada en común: A ∩ B = ∅' },
+            { say: 'A ⊆ B, con A no vacío', check: (A, B) => A.length > 0 && A.every(x => B.includes(x)),
+              sample: { a: [], ab: [3, 1, 2], b: [4, 5], out: [6] }, no: A => (A.length ? 'Subconjunto: todo elemento de A debe estar en B' : 'A no puede quedar vacío'), yes: 'Todo lo de A está también en B' },
+            { say: 'A = B, con dos elementos', check: (A, B) => A.length === 2 && B.length === 2 && A.every(x => B.includes(x)),
+              sample: { a: [], ab: [3, 1], b: [], out: [6, 2, 4, 5] }, no: 'Iguales: los mismos elementos, y que sean dos', yes: 'Mismos elementos: son el mismo conjunto' },
+            { say: 'A sea unitario y B sea vacío', check: (A, B) => A.length === 1 && B.length === 0,
+              sample: { a: [1], ab: [], b: [], out: [6, 2, 3, 4, 5] }, no: 'Unitario: un solo elemento. Vacío: ninguno', yes: 'A tiene un elemento y B ninguno: B = ∅' },
+          ] },
+          { title: 'Fase 3 · Operaciones', mode: 'pick', zones: { a: [1, 5], ab: [2, 6], b: [3], out: [4] }, orders: [
+            { say: 'A ∩ B', pick: (x, a, b) => a && b, yes: 'Lo común: están en A y en B' },
+            { say: 'A − B', pick: (x, a, b) => a && !b, yes: 'Los de A, pero no los de B' },
+            { say: '(A ∪ B)ᶜ', pick: (x, a, b) => !(a || b), yes: 'Lo que no está ni en A ni en B' },
+            { say: '(A − B) ∩ B', pick: (x, a, b) => a && !b && b, yes: 'A − B no tiene nada de B: la intersección es ∅' },
+          ] },
+        ],
+      }, 'El Guardián pide de todo lo del mundo: **pertenencia** ($x \\in A$, $x \\notin B$ y conjuntos por comprensión), **relaciones** (disjuntos si $A \\cap B = \\varnothing$; $A \\subseteq B$ si todo elemento de $A$ está en $B$; iguales si tienen los mismos elementos; unitario y vacío) y **operaciones** ($A \\cap B$, $A - B$, el complemento). Cuando ningún elemento cumple, la respuesta es $\\varnothing$: se ataca sin elegir ninguno.',
+        { hint: 'No hay reloj: lee la orden símbolo por símbolo. En las fases de tocar, pregúntate por cada número si cumple la condición. En la de arrastrar, piensa primero qué debe pasar con la zona del medio. Y recuerda que un conjunto puede no tener elementos.' }),
+    ],
+  };
+
   unit('conjuntos').exam = {
     id: 'exam-alg-0', title: 'Conjuntos', minutes: 10,
     items: [

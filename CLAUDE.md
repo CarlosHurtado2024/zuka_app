@@ -117,6 +117,13 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   (tope 50 ms), cartel con `drawBanner`, y `peek()` en lo que devuelve `create` para probarlos con un robot en el
   navegador. Si el panel del navegador está oculto todo corre en cámara lenta: los tiempos del robot no sirven.
   Faltan los demás mundos.
+- **Jefe final de un mundo** (spec `2026-11-14-jefe-final-pradera`, pruebas `tests/jefe-venn.test.js`): `unit.boss = { id, title,
+  clip: { scenes }, ex: [play(…)] }`, definido junto a las evaluaciones al final de `js/courses/algebra.js`. Es un nodo propio
+  del camino (`.node.boss`, rojo con corona, entre la última lección y la evaluación; `bossUnlocked`, `openBossSheet` en
+  `js/app.js`) y se lanza con `startLesson(c, unit.boss)`; **no es una lección** (no entra en `unit.lessons` ni en el avance).
+  Hecho: Pradera de Venn → `jefe-venn` («El Guardián de la Pradera», `jefe-alg-0`): batalla por turnos sin reloj en tres
+  fases, una por lección (tocar los elementos del conjunto pedido, arrastrar elementos entre zonas hasta que A y B cumplan
+  una relación, operaciones; el vacío se ataca sin elegir nada). Faltan los demás mundos.
 - Registrar cada juego en `index.html` (`<script defer src="js/games/x.js">`) y en `SHELL` de `sw.js`
   (lo exige `tests/registro.test.js`).
 - Pruebas: `const { loadGame } = require('./load'); loadGame('js/games/x.js')['x']`. Los arreglos que

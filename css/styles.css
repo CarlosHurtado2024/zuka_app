@@ -715,6 +715,10 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 
 /* ---------- evaluación de fin de mundo (js/exam.js) ---------- */
 .node.exam { width: 84px; height: 76px; border-radius: 26px; }
+/* jefe final del mundo (unit.boss): más grande y de otro color que las lecciones */
+.node.boss { width: 92px; height: 84px; border-radius: 30px; --c: #e5484d; }
+.node.boss .i { width: 40px; height: 40px; }
+.node.boss.done { --c: var(--gold); }
 .node.exam .i { width: 36px; height: 36px; }
 .exam-rules { list-style: none; display: grid; gap: 8px; margin: 0 0 18px; font-size: 14px; line-height: 1.4; color: var(--mute); }
 .exam-rules li { position: relative; padding-left: 18px; }
