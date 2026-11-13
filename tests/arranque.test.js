@@ -42,6 +42,16 @@ test('la portada solo se desvanece: nada se mueve ni cambia de tamaño', () => {
   assert.doesNotMatch(inline, /scale|@keyframes|transform|transition:[^;}]*(width|height|transform)/);
 });
 
+test('la portada trae una animación corta de entrada, sin imagen y respetando «reducir movimiento»', () => {
+  const boot = index.slice(index.indexOf('id="boot"'), index.indexOf('id="app"'));
+  assert.match(boot, /class="bt-w"><span>Z<\/span><span>u<\/span><span>k<\/span><span>a<\/span>/);
+  assert.match(index, /@keyframes bt-in/);
+  assert.match(index, /prefers-reduced-motion:reduce\)\{\.bt-w span,\.bt-s i\{animation:none;opacity:1\}/);
+  assert.match(index, /@media \(display-mode:standalone\)\{\.bt,html\[data-theme="light"\] \.bt\{color:#0b1533\}/, 'texto oscuro sobre la portada blanca de la app instalada');
+  const min = Number((app.match(/BOOT_MIN_MS = (\d+)/) || [])[1]);
+  assert.ok(min >= 600 && min <= 1200, 'se deja ver la animación sin hacer esperar de más');
+});
+
 test('la app quita la portada al estar lista y hay un respaldo si el JS falla', () => {
   assert.match(app, /function hideBoot\(/);
   assert.match(app, /document\.fonts\.load\(/, 'pide la fuente de la app, no solo fonts.ready');

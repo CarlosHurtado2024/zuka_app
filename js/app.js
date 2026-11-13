@@ -725,7 +725,11 @@ function hideBoot() {
 const fontsReady = document.fonts?.load
   ? Promise.all(['400', '600', '700', '800'].map(w => document.fonts.load(`${w} 1em "Plus Jakarta Sans"`))).catch(() => {})
   : null;
+// La animación de entrada (en #boot) dura menos de un segundo: la portada se queda al menos BOOT_MIN_MS
+// desde que se abrió la página para que alcance a verse aunque la app cargue al instante.
+const BOOT_MIN_MS = 900;
 Promise.race([fontsReady, new Promise(r => setTimeout(r, 1200))])
+  .then(() => new Promise(r => setTimeout(r, Math.max(0, BOOT_MIN_MS - performance.now()))))
   .then(() => requestAnimationFrame(() => requestAnimationFrame(hideBoot)));
 applyTheme();
 go('learn');
