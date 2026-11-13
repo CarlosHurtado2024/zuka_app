@@ -136,3 +136,9 @@ video/valle-sketch/stills/
 video/valle-sketch/fonts/*.ttf
 video/valle-sketch/glyphs.json
 video/valle-sketch/build_log.txt
+video/naturales-zoom/out/
+video/naturales-zoom/stills/
+video/naturales-zoom/fonts/*.ttf
+video/naturales-zoom/events.json
+video/naturales-zoom/build_log.txt
+video/naturales-zoom/naturales-zoom.mp4

@@ -245,6 +245,11 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   Clase 5 (`video/clase_progresiones`).
 - Álgebra unidad 1, **ejemplos resueltos** E4–E5 (`video/clase_alg_u1_ej_*`, escena `ExScene`): un video por
   lección para justo después del de conceptos; al recibir su ID va en `more: [{ bunny, duration }]` **sin `after`**.
+- **Nuevo video de `alg-11` en estilo Scale Zoom Explainer** (`video/naturales-zoom`, 118 s, mismo motor `zoomkit.js` que
+  la Pradera, con ℕ y ℤ de doble trazo; `sh video/naturales-zoom/build.sh`, unos 5 min). Un solo zoom por cuatro niveles:
+  manzanas → fila de naturales → hueco a la izquierda del 1 (termómetro 2 − 5 = −3, nacen los enteros) → el cero como
+  espejo (4 y −4, mar y deuda) → ℕ ⊆ ℤ. Entregado en `Downloads/Zuka_Valle_zoom` con `.srt` y narración; espera su ID
+  de Bunny (es alternativa a la versión en lápiz: el usuario elige cuál sube).
 - **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
   `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
   `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y

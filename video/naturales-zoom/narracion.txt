@@ -1,0 +1,7 @@
+Empecemos por lo más simple: contar. Aquí hay tres manzanas. Una, dos, tres: así contamos. Esos números se llaman naturales. Empiezan en uno: el cero no cuenta nada. Siempre hay uno más: la lista no termina. Si sumas dos naturales, te da otro natural. Si los multiplicas, también. Pero, ¿y si restamos? Dos menos cinco no tiene casilla aquí.
+
+Un termómetro marca dos grados. Y la temperatura baja cinco. Pasa por el cero y sigue bajando. Llega a menos tres: dos menos cinco. Menos tres no cuenta objetos: no es natural. Para que toda resta funcione, nacen los enteros. Los naturales, el cero y los negativos. Entremos al cero.
+
+El cero hace de espejo. El cuatro tiene su reflejo: menos cuatro. Los dos, a cuatro pasos del cero. El signo menos delante pide el opuesto. Un número y su opuesto suman cero. Y el cero es su propio reflejo. Los negativos miden lo que está por debajo: bajo el nivel del mar, o una deuda.
+
+Los naturales no desaparecen: viven dentro de los enteros. Todo natural también es entero. Pero el cero y los negativos no son naturales. Por eso decimos: los naturales están contenidos en los enteros. Quita los naturales y quedan el cero y los negativos. Los naturales sirven para contar; los enteros, también para restar. Y cada entero tiene su reflejo al otro lado del cero.
