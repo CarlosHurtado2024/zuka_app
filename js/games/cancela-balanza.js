@@ -61,8 +61,8 @@ GAMES['cancela-balanza'] = (() => {
         fitText(p, `${expr(left, r.op)} = ${expr(right, r.op)}`, W / 2, 58, W - 24, 18);
         // Balanza en equilibrio
         const beamY = H * 0.6, cx = W / 2;
-        p.stroke(C.mute); p.strokeWeight(4); p.line(18, beamY, W - 18, beamY);
-        p.noStroke(); p.fill(C.mute); p.triangle(cx, beamY, cx - 18, beamY + 40, cx + 18, beamY + 40);
+        p.stroke(C.ink); p.strokeWeight(5); p.line(18, beamY, W - 18, beamY);
+        p.noStroke(); p.fill(C.sun); p.triangle(cx, beamY, cx - 20, beamY + 40, cx + 20, beamY + 40);
         p.fill(C.card); p.stroke(C.line); p.strokeWeight(1.5);
         p.rect(14, beamY - 2, cx - 26, 8, 4); p.rect(cx + 12, beamY - 2, cx - 26, 8, 4);
         boxes.L = placeTiles('L', r.left, gL, 14, cx - 12, beamY - 4);
@@ -70,20 +70,18 @@ GAMES['cancela-balanza'] = (() => {
         for (const [side, list] of [['L', boxes.L], ['R', boxes.R]]) for (const b of list) {
           if (!b) continue;
           const isX = b.t === 'x', on = side === 'L' && sel === b.i;
-          p.stroke(on ? C.brand : isX ? C.Q : C.line); p.strokeWeight(on ? 3 : 1.5); p.fill(isX ? C.Q : C.card);
-          p.rect(b.x, b.y, b.w, b.h, 8);
-          p.noStroke(); p.fill(isX ? C.bg : C.ink); p.textStyle(p.BOLD); fitText(p, b.t, b.x + b.w / 2, b.y + b.h / 2, b.w - 6, 15);
+          // Fichas crema; la x, color sol; la elegida lleva aro.
+          drawTile(p, C, b, b.t, { fill: isX ? C.sun : C.cream, r: 8, lift: 2, size: 15, ring: on ? C.brand : null });
         }
         p.noStroke(); p.textStyle(p.NORMAL); p.fill(C.mute); p.textSize(11);
         p.text(r.op === '+' ? 'fichas que se suman' : 'fichas que se multiplican', W / 2, beamY + 56);
         // Mensajes
         if (msgT > 0) { msgT--; p.fill(C.bad); p.textStyle(p.BOLD); fitText(p, msg, W / 2, 86, W - 24, 12); }
-        else if (done) { p.fill(locked ? C.ok : C.Q); p.textStyle(p.BOLD); fitText(p, '¡La x quedó sola!', W / 2, 86, W - 24, 14); }
+        else if (done) drawPill(p, C, '¡La x quedó sola!', W / 2, 86, locked ? C.ok : C.mint, 13);
         else { p.fill(C.mute); fitText(p, sel == null ? 'Toca una ficha de la izquierda…' : '…y luego su gemela de la derecha', W / 2, 86, W - 24, 12); }
         if (locked && !done) { p.fill(C.ok); p.textStyle(p.BOLD); fitText(p, `Quedaba ${r.ans}`, W / 2, H - 31, W - 24, 13); }
         else if (!locked) {
-          p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(reset.x, reset.y, reset.w, reset.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textStyle(p.NORMAL); p.textSize(12); p.text('Reiniciar', reset.x + reset.w / 2, reset.y + reset.h / 2);
+          drawTile(p, C, reset, 'Reiniciar', { r: 8, lift: 2, size: 12 });
         }
       };
 

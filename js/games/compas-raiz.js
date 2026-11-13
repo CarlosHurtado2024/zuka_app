@@ -48,8 +48,7 @@ GAMES['compas-raiz'] = (() => {
         const full = Math.atan2(b, a);
         ang = swung[cur] ? Math.max(0, ang - 0.05) : full;
         drawTabs(p, C, tabs, cur, i => (locked ? (fits(st.legs[i], R[i].n) ? C.ok : C.bad) : i === cur ? C.brand : swung[i] ? (fits(st.legs[i], R[i].n) ? C.Q : C.Z) : C.line));
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
-        p.text('Haz caer el compás en la banderita', 14, 56);
+        drawKicker(p, C, 'Haz caer el compás en la banderita', 14, 56);
 
         // Cuadrícula y recta
         const nMax = Math.floor((W - 30 - view.x0) / view.u);
@@ -63,28 +62,28 @@ GAMES['compas-raiz'] = (() => {
         const fx = X(Math.sqrt(r.n));
         p.stroke(C.I); p.strokeWeight(2); p.line(fx, Y(0), fx, Y(0) - 34);
         p.noStroke(); p.fill(C.I); p.triangle(fx, Y(0) - 34, fx + 18, Y(0) - 28, fx, Y(0) - 22);
-        p.textStyle(p.BOLD); p.textSize(13); p.textAlign(p.CENTER, p.BOTTOM); p.text(`√${r.n}`, fx, Y(0) - 36);
+        drawPill(p, C, `√${r.n}`, fx, Y(0) - 48, C.coral, 13);
         // Rectángulo a × b y su diagonal (girando con el compás)
-        const tint = p.color(C.R); tint.setAlpha(45); p.stroke(C.R); p.strokeWeight(2); p.fill(tint);
+        const tint = p.color(C.sky); tint.setAlpha(90); p.stroke(C.sky); p.strokeWeight(2.5); p.fill(tint);
         p.rect(X(0), Y(b), a * view.u, b * view.u);
         p.noFill(); p.stroke(C.mute); p.strokeWeight(1.2); p.drawingContext.setLineDash([4, 4]);
         p.arc(X(0), Y(0), 2 * d * view.u, 2 * d * view.u, -full, 0); p.drawingContext.setLineDash([]);
         const ex = X(0) + d * view.u * Math.cos(ang), ey = Y(0) - d * view.u * Math.sin(ang);
-        p.stroke(good && ang === 0 ? C.ok : C.Q); p.strokeWeight(4); p.line(X(0), Y(0), ex, ey);
-        p.noStroke(); p.fill(C.ink); p.circle(X(0), Y(0), 8);
+        p.stroke(good && ang === 0 ? C.ok : C.sun); p.strokeWeight(5); p.line(X(0), Y(0), ex, ey);
+        p.noStroke(); p.fill(C.ink); p.circle(X(0), Y(0), 9);
+        drawDot(p, C, ex, ey, 9, good && ang === 0 ? C.ok : C.sun);
         if (swung[cur] && ang === 0) {
-          p.fill(good ? C.ok : C.bad); p.textStyle(p.BOLD); p.textSize(13); p.textAlign(p.CENTER, p.CENTER);
-          p.text(good ? '¡Justo en la banderita!' : `Cayó en √${a * a + b * b}`, W / 2, 76);
+          drawPill(p, C, good ? '¡Justo en la banderita!' : `Cayó en √${a * a + b * b}`, W / 2, 78, good ? C.ok : C.bad, 13);
         }
         // Controles
         p.textAlign(p.CENTER, p.CENTER);
         [['a', a, 0], ['b', b, 2]].forEach(([nm, v, k]) => {
           const b1 = btns[k], b2 = btns[k + 1];
           p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(16); p.text(`${nm} = ${v}`, (b1.x + b1.w + b2.x) / 2, b1.y + b1.h / 2);
-          [[b1, '−'], [b2, '+']].forEach(([bt, s]) => { p.stroke(locked ? C.line : C.brand); p.strokeWeight(1.5); p.fill(C.card); p.rect(bt.x, bt.y, bt.w, bt.h, 8); p.noStroke(); p.fill(locked ? C.mute : C.brand); p.textSize(18); p.text(s, bt.x + bt.w / 2, bt.y + bt.h / 2); });
+          [[b1, '−'], [b2, '+']].forEach(([bt, s]) => drawTile(p, C, bt, s, { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, r: 8, lift: 2, size: 18 }));
         });
-        p.stroke(locked ? C.line : C.brand); p.strokeWeight(2); p.fill(C.card); p.rect(go.x, go.y, go.w, go.h, 10);
-        p.noStroke(); p.fill(locked ? C.mute : C.brand); p.textSize(14); p.textStyle(p.BOLD);
+        drawTile(p, C, go, '', { fill: locked ? C.card : C.sun });
+        p.noStroke(); p.fill(locked ? C.ink : inkOn(C.sun, C.ink)); p.textSize(14); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
         const sol = locked && !good ? legsFor(r.n, max) : null;
         fitText(p, sol ? `Con a = ${sol[0]} y b = ${sol[1]}: ${sol[0]}² + ${sol[1]}² = ${r.n}` : `Girar el compás  (${a}² + ${b}² = ${a * a + b * b})`, W / 2, go.y + go.h / 2, go.w - 16, 14);
       };

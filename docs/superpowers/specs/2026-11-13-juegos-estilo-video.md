@@ -35,10 +35,28 @@ confeti ni entrada.
   texto encima `inkOn(color)`.
 - Para animar algo propio: `fxTween(estado, { x: 10 }, { duration: 400, easing: 'easeOutElastic(1, .6)' })`.
 
+## Piezas de los videos (segunda parte: Álgebra U1 rediseñada a mano)
+
+Al final de `kit.js` hay piezas de dibujo que copian las de los videos. Los 24 juegos de la unidad 1 de Álgebra
+(«Sistemas numéricos y axiomas») ya las usan; solo cambió su dibujo, no la lógica ni las zonas de toque.
+
+| Pieza | Para qué |
+|---|---|
+| `drawTile(p, C, caja, texto, { fill, ink, r, lift, size, ring, k })` | ficha rellena con labio más oscuro abajo. Crema por defecto; color sol la elegida; **coral los negativos y sol el cero** (como en los videos); azul los botones − / +. |
+| `drawSlot(p, C, caja, r, col)` | casilla vacía punteada (donde va una ficha). |
+| `drawKicker(p, C, texto, x, y, { center })` | rótulo con barrita y versalitas para la instrucción corta del juego. |
+| `drawPill(p, C, texto, cx, cy, col, tamaño)` | píldora rellena para el dato que importa (la respuesta en vivo, «meta», «espejo», √n). No se sale del lienzo. |
+| `drawDot(p, C, x, y, d, col)` | punto con halo (el punto elegido). Sin halo si taparía números de la recta. |
+| `drawNumLine(p, C, { x0, x1, y, min, max }, { step, every, label })` | recta gruesa con números por signo: negativos coral, el cero sol, positivos tinta. Devuelve `X(v)`. |
+| `shade(hex, k)` | oscurece o aclara un color (labios, cuerpos con relieve). |
+
+Estas piezas cambian `textAlign`, `textStyle`, `textSize`, relleno y trazo: después de llamarlas, volver a fijar lo
+que el siguiente texto necesite.
+
 ## Lo que no cubre
 
-El dibujo propio de cada juego (sus piezas y su distribución) sigue igual: cambia de colores, letra y fondo, pero no
-se rediseñó juego por juego.
+Fuera de Álgebra U1, el dibujo propio de cada juego (sus piezas y su distribución) sigue igual: cambia de colores,
+letra y fondo, pero no se ha rediseñado juego por juego. Unidades siguientes: Conjuntos (U0), Razones y porcentajes.
 
 ## Pruebas
 

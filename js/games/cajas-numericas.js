@@ -79,19 +79,18 @@ GAMES['cajas-numericas'] = (() => {
 
       function drawBox(k) {
         const b = boxes[k];
-        p.stroke(C[k]); p.strokeWeight(2); p.fill(p.red(p.color(C[k])), p.green(p.color(C[k])), p.blue(p.color(C[k])), 28);
-        p.rect(b.x, b.y, b.w, b.h, 12);
-        p.noStroke(); p.fill(C[k]); p.textSize(18); p.textStyle(p.BOLD); p.textAlign(p.LEFT, p.TOP);
-        p.text(NAMES[k], b.x + 8, b.y + 6);
+        p.stroke(C[k]); p.strokeWeight(2.5); p.fill(p.red(p.color(C[k])), p.green(p.color(C[k])), p.blue(p.color(C[k])), 44);
+        p.rect(b.x, b.y, b.w, b.h, 14);
+        // El nombre de la familia, en una ficha redonda de su color.
+        p.noStroke(); p.fill(C[k]); p.circle(b.x + 17, b.y + 17, 24);
+        p.fill(inkOn(C[k], C.ink)); p.textSize(15); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+        p.text(NAMES[k], b.x + 17, b.y + 18);
       }
 
       function drawCard(c) {
         const v = verdict(c.set, placed[c.i]);
         const border = locked ? (v === 'ok' ? C.ok : v === 'bigger' ? C.N : C.bad) : (c.i === dragging ? C.brand : C.line);   // naranja: caja válida pero no la más pequeña
-        p.stroke(border); p.strokeWeight(2.5); p.fill(C.card);
-        p.rect(c.x, c.y, c.w, c.h, 10);
-        p.noStroke(); p.fill(C.ink); p.textSize(Math.min(19, c.w / 3.2)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-        p.text(c.label, c.x + c.w / 2, c.y + c.h / 2 + 1);
+        drawTile(p, C, c, c.label, { size: Math.min(19, c.w / 3.2), lift: c.i === dragging ? 5 : 3, ring: border === C.line ? null : border });
       }
 
       p.draw = () => {

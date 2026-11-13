@@ -67,21 +67,21 @@ GAMES['pizzeria'] = (() => {
         p.background(C.bg);
         const t = params.orders[cur], o = orders[cur], good = matches(o, t);
         // Pedido en curso, con su punto en la recta de 0 a 1.
-        p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(12);
-        p.text(`Pedido ${cur + 1} de ${params.orders.length}: sirve`, W / 2, 8);
+        drawKicker(p, C, `Pedido ${cur + 1} de ${params.orders.length}: sirve`, W / 2, 14, { center: true });
+        p.noStroke(); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD);
         p.fill(C.ink); p.textSize(26); p.text(`«${t.label}»`, W / 2, 24);
         const lx0 = W * 0.2, lx1 = W * 0.8, ly = 68;
-        p.stroke(C.line); p.strokeWeight(3); p.line(lx0, ly, lx1, ly);
-        [0, 0.5, 1].forEach(v => { p.stroke(C.mute); p.strokeWeight(2); p.line(lx0 + v * (lx1 - lx0), ly - 5, lx0 + v * (lx1 - lx0), ly + 5); });
+        p.stroke(C.ink); p.strokeWeight(3); p.line(lx0, ly, lx1, ly);
+        [0, 0.5, 1].forEach(v => { p.stroke(C.ink); p.strokeWeight(2); p.line(lx0 + v * (lx1 - lx0), ly - 5, lx0 + v * (lx1 - lx0), ly + 5); });
         p.noStroke(); p.fill(C.mute); p.textSize(10); p.text('0', lx0, ly + 8); p.text('1', lx1, ly + 8);
-        p.fill(C.N); p.circle(lx0 + (t.num / t.den) * (lx1 - lx0), ly, 10);
+        drawDot(p, C, lx0 + (t.num / t.den) * (lx1 - lx0), ly, 11, C.sun);
+        p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD);
         // Pizza grande.
         drawPizza(pizza.x, pizza.y, pizza.r, o, { border: locked ? (good ? C.ok : C.bad) : null, ghost: locked && !good ? t.num / t.den : 0 });
         if (bite > 0) { bite -= 0.08; }
         // Cortes y lectura de la fracción.
         buttons.forEach(b => {
-          p.stroke(C.line); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 10);
-          p.noStroke(); p.fill(C.ink); p.textSize(22); p.textAlign(p.CENTER, p.CENTER); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2);
+          drawTile(p, C, b, b.t, { fill: C.sky, size: 22 });
         });
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
         p.text('porciones', W / 2, buttons[0].y + 30);

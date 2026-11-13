@@ -39,9 +39,10 @@ GAMES['pasaporte-numeros'] = (() => {
 
       function stamp(x, y, k, alpha = 1, rot = -0.18) {
         p.push(); p.translate(x, y); p.rotate(rot); p.drawingContext.globalAlpha = alpha;
-        p.stroke(C[k]); p.strokeWeight(3); p.fill(C[k] + '26'); p.circle(0, 0, r0 * 2);
-        p.strokeWeight(1.2); p.noFill(); p.circle(0, 0, r0 * 2 - 7);
-        p.noStroke(); p.fill(C[k]); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(r0 * 0.95); p.text(NAMES[k], 0, 1);
+        // Sello relleno con el color de la familia y un aro punteado por dentro.
+        p.noStroke(); p.fill(C[k]); p.circle(0, 0, r0 * 2);
+        p.stroke(inkOn(C[k], C.ink)); p.strokeWeight(1.2); p.noFill(); p.drawingContext.setLineDash([2, 3]); p.circle(0, 0, r0 * 2 - 7); p.drawingContext.setLineDash([]);
+        p.noStroke(); p.fill(inkOn(C[k], C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(r0 * 0.95); p.text(NAMES[k], 0, 1);
         p.drawingContext.globalAlpha = 1; p.pop();
       }
 
@@ -49,15 +50,16 @@ GAMES['pasaporte-numeros'] = (() => {
         p.background(C.bg);
         p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.NORMAL); p.textSize(12);
         p.text('Pon en cada pasaporte el sello de todas las familias donde el número puede entrar', 12, 6, W - 24, 34);
+        // Cada familia, en una ficha redonda de su color.
         sets.forEach((k, j) => {
-          p.fill(C[k]); p.textStyle(p.BOLD); p.textSize(22); p.textAlign(p.CENTER, p.CENTER); p.text(NAMES[k], colX[j], 54);
+          p.noStroke(); p.fill(C[k]); p.circle(colX[j], 54, 30);
+          p.fill(inkOn(C[k], C.ink)); p.textStyle(p.BOLD); p.textSize(19); p.textAlign(p.CENTER, p.CENTER); p.text(NAMES[k], colX[j], 55);
         });
         rows.forEach((r, i) => {
           const ok = rowOk(st.stamps[i], nums[i], sets);
-          p.stroke(locked ? (ok ? C.ok : C.bad) : C.line); p.strokeWeight(locked ? 2.5 : 1.5); p.fill(C.card); p.rect(r.x, r.y, r.w, r.h, 10);
-          // Lomo del pasaporte y el número.
-          p.noStroke(); p.fill(C.brand + '30'); p.rect(r.x, r.y, 8, r.h, 10, 0, 0, 10);
-          p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(Math.min(22, r.h * 0.5)); p.textAlign(p.LEFT, p.CENTER); p.text(nums[i].label, r.x + 18, r.y + r.h / 2 + 1);
+          p.stroke(locked ? (ok ? C.ok : C.bad) : C.line); p.strokeWeight(locked ? 2.5 : 1.5); p.fill(C.card); p.rect(r.x, r.y, r.w, r.h, 12);
+          // El número, en una ficha crema a la izquierda del pasaporte.
+          drawTile(p, C, { x: r.x + 6, y: r.y + 5, w: r.labelW - 14, h: r.h - 13 }, nums[i].label, { size: Math.min(20, r.h * 0.46) });
           sets.forEach((k, j) => {
             const x = colX[j], y = r.y + r.h / 2, on = st.stamps[i][j], should = nums[i].in.includes(k);
             if (on) {
@@ -68,7 +70,7 @@ GAMES['pasaporte-numeros'] = (() => {
               p.noFill(); p.stroke(C.ok); p.strokeWeight(2); p.drawingContext.setLineDash([4, 4]); p.circle(x, y, r0 * 2); p.drawingContext.setLineDash([]);
               p.noStroke(); p.fill(C.ok); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(r0 * 0.9); p.text(NAMES[k], x, y + 1);
             } else {
-              p.noFill(); p.stroke(C.line); p.strokeWeight(1.5); p.drawingContext.setLineDash([3, 4]); p.circle(x, y, r0 * 2); p.drawingContext.setLineDash([]);
+              p.noFill(); p.stroke(C.mute); p.strokeWeight(1.5); p.drawingContext.setLineDash([3, 4]); p.circle(x, y, r0 * 2); p.drawingContext.setLineDash([]);
             }
           });
         });

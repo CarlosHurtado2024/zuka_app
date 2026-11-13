@@ -19,7 +19,7 @@ GAMES['dobla-la-recta'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      tabs = pts.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
+      tabs = roundTabs(pts.length, w);
       lineY = h * 0.48;
       map = lineMap(params.min, params.max, 24, w - 24);
     }
@@ -33,30 +33,28 @@ GAMES['dobla-la-recta'] = (() => {
       p.draw = () => {
         p.background(C.bg);
         const pt = pts[cur], v = pt.inside, a = st.answers[cur], want = Math.abs(v), good = a !== null && Math.abs(a - want) <= params.tol;
-        tabs.forEach((t, i) => {
+        drawTabs(p, C, tabs, cur, i => {
           const ai = st.answers[i], ok = ai !== null && Math.abs(ai - Math.abs(pts[i].inside)) <= params.tol;
-          const col = locked ? (ok ? C.ok : C.bad) : i === cur ? C.brand : ai !== null ? C.Z : C.line;
-          p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
+          return locked ? (ok ? C.ok : C.bad) : i === cur ? C.brand : ai !== null ? C.Z : C.line;
         });
         p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(28); p.textAlign(p.CENTER, p.CENTER); p.text(pt.label, W / 2, 66);
         p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.text('Toca la recta donde queda el valor absoluto', 12, 92, W - 24, 20);
 
         // La recta, con el espejo en el cero.
         const x0 = map.toPx(0);
-        p.stroke(C.mute); p.strokeWeight(2); p.line(map.toPx(params.min), lineY, map.toPx(params.max), lineY);
+        p.stroke(C.ink); p.strokeWeight(3); p.line(map.toPx(params.min) - 6, lineY, map.toPx(params.max) + 6, lineY);
         for (let k = params.min * 2; k <= params.max * 2; k++) {
           const x = map.toPx(k / 2), whole = k % 2 === 0;
-          p.stroke(C.mute); p.strokeWeight(whole ? 2 : 1); p.line(x, lineY - (whole ? 7 : 4), x, lineY + (whole ? 7 : 4));
-          if (whole) { p.noStroke(); p.fill(C.mute); p.textSize(12); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.TOP); p.text(String(k / 2).replace('-', '−'), x, lineY + 12); }
+          p.stroke(k === 0 ? C.sun : C.ink); p.strokeWeight(whole ? 2 : 1); p.line(x, lineY - (whole ? 7 : 4), x, lineY + (whole ? 7 : 4));
+          if (whole) { p.noStroke(); p.fill(k === 0 ? C.N : k < 0 ? C.I : C.ink); p.textSize(12); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.TOP); p.text(String(k / 2).replace('-', '−'), x, lineY + 12); }
         }
-        p.stroke(C.mute); p.strokeWeight(1.5); p.drawingContext.setLineDash([4, 5]); p.line(x0, lineY - 58, x0, lineY + 8); p.drawingContext.setLineDash([]);
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(10); p.textAlign(p.CENTER, p.BOTTOM); p.text('espejo', x0, lineY - 60);
+        p.stroke(C.sun); p.strokeWeight(2.5); p.drawingContext.setLineDash([5, 6]); p.line(x0, lineY - 47, x0, lineY - 12); p.drawingContext.setLineDash([]);
+        drawPill(p, C, 'espejo', x0, lineY - 58, C.sun, 10);
         const cx = x => Math.max(64, Math.min(W - 64, x));   // rótulos sin salirse del lienzo
 
         // El número de adentro de las barras: punto en la recta y su rótulo debajo.
         const xv = map.toPx(v), vcol = v < 0 ? C.I : C.Z;
-        p.noStroke(); p.fill(vcol); p.circle(xv, lineY, 14);
+        drawDot(p, C, xv, lineY, 14, vcol); p.fill(vcol);
         p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.CENTER, p.TOP); p.text(`${pt.insideLabel} ≈ ${fmt(v)}`, cx(xv), lineY + 30);
         p.stroke(vcol); p.strokeWeight(5); p.line(x0, lineY + 58, xv, lineY + 58);
         p.noStroke(); p.textStyle(p.NORMAL); p.textSize(10); p.text(`distancia al 0: ${fmt(Math.abs(v))}`, cx((x0 + xv) / 2), lineY + 64);
@@ -71,9 +69,7 @@ GAMES['dobla-la-recta'] = (() => {
           }
           p.noStroke(); p.fill(col); p.triangle(xa - 9, lineY - 22, xa + 9, lineY - 22, xa, lineY - 4);
           const lab = `${pt.label} = ${fmt(a)}`;
-          p.textStyle(p.BOLD); p.textSize(13); const lw = p.textWidth(lab) + 10;
-          p.fill(C.bg); p.rect(cx(xa) - lw / 2, lineY - 44, lw, 18, 4);   // fondo: tapa la línea del espejo
-          p.fill(col); p.textAlign(p.CENTER, p.BOTTOM); p.text(lab, cx(xa), lineY - 26);
+          drawPill(p, C, lab, cx(xa), lineY - 34, col, 13); p.fill(col);   // la píldora tapa la línea del espejo
           p.stroke(col); p.strokeWeight(5); p.line(x0, lineY + 86, xa, lineY + 86);
           p.noStroke(); p.textStyle(p.NORMAL); p.textSize(10); p.textAlign(p.CENTER, p.TOP); p.text(`distancia al 0: ${fmt(Math.abs(a))}`, cx((x0 + xa) / 2), lineY + 92);
         }

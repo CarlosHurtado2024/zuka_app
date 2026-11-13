@@ -38,7 +38,7 @@ GAMES['arma-producto'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      tabs = params.rounds.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
+      tabs = roundTabs(params.rounds.length);
       box = { x: 12, y: 96, w: w - 24, h: 128 };
       const cols = 3, tw = (w - 24 - (cols - 1) * 10) / cols, th = 46, y0 = h - 2 * (th + 10) - 24;
       tray = tiles.map((_, i) => ({ x: 12 + (i % cols) * (tw + 10), y: y0 + Math.floor(i / cols) * (th + 10), w: tw, h: th }));
@@ -58,23 +58,19 @@ GAMES['arma-producto'] = (() => {
       p.onResize = () => layout(size.w, size.h);
 
       function tile(b, v, col, fill = C.card) {
-        p.stroke(col); p.strokeWeight(2.2); p.fill(fill); p.rect(b.x, b.y, b.w, b.h, 10);
-        p.noStroke(); p.fill(v < 0 ? C.I : v === 0 ? C.mute : C.Z); p.textStyle(p.BOLD); p.textSize(Math.min(20, b.w * 0.42)); p.textAlign(p.CENTER, p.CENTER);
-        p.text(neg(v), b.x + b.w / 2, b.y + b.h / 2 + 1);
+        // Como en los videos: los negativos en fichas coral, el cero color sol y los positivos crema.
+        drawTile(p, C, b, neg(v), { fill: v < 0 ? C.coral : v === 0 ? C.sun : C.cream, size: Math.min(20, b.w * 0.42) });
       }
 
       p.draw = () => {
         p.background(C.bg);
         const r = params.rounds[cur], pk = st.picks[cur], val = valueOf(tiles, pk), good = val === r.target;
-        tabs.forEach((t, i) => {
+        drawTabs(p, C, tabs, cur, i => {
           const ok = valueOf(tiles, st.picks[i]) === params.rounds[i].target;
-          const col = locked ? (ok ? C.ok : C.bad) : i === cur ? C.brand : ok ? C.Q : st.picks[i].length ? C.Z : C.line;
-          p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
+          return locked ? (ok ? C.ok : C.bad) : i === cur ? C.brand : ok ? C.Q : st.picks[i].length ? C.Z : C.line;
         });
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
-        p.text('Elige fichas cuyo producto dé', 12, 56);
-        p.fill(r.target < 0 ? C.I : C.Z); p.textStyle(p.BOLD); p.textSize(30); p.textAlign(p.LEFT, p.CENTER); p.text(neg(r.target), 12, 80);
+        drawKicker(p, C, 'Elige fichas cuyo producto dé', 12, 56);
+        p.noStroke(); p.fill(r.target < 0 ? C.I : C.ink); p.textStyle(p.BOLD); p.textSize(30); p.textAlign(p.LEFT, p.CENTER); p.text(neg(r.target), 12, 80);
 
         // La máquina: fichas elegidas, el producto en vivo y el conteo de signos.
         const bcol = locked ? (good ? C.ok : C.bad) : good ? C.ok : C.line;
@@ -95,7 +91,7 @@ GAMES['arma-producto'] = (() => {
         // La bandeja de fichas: las que ya están en la máquina quedan en sombra.
         tray.forEach((b, i) => {
           const used = pk.includes(i);
-          if (used) { p.noFill(); p.stroke(C.line); p.strokeWeight(1.5); p.drawingContext.setLineDash([4, 4]); p.rect(b.x, b.y, b.w, b.h, 10); p.drawingContext.setLineDash([]); }
+          if (used) drawSlot(p, C, b);
           else tile(b, tiles[i], locked ? C.line : C.mute);
         });
         p.noStroke(); p.fill(locked && !good ? C.ok : C.mute); p.textStyle(locked && !good ? p.BOLD : p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);

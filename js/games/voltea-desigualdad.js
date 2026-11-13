@@ -54,14 +54,13 @@ GAMES['voltea-desigualdad'] = (() => {
         p.noStroke(); p.fill(C.N); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(14);
         p.text(done ? 'Todos los pasos respondidos' : `Paso ${cur + 1} de ${params.steps.length}: a los dos números, ${stepText(params.steps[cur])}`, 12, 8, W - 24, 40);
         // Lo que se sabe antes del paso.
-        p.fill(C.ink); p.textSize(22); p.textAlign(p.CENTER, p.TOP);
-        p.text(`${fmt(prev.a)} ${prev.sign} ${fmt(prev.b)}`, W / 2, 56);
-        p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.text(done ? '' : '¿y después de la operación?', W / 2, 86);
+        drawPill(p, C, `${fmt(prev.a)} ${prev.sign} ${fmt(prev.b)}`, W / 2, 68, C.sun, 20);
+        p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.TOP); p.text(done ? '' : '¿y después de la operación?', W / 2, 88);
         // Recta y puntos.
-        p.stroke(C.line); p.strokeWeight(2); p.line(line.x0, line.y, line.x1, line.y);
-        for (let v = range[0]; v <= range[1]; v++) { const x = toPx(v); p.stroke(C.line); p.line(x, line.y - 4, x, line.y + 4); if ((range[1] - range[0]) <= 24 || v % 5 === 0) { p.noStroke(); p.fill(C.mute); p.textSize(10); p.textAlign(p.CENTER, p.TOP); p.text(v, x, line.y + 8); } }
+        p.stroke(C.ink); p.strokeWeight(3); p.line(line.x0 - 6, line.y, line.x1 + 6, line.y);
+        for (let v = range[0]; v <= range[1]; v++) { const x = toPx(v); p.stroke(v === 0 ? C.sun : C.ink); p.strokeWeight(v === 0 ? 3 : 1.5); p.line(x, line.y - 5, x, line.y + 5); if ((range[1] - range[0]) <= 24 || v % 5 === 0) { p.noStroke(); p.fill(C.mute); p.textSize(10); p.textAlign(p.CENTER, p.TOP); p.text(v, x, line.y + 8); } }
         const xa = toPx(shown.a), xb = toPx(shown.b);
-        p.noStroke(); p.fill(C.N); p.circle(xa, line.y, 14); p.fill(C.Z); p.circle(xb, line.y, 14);
+        drawDot(p, C, xa, line.y, 14, C.sun); drawDot(p, C, xb, line.y, 14, C.sky);
         p.textStyle(p.BOLD); p.textSize(13); p.textAlign(p.CENTER, p.BOTTOM); p.fill(C.N); p.text(`a = ${fmt(target.a)}`, xa, line.y - 12); p.fill(C.Z); p.text(`b = ${fmt(target.b)}`, xb, line.y - (Math.abs(xa - xb) < 60 ? 30 : 12));
         // Historial de respuestas.
         p.textAlign(p.LEFT, p.TOP); p.textStyle(p.NORMAL); p.textSize(12);
@@ -73,8 +72,7 @@ GAMES['voltea-desigualdad'] = (() => {
         });
         buttons.forEach(b => {
           const dim = locked || done;
-          p.stroke(dim ? C.line : b.col); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 12);
-          p.noStroke(); p.fill(dim ? C.mute : b.col); p.textSize(22); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text(`a ${b.v} b`, b.x + b.w / 2, b.y + b.h / 2 + 1);
+          drawTile(p, C, b, `a ${b.v} b`, { fill: dim ? C.card : b.col, ink: dim ? C.mute : undefined, r: 12, size: 22, lift: dim ? 1 : 3 });
         });
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked ? (grade(st, params).ok ? '¡Ni un volteo perdido!' : 'En rojo, los pasos que se voltearon mal') : 'Mira cómo se mueven los puntos y elige el signo', 12, H - 36, W - 24, 28);

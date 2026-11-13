@@ -48,8 +48,8 @@ GAMES['atrapa-elementos'] = (() => {
         const r = R[cur], pk = st.picks[cur], good = same(pk, r);
         drawTabs(p, C, tabs, cur, i => (locked ? (same(st.picks[i], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : st.picks[i].length ? C.Z : C.line));
         // La regla (comprensión)
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
-        if (!r.given) p.text('Por comprensión:', 14, 54);
+        if (!r.given) drawKicker(p, C, 'Por comprensión', 14, 54);
+        p.noStroke();
         p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
         if (r.given) {
           const cols = [C.Z, C.I, C.N];
@@ -58,7 +58,7 @@ GAMES['atrapa-elementos'] = (() => {
         } else fitText(p, `${r.name || 'A'} = {${r.rule}}`, W / 2, 80, W - 28, 16);
         // Las llaves (extensión en vivo)
         const col = locked ? (good ? C.ok : C.bad) : C.R;
-        p.noFill(); p.stroke(col); p.strokeWeight(2); p.rect(bag.x, bag.y, bag.w, bag.h, 14);
+        p.fill(C.card); p.stroke(col); p.strokeWeight(2.5); p.rect(bag.x, bag.y, bag.w, bag.h, 16);
         p.noStroke(); p.fill(col); p.textSize(40); p.textStyle(p.NORMAL);
         p.text('{', bag.x + 14, bag.y + bag.h / 2 - 2); p.text('}', bag.x + bag.w - 14, bag.y + bag.h / 2 - 2);
         const inside = ordered(pk, r);
@@ -77,10 +77,8 @@ GAMES['atrapa-elementos'] = (() => {
         // Fichas
         tray.forEach((b, i) => {
           const lab = r.pool[i], on = pk.includes(lab);
-          p.stroke(on ? C.brand : locked ? C.line : C.mute); p.strokeWeight(on ? 2.5 : 1.5);
-          p.fill(on ? C.card : C.bg); p.rect(b.x, b.y, b.w, b.h, 10);
-          p.noStroke(); p.fill(on ? C.brand : C.ink); p.textStyle(p.BOLD);
-          fitText(p, lab, b.x + b.w / 2, b.y + b.h / 2 + 1, b.w - 6, 17);
+          // Ficha crema; la que ya entró a las llaves queda color sol y hundida.
+          drawTile(p, C, b, lab, on ? { fill: C.sun, lift: 1, ring: locked ? null : C.sun } : { fill: C.cream });
         });
         p.textSize(11); p.textStyle(p.BOLD);
         if (locked && !good) { p.fill(C.ok); fitText(p, `Era ${listText(r.members)}`, W / 2, H - 10, W - 24, 12); }

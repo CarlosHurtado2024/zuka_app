@@ -40,18 +40,18 @@ GAMES['dibuja-intervalo'] = (() => {
         p.background(C.bg);
         const lo = Math.min(st.left, st.right), hi = Math.max(st.left, st.right);
         // Enunciado y notación que se va armando.
-        p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
-        p.text('Dibuja el conjunto', W / 2, 10);
+        drawKicker(p, C, 'Dibuja el conjunto', W / 2, 16, { center: true });
+        p.noStroke(); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD);
         p.fill(C.ink); p.textSize(22); p.text(params.set, W / 2, 28);
         const s = norm(st), br = (c, side) => (side === 'l' ? (c ? '[' : '(') : (c ? ']' : ')'));
-        p.fill(C.brand); p.textSize(20); p.text(`${br(s.leftClosed, 'l')}${s.left}, ${s.right}${br(s.rightClosed, 'r')}`.replace(/-/g, '−'), W / 2, 66);
+        drawPill(p, C, `${br(s.leftClosed, 'l')}${s.left}, ${s.right}${br(s.rightClosed, 'r')}`.replace(/-/g, '−'), W / 2, 78, C.sun, 18);
         // Segmento sombreado y recta.
-        p.noStroke(); p.fill(C.brand + '44'); p.rect(map.toPx(lo), lineY - 10, map.toPx(hi) - map.toPx(lo), 20);
-        p.stroke(C.mute); p.strokeWeight(2); p.line(map.toPx(params.min), lineY, map.toPx(params.max), lineY);
-        p.textAlign(p.CENTER, p.TOP); p.textSize(13);
+        p.noStroke(); p.fill(C.sun + '73'); p.rect(map.toPx(lo), lineY - 12, map.toPx(hi) - map.toPx(lo), 24, 6);
+        p.stroke(C.ink); p.strokeWeight(3); p.line(map.toPx(params.min) - 6, lineY, map.toPx(params.max) + 6, lineY);
+        p.textAlign(p.CENTER, p.TOP); p.textSize(13); p.textStyle(p.BOLD);
         for (let v = params.min; v <= params.max; v++) {
-          p.stroke(C.mute); p.strokeWeight(2); p.line(map.toPx(v), lineY - 7, map.toPx(v), lineY + 7);
-          p.noStroke(); p.fill(C.mute); p.text(String(v).replace('-', '−'), map.toPx(v), lineY + 14);
+          p.stroke(v === 0 ? C.sun : C.ink); p.strokeWeight(2); p.line(map.toPx(v), lineY - 7, map.toPx(v), lineY + 7);
+          p.noStroke(); p.fill(v === 0 ? C.N : v < 0 ? C.I : C.ink); p.text(String(v).replace('-', '−'), map.toPx(v), lineY + 14);
         }
         if (locked) {
           // La respuesta correcta en verde, bajo las asas del estudiante.

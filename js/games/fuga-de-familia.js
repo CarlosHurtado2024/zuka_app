@@ -83,31 +83,26 @@ GAMES['fuga-de-familia'] = (() => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
       p.onResize = () => layout(size.w, size.h);
 
-      function chip(b, t, col, fill) {
-        p.stroke(col); p.strokeWeight(2); p.fill(fill ?? C.card); p.rect(b.x, b.y, b.w, b.h, 10);
-        p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-        fitText(p, t.label, b.x + b.w / 2, b.y + b.h / 2 + 1, b.w - 10, 18);
-      }
+      const chip = (b, t, fill) => drawTile(p, C, b, t.label, { fill, size: 18 });
 
       p.draw = () => {
         p.background(C.bg);
         const r = R[cur], S = SETS[r.set], fam = C[S.col], pk = st.picks[cur];
         drawTabs(p, C, tabs, cur, i => (locked ? (escapes(R[i], st.picks[i]) ? C.ok : C.bad) : i === cur ? C.brand : st.picks[i].length === 2 ? C.Z : C.line));
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textAlign(p.LEFT, p.CENTER); p.textSize(12);
-        p.textAlign(p.CENTER, p.CENTER); fitText(p, `Haz que el resultado se salga de los ${S.name}`, W / 2, 56, W - 28, 12);
+        drawKicker(p, C, `Sal de los ${S.name}`, W / 2, 56, { center: true });
 
         // La casa de la familia: techo y paredes con el color de la familia.
         const hb = house, roofH = 26;
-        p.stroke(fam); p.strokeWeight(3); p.fill(C.card);
-        p.rect(hb.x, hb.y + roofH, hb.w, hb.h - roofH, 0, 0, 12, 12);
-        p.fill(C.card); p.triangle(hb.x - 6, hb.y + roofH, hb.x + hb.w / 2, hb.y, hb.x + hb.w + 6, hb.y + roofH);
-        p.noStroke(); p.fill(fam); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.textSize(16);
-        p.text(`casa ${S.sym}`, hb.x + hb.w / 2, hb.y + roofH * 0.62);
+        // Paredes de tarjeta y techo relleno con el color de la familia (formas planas, como en los videos).
+        p.stroke(fam); p.strokeWeight(3); p.fill(C.card); p.rect(hb.x, hb.y + roofH, hb.w, hb.h - roofH, 0, 0, 14, 14);
+        p.noStroke(); p.fill(fam); p.triangle(hb.x - 6, hb.y + roofH + 1.5, hb.x + hb.w / 2, hb.y - 2, hb.x + hb.w + 6, hb.y + roofH + 1.5);
+        p.fill(inkOn(fam, C.ink)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.textSize(15);
+        p.text(`casa ${S.sym}`, hb.x + hb.w / 2, hb.y + roofH * 0.66);
 
         // La máquina: a ∘ b
         slots.forEach((s, k) => {
-          if (pk[k] != null) chip(s, r.tiles[pk[k]], C.brand);
-          else { p.noFill(); p.stroke(C.line); p.strokeWeight(1.5); p.drawingContext.setLineDash([4, 4]); p.rect(s.x, s.y, s.w, s.h, 10); p.drawingContext.setLineDash([]); }
+          if (pk[k] != null) chip(s, r.tiles[pk[k]], C.sun);
+          else drawSlot(p, C, s);
         });
         p.noStroke(); p.fill(C.ink); p.textSize(22); p.textStyle(p.BOLD);
         p.text(r.op, W / 2, slots[0].y + slots[0].h / 2);
@@ -119,8 +114,7 @@ GAMES['fuga-de-familia'] = (() => {
           // El resultado sube: si se escapa, atraviesa el techo; si no, rebota adentro.
           const y0 = slots[0].y + 64, yTop = out ? hb.y - 14 : hb.y + roofH + 22;
           const e = 1 - (1 - fly) ** 3, y = y0 + (yTop - y0) * e - (out ? 0 : Math.sin(fly * Math.PI) * 6);
-          p.fill(out ? C.ok : C.bad); p.textSize(20);
-          fitText(p, txt, W / 2, out ? Math.max(y, 80) : y0, W - 40, 20);
+          drawPill(p, C, txt, W / 2, out ? Math.max(y, 80) : y0, out ? C.ok : C.bad, 18);
           p.textSize(12); p.textStyle(p.NORMAL); p.fill(out ? C.ok : C.mute);
           p.text(out ? `¡Se escapó! No es de los ${S.name}` : v ? `Sigue siendo de los ${S.name}: rebota` : 'Prueba con otro divisor', W / 2, hb.y + hb.h - 16);
         } else {
@@ -130,8 +124,8 @@ GAMES['fuga-de-familia'] = (() => {
         }
 
         tray.forEach((b, i) => {
-          if (pk.includes(i)) { p.noFill(); p.stroke(C.line); p.strokeWeight(1.5); p.drawingContext.setLineDash([4, 4]); p.rect(b.x, b.y, b.w, b.h, 10); p.drawingContext.setLineDash([]); }
-          else chip(b, r.tiles[i], locked ? C.line : fam);
+          if (pk.includes(i)) drawSlot(p, C, b);
+          else chip(b, r.tiles[i], C.cream);
         });
         p.noStroke(); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
         if (locked && !escapes(r, pk)) {

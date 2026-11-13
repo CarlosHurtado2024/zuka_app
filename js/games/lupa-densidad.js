@@ -54,8 +54,9 @@ GAMES['lupa-densidad'] = (() => {
         const dy = up ? -1 : 1, top = line.y + dy * 58;
         p.stroke(col); p.strokeWeight(2);
         if (!off) p.line(x, line.y, x, top);
-        p.noStroke(); p.fill(col); p.textStyle(p.BOLD); p.textSize(14); p.textAlign(p.CENTER, up ? p.BOTTOM : p.TOP);
-        p.text(off ? (x <= line.x0 ? `◀ ${label}` : `${label} ▶`) : label, Math.min(W - 30, Math.max(30, x)), top + dy * 4);
+        // La etiqueta va en una píldora del color de la bandera.
+        drawPill(p, C, off ? (x <= line.x0 ? `◀ ${label}` : `${label} ▶`) : label, Math.min(W - 30, Math.max(30, x)), top + dy * 24, col, 13);
+        p.noStroke(); p.fill(col);
         if (!off) p.triangle(x, top, x + 14 * (up ? 1 : -1), top + dy * 6, x, top + dy * 12);
       }
 
@@ -63,11 +64,9 @@ GAMES['lupa-densidad'] = (() => {
         p.background(C.bg);
         const r = R[cur], v = views[cur], x = st.xs[cur], good = inside(x, r);
         drawTabs(p, C, tabs, cur, i => (locked ? (inside(st.xs[i], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : st.xs[i] != null ? C.Z : C.line));
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
-        p.text(`Suelta un punto entre ${r.a.label} y ${r.b.label}`, 14, 56);
+        drawKicker(p, C, `Un punto entre ${r.a.label} y ${r.b.label}`, 14, 56);
         const zoom = (r.view[1] - r.view[0]) / (v.hi - v.lo);
-        p.textAlign(p.RIGHT, p.CENTER); p.fill(C.R); p.textStyle(p.BOLD);
-        p.text(`lupa ×${zoom >= 1 ? Math.round(zoom).toLocaleString('es-CO') : zoom}`, W - 14, 56);
+        drawPill(p, C, `lupa ×${zoom >= 1 ? Math.round(zoom).toLocaleString('es-CO') : zoom}`, W - 50, 78, C.sun, 11);
 
         // Lente: un círculo suave detrás de la recta.
         p.noStroke(); p.fill(C.card); p.rect(10, line.y - 96, W - 20, 192, 16);
@@ -87,7 +86,7 @@ GAMES['lupa-densidad'] = (() => {
         // Punto del estudiante
         if (x != null) {
           const px = toPx(x), onView = px >= line.x0 - 1 && px <= line.x1 + 1;
-          if (onView) { p.noStroke(); p.fill(good ? C.ok : C.N); p.circle(px, line.y, 16 + 3 * Math.sin(pulse)); }
+          if (onView) drawDot(p, C, px, line.y, 16 + 3 * Math.sin(pulse), good ? C.ok : C.sun);
           pulse += 0.12;
           p.noStroke(); p.fill(good ? C.ok : C.ink); p.textStyle(p.BOLD); p.textSize(18); p.textAlign(p.CENTER, p.CENTER);
           fitText(p, `tu punto: ${x.toFixed(decimalsOf(stepOf(v) / 10))}${onView ? '' : ' (fuera de la vista)'}`, W / 2, zout.y - 38, W - 28, 18);
@@ -95,8 +94,7 @@ GAMES['lupa-densidad'] = (() => {
         if (locked && !good) { p.fill(C.ok); p.textStyle(p.BOLD); p.textSize(13); p.text(`Por ejemplo: ${between(r)}`, W / 2, zout.y - 14); }
         // Botones de la lupa
         [[zout, '🔍 −  alejar'], [zin, '🔍 +  acercar']].forEach(([b, t]) => {
-          p.stroke(locked ? C.line : C.brand); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 10);
-          p.noStroke(); p.fill(locked ? C.mute : C.brand); p.textStyle(p.BOLD); p.textSize(14); p.textAlign(p.CENTER, p.CENTER); p.text(t, b.x + b.w / 2, b.y + b.h / 2);
+          drawTile(p, C, b, t, { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, size: 14 });
         });
       };
 

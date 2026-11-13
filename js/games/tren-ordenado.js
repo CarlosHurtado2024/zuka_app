@@ -28,10 +28,13 @@ GAMES['tren-ordenado'] = (() => {
 
     function wagon(p, x, y, w, label, col, lifted) {
       const h = 40;
-      p.stroke(col); p.strokeWeight(lifted ? 3 : 2); p.fill(C.card);
-      p.rect(x, y - h, w, h, 6);
-      p.noStroke(); p.fill(C.mute); p.circle(x + w * 0.25, y + 4, 11); p.circle(x + w * 0.75, y + 4, 11);
-      p.fill(C.ink); p.textStyle(p.BOLD); fitText(p, label, x + w / 2, y - h / 2, w - 6, 16);
+      // Vagón: bloque crema con relieve (color sol al levantarlo), techo del color del estado y ruedas con centro sol.
+      drawTile(p, C, { x, y: y - h, w, h: h - 3 }, '', { fill: lifted ? C.sun : C.cream, r: 7, lift: 3, ring: lifted ? C.sun : null });
+      p.noFill(); p.stroke(col); p.strokeWeight(2); p.rect(x, y - h, w, h - 3, 7);   // borde: en el tema claro el vagón crema casi no se distingue del papel
+      p.noStroke(); p.fill(col); p.rect(x, y - h, w, 7, 7, 7, 0, 0);
+      p.fill(C.ink); p.circle(x + w * 0.25, y + 5, 13); p.circle(x + w * 0.75, y + 5, 13);
+      p.fill(C.sun); p.circle(x + w * 0.25, y + 5, 5); p.circle(x + w * 0.75, y + 5, 5);
+      p.fill(inkOn(lifted ? C.sun : C.cream, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); fitText(p, label, x + w / 2, y - h / 2 + 3, w - 6, 16);
     }
 
     const m = mountSketch(host, (p, size) => {
@@ -42,11 +45,11 @@ GAMES['tren-ordenado'] = (() => {
         p.background(C.bg);
         const r = R[cur], o = O[cur], g = geo(), good = sorted(o.map(k => r.items[k].v));
         drawTabs(p, C, tabs, cur, i => (locked ? (sorted(O[i].map(k => R[i].items[k].v)) ? C.ok : C.bad) : i === cur ? C.brand : moved[i] ? C.R : C.line));
-        p.textAlign(p.CENTER, p.CENTER); p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD);
-        fitText(p, 'Ordena el tren de menor a mayor', W / 2, 58, W - 24, 15);
+        drawKicker(p, C, 'Ordena el tren de menor a mayor', W / 2, 58, { center: true });
+        p.textAlign(p.CENTER, p.CENTER); p.noStroke();
         p.fill(C.mute); p.textStyle(p.NORMAL); fitText(p, 'Arrastra cada vagón a su lugar', W / 2, 80, W - 24, 12);
         // Riel
-        p.stroke(C.line); p.strokeWeight(3); p.line(6, g.y + 12, W - 6, g.y + 12);
+        p.stroke(C.mute); p.strokeWeight(3); p.line(6, g.y + 12, W - 6, g.y + 12);
         for (let x = 12; x < W; x += 16) { p.strokeWeight(2); p.line(x, g.y + 12, x - 4, g.y + 18); }
         // Vagones
         o.forEach((k, pos) => {

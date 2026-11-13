@@ -108,3 +108,33 @@ test('Jost solo cuenta como lista si hay una cara suya ya cargada (sin conexión
   assert.equal(jostLoaded(new Set([{ family: '"Jost"', status: 'loaded' }])), true);
   assert.equal(gameFont(), 'system-ui', 'en Node no hay letras cargadas');
 });
+
+test('shade oscurece y aclara un color sin salirse de 00–FF', () => {
+  const shade = get(ctx, 'shade');
+  assert.equal(shade('#FFC84A', 0.5), '#806425');
+  assert.equal(shade('#000000', 1.5), '#808080');
+  assert.equal(shade('#102030', 3), '#FFFFFF');
+  assert.equal(shade('nada', 0.5), 'nada');
+});
+
+test('drawTile pinta labio, cara y texto con tinta legible; drawNumLine numera con el color del signo', () => {
+  const drawTile = get(ctx, 'drawTile'), drawNumLine = get(ctx, 'drawNumLine'), C = PALETTES.dark;
+  const p = fakeP(); p.textWidth = s => String(s).length * 8; p.line = () => {}; p.width = 328;
+  drawTile(p, C, { x: 10, y: 10, w: 60, h: 40 }, '−3', { fill: C.coral });
+  const rects = p.log.filter(e => e.kind === 'rect');
+  assert.equal(rects.length, 2);
+  assert.equal(rects[1].fill, C.coral);
+  assert.notEqual(rects[0].fill, C.coral, 'el labio es más oscuro');
+  assert.equal(p.log.find(e => e.kind === 'text').fill, inkOn(C.coral));
+  const q = fakeP(); q.line = () => {}; q.textWidth = s => String(s).length * 8;
+  const X = drawNumLine(q, C, { x0: 20, x1: 300, y: 200, min: -3, max: 3 });
+  const t = q.log.filter(e => e.kind === 'text');
+  assert.equal(t.map(e => e.s).join(), '−3,−2,−1,0,1,2,3');
+  assert.equal(t[0].fill, C.I); assert.equal(t[3].fill, C.N); assert.equal(t[6].fill, C.ink);
+  assert.equal(X(0), 160);
+});
+
+test('los juegos de Álgebra U1 dibujan con las piezas de los videos', () => {
+  const U1 = 'atrapa-elementos ascensor recta-espejo pasaporte-numeros fuga-de-familia pizzeria candado-fraccion pon-la-rayita ordena-terminos acorrala-raiz compas-raiz cajas-numericas lupa-densidad ubica-en-recta inversos-gemelos corta-rectangulo atajo-axiomas arma-producto cancela-balanza tren-ordenado voltea-desigualdad dobla-la-recta distancia-justa dibuja-intervalo'.split(' ');
+  for (const g of U1) assert.match(read(`js/games/${g}.js`), /draw(Tile|Pill|Kicker|NumLine|Dot|Slot)\(/, g);
+});

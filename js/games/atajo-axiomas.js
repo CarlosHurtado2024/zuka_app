@@ -36,7 +36,7 @@ GAMES['atajo-axiomas'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      tabs = params.rounds.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
+      tabs = roundTabs(params.rounds.length);
       card = { x: 16, y: h * 0.36, w: w - 32, h: 62 };
       const bw = (w - 24 - 8) / 2, bh = 38, y0 = h - 3 * (bh + 8) - 24;
       btns = [...AXIOMS, '↶ Deshacer'].map((a, k) => ({ a, x: 12 + (k % 2) * (bw + 8), y: y0 + Math.floor(k / 2) * (bh + 8), w: bw, h: bh }));
@@ -57,17 +57,14 @@ GAMES['atajo-axiomas'] = (() => {
       p.draw = () => {
         p.background(C.bg);
         const r = params.rounds[cur], path = st.paths[cur], done = at() === r.target;
-        tabs.forEach((t, i) => {
-          const ri = params.rounds[i], fin = validPath(ri, st.paths[i]);
-          const col = locked ? (fin ? C.ok : C.bad) : i === cur ? C.brand : fin ? C.Q : C.line;
-          p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
+        drawTabs(p, C, tabs, cur, i => {
+          const fin = validPath(params.rounds[i], st.paths[i]);
+          return locked ? (fin ? C.ok : C.bad) : i === cur ? C.brand : fin ? C.Q : C.line;
         });
         // La meta, arriba a la derecha.
         p.textStyle(p.BOLD); p.textSize(16);
         const goal = `meta: ${r.target}`, gw = p.textWidth(goal) + 24;
-        p.stroke(C.Q); p.strokeWeight(2); p.fill(C.Q + '22'); p.rect(W - 12 - gw, 8, gw, 30, 15);
-        p.noStroke(); p.fill(C.Q); p.textAlign(p.CENTER, p.CENTER); p.text(goal, W - 12 - gw / 2, 23);
+        drawPill(p, C, goal, W - 12 - gw / 2, 23, C.mint, 15);
 
         // Los pasos anteriores (los dos últimos), con el axioma que se usó.
         const shown = Math.min(2, path.length - 1);
@@ -95,8 +92,8 @@ GAMES['atajo-axiomas'] = (() => {
         // Botones de los axiomas.
         btns.forEach(b => {
           const undo = b.a.startsWith('↶'), off = locked || (undo ? path.length === 1 : done);
-          p.stroke(off ? C.line : undo ? C.mute : C.Z); p.strokeWeight(1.8); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 10);
-          p.noStroke(); p.fill(off ? C.mute : C.ink); p.textStyle(p.BOLD); p.textSize(14); p.textAlign(p.CENTER, p.CENTER); p.text(b.a, b.x + b.w / 2, b.y + b.h / 2);
+          // Cada axioma, una ficha azul; «deshacer», crema; apagada si no se puede usar.
+          drawTile(p, C, b, b.a, { fill: off ? C.card : undo ? C.cream : C.sky, ink: off ? C.mute : undefined, size: 14, lift: off ? 1 : 3 });
         });
         p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
         p.text(`pasos: ${path.length - 1} · el atajo más corto usa ${best}`, 12, H - 12, W - 24, 16);

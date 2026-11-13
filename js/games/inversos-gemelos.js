@@ -56,8 +56,8 @@ GAMES['inversos-gemelos'] = (() => {
     }
     function button(b, label, on, col) {
       if (!b) return;
-      p5i.stroke(on ? col : C.line); p5i.strokeWeight(on ? 2.5 : 1.5); p5i.fill(on ? col : C.card); p5i.rect(b.x, b.y, b.w, b.h, 9);
-      p5i.noStroke(); p5i.fill(on ? C.bg : C.ink); p5i.textStyle(p5i.BOLD); fitText(p5i, label, b.x + b.w / 2, b.y + b.h / 2, b.w - 8, 16);
+      // Ficha con relieve: crema apagada, de su color cuando está activa; los − / + van en azul.
+      drawTile(p5i, C, b, label, { fill: on ? col : label === '−' || label === '+' ? C.sky : C.cream, r: 9, lift: on ? 1 : 3, size: 16 });
     }
     let p5i = null;
 
@@ -70,11 +70,11 @@ GAMES['inversos-gemelos'] = (() => {
         p.background(C.bg);
         const r = R[cur], a = A[cur], good = okRound(a, r, op);
         drawTabs(p, C, tabs, cur, i => (locked ? (okRound(A[i], R[i], op) ? C.ok : C.bad) : i === cur ? C.brand : A[i].touched ? C.Q : C.line));
-        p.textAlign(p.CENTER, p.CENTER); p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL);
-        fitText(p, mul ? 'Arma el gemelo que, al multiplicar, da 1' : 'Arma el gemelo que, al sumar, da 0', W / 2, 56, W - 24, 12);
+        drawKicker(p, C, mul ? 'El gemelo que al multiplicar da 1' : 'El gemelo que al sumar da 0', W / 2, 56, { center: true });
+        p.textAlign(p.CENTER, p.CENTER); p.noStroke();
         // La máquina: número ⊕ gemelo = resultado
         const sx = shake > 0 ? Math.sin(shake * 2) * 4 : 0; shake = Math.max(0, shake - 1);
-        p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(12 + sx, 74, W - 24, 58, 12);
+        p.stroke(locked ? (good ? C.ok : C.bad) : C.sun); p.strokeWeight(2.5); p.fill(C.card); p.rect(12 + sx, 74, W - 24, 58, 14);
         const eq = `${r.label}  ${op}  ${a.none ? '?' : `(${txt(a)})`}`;
         p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); fitText(p, eq, W / 2 + sx, 94, W - 40, 19);
         let res = '';

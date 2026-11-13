@@ -44,12 +44,14 @@ GAMES['ubica-en-recta'] = (() => {
       p.onResize = () => { layout(size.w, size.h); chips.forEach(c => { c.x = c.tx; c.y = c.ty; }); };
 
       function axis(y, mp, from, to, step, labels) {
-        p.stroke(C.mute); p.strokeWeight(2); p.line(mp.toPx(from), y, mp.toPx(to), y);
+        p.stroke(C.ink); p.strokeWeight(3); p.line(mp.toPx(from) - 6, y, mp.toPx(to) + 6, y);
         p.textAlign(p.CENTER, p.TOP); p.textSize(14); p.textStyle(p.BOLD);
         for (let k = Math.ceil(from / step - 1e-9); k * step <= to + 1e-9; k++) {
           const v = k * step, x = mp.toPx(v), whole = Math.abs(v - Math.round(v)) < 1e-9;
-          p.stroke(C.mute); p.strokeWeight(whole ? 2 : 1); p.line(x, y - (whole ? 8 : 4), x, y + (whole ? 8 : 4));
-          if (labels && whole) { p.noStroke(); p.fill(C.mute); p.text(String(Math.round(v)).replace('-', '−'), x, y + 12); }
+          // Marcas y números con el color del signo: negativos coral, el cero sol, positivos tinta.
+          const zero = Math.abs(v) < 1e-9;
+          p.stroke(zero ? C.sun : C.ink); p.strokeWeight(whole ? 2 : 1); p.line(x, y - (whole ? 8 : 4), x, y + (whole ? 8 : 4));
+          if (labels && whole) { p.noStroke(); p.fill(zero ? C.N : v < 0 ? C.I : C.ink); p.text(String(Math.round(v)).replace('-', '−'), x, y + 12); }
         }
       }
 
@@ -82,16 +84,13 @@ GAMES['ubica-en-recta'] = (() => {
             p.stroke(color); p.strokeWeight(2); p.line(c.x + c.w / 2, c.y + c.h, x, lineY - 6);
             p.noStroke(); p.fill(color); p.triangle(x - 6, lineY - 12, x + 6, lineY - 12, x, lineY - 1);
           }
-          p.stroke(color); p.strokeWeight(2.5); p.fill(C.card); p.rect(c.x, c.y, c.w, c.h, 10);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(Math.min(18, c.w / 3)); p.textStyle(p.BOLD);
-          p.text(c.label, c.x + c.w / 2, c.y + c.h / 2 + 1);
+          drawTile(p, C, c, c.label, { size: Math.min(18, c.w / 3), fill: v !== null && !locked ? C.sun : C.cream, lift: c.i === drag ? 5 : 3, ring: locked ? color : null });
         });
         if (drag >= 0) {
           // Lectura en vivo: el valor donde caería la ficha y una guía hasta la recta.
           const c = chips[drag], x = Math.max(map.toPx(params.min), Math.min(map.toPx(params.max), c.x + c.w / 2)), v = map.toVal(x);
           p.stroke(C.brand); p.strokeWeight(1.5); p.drawingContext.setLineDash([4, 4]); p.line(x, c.y + c.h, x, lineY); p.drawingContext.setLineDash([]);
-          p.noStroke(); p.fill(C.brand); p.textAlign(p.CENTER, p.TOP); p.textSize(13); p.textStyle(p.BOLD);
-          p.text(`≈ ${v.toFixed(2).replace('-', '−')}`, x, c.y + c.h + 6);
+          drawPill(p, C, `≈ ${v.toFixed(2).replace('-', '−')}`, x, c.y + c.h + 20, C.brand, 13);
         }
         if (locked) {
           // Hasta tres lupas, empezando por las fichas peor ubicadas.

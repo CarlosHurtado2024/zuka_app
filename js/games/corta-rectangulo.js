@@ -49,11 +49,11 @@ GAMES['corta-rectangulo'] = (() => {
         p.noStroke();
         if (k == null) { p.fill(C.card); p.rect(b.x, b.y, b.w, b.h); }
         else {
-          const c1 = p.color(C.Q), c2 = p.color(C.N); c1.setAlpha(70); c2.setAlpha(70);
-          p.fill(c1); p.rect(b.x, b.y, kx - b.x, b.h); p.fill(c2); p.rect(kx, b.y, b.x + b.w - kx, b.h);
+          // Dos piezas rellenas: menta y sol.
+          p.fill(C.mint); p.rect(b.x, b.y, kx - b.x, b.h); p.fill(C.sun); p.rect(kx, b.y, b.x + b.w - kx, b.h);
         }
         // Cuadrícula
-        p.stroke(C.line); p.strokeWeight(b.u > 7 ? 1 : 0.5);
+        p.stroke(k == null ? C.line : C.night + '40'); p.strokeWeight(b.u > 7 ? 1 : 0.5);
         for (let i = 1; i < r.w; i++) p.line(b.x + i * b.u, b.y, b.x + i * b.u, b.y + b.h);
         for (let j = 1; j < r.h; j++) p.line(b.x, b.y + j * b.u, b.x + b.w, b.y + j * b.u);
         p.noFill(); p.stroke(C.ink); p.strokeWeight(2); p.rect(b.x, b.y, b.w, b.h);
@@ -64,11 +64,11 @@ GAMES['corta-rectangulo'] = (() => {
         else {
           p.fill(C.Q); p.text(k, (b.x + kx) / 2, b.y - 12); p.fill(C.N); p.text(r.w - k, (kx + b.x + b.w) / 2, b.y - 12);
           p.stroke(locked ? (good ? C.ok : C.bad) : C.brand); p.strokeWeight(3.5); p.line(kx, b.y - 4, kx, b.y + b.h + 4);
-          p.noStroke(); p.fill(locked ? (good ? C.ok : C.bad) : C.brand); p.circle(kx, b.y + b.h + 12, 16);
+          drawDot(p, C, kx, b.y + b.h + 12, 16, locked ? (good ? C.ok : C.bad) : C.brand);
           // Áreas dentro de cada pieza (si caben)
-          p.fill(C.ink); p.textSize(12);
-          if (kx - b.x > 26) p.text(r.h * k, (b.x + kx) / 2, b.y + b.h / 2);
-          if (b.x + b.w - kx > 26) p.text(r.h * (r.w - k), (kx + b.x + b.w) / 2, b.y + b.h / 2);
+          p.noStroke(); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(14);
+          if (kx - b.x > 26) { p.fill(inkOn(C.mint, C.ink)); p.text(r.h * k, (b.x + kx) / 2, b.y + b.h / 2); }
+          if (b.x + b.w - kx > 26) { p.fill(inkOn(C.sun, C.ink)); p.text(r.h * (r.w - k), (kx + b.x + b.w) / 2, b.y + b.h / 2); }
         }
         // La distributiva
         const y0 = b.y + b.h + 40;
@@ -79,8 +79,7 @@ GAMES['corta-rectangulo'] = (() => {
           p.fill(C.mute); p.textStyle(p.NORMAL); fitText(p, `= ${r.h * k} + ${r.h * (r.w - k)} = ${r.h * r.w}`, W / 2, y0 + 24, W - 24, 14);
         }
         if (!locked) for (const [bb, t] of [[bm, '−'], [bp, '+']]) {
-          p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(bb.x, bb.y, bb.w, bb.h, 9);
-          p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(18); p.text(t, bb.x + bb.w / 2, bb.y + bb.h / 2);
+          drawTile(p, C, bb, t, { fill: C.sky, r: 9, lift: 2, size: 18 });
         }
         if (!locked) { p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.text('mover el corte', W / 2, H - 44); }
         if (locked && !good) { p.fill(C.ok); p.textStyle(p.BOLD); fitText(p, `Cortar en ${r.piece / r.h}: pieza de ${r.piece}`, W / 2, H - 30, W - 24, 12); }

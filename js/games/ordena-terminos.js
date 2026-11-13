@@ -44,12 +44,10 @@ GAMES['ordena-terminos'] = (() => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
       p.onResize = () => layout(size.w, size.h);
 
-      function chip(b, label, col, fill = C.card, dashed = false) {
-        if (dashed) p.drawingContext.setLineDash([5, 4]);
-        p.stroke(col); p.strokeWeight(2); p.fill(fill); p.rect(b.x, b.y, b.w, b.h, 9);
-        p.drawingContext.setLineDash([]);
-        p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(label.length > 18 ? 9 : label.length > 7 ? 11 : 14);
-        p.text(label, b.x + b.w / 2, b.y + b.h / 2);
+      // Ficha con relieve (crema en la bandeja, color sol ya puesta) o casilla punteada si está vacía.
+      function chip(b, label, col, fill = C.cream, dashed = false) {
+        if (dashed) return drawSlot(p, C, b, 9, col === C.line ? C.mute : col);
+        drawTile(p, C, b, label, { fill, r: 9, lift: 2, size: label.length > 18 ? 9 : label.length > 7 ? 11 : 14 });
       }
 
       const sep = params.sep || '+';
@@ -58,7 +56,7 @@ GAMES['ordena-terminos'] = (() => {
         boxes.forEach((b, i) => {
           const j = st.boxes[i], good = j !== null && j === params.order[i];
           const col = locked ? (good ? C.ok : C.bad) : j !== null ? C.brand : C.line;
-          if (j === null) chip(b, '', col, C.bg, true); else chip(b, params.chips[j], col);
+          if (j === null) chip(b, '', col, C.bg, true); else chip(b, params.chips[j], col, locked ? col : C.sun);
           // El «+» va entre cajas; si la siguiente cae en otra fila, va al inicio de esa fila.
           if (i < n - 1) { p.noStroke(); p.fill(C.mute); p.textSize(16); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); const nb = boxes[i + 1]; if (nb.y === b.y) p.text(sep, (b.x + b.w + nb.x) / 2, b.y + b.h / 2); else p.text(sep, nb.x - 11, nb.y + nb.h / 2); }
           if (locked && !good) { p.noStroke(); p.fill(C.ok); p.textSize(11); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.TOP); p.text(`→ ${params.chips[params.order[i]]}`, b.x + b.w / 2, b.y + b.h + 2); }
@@ -69,7 +67,7 @@ GAMES['ordena-terminos'] = (() => {
         if (!locked) params.chips.forEach((v, j) => { if (placedAt(j) < 0 && !(drag && drag.j === j)) chip(tray[j], v, C.Z); });   // bloqueado, la bandeja sobra
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked ? (grade(st, params).ok ? '¡En orden!' : 'Mira los términos en verde') : `Arrastra los términos en orden · sobran ${params.chips.length - n}`, 12, H - 22, W - 24, 20);
-        if (drag) chip({ x: p.mouseX - tray[0].w / 2, y: p.mouseY - 17, w: tray[0].w, h: 34 }, params.chips[drag.j], C.brand);
+        if (drag) chip({ x: p.mouseX - tray[0].w / 2, y: p.mouseY - 17, w: tray[0].w, h: 34 }, params.chips[drag.j], C.brand, C.sun);
       };
 
       p.mousePressed = () => {

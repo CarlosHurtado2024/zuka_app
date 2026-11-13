@@ -56,9 +56,9 @@ GAMES['candado-fraccion'] = (() => {
         const r = R[cur], fr = st.fr[cur], good = same(fr, r);
         open[cur] += ((good ? 1 : 0) - open[cur]) * 0.15;
         drawTabs(p, C, tabs, cur, i => (locked ? (same(st.fr[i], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : same(st.fr[i], R[i]) ? C.Q : touched[i] ? C.Z : C.line));
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
-        p.text('El candado se abre con la fracción de', 14, 56);
-        p.fill(C.Q); p.textStyle(p.BOLD); p.textSize(26); p.text(r.dec, 14, 82);
+        drawKicker(p, C, 'Se abre con la fracción de', 14, 56);
+        p.noStroke(); p.textAlign(p.LEFT, p.CENTER);
+        p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(26); p.text(r.dec, 14, 82);
 
         // El candado: arco que sube al abrirse y cuerpo con el visor.
         const cx = W / 2, bodyY = H * 0.34, bw = Math.min(W - 40, 260), bh = H * 0.48;
@@ -67,25 +67,25 @@ GAMES['candado-fraccion'] = (() => {
         p.arc(cx, bodyY - lift, sw, sw * 0.9, Math.PI, 0);
         p.line(cx - sw / 2, bodyY - lift, cx - sw / 2, bodyY + 10 - lift);
         p.line(cx + sw / 2, bodyY - lift, cx + sw / 2, bodyY + 10 - lift * 0.2);
-        p.stroke(good ? C.ok : C.line); p.strokeWeight(2.5); p.fill(C.card);
-        p.rect(cx - bw / 2, bodyY + 4, bw, bh, 18);
+        // Cuerpo del candado: bloque color sol con relieve (menta cuando abre); el visor es una pantalla azul noche.
+        const body = good ? C.mint : C.sun, onBody = inkOn(body, C.ink);
+        p.noStroke(); p.fill(shade(body, 0.74)); p.rect(cx - bw / 2, bodyY + 9, bw, bh, 18);
+        p.fill(body); p.rect(cx - bw / 2, bodyY + 4, bw, bh, 18);
         // Visor
         const vy = bodyY + 18;
-        p.fill(C.bg); p.stroke(C.line); p.strokeWeight(1.5); p.rect(cx - bw / 2 + 16, vy, bw - 32, 40, 8);
-        p.noStroke(); p.fill(good ? C.ok : C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+        p.fill(C.night); p.rect(cx - bw / 2 + 16, vy, bw - 32, 40, 8);
+        p.fill(good ? C.sun : inkOn(C.night)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
         fitText(p, `${fr[0]}/${fr[1]} = ${decimalText(fr[0], fr[1])}`, cx, vy + 21, bw - 44, 20);
         // Ruedas
         wheels.forEach((wh, k) => {
-          p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.bg); p.rect(wh.x, wh.y, wh.w, wh.h, 8);
-          p.noStroke(); p.fill(k < 2 ? C.Z : C.N); p.textStyle(p.BOLD); p.textSize(30); p.text(digit(k, fr), wh.x + wh.w / 2, wh.y + wh.h / 2 + 1);
-          [[wh.up, '▲'], [wh.dn, '▼']].forEach(([b, s]) => {
-            p.stroke(locked ? C.line : C.brand); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-            p.noStroke(); p.fill(locked ? C.mute : C.brand); p.textSize(13); p.text(s, b.x + b.w / 2, b.y + b.h / 2 + 1);
-          });
+          // Rueda: ficha crema con la cifra; flechas en fichas azul noche.
+          drawTile(p, C, wh, digit(k, fr), { size: 30, r: 8, lift: 2 });
+          [[wh.up, '▲'], [wh.dn, '▼']].forEach(([b, s]) => drawTile(p, C, b, s, { fill: C.night, ink: locked ? '#8A8FB8' : '#FFFFFF', size: 13, r: 8, lift: 2 }));
         });
-        p.noStroke(); p.fill(C.ink); p.textSize(30); p.textStyle(p.BOLD);
+        p.noStroke(); p.fill(onBody); p.textSize(30); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
         p.text('/', (wheels[1].x + wheels[1].w + wheels[2].x) / 2, wheels[0].y + 31);
-        p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11);
+        // Los rótulos pueden caer dentro del cuerpo (lienzo alto) o debajo, sobre el fondo (celular): la tinta sigue al sitio.
+        p.fill(wheels[0].dn.y + 52 < bodyY + 4 + bh ? onBody : C.mute); p.textStyle(p.BOLD); p.textSize(11);
         p.text('numerador', (wheels[0].x + wheels[1].x + wheels[1].w) / 2, wheels[0].dn.y + 44);
         p.text('denominador', (wheels[2].x + wheels[3].x + wheels[3].w) / 2, wheels[0].dn.y + 44);
         p.textSize(12);

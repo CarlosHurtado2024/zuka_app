@@ -13,14 +13,14 @@ const PALETTES = {
     N: '#FFC84A', Z: '#56CCF2', Q: '#3FD8AE', I: '#FF6B5E', R: '#C3A6FF',
     brand: '#5B8CFF', bg: '#1D2052', card: '#272C68', line: '#444B96',
     ink: '#FFF4E2', mute: '#A7ACE0', ok: '#2FE08F', bad: '#FF5A74',
-    sun: '#FFC84A', coral: '#FF6B5E', mint: '#3FD8AE', sky: '#4D7CFE', cream: '#FFF4E2', night: '#1D2052',
+    sun: '#FFC84A', coral: '#FF6B5E', mint: '#3FD8AE', sky: '#4D7CFE', cream: '#FFF4E2', creamD: '#E6CFA8', night: '#1D2052',
     star: '#9298D4', halo: '#252A63',
   },
   light: {
     N: '#A86F00', Z: '#1479C9', Q: '#0B8A61', I: '#E0453A', R: '#6A4BE6',
     brand: '#3A5FD9', bg: '#FFF6E6', card: '#FFFFFF', line: '#E2CFAE',
     ink: '#1D2052', mute: '#5B6090', ok: '#0F9A5C', bad: '#D8314F',
-    sun: '#FFB627', coral: '#FF6B5E', mint: '#22B38C', sky: '#4D7CFE', cream: '#FFFFFF', night: '#1D2052',
+    sun: '#FFB627', coral: '#FF6B5E', mint: '#22B38C', sky: '#4D7CFE', cream: '#FFFFFF', creamD: '#E2CFAE', night: '#1D2052',
     star: '#F3CE96', halo: '#FBE8C8',
   },
 };
@@ -373,4 +373,71 @@ function numTxt(v) {
 function fitText(p, txt, x, y, maxW, size) {
   p.textSize(size); while (size > 9 && p.textWidth(txt) > maxW) { size -= 1; p.textSize(size); }
   p.text(txt, x, y);
+}
+
+// ---------- Piezas con el estilo de los videos (fichas, casillas, rótulos, puntos, rectas) ----------
+// Oscurece (k < 1) o aclara hacia el blanco (k > 1) un color hex.
+function shade(hex, k) {
+  if (typeof hex !== 'string' || !/^#[0-9a-f]{6}$/i.test(hex)) return hex;
+  const f = v => Math.round(k <= 1 ? v * k : v + (255 - v) * Math.min(1, k - 1));
+  return '#' + [1, 3, 5].map(i => f(parseInt(hex.slice(i, i + 2), 16)).toString(16).padStart(2, '0')).join('').toUpperCase();
+}
+// Ficha: bloque relleno con un labio más oscuro abajo (relieve plano) y el texto encima, con la tinta
+// que se lee sobre el relleno. o = { fill, ink, r, lift, size, ring (aro de selección), k (escala) }.
+function drawTile(p, C, b, txt, o = {}) {
+  const fill = o.fill ?? C.cream, r = o.r ?? 10, lift = o.lift ?? 3, k = o.k ?? 1;
+  const w = b.w * k, h = b.h * k, x = b.x + (b.w - w) / 2, y = b.y + (b.h - h) / 2;
+  if (o.ring) { p.noFill(); p.stroke(o.ring); p.strokeWeight(2.5); p.rect(x - 3, y - 3, w + 6, h + 6 + lift, r + 3); }
+  p.noStroke(); p.fill(o.lip ?? (fill === C.cream ? C.creamD : shade(fill, 0.74))); p.rect(x, y + lift, w, h, r);
+  p.fill(fill); p.rect(x, y, w, h, r);
+  if (txt != null && txt !== '') {
+    p.fill(o.ink ?? inkOn(fill, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
+    fitText(p, String(txt), b.x + b.w / 2, b.y + b.h / 2 + 1, w - 8, o.size ?? 17);
+  }
+}
+// Casilla vacía (donde va una ficha): borde punteado.
+function drawSlot(p, C, b, r = 10, col) {
+  p.noFill(); p.stroke(col ?? C.mute); p.strokeWeight(1.5);
+  p.drawingContext.setLineDash([4, 4]); p.rect(b.x, b.y, b.w, b.h, r); p.drawingContext.setLineDash([]);
+}
+// Rótulo de los videos: barrita y texto en versalitas. Centrado en x con o.center; si no, empieza en x.
+function drawKicker(p, C, txt, x, y, o = {}) {
+  const s = String(txt).toUpperCase(), ctx = p.drawingContext;
+  p.textStyle(p.BOLD); p.textSize(o.size ?? 11);
+  if ('letterSpacing' in ctx) ctx.letterSpacing = '1px';
+  const tw = Math.min(p.textWidth(s), p.width - 30), x0 = o.center ? x - (tw + 9) / 2 : x;
+  p.noStroke(); p.fill(o.bar ?? C.sun); p.rect(x0, y - 7, 3, 14, 2);
+  p.fill(o.col ?? C.N); p.textAlign(p.LEFT, p.CENTER); fitText(p, s, x0 + 9, y + 1, p.width - x0 - 14, o.size ?? 11);
+  if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+}
+// Punto con halo (el punto elegido en una recta o en un plano).
+function drawDot(p, C, x, y, d, col) {
+  const halo = p.color(col); halo.setAlpha(70);
+  p.noStroke(); p.fill(halo); p.circle(x, y, d * 1.9); p.fill(col); p.circle(x, y, d);
+}
+// Píldora rellena con texto (etiquetas como «bajo el mar: −10 m»); no se sale del lienzo. Devuelve su ancho.
+function drawPill(p, C, txt, cx, cy, col, size = 12) {
+  p.textStyle(p.BOLD); p.textSize(size);
+  const w = Math.min(p.width - 8, p.textWidth(txt) + 18), h = size + 11;
+  cx = Math.max(w / 2 + 4, Math.min(p.width - w / 2 - 4, cx));
+  p.noStroke(); p.fill(col); p.rect(cx - w / 2, cy - h / 2, w, h, h / 2);
+  p.fill(inkOn(col, C.ink)); p.textAlign(p.CENTER, p.CENTER); fitText(p, txt, cx, cy + 1, w - 10, size);
+  return w;
+}
+// Recta numérica de los videos: línea gruesa con puntas redondas, marcas, y números con el color de su
+// signo (negativos coral, el cero sol, positivos tinta). L = { x0, x1, y, min, max }; o = { step, every, label }.
+function drawNumLine(p, C, L, o = {}) {
+  const X = v => L.x0 + (v - L.min) / (L.max - L.min) * (L.x1 - L.x0), step = o.step ?? 1;
+  const every = o.every ?? ((L.x1 - L.x0) / ((L.max - L.min) / step) < 25 ? 2 : 1);
+  p.stroke(C.ink); p.strokeWeight(3); p.line(L.x0 - 8, L.y, L.x1 + 8, L.y);
+  const n = Math.round((L.max - L.min) / step);
+  for (let i = 0; i <= n; i++) {
+    const v = +(L.min + i * step).toFixed(6), zero = Math.abs(v) < 1e-9;
+    p.stroke(zero ? C.sun : C.ink); p.strokeWeight(zero ? 3 : 2); p.line(X(v), L.y - (zero ? 9 : 6), X(v), L.y + (zero ? 9 : 6));
+    if (o.label !== false && i % every === 0) {
+      p.noStroke(); p.fill(zero ? C.N : v < 0 ? C.I : C.ink); p.textStyle(p.BOLD); p.textSize(o.size ?? 12); p.textAlign(p.CENTER, p.CENTER);
+      p.text(o.label ? o.label(v) : numTxt(v), X(v), L.y + 21);
+    }
+  }
+  return X;
 }

@@ -26,7 +26,7 @@ GAMES['acorrala-raiz'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      tabs = params.rounds.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
+      tabs = roundTabs(params.rounds.length, w);
       const top = 104, rowH = (h - top - 60) / L;
       lines = Array.from({ length: L }, (_, k) => ({ x0: 22, x1: w - 22, y: top + k * rowH + rowH * 0.42 }));
     }
@@ -45,27 +45,27 @@ GAMES['acorrala-raiz'] = (() => {
         tabs.forEach((t, i) => {
           const ok = st.picks[i].join() === digitsOf(params.rounds[i].n, L).join();
           const col = locked ? (ok ? C.ok : C.bad) : i === cur ? C.brand : st.picks[i].length ? C.Z : C.line;
-          p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(`√${params.rounds[i].n}`, t.x + t.w / 2, t.y + t.h / 2);
+          // Fichas como las de las rondas, con la raíz de cada una.
+          const plain = col === C.line;
+          drawTile(p, C, t, `√${params.rounds[i].n}`, { fill: plain ? C.card : col, ink: plain ? C.mute : undefined, r: 8, lift: 0, size: 13, ring: i === cur ? C.sun : null });
         });
         p.noStroke(); p.fill(C.ink); p.textAlign(p.LEFT, p.TOP); p.textStyle(p.BOLD); p.textSize(14);
         p.text(`Acorrala √${n}: toca el tramo donde el cuadrado pasa de menos de ${n} a más de ${n}`, 12, 46, W - 24, 40);
         // Lo acorralado hasta ahora.
         const lo = loAt(n, picks, picks.length), d = picks.length;
-        p.fill(C.I); p.textSize(15); p.textAlign(p.CENTER, p.TOP);
-        p.text(d ? `${fmt(lo, d)} < √${n} < ${fmt(lo + 10 ** -d, d)}` : `${Math.floor(Math.sqrt(n))} < √${n} < ${Math.floor(Math.sqrt(n)) + 1}`, W / 2, 84);
+        drawPill(p, C, d ? `${fmt(lo, d)} < √${n} < ${fmt(lo + 10 ** -d, d)}` : `${Math.floor(Math.sqrt(n))} < √${n} < ${Math.floor(Math.sqrt(n)) + 1}`, W / 2, 94, C.sun, 14);
 
         for (let k = 0; k <= Math.min(picks.length, L - 1); k++) {
           const ln = lines[k], a = loAt(n, picks, k), step = 10 ** -(k + 1), px = (ln.x1 - ln.x0) / 10;
-          p.stroke(C.mute); p.strokeWeight(2); p.line(ln.x0, ln.y, ln.x1, ln.y);
+          p.stroke(C.ink); p.strokeWeight(2.5); p.line(ln.x0, ln.y, ln.x1, ln.y);
           const sel = picks[k];
           if (sel !== undefined) {
             const good = !locked || sel === want[k];
-            p.noStroke(); p.fill((good ? C.brand : C.bad) + '40'); p.rect(ln.x0 + sel * px, ln.y - 12, px, 24, 4);
+            p.noStroke(); p.fill((good ? C.sun : C.bad) + '73'); p.rect(ln.x0 + sel * px, ln.y - 12, px, 24, 5);
             // La lupa: el tramo elegido se abre en la línea de abajo.
             if (k + 1 < L) {
               const nx = lines[k + 1];
-              p.stroke(C.brand + '88'); p.strokeWeight(1.2); p.drawingContext.setLineDash([4, 4]);
+              p.stroke(C.sun); p.strokeWeight(1.5); p.drawingContext.setLineDash([4, 4]);
               p.line(ln.x0 + sel * px, ln.y + 12, nx.x0, nx.y - 14); p.line(ln.x0 + (sel + 1) * px, ln.y + 12, nx.x1, nx.y - 14);
               p.drawingContext.setLineDash([]);
             }
@@ -73,7 +73,7 @@ GAMES['acorrala-raiz'] = (() => {
           if (locked && sel !== want[k]) { p.noFill(); p.stroke(C.ok); p.strokeWeight(2); p.drawingContext.setLineDash([4, 3]); p.rect(ln.x0 + want[k] * px, ln.y - 12, px, 24, 4); p.drawingContext.setLineDash([]); }
           for (let j = 0; j <= 10; j++) {
             const v = a + j * step, x = ln.x0 + j * px, below = v * v < n;
-            p.noStroke(); p.fill(below ? C.Z : C.I); p.circle(x, ln.y, j % 5 === 0 ? 9 : 7);
+            p.noStroke(); p.fill(below ? C.sky : C.coral); p.circle(x, ln.y, j % 5 === 0 ? 11 : 8);
             if (j % 5 === 0) { p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(10); p.textAlign(p.CENTER, p.TOP); p.text(fmt(v, k + 1), x, ln.y + 14); }
           }
           // Los cuadrados de los dos extremos del tramo elegido, para comprobar.
@@ -88,8 +88,8 @@ GAMES['acorrala-raiz'] = (() => {
         p.noStroke(); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.LEFT, p.CENTER);
         // La segunda marca va después del primer rótulo: en un lienzo angosto no se le monta encima.
         const l1 = `al cuadrado da menos de ${n}`, x2 = Math.max(W / 2 + 12, 26 + p.textWidth(l1) + 16);
-        p.fill(C.Z); p.circle(18, yl, 8); p.fill(C.mute); p.text(l1, 26, yl);
-        p.fill(C.I); p.circle(x2, yl, 8); p.fill(C.mute); p.text(x2 + 8 + p.textWidth(`da más de ${n}`) > W - 4 ? `más de ${n}` : `da más de ${n}`, x2 + 8, yl);
+        p.fill(C.sky); p.circle(18, yl, 9); p.fill(C.mute); p.text(l1, 26, yl);
+        p.fill(C.coral); p.circle(x2, yl, 9); p.fill(C.mute); p.text(x2 + 8 + p.textWidth(`da más de ${n}`) > W - 4 ? `más de ${n}` : `da más de ${n}`, x2 + 8, yl);
         p.textAlign(p.CENTER, p.CENTER);
         p.text(locked ? (grade(st, params).ok ? '¡Raíces acorraladas! Y las cifras siguen sin fin' : 'El tramo correcto va punteado en verde') : picks.length === L ? 'Puedes cambiar un tramo de arriba o pasar a la otra pestaña' : 'Toca entre dos marcas para elegir el tramo', 12, H - 16, W - 24, 18);
       };

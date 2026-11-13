@@ -40,7 +40,7 @@ GAMES['pon-la-rayita'] = (() => {
 
     function layout(w, h) {
       W = w; H = h;
-      tabs = params.rounds.map((_, i) => ({ x: 12 + i * 52, y: 8, w: 44, h: 30 }));
+      tabs = roundTabs(params.rounds.length, w);
       const r = params.rounds[cur], n = shown(r);
       ex = expand(r.num, r.den, n);
       const x0 = 46, tw = Math.min(30, (w - x0 - 12) / n);
@@ -57,14 +57,12 @@ GAMES['pon-la-rayita'] = (() => {
         p.background(C.bg);
         const r = params.rounds[cur], mk = st.marks[cur];
         const good = !!mk && mk.start === ex.pre && mk.len === ex.period;
-        tabs.forEach((t, i) => {
+        drawTabs(p, C, tabs, cur, i => {
           const ri = params.rounds[i], ei = expand(ri.num, ri.den, 0), mi = st.marks[i], ok = !!mi && mi.start === ei.pre && mi.len === ei.period;
-          const col = locked ? (ok ? C.ok : C.bad) : i === cur ? C.brand : mi ? C.Z : C.line;
-          p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
+          return locked ? (ok ? C.ok : C.bad) : i === cur ? C.brand : mi ? C.Z : C.line;
         });
         // La fracción y la instrucción.
-        p.noStroke(); p.fill(C.Q); p.textStyle(p.BOLD); p.textSize(24); p.textAlign(p.LEFT, p.CENTER);
+        p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(24); p.textAlign(p.LEFT, p.CENTER);
         p.text(`${r.num}/${r.den} =`, 12, 62);
         p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.TOP);
         p.text(open ? 'Ahora toca la última cifra del bloque que se repite' : 'Toca la primera cifra que se repite para siempre', 12, 82, W - 24, 32);
@@ -75,8 +73,9 @@ GAMES['pon-la-rayita'] = (() => {
         tiles.forEach((b, i) => {
           const same = focus >= 0 && ex.rems[i] === ex.rems[focus];
           const col = inMark(i) ? (locked ? (good ? C.ok : C.bad) : C.brand) : same ? C.N : C.line;
-          p.stroke(col); p.strokeWeight(inMark(i) || same ? 2.5 : 1.2); p.fill(inMark(i) ? col + '22' : C.card); p.rect(b.x, b.y, b.w, b.h, 6);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(Math.min(18, b.w * 0.75)); p.text(ex.digits[i], b.x + b.w / 2, b.y + b.h / 2 + 1);
+          // Cada cifra en una ficha: crema, color sol si su residuo es el mismo que el tocado, y rellena si va bajo la rayita.
+          drawTile(p, C, b, ex.digits[i], { fill: inMark(i) ? col : same ? C.sun : C.cream, size: Math.min(18, b.w * 0.75), r: 6, lift: 2 });
+          p.noStroke(); p.textAlign(p.CENTER, p.CENTER);
           p.fill(same ? C.N : C.mute); p.textStyle(p.NORMAL); p.textSize(Math.min(10, b.w * 0.5)); p.text(ex.rems[i], b.x + b.w / 2, b.y + b.h + 12); p.textStyle(p.BOLD);
         });
         p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(10); p.textAlign(p.RIGHT, p.CENTER); p.text('residuo', t0.x - 4, y + t0.h + 12);
