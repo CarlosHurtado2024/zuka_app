@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Beto sale feliz del mercado.
+
+2
+00:00:04,000 --> 00:00:06,400
+Cree que ahorró el treinta por ciento.
+
+3
+00:00:06,800 --> 00:00:09,600
+La bici costaba 100 000, con 20 % menos.
+
+4
+00:00:09,800 --> 00:00:12,400
+Y en caja, otro 10 % de descuento.
+
+5
+00:00:12,800 --> 00:00:15,600
+Primero el veinte por ciento: queda el ochenta,
+
+6
+00:00:15,800 --> 00:00:18,400
+ochenta mil.
+
+7
+00:00:18,800 --> 00:00:21,600
+Luego el 10 %, pero sobre 80 000.
+
+8
+00:00:21,800 --> 00:00:24,400
+Queda setenta y dos mil.
+
+9
+00:00:24,800 --> 00:00:29,000
+Treinta por ciento menos serían setenta mil. No cuadra.
+
+10
+00:00:31,800 --> 00:00:34,800
+Los factores se multiplican: 0.8 por 0.9.
+
+11
+00:00:35,000 --> 00:00:37,800
+0.72: se paga el 72 %.
+
+12
+00:00:38,200 --> 00:00:41,000
+El descuento real es del veintiocho.
+
+13
+00:00:41,200 --> 00:00:44,000
+El segundo se aplicó sobre un precio menor.
+
+14
+00:00:44,400 --> 00:00:47,200
+Y el orden no importa:
+
+15
+00:00:47,400 --> 00:00:50,000
+la multiplicación es conmutativa.
+
+16
+00:00:50,400 --> 00:00:53,400
+Ahora una acción que vale cien.
+
+17
+00:00:53,600 --> 00:00:56,600
+Sube el cincuenta por ciento, y luego baja el cincuenta.
+
+18
+00:01:00,000 --> 00:01:02,800
+Sube: el cincuenta por ciento de cien es cincuenta.
+
+19
+00:01:03,000 --> 00:01:05,800
+Llega a ciento cincuenta.
+
+20
+00:01:06,200 --> 00:01:09,000
+Baja: la mitad de ciento cincuenta es setenta y cinco.
+
+21
+00:01:09,200 --> 00:01:12,000
+¡No vuelve a cien!
+
+22
+00:01:12,400 --> 00:01:15,200
+La bajada se calcula sobre ciento cincuenta,
+
+23
+00:01:15,400 --> 00:01:18,200
+un número más grande.
+
+24
+00:01:18,600 --> 00:01:21,400
+Si algo baja el veinte por ciento, queda en ochenta.
+
+25
+00:01:21,600 --> 00:01:24,400
+Para volver a cien hay que subir veinte sobre ochenta.
+
+26
+00:01:24,800 --> 00:01:27,600
+Es el veinticinco por ciento.
+
+27
+00:01:27,800 --> 00:01:30,400
+Subir y bajar lo mismo no se cancela.
+
+28
+00:01:35,400 --> 00:01:38,400
+Un pueblo de mil habitantes crece el 10 % al año.
+
+29
+00:01:38,600 --> 00:01:41,200
+¿En tres años creció el treinta?
+
+30
+00:01:41,600 --> 00:01:44,400
+Cada año se multiplica por uno punto uno:
+
+31
+00:01:44,600 --> 00:01:47,400
+mil cien, mil doscientos diez, mil trescientos treinta y uno.
+
+32
+00:01:47,800 --> 00:01:50,600
+Es una potencia: uno punto uno al cubo.
+
+33
+00:01:50,800 --> 00:01:54,000
+Creció el treinta y tres punto uno por ciento.
+
+34
+00:01:55,400 --> 00:01:59,800
+Beto ahorró el veintiocho por ciento, no el treinta.
+
+35
+00:02:00,000 --> 00:02:04,600
+Los cambios sucesivos no se suman: se multiplican.
+

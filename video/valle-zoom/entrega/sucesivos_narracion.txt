@@ -1,0 +1,7 @@
+Beto sale feliz del mercado. Cree que ahorró el treinta por ciento. La bici costaba 100 000, con 20 % menos. Y en caja, otro 10 % de descuento. Primero el veinte por ciento: queda el ochenta, ochenta mil. Luego el 10 %, pero sobre 80 000. Queda setenta y dos mil. Treinta por ciento menos serían setenta mil. No cuadra.
+
+Los factores se multiplican: 0.8 por 0.9. 0.72: se paga el 72 %. El descuento real es del veintiocho. El segundo se aplicó sobre un precio menor. Y el orden no importa: la multiplicación es conmutativa. Ahora una acción que vale cien. Sube el cincuenta por ciento, y luego baja el cincuenta.
+
+Sube: el cincuenta por ciento de cien es cincuenta. Llega a ciento cincuenta. Baja: la mitad de ciento cincuenta es setenta y cinco. ¡No vuelve a cien! La bajada se calcula sobre ciento cincuenta, un número más grande. Si algo baja el veinte por ciento, queda en ochenta. Para volver a cien hay que subir veinte sobre ochenta. Es el veinticinco por ciento. Subir y bajar lo mismo no se cancela.
+
+Un pueblo de mil habitantes crece el 10 % al año. ¿En tres años creció el treinta? Cada año se multiplica por uno punto uno: mil cien, mil doscientos diez, mil trescientos treinta y uno. Es una potencia: uno punto uno al cubo. Creció el treinta y tres punto uno por ciento. Beto ahorró el veintiocho por ciento, no el treinta. Los cambios sucesivos no se suman: se multiplican.

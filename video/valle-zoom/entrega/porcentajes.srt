@@ -1,0 +1,132 @@
+1
+00:00:00,800 --> 00:00:03,600
+En el mercado, todos los letreros dicen «por ciento».
+
+2
+00:00:04,000 --> 00:00:06,400
+¿Qué quiere decir?
+
+3
+00:00:06,800 --> 00:00:09,600
+Por ciento quiere decir de cada cien.
+
+4
+00:00:09,800 --> 00:00:12,400
+Aquí hay cien casillas.
+
+5
+00:00:12,800 --> 00:00:15,600
+Pintamos 35: el 35 %.
+
+6
+00:00:15,800 --> 00:00:18,600
+Es 35 sobre 100, o el decimal 0.35.
+
+7
+00:00:19,000 --> 00:00:21,800
+La mitad es el 50 %; un cuarto, el 25 %.
+
+8
+00:00:22,000 --> 00:00:24,600
+Un décimo, el 10 %.
+
+9
+00:00:25,000 --> 00:00:29,000
+Y las cien casillas, el todo, son el cien por ciento.
+
+10
+00:00:31,800 --> 00:00:34,800
+En el curso de Caro hay veinticinco estudiantes.
+
+11
+00:00:35,000 --> 00:00:37,800
+Nueve usan gafas: nueve de veinticinco.
+
+12
+00:00:38,200 --> 00:00:41,000
+Para hablar en porcentaje, llevamos el todo a cien.
+
+13
+00:00:41,200 --> 00:00:44,000
+Imagina cuatro cursos así: cien, y 36 con gafas.
+
+14
+00:00:44,400 --> 00:00:47,200
+También se puede dividir: nueve entre veinticinco,
+
+15
+00:00:47,400 --> 00:00:50,000
+0.36: el 36 %.
+
+16
+00:00:50,400 --> 00:00:53,400
+Todo problema de porcentajes es una proporción:
+
+17
+00:00:53,600 --> 00:00:56,600
+la parte es al todo como p es a cien.
+
+18
+00:01:00,000 --> 00:01:02,800
+Primera pregunta: ¿cuánto es el quince por ciento de ochenta?
+
+19
+00:01:03,000 --> 00:01:05,800
+El 10 % es ocho; el 5 %, la mitad: cuatro.
+
+20
+00:01:06,200 --> 00:01:09,000
+Juntos, doce.
+
+21
+00:01:09,200 --> 00:01:11,800
+O de una vez: ochenta por cero punto quince.
+
+22
+00:01:12,200 --> 00:01:15,000
+Segunda: ¿qué porcentaje es dieciocho de setenta y dos?
+
+23
+00:01:15,200 --> 00:01:18,200
+Es la cuarta parte: el veinticinco por ciento.
+
+24
+00:01:18,600 --> 00:01:21,400
+Tercera: treinta es el cuarenta por ciento de un número.
+
+25
+00:01:21,600 --> 00:01:24,400
+Treinta entre cero punto cuatro: setenta y cinco.
+
+26
+00:01:24,800 --> 00:01:27,600
+Comprobamos: el cuarenta por ciento de setenta y cinco
+
+27
+00:01:27,800 --> 00:01:30,400
+es treinta. Sí cuadra.
+
+28
+00:01:35,400 --> 00:01:38,400
+Un porcentaje puede pasar de cien.
+
+29
+00:01:38,600 --> 00:01:41,200
+El ciento cincuenta por ciento de cuarenta es sesenta.
+
+30
+00:01:41,600 --> 00:01:44,600
+Y menor que el 1 %: el 1 % de 2 000 es 20;
+
+31
+00:01:44,800 --> 00:01:47,800
+el cero punto cinco por ciento, la mitad: diez.
+
+32
+00:01:49,200 --> 00:01:53,400
+Ahora cada letrero del mercado dice algo claro:
+
+33
+00:01:53,600 --> 00:01:58,000
+cuántos de cada cien.
+

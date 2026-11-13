@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Ana quiere hornear más pan para su puesto.
+
+2
+00:00:04,000 --> 00:00:06,400
+Pero sin que cambie el sabor.
+
+3
+00:00:06,800 --> 00:00:09,800
+La receta chica: cuatro huevos por seis tazas.
+
+4
+00:00:10,000 --> 00:00:12,600
+La grande, diez huevos por quince tazas.
+
+5
+00:00:13,000 --> 00:00:15,800
+Las dos razones se simplifican a dos tercios.
+
+6
+00:00:16,000 --> 00:00:18,400
+Por eso los dos panes saben igual.
+
+7
+00:00:18,800 --> 00:00:21,600
+Dos razones iguales forman una proporción:
+
+8
+00:00:21,800 --> 00:00:24,400
+a es a b como c es a d.
+
+9
+00:00:24,800 --> 00:00:29,000
+Los de afuera son los extremos; los de adentro, los medios.
+
+10
+00:00:31,800 --> 00:00:34,800
+La propiedad clave: multiplicar en cruz.
+
+11
+00:00:35,000 --> 00:00:37,800
+Extremos por extremos es igual a medios por medios.
+
+12
+00:00:38,200 --> 00:00:41,000
+¿Dos tercios y cinco séptimos forman proporción?
+
+13
+00:00:41,200 --> 00:00:43,600
+Catorce no es quince: no.
+
+14
+00:00:44,000 --> 00:00:46,800
+Equis es a ocho como nueve es a doce.
+
+15
+00:00:47,000 --> 00:00:49,800
+En cruz: doce equis es setenta y dos.
+
+16
+00:00:50,200 --> 00:00:53,200
+Comprobamos: seis octavos y nueve doceavos
+
+17
+00:00:53,400 --> 00:00:56,600
+valen tres cuartos. Sí es proporción.
+
+18
+00:00:59,800 --> 00:01:02,800
+Cada cuaderno cuesta dos mil quinientos pesos.
+
+19
+00:01:03,000 --> 00:01:05,600
+El doble de cuadernos, el doble de precio.
+
+20
+00:01:06,000 --> 00:01:08,800
+El cociente no cambia: es la constante k.
+
+21
+00:01:09,000 --> 00:01:11,800
+Son directamente proporcionales: una recta por el origen.
+
+22
+00:01:12,200 --> 00:01:15,000
+Ahora hay veinticuatro caramelos para repartir.
+
+23
+00:01:15,200 --> 00:01:18,000
+Más niños, menos caramelos para cada uno.
+
+24
+00:01:18,400 --> 00:01:21,200
+Lo que no cambia es el producto: veinticuatro.
+
+25
+00:01:21,400 --> 00:01:24,200
+Son inversamente proporcionales: una curva.
+
+26
+00:01:24,600 --> 00:01:28,400
+Cuidado con el taxi: 4 000 por subirse y 2 000 por km.
+
+27
+00:01:28,600 --> 00:01:32,200
+Dos kilómetros no cuestan el doble que uno: no es ninguna de las dos.
+
+28
+00:01:35,400 --> 00:01:38,400
+Ana, Beto y Caro pusieron 2, 3 y 4 mil en un boleto.
+
+29
+00:01:38,600 --> 00:01:41,400
+Ganaron 45 000. ¿Cómo repartir con justicia?
+
+30
+00:01:41,800 --> 00:01:44,600
+Juntos son nueve partes iguales.
+
+31
+00:01:44,800 --> 00:01:47,400
+Cada parte vale cinco mil.
+
+32
+00:01:47,800 --> 00:01:50,600
+Dos partes para Ana, tres y cuatro para los otros.
+
+33
+00:01:50,800 --> 00:01:53,200
+Diez, quince y veinte mil.
+
+34
+00:01:54,600 --> 00:01:58,800
+El pan de Ana sabe igual porque sus razones son iguales.
+
+35
+00:01:59,000 --> 00:02:03,600
+Eso es una proporción, y en cruz se resuelve.
+

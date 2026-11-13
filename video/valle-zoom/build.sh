@@ -1,6 +1,6 @@
 #!/bin/sh
-# Valle de los Números en estilo Scale Zoom Explainer (1080×1920, 24 fps): un video por lección, todos con el mismo motor.
-#   sh video/valle-zoom/build.sh                       -> las cinco películas
+# Valle de los Números y Mercado de las razones en estilo Scale Zoom Explainer (1080×1920, 24 fps): un video por lección, todos con el mismo motor.
+#   sh video/valle-zoom/build.sh                       -> todas las películas de films/
 #   sh video/valle-zoom/build.sh racionales reales     -> solo esas
 # Cada una deja out/<nombre>/<nombre>.mp4, <nombre>.srt, <nombre>_narracion.txt, readcheck.txt y poster.jpg.
 # Necesita Node 20+, ffmpeg y ffprobe 7+ en el PATH y la biblioteca Lemo-Opuscar (LIB, por defecto ~/lemo-opuscar).
@@ -12,7 +12,7 @@ export LIB
 PY="$LIB/.venv/bin/python"; [ -x "$PY" ] || PY="$LIB/.venv/Scripts/python"
 SIZE=1080x1920
 FPS=24
-FILMS=${*:-"racionales reales campo consecuencias orden"}
+FILMS=${*:-$(ls "$HERE/films" | sed "s/.js$//")}
 cd "$LIB"
 mkdir -p "$HERE/fonts"
 [ -f "$HERE/fonts/Jost.ttf" ] || curl -sfL -o "$HERE/fonts/Jost.ttf" "https://github.com/google/fonts/raw/main/ofl/jost/Jost%5Bwght%5D.ttf"

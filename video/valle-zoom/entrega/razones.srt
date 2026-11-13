@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Ana le dice a Beto: «tengo más cromos que tú».
+
+2
+00:00:04,000 --> 00:00:06,400
+Sí, pero ¿cuánto más?
+
+3
+00:00:06,800 --> 00:00:09,600
+Ana tiene doce cromos y Beto tiene cuatro.
+
+4
+00:00:09,800 --> 00:00:12,400
+Hay dos formas de compararlos.
+
+5
+00:00:12,800 --> 00:00:15,600
+Restando: Ana tiene ocho más.
+
+6
+00:00:15,800 --> 00:00:18,400
+La resta dice cuánto más hay.
+
+7
+00:00:18,800 --> 00:00:21,600
+Dividiendo: los cuatro de Beto caben tres veces.
+
+8
+00:00:21,800 --> 00:00:24,400
+Ana tiene el triple.
+
+9
+00:00:24,800 --> 00:00:29,000
+Comparar dividiendo tiene nombre: es una razón.
+
+10
+00:00:31,600 --> 00:00:34,600
+En su salón hay dieciocho niñas y doce niños.
+
+11
+00:00:34,800 --> 00:00:37,600
+La razón se lee: dieciocho es a doce.
+
+12
+00:00:38,000 --> 00:00:40,800
+El orden importa: niños a niñas es otra razón.
+
+13
+00:00:41,000 --> 00:00:43,600
+Y el segundo nunca puede ser cero.
+
+14
+00:00:44,000 --> 00:00:46,800
+Formamos seis grupos iguales.
+
+15
+00:00:47,000 --> 00:00:49,800
+Cada uno, tres niñas y dos niños.
+
+16
+00:00:50,200 --> 00:00:53,000
+También se compara la parte con el todo.
+
+17
+00:00:53,200 --> 00:00:56,000
+Tres de cada cinco son niñas: cero punto seis.
+
+18
+00:00:59,600 --> 00:01:02,200
+Ana quiere agrandar la foto de su puesto.
+
+19
+00:01:02,400 --> 00:01:04,400
+Mide tres por dos.
+
+20
+00:01:04,600 --> 00:01:07,400
+Multiplica los dos lados por dos:
+
+21
+00:01:07,600 --> 00:01:10,200
+la foto se ve igual, solo más grande.
+
+22
+00:01:10,600 --> 00:01:13,400
+Beto propone sumar tres a cada lado.
+
+23
+00:01:13,600 --> 00:01:16,200
+¡La foto se estira! La razón cambió.
+
+24
+00:01:16,600 --> 00:01:19,400
+Una razón se agranda multiplicando,
+
+25
+00:01:19,600 --> 00:01:22,400
+nunca sumando.
+
+26
+00:01:25,000 --> 00:01:27,400
+El bus de los jugos hace 180 km en 3 horas.
+
+27
+00:01:27,600 --> 00:01:29,800
+Sesenta kilómetros por hora.
+
+28
+00:01:30,200 --> 00:01:33,000
+¿Seis jugos por 7 200, u ocho por 9 200?
+
+29
+00:01:33,200 --> 00:01:36,200
+Por unidad, el de ocho sale más barato.
+
+30
+00:01:36,600 --> 00:01:39,400
+En el mapa, a escala uno a cien mil,
+
+31
+00:01:39,600 --> 00:01:42,400
+cuatro punto cinco centímetros son cuatro punto cinco kilómetros.
+
+32
+00:01:42,800 --> 00:01:45,600
+La escala compara centímetros con centímetros:
+
+33
+00:01:45,800 --> 00:01:48,200
+no lleva unidades.
+
+34
+00:01:49,600 --> 00:01:53,800
+Ahora Ana lo dice bien: no solo tiene ocho más, tiene el triple.
+
+35
+00:01:54,000 --> 00:01:58,600
+Una razón compara dividiendo, y se agranda multiplicando.
+

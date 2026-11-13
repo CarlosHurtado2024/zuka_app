@@ -1,0 +1,7 @@
+Caro sale de compras al mercado. Y cada precio esconde un porcentaje. Una camisa cuesta sesenta mil. Tiene un descuento del veinticinco por ciento. Una forma: el descuento es quince mil. Se resta y quedan cuarenta y cinco mil. Más rápido: si quitan el 25 %, pagas el 75 %. Por cero punto setenta y cinco. Las dos formas son la misma cuenta: la distributiva.
+
+Un producto vale cincuenta mil sin impuesto. El IVA le suma el diecinueve por ciento. Se paga el ciento diecinueve por ciento: por uno punto diecinueve. Ese número es el factor. Para aumentar se suma a uno; para descontar, se resta. Subir ocho por ciento es por uno punto cero ocho. Subir el cien por ciento es el doble.
+
+Un televisor cuesta setenta y un mil cuatrocientos con IVA. ¿Cuánto costaba sin IVA? El error común: quitarle el diecinueve por ciento. Da 57 834. Está mal. El 19 % se calculó sobre el precio sin IVA, no sobre el precio final. Para deshacer una multiplicación, se divide: entre uno punto diecinueve. Sesenta mil. Comprobamos: sesenta mil por uno punto diecinueve da setenta y un mil cuatrocientos.
+
+El pasaje subió de 2 500 a 3 000. ¿En qué porcentaje subió? La subida, quinientos, entre el precio de antes: veinte por ciento. Si bajara de vuelta a dos mil quinientos, bajaría el 16.7 %. No es simétrico. El cambio porcentual se mide siempre sobre el valor de antes. Caro paga cuarenta y cinco mil por la camisa, porque cada porcentaje es un factor que multiplica.

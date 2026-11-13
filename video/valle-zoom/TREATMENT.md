@@ -37,3 +37,18 @@ no salgan en los ejercicios.
 
 Cada video espera su ID de Bunny. Al recibirlo: `clip.bunny` + la `duration` que reporte Bunny en la lección
 (`alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`).
+
+# Mercado de las razones en zoom · lecciones 1 a 6
+
+Mismo proyecto y motor. El mundo «Razones, proporciones y porcentajes» se cuenta como un mercado: Ana, Beto y Caro
+atienden puestos y compran, y cada video empieza con un problema de uno de ellos y termina respondiéndolo (guía de
+narración en `docs/storytelling-videos.md`, sacada de los libros de storytelling que pasó el usuario).
+
+| Video | Lección | El problema → la sorpresa → la respuesta |
+|---|---|---|
+| `razones` | `alg-12` | Ana presume que tiene «más» cromos → sumar 3 a la foto del puesto la estira → no tiene 8 más: tiene el triple |
+| `proporciones` | `alg-12e` | Ana quiere más pan sin que cambie el sabor → el taxi no es ni directo ni inverso → sus razones son iguales: proporción |
+| `reglatres` | `alg-12f` | Beto vende 7 kg de arroz → hacer directa la inversa da 22.5 días → tabla, decide, resuelve, revisa |
+| `porcentajes` | `alg-13` | todos los letreros dicen «%» → hay porcentajes de más de 100 y de menos de 1 → «de cada 100» |
+| `aumentos` | `alg-13c` | Caro compra con descuento e IVA → quitar el 19 % al precio con IVA está mal → todo porcentaje es un factor |
+| `sucesivos` | `alg-13d` | Beto cree que ahorró el 30 % → +50 % y −50 % no vuelve a 100 → ahorró el 28 %: los cambios se multiplican |

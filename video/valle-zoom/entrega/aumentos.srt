@@ -1,0 +1,148 @@
+1
+00:00:00,800 --> 00:00:03,600
+Caro sale de compras al mercado.
+
+2
+00:00:04,000 --> 00:00:06,400
+Y cada precio esconde un porcentaje.
+
+3
+00:00:06,800 --> 00:00:09,600
+Una camisa cuesta sesenta mil.
+
+4
+00:00:09,800 --> 00:00:12,400
+Tiene un descuento del veinticinco por ciento.
+
+5
+00:00:12,800 --> 00:00:15,600
+Una forma: el descuento es quince mil.
+
+6
+00:00:15,800 --> 00:00:18,400
+Se resta y quedan cuarenta y cinco mil.
+
+7
+00:00:18,800 --> 00:00:21,600
+Más rápido: si quitan el 25 %, pagas el 75 %.
+
+8
+00:00:21,800 --> 00:00:24,400
+Por cero punto setenta y cinco.
+
+9
+00:00:24,800 --> 00:00:29,000
+Las dos formas son la misma cuenta: la distributiva.
+
+10
+00:00:31,800 --> 00:00:34,800
+Un producto vale cincuenta mil sin impuesto.
+
+11
+00:00:35,000 --> 00:00:37,800
+El IVA le suma el diecinueve por ciento.
+
+12
+00:00:38,200 --> 00:00:41,000
+Se paga el ciento diecinueve por ciento:
+
+13
+00:00:41,200 --> 00:00:44,000
+por uno punto diecinueve.
+
+14
+00:00:44,400 --> 00:00:47,200
+Ese número es el factor.
+
+15
+00:00:47,400 --> 00:00:50,200
+Para aumentar se suma a uno; para descontar, se resta.
+
+16
+00:00:50,600 --> 00:00:53,600
+Subir ocho por ciento es por uno punto cero ocho.
+
+17
+00:00:53,800 --> 00:00:56,600
+Subir el cien por ciento es el doble.
+
+18
+00:01:00,000 --> 00:01:03,000
+Un televisor cuesta setenta y un mil cuatrocientos con IVA.
+
+19
+00:01:03,200 --> 00:01:06,000
+¿Cuánto costaba sin IVA?
+
+20
+00:01:06,400 --> 00:01:09,200
+El error común: quitarle el diecinueve por ciento.
+
+21
+00:01:09,400 --> 00:01:12,000
+Da 57 834. Está mal.
+
+22
+00:01:12,400 --> 00:01:15,200
+El 19 % se calculó sobre el precio sin IVA,
+
+23
+00:01:15,400 --> 00:01:18,200
+no sobre el precio final.
+
+24
+00:01:18,600 --> 00:01:21,400
+Para deshacer una multiplicación, se divide:
+
+25
+00:01:21,600 --> 00:01:24,400
+entre uno punto diecinueve. Sesenta mil.
+
+26
+00:01:24,800 --> 00:01:27,600
+Comprobamos: sesenta mil por uno punto diecinueve
+
+27
+00:01:27,800 --> 00:01:30,400
+da setenta y un mil cuatrocientos.
+
+28
+00:01:35,400 --> 00:01:38,400
+El pasaje subió de 2 500 a 3 000.
+
+29
+00:01:38,600 --> 00:01:41,200
+¿En qué porcentaje subió?
+
+30
+00:01:41,600 --> 00:01:44,400
+La subida, quinientos, entre el precio de antes:
+
+31
+00:01:44,600 --> 00:01:47,200
+veinte por ciento.
+
+32
+00:01:47,600 --> 00:01:50,400
+Si bajara de vuelta a dos mil quinientos,
+
+33
+00:01:50,600 --> 00:01:53,200
+bajaría el 16.7 %. No es simétrico.
+
+34
+00:01:53,600 --> 00:01:56,400
+El cambio porcentual se mide
+
+35
+00:01:56,600 --> 00:01:59,000
+siempre sobre el valor de antes.
+
+36
+00:02:00,400 --> 00:02:04,600
+Caro paga cuarenta y cinco mil por la camisa,
+
+37
+00:02:04,800 --> 00:02:09,400
+porque cada porcentaje es un factor que multiplica.
+
