@@ -103,3 +103,13 @@ test('«La razón que no cambia» (Art Deco) está en Clips con su video y escen
   assert.ok(q.clip.scenes.length >= 4);
   assert.match(q.fact, /0\.5 mL/);
 });
+
+test('«La cuerda del escriba» (acuarela, Egipto) está en Clips con su video y escenas de respaldo', () => {
+  const q = CURIOS.find(c => c.id === 'cur-egipto');
+  assert.ok(q, 'falta cur-egipto');
+  assert.equal(q.topic, 'mate');
+  assert.ok(q.clip.video === 'media/clips/egipto-acuarela.mp4' || q.clip.bunny);
+  assert.equal(q.clip.duration, 109.5);
+  assert.ok(q.clip.scenes.length >= 5);
+  assert.match(q.fact, /3, 4 y 5/);
+});

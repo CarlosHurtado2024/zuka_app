@@ -1,0 +1,15 @@
+La cuerda del escriba · clip de curiosidades de Zuka (estilo Watercolor Brush)
+
+Material de terceros que aparece en la película:
+
+- Tipografías Cormorant Garamond (Christian Thalmann), Caveat (Impallari Type) e IBM Plex Mono (IBM).
+  Licencia SIL Open Font License 1.1 (fonts/OFL-*.txt). Fuente: https://github.com/google/fonts/tree/main/ofl
+- Motor de trazos de acuarela (engine.js) y receta del papel (paper.py), adaptados del estilo «Watercolor Brush» de
+  la biblioteca Lemo-Opuscar (https://github.com/lemomo-ai/lemo-opuscar). Licencia MIT.
+
+Todo lo demás está hecho en código para este video: la película (index.html, film.js), el papel (paper.py) y la
+música y los efectos, sintetizados con numpy (mix.py). No hay muestras de instrumentos, voz ni imágenes ajenas.
+Las figuras siguen la gramática de perfil de la pintura egipcia, pero no copian ninguna obra concreta.
+
+Herramientas: biblioteca Lemo-Opuscar (render y máster).
+Contenido: informe «El código de Ma'at» entregado por el usuario; datos y correcciones en FACTS.md.

@@ -55,6 +55,22 @@ const CURIOS = [
       ],
     },
   },
+  {
+    id: 'cur-egipto', topic: 'mate',
+    title: 'La cuerda del escriba',
+    fact: 'En Egipto, se cree que una cuerda con nudos tensada en 3, 4 y 5 tramos daba un ángulo recto.',
+    clip: {
+      video: 'media/clips/egipto-acuarela.mp4', duration: 109.5,
+      scenes: [
+        sc(6, 'Cada verano, el Nilo crecía y borraba los linderos de los campos.', { title: 'La cuerda del escriba' }),
+        sc(7, 'Se cree que una cuerda de 12 nudos, tensada en 3, 4 y 5 tramos, formaba el ángulo recto.', { title: '$3^2 + 4^2 = 5^2$' }),
+        sc(7, 'En los graneros, un círculo de diámetro 9 valía como un cuadrado de lado 8.', { title: '$\\pi \\approx \\tfrac{256}{81} \\approx 3.16$' }),
+        sc(6, 'Un saco de grano daba 20 panes pequeños o 4 grandes: el pefsu.', { title: '$\\text{pefsu} = \\dfrac{\\text{panes}}{\\text{hekat}}$' }),
+        sc(7, 'El seked de la Gran Pirámide: 5½ palmos hacia dentro por cada codo de subida.', { title: '$\\tan\\theta = \\tfrac{7}{5.5} \\Rightarrow \\theta \\approx 51.8^\\circ$' }),
+        sc(6, 'Quien sabía contar y medir era de los más respetados de Egipto.', { title: "Ma'at" }),
+      ],
+    },
+  },
 ];
 
 const curioTopic = id => CURIO_TOPICS.find(t => t.id === id);
