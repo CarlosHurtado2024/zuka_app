@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Beto construye torres como los constructores de antes:
+
+2
+00:00:04,000 --> 00:00:06,400
+sin calculadora.
+
+3
+00:00:06,800 --> 00:00:09,600
+La diagonal de esta baldosa mide raíz de setenta y dos.
+
+4
+00:00:09,800 --> 00:00:12,600
+¿Se puede escribir más simple?
+
+5
+00:00:13,000 --> 00:00:15,800
+Buscamos un cuadrado escondido:
+
+6
+00:00:16,000 --> 00:00:18,600
+setenta y dos es treinta y seis por dos.
+
+7
+00:00:19,000 --> 00:00:21,800
+La raíz de treinta y seis sale: seis.
+
+8
+00:00:22,000 --> 00:00:24,400
+El dos se queda adentro: seis raíz de dos.
+
+9
+00:00:24,800 --> 00:00:29,000
+Comprobamos: las dos valen ocho punto cuarenta y nueve.
+
+10
+00:00:31,800 --> 00:00:34,800
+Dos raíz de tres más cinco raíz de tres:
+
+11
+00:00:35,000 --> 00:00:37,600
+como contar manzanas. Siete raíz de tres.
+
+12
+00:00:38,000 --> 00:00:41,000
+Pero raíz de dos más raíz de tres no es raíz de cinco.
+
+13
+00:00:41,200 --> 00:00:43,800
+Tres punto catorce contra dos punto veinticuatro.
+
+14
+00:00:44,200 --> 00:00:47,200
+A veces hay que simplificar primero:
+
+15
+00:00:47,400 --> 00:00:50,000
+raíz de ocho más raíz de dieciocho es cinco raíz de dos.
+
+16
+00:00:50,400 --> 00:00:53,600
+Los constructores de antes dividían a mano.
+
+17
+00:00:53,800 --> 00:00:56,600
+Y había una división que odiaban.
+
+18
+00:01:00,000 --> 00:01:03,000
+Uno entre raíz de dos: uno entre 1.41421356…
+
+19
+00:01:03,200 --> 00:01:06,000
+Una división a mano que no termina.
+
+20
+00:01:06,400 --> 00:01:09,200
+El truco: multiplicar por raíz de dos sobre raíz de dos,
+
+21
+00:01:09,400 --> 00:01:12,200
+que vale uno. No cambia nada.
+
+22
+00:01:12,600 --> 00:01:15,400
+Abajo, raíz de dos por raíz de dos es dos.
+
+23
+00:01:15,600 --> 00:01:18,400
+Ya no hay raíz abajo: eso es racionalizar.
+
+24
+00:01:18,800 --> 00:01:21,600
+Y dividir entre dos es fácil:
+
+25
+00:01:21,800 --> 00:01:24,600
+la mitad de 1.414, cero punto setecientos siete.
+
+26
+00:01:25,000 --> 00:01:27,800
+¿Y si abajo hay un binomio?
+
+27
+00:01:28,000 --> 00:01:30,400
+Nueve entre cuatro más raíz de cinco.
+
+28
+00:01:35,400 --> 00:01:38,400
+Multiplicamos por el conjugado: cuatro menos raíz de cinco.
+
+29
+00:01:38,600 --> 00:01:41,600
+Arriba y abajo: otra vez un uno disfrazado.
+
+30
+00:01:42,000 --> 00:01:45,000
+Suma por diferencia da cuadrado menos cuadrado:
+
+31
+00:01:45,200 --> 00:01:48,000
+dieciséis menos cinco, once. La raíz se fue.
+
+32
+00:01:48,400 --> 00:01:51,200
+Queda nueve por cuatro menos raíz de cinco,
+
+33
+00:01:51,400 --> 00:01:54,000
+entre once.
+
+34
+00:01:55,400 --> 00:01:59,800
+Beto escribe seis raíz de dos y divide sin sufrir.
+
+35
+00:02:00,000 --> 00:02:04,600
+Así trabajaban los constructores, antes de las calculadoras.
+

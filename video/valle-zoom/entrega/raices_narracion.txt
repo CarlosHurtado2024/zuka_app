@@ -1,0 +1,7 @@
+Ana compró un terreno cuadrado. Quiere cercarlo. ¿Cuánta cerca necesita? El terreno tiene veinticinco metros cuadrados. Pero la cerca va por los lados. ¿Qué número por sí mismo da veinticinco? Cinco: cinco por cinco. La raíz cuadrada deshace el cuadrado. Raíz de veinticinco es cinco. Menos cinco al cuadrado también da veinticinco, pero la raíz da la positiva.
+
+Ana guarda semillas en una caja cúbica de 216 cm³. ¿Cuánto mide cada arista? Seis por seis por seis: doscientos dieciséis. Es la raíz cúbica; el tres pequeño es el índice. Con índice impar, la raíz acepta negativos: raíz cúbica de menos mil, menos diez. Con índice par, no: ningún número al cuadrado da negativo. Raíz de menos dieciséis no es real.
+
+¿Y un exponente fracción? Dieciséis a la un medio, por sí mismo, da dieciséis: es la raíz de dieciséis, cuatro. El denominador de la fracción es el índice; el numerador, la potencia. Dieciséis a la tres cuartos: raíz cuarta de dieciséis, dos; y dos al cubo, ocho. Conviene sacar la raíz primero: los números quedan pequeños. Ahora, dos trampas de las raíces que engañan a casi todos.
+
+Primera: raíz de x al cuadrado no siempre es x. Si x es menos cinco, da cinco. Es el valor absoluto de x: nunca negativo. Segunda: la raíz no se reparte en una suma. Raíz de 81 más 144 es 15. Cruzar por la diagonal: quince. Rodear: veintiuno. Y el terreno de Ana mide cinco por lado. Compra veinte metros de cerca: cuatro lados de cinco.

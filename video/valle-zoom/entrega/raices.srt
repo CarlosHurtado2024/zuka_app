@@ -1,0 +1,144 @@
+1
+00:00:00,800 --> 00:00:03,600
+Ana compró un terreno cuadrado.
+
+2
+00:00:04,000 --> 00:00:06,400
+Quiere cercarlo. ¿Cuánta cerca necesita?
+
+3
+00:00:06,800 --> 00:00:09,600
+El terreno tiene veinticinco metros cuadrados.
+
+4
+00:00:09,800 --> 00:00:12,600
+Pero la cerca va por los lados.
+
+5
+00:00:13,000 --> 00:00:15,800
+¿Qué número por sí mismo da veinticinco?
+
+6
+00:00:16,000 --> 00:00:18,800
+Cinco: cinco por cinco.
+
+7
+00:00:19,200 --> 00:00:21,800
+La raíz cuadrada deshace el cuadrado.
+
+8
+00:00:22,000 --> 00:00:24,600
+Raíz de veinticinco es cinco.
+
+9
+00:00:25,000 --> 00:00:29,000
+Menos cinco al cuadrado también da veinticinco, pero la raíz da la positiva.
+
+10
+00:00:31,800 --> 00:00:34,800
+Ana guarda semillas en una caja cúbica de 216 cm³.
+
+11
+00:00:35,000 --> 00:00:37,600
+¿Cuánto mide cada arista?
+
+12
+00:00:38,000 --> 00:00:41,000
+Seis por seis por seis: doscientos dieciséis.
+
+13
+00:00:41,200 --> 00:00:44,200
+Es la raíz cúbica; el tres pequeño es el índice.
+
+14
+00:00:44,600 --> 00:00:47,400
+Con índice impar, la raíz acepta negativos:
+
+15
+00:00:47,600 --> 00:00:50,200
+raíz cúbica de menos mil, menos diez.
+
+16
+00:00:50,600 --> 00:00:53,600
+Con índice par, no: ningún número al cuadrado
+
+17
+00:00:53,800 --> 00:00:56,600
+da negativo. Raíz de menos dieciséis no es real.
+
+18
+00:01:00,000 --> 00:01:03,200
+¿Y un exponente fracción? Dieciséis a la un medio, por sí mismo,
+
+19
+00:01:03,400 --> 00:01:06,400
+da dieciséis: es la raíz de dieciséis, cuatro.
+
+20
+00:01:06,800 --> 00:01:09,600
+El denominador de la fracción es el índice;
+
+21
+00:01:09,800 --> 00:01:12,400
+el numerador, la potencia.
+
+22
+00:01:12,800 --> 00:01:15,600
+Dieciséis a la tres cuartos: raíz cuarta de dieciséis,
+
+23
+00:01:15,800 --> 00:01:18,600
+dos; y dos al cubo, ocho.
+
+24
+00:01:19,000 --> 00:01:21,800
+Conviene sacar la raíz primero:
+
+25
+00:01:22,000 --> 00:01:24,800
+los números quedan pequeños.
+
+26
+00:01:25,200 --> 00:01:27,800
+Ahora, dos trampas de las raíces
+
+27
+00:01:28,000 --> 00:01:30,400
+que engañan a casi todos.
+
+28
+00:01:35,400 --> 00:01:38,400
+Primera: raíz de x al cuadrado no siempre es x.
+
+29
+00:01:38,600 --> 00:01:41,400
+Si x es menos cinco, da cinco.
+
+30
+00:01:41,600 --> 00:01:44,400
+Es el valor absoluto de x:
+
+31
+00:01:44,600 --> 00:01:46,600
+nunca negativo.
+
+32
+00:01:47,000 --> 00:01:49,600
+Segunda: la raíz no se reparte en una suma.
+
+33
+00:01:49,800 --> 00:01:52,000
+Raíz de 81 más 144 es 15.
+
+34
+00:01:52,400 --> 00:01:54,800
+Cruzar por la diagonal: quince. Rodear: veintiuno.
+
+35
+00:01:56,200 --> 00:02:00,600
+Y el terreno de Ana mide cinco por lado.
+
+36
+00:02:00,800 --> 00:02:05,600
+Compra veinte metros de cerca: cuatro lados de cinco.
+

@@ -1,0 +1,7 @@
+Beto construye torres como los constructores de antes: sin calculadora. La diagonal de esta baldosa mide raíz de setenta y dos. ¿Se puede escribir más simple? Buscamos un cuadrado escondido: setenta y dos es treinta y seis por dos. La raíz de treinta y seis sale: seis. El dos se queda adentro: seis raíz de dos. Comprobamos: las dos valen ocho punto cuarenta y nueve.
+
+Dos raíz de tres más cinco raíz de tres: como contar manzanas. Siete raíz de tres. Pero raíz de dos más raíz de tres no es raíz de cinco. Tres punto catorce contra dos punto veinticuatro. A veces hay que simplificar primero: raíz de ocho más raíz de dieciocho es cinco raíz de dos. Los constructores de antes dividían a mano. Y había una división que odiaban.
+
+Uno entre raíz de dos: uno entre 1.41421356… Una división a mano que no termina. El truco: multiplicar por raíz de dos sobre raíz de dos, que vale uno. No cambia nada. Abajo, raíz de dos por raíz de dos es dos. Ya no hay raíz abajo: eso es racionalizar. Y dividir entre dos es fácil: la mitad de 1.414, cero punto setecientos siete. ¿Y si abajo hay un binomio? Nueve entre cuatro más raíz de cinco.
+
+Multiplicamos por el conjugado: cuatro menos raíz de cinco. Arriba y abajo: otra vez un uno disfrazado. Suma por diferencia da cuadrado menos cuadrado: dieciséis menos cinco, once. La raíz se fue. Queda nueve por cuatro menos raíz de cinco, entre once. Beto escribe seis raíz de dos y divide sin sufrir. Así trabajaban los constructores, antes de las calculadoras.

@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Caro vive en una torre y sabe un secreto.
+
+2
+00:00:04,000 --> 00:00:06,400
+¿A cuántos nuevos les llega el cuarto día?
+
+3
+00:00:06,800 --> 00:00:09,600
+El primer día se lo cuenta a tres vecinos.
+
+4
+00:00:09,800 --> 00:00:12,400
+Y cada uno se lo cuenta a otros tres.
+
+5
+00:00:12,800 --> 00:00:15,600
+Tres, nueve, veintisiete, ochenta y uno.
+
+6
+00:00:15,800 --> 00:00:18,600
+Cada día se multiplica por tres.
+
+7
+00:00:19,000 --> 00:00:21,800
+Tres por sí mismo cuatro veces:
+
+8
+00:00:22,000 --> 00:00:24,400
+tres a la cuarta. Es una potencia.
+
+9
+00:00:24,800 --> 00:00:29,000
+La base es lo que se repite; el exponente, cuántas veces.
+
+10
+00:00:31,800 --> 00:00:34,800
+Cuidado con el signo.
+
+11
+00:00:35,000 --> 00:00:37,800
+Con paréntesis, menos tres por menos tres: nueve.
+
+12
+00:00:38,200 --> 00:00:41,000
+Sin paréntesis, el exponente solo toca al tres:
+
+13
+00:00:41,200 --> 00:00:44,200
+primero nueve, y luego el signo: menos nueve.
+
+14
+00:00:44,600 --> 00:00:47,400
+Con base negativa, un exponente impar da negativo,
+
+15
+00:00:47,600 --> 00:00:50,200
+y uno par da positivo.
+
+16
+00:00:50,600 --> 00:00:53,600
+El exponente sube de uno en uno.
+
+17
+00:00:53,800 --> 00:00:56,600
+¿Qué pasa si lo bajamos?
+
+18
+00:01:00,000 --> 00:01:03,000
+Ochenta y uno, veintisiete, nueve, tres.
+
+19
+00:01:03,200 --> 00:01:06,000
+Una escalera de potencias de tres.
+
+20
+00:01:06,400 --> 00:01:09,200
+Subir un escalón es multiplicar por tres.
+
+21
+00:01:09,400 --> 00:01:12,200
+Bajar uno es dividir entre tres.
+
+22
+00:01:12,600 --> 00:01:15,400
+Tres entre tres es uno.
+
+23
+00:01:15,600 --> 00:01:18,400
+Tres a la cero es uno, no cero.
+
+24
+00:01:18,800 --> 00:01:21,600
+Pasa con cualquier base:
+
+25
+00:01:21,800 --> 00:01:24,600
+a la cero es uno, si a no es cero.
+
+26
+00:01:25,000 --> 00:01:27,800
+¿Y si seguimos bajando,
+
+27
+00:01:28,000 --> 00:01:30,400
+por debajo del cero?
+
+28
+00:01:35,400 --> 00:01:38,400
+Seguimos dividiendo entre tres:
+
+29
+00:01:38,600 --> 00:01:41,400
+un tercio, un noveno, un veintisieteavo.
+
+30
+00:01:41,800 --> 00:01:44,600
+Tres a la menos dos es uno entre nueve.
+
+31
+00:01:44,800 --> 00:01:47,400
+No pone un signo menos: manda la potencia abajo.
+
+32
+00:01:47,800 --> 00:01:50,600
+Con base diez: diez a la menos dos es cero punto cero uno.
+
+33
+00:01:50,800 --> 00:01:54,000
+Un centímetro es la centésima parte de un metro.
+
+34
+00:01:55,400 --> 00:01:59,600
+El cuarto día se enteran ochenta y uno: tres a la cuarta.
+
+35
+00:01:59,800 --> 00:02:04,400
+Y el día cero solo lo sabía Caro: tres a la cero, uno.
+

@@ -1,0 +1,7 @@
+Caro vive en una torre y sabe un secreto. ¿A cuántos nuevos les llega el cuarto día? El primer día se lo cuenta a tres vecinos. Y cada uno se lo cuenta a otros tres. Tres, nueve, veintisiete, ochenta y uno. Cada día se multiplica por tres. Tres por sí mismo cuatro veces: tres a la cuarta. Es una potencia. La base es lo que se repite; el exponente, cuántas veces.
+
+Cuidado con el signo. Con paréntesis, menos tres por menos tres: nueve. Sin paréntesis, el exponente solo toca al tres: primero nueve, y luego el signo: menos nueve. Con base negativa, un exponente impar da negativo, y uno par da positivo. El exponente sube de uno en uno. ¿Qué pasa si lo bajamos?
+
+Ochenta y uno, veintisiete, nueve, tres. Una escalera de potencias de tres. Subir un escalón es multiplicar por tres. Bajar uno es dividir entre tres. Tres entre tres es uno. Tres a la cero es uno, no cero. Pasa con cualquier base: a la cero es uno, si a no es cero. ¿Y si seguimos bajando, por debajo del cero?
+
+Seguimos dividiendo entre tres: un tercio, un noveno, un veintisieteavo. Tres a la menos dos es uno entre nueve. No pone un signo menos: manda la potencia abajo. Con base diez: diez a la menos dos es cero punto cero uno. Un centímetro es la centésima parte de un metro. El cuarto día se enteran ochenta y uno: tres a la cuarta. Y el día cero solo lo sabía Caro: tres a la cero, uno.

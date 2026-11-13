@@ -1,0 +1,7 @@
+Beto tiene que escribir dos por dos por dos… muchas veces. Y se cansa. Tiene una torre de tres doses y otra de cuatro. Quiere multiplicarlas. Al juntarlas quedan siete doses: dos a la siete, ciento veintiocho. Primer atajo: con la misma base, al multiplicar se suman los exponentes. Ojo: si las bases son distintas, no se juntan.
+
+Ahora seis cincos arriba y dos abajo. Se cancelan por parejas. Quedan cuatro cincos: seis menos dos. Segundo atajo: al dividir, se restan. Si arriba y abajo hay lo mismo, todo se cancela: cinco a la cero es uno. Y si abajo hay más, la resta da negativa: cinco a la menos tres, un ciento veinticincoavo.
+
+Dos torres iguales de tres doses cada una: seis doses. Los exponentes se multiplican. Con un producto, el exponente va a cada factor: ocho por ciento veinticinco, mil. Pero con una suma, cuidado: uno más dos, al cuadrado, es nueve, no cinco. El exponente no se reparte en una suma. Ahora números gigantes: del Sol a la Tierra: 150 millones de km.
+
+El punto decimal salta ocho lugares a la izquierda hasta que queda uno punto cinco. Uno punto cinco por diez a la ocho. El ocho cuenta los saltos. Una bacteria mide dos millonésimas de metro. Seis saltos a la derecha: dos por diez a la menos seis. Beto escribe en un renglón lo que antes ocupaba una página. Los atajos tienen nombre: las leyes de los exponentes.

@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Beto tiene que escribir dos por dos por dos…
+
+2
+00:00:04,000 --> 00:00:06,400
+muchas veces. Y se cansa.
+
+3
+00:00:06,800 --> 00:00:09,600
+Tiene una torre de tres doses y otra de cuatro.
+
+4
+00:00:09,800 --> 00:00:12,400
+Quiere multiplicarlas.
+
+5
+00:00:12,800 --> 00:00:15,600
+Al juntarlas quedan siete doses:
+
+6
+00:00:15,800 --> 00:00:18,600
+dos a la siete, ciento veintiocho.
+
+7
+00:00:19,000 --> 00:00:21,800
+Primer atajo: con la misma base,
+
+8
+00:00:22,000 --> 00:00:24,400
+al multiplicar se suman los exponentes.
+
+9
+00:00:24,800 --> 00:00:29,000
+Ojo: si las bases son distintas, no se juntan.
+
+10
+00:00:31,800 --> 00:00:34,800
+Ahora seis cincos arriba y dos abajo.
+
+11
+00:00:35,000 --> 00:00:37,600
+Se cancelan por parejas.
+
+12
+00:00:38,000 --> 00:00:41,000
+Quedan cuatro cincos: seis menos dos.
+
+13
+00:00:41,200 --> 00:00:44,000
+Segundo atajo: al dividir, se restan.
+
+14
+00:00:44,400 --> 00:00:47,400
+Si arriba y abajo hay lo mismo, todo se cancela:
+
+15
+00:00:47,600 --> 00:00:50,200
+cinco a la cero es uno.
+
+16
+00:00:50,600 --> 00:00:53,600
+Y si abajo hay más, la resta da negativa:
+
+17
+00:00:53,800 --> 00:00:56,600
+cinco a la menos tres, un ciento veinticincoavo.
+
+18
+00:01:00,000 --> 00:01:03,000
+Dos torres iguales de tres doses cada una:
+
+19
+00:01:03,200 --> 00:01:06,200
+seis doses. Los exponentes se multiplican.
+
+20
+00:01:06,600 --> 00:01:09,400
+Con un producto, el exponente va a cada factor:
+
+21
+00:01:09,600 --> 00:01:12,400
+ocho por ciento veinticinco, mil.
+
+22
+00:01:12,800 --> 00:01:15,600
+Pero con una suma, cuidado:
+
+23
+00:01:15,800 --> 00:01:18,600
+uno más dos, al cuadrado, es nueve, no cinco.
+
+24
+00:01:19,000 --> 00:01:21,800
+El exponente no se reparte
+
+25
+00:01:22,000 --> 00:01:24,800
+en una suma.
+
+26
+00:01:25,200 --> 00:01:27,800
+Ahora números gigantes:
+
+27
+00:01:28,000 --> 00:01:30,400
+del Sol a la Tierra: 150 millones de km.
+
+28
+00:01:35,400 --> 00:01:38,400
+El punto decimal salta ocho lugares a la izquierda
+
+29
+00:01:38,600 --> 00:01:41,400
+hasta que queda uno punto cinco.
+
+30
+00:01:41,800 --> 00:01:44,600
+Uno punto cinco por diez a la ocho.
+
+31
+00:01:44,800 --> 00:01:46,600
+El ocho cuenta los saltos.
+
+32
+00:01:47,000 --> 00:01:50,400
+Una bacteria mide dos millonésimas de metro.
+
+33
+00:01:50,600 --> 00:01:55,000
+Seis saltos a la derecha: dos por diez a la menos seis.
+
+34
+00:01:56,400 --> 00:02:00,600
+Beto escribe en un renglón lo que antes ocupaba una página.
+
+35
+00:02:00,800 --> 00:02:05,400
+Los atajos tienen nombre: las leyes de los exponentes.
+

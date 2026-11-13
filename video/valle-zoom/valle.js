@@ -82,3 +82,10 @@ function plate(p, x, y, w, h, k, fill = C.night) {
   if (k <= 0.01) return;
   el('rect', { x: r1(x - w * k / 2), y: r1(y - h / 2), width: r1(w * k), height: h, rx: 24, fill }, p);
 }
+// ficha con una fórmula adentro (tokens de formula); col = [relleno, sombra]
+function fchip(p, x, y, toks, k, col = ZERO, size = 50, ink = C.night) {
+  if (k <= 0.01) return;
+  const { w } = fparts(toks, size), S = scaleAt(p, x, y, k), h = size * 1.7;
+  shaded(S, 'rect', { x: r1(x - w / 2 - 26), y: r1(y - h / 2), width: r1(w + 52), height: r1(h), rx: r1(h / 2) }, col[0], col[1], 4, 4);
+  formula(S, x, r1(y + size * .34), size, toks, { fill: ink });
+}

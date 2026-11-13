@@ -52,3 +52,16 @@ narración en `docs/storytelling-videos.md`, sacada de los libros de storytellin
 | `porcentajes` | `alg-13` | todos los letreros dicen «%» → hay porcentajes de más de 100 y de menos de 1 → «de cada 100» |
 | `aumentos` | `alg-13c` | Caro compra con descuento e IVA → quitar el 19 % al precio con IVA está mal → todo porcentaje es un factor |
 | `sucesivos` | `alg-13d` | Beto cree que ahorró el 30 % → +50 % y −50 % no vuelve a 100 → ahorró el 28 %: los cambios se multiplican |
+
+# Torres de Potencias en zoom · lecciones 1 a 4
+
+Mismo proyecto y motor; `zoomkit.js` suma el token `{rad: '72', idx: '3'}` (raíz dibujada con su índice) y `valle.js` la
+ficha `fchip` con una fórmula adentro. Estas lecciones no tenían video en Bunny, así que los ejemplos son nuevos y no salen en
+los ejercicios.
+
+| Video | Lección | El problema → la sorpresa → la respuesta |
+|---|---|---|
+| `potencias` | `alg-21a` | Caro cuenta un secreto en la torre: ¿cuántos lo saben en 4 días? → 3⁰ = 1, no 0 → 81 = 3⁴, y el día cero solo Caro: 3⁰ = 1 |
+| `leyes` | `alg-21b` | Beto se cansa de escribir doses → (1 + 2)² no es 1² + 2² → cada ley es un atajo; 1.5 × 10⁸ en un renglón |
+| `raices` | `alg-22a` | Ana quiere cercar un terreno de 25 m² → por la diagonal 10, rodeando 14 → compra 20 m de cerca |
+| `radicales` | `alg-22b` | Beto construye sin calculadora: dividir entre 1.414… a mano → multiplicar por un uno disfrazado → 6√2 y divide sin sufrir |

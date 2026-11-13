@@ -116,6 +116,7 @@ function fparts(toks, size) {
     else if (tk.sup) w = tw(tk.sup, size * .62, 600);
     else if (tk.fr) w = Math.max(tw(tk.fr[0], size * .8, 600), tw(tk.fr[1], size * .8, 600)) + size * .26;
     else if (tk.ov) w = tw(tk.ov, size, 600);
+    else if (tk.rad != null) w = (tk.idx ? size * .16 : 0) + size * .58 + tw(tk.rad, size, 600) + size * .08;
     else w = SYMW(size);
     const tight = (typeof tk === 'object' && (tk.sup || tk.ov || tk.tight)) || (typeof tk === 'string' && /^[),.}:]/.test(tk)) || (i > 0 && typeof toks[i - 1] === 'string' && /[({]$/.test(toks[i - 1]));
     if (i > 0 && !tight) x += gap;
@@ -135,10 +136,19 @@ function formula(p, x, y, size, toks, o = {}) {
       text(p, r1(xx), y, tk.ov, { 'font-size': size, 'font-weight': 600, fill: tk.col || col });
       el('rect', { x: r1(xx + size * .04), y: r1(y - size * .86), width: r1(ww - size * .08), height: r1(size * .07), rx: r1(size * .035), fill: tk.col || col }, p);
     }
+    else if (tk.rad != null) radAt(p, xx, y, size, tk.rad, tk.idx, tk.col || col);
     else sym(p, tk.s, xx, y, size, col);
     at.push([xx + ww / 2, y - 0.34 * size]);
   });
   return { at, x0, w };
+}
+// un radical dibujado: x = borde izquierdo, y = renglón; idx = índice (opcional). Devuelve el ancho.
+function radAt(p, x, y, s, rad, idx, col = C.cream) {
+  const x0 = x + (idx ? s * .16 : 0), wr = tw(rad, s, 600), top = y - s * .84, sw = r1(s * .07);
+  el('path', { d: `M${r1(x0 + s * .02)},${r1(y - s * .34)}L${r1(x0 + s * .13)},${r1(y - s * .4)}L${r1(x0 + s * .3)},${r1(y + s * .04)}L${r1(x0 + s * .52)},${r1(top)}L${r1(x0 + s * .62 + wr + s * .04)},${r1(top)}`, fill: 'none', stroke: col, 'stroke-width': sw, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, p);
+  if (idx) text(p, r1(x0 + s * .1), r1(y - s * .5), idx, { 'font-size': r1(s * .42), 'font-weight': 700, fill: col, 'text-anchor': 'middle' });
+  text(p, r1(x0 + s * .6), y, rad, { 'font-size': s, 'font-weight': 600, fill: col });
+  return (idx ? s * .16 : 0) + s * .58 + wr + s * .08;
 }
 // una fracción vertical centrada en (cx, axis): s = tamaño de las cifras
 function fracAt(p, cx, axis, s, n, d, col = C.cream) {
