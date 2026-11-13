@@ -36,6 +36,7 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
 | `js/player.js` | reproductor de clips (Bunny HLS o escenas animadas) |
 | `js/curiosidades.js`, `media/clips/` | pestaña Clips: videos cortos de datos curiosos (`CURIOS`, `CURIO_TOPICS`, `curioFeed`, `findCurio`); spec `2026-11-12-clips-curiosidades`, pruebas `tests/curiosidades.test.js` |
 | `js/tutorias.js` | pestaña Tutorías: el estudiante separa una asesoría virtual eligiendo materia, temas (lecciones de esa materia), día y hora; **sin nombres de tutores** (`TUTORIAS` con el horario `hours`, `tutoriaDays`, `bookTutoria`, `renderTutorias`, `openBooking`). Reservas en `S.tutorias`, sin servidor: solo quedan en el celular hasta poner `TUTORIAS.whatsapp`. Spec `2026-11-12-tutorias`, pruebas `tests/tutorias.test.js` |
+| `docs/resumenes/`, `media/resumenes/` | resúmenes en PDF por mundo: fuente HTML A4 → `sh docs/resumenes/build.sh [nombre]` (Chrome sin ventana); la unidad lleva `summary` y `renderWorld` muestra «Resumen del mundo». Hecho: Pradera de Venn. Spec `2026-11-13-resumenes-pdf`, pruebas `tests/resumenes.test.js` |
 | `sw.js` | service worker: `VERSION` y lista `SHELL` |
 | `tests/` | `node --test tests/` (≈352 pruebas); `tests/load.js` carga scripts en un `vm` |
 | `video/` | videos con manimgl (ver abajo) |

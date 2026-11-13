@@ -275,6 +275,8 @@ function renderWorld(c, ui) {
           <button class="node exam ${st}" data-exam aria-label="Evaluación del mundo ${ui + 1}${best != null ? `, mejor resultado ${best}%` : ''}">${st === 'locked' ? ICON.lock : ICON.trophy}</button>
           <span class="node-label"><small>Evaluación · ${u.exam.minutes} min</small>${best != null ? `Mejor resultado: ${best}%` : 'Pon a prueba el mundo'}</span></div>`;
         })() : ''}</div></section>
+    ${u.summary ? `<a class="world-summary" href="${u.summary}" download="Zuka - ${esc(w.name)} (resumen).pdf" target="_blank" rel="noopener">
+      <span class="ws-icon">${ICON.doc}</span><span class="ws-text"><b>Resumen del mundo</b><small>PDF de 5 páginas con lo más importante y sus diagramas · se descarga con conexión</small></span>${ICON.download}</a>` : ''}
     ${ui + 1 < c.units.length ? `<button class="world-next" data-next>Siguiente: Mundo ${ui + 2} · ${esc((WORLDS[c.units[ui + 1].world] || c.units[ui + 1]).name || c.units[ui + 1].title)} ${ICON.right}</button>` : ''}
   </div>`;
   view.querySelectorAll('.node[data-id]').forEach(b => b.onclick = () => openLessonSheet(c, findLesson(b.dataset.id).l));

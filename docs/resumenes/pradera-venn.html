@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Pradera de Venn · Resumen</title>
+<!-- Resumen imprimible del mundo «Pradera de Venn» (Álgebra, unidad 0: conjuntos).
+     Se convierte en media/resumenes/pradera-venn.pdf con: sh docs/resumenes/build.sh
+     Usa los mismos ejemplos de los videos (semáforo, PAPAYA, toppings, los siete amigos);
+     no repite respuestas de los ejercicios. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Jost:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --paper: #FFF6E6; --card: #FFFFFF; --line: #E2CFAE; --ink: #1D2052; --mute: #5B6090;
+    --sun: #FFB627; --coral: #FF6B5E; --mint: #22B38C; --sky: #4D7CFE; --violet: #6A4BE6;
+    --ok: #0F9A5C; --bad: #D8314F; --night: #1D2052; --halo: #FBE8C8;
+    --math: 'Cambria Math', 'STIX Two Math', 'Segoe UI Symbol', serif;
+  }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { background: #d9d2c4; color: var(--ink); font: 400 10.4pt/1.42 'Plus Jakarta Sans', system-ui, sans-serif; }
+  .page {
+    position: relative; width: 210mm; height: 297mm; margin: 0 auto; overflow: hidden;
+    background: var(--paper); padding: 13mm 13mm 15mm; display: flex; flex-direction: column; gap: 4.2mm;
+    break-after: page;
+  }
+  .page:last-child { break-after: auto; }
+  @media screen { .page { margin: 8mm auto; box-shadow: 0 6px 24px rgba(0,0,0,.18); } }
+  /* estrellas del fondo, como en los juegos */
+  .stars { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .page > :not(.stars):not(.foot) { position: relative; z-index: 1; }
+
+  h1, h2, h3, .kicker, .tile, .num { font-family: 'Jost', system-ui, sans-serif; }
+  h2 { font-size: 21pt; line-height: 1.05; font-weight: 700; }
+  h3 { font-size: 12.5pt; font-weight: 700; line-height: 1.15; margin-bottom: 1.6mm; }
+  p + p { margin-top: 1.4mm; }
+  b, strong { font-weight: 800; }
+  .m { font-family: var(--math); font-size: 1.08em; white-space: nowrap; }
+  .mute { color: var(--mute); }
+
+  /* rótulo con barrita (drawKicker) */
+  .kicker { display: inline-flex; align-items: center; gap: 2mm; font-size: 8.4pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
+  .kicker::before { content: ''; width: 6mm; height: 1.3mm; border-radius: 1mm; background: var(--k, var(--sun)); }
+
+  /* tarjetas «físicas» */
+  .card { background: var(--card); border: 2px solid var(--line); border-radius: 5mm; padding: 4mm 4.4mm; box-shadow: 0 1.3mm 0 var(--line); }
+  .card.tint { background: var(--halo); }
+  .row { display: grid; gap: 4mm; }
+  .c2 { grid-template-columns: 1fr 1fr; } .c3 { grid-template-columns: 1fr 1fr 1fr; }
+  .c5 { grid-template-columns: repeat(5, 1fr); gap: 2.6mm; }
+
+  /* fichas con relieve (drawTile) */
+  .tile { display: inline-grid; place-items: center; min-width: 7.4mm; height: 7.4mm; padding: 0 1.6mm; border-radius: 1.8mm;
+          font-weight: 700; font-size: 11pt; background: var(--f, var(--sun)); color: var(--t, var(--ink)); box-shadow: 0 .9mm 0 rgba(29,32,82,.28); }
+  .tile.ghost { background: transparent; color: var(--mute); box-shadow: none; border: 1.6px dashed var(--line); text-decoration: line-through; }
+  .pill { display: inline-block; padding: .5mm 2.4mm; border-radius: 9mm; font-weight: 700; font-size: 8.6pt; background: var(--f, var(--halo)); color: var(--t, var(--ink)); }
+  .ok { color: var(--ok); font-weight: 800; } .bad { color: var(--bad); font-weight: 800; }
+
+  /* cabecera de cada nivel */
+  .band { background: var(--night); color: #FFF4E2; border-radius: 6mm; padding: 5mm 6mm; display: flex; align-items: center; gap: 5mm; }
+  .band .badge { flex: none; width: 15mm; height: 15mm; border-radius: 4mm; display: grid; place-items: center; background: var(--sun); color: var(--night);
+                 font: 700 17pt 'Jost', sans-serif; box-shadow: 0 1.2mm 0 #c98a00; }
+  .band .kicker { color: #A7ACE0; } .band .kicker::before { background: var(--sun); }
+  .band p { color: #D8DBF7; font-size: 9.6pt; margin-top: 1mm; }
+
+  .key { border-left: 1.6mm solid var(--k, var(--sun)); }
+  .formula { font-family: var(--math); font-size: 15pt; text-align: center; padding: 2.4mm 0; }
+  svg { display: block; max-width: 100%; }
+  #bolsas svg { height: 34mm; } #subconj svg { height: 33mm; } #ruta svg { height: 76mm; } #relaciones svg { height: 52mm; } #partes svg { height: 41mm; } #amigos svg, #tres svg { height: auto; }
+  svg text { font-family: 'Jost', system-ui, sans-serif; }
+  .foot { position: absolute; left: 13mm; right: 13mm; bottom: 6.5mm; display: flex; justify-content: space-between; font: 500 8pt 'Jost', sans-serif; color: var(--mute); z-index: 1; }
+  .foot b { color: var(--ink); }
+  ul.dots { list-style: none; } ul.dots li { padding-left: 4.6mm; position: relative; } ul.dots li + li { margin-top: 1.2mm; }
+  ul.dots li::before { content: ''; position: absolute; left: 0; top: 1.7mm; width: 2.2mm; height: 2.2mm; border-radius: 50%; background: var(--k, var(--sun)); }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  td, th { padding: 1.25mm 2.4mm; text-align: left; vertical-align: middle; border-bottom: 1.4px solid var(--line); }
+  th { font: 700 8.2pt 'Jost', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+  tr:last-child td { border-bottom: 0; }
+  td.sym { font-family: var(--math); font-size: 13.5pt; text-align: center; width: 15mm; color: var(--violet); }
+
+  /* portada */
+  .cover-art { border-radius: 7mm; overflow: hidden; height: 92mm; box-shadow: 0 1.6mm 0 var(--line); border: 2px solid var(--line); }
+  .cover-art svg { width: 100%; height: 100%; }
+  .title-big { font: 700 40pt/0.95 'Jost', sans-serif; letter-spacing: -.01em; }
+  .lesson-card { display: flex; gap: 3.2mm; align-items: flex-start; }
+  .lesson-card .tile { flex: none; }
+  .idea { display: grid; grid-template-columns: 9mm 1fr; gap: 3mm; align-items: start; }
+  .idea + .idea { margin-top: 2.6mm; }
+</style>
+</head>
+<body>
+
+<!-- ============ PORTADA ============ -->
+<section class="page">
+  <div class="cover-art" id="art"></div>
+  <div>
+    <span class="kicker">Álgebra · Mundo 1</span>
+    <div class="title-big" style="margin-top:2mm">Pradera de Venn</div>
+    <p style="font-size:12.5pt;margin-top:2mm" class="mute">Resumen de <b style="color:var(--ink)">Conjuntos</b>: lo que viste en los tres niveles de este mundo, con sus ejemplos y diagramas.</p>
+  </div>
+  <div class="row c3">
+    <div class="card lesson-card"><span class="tile">1-1</span><div><h3>¿Qué es un conjunto?</h3><span class="mute">Notación, pertenencia, extensión, comprensión y cardinal.</span></div></div>
+    <div class="card lesson-card"><span class="tile" style="--f:var(--mint)">1-2</span><div><h3>Tipos y relaciones</h3><span class="mute">Vacío, unitario, subconjunto, iguales, disjuntos y conjunto de partes.</span></div></div>
+    <div class="card lesson-card"><span class="tile" style="--f:var(--sky)">1-3</span><div><h3>Operaciones</h3><span class="mute">Diagramas de Venn, unión, intersección, diferencias, complemento y cómo contar.</span></div></div>
+  </div>
+  <div class="card tint" style="flex:1">
+    <span class="kicker" style="--k:var(--coral)">Las 5 ideas que no se te pueden olvidar</span>
+    <div style="margin-top:3.4mm">
+      <div class="idea"><span class="tile">1</span><div><b>Un conjunto está bien definido:</b> cualquiera decide, sin dudar, si un objeto está o no está. «Los colores bonitos» no es un conjunto.</div></div>
+      <div class="idea"><span class="tile" style="--f:var(--coral)">2</span><div><b>Sin orden y sin repetidos.</b> <span class="m">{P, A, Y} = {Y, P, A}</span>, y las letras de PAPAYA son solo tres: <span class="m">n(L) = 3</span>.</div></div>
+      <div class="idea"><span class="tile" style="--f:var(--mint)">3</span><div><b><span class="m">∈</span> es para elementos, <span class="m">⊆</span> es para conjuntos.</b> <span class="m">rojo ∈ S</span>, pero <span class="m">V ⊆ X</span>. Y el vacío <span class="m">∅</span> es subconjunto de cualquier conjunto.</div></div>
+      <div class="idea"><span class="tile" style="--f:var(--sky)">4</span><div><b>Cada operación es una forma de leer el diagrama:</b> «o» junta (unión), «y» filtra (intersección), «pero no» quita (diferencia), «no está» mira afuera (complemento).</div></div>
+      <div class="idea"><span class="tile" style="--f:var(--violet);--t:#fff">5</span><div><b>Lo común se cuenta una sola vez:</b> <span class="m">n(A ∪ B) = n(A) + n(B) − n(A ∩ B)</span>. Y un conjunto de <span class="m">n</span> elementos tiene <span class="m">2ⁿ</span> subconjuntos.</div></div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Zuka</b> · Matemáticas en corto</span><span>Basado en el Manual de Álgebra y Trigonometría (UdeA)</span></div>
+</section>
+
+<!-- ============ NIVEL 1-1 ============ -->
+<section class="page">
+  <header class="band"><span class="badge">1-1</span><div><span class="kicker">Nivel 1-1</span><h2>¿Qué es un conjunto?</h2><p>Notación y pertenencia</p></div></header>
+
+  <div class="row c2">
+    <div class="card key">
+      <h3>Una colección bien definida</h3>
+      <p>Un <b>conjunto</b> es una colección de objetos en la que cualquiera puede decidir, sin dudar, si algo está o no está. Los objetos se llaman <b>elementos</b>.</p>
+      <div class="row c2" style="margin-top:3mm;gap:2.4mm">
+        <div style="padding:2.6mm;border:2px solid var(--ok);border-radius:4mm"><div id="semaforo"></div><p style="text-align:center;font-size:9pt"><span class="ok">✓ Sí es conjunto</span><br>los colores del semáforo</p></div>
+        <div style="padding:2.6mm;border:2px solid var(--bad);border-radius:4mm"><div id="bonitos"></div><p style="text-align:center;font-size:9pt"><span class="bad">✗ No es conjunto</span><br>«los colores bonitos»: cada quien opina distinto</p></div>
+      </div>
+    </div>
+    <div class="card key" style="--k:var(--sky)">
+      <h3>Pertenece / no pertenece</h3>
+      <div id="pertenece"></div>
+      <p style="margin-top:1.6mm"><span class="m">∈</span> se lee <b>«pertenece a»</b> y <span class="m">∉</span> se lee <b>«no pertenece a»</b>. Relacionan un <b>elemento</b> con un conjunto.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Cómo se escribe: la anatomía de un conjunto</h3>
+    <div id="anatomia"></div>
+  </div>
+
+  <div class="row c2">
+    <div class="card key" style="--k:var(--mint)">
+      <h3>Dos maneras de escribirlo</h3>
+      <p><span class="pill" style="--f:#d8f3ea">Por extensión</span> se escriben <b>todos</b> los elementos:</p>
+      <p class="formula" style="font-size:13pt">V = {a, e, i, o, u}</p>
+      <p><span class="pill" style="--f:#dfe7ff">Por comprensión</span> se escribe la <b>condición</b> que cumplen:</p>
+      <p class="formula" style="font-size:13pt">V = {x : x es una vocal}</p>
+      <p class="mute" style="font-size:9pt">Los dos puntos «:» se leen <b>«tal que»</b>: «las <i>x</i> tal que <i>x</i> es una vocal». Las consonantes no cumplen la condición y se quedan afuera.</p>
+    </div>
+    <div class="card key" style="--k:var(--coral)">
+      <h3>Sin orden, sin repetidos y su cardinal</h3>
+      <p>PAPAYA tiene seis letras, pero solo tres distintas:</p>
+      <div id="papaya" style="margin:2mm 0"></div>
+      <p class="formula" style="font-size:13pt">L = {P, A, Y} = {Y, P, A}</p>
+      <p>Cambiar el orden no cambia el conjunto. El <b>cardinal</b> <span class="m">n(L)</span> cuenta los elementos <b>distintos</b>: <span class="m">n(L) = 3</span>.</p>
+    </div>
+  </div>
+  <div class="foot"><span><b>Pradera de Venn</b> · Conjuntos</span><span>2</span></div>
+</section>
+
+<!-- ============ NIVEL 1-2 ============ -->
+<section class="page">
+  <header class="band"><span class="badge" style="background:var(--mint);box-shadow:0 1.2mm 0 #137a5f">1-2</span><div><span class="kicker">Nivel 1-2</span><h2>Tipos de conjuntos y relaciones</h2><p>Vacío, unitario, subconjuntos, iguales, disjuntos y el conjunto de partes</p></div></header>
+
+  <div class="card">
+    <h3>Tres bolsas, tres tipos</h3>
+    <div id="bolsas"></div>
+  </div>
+
+  <div class="row" style="grid-template-columns: 1.05fr 1fr">
+    <div class="card key" style="--k:var(--mint)">
+      <h3>Subconjunto: <span class="m">V ⊆ X</span></h3>
+      <div id="subconj"></div>
+      <ul class="dots" style="--k:var(--mint);margin-top:1.6mm">
+        <li><span class="m">B ⊆ A</span> cuando <b>todo</b> elemento de <span class="m">B</span> está en <span class="m">A</span>. Cada vocal es una letra: <span class="m">V ⊆ X</span>, donde <span class="m">X</span> son todas las letras.</li>
+        <li>Basta <b>un intruso</b> para que no lo sea: <span class="m">{a, 7} ⊈ X</span>, porque 7 no es una letra.</li>
+        <li><span class="m">∅ ⊆ A</span> siempre: no tiene ningún elemento que pueda faltar.</li>
+      </ul>
+    </div>
+    <div class="card key" style="--k:var(--sky)">
+      <h3>¿Cómo se relacionan dos conjuntos?</h3>
+      <div id="relaciones"></div>
+    </div>
+  </div>
+
+  <div class="card tint">
+    <h3>El conjunto de partes: todos los subconjuntos</h3>
+    <p>En la heladería hay tres toppings, <span class="m">T = {fresa, mora, coco}</span>. ¿Cuántas combinaciones hay? Se cuentan <b>por tamaños</b>:</p>
+    <div id="partes" style="margin-top:2mm"></div>
+    <div class="row c2" style="margin-top:2.4mm;align-items:center">
+      <p class="formula" style="font-size:13.5pt">1 + 3 + 3 + 1 = 8 = 2 · 2 · 2 = 2³</p>
+      <p>Cada topping <b>entra o no entra</b>: dos opciones por elemento. Un conjunto con <span class="m">n</span> elementos tiene <b><span class="m">2ⁿ</span> subconjuntos</b>, contando <span class="m">∅</span> y el conjunto completo. Todos juntos forman <span class="m">P(T)</span>.</p>
+    </div>
+  </div>
+  <div class="foot"><span><b>Pradera de Venn</b> · Conjuntos</span><span>3</span></div>
+</section>
+
+<!-- ============ NIVEL 1-3 ============ -->
+<section class="page">
+  <header class="band"><span class="badge" style="background:var(--sky);color:var(--night);box-shadow:0 1.2mm 0 #2c4fb8">1-3</span><div><span class="kicker">Nivel 1-3</span><h2>Operaciones entre conjuntos</h2><p>Cada operación es una manera de leer el diagrama de Venn</p></div></header>
+
+  <div class="row" style="grid-template-columns: 1.15fr 1fr">
+    <div class="card">
+      <h3>El diagrama de Venn</h3>
+      <div id="amigos"></div>
+    </div>
+    <div class="card key" style="--k:var(--sky)">
+      <h3>Cómo se lee</h3>
+      <ul class="dots" style="--k:var(--sky)">
+        <li>El rectángulo es el <b>universo</b> <span class="m">U</span>: todo lo que se estudia. Aquí, los siete amigos del patio.</li>
+        <li>Cada conjunto es un círculo. <span class="m">A</span>: juegan fútbol. <span class="m">B</span>: tocan un instrumento.</li>
+        <li>Lo que está en los dos va en el <b>cruce</b>: Caro y Dani.</li>
+        <li>Lo que no está en ninguno queda <b>afuera de los círculos</b>, pero dentro de <span class="m">U</span>: Fede y Gabi.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="padding:3.4mm 3.6mm">
+    <h3>Las cinco operaciones (con los amigos del patio)</h3>
+    <div class="row c5" id="ops"></div>
+  </div>
+
+  <div class="row" style="grid-template-columns: 1.2fr 1fr">
+    <div class="card tint key" style="--k:var(--violet)">
+      <h3>Contar la unión sin contar dos veces</h3>
+      <div id="conteo"></div>
+      <p class="formula">n(A ∪ B) = n(A) + n(B) − n(A ∩ B)</p>
+      <p style="text-align:center"><span class="m">4 + 3 − 2 = 5</span>: Caro y Dani se habían contado dos veces.</p>
+    </div>
+    <div class="card key" style="--k:var(--coral)">
+      <h3>Con tres conjuntos</h3>
+      <div id="tres"></div>
+      <p style="font-size:9.4pt">Tres círculos forman <b>8 zonas</b>. Primero se resuelve el <b>paréntesis</b> y después la operación de afuera: en <span class="m">(A ∪ B) ∩ C</span> se toma lo de <span class="m">A</span> o <span class="m">B</span> que además está en <span class="m">C</span>.</p>
+    </div>
+  </div>
+  <div class="foot"><span><b>Pradera de Venn</b> · Conjuntos</span><span>4</span></div>
+</section>
+
+<!-- ============ REPASO ============ -->
+<section class="page">
+  <header class="band" style="background:#2a2f73"><span class="badge" style="background:var(--coral);color:var(--night);box-shadow:0 1.2mm 0 #b5443a">★</span><div><span class="kicker">Repaso del mundo</span><h2>Símbolos, errores frecuentes y una ruta</h2><p>Para tener a mano antes de la evaluación de la Pradera</p></div></header>
+
+  <div class="card" style="padding:2.6mm 3.6mm">
+    <table>
+      <tr><th style="text-align:center">Símbolo</th><th>Se lee</th><th>Ejemplo de la Pradera</th></tr>
+      <tr><td class="sym">{ }</td><td>«el conjunto de…»</td><td><span class="m">S = {rojo, amarillo, verde}</span></td></tr>
+      <tr><td class="sym">∈ ∉</td><td>«pertenece a» / «no pertenece a»</td><td><span class="m">rojo ∈ S</span> · <span class="m">azul ∉ S</span></td></tr>
+      <tr><td class="sym">:</td><td>«tal que»</td><td><span class="m">{x : x es una vocal}</span></td></tr>
+      <tr><td class="sym">n( )</td><td>«cardinal de», cuántos elementos distintos</td><td><span class="m">n({P, A, Y}) = 3</span></td></tr>
+      <tr><td class="sym">∅</td><td>«vacío», sin elementos</td><td>los meses de 32 días</td></tr>
+      <tr><td class="sym">⊆</td><td>«es subconjunto de»</td><td><span class="m">V ⊆ X</span> (vocales dentro de todas las letras)</td></tr>
+      <tr><td class="sym">P( )</td><td>«conjunto de partes de»</td><td><span class="m">P(T)</span> tiene 8 combinaciones de toppings</td></tr>
+      <tr><td class="sym">∪</td><td>«unión», está en A <b>o</b> en B</td><td>los 5 amigos que juegan o tocan</td></tr>
+      <tr><td class="sym">∩</td><td>«intersección», está en A <b>y</b> en B</td><td>Caro y Dani</td></tr>
+      <tr><td class="sym">−</td><td>«menos», en A <b>pero no</b> en B</td><td><span class="m">A − B = {Ana, Beto}</span></td></tr>
+      <tr><td class="sym">ᶜ</td><td>«complemento», <b>no está</b></td><td><span class="m">Aᶜ = {Eva, Fede, Gabi}</span></td></tr>
+      <tr><td class="sym">△</td><td>«diferencia simétrica», en <b>uno solo</b></td><td><span class="m">A △ B = {Ana, Beto, Eva}</span></td></tr>
+    </table>
+  </div>
+
+  <div class="row c2" style="flex:1">
+    <div class="card key" style="--k:var(--bad)">
+      <h3>Errores frecuentes</h3>
+      <ul class="dots" style="--k:var(--coral)">
+        <li><b>Confundir <span class="m">∈</span> con <span class="m">⊆</span>.</b> Se escribe <span class="m">a ∈ V</span>, pero <span class="m">{a} ⊆ V</span>.</li>
+        <li><b>Creer que <span class="m">{∅}</span> está vacío.</b> Es una bolsa que guarda una bolsa vacía: tiene un elemento.</li>
+        <li><b>Repetir elementos o fijarse en el orden.</b> Las letras de AMOR y las de ROMA forman el mismo conjunto.</li>
+        <li><b>Olvidar la zona de afuera.</b> Lo que no está en ningún círculo también es parte de <span class="m">U</span>.</li>
+        <li><b>Sumar <span class="m">n(A) + n(B)</span> para la unión.</b> Hay que restar lo común, que se contó dos veces.</li>
+        <li><b>Olvidar <span class="m">∅</span> o el conjunto completo</b> al listar los subconjuntos.</li>
+      </ul>
+    </div>
+    <div class="card key" style="--k:var(--mint)">
+      <h3>Ruta para un problema con Venn</h3>
+      <div id="ruta"></div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Pradera de Venn</b> · Conjuntos</span><span>5</span></div>
+</section>
+
+<script>
+// ---------- utilidades de dibujo ----------
+const C = { ink: '#1D2052', mute: '#5B6090', line: '#E2CFAE', paper: '#FFF6E6', card: '#FFFFFF', sun: '#FFB627', coral: '#FF6B5E',
+            mint: '#22B38C', sky: '#4D7CFE', violet: '#6A4BE6', ok: '#0F9A5C', bad: '#D8314F', halo: '#FBE8C8' };
+let uid = 0;
+const put = (id, html) => { document.getElementById(id).innerHTML = html; };
+const svg = (w, h, body) => `<svg viewBox="0 0 ${w} ${h}" width="100%" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
+const txt = (x, y, s, o = {}) => `<text x="${x}" y="${y}" font-size="${o.size || 11}" font-weight="${o.w || 500}" fill="${o.fill || C.ink}" text-anchor="${o.anchor || 'middle'}" ${o.math ? `font-family="Cambria Math, STIX Two Math, serif"` : ''} ${o.italic ? 'font-style="italic"' : ''}>${s}</text>`;
+// ficha con relieve
+const tile = (x, y, w, h, fill, label, o = {}) => `<rect x="${x}" y="${y + 2.2}" width="${w}" height="${h}" rx="${o.rx || 5}" fill="${C.ink}" opacity=".22"/>
+  <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${o.rx || 5}" fill="${fill}" ${o.stroke ? `stroke="${o.stroke}" stroke-width="1.4" stroke-dasharray="${o.dash || ''}"` : ''}/>
+  ${label != null ? txt(x + w / 2, y + h / 2 + (o.size || 11) * .36, label, { size: o.size || 11, w: 700, fill: o.ink || C.ink }) : ''}`;
+
+// Diagrama de Venn general: sets = [{cx, cy, r}], f(...bits) dice qué zonas se pintan.
+function venn({ w, h, sets, f, fill = C.sky, alpha = .85, labels = [], U = true, uLabel = 'U', stroke = C.ink, colors }) {
+  const id = ++uid, n = sets.length;
+  let defs = '<defs>';
+  sets.forEach((s, i) => {
+    defs += `<clipPath id="c${id}_${i}"><circle cx="${s.cx}" cy="${s.cy}" r="${s.r}"/></clipPath>`;
+    defs += `<mask id="m${id}_${i}" maskUnits="userSpaceOnUse" x="0" y="0" width="${w}" height="${h}"><rect width="${w}" height="${h}" fill="#fff"/><circle cx="${s.cx}" cy="${s.cy}" r="${s.r}" fill="#000"/></mask>`;
+  });
+  defs += `<clipPath id="u${id}"><rect x="3" y="3" width="${w - 6}" height="${h - 6}" rx="9"/></clipPath></defs>`;
+  let zones = '';
+  if (f) for (let k = 0; k < (1 << n); k++) {
+    const bits = sets.map((_, i) => !!(k & (1 << i)));
+    if (!f(...bits)) continue;
+    let el = `<rect x="0" y="0" width="${w}" height="${h}" fill="${fill}" fill-opacity="${alpha}"/>`;
+    bits.forEach((b, i) => { el = b ? `<g clip-path="url(#c${id}_${i})">${el}</g>` : `<g mask="url(#m${id}_${i})">${el}</g>`; });
+    zones += el;
+  }
+  const tints = colors ? sets.map((s, i) => `<circle cx="${s.cx}" cy="${s.cy}" r="${s.r}" fill="${colors[i]}" fill-opacity=".22"/>`).join('') : '';
+  const rings = sets.map(s => `<circle cx="${s.cx}" cy="${s.cy}" r="${s.r}" fill="none" stroke="${stroke}" stroke-width="1.6"/>`).join('');
+  const box = U ? `<rect x="3" y="3" width="${w - 6}" height="${h - 6}" rx="9" fill="${C.card}" stroke="${C.ink}" stroke-width="1.4"/>` : '';
+  const ul = U && uLabel ? txt(12, 17, uLabel, { size: 11, w: 700, fill: C.mute, anchor: 'start', math: true, italic: true }) : '';
+  const lab = labels.map(([x, y, s]) => txt(x, y, s, { size: 12, w: 700, math: true, italic: true })).join('');
+  return svg(w, h, `${defs}${box}<g clip-path="url(#u${id})">${tints}${zones}</g>${rings}${ul}${lab}`);
+}
+
+// ---------- portada: el arte del mundo (js/worlds.js), ampliado ----------
+put('art', `<svg viewBox="0 0 160 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd8ff"/><stop offset="1" stop-color="#d9f7ec"/></linearGradient></defs>
+  <rect width="160" height="80" fill="url(#sky)"/>
+  <circle cx="136" cy="16" r="13" fill="#ffd451" opacity=".25"/><circle cx="136" cy="16" r="8" fill="#ffd451"/>
+  ${[[30, 16, 1], [98, 12, .8], [12, 30, .6]].map(([x, y, s]) => `<g transform="translate(${x} ${y}) scale(${s})" fill="#fff" opacity=".85"><ellipse cx="0" cy="0" rx="9" ry="4"/><ellipse cx="6" cy="-3" rx="6" ry="5"/><ellipse cx="-5" cy="-2" rx="5" ry="4"/></g>`).join('')}
+  <path d="M0 62Q40 50 80 58T160 56V80H0z" fill="#58c98a"/><path d="M0 70Q50 62 100 68T160 66V80H0z" fill="#3fae72"/>
+  <circle cx="66" cy="38" r="17" fill="#ff7aa8" opacity=".55"/><circle cx="90" cy="38" r="17" fill="#ffd451" opacity=".55"/>
+  <circle cx="78" cy="56" r="17" fill="#6f8fff" opacity=".55"/>
+  <g fill="none" stroke="#fff" stroke-width="1.6" opacity=".9"><circle cx="66" cy="38" r="17"/><circle cx="90" cy="38" r="17"/><circle cx="78" cy="56" r="17"/></g>
+  ${[[58, 32, 2], [94, 31, 2], [78, 44, 2.2], [72, 62, 2], [99, 46, 1.6], [56, 50, 1.6]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff"/>`).join('')}
+  <g fill="#fff"><circle cx="20" cy="70" r="2"/><circle cx="140" cy="72" r="2"/><circle cx="122" cy="66" r="1.6"/><circle cx="36" cy="74" r="1.6"/></g>
+  <g fill="#ffd451"><circle cx="20" cy="70" r=".9"/><circle cx="140" cy="72" r=".9"/><circle cx="122" cy="66" r=".8"/><circle cx="36" cy="74" r=".7"/></g>
+  <text x="66" y="25" font-size="5" font-weight="700" fill="#fff" text-anchor="middle" font-family="Cambria Math, serif" font-style="italic">A</text>
+  <text x="90" y="25" font-size="5" font-weight="700" fill="#fff" text-anchor="middle" font-family="Cambria Math, serif" font-style="italic">B</text>
+  <text x="78" y="76.5" font-size="5" font-weight="700" fill="#fff" text-anchor="middle" font-family="Cambria Math, serif" font-style="italic">C</text></svg>`);
+
+// ---------- nivel 1-1 ----------
+put('semaforo', svg(120, 70, `<rect x="44" y="4" width="32" height="62" rx="9" fill="${C.ink}"/>
+  <circle cx="60" cy="17" r="8" fill="#FF5A4E"/><circle cx="60" cy="35" r="8" fill="${C.sun}"/><circle cx="60" cy="53" r="8" fill="${C.mint}"/>`));
+put('bonitos', svg(120, 70, `${[[30, 30, '#ff7aa8'], [58, 22, '#b18cff'], [86, 34, '#ffb05c'], [44, 50, '#5fd3c8'], [74, 52, '#a4d65e']].map(([x, y, c]) =>
+  `<circle cx="${x}" cy="${y}" r="10" fill="${c}"/>`).join('')}${txt(104, 24, '?', { size: 20, w: 700, fill: C.bad })}${txt(16, 62, '?', { size: 16, w: 700, fill: C.bad })}`));
+
+put('pertenece', svg(300, 128, `
+  <ellipse cx="108" cy="66" rx="88" ry="54" fill="${C.halo}" stroke="${C.ink}" stroke-width="1.8"/>
+  ${txt(36, 26, 'S', { size: 18, w: 700, math: true, italic: true })}
+  ${[[78, 52, '#FF5A4E', 'rojo'], [128, 46, C.sun, 'amarillo'], [104, 88, C.mint, 'verde']].map(([x, y, c, s]) => `<circle cx="${x}" cy="${y}" r="10" fill="${c}"/>${txt(x, y + 23, s, { size: 10, w: 600 })}`).join('')}
+  <circle cx="252" cy="36" r="10" fill="${C.sky}"/>${txt(252, 59, 'azul', { size: 10, w: 600 })}
+  <path d="M241 42 Q216 60 200 54 Q214 40 232 30" fill="none" stroke="${C.bad}" stroke-width="1.8" stroke-dasharray="3 3"/>
+  ${txt(214, 74, 'rebota', { size: 9, w: 700, fill: C.bad })}
+  ${tile(204, 78, 88, 20, '#d8f3ea', 'rojo ∈ S', { size: 11.5 })}
+  ${tile(204, 103, 88, 20, '#fde0dd', 'azul ∉ S', { size: 11.5 })}`));
+
+// Anatomía: S = { rojo , amarillo , verde }
+(() => {
+  const parts = [['S', C.violet, '#fff'], ['=', null], ['{', C.sun], ['rojo', C.card, null, '#FF5A4E'], [',', null], ['amarillo', C.card, null, C.sun], [',', null], ['verde', C.card, null, C.mint], ['}', C.sun]];
+  const widths = parts.map(([s]) => s.length > 2 ? s.length * 8.6 + 26 : 26);
+  const gap = 7, total = widths.reduce((a, b) => a + b, 0) + gap * (parts.length - 1);
+  let x = (640 - total) / 2, body = '';
+  const centers = [];
+  parts.forEach(([s, f, ink, dot], i) => {
+    const w = widths[i], y = 42;
+    if (f) body += tile(x, y, w, 30, f, null, { stroke: f === C.card ? C.line : null });
+    if (dot) body += `<circle cx="${x + 13}" cy="${y + 15}" r="5.5" fill="${dot}"/>`;
+    body += txt(x + w / 2 + (dot ? 6 : 0), y + 20.5, s, { size: s.length > 2 ? 13 : 17, w: 700, fill: ink || C.ink, math: s.length <= 2 });
+    centers.push(x + w / 2); x += w + gap;
+  });
+  const call = (cx, up, label, color) => {
+    const y1 = up ? 38 : 76, y2 = up ? 16 : 98;
+    return `<path d="M${cx} ${y1}V${y2 + (up ? 4 : -4)}" stroke="${color}" stroke-width="1.6"/><circle cx="${cx}" cy="${y1}" r="2.2" fill="${color}"/>
+      ${txt(cx, up ? y2 : y2 + 10, label, { size: 10.5, w: 700, fill: color })}`;
+  };
+  body += call(centers[0], true, 'nombre en mayúscula', C.violet);
+  body += call(centers[2], false, 'llave que abre', '#8A5E00');
+  body += call(centers[8], false, 'llave que cierra', '#8A5E00');
+  body += call(centers[5], true, 'elementos', C.ok);
+  body += `<path d="M${centers[3]} 38 Q${centers[3]} 24 ${centers[5] - 30} 18" fill="none" stroke="${C.ok}" stroke-width="1.4"/><path d="M${centers[7]} 38 Q${centers[7]} 24 ${centers[5] + 30} 18" fill="none" stroke="${C.ok}" stroke-width="1.4"/>`;
+  body += call(centers[4], false, 'separados por comas', C.mute);
+  put('anatomia', svg(640, 112, body));
+})();
+
+put('papaya', svg(300, 76, `${'PAPAYA'.split('').map((ch, i) => {
+  const keep = i === 0 || i === 1 || i === 4;
+  return tile(14 + i * 46, 4, 36, 30, keep ? (ch === 'P' ? C.sun : ch === 'A' ? C.coral : C.mint) : '#F4EAD8', ch, { size: 15, ink: keep ? C.ink : '#B9A988', stroke: keep ? null : C.line, dash: '3 3' });
+}).join('')}
+  ${[2, 3, 5].map(i => `<path d="M${18 + i * 46} 10 l28 18" stroke="${C.bad}" stroke-width="2" stroke-linecap="round" opacity=".8"/>`).join('')}
+  ${txt(150, 62, '6 letras  →  3 elementos distintos', { size: 11.5, w: 700, fill: C.mute })}`));
+
+// ---------- nivel 1-2 ----------
+(() => {
+  const bag = (x, inner, title, sub, math, color) => `
+    <path d="M${x + 22} 30 Q${x + 4} 34 ${x + 6} 70 Q${x + 8} 98 ${x + 62} 98 Q${x + 116} 98 ${x + 118} 70 Q${x + 120} 34 ${x + 102} 30 Z" fill="${C.halo}" stroke="${C.ink}" stroke-width="1.8"/>
+    <path d="M${x + 22} 30 Q${x + 62} 18 ${x + 102} 30" fill="none" stroke="${color}" stroke-width="4" stroke-linecap="round"/>
+    ${inner}
+    ${txt(x + 62, 120, math, { size: 15, w: 700, math: true, fill: color })}
+    ${txt(x + 62, 138, title, { size: 12, w: 700 })}
+    ${txt(x + 62, 153, sub, { size: 10, w: 500, fill: C.mute })}`;
+  const mini = (cx, cy) => `<path d="M${cx - 15} ${cy - 10} Q${cx - 20} ${cy + 14} ${cx} ${cy + 14} Q${cx + 20} ${cy + 14} ${cx + 15} ${cy - 10} Z" fill="${C.card}" stroke="${C.ink}" stroke-width="1.4"/><path d="M${cx - 15} ${cy - 10} Q${cx} ${cy - 16} ${cx + 15} ${cy - 10}" fill="none" stroke="${C.violet}" stroke-width="2.4" stroke-linecap="round"/>`;
+  put('bolsas', svg(640, 160, `
+    ${bag(40, txt(102, 72, 'nada', { size: 11, fill: C.mute, italic: true }), 'Vacío', 'los meses de 32 días', '∅ = { }', C.sky)}
+    ${bag(258, `<rect x="${300}" y="56" width="42" height="22" rx="6" fill="${C.sun}"/>${txt(321, 71.5, 'Bogotá', { size: 10, w: 700 })}`, 'Unitario', 'la capital de Colombia', '{Bogotá}', C.ok)}
+    ${bag(476, mini(538, 66), '¡Trampa! No es vacío', 'guarda una bolsa vacía: 1 elemento', '{∅}', C.coral)}`));
+})();
+
+put('subconj', svg(300, 138, `
+  <rect x="3" y="3" width="294" height="132" rx="10" fill="${C.card}" stroke="${C.ink}" stroke-width="1.4"/>
+  <ellipse cx="130" cy="76" rx="112" ry="54" fill="${C.mint}" fill-opacity=".18" stroke="${C.ink}" stroke-width="1.6"/>
+  ${txt(14, 22, 'X: letras', { size: 12, w: 700, anchor: 'start', fill: C.ok })}
+  <circle cx="110" cy="78" r="36" fill="${C.sky}" fill-opacity=".28" stroke="${C.ink}" stroke-width="1.6"/>
+  ${txt(110, 62, 'V: vocales', { size: 10.5, w: 700, fill: C.sky })}
+  ${['a', 'e', 'i', 'o', 'u'].map((s, i) => txt(86 + (i % 3) * 24, 84 + Math.floor(i / 3) * 20, s, { size: 13, w: 700, fill: C.sky, italic: true })).join('')}
+  ${[['b', 172, 60], ['m', 196, 84], ['s', 170, 104], ['t', 214, 56], ['…', 210, 112]].map(([s, x, y]) => txt(x, y, s, { size: 13, w: 700, fill: C.ok, italic: true })).join('')}
+  ${tile(250, 92, 36, 26, C.coral, '7', { size: 14 })}
+  ${txt(268, 84, 'intruso', { size: 9.5, w: 700, fill: C.bad })}`));
+
+(() => {
+  const w = 264, rowH = 54;
+  const items = [
+    { a: [30, 27, 21], b: [30, 27, 11], t: 'B ⊆ A', s: 'B queda adentro de A' },
+    { a: [26, 27, 18], b: [34, 27, 18], t: 'Iguales: A = B', s: 'AMOR y ROMA: las mismas letras', same: true },
+    { a: [16, 27, 13], b: [46, 27, 13], t: 'Disjuntos', s: 'frutas y herramientas: nada en común' },
+    { a: [22, 27, 15], b: [40, 27, 15], t: 'Se cruzan', s: 'comparten algunos, no todos' },
+  ];
+  let body = '';
+  items.forEach((it, i) => {
+    const y0 = i * rowH;
+    const A = it.same ? [30, 27, 18] : it.a, B = it.same ? [30, 27, 18] : it.b;
+    body += `<g transform="translate(6 ${y0})"><rect x="0" y="4" width="62" height="46" rx="7" fill="${C.card}" stroke="${C.line}" stroke-width="1.4"/>
+      <circle cx="${A[0] + 1}" cy="${A[1]}" r="${A[2]}" fill="${C.sky}" fill-opacity=".35" stroke="${C.ink}" stroke-width="1.4" ${it.same ? 'transform="translate(-2 0)"' : ''}/>
+      <circle cx="${B[0] + 1}" cy="${B[1]}" r="${B[2]}" fill="${C.coral}" fill-opacity=".35" stroke="${C.ink}" stroke-width="1.4" ${it.same ? 'stroke-dasharray="3 2" transform="translate(2 0)"' : ''}/></g>
+      ${txt(80, y0 + 24, it.t, { size: 13, w: 700, anchor: 'start' })}${txt(80, y0 + 41, it.s, { size: 10.5, w: 500, fill: C.mute, anchor: 'start' })}`;
+  });
+  put('relaciones', svg(w, rowH * 4, body));
+})();
+
+(() => {
+  const T = [['fresa', C.coral, C.ink], ['mora', C.violet, '#fff'], ['coco', '#F4EAD8', C.ink]];
+  const groups = [[[]], [[0], [1], [2]], [[0, 1], [0, 2], [1, 2]], [[0, 1, 2]]];
+  const colW = [92, 158, 214, 136], titles = ['ninguno', 'uno', 'dos', 'los tres'];
+  let x = 6, body = '';
+  groups.forEach((g, gi) => {
+    body += `<rect x="${x}" y="2" width="${colW[gi] - 8}" height="128" rx="9" fill="${C.card}" stroke="${C.line}" stroke-width="1.4"/>`;
+    body += txt(x + (colW[gi] - 8) / 2, 20, `${titles[gi]} · ${g.length}`, { size: 11, w: 700, fill: C.mute });
+    g.forEach((sub, si) => {
+      const n = Math.max(sub.length, 1), bw = 40, bx = x + 8 + (gi === 1 ? si * 48 : gi === 2 ? si * 68 : 0), by = 32;
+      const cols = gi === 1 || gi === 2;
+      const boxW = gi === 0 ? 76 : gi === 1 ? 44 : gi === 2 ? 62 : 120;
+      const bxx = gi === 0 ? x + 4 : gi === 3 ? x + 4 : bx;
+      body += `<rect x="${bxx}" y="${by}" width="${boxW}" height="88" rx="7" fill="${C.halo}" stroke="${C.ink}" stroke-width="1.2" stroke-dasharray="${sub.length ? '' : '3 3'}"/>`;
+      if (!sub.length) body += txt(bxx + boxW / 2, by + 50, '∅', { size: 22, w: 700, math: true, fill: C.sky });
+      sub.forEach((e, ei) => {
+        const [name, f, ink] = T[e];
+        const cw = Math.min(boxW - 8, 54);
+        body += tile(bxx + (boxW - cw) / 2, by + 8 + ei * 26, cw, 20, f, name, { size: 9.5, ink });
+      });
+      void cols; void bw; void n;
+    });
+    x += colW[gi];
+  });
+  put('partes', svg(600, 134, body));
+})();
+
+// ---------- nivel 1-3 ----------
+const A2 = { cx: 118, cy: 92, r: 62 }, B2 = { cx: 192, cy: 92, r: 62 };
+put('amigos', (() => {
+  const base = venn({ w: 320, h: 184, sets: [A2, B2], colors: [C.sun, C.sky], labels: [[78, 24, 'A'], [234, 24, 'B']] });
+  const names = [['Ana', 86, 72], ['Beto', 92, 112], ['Caro', 155, 76], ['Dani', 155, 108], ['Eva', 224, 92], ['Fede', 280, 40], ['Gabi', 280, 150]];
+  const dots = names.map(([s, x, y]) => tile(x - 21, y - 10, 42, 20, C.card, s, { size: 10.5, stroke: C.ink })).join('');
+  return base.replace('</svg>', dots + `${txt(80, 172, 'fútbol', { size: 9.5, w: 700, fill: '#8A5E00' })}${txt(236, 172, 'instrumento', { size: 9.5, w: 700, fill: C.sky })}</svg>`);
+})());
+
+(() => {
+  const a = { cx: 44, cy: 40, r: 25 }, b = { cx: 76, cy: 40, r: 25 };
+  const ops = [
+    ['A ∪ B', '«o»: en A o en B', (x, y) => x || y, '{Ana, Beto, Caro, Dani, Eva}', C.sky],
+    ['A ∩ B', '«y»: en los dos', (x, y) => x && y, '{Caro, Dani}', C.mint],
+    ['A − B', '«pero no»: en A, no en B', (x, y) => x && !y, '{Ana, Beto}', C.sun],
+    ['Aᶜ', '«no está» en A', (x) => !x, '{Eva, Fede, Gabi}', C.coral],
+    ['A △ B', '«en uno solo»', (x, y) => x !== y, '{Ana, Beto, Eva}', C.violet],
+  ];
+  document.getElementById('ops').innerHTML = ops.map(([t, s, f, r, col]) => `<div style="text-align:center">
+    ${venn({ w: 120, h: 80, sets: [a, b], f, fill: col, alpha: .75, labels: [[20, 19, 'A'], [100, 19, 'B']], uLabel: '' })}
+    <div class="m" style="font-size:14pt;font-weight:700;margin-top:1.4mm;color:${col === C.sun ? '#8A5E00' : col}">${t}</div>
+    <div style="font-size:8.6pt;font-weight:700;line-height:1.2">${s}</div>
+    <div class="m" style="font-size:8.6pt;color:${C.mute};white-space:normal;margin-top:.8mm">${r}</div></div>`).join('');
+})();
+
+put('conteo', svg(360, 96, `
+  ${txt(4, 18, 'n(A) = 4', { size: 11, w: 700, anchor: 'start', math: true })}
+  ${['Ana', 'Beto', 'Caro', 'Dani'].map((s, i) => tile(62 + i * 40, 4, 36, 22, i >= 2 ? C.mint : C.sun, s, { size: 9.5 })).join('')}
+  ${txt(4, 50, 'n(B) = 3', { size: 11, w: 700, anchor: 'start', math: true })}
+  ${['Caro', 'Dani', 'Eva'].map((s, i) => tile(142 + i * 40, 36, 36, 22, i < 2 ? C.mint : C.sky, s, { size: 9.5 })).join('')}
+  <rect x="137" y="0" width="86" height="62" rx="7" fill="none" stroke="${C.bad}" stroke-width="1.6" stroke-dasharray="4 3"/>
+  ${txt(312, 22, '4 + 3 = 7', { size: 11, w: 700, fill: C.bad, math: true })}${txt(312, 38, 'Caro y Dani', { size: 9.5, w: 600, fill: C.bad })}${txt(312, 51, 'contados 2 veces', { size: 9.5, w: 600, fill: C.bad })}
+  ${txt(4, 86, 'n(A ∪ B) = 5', { size: 11, w: 700, anchor: 'start', math: true })}
+  ${['Ana', 'Beto', 'Caro', 'Dani', 'Eva'].map((s, i) => tile(86 + i * 40, 70, 36, 22, i < 2 ? C.sun : i < 4 ? C.mint : C.sky, s, { size: 9.5 })).join('')}`));
+
+put('tres', venn({ w: 300, h: 160, sets: [{ cx: 122, cy: 62, r: 44 }, { cx: 178, cy: 62, r: 44 }, { cx: 150, cy: 106, r: 44 }],
+  f: (a, b, c) => (a || b) && c, fill: C.coral, alpha: .7, labels: [[66, 30, 'A'], [234, 30, 'B'], [210, 150, 'C']] }));
+
+// Ruta para una encuesta
+(() => {
+  const steps = [
+    ['1', 'Dibuja U y los círculos', 'Un círculo por grupo, todos dentro del rectángulo.', C.sun],
+    ['2', 'Llena primero el centro', 'Los que están en los dos grupos van en el cruce.', C.mint],
+    ['3', 'Resta para cada luna', 'A cada grupo quítale los del centro: son los de «solo ese».', C.sky],
+    ['4', 'Lo que falta va afuera', 'Total menos todo lo de adentro: los que no están en ninguno.', C.coral],
+  ];
+  let body = '';
+  steps.forEach(([n, t, s, col], i) => {
+    const y = i * 66;
+    if (i < steps.length - 1) body += `<path d="M20 ${y + 40}V${y + 66}" stroke="${C.line}" stroke-width="3" stroke-dasharray="4 4"/>`;
+    body += tile(6, y + 6, 28, 28, col, n, { size: 14, ink: C.ink });
+    body += txt(46, y + 18, t, { size: 12, w: 700, anchor: 'start' });
+    const words = s.split(' '); let line = '', ly = y + 34;
+    words.forEach(wd => { if ((line + ' ' + wd).length > 32) { body += txt(46, ly, line.trim(), { size: 10, fill: C.mute, anchor: 'start' }); line = ''; ly += 13; } line += ' ' + wd; });
+    body += txt(46, ly, line.trim(), { size: 10, fill: C.mute, anchor: 'start' });
+  });
+  put('ruta', svg(230, 266, body));
+})();
+
+// ---------- estrellas suaves del fondo (como drawBackdrop de los juegos) ----------
+document.querySelectorAll('.page').forEach((pg, pi) => {
+  let s = 20261113 + pi * 97;
+  const rnd = () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; };
+  let dots = '';
+  for (let i = 0; i < 70; i++) dots += `<circle cx="${(rnd() * 210).toFixed(1)}" cy="${(rnd() * 297).toFixed(1)}" r="${(0.25 + rnd() * 0.55).toFixed(2)}" fill="#F3CE96"/>`;
+  pg.insertAdjacentHTML('afterbegin', `<svg class="stars" viewBox="0 0 210 297" preserveAspectRatio="none" aria-hidden="true">
+    <circle cx="214" cy="-6" r="46" fill="#FBE8C8" opacity=".7"/><circle cx="-8" cy="300" r="40" fill="#FBE8C8" opacity=".7"/>${dots}</svg>`);
+});
+</script>
+</body>
+</html>

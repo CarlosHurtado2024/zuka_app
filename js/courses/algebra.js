@@ -11,6 +11,8 @@ const COURSE_ALGEBRA = {
       // Unidad 0 (specs 2026-11-09-algebra-conjuntos y 2026-11-11-conjuntos-desde-cero): conjuntos desde cero,
       // tres lecciones, cada una con su video y luego sus ejercicios; sin números ni desigualdades.
       world: 'conjuntos', title: 'Conjuntos',
+      // Resumen descargable del mundo (fuente: docs/resumenes/pradera-venn.html; spec 2026-11-13-resumenes-pdf).
+      summary: 'media/resumenes/pradera-venn.pdf',
       lessons: [
         {
           id: 'alg-0a', title: '¿Qué es un conjunto? Notación y pertenencia',
