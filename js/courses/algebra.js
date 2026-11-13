@@ -1234,7 +1234,7 @@ const COURSE_ALGEBRA = {
             num('Una pelota cae desde 6 m y cada rebote sube la mitad del anterior. Si rebotara para siempre, ¿cuántos metros recorrería en total, subiendo y bajando?', 18,
               'Baja 6 m y luego cada rebote sube y baja: $2(3 + 1.5 + 0.75 + \\dots) = 2 \\cdot \\dfrac{3}{1 - \\frac12} = 12$. En total $6 + 12 = 18$ m: una distancia finita aunque los rebotes no terminen.',
               { hint: 'Separa la primera caída de los rebotes. Cada rebote se recorre dos veces (subida y bajada), y sus alturas forman una geométrica de razón un medio.' }),
-            play('rana-zenon', 'Cada salto de la rana es una fracción del anterior. Toca el estanque para saltar y luego la **bandera** de la respuesta', {
+            play('rana-zenon', 'Cada salto de la rana es el anterior multiplicado por una misma razón. Toca el estanque para saltar y luego la **bandera** de la respuesta', {
               rounds: [
                 { title: 'Sumas cortas', items: [
                   { a1: 8, r: [1, 2], n: 3, flags: ['14', '15', '16'], answer: 0, max: 18 },
@@ -1305,12 +1305,12 @@ const COURSE_ALGEBRA = {
                 { title: 'Primeras sumas', kind: 'sum', items: [
                   { expr: '3k', lo: 1, hi: 4, f: k => 3 * k, traps: [4, 10, 15] },
                   { expr: 'k²', lo: 1, hi: 4, f: k => k * k, traps: [2, 8, 12] },
-                  { expr: 'k + 1', lo: 2, hi: 5, f: k => k + 1, traps: [2, 7, 1] },
+                  { expr: '2k − 1', lo: 1, hi: 5, f: k => 2 * k - 1, traps: [2, 4, 11] },
                 ] },
                 { title: 'Índices que no empiezan en 1', kind: 'sum', items: [
-                  { expr: '2k − 1', lo: 1, hi: 5, f: k => 2 * k - 1, traps: [2, 4, 11] },
+                  { expr: 'k + 1', lo: 2, hi: 5, f: k => k + 1, traps: [2, 7, 1] },
                   { expr: '2k', lo: 3, hi: 6, f: k => 2 * k, traps: [2, 4, 14] },
-                  { expr: 'k³', lo: 1, hi: 3, f: k => k ** 3, traps: [3, 9, 6] },
+                  { expr: 'k³', lo: 2, hi: 4, f: k => k ** 3, traps: [3, 9, 6] },
                 ] },
                 { title: 'Productos', kind: 'prod', items: [
                   { expr: 'k', lo: 1, hi: 4, f: k => k, traps: [0, 5, 6] },

@@ -58,7 +58,7 @@ GAMES['encesta-suma'] = (() => {
         if (clock <= 0 && !ball) { result = { requeue: true, pick: -1 }; pause = 1; a.say('Se acabó el tiempo: vuelve después', C.sun); return; }
         if (!ball) return;
         ball.x += ball.vx * dt; ball.y += ball.vy * dt;
-        if (ball.x < 14 || ball.x > W - 14) ball.vx = -ball.vx;
+        if (ball.x < 14) { ball.x = 14; ball.vx = Math.abs(ball.vx); } else if (ball.x > W - 14) { ball.x = W - 14; ball.vx = -Math.abs(ball.vx); }
         if (ball.y <= hoopY) {
           const i = hoopAt(ball.x, centers(), HOOP), it = item();
           if (i < 0) { result = { pick: -1 }; pause = 0.6; a.say('No entró en ninguna: otra vez', C.sun); }

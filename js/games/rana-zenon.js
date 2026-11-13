@@ -1,5 +1,5 @@
 // La rana que se achica (Álgebra, suma geométrica y suma infinita; juego dinámico de la lección alg-14d): una rana
-// salta sobre una recta numérica y cada salto mide una fracción del anterior (8, 4, 2, 1…). Cada toque en el estanque
+// salta sobre una recta numérica y cada salto es el anterior por una misma razón (8, 4, 2, 1…). Cada toque en el estanque
 // es un salto: se ve la suma que lleva. Hay tres banderas. En las preguntas cortas («da 3 saltos: ¿dónde cae?») se da
 // la cantidad de saltos y se toca la bandera donde quedó; en las infinitas hay que saltar varias veces, ver que cada
 // vez avanza menos y tocar la bandera a la que se acerca sin llegar nunca. Una garza viene detrás: si alcanza a la
@@ -125,7 +125,11 @@ GAMES['rana-zenon'] = (() => {
         if (tp !== 'play' || pause > 0) return false;
         const it = item();
         // ¿Tocó una bandera? (su píldora o su asta); si no, es un salto.
-        const f = perm.findIndex((k, i) => { const x = X(+it.flags[k]), top = lineY - 44 - i * 26, px = x + 20 > W - 26 ? x - 20 : x + 20; return Math.hypot(p.mouseX - px, p.mouseY - (top + 2)) < 26 || (Math.abs(p.mouseX - x) < 12 && p.mouseY > top - 10 && p.mouseY < lineY - 12); });
+        // Gana la píldora más cercana (están apiladas y pueden quedar casi una sobre otra); el asta solo si no hay píldora.
+        const geo = perm.map((k, i) => { const x = X(+it.flags[k]), top = lineY - 44 - i * 26; return { x, top, px: x + 20 > W - 26 ? x - 20 : x + 20, py: top + 2 }; });
+        let f = -1, bd = Infinity;
+        geo.forEach((g, i) => { const dx = Math.abs(p.mouseX - g.px), dy = Math.abs(p.mouseY - g.py); if (dx <= 30 && dy <= 13 && dx + dy * 3 < bd) { bd = dx + dy * 3; f = i; } });
+        if (f < 0) f = geo.findIndex(g => Math.abs(p.mouseX - g.x) < 12 && p.mouseY > g.top + 15 && p.mouseY < lineY - 12);
         if (f >= 0 && p.mouseY < lineY - 10) {
           if (jumps < need(it)) a.say(it.n ? `Primero da los ${it.n} saltos` : 'Salta más veces: mira cuánto avanza', C.sun);
           else answer(f);

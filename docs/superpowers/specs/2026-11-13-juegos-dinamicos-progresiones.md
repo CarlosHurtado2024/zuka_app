@@ -29,3 +29,15 @@ pasa de siete a ocho ejercicios (se ajusta `tests/leccion-sumatoria.test.js`).
 `tests/juegos-dinamicos-progresiones.test.js`: lógica pura de cada juego, estado inicial no ganador, contenido válido
 (trampas que no son términos, sumas correctas, banderas con una sola correcta, términos de Σ calculados con su fórmula)
 y que las cinco lecciones terminen con su juego. En el navegador, un robot los juega con `peek()`.
+
+## Ajustes tras la revisión
+
+- `rana-zenon`: al tocar una bandera gana la píldora más cercana (antes podía contar la de al lado, que está apilada a
+  26 px); el enunciado dice «el anterior multiplicado por una misma razón» porque una pregunta duplica los saltos.
+- `traza-progresion`: cuando la mecha borra el camino hay que levantar el dedo; antes el punto bajo el dedo contaba
+  como error y quitaba una vida.
+- `maquina-sigma`: la ronda «Índices que no empiezan en 1» solo trae índices que empiezan en 2 o 3.
+- `encesta-suma`: el balón ya no se queda pegado a la pared. `dobla-fichas`: una ficha doble que aparece sola también
+  enciende su término.
+- Queda igual: en `traza-progresion` se puede levantar el dedo y seguir desde otro punto, así que rodear los demás
+  puntos no es obligatorio. El caso «tablero lleno» de `dobla-fichas` no se probó con el robot (sí su lógica en Node).

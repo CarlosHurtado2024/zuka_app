@@ -85,7 +85,7 @@ GAMES['maquina-sigma'] = (() => {
           const k = 1 + 0.06 * gulp, mw = mach.w * k, mh = mach.h * k, mx = W / 2 - mw / 2, my = mach.y + mach.h / 2 - mh / 2;
           p.noStroke(); p.fill(shade(C.sky, 0.72)); p.rect(mx, my + 5, mw, mh, 16);
           p.fill(pause > 0 ? C.ok : C.sky); p.rect(mx, my, mw, mh, 16);
-          p.fill(C.night); p.rect(W / 2 - 34, my - 8, 68, 16, 8);
+          p.fill(shade(C.sky, 0.5)); p.rect(W / 2 - 34, my - 8, 68, 16, 8);
           p.fill(inkOn(pause > 0 ? C.ok : C.sky, C.ink)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
           if (pause > 0) { p.textSize(22); p.text(`= ${totalOf(it, r.kind)}`, W / 2, mach.y + 34); }
           else { p.textSize(13); p.text('Échale el término de', W / 2, mach.y + 26); p.textSize(22); p.text(`k = ${it.lo + fed}`, W / 2, mach.y + 50); }

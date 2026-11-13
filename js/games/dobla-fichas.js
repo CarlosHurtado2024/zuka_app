@@ -55,7 +55,7 @@ GAMES['dobla-fichas'] = (() => {
       const free = grid.map((v, i) => (v ? -1 : i)).filter(i => i >= 0);
       if (!free.length) return;
       const i = free[Math.floor(Math.random() * free.length)];
-      grid[i] = R[a.cur].base * (Math.random() < 0.12 ? 2 : 1); pops.push({ i, t: 1 });
+      grid[i] = R[a.cur].base * (Math.random() < 0.12 ? 2 : 1); best = Math.max(best, grid[i]); pops.push({ i, t: 1 });
     }
     function play(dir) {
       const r = R[a.cur], res = move(grid, dir);

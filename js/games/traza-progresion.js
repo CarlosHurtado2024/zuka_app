@@ -62,7 +62,7 @@ GAMES['traza-progresion'] = (() => {
         // La mecha avanza por el camino ya trazado; si llega a la punta, el camino se borra.
         burn += FUSE * (1 + a.cur * 0.15) * dt;
         let total = 0; for (let k = 1; k < path.length; k++) total += seg(path[k - 1], path[k]);
-        if (burn >= total) { path = [0]; burn = 0; over = -1; a.say('La mecha alcanzó la punta: empieza otra vez', C.sun); }
+        if (burn >= total) { path = [0]; burn = 0; over = -1; press = false; finger = null; a.say('La mecha alcanzó la punta: empieza otra vez', C.sun); }
       }
 
       p.draw = () => {
