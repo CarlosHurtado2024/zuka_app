@@ -160,7 +160,7 @@ const COURSE_ALGEBRA = {
           id: 'alg-11', title: 'Los números naturales y los enteros',
           // Parte 1 de sistemas numéricos (spec 2026-11-11-sistemas-numericos-desde-cero): video N1
           // (video/clase_alg_u1_n1_naturales), en Bunny; las escenas son el respaldo. Libro UdeA §1.1.
-          clip: { bunny: '44717b9d-7851-4cd6-a19a-d17070db835a', duration: 269, scenes: [
+          clip: { bunny: 'a05c46b4-a0b6-4ee8-8103-b775378e43c4', duration: 118, scenes: [
             sc(6, 'Los números también forman **conjuntos**, con letras de doble trazo. Los **naturales** sirven para contar.', { title: '$\\mathbb{N} = \\{1, 2, 3, \\dots\\}$', steps: ['$5 \\in \\mathbb{N}$, $\\;-2 \\notin \\mathbb{N}$, $\\;\\tfrac12 \\notin \\mathbb{N}$'] }),
             sc(6, 'Sumar o multiplicar naturales da otro natural; restar no siempre: $2 - 5$ no es natural.', { title: '$2 - 5 = -3$' }),
             sc(6, 'Los **enteros** agregan el cero y los negativos. Cada entero tiene su **opuesto**, al otro lado del cero.', { title: '$\\mathbb{Z} = \\{\\dots, -2, -1, 0, 1, 2, \\dots\\}$', steps: ['$4 + (-4) = 0$'] }),
