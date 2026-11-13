@@ -1,0 +1,7 @@
+Un maestro pidió sumar del uno al cien. Un niño terminó rapidísimo. Cuenta la historia que era Gauss. Escribió uno más dos, hasta cien. Y debajo, la misma suma al revés. Cada columna suma lo mismo: ciento uno. Cien columnas de ciento uno: diez mil cien. Pero así contó todo dos veces. La mitad: cinco mil cincuenta. ¿Por qué la mitad?
+
+Tres, cinco, siete, nueve, once: cada término es un escalón. Ponemos otra escalera igual, al revés, encima. Encajan: cada columna mide catorce. Forman un rectángulo de cinco por catorce. Cada escalera es la mitad: treinta y cinco. Cuántos términos, por primero más último, y la mitad. Pero a veces no sabemos cuántos hay.
+
+Siete, doce, diecisiete, hasta cincuenta y siete. ¿Cuántos términos son? Del siete al cincuenta y siete hay cincuenta. En saltos de cinco, son diez saltos. Cuidado: diez saltos unen once números, como los postes de una cerca. Once términos: los saltos, más uno. Ahora sí: once por sesenta y cuatro, y la mitad: trescientos cincuenta y dos. Y los impares guardan una sorpresa.
+
+Uno, más tres, más cinco, más siete. Cada impar, una escuadra que agranda el cuadrado. Los primeros n impares suman n al cuadrado. Cuatro impares: cuatro al cuadrado, dieciséis. La fórmula de las escaleras da lo mismo: cuatro por ocho, la mitad: dieciséis. Así, cuentan, lo vio el joven Gauss: cien por ciento uno, la mitad: cinco mil cincuenta.

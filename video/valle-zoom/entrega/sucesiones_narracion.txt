@@ -1,0 +1,7 @@
+Caro guarda monedas en una alcancía. ¿Cuántas tendrá en la semana veinte? Empieza con siete, y cada semana echa cuatro. Siete, once, quince, diecinueve… Una lista en orden es una sucesión. El tercero, a tres, es quince. Hay sucesiones de todo tipo. Cuadrados: a n es n al cuadrado. La de Caro tiene algo especial: siempre suma cuatro.
+
+Lo que se suma es la diferencia, d. Se halla restando al término el anterior. Si d no cambia, es una progresión aritmética. Con d negativa, la escalera baja. Y con d igual a cero, todos los términos son iguales. Volvamos a Caro: ¿y la semana veinte? Ojo: aquí casi todos caen en una trampa.
+
+Pongamos cinco semanas en fila. Cada una, cuatro más que la anterior. De la semana uno a la cinco, hay cuatro saltos, no cinco. Aquí está la trampa: no son veinte saltos, son diecinueve. Las siete del comienzo, más diecinueve saltos de cuatro: ochenta y tres. El primero, más n menos uno saltos. ¿Y si no conocemos el primero?
+
+Dos pistas: el término tres es diez, y el ocho es veinticinco. Entre ellos hay cinco saltos que suben quince: cada salto es tres; el primero, cuatro. Los números de en medio son los medios: entre cinco y veinticinco caben diez, quince y veinte. En la semana veinte, Caro tiene ochenta y tres monedas: siete, más diecinueve saltos de cuatro.

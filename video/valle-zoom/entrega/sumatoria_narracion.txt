@@ -1,0 +1,7 @@
+Beto quiere sumar los cien primeros cuadrados. Pero antes tiene que escribir la suma. Uno, más cuatro, más nueve, más dieciséis… La pizarra no le alcanza. La letra sigma lo dice en un renglón: suma k al cuadrado, desde uno hasta cien. Sigma de dos k, de uno a cinco: Dos, cuatro, seis, ocho y diez: treinta. ¿Y si el término no tiene k? Por ejemplo, un cuatro.
+
+De uno a seis, cada k pone un cuatro. Sorpresa: no da cuatro, da veinticuatro. Una constante se suma n veces: n por c. Un número que multiplica a todos los términos puede salir de la sigma. Y una suma se reparte en dos sigmas. Con estas reglas, algunas sumas tienen fórmula.
+
+La más famosa, la de Gauss: n por n más uno, entre dos. Los cuadrados: uno, cuatro, nueve. Suman catorce. La fórmula con n igual a tres: tres por cuatro por siete, entre seis: catorce. Sirve para cualquier n. Para Beto, n es cien: trescientos treinta y ocho mil trescientos cincuenta. ¿Y si en vez de sumar multiplicamos?
+
+La pi grande multiplica los términos: uno por dos por tres, hasta cinco. Es cinco factorial: ciento veinte. Diez factorial pasa de tres millones. Con dos k, de uno a cuatro: dos, cuatro, seis y ocho: trescientos ochenta y cuatro. Beto escribe un solo renglón: sigma de k al cuadrado. Y la fórmula le da trescientos treinta y ocho mil trescientos cincuenta.

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Valle de los Números y Mercado de las razones en estilo Scale Zoom Explainer (1080×1920, 24 fps): un video por lección, todos con el mismo motor.
+# Videos zoom de Álgebra (Valle, Mercado, Torres de Potencias, Escalera de Sigma) en estilo Scale Zoom Explainer (1080×1920, 24 fps): un video por lección, todos con el mismo motor.
 #   sh video/valle-zoom/build.sh                       -> todas las películas de films/
 #   sh video/valle-zoom/build.sh racionales reales     -> solo esas
 # Cada una deja out/<nombre>/<nombre>.mp4, <nombre>.srt, <nombre>_narracion.txt, readcheck.txt y poster.jpg.

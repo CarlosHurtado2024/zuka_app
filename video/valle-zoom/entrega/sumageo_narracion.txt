@@ -1,0 +1,7 @@
+Caro tiene una barra de chocolate. ¿Algún día se la acabará? Cada día, la mitad de lo que queda. El primer día, la mitad. El segundo, un cuarto. El tercero, un octavo. Lleva siete octavos, y siempre queda un pedazo. Para sumar sin fin, primero un truco.
+
+Sumemos uno, dos, cuatro… hasta quinientos doce. Diez términos, cada uno el doble del anterior. Multiplicamos toda la suma por la razón, dos. Queda la misma lista, corrida un lugar. Al restar, casi todo se cancela. Queda mil veinticuatro menos uno: mil veintitrés. El truco sirve para cualquier razón distinta de uno. ¿Y si sumamos para siempre?
+
+Volvamos al chocolate, sobre una recta. Cada salto es la mitad del anterior. La suma se acerca a uno, cada vez más, sin pasarse nunca. Con razón entre menos uno y uno, es el primero entre uno menos r. Cero punto tres periódico es otra suma infinita: tres décimos, más tres centésimos, más… Con razón un décimo, suma un tercio. ¿Y si la razón es dos?
+
+Sumemos tres, seis, doce, veinticuatro… La suma crece sin parar: diverge. Con razón menos uno, salta: uno, cero, uno… Tampoco se acerca a un número. Volvamos a la barra de Caro. Infinitos pedazos caben en una sola barra. Si siguiera para siempre, Caro nunca acabaría la barra, pero lo que come se acerca a una barra entera: la suma vale uno.

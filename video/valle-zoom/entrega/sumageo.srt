@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Caro tiene una barra de chocolate.
+
+2
+00:00:04,000 --> 00:00:06,400
+¿Algún día se la acabará?
+
+3
+00:00:06,800 --> 00:00:09,600
+Cada día, la mitad de lo que queda.
+
+4
+00:00:09,800 --> 00:00:12,400
+El primer día, la mitad.
+
+5
+00:00:12,800 --> 00:00:15,600
+El segundo, un cuarto.
+
+6
+00:00:15,800 --> 00:00:18,600
+El tercero, un octavo.
+
+7
+00:00:19,000 --> 00:00:21,800
+Lleva siete octavos,
+
+8
+00:00:22,000 --> 00:00:24,400
+y siempre queda un pedazo.
+
+9
+00:00:24,800 --> 00:00:29,000
+Para sumar sin fin, primero un truco.
+
+10
+00:00:31,800 --> 00:00:34,800
+Sumemos uno, dos, cuatro… hasta quinientos doce.
+
+11
+00:00:35,000 --> 00:00:37,800
+Diez términos, cada uno el doble del anterior.
+
+12
+00:00:38,200 --> 00:00:41,000
+Multiplicamos toda la suma por la razón, dos.
+
+13
+00:00:41,200 --> 00:00:44,200
+Queda la misma lista, corrida un lugar.
+
+14
+00:00:44,600 --> 00:00:47,400
+Al restar, casi todo se cancela.
+
+15
+00:00:47,600 --> 00:00:50,200
+Queda mil veinticuatro menos uno: mil veintitrés.
+
+16
+00:00:50,600 --> 00:00:53,600
+El truco sirve para cualquier razón distinta de uno.
+
+17
+00:00:53,800 --> 00:00:56,600
+¿Y si sumamos para siempre?
+
+18
+00:01:00,000 --> 00:01:03,000
+Volvamos al chocolate, sobre una recta.
+
+19
+00:01:03,200 --> 00:01:06,000
+Cada salto es la mitad del anterior.
+
+20
+00:01:06,400 --> 00:01:09,200
+La suma se acerca a uno,
+
+21
+00:01:09,400 --> 00:01:12,200
+cada vez más, sin pasarse nunca.
+
+22
+00:01:12,600 --> 00:01:15,400
+Con razón entre menos uno y uno,
+
+23
+00:01:15,600 --> 00:01:18,400
+es el primero entre uno menos r.
+
+24
+00:01:18,800 --> 00:01:21,600
+Cero punto tres periódico es otra suma infinita:
+
+25
+00:01:21,800 --> 00:01:24,400
+tres décimos, más tres centésimos, más…
+
+26
+00:01:24,800 --> 00:01:27,600
+Con razón un décimo, suma un tercio.
+
+27
+00:01:27,800 --> 00:01:30,400
+¿Y si la razón es dos?
+
+28
+00:01:35,400 --> 00:01:38,400
+Sumemos tres, seis, doce, veinticuatro…
+
+29
+00:01:38,600 --> 00:01:41,400
+La suma crece sin parar: diverge.
+
+30
+00:01:41,800 --> 00:01:44,600
+Con razón menos uno, salta: uno, cero, uno…
+
+31
+00:01:44,800 --> 00:01:47,400
+Tampoco se acerca a un número.
+
+32
+00:01:47,800 --> 00:01:50,600
+Volvamos a la barra de Caro.
+
+33
+00:01:50,800 --> 00:01:54,000
+Infinitos pedazos caben en una sola barra.
+
+34
+00:01:55,400 --> 00:01:59,600
+Si siguiera para siempre, Caro nunca acabaría la barra,
+
+35
+00:01:59,800 --> 00:02:04,400
+pero lo que come se acerca a una barra entera: la suma vale uno.
+

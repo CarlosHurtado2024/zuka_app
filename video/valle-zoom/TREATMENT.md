@@ -65,3 +65,18 @@ los ejercicios.
 | `leyes` | `alg-21b` | Beto se cansa de escribir doses → (1 + 2)² no es 1² + 2² → cada ley es un atajo; 1.5 × 10⁸ en un renglón |
 | `raices` | `alg-22a` | Ana quiere cercar un terreno de 25 m² → por la diagonal 10, rodeando 14 → compra 20 m de cerca |
 | `radicales` | `alg-22b` | Beto construye sin calculadora: dividir entre 1.414… a mano → multiplicar por un uno disfrazado → 6√2 y divide sin sufrir |
+
+# Escalera de Sigma en zoom · lecciones 1 a 5
+
+Mismo proyecto y motor; `zoomkit.js` suma los tokens `{big: 'sum' | 'prod', hi, lo}` (Σ y Π dibujadas con sus límites,
+porque Jost no trae esas letras) y `{sub: 'n'}` (subíndice). Los ejemplos son los de las escenas de respaldo de cada lección
+más algunos nuevos; `tests/sigma-zoom.test.js` comprueba que no salgan en los ejercicios y que la narración vaya a un ritmo
+legible.
+
+| Video | Lección | El problema → la sorpresa → la respuesta |
+|---|---|---|
+| `sucesiones` | `alg-14` | Caro echa 4 monedas por semana a una alcancía que empezó con 7: ¿cuántas en la semana 20? → 20 semanas son 19 saltos → 7 + 19 · 4 = 83 |
+| `sumaarit` | `alg-14b` | el maestro manda sumar del 1 al 100 → cada columna suma 101, pero hay que sacar la mitad → dos escaleras forman un rectángulo: 5 050 |
+| `geometricas` | `alg-14c` | Ana dobla una hoja de 0.1 mm: ¿cuántos dobleces hasta la Luna? → 7 términos son 6 multiplicaciones → 42 dobleces, 0.1 mm · 2⁴² ≈ 440 000 km |
+| `sumageo` | `alg-14d` | Caro come cada día la mitad de lo que queda de su chocolate: ¿se lo acaba? → infinitos pedazos suman algo finito → nunca, pero en total come una barra |
+| `sumatoria` | `alg-15` | Beto quiere escribir la suma de los cien primeros cuadrados y la pizarra no alcanza → Σ 4 de 1 a 6 da 24, no 4 → un renglón, Σ k² = 338 350 |

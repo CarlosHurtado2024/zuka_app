@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Ana tiene una hoja de papel.
+
+2
+00:00:04,000 --> 00:00:06,400
+¿Cuántos dobleces hasta la Luna?
+
+3
+00:00:06,800 --> 00:00:09,600
+Tiene una décima de milímetro de grosor.
+
+4
+00:00:09,800 --> 00:00:12,400
+Al doblarla, una capa se vuelve dos.
+
+5
+00:00:12,800 --> 00:00:15,600
+Dos se vuelven cuatro; cuatro, ocho.
+
+6
+00:00:15,800 --> 00:00:18,600
+Cada doblez multiplica por dos.
+
+7
+00:00:19,000 --> 00:00:21,800
+Sumar dos cada vez crece parejo.
+
+8
+00:00:22,000 --> 00:00:24,400
+Multiplicar empieza lento y se dispara.
+
+9
+00:00:24,800 --> 00:00:29,000
+Una lista que siempre multiplica por lo mismo es geométrica.
+
+10
+00:00:31,800 --> 00:00:34,800
+Ese número fijo es la razón, r.
+
+11
+00:00:35,000 --> 00:00:37,800
+Se halla dividiendo un término entre el anterior.
+
+12
+00:00:38,200 --> 00:00:41,000
+Si la razón es un medio,
+
+13
+00:00:41,200 --> 00:00:44,200
+cada término es la mitad del anterior.
+
+14
+00:00:44,600 --> 00:00:47,400
+Si es negativa, el signo salta:
+
+15
+00:00:47,600 --> 00:00:50,200
+positivo, negativo, positivo…
+
+16
+00:00:50,600 --> 00:00:53,600
+Tres, seis, doce… ¿cuánto vale el séptimo?
+
+17
+00:00:53,800 --> 00:00:56,600
+Ojo, que aquí hay una trampa.
+
+18
+00:01:00,000 --> 00:01:03,000
+Paso a paso: tres, seis, doce,
+
+19
+00:01:03,200 --> 00:01:06,000
+y así, cada vez el doble.
+
+20
+00:01:06,400 --> 00:01:09,200
+Contemos las multiplicaciones:
+
+21
+00:01:09,400 --> 00:01:12,200
+del primero al séptimo, son seis.
+
+22
+00:01:12,600 --> 00:01:15,400
+Trampa: dos a la siete es de más.
+
+23
+00:01:15,600 --> 00:01:18,400
+Siete términos, seis multiplicaciones.
+
+24
+00:01:18,800 --> 00:01:21,600
+Tres por dos a la sexta:
+
+25
+00:01:21,800 --> 00:01:24,400
+ciento noventa y dos.
+
+26
+00:01:24,800 --> 00:01:27,600
+Primero por r a la n menos uno.
+
+27
+00:01:27,800 --> 00:01:30,400
+¿Y si conocemos dos términos lejanos?
+
+28
+00:01:35,400 --> 00:01:38,400
+Tres números entre dos y ciento sesenta y dos.
+
+29
+00:01:38,600 --> 00:01:41,400
+Son medios geométricos: cuatro veces por r.
+
+30
+00:01:41,800 --> 00:01:44,600
+r a la cuarta es ochenta y uno.
+
+31
+00:01:44,800 --> 00:01:47,400
+r es tres, o menos tres.
+
+32
+00:01:47,800 --> 00:01:50,600
+La hoja: una capa; cada doblez, por dos.
+
+33
+00:01:50,800 --> 00:01:54,000
+Cuarenta y dos dobleces: dos a la cuarenta y dos.
+
+34
+00:01:55,400 --> 00:01:59,600
+Con cuarenta y dos dobleces, si se pudiera, llegaría a la Luna.
+
+35
+00:01:59,800 --> 00:02:04,400
+Cuarenta y dos hojas apiladas no llegan a medio centímetro.
+

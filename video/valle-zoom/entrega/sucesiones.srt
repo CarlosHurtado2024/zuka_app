@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Caro guarda monedas en una alcancía.
+
+2
+00:00:04,000 --> 00:00:06,400
+¿Cuántas tendrá en la semana veinte?
+
+3
+00:00:06,800 --> 00:00:09,600
+Empieza con siete, y cada semana echa cuatro.
+
+4
+00:00:09,800 --> 00:00:12,400
+Siete, once, quince, diecinueve…
+
+5
+00:00:12,800 --> 00:00:15,600
+Una lista en orden es una sucesión.
+
+6
+00:00:15,800 --> 00:00:18,600
+El tercero, a tres, es quince.
+
+7
+00:00:19,000 --> 00:00:21,800
+Hay sucesiones de todo tipo.
+
+8
+00:00:22,000 --> 00:00:24,400
+Cuadrados: a n es n al cuadrado.
+
+9
+00:00:24,800 --> 00:00:29,000
+La de Caro tiene algo especial: siempre suma cuatro.
+
+10
+00:00:31,800 --> 00:00:34,800
+Lo que se suma es la diferencia, d.
+
+11
+00:00:35,000 --> 00:00:37,800
+Se halla restando al término el anterior.
+
+12
+00:00:38,200 --> 00:00:41,000
+Si d no cambia, es una progresión aritmética.
+
+13
+00:00:41,200 --> 00:00:44,200
+Con d negativa, la escalera baja.
+
+14
+00:00:44,600 --> 00:00:47,400
+Y con d igual a cero,
+
+15
+00:00:47,600 --> 00:00:50,200
+todos los términos son iguales.
+
+16
+00:00:50,600 --> 00:00:53,600
+Volvamos a Caro: ¿y la semana veinte?
+
+17
+00:00:53,800 --> 00:00:56,600
+Ojo: aquí casi todos caen en una trampa.
+
+18
+00:01:00,000 --> 00:01:03,000
+Pongamos cinco semanas en fila.
+
+19
+00:01:03,200 --> 00:01:06,000
+Cada una, cuatro más que la anterior.
+
+20
+00:01:06,400 --> 00:01:09,200
+De la semana uno a la cinco,
+
+21
+00:01:09,400 --> 00:01:12,200
+hay cuatro saltos, no cinco.
+
+22
+00:01:12,600 --> 00:01:15,400
+Aquí está la trampa:
+
+23
+00:01:15,600 --> 00:01:18,400
+no son veinte saltos, son diecinueve.
+
+24
+00:01:18,800 --> 00:01:21,600
+Las siete del comienzo,
+
+25
+00:01:21,800 --> 00:01:24,400
+más diecinueve saltos de cuatro: ochenta y tres.
+
+26
+00:01:24,800 --> 00:01:27,600
+El primero, más n menos uno saltos.
+
+27
+00:01:27,800 --> 00:01:30,400
+¿Y si no conocemos el primero?
+
+28
+00:01:35,400 --> 00:01:38,400
+Dos pistas: el término tres es diez,
+
+29
+00:01:38,600 --> 00:01:41,400
+y el ocho es veinticinco.
+
+30
+00:01:41,800 --> 00:01:44,600
+Entre ellos hay cinco saltos que suben quince:
+
+31
+00:01:44,800 --> 00:01:47,400
+cada salto es tres; el primero, cuatro.
+
+32
+00:01:47,800 --> 00:01:50,600
+Los números de en medio son los medios:
+
+33
+00:01:50,800 --> 00:01:54,000
+entre cinco y veinticinco caben diez, quince y veinte.
+
+34
+00:01:55,400 --> 00:01:59,600
+En la semana veinte, Caro tiene ochenta y tres monedas:
+
+35
+00:01:59,800 --> 00:02:04,400
+siete, más diecinueve saltos de cuatro.
+

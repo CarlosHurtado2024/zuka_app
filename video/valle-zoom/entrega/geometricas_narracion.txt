@@ -1,0 +1,7 @@
+Ana tiene una hoja de papel. ¿Cuántos dobleces hasta la Luna? Tiene una décima de milímetro de grosor. Al doblarla, una capa se vuelve dos. Dos se vuelven cuatro; cuatro, ocho. Cada doblez multiplica por dos. Sumar dos cada vez crece parejo. Multiplicar empieza lento y se dispara. Una lista que siempre multiplica por lo mismo es geométrica.
+
+Ese número fijo es la razón, r. Se halla dividiendo un término entre el anterior. Si la razón es un medio, cada término es la mitad del anterior. Si es negativa, el signo salta: positivo, negativo, positivo… Tres, seis, doce… ¿cuánto vale el séptimo? Ojo, que aquí hay una trampa.
+
+Paso a paso: tres, seis, doce, y así, cada vez el doble. Contemos las multiplicaciones: del primero al séptimo, son seis. Trampa: dos a la siete es de más. Siete términos, seis multiplicaciones. Tres por dos a la sexta: ciento noventa y dos. Primero por r a la n menos uno. ¿Y si conocemos dos términos lejanos?
+
+Tres números entre dos y ciento sesenta y dos. Son medios geométricos: cuatro veces por r. r a la cuarta es ochenta y uno. r es tres, o menos tres. La hoja: una capa; cada doblez, por dos. Cuarenta y dos dobleces: dos a la cuarenta y dos. Con cuarenta y dos dobleces, si se pudiera, llegaría a la Luna. Cuarenta y dos hojas apiladas no llegan a medio centímetro.

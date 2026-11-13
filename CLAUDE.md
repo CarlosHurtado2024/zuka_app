@@ -317,6 +317,11 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   `potencias` (`alg-21a`), `leyes` (`alg-21b`), `raices` (`alg-22a`), `radicales` (`alg-22b`), unos 130 s. Ejemplos nuevos, que
   no salen en los ejercicios. Entregados en `Downloads/Zuka_Potencias_zoom`; esperan su ID de Bunny: al recibirlo, poner
   `clip.bunny` + `duration` (las escenas de respaldo de esas lecciones usan otros ejemplos: actualizarlas a los del video).
+- **Escalera de Sigma en zoom, lecciones 1 a 5** (mismo proyecto `video/valle-zoom`; tokens `{big: 'sum'|'prod', hi, lo}` para Σ y Π
+  y `{sub}` para subíndices): `sucesiones` (`alg-14`), `sumaarit` (`alg-14b`), `geometricas` (`alg-14c`, ya tiene video en Bunny:
+  el usuario elige), `sumageo` (`alg-14d`), `sumatoria` (`alg-15`), 130 s. Usan los ejemplos de las escenas de respaldo más
+  algunos nuevos; `tests/sigma-zoom.test.js`. Entregados en `Downloads/Zuka_Sigma_zoom`; esperan su ID de Bunny: al recibirlo,
+  poner `clip.bunny` + `duration`.
 - **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
   `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
   `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y

@@ -52,10 +52,10 @@ function wipeText(p, x, y, str, a, k, h = 60) {
   const G = g(p, { 'clip-path': clipOf('rect', { x: r1(x0 - 10), y: r1(y - h), width: r1((w + 40) * clamp(k)), height: r1(h * 1.5) }) });
   return text(G, x, y, str, a);
 }
-function riseG(p, t, t0, tOut, y, size) {
+function riseG(p, t, t0, tOut, y, size, up = 1.1, dn = .35) {
   if (t < t0 || t > tOut + .4) return null;
   const k = spr(t, t0, 13, 7) * (1 - ei(seg(t, tOut, tOut + .3)));
-  const G = g(p, { 'clip-path': clipOf('rect', { x: -W, y: r1(y - size * 1.1), width: 3 * W, height: r1(size * 1.45) }) });
+  const G = g(p, { 'clip-path': clipOf('rect', { x: -W, y: r1(y - size * up), width: 3 * W, height: r1(size * (up + dn)) }) });
   return g(G, { transform: `translate(0,${r1(size * 1.3 * (1 - k))})` });
 }
 function riseText(p, t, t0, tOut, x, y, str, a) {
@@ -114,11 +114,13 @@ function fparts(toks, size) {
     let w;
     if (typeof tk === 'string') w = tw(tk, size, 600);
     else if (tk.sup) w = tw(tk.sup, size * .62, 600);
+    else if (tk.sub) w = tw(tk.sub, size * .6, 600);
+    else if (tk.big) w = Math.max(size * .95, tw(tk.hi || '', size * .42, 600), tw(tk.lo || '', size * .42, 600));
     else if (tk.fr) w = Math.max(tw(tk.fr[0], size * .8, 600), tw(tk.fr[1], size * .8, 600)) + size * .26;
     else if (tk.ov) w = tw(tk.ov, size, 600);
     else if (tk.rad != null) w = (tk.idx ? size * .16 : 0) + size * .58 + tw(tk.rad, size, 600) + size * .08;
     else w = SYMW(size);
-    const tight = (typeof tk === 'object' && (tk.sup || tk.ov || tk.tight)) || (typeof tk === 'string' && /^[),.}:]/.test(tk)) || (i > 0 && typeof toks[i - 1] === 'string' && /[({]$/.test(toks[i - 1]));
+    const tight = (typeof tk === 'object' && (tk.sup || tk.sub || tk.ov || tk.tight)) || (typeof tk === 'string' && /^[),.}:]/.test(tk)) || (i > 0 && typeof toks[i - 1] === 'string' && /[({]$/.test(toks[i - 1]));
     if (i > 0 && !tight) x += gap;
     parts.push({ tk, x, w }); x += w;
   });
@@ -131,6 +133,8 @@ function formula(p, x, y, size, toks, o = {}) {
     const xx = x0 + dx;
     if (typeof tk === 'string') text(p, r1(xx), y, tk, { 'font-size': size, 'font-weight': 600, fill: (o.colors && o.colors[tk]) || col });
     else if (tk.sup) text(p, r1(xx), r1(y - size * .42), tk.sup, { 'font-size': r1(size * .62), 'font-weight': 600, fill: col });
+    else if (tk.sub) text(p, r1(xx), r1(y + size * .2), tk.sub, { 'font-size': r1(size * .6), 'font-weight': 600, fill: tk.col || col });
+    else if (tk.big) bigOp(p, xx + ww / 2, y, size, tk.big, tk.hi, tk.lo, tk.col || col);
     else if (tk.fr) fracAt(p, xx + ww / 2, y - .3 * size, size * .8, tk.fr[0], tk.fr[1], tk.col || col);
     else if (tk.ov) {
       text(p, r1(xx), y, tk.ov, { 'font-size': size, 'font-weight': 600, fill: tk.col || col });
@@ -141,6 +145,15 @@ function formula(p, x, y, size, toks, o = {}) {
     at.push([xx + ww / 2, y - 0.34 * size]);
   });
   return { at, x0, w };
+}
+// Σ o Π grande (kind 'sum' | 'prod') centrada en x, con sus límites arriba (hi) y abajo (lo)
+function bigOp(p, x, y, s, kind, hi, lo, col = C.cream) {
+  const h = s * 1.12, w = s * .78, top = y - s * .34 - h / 2, bot = top + h, x0 = x - w / 2, x1 = x + w / 2, sw = r1(s * .09);
+  const A = { fill: 'none', stroke: col, 'stroke-width': sw, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
+  if (kind === 'sum') el('path', { ...A, d: `M${r1(x1)},${r1(top + s * .1)}L${r1(x1)},${r1(top)}L${r1(x0)},${r1(top)}L${r1(x + s * .06)},${r1(top + h / 2)}L${r1(x0)},${r1(bot)}L${r1(x1)},${r1(bot)}L${r1(x1)},${r1(bot - s * .1)}` }, p);
+  else el('path', { ...A, d: `M${r1(x0 - s * .04)},${r1(top)}L${r1(x1 + s * .04)},${r1(top)}M${r1(x0 + s * .14)},${r1(top)}L${r1(x0 + s * .14)},${r1(bot)}M${r1(x1 - s * .14)},${r1(top)}L${r1(x1 - s * .14)},${r1(bot)}` }, p);
+  if (hi) text(p, r1(x), r1(top - s * .12), hi, { 'font-size': r1(s * .42), 'font-weight': 600, fill: col, 'text-anchor': 'middle' });
+  if (lo) text(p, r1(x), r1(bot + s * .45), lo, { 'font-size': r1(s * .42), 'font-weight': 600, fill: col, 'text-anchor': 'middle' });
 }
 // un radical dibujado: x = borde izquierdo, y = renglón; idx = índice (opcional). Devuelve el ancho.
 function radAt(p, x, y, s, rad, idx, col = C.cream) {
@@ -158,7 +171,8 @@ function fracAt(p, cx, axis, s, n, d, col = C.cream) {
   text(p, r1(cx), r1(axis + s * .78), d, { 'font-size': r1(s), 'font-weight': 600, fill: col, 'text-anchor': 'middle' });
 }
 function riseFormula(p, t, t0, tOut, x, y, size, toks, o = {}) {
-  const G = riseG(p, t, t0, tOut, y, size); if (!G) return null;
+  const big = toks.some(k => k && k.big), sub = toks.some(k => k && (k.sub || k.fr));
+  const G = riseG(p, t, t0, tOut, y, size, big ? 1.4 : 1.1, big ? 1.0 : sub ? .7 : .35); if (!G) return null;
   return formula(G, x, y, size, toks, o);
 }
 
