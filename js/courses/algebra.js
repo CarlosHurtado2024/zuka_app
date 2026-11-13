@@ -355,7 +355,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-11c', title: 'Los irracionales y los números reales',
           // Parte 3 de sistemas numéricos: video N3 (video/clase_alg_u1_n3_reales), en Bunny; las escenas son el respaldo.
-          clip: { bunny: '820f2163-284b-4f5f-bce7-1d47c483de46', duration: 258, scenes: [
+          clip: { bunny: 'c4c0e903-a41b-40ab-b66a-89f82a504728', duration: 138, scenes: [
             sc(6, 'El lado de un cuadrado de área 2 no es ninguna fracción: es $\\sqrt2$, un número **irracional**. Su decimal nunca termina ni se repite.', { title: '$\\sqrt2 = 1.41421356\\dots$' }),
             sc(6, 'Los racionales y los irracionales juntos forman los **reales**, y no comparten ningún número.', { title: '$\\mathbb{R} = \\mathbb{Q} \\cup \\mathbb{I} \\qquad \\mathbb{Q} \\cap \\mathbb{I} = \\varnothing$' }),
             sc(6, 'Cada familia vive dentro de la siguiente.', { title: '$\\mathbb{N} \\subseteq \\mathbb{Z} \\subseteq \\mathbb{Q} \\subseteq \\mathbb{R}$' }),
@@ -436,7 +436,7 @@ const COURSE_ALGEBRA = {
           id: 'alg-12b', title: 'Axiomas de campo: las reglas de la suma y el producto',
           // Parte 1 de axiomas (spec 2026-11-11-axiomas-desde-cero): video F1 (video/clase_alg_u1_f1_campo), en Bunny;
           // las escenas son el respaldo. Libro UdeA §1.2.
-          clip: { bunny: '3c46885f-3797-4cd8-850d-34ad602b9cc5', duration: 350, scenes: [
+          clip: { bunny: '73a333b3-2302-4d39-b3f2-b25ae6460d14', duration: 129, scenes: [
             sc(6, 'Un **axioma** es una regla que se acepta sin demostrar, como las reglas de un juego. Las letras representan **cualquier** número real.', { title: '$\\forall\\, a, b \\in \\mathbb{R}$', steps: ['«para todo $a$ y $b$ que pertenecen a los reales»'] }),
             sc(6, 'El orden y los paréntesis no cambian una suma ni un producto: **conmutativa** y **asociativa**. La resta no es conmutativa.', { steps: ['$a + b = b + a \\qquad ab = ba$', '$(a + b) + c = a + (b + c) \\qquad (ab)c = a(bc)$'] }),
             sc(6, 'Los **neutros** no cambian nada; los **inversos** llevan al neutro. El $0$ no tiene recíproco.', { steps: ['$a + 0 = a \\qquad a \\cdot 1 = a$', '$a + (-a) = 0 \\qquad a \\cdot \\tfrac{1}{a} = 1\\ \\ (a \\neq 0)$'] }),
@@ -521,7 +521,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-12c', title: 'Consecuencias de los axiomas: restar, dividir y los signos',
           // Parte 2 de axiomas: video F2 (video/clase_alg_u1_f2_consecuencias), en Bunny; las escenas son el respaldo.
-          clip: { bunny: '01a50ba2-7dff-4a96-bfee-8a76c4a2d3d4', duration: 193, scenes: [
+          clip: { bunny: '12b7467f-eb22-4107-80f9-73b90497a18c', duration: 141, scenes: [
             sc(6, 'Restar es sumar el **opuesto**; dividir es multiplicar por el **recíproco**. Por eso no se divide entre $0$.', { steps: ['$a - b = a + (-b)$', '$a \\div b = a \\cdot \\tfrac1b \\quad (b \\neq 0)$'] }),
             sc(6, 'Cualquier número por cero da cero, y la ley de los signos sale de los axiomas.', { steps: ['$a \\cdot 0 = 0$', '$(-a)b = -(ab) \\qquad (-a)(-b) = ab$'] }),
             sc(6, 'La **ley cancelativa**: lo mismo a los dos lados se puede quitar (si multiplica, que no sea $0$).', { steps: ['$a + b = a + c \\Rightarrow b = c$', '$ab = ac,\\ a \\neq 0 \\Rightarrow b = c$'] }),
@@ -572,7 +572,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-12d', title: 'Axiomas de orden y valor absoluto',
           // Parte 3 de axiomas: video F3 (video/clase_alg_u1_f3_orden), en Bunny; las escenas son el respaldo. Libro UdeA §1.3.
-          clip: { bunny: '33375c84-4d32-49ce-80de-b0e5299ca8ef', duration: 220, scenes: [
+          clip: { bunny: 'c3c304fc-66d9-4eef-9693-b91e816d3fc1', duration: 124, scenes: [
             sc(6, 'Todo real es **positivo**, **cero** o **negativo** (tricotomía). $a < b$ quiere decir que $b - a$ es positivo: $b$ está más a la derecha.', { steps: ['$a < b \\iff b - a > 0$', '$\\le$: «menor o igual»'] }),
             sc(6, 'Sumar conserva el orden; multiplicar por un positivo también; por un **negativo** lo **voltea**.', { steps: ['$a < b,\\ c > 0 \\Rightarrow ac < bc$', '$a < b,\\ c < 0 \\Rightarrow ac > bc$'] }),
             sc(6, 'El **valor absoluto** es la distancia al cero: nunca es negativo. $|b - a|$ es la distancia entre $a$ y $b$.', { title: '$|a| = a$ si $a \\ge 0$, $\\;|a| = -a$ si $a < 0$' }),
@@ -1122,6 +1122,14 @@ const COURSE_ALGEBRA = {
             num('En la progresión $4, 9, 14, 19, \\dots$ ¿cuánto vale el término 30?', 149,
               'La diferencia es $d = 5$ y del término 1 al 30 hay 29 saltos: $a_{30} = 4 + 29 \\cdot 5 = 149$.',
               { hint: 'Halla el salto restando dos términos seguidos. ¿Cuántos saltos hay del primer término al término 30?' }),
+            play('traza-progresion', 'Traza el camino: pasa el dedo por los términos de la progresión, **en orden**, sin tocar los demás puntos', {
+              rounds: [
+                { title: 'Sumando', items: [{ a1: 4, d: 3, len: 5, traps: [8, 12, 14] }, { a1: 2, d: 5, len: 5, traps: [10, 15, 20] }] },
+                { title: 'Restando', items: [{ a1: 30, d: -4, len: 5, traps: [24, 20, 28] }, { a1: 9, d: -3, len: 6, traps: [5, 1, 7] }] },
+                { title: 'Saltos grandes', items: [{ a1: 5, d: 11, len: 5, traps: [15, 25, 37] }, { a1: -7, d: 6, len: 6, traps: [0, 6, 12] }] },
+              ],
+            }, 'Los dos primeros términos dan la diferencia: $d = a_2 - a_1$. De ahí en adelante cada término es el anterior más $d$ (si $d$ es negativa, la progresión baja). Los otros puntos no están a un salto exacto del término anterior.',
+              { hint: 'Resta el primer término del segundo para saber el salto, y antes de mover el dedo calcula el número que sigue. La mecha te persigue: no te quedes quieto.' }),
           ],
         },
         {
@@ -1147,6 +1155,26 @@ const COURSE_ALGEBRA = {
             num('Calcula la suma $5 + 9 + 13 + \\dots + 81$', 860,
               'Es aritmética con $d = 4$. Términos: $81 = 5 + (n - 1)4$ da $n = 20$. Suma: $S_{20} = \\dfrac{20\\,(5 + 81)}{2} = 10 \\cdot 86 = 860$.',
               { hint: 'Primero averigua cuántos términos hay (cuántos saltos de 4 llevan del 5 al 81, más uno). Luego usa la suma de Gauss.' }),
+            play('encesta-suma', 'Lanza el balón a la canasta que tiene la **suma**: desliza el dedo hacia ella y suelta', {
+              rounds: [
+                { title: 'Sumas de corrido', items: [
+                  { ask: '2 + 4 + 6 + 8 + 10', sum: [2, 2, 5], options: ['30', '40', '28'], answer: 0 },
+                  { ask: '5 + 10 + 15 + 20', sum: [5, 5, 4], options: ['50', '45', '55'], answer: 0 },
+                  { ask: '1 + 4 + 7 + 10 + 13', sum: [1, 3, 5], options: ['35', '34', '38'], answer: 0 },
+                ] },
+                { title: 'Con la fórmula', items: [
+                  { ask: 'Del 1 al 20, de uno en uno', sum: [1, 1, 20], options: ['210', '200', '400'], answer: 0 },
+                  { ask: 'Los pares del 2 al 40', sum: [2, 2, 20], options: ['420', '400', '840'], answer: 0 },
+                  { ask: '4 + 8 + 12 + … + 40', sum: [4, 4, 10], options: ['220', '200', '440'], answer: 0 },
+                ] },
+                { title: 'Términos y suma', items: [
+                  { ask: '10 términos, de 3 a 30', sum: [3, 3, 10], options: ['165', '330', '150'], answer: 0 },
+                  { ask: '8 términos, de 5 a 40', sum: [5, 5, 8], options: ['180', '360', '160'], answer: 0 },
+                  { ask: '6 términos, de 10 a 60', sum: [10, 10, 6], options: ['210', '420', '200'], answer: 0 },
+                ] },
+              ],
+            }, 'La suma de una progresión aritmética es $S_n = \\dfrac{n(a_1 + a_n)}{2}$: el primero más el último, por la cantidad de términos, y la mitad. Olvidar la mitad da el doble, y contar mal los términos cambia todo.',
+              { hint: 'Suma el primero con el último, multiplica por cuántos términos hay y saca la mitad. Tienes tiempo para calcular antes de lanzar: apunta con calma.' }),
           ],
         },
         {
@@ -1172,6 +1200,14 @@ const COURSE_ALGEBRA = {
             num('En la progresión $2, 6, 18, 54, \\dots$ ¿cuánto vale el sexto término?', 486,
               'La razón es $r = 6 / 2 = 3$ y del término 1 al 6 hay 5 multiplicaciones: $a_6 = 2 \\cdot 3^5 = 2 \\cdot 243 = 486$.',
               { hint: 'Divide dos términos seguidos para hallar la razón. ¿Cuántas veces hay que multiplicar por ella para pasar del primer término al sexto?' }),
+            play('dobla-fichas', 'Desliza el tablero: dos fichas iguales que chocan se funden en **el doble**. Arma el término que se pide', {
+              rounds: [
+                { title: 'Desde 1', base: 1, n: 4 },
+                { title: 'Desde 5', base: 5, n: 5 },
+                { title: 'Desde 7', base: 7, n: 5 },
+              ],
+            }, 'Cada fusión multiplica por 2, la razón de la progresión: desde $a_1$ se llega a $a_n = a_1 \\cdot 2^{\\,n-1}$. Para armar el quinto término hacen falta cuatro duplicaciones seguidas, y por eso los términos crecen tan rápido.',
+              { hint: 'Deja las fichas grandes en una esquina y junta las iguales al lado. Arriba ves los términos de la progresión: ¿cuántas veces hay que duplicar el primero para llegar al último?' }),
           ],
         },
         {
@@ -1198,6 +1234,26 @@ const COURSE_ALGEBRA = {
             num('Una pelota cae desde 6 m y cada rebote sube la mitad del anterior. Si rebotara para siempre, ¿cuántos metros recorrería en total, subiendo y bajando?', 18,
               'Baja 6 m y luego cada rebote sube y baja: $2(3 + 1.5 + 0.75 + \\dots) = 2 \\cdot \\dfrac{3}{1 - \\frac12} = 12$. En total $6 + 12 = 18$ m: una distancia finita aunque los rebotes no terminen.',
               { hint: 'Separa la primera caída de los rebotes. Cada rebote se recorre dos veces (subida y bajada), y sus alturas forman una geométrica de razón un medio.' }),
+            play('rana-zenon', 'Cada salto de la rana es una fracción del anterior. Toca el estanque para saltar y luego la **bandera** de la respuesta', {
+              rounds: [
+                { title: 'Sumas cortas', items: [
+                  { a1: 8, r: [1, 2], n: 3, flags: ['14', '15', '16'], answer: 0, max: 18 },
+                  { a1: 9, r: [1, 3], n: 3, flags: ['13', '12', '13.5'], answer: 0, max: 15 },
+                  { a1: 1, r: [2, 1], n: 4, flags: ['15', '16', '8'], answer: 0, max: 18 },
+                ] },
+                { title: 'Suma infinita', items: [
+                  { a1: 8, r: [1, 2], flags: ['16', '15', '20'], answer: 0, max: 22 },
+                  { a1: 9, r: [1, 3], flags: ['13.5', '13', '18'], answer: 0, max: 20 },
+                  { a1: 6, r: [1, 2], flags: ['12', '11', '18'], answer: 0, max: 20 },
+                ] },
+                { title: 'Mezcla', items: [
+                  { a1: 12, r: [1, 4], flags: ['16', '15', '24'], answer: 0, max: 26 },
+                  { a1: 10, r: [1, 5], n: 2, flags: ['12', '12.5', '11'], answer: 0, max: 14 },
+                  { a1: 10, r: [1, 5], flags: ['12.5', '12', '15'], answer: 0, max: 17 },
+                ] },
+              ],
+            }, 'Con una cantidad fija de saltos se suman esos términos y ya. Sin parar, si la razón está entre $-1$ y $1$, la suma se acerca a $S = \\dfrac{a_1}{1 - r}$ y nunca lo pasa: cada salto cubre solo una parte de lo que falta.',
+              { hint: 'Fíjate en cuánto le falta a la rana para cada bandera después de cada salto: a una se le acerca cada vez más sin tocarla. No tardes, que la garza viene detrás.' }),
           ],
         },
         {
@@ -1244,6 +1300,26 @@ const COURSE_ALGEBRA = {
                 { text: '1 + 2 + 3 + … + n', side: 'left', why: 'Es la suma de Gauss: Σ k = n(n + 1)/2.' },
               ],
             }, '$\\Sigma$ abrevia una suma de términos y $\\Pi$ un producto: $\\sum_{k=1}^{5} 3 = 15$ pero $\\prod_{k=1}^{4} 2 = 2^4$; $5! = \\prod_{k=1}^{5} k$; y $\\dfrac{n(n + 1)}{2}$ es el valor de la suma $\\sum_{k=1}^{n} k$.'),
+            play('maquina-sigma', 'Alimenta la máquina: arrastra desde la cinta el término que toca para cada **k**, en orden', {
+              rounds: [
+                { title: 'Primeras sumas', kind: 'sum', items: [
+                  { expr: '3k', lo: 1, hi: 4, f: k => 3 * k, traps: [4, 10, 15] },
+                  { expr: 'k²', lo: 1, hi: 4, f: k => k * k, traps: [2, 8, 12] },
+                  { expr: 'k + 1', lo: 2, hi: 5, f: k => k + 1, traps: [2, 7, 1] },
+                ] },
+                { title: 'Índices que no empiezan en 1', kind: 'sum', items: [
+                  { expr: '2k − 1', lo: 1, hi: 5, f: k => 2 * k - 1, traps: [2, 4, 11] },
+                  { expr: '2k', lo: 3, hi: 6, f: k => 2 * k, traps: [2, 4, 14] },
+                  { expr: 'k³', lo: 1, hi: 3, f: k => k ** 3, traps: [3, 9, 6] },
+                ] },
+                { title: 'Productos', kind: 'prod', items: [
+                  { expr: 'k', lo: 1, hi: 4, f: k => k, traps: [0, 5, 6] },
+                  { expr: 'k + 2', lo: 1, hi: 3, f: k => k + 2, traps: [2, 6, 1] },
+                  { expr: '2k', lo: 2, hi: 4, f: k => 2 * k, traps: [2, 10, 3] },
+                ] },
+              ],
+            }, 'El índice $k$ recorre los enteros desde el número de abajo hasta el de arriba; en cada paso se reemplaza $k$ en la fórmula y sale un término. $\\Sigma$ suma esos términos y $\\Pi$ los multiplica. Si el índice empieza en 3, el primer término se calcula con $k = 3$, no con 1.',
+              { hint: 'Mira el número de abajo del símbolo: ese es el primer valor de k. Reemplázalo en la fórmula, busca ese resultado en la cinta y sube k de uno en uno hasta el número de arriba.' }),
           ],
         },
       ],
