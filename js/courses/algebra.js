@@ -654,6 +654,15 @@ const COURSE_ALGEBRA = {
             num('Una bolsa de 5 kg de fríjol cuesta 13 500 pesos y una de 2 kg cuesta 5 600. ¿Cuánto cuesta un kilo en la bolsa que sale más barata por kilo?', 2700,
               'El precio por kilo es una razón con unidades (pesos/kg): $13\\,500 \\div 5 = 2\\,700$ y $5\\,600 \\div 2 = 2\\,800$. La bolsa grande sale más barata por kilo: 2 700 pesos.',
               { suffix: 'pesos', hint: 'Para comparar bolsas de distinto tamaño, compara lo mismo: divide el precio de cada bolsa entre sus kilos.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-razones).
+            play('sirve-la-razon', 'Mantén presionado para servir y suelta cuando se mantenga la razón de la receta', {
+              rounds: [
+                { title: 'Limonada', a: 'limón', b: 'agua', items: [{ p: 1, q: 2, have: 3, max: 8 }, { p: 1, q: 3, have: 2, max: 8 }, { p: 2, q: 1, have: 6, max: 8 }] },
+                { title: 'Pintura', a: 'azul', b: 'blanco', items: [{ p: 2, q: 3, have: 4, max: 8 }, { p: 3, q: 4, have: 6, max: 10 }, { p: 5, q: 2, have: 10, max: 10 }] },
+                { title: 'Recetas grandes', a: 'harina', b: 'leche', items: [{ p: 2, q: 5, have: 4, max: 12 }, { p: 4, q: 3, have: 8, max: 10 }, { p: 3, q: 5, have: 6, max: 12 }] },
+              ],
+            }, 'Mantener una razón es multiplicar las dos cantidades por lo mismo. Si la receta dice «por cada $2$ de azul, $3$ de blanco» y ya hay $4$ de azul, el azul se duplicó, así que el blanco también: $3 \\cdot 2 = 6$. Con $6$ de azul y la receta $3$ a $4$, el azul también se duplicó: hacen falta $8$ de blanco.',
+              { hint: 'Mira cuántas veces cabe el primer número de la receta en lo que ya hay en el primer vaso. El segundo número se multiplica por esas mismas veces: esa es la marca donde debes soltar.' }),
           ],
         },
         {
@@ -695,6 +704,15 @@ const COURSE_ALGEBRA = {
             play('reparto', 'Reparte 1 200 000 en partes proporcionales a 2, 3 y 5', { total: 1200000, parts: [2, 3, 5], tol: 0.02 },
               '**Reparto proporcional**: $2 + 3 + 5 = 10$ partes, cada una vale $1\\,200\\,000 \\div 10 = 120\\,000$. Las partes son $240\\,000$, $360\\,000$ y $600\\,000$.',
               { hint: 'Suma los números de la proporción para saber en cuántas partes iguales se corta el total. Luego cada persona se lleva tantas partes como diga su número.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-razones).
+            play('corta-proporciones', 'Corta con el dedo solo las fracciones que forman proporción con la de arriba', {
+              rounds: [
+                { title: 'Mitades', ref: '1/2', items: [{ label: '2/4' }, { label: '3/6' }, { label: '5/10' }, { label: '4/8' }], traps: ['2/3', '3/5', '4/6', '1/3'] },
+                { title: 'Dos tercios', ref: '2/3', items: [{ label: '4/6' }, { label: '6/9' }, { label: '8/12' }, { label: '12/18' }], traps: ['3/4', '4/9', '6/8', '2/6'] },
+                { title: 'Tres cuartos', ref: '3/4', items: [{ label: '6/8' }, { label: '9/12' }, { label: '15/20' }, { label: '12/16' }], traps: ['4/3', '6/9', '8/10', '3/8'] },
+              ],
+            }, 'Dos fracciones forman proporción cuando valen lo mismo, y eso se comprueba con los productos cruzados: $\\tfrac23$ y $\\tfrac{8}{12}$ sí, porque $2 \\cdot 12 = 3 \\cdot 8$. En cambio $\\tfrac23$ y $\\tfrac68$ no: $2 \\cdot 8 = 16$ pero $3 \\cdot 6 = 18$. Ojo con $\\tfrac43$: tiene los mismos números que $\\tfrac34$, pero al revés.',
+              { hint: 'Multiplica en cruz antes de cortar: el de arriba de una por el de abajo de la otra. Si los dos productos dan lo mismo, forman proporción. También sirve simplificar la ficha y ver si queda la de arriba.' }),
           ],
         },
         {
@@ -733,6 +751,15 @@ const COURSE_ALGEBRA = {
             play('cadena-razones', 'Voltea las razones que haga falta para que la cadena dé los días', { base: 28, unit: 'días', factors: [{ label: 'hombres', a: 9, b: 7, inverse: true }, { label: 'horas/día', a: 6, b: 8, inverse: true }], answer: 27 },
               'En la **regla de tres compuesta** cada magnitud aporta una razón: si es inversa, la razón va al revés del cambio. Menos hombres (de 9 a 7) → más días: $\\tfrac{9}{7}$. Más horas por día (de 6 a 8) → menos días: $\\tfrac{6}{8}$. $x = 28 \\cdot \\tfrac{9}{7} \\cdot \\tfrac{6}{8} = 27$ días.',
               { hint: 'Mira cada magnitud por separado: ¿con menos hombres se tardan más o menos días? ¿Y con más horas al día? Si los días deben crecer, la razón tiene que ser mayor que 1.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-razones).
+            play('resortera-tres', 'Estira la resortera lo justo para que la piedra caiga en la bandera', {
+              rounds: [
+                { title: 'Liga suave', ref: [2, 6], items: [{ target: 12 }, { target: 18 }, { target: 9 }] },
+                { title: 'Liga fuerte', ref: [3, 15], items: [{ target: 25 }, { target: 10 }, { target: 35 }] },
+                { title: 'Medios estirones', ref: [2, 8], items: [{ target: 10 }, { target: 22 }, { target: 18 }] },
+              ],
+            }, 'El estirón y la distancia son directamente proporcionales, así que sirve la regla de tres. Si con $2$ de estirón llega a $6$ m, cada unidad de estirón son $3$ m: para $12$ m hacen falta $12 \\div 3 = 4$. Con la liga fuerte, $15 \\div 3 = 5$ m por unidad: para $35$ m, $7$ de estirón. Y con la última, $8 \\div 2 = 4$ m por unidad: para $10$ m, $10 \\div 4 = 2.5$.',
+              { hint: 'Con el tiro de muestra, averigua cuántos metros avanza la piedra por cada unidad de estirón (divide). Luego divide la distancia de la bandera entre ese número. El estirón se ve mientras arrastras.' }),
           ],
         },
         {
@@ -772,6 +799,15 @@ const COURSE_ALGEBRA = {
             play('mezcla', 'Añade agua hasta que el alcohol sea el 20 % de la mezcla', { solute: 40, target: 20, step: 10, max: 400 },
               'Los 40 g de alcohol son el $20\\%$ de la mezcla, así que la mezcla pesa $C = \\dfrac{100 \\cdot 40}{20} = 200$ g; el agua es lo que falta: $200 - 40 = 160$ g.',
               { hint: 'El alcohol no cambia: solo agregas agua. Pregúntate de qué peso total son 40 g el 20 % (la quinta parte), y el agua es lo que falta para llegar.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-razones).
+            play('caja-veloz', 'Atiende la caja: escribe el resultado de cada cuenta antes de que el cliente se canse', {
+              rounds: [
+                { title: 'Porcentajes fáciles', items: [{ ask: '50 % de 60', answer: 30 }, { ask: '10 % de 90', answer: 9 }, { ask: '25 % de 80', answer: 20 }, { ask: '20 % de 45', answer: 9 }] },
+                { title: 'Un poco más', items: [{ ask: '30 % de 50', answer: 15 }, { ask: '75 % de 40', answer: 30 }, { ask: '5 % de 200', answer: 10 }, { ask: '60 % de 25', answer: 15 }] },
+                { title: '¿Qué porcentaje es?', items: [{ ask: '¿Qué % es 12 de 48?', answer: 25 }, { ask: '¿Qué % es 9 de 90?', answer: 10 }, { ask: '¿Qué % es 30 de 60?', answer: 50 }, { ask: '¿Qué % es 6 de 30?', answer: 20 }] },
+              ],
+            }, 'Los porcentajes amigos se hacen de cabeza: el $50\\%$ es la mitad, el $25\\%$ la cuarta parte, el $10\\%$ la décima parte y el $20\\%$ la quinta parte. Los demás se arman con esos: el $30\\%$ de $50$ es tres veces su $10\\%$, $3 \\cdot 5 = 15$; el $75\\%$ es tres cuartas partes. Para saber qué porcentaje es una parte, se divide entre el total: $12 \\div 48 = 0.25$, es decir, el $25\\%$.',
+              { hint: 'Empieza por el 10 % (dividir entre 10) o por una fracción amiga: mitad, cuarta parte, quinta parte. Para «¿qué % es?», piensa qué fracción del total es la parte.' }),
           ],
         },
         {
@@ -813,6 +849,27 @@ const COURSE_ALGEBRA = {
             num('Un celular cuesta 476 000 pesos con el IVA del 19 % incluido. ¿Cuánto cuesta sin IVA?', 400000,
               'Con IVA se paga el $119\\%$: precio $\\cdot 1.19 = 476\\,000$, así que el precio sin IVA es $476\\,000 \\div 1.19 = 400\\,000$. Restar el 19 % de 476 000 daría 385 560, que está mal: el 19 % se calculó sobre el precio sin IVA.',
               { prefix: '$', hint: 'El precio con IVA es el precio sin IVA multiplicado por un factor. Para deshacer una multiplicación, divide entre ese mismo factor.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-razones).
+            play('vuela-precios', 'Vuela a toques y pasa por el aro del resultado', {
+              rounds: [
+                { title: 'Descuentos', items: [
+                  { ask: '200 con 10 % de descuento', options: ['180', '190', '20'], answer: 0 },
+                  { ask: '80 con 25 % de descuento', options: ['60', '55', '20'], answer: 0 },
+                  { ask: '500 con 20 % de descuento', options: ['400', '480', '100'], answer: 0 },
+                ] },
+                { title: 'Aumentos', items: [
+                  { ask: '200 más el 10 %', options: ['220', '210', '20'], answer: 0 },
+                  { ask: '40 más el 50 %', options: ['60', '90', '20'], answer: 0 },
+                  { ask: '300 más el 5 %', options: ['315', '305', '350'], answer: 0 },
+                ] },
+                { title: 'El factor', items: [
+                  { ask: 'Subir 20 % es multiplicar por', options: ['1.2', '0.2', '1.02'], answer: 0 },
+                  { ask: 'Bajar 30 % es multiplicar por', options: ['0.7', '0.3', '1.3'], answer: 0 },
+                  { ask: 'Bajar 5 % es multiplicar por', options: ['0.95', '0.5', '1.05'], answer: 0 },
+                ] },
+              ],
+            }, 'Un descuento se resta del precio: el $10\\%$ de $200$ es $20$, así que queda en $180$ (el $20$ es lo que se ahorra, no el precio). Un aumento se suma: $200$ más su $10\\%$ da $220$. Y todo se puede hacer de un solo paso con el factor: subir $20\\%$ es multiplicar por $1.2$, y bajar $30\\%$ es multiplicar por $0.7$, porque queda el $70\\%$.',
+              { hint: 'Calcula primero cuánto es el porcentaje y luego decide: ¿se resta (descuento) o se suma (aumento)? Ojo: a veces un aro trae solo lo que se descuenta o se aumenta, no el precio final. Los aros salen en un orden distinto cada vez.' }),
           ],
         },
         {
@@ -851,6 +908,27 @@ const COURSE_ALGEBRA = {
             play('dos-etapas', 'Gira la perilla hasta que la máquina produzca 8 840', { changes: [30, -20], output: 8840, max: 20000, step: 20 },
               'Subir $30\\%$ es $\\times 1.3$ y bajar $20\\%$ es $\\times 0.8$: en total $\\times 1.04$. Entonces $1.04x = 8\\,840$ y $x = 8\\,500$.',
               { hint: 'Junta los dos cambios en un solo factor multiplicando $1.3 \\cdot 0.8$. Luego busca qué número, multiplicado por ese factor, da 8 840.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-razones).
+            play('rompe-cambios', 'Mueve la paleta y manda la pelota al ladrillo del resultado', {
+              rounds: [
+                { title: 'Dos descuentos', items: [
+                  { ask: '100 → −10 % → −10 %', options: ['81', '80', '90'], answer: 0 },
+                  { ask: '200 → −50 % → −10 %', options: ['90', '80', '100'], answer: 0 },
+                  { ask: '100 → −20 % → −25 %', options: ['60', '55', '65'], answer: 0 },
+                ] },
+                { title: 'Sube y baja', items: [
+                  { ask: '100 → +10 % → −10 %', options: ['99', '100', '101'], answer: 0 },
+                  { ask: '100 → +20 % → −20 %', options: ['96', '100', '104'], answer: 0 },
+                  { ask: '200 → +50 % → −50 %', options: ['150', '200', '100'], answer: 0 },
+                ] },
+                { title: 'Dos aumentos', items: [
+                  { ask: '100 → +10 % → +10 %', options: ['121', '120', '110'], answer: 0 },
+                  { ask: '100 → +20 % → +50 %', options: ['180', '170', '150'], answer: 0 },
+                  { ask: '50 → +100 % → +10 %', options: ['110', '105', '160'], answer: 0 },
+                ] },
+              ],
+            }, 'El segundo cambio se aplica sobre lo que dejó el primero, no sobre el valor original: por eso los porcentajes no se suman, los factores se multiplican. $100$ con $-10\\%$ queda en $90$, y el $10\\%$ de $90$ es $9$: termina en $81$, no en $80$. Subir $10\\%$ y luego bajar $10\\%$ no deja igual: $100 \\to 110 \\to 99$.',
+              { hint: 'Haz los cambios uno por uno: aplica el primero, anota cuánto queda y calcula el segundo porcentaje sobre ese nuevo valor. La trampa es sumar los dos porcentajes. Los ladrillos salen en un orden distinto cada vez.' }),
           ],
         },
       ],

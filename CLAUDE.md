@@ -16,7 +16,9 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
 - **Cada ejercicio con pista** (`hint`) que oriente sin dar la respuesta.
 - Videos: explicar con **intuición primero y fórmula después**, ejemplos resueltos con detalle,
   **sin ejercicios ni preguntas al espectador**, sin voz ni subtítulos quemados. Los ejemplos del video
-  **no se repiten** en los ejercicios.
+  **no se repiten** en los ejercicios. Narración de videos y clips según `docs/storytelling-videos.md` (personaje con
+  un deseo y un problema, frase que atrape, una sorpresa anunciada, cerrar el círculo; sacada de los libros de storytelling
+  que pasó el usuario).
 - Todo lo visual debe verse bien en **tema claro y oscuro** y en celular (300–380 px de ancho).
 - Proceso: diseñar → pruebas primero (TDD) → implementar → probar en el navegador → revisión fresca con un
   subagente (modelo opus) → corregir lo crítico/importante con prueba → subir. Diseños en
@@ -95,7 +97,11 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   están en la zona de la operación); Valle de los Números (spec `2026-11-13-juegos-dinamicos-valle`, pruebas
   `tests/juegos-dinamicos-valle.test.js`) → `buzo-enteros` (subir y bajar a la altura del resultado), `carrera-fracciones`
   (tres carriles y puertas), `frena-aguja` (parar una aguja en la recta), `dispara-inverso` (apuntar a burbujas que pasan),
-  `salta-signos` (saltar según el signo) y `serpiente-orden` (comer de menor a mayor). Los del Valle usan la base común
+  `salta-signos` (saltar según el signo) y `serpiente-orden` (comer de menor a mayor). Razones, proporciones y porcentajes (spec `2026-11-13-juegos-dinamicos-razones`,
+  pruebas `tests/juegos-dinamicos-razones.test.js`) → `sirve-la-razon` (mantener presionado para servir y soltar),
+  `corta-proporciones` (cortar fichas al vuelo con el dedo), `resortera-tres` (estirar y soltar), `caja-veloz` (teclado
+  numérico contra la paciencia del cliente), `vuela-precios` (volar a toques por el aro correcto) y `rompe-cambios`
+  (paleta y pelota; la pelota sale al soltar el dedo). Los del Valle y los de Razones usan la base común
   `makeArcade` del kit (fases, vidas, cola de preguntas, aviso, parar al terminar). Reglas: «Toca para empezar», tres vidas (`drawHearts`), sin vidas la ronda se
   reintenta (no se pierde el ejercicio), `api.ready(true)` al terminar todas las rondas, movimiento con `p.deltaTime`
   (tope 50 ms), cartel con `drawBanner`, y `peek()` en lo que devuelve `create` para probarlos con un robot en el
@@ -283,6 +289,10 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   `consecuencias` (`alg-12c`, 141 s), `orden` (`alg-12d`, 124 s). Mismos ejemplos que los videos actuales (las escenas de
   respaldo siguen valiendo). Entregados en `Downloads/Zuka_Valle_zoom_2a6`; esperan su ID de Bunny: al recibirlo, cambiar
   `clip.bunny` + `duration` de esa lección.
+- **Mercado de las razones en zoom, lecciones 1 a 6** (mismo proyecto `video/valle-zoom`; hilo: Ana, Beto y Caro en el
+  mercado, según `docs/storytelling-videos.md`): `razones` (`alg-12`), `proporciones` (`alg-12e`), `reglatres` (`alg-12f`),
+  `porcentajes` (`alg-13`), `aumentos` (`alg-13c`), `sucesivos` (`alg-13d`), 123–135 s. Mismos ejemplos que los videos actuales.
+  Entregados en `Downloads/Zuka_Mercado_zoom`; esperan su ID de Bunny: al recibirlo, poner `clip.bunny` + `duration`.
 - **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
   `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
   `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y
