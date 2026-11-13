@@ -1,0 +1,7 @@
+Ya armamos los números reales. Ahora, las reglas para operar con ellos. En el ajedrez, el alfil va en diagonal. Nadie lo demuestra: es la regla del juego. En matemáticas, esas reglas se llaman axiomas. Se aceptan sin demostrarlas. Se escriben con letras, porque valen para todos. La A al revés significa: para todo. Primera regla: sumar o multiplicar dos reales da otro real.
+
+Dos dulces y luego cinco. O cinco y luego dos: siete igual. Tres filas de cuatro puntos son doce. Giramos: cuatro filas de tres, los mismos doce. Ojo: la resta no conmuta. Y la división tampoco. Asociativa: los paréntesis dicen qué va primero. Agrupar lo que da redondo facilita la cuenta.
+
+Sumar cero no cambia nada. Multiplicar por uno, tampoco. Son los neutros. Cada número tiene un opuesto. Juntos, vuelven al cero. En el producto, la pareja es el recíproco. Siete y un séptimo vuelven al uno. El cero no tiene recíproco: cero por cualquier número da cero, nunca uno.
+
+Un jardín de tres metros por seis. Su área: tres por seis, dieciocho. Lo partimos en cuatro y dos metros. Doce más seis: otra vez dieciocho. Es la propiedad distributiva: el factor de afuera multiplica a cada sumando. Seis por ciento dos es seiscientos más doce. Y al revés, sirve para sacar factor común. Con estas reglas, los reales forman un campo. Una pareja para la suma, otra para el producto, y la distributiva que las une.

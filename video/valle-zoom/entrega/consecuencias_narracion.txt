@@ -1,0 +1,7 @@
+Los axiomas solo hablan de sumar y multiplicar. Todo lo demás sale de ellos. Nueve menos cuatro: desde el nueve, cuatro pasos a la izquierda. Llegamos al cinco. Es lo mismo que sumar menos cuatro. Restar es sumar el opuesto. Así se entiende restar un negativo. Quitar seis pisos de sótano es subir seis. ¿Y dividir? También se cambia por algo conocido.
+
+Doce entre tres: tres grupos iguales. Tomamos uno: cuatro. Es lo mismo que tomar un tercio de doce. Dividir es multiplicar por el recíproco. Con fracciones, se voltea la segunda. Y se multiplica: ocho quinceavos. Entre cero no se puede dividir: el cero no tiene recíproco. Cinco cajas con cero dulces cada una. En total, cero. Cualquier número por cero da cero.
+
+Ahora, ¿por qué menos por menos da más? La tabla del tres baja de a tres. Con menos tres, sube de a tres. Pasando el cero: menos por menos, más. Multiplicar por menos uno es reflejar en el cero. Dos reflejos te devuelven al principio. Cuenta los factores negativos. Si son pares, positivo; si son impares, negativo.
+
+Una igualdad es una balanza en equilibrio. Equis más siete, igual a dos más siete. Quitamos el siete de los dos lados. Sigue en equilibrio: equis es dos. Con el producto: cuatro equis, cuatro por nueve. El cuatro se cancela: equis es nueve. Pero el factor no puede ser cero: cero por dos y cero por cinco dan igual. Si un producto da cero, al menos un factor es cero. Restar es sumar el opuesto; dividir, multiplicar por el recíproco. Y de los axiomas salen los signos y la ley cancelativa.

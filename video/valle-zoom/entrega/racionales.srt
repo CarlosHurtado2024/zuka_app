@@ -1,0 +1,148 @@
+1
+00:00:00,800 --> 00:00:03,600
+Con los enteros sumamos, restamos y multiplicamos.
+
+2
+00:00:04,000 --> 00:00:06,400
+Pero falta dividir.
+
+3
+00:00:06,800 --> 00:00:09,800
+Tres panes para repartir entre cuatro amigos.
+
+4
+00:00:10,000 --> 00:00:12,400
+A nadie le toca un pan entero.
+
+5
+00:00:12,800 --> 00:00:15,400
+Partimos cada pan en cuatro partes iguales.
+
+6
+00:00:15,600 --> 00:00:18,400
+Salen doce cuartos: tres para cada amigo.
+
+7
+00:00:18,800 --> 00:00:21,600
+Tres entre cuatro da tres cuartos de pan.
+
+8
+00:00:21,800 --> 00:00:24,600
+Ni siquiera un pan entero.
+
+9
+00:00:24,800 --> 00:00:27,800
+Tres cuartos no es un entero.
+
+10
+00:00:28,000 --> 00:00:30,800
+La división se escapó de los enteros.
+
+11
+00:00:33,600 --> 00:00:36,600
+Una fracción son dos números y una raya.
+
+12
+00:00:36,800 --> 00:00:39,600
+Abajo, en cuántas partes; arriba, cuántas tomo.
+
+13
+00:00:40,000 --> 00:00:42,800
+Todas las fracciones de enteros son los racionales.
+
+14
+00:00:43,000 --> 00:00:45,800
+Se escriben con una cu: de cociente.
+
+15
+00:00:46,000 --> 00:00:49,000
+El de abajo nunca es cero:
+
+16
+00:00:49,200 --> 00:00:51,800
+repartir entre cero amigos no tiene sentido.
+
+17
+00:00:52,200 --> 00:00:55,000
+Menos dos quintos, siete medios, un medio:
+
+18
+00:00:55,200 --> 00:00:58,000
+todos son racionales. Entremos al medio.
+
+19
+00:01:01,000 --> 00:01:04,200
+Medio pan, dos cuartos y tres sextos.
+
+20
+00:01:04,400 --> 00:01:07,000
+Pintan exactamente lo mismo.
+
+21
+00:01:07,400 --> 00:01:10,400
+Son fracciones equivalentes:
+
+22
+00:01:10,600 --> 00:01:13,200
+arriba y abajo por el mismo número.
+
+23
+00:01:13,600 --> 00:01:16,400
+Los enteros también son racionales:
+
+24
+00:01:16,600 --> 00:01:19,200
+menos tres es menos tres sobre uno.
+
+25
+00:01:19,600 --> 00:01:22,400
+Bolsas, una dentro de otra:
+
+26
+00:01:22,600 --> 00:01:25,200
+naturales, enteros y racionales.
+
+27
+00:01:28,000 --> 00:01:30,800
+Para el decimal, divide arriba entre abajo.
+
+28
+00:01:31,000 --> 00:01:33,600
+Tres cuartos: cero punto setenta y cinco.
+
+29
+00:01:34,000 --> 00:01:36,800
+Dos entre once nunca termina:
+
+30
+00:01:37,000 --> 00:01:39,600
+dieciocho, dieciocho, dieciocho, sin parar.
+
+31
+00:01:40,000 --> 00:01:42,800
+Lo que se repite lleva rayita: el período.
+
+32
+00:01:43,000 --> 00:01:45,600
+Con fracciones, el decimal termina o se repite.
+
+33
+00:01:46,000 --> 00:01:48,800
+Al revés: equis es cero punto siete periódico.
+
+34
+00:01:49,000 --> 00:01:51,200
+Restamos, y las colas infinitas se cancelan.
+
+35
+00:01:51,400 --> 00:01:53,800
+Equis es siete novenos.
+
+36
+00:01:55,400 --> 00:01:59,600
+Los racionales son las fracciones de enteros.
+
+37
+00:01:59,800 --> 00:02:04,200
+Su decimal termina o se repite, y los enteros viven dentro de ellos.
+

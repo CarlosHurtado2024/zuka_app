@@ -92,10 +92,15 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   cada lección lleva al menos uno, como último ejercicio, ligado a su video y **con mecánica distinta a los demás**
   (no repetir). Hechos: Pradera de Venn → `lluvia-elementos` (arrastrar una canasta: ∈ / ∉), `revienta-globos` (tocar a
   tiempo globos con conjuntos: subconjunto, iguales, disjuntos, unitario) y `luciernagas-venn` (tocar luciérnagas cuando
-  están en la zona de la operación). Reglas: «Toca para empezar», tres vidas (`drawHearts`), sin vidas la ronda se
+  están en la zona de la operación); Valle de los Números (spec `2026-11-13-juegos-dinamicos-valle`, pruebas
+  `tests/juegos-dinamicos-valle.test.js`) → `buzo-enteros` (subir y bajar a la altura del resultado), `carrera-fracciones`
+  (tres carriles y puertas), `frena-aguja` (parar una aguja en la recta), `dispara-inverso` (apuntar a burbujas que pasan),
+  `salta-signos` (saltar según el signo) y `serpiente-orden` (comer de menor a mayor). Los del Valle usan la base común
+  `makeArcade` del kit (fases, vidas, cola de preguntas, aviso, parar al terminar). Reglas: «Toca para empezar», tres vidas (`drawHearts`), sin vidas la ronda se
   reintenta (no se pierde el ejercicio), `api.ready(true)` al terminar todas las rondas, movimiento con `p.deltaTime`
   (tope 50 ms), cartel con `drawBanner`, y `peek()` en lo que devuelve `create` para probarlos con un robot en el
-  navegador. Faltan los demás mundos.
+  navegador. Si el panel del navegador está oculto todo corre en cámara lenta: los tiempos del robot no sirven.
+  Faltan los demás mundos.
 - Registrar cada juego en `index.html` (`<script defer src="js/games/x.js">`) y en `SHELL` de `sw.js`
   (lo exige `tests/registro.test.js`).
 - Pruebas: `const { loadGame } = require('./load'); loadGame('js/games/x.js')['x']`. Los arreglos que
@@ -271,6 +276,13 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   manzanas → fila de naturales → hueco a la izquierda del 1 (termómetro 2 − 5 = −3, nacen los enteros) → el cero como
   espejo (4 y −4, mar y deuda) → ℕ ⊆ ℤ. Entregado en `Downloads/Zuka_Valle_zoom` con `.srt` y narración; espera su ID
   de Bunny (es alternativa a la versión en lápiz: el usuario elige cuál sube).
+- **Valle de los Números en zoom, lecciones 2 a 6** (mismo estilo y motor que `naturales-zoom`; un solo proyecto
+  `video/valle-zoom`, `index.html?f=<nombre>` carga `films/<nombre>.js`; `zoomkit.js` ampliado con fracciones `{fr: [n, d]}`,
+  rayita de período `{ov}` y ℚ ℝ 𝕀 ∀ ⇒; piezas comunes en `valle.js`; `sh video/valle-zoom/build.sh [nombre …]`, unos 5 min
+  cada uno, deja `out/<nombre>/`): `racionales` (`alg-11b`, 128 s), `reales` (`alg-11c`, 138 s), `campo` (`alg-12b`, 129 s),
+  `consecuencias` (`alg-12c`, 141 s), `orden` (`alg-12d`, 124 s). Mismos ejemplos que los videos actuales (las escenas de
+  respaldo siguen valiendo). Entregados en `Downloads/Zuka_Valle_zoom_2a6`; esperan su ID de Bunny: al recibirlo, cambiar
+  `clip.bunny` + `duration` de esa lección.
 - **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
   `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
   `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y

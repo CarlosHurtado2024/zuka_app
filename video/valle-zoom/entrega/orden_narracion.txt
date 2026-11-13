@@ -1,0 +1,7 @@
+Los reales, además de operarse, se ordenan. Todo empieza con los positivos. Los positivos están a la derecha del cero. Los negativos, a la izquierda. Si sumas o multiplicas dos positivos, el resultado también es positivo. Todo real es positivo, cero o negativo. Exactamente una de las tres. ¿Cómo sabemos cuál es menor?
+
+A es menor que be cuando be menos a es positivo. Menos cinco es menor que menos dos: la resta da tres: positivo. Hay cuatro signos; la punta señala al menor. Con rayita, se lee «o igual». Si Ana es más baja que Beto, y Beto que Caro, Ana es más baja que Caro.
+
+Uno es menor que cuatro. Sumamos dos a los dos lados: tres es menor que seis. Por tres, igual: tres es menor que doce. Un positivo conserva el orden. Por menos uno, cada punto salta a su reflejo. Menos uno queda a la derecha: el orden se voltea.
+
+El valor absoluto es la distancia al cero. Seis pasos a la izquierda siguen siendo seis. Si el número es positivo o cero, se queda igual. Si es negativo, se toma su opuesto. Distancia entre dos: el absoluto de su resta. Entre menos cuatro y tres hay siete. Los números a lo sumo a dos pasos del uno van de menos uno a tres: un intervalo. A es menor que be cuando be menos a es positivo. Por un negativo, el orden se voltea. Y el valor absoluto mide distancias.

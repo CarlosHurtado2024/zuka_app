@@ -1,0 +1,156 @@
+1
+00:00:00,800 --> 00:00:03,600
+Los axiomas solo hablan de sumar y multiplicar.
+
+2
+00:00:04,000 --> 00:00:06,400
+Todo lo demás sale de ellos.
+
+3
+00:00:06,800 --> 00:00:09,600
+Nueve menos cuatro: desde el nueve,
+
+4
+00:00:09,800 --> 00:00:12,400
+cuatro pasos a la izquierda. Llegamos al cinco.
+
+5
+00:00:12,800 --> 00:00:15,600
+Es lo mismo que sumar menos cuatro.
+
+6
+00:00:15,800 --> 00:00:18,200
+Restar es sumar el opuesto.
+
+7
+00:00:18,600 --> 00:00:21,400
+Así se entiende restar un negativo.
+
+8
+00:00:21,600 --> 00:00:24,400
+Quitar seis pisos de sótano es subir seis.
+
+9
+00:00:24,800 --> 00:00:29,200
+¿Y dividir? También se cambia por algo conocido.
+
+10
+00:00:32,200 --> 00:00:35,200
+Doce entre tres: tres grupos iguales.
+
+11
+00:00:35,400 --> 00:00:38,200
+Tomamos uno: cuatro.
+
+12
+00:00:38,600 --> 00:00:41,600
+Es lo mismo que tomar un tercio de doce.
+
+13
+00:00:41,800 --> 00:00:44,400
+Dividir es multiplicar por el recíproco.
+
+14
+00:00:44,800 --> 00:00:47,600
+Con fracciones, se voltea la segunda.
+
+15
+00:00:47,800 --> 00:00:50,600
+Y se multiplica: ocho quinceavos.
+
+16
+00:00:51,000 --> 00:00:53,800
+Entre cero no se puede dividir:
+
+17
+00:00:54,000 --> 00:00:56,600
+el cero no tiene recíproco.
+
+18
+00:00:57,000 --> 00:01:00,000
+Cinco cajas con cero dulces cada una.
+
+19
+00:01:00,200 --> 00:01:03,200
+En total, cero. Cualquier número por cero da cero.
+
+20
+00:01:06,400 --> 00:01:09,400
+Ahora, ¿por qué menos por menos da más?
+
+21
+00:01:09,600 --> 00:01:12,400
+La tabla del tres baja de a tres.
+
+22
+00:01:12,800 --> 00:01:15,600
+Con menos tres, sube de a tres.
+
+23
+00:01:15,800 --> 00:01:18,400
+Pasando el cero: menos por menos, más.
+
+24
+00:01:18,800 --> 00:01:21,800
+Multiplicar por menos uno es reflejar en el cero.
+
+25
+00:01:22,000 --> 00:01:24,600
+Dos reflejos te devuelven al principio.
+
+26
+00:01:25,000 --> 00:01:28,800
+Cuenta los factores negativos.
+
+27
+00:01:29,000 --> 00:01:32,600
+Si son pares, positivo; si son impares, negativo.
+
+28
+00:01:35,800 --> 00:01:38,800
+Una igualdad es una balanza en equilibrio.
+
+29
+00:01:39,000 --> 00:01:41,800
+Equis más siete, igual a dos más siete.
+
+30
+00:01:42,200 --> 00:01:44,800
+Quitamos el siete de los dos lados.
+
+31
+00:01:45,000 --> 00:01:47,400
+Sigue en equilibrio: equis es dos.
+
+32
+00:01:47,800 --> 00:01:50,600
+Con el producto: cuatro equis, cuatro por nueve.
+
+33
+00:01:50,800 --> 00:01:53,400
+El cuatro se cancela: equis es nueve.
+
+34
+00:01:53,800 --> 00:01:56,600
+Pero el factor no puede ser cero:
+
+35
+00:01:56,800 --> 00:01:59,400
+cero por dos y cero por cinco dan igual.
+
+36
+00:01:59,800 --> 00:02:02,600
+Si un producto da cero,
+
+37
+00:02:02,800 --> 00:02:05,600
+al menos un factor es cero.
+
+38
+00:02:07,000 --> 00:02:11,400
+Restar es sumar el opuesto; dividir, multiplicar por el recíproco.
+
+39
+00:02:11,600 --> 00:02:16,000
+Y de los axiomas salen los signos y la ley cancelativa.
+

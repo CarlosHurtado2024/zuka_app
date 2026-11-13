@@ -1,0 +1,132 @@
+1
+00:00:00,800 --> 00:00:03,600
+Los reales, además de operarse, se ordenan.
+
+2
+00:00:04,000 --> 00:00:06,400
+Todo empieza con los positivos.
+
+3
+00:00:06,800 --> 00:00:09,600
+Los positivos están a la derecha del cero.
+
+4
+00:00:09,800 --> 00:00:12,400
+Los negativos, a la izquierda.
+
+5
+00:00:12,800 --> 00:00:15,600
+Si sumas o multiplicas dos positivos,
+
+6
+00:00:15,800 --> 00:00:18,400
+el resultado también es positivo.
+
+7
+00:00:18,800 --> 00:00:21,600
+Todo real es positivo, cero o negativo.
+
+8
+00:00:21,800 --> 00:00:24,400
+Exactamente una de las tres.
+
+9
+00:00:24,800 --> 00:00:28,800
+¿Cómo sabemos cuál es menor?
+
+10
+00:00:31,600 --> 00:00:34,600
+A es menor que be
+
+11
+00:00:34,800 --> 00:00:37,600
+cuando be menos a es positivo.
+
+12
+00:00:38,000 --> 00:00:41,000
+Menos cinco es menor que menos dos:
+
+13
+00:00:41,200 --> 00:00:44,000
+la resta da tres: positivo.
+
+14
+00:00:44,400 --> 00:00:47,200
+Hay cuatro signos; la punta señala al menor.
+
+15
+00:00:47,400 --> 00:00:50,000
+Con rayita, se lee «o igual».
+
+16
+00:00:50,400 --> 00:00:53,400
+Si Ana es más baja que Beto, y Beto que Caro,
+
+17
+00:00:53,600 --> 00:00:56,200
+Ana es más baja que Caro.
+
+18
+00:00:59,400 --> 00:01:02,400
+Uno es menor que cuatro.
+
+19
+00:01:02,600 --> 00:01:06,600
+Sumamos dos a los dos lados: tres es menor que seis.
+
+20
+00:01:07,000 --> 00:01:09,800
+Por tres, igual: tres es menor que doce.
+
+21
+00:01:10,000 --> 00:01:12,600
+Un positivo conserva el orden.
+
+22
+00:01:13,000 --> 00:01:16,200
+Por menos uno, cada punto salta a su reflejo.
+
+23
+00:01:16,400 --> 00:01:19,400
+Menos uno queda a la derecha: el orden se voltea.
+
+24
+00:01:23,200 --> 00:01:26,200
+El valor absoluto es la distancia al cero.
+
+25
+00:01:26,400 --> 00:01:29,400
+Seis pasos a la izquierda siguen siendo seis.
+
+26
+00:01:29,800 --> 00:01:32,600
+Si el número es positivo o cero, se queda igual.
+
+27
+00:01:32,800 --> 00:01:35,400
+Si es negativo, se toma su opuesto.
+
+28
+00:01:35,800 --> 00:01:38,800
+Distancia entre dos: el absoluto de su resta.
+
+29
+00:01:39,000 --> 00:01:41,600
+Entre menos cuatro y tres hay siete.
+
+30
+00:01:42,000 --> 00:01:45,000
+Los números a lo sumo a dos pasos del uno
+
+31
+00:01:45,200 --> 00:01:48,800
+van de menos uno a tres: un intervalo.
+
+32
+00:01:50,200 --> 00:01:54,600
+A es menor que be cuando be menos a es positivo.
+
+33
+00:01:54,800 --> 00:01:59,400
+Por un negativo, el orden se voltea. Y el valor absoluto mide distancias.
+

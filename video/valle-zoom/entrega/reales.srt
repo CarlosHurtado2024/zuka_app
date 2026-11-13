@@ -1,0 +1,152 @@
+1
+00:00:00,800 --> 00:00:03,600
+Hasta ahora, todo número era una fracción.
+
+2
+00:00:04,000 --> 00:00:06,400
+Hagamos un experimento.
+
+3
+00:00:06,800 --> 00:00:09,600
+Dos cuadritos, cada uno de área uno.
+
+4
+00:00:09,800 --> 00:00:12,400
+Queremos un solo cuadrado de área dos.
+
+5
+00:00:12,800 --> 00:00:15,400
+Cortamos cada uno por su diagonal.
+
+6
+00:00:15,600 --> 00:00:18,200
+Y con las cuatro mitades armamos uno nuevo.
+
+7
+00:00:18,600 --> 00:00:21,400
+Su área es dos, como los dos cuadritos.
+
+8
+00:00:21,600 --> 00:00:24,400
+Pero, ¿cuánto mide su lado?
+
+9
+00:00:24,800 --> 00:00:29,200
+Un número que, multiplicado por sí mismo, dé dos.
+
+10
+00:00:32,400 --> 00:00:35,400
+Uno por uno da uno: muy poco.
+
+11
+00:00:35,600 --> 00:00:38,600
+Dos por dos da cuatro: demasiado.
+
+12
+00:00:39,000 --> 00:00:42,200
+Uno punto cuatro queda corto; uno punto cinco, se pasa.
+
+13
+00:00:42,400 --> 00:00:45,000
+Con dos cifras, lo mismo.
+
+14
+00:00:45,400 --> 00:00:48,400
+Ninguna fracción al cuadrado da exactamente dos.
+
+15
+00:00:48,600 --> 00:00:51,400
+Es un número nuevo: la raíz de dos.
+
+16
+00:00:51,800 --> 00:00:54,600
+Su decimal nunca termina y nunca se repite.
+
+17
+00:00:54,800 --> 00:00:57,400
+Es irracional, como raíz de tres o pi.
+
+18
+00:01:00,600 --> 00:01:03,600
+Una rueda de un metro de ancho.
+
+19
+00:01:03,800 --> 00:01:06,600
+Da una vuelta completa.
+
+20
+00:01:07,000 --> 00:01:10,000
+Avanza un poco más de tres metros.
+
+21
+00:01:10,200 --> 00:01:13,200
+Esa distancia es pi: tres punto catorce, y sigue.
+
+22
+00:01:13,600 --> 00:01:16,600
+Pi tampoco es una fracción.
+
+23
+00:01:16,800 --> 00:01:19,400
+Los irracionales salen en diagonales y curvas.
+
+24
+00:01:22,200 --> 00:01:25,200
+Este es el mapa de los números.
+
+25
+00:01:25,400 --> 00:01:28,200
+Racionales a un lado, irracionales al otro.
+
+26
+00:01:28,600 --> 00:01:31,400
+Juntos forman los números reales.
+
+27
+00:01:31,600 --> 00:01:34,200
+Se escriben con una erre de doble trazo.
+
+28
+00:01:34,600 --> 00:01:37,400
+Un número es fracción, o no lo es.
+
+29
+00:01:37,600 --> 00:01:40,200
+Los dos grupos no comparten nada.
+
+30
+00:01:40,600 --> 00:01:43,400
+Ocho, menos seis, menos tres séptimos…
+
+31
+00:01:43,600 --> 00:01:46,200
+cada uno en su bolsa más pequeña.
+
+32
+00:01:48,200 --> 00:01:51,000
+Los reales llenan toda la recta.
+
+33
+00:01:51,200 --> 00:01:54,000
+A cada punto le corresponde un número real.
+
+34
+00:01:54,400 --> 00:01:57,200
+Entre dos reales distintos siempre cabe otro:
+
+35
+00:01:57,400 --> 00:02:00,200
+por ejemplo, el de la mitad.
+
+36
+00:02:00,600 --> 00:02:04,200
+Y entre esos, otro más. Nunca se acaba.
+
+37
+00:02:05,400 --> 00:02:09,800
+Los reales son racionales e irracionales juntos.
+
+38
+00:02:10,000 --> 00:02:14,400
+No comparten ningún número, y llenan toda la recta.
+

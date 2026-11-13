@@ -1,0 +1,20 @@
+Valle de los Números en zoom — videos de las lecciones alg-11b, alg-11c, alg-12b, alg-12c y alg-12d de Zuka, Valle de los Números (estilo «Scale Zoom Explainer» de Lemo-Opuscar)
+
+IMÁGENES
+- Ninguna. Todo es SVG dibujado en código (film.js). Sin fotos, sin imágenes generadas, sin modelos 3D.
+
+MOTOR
+- flat.js (paleta y dibujo plano) y orbi.js (la guía con lente) vienen de la demo del estilo «Scale Zoom Explainer»
+  de Lemo-Opuscar (github.com/lemomo-ai/lemo-opuscar), licencia MIT. films/*.js, valle.js y zoomkit.js (sacado de ../naturales-zoom) son propios.
+
+LETRA
+- Jost, de Owen Earl (indestructible type*), SIL Open Font License 1.1; texto en fonts/Jost-OFL.txt.
+  No va en git: build.sh la descarga de github.com/google/fonts. Los signos ℕ, ℤ, ℚ, ℝ, 𝕀, ∀, ⇒, ∈, ∉, ⊆, ∪ y ∩ se dibujan en código.
+
+SONIDO
+- Muestras (CC0 1.0): VS Chamber Orchestra: Community Edition y Versilian Community Sample Library (Versilian
+  Studios) — marimba, xilófono, glockenspiel, vibráfono (baqueta y arco), arpa y contrabajo en pizzicato.
+- Efectos: sintetizados en mix.py con core/audio/sfx.py de Lemo-Opuscar.
+
+CONTENIDO
+- Manual de Álgebra y Trigonometría, UdeA (Zarrazola, 2024), §1.1 Sistemas numéricos y §1.2 Axiomas de campo y de orden.

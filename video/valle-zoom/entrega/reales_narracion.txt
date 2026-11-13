@@ -1,0 +1,9 @@
+Hasta ahora, todo número era una fracción. Hagamos un experimento. Dos cuadritos, cada uno de área uno. Queremos un solo cuadrado de área dos. Cortamos cada uno por su diagonal. Y con las cuatro mitades armamos uno nuevo. Su área es dos, como los dos cuadritos. Pero, ¿cuánto mide su lado? Un número que, multiplicado por sí mismo, dé dos.
+
+Uno por uno da uno: muy poco. Dos por dos da cuatro: demasiado. Uno punto cuatro queda corto; uno punto cinco, se pasa. Con dos cifras, lo mismo. Ninguna fracción al cuadrado da exactamente dos. Es un número nuevo: la raíz de dos. Su decimal nunca termina y nunca se repite. Es irracional, como raíz de tres o pi.
+
+Una rueda de un metro de ancho. Da una vuelta completa. Avanza un poco más de tres metros. Esa distancia es pi: tres punto catorce, y sigue. Pi tampoco es una fracción. Los irracionales salen en diagonales y curvas.
+
+Este es el mapa de los números. Racionales a un lado, irracionales al otro. Juntos forman los números reales. Se escriben con una erre de doble trazo. Un número es fracción, o no lo es. Los dos grupos no comparten nada. Ocho, menos seis, menos tres séptimos… cada uno en su bolsa más pequeña.
+
+Los reales llenan toda la recta. A cada punto le corresponde un número real. Entre dos reales distintos siempre cabe otro: por ejemplo, el de la mitad. Y entre esos, otro más. Nunca se acaba. Los reales son racionales e irracionales juntos. No comparten ningún número, y llenan toda la recta.
