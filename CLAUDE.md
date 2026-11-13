@@ -76,7 +76,7 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   (anime.js 3.2.2 en `js/vendor/anime.min.js`; sin anime o con «reducir movimiento» pone el valor final).
   Piezas de dibujo de los videos, al final de `kit.js`: `drawTile` (ficha con relieve; negativos coral, cero sol),
   `drawSlot`, `drawKicker` (rótulo con barrita), `drawPill`, `drawDot`, `drawNumLine`, `shade`. Cambian alineación,
-  estilo y relleno: volver a fijarlos después. **Álgebra U1 y el mundo de Razones y porcentajes ya están rediseñados con ellas**; faltan las demás unidades.
+  estilo y relleno: volver a fijarlos después. **Álgebra U0 (Conjuntos), U1 y el mundo de Razones y porcentajes ya están rediseñados con ellas**; faltan las demás unidades.
 - `mountSketch(host, (p, size) => {...}, aspecto)`; solo escribir `mousePressed/Dragged/Released`
   (los toques se enlazan solos). `p.onResize` para reacomodar.
 - **Celular angosto** (spec `2026-11-12-juegos-algebra-u1-u3-calidad`, pruebas `tests/juegos-celular.test.js`): el lienzo

@@ -50,8 +50,9 @@ GAMES['tacha-repetidos'] = (() => {
         // La palabra, letra por letra
         cells.forEach((b, i) => {
           const off = cr.includes(i), ch = r.word[i], dupLeft = !off && [...r.word].some((c, j) => j !== i && c === ch && !cr.includes(j));
-          p.stroke(off ? C.line : dupLeft && !locked ? C.N : C.R); p.strokeWeight(2); p.fill(off ? C.bg : C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-          p.noStroke(); p.fill(off ? C.mute : C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.textSize(Math.min(24, b.w * 0.6));
+          // Letra en ficha crema; color sol si todavía está repetida; tachada, queda la casilla punteada.
+          if (off) drawSlot(p, C, b, 8); else drawTile(p, C, b, '', { fill: dupLeft && !locked ? C.sun : C.cream, r: 8, lift: 2 });
+          p.noStroke(); p.fill(off ? C.mute : inkOn(C.cream, C.ink)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.textSize(Math.min(24, b.w * 0.6));
           p.text(ch, b.x + b.w / 2, b.y + b.h / 2 + 1);
           if (off) { p.stroke(C.bad); p.strokeWeight(3); p.line(b.x + 6, b.y + b.h - 6, b.x + b.w - 6, b.y + 6); }
         });

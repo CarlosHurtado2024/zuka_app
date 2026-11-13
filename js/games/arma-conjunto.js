@@ -57,21 +57,20 @@ GAMES['arma-conjunto'] = (() => {
         p.fill(C.ink); p.textSize(14); p.textAlign(p.CENTER, p.CENTER);
         fitText(p, r.text, W / 2, bag.y - 16, W - 28, 14);
         // Caja con llaves
-        p.noFill(); p.stroke(locked ? (ok ? C.ok : C.bad) : C.R); p.strokeWeight(2); p.rect(bag.x, bag.y, bag.w, bag.h, 12);
+        p.fill(C.card); p.stroke(locked ? (ok ? C.ok : C.bad) : C.R); p.strokeWeight(2.5); p.rect(bag.x, bag.y, bag.w, bag.h, 16);
         p.noStroke(); p.fill(C.R); p.textSize(36); p.textStyle(p.NORMAL); p.text('{', bag.x + 14, bag.y + bag.h / 2 - 2); p.text('}', bag.x + bag.w - 14, bag.y + bag.h / 2 - 2);
         const inside = pool.filter(x => pk.includes(x));
         p.fill(inside.length ? C.ink : C.mute); p.textStyle(p.BOLD);
         fitText(p, inside.length ? inside.join(', ') : (touched[cur] ? '∅' : 'vacía'), W / 2, bag.y + bag.h / 2, bag.w - 60, 18);
         // Vaciar
-        p.stroke(locked ? C.line : C.brand); p.strokeWeight(1.5); p.fill(C.card); p.rect(clear.x, clear.y, clear.w, clear.h, 8);
-        p.noStroke(); p.fill(locked ? C.mute : C.brand); p.textSize(13); p.text('∅ Vaciar', clear.x + clear.w / 2, clear.y + clear.h / 2 + 1);
+        drawTile(p, C, clear, '∅ Vaciar', { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, r: 8, lift: 2, size: 13 });
         p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.LEFT, p.CENTER);
         p.text(`n = ${inside.length}`, 14, clear.y + clear.h / 2);
         // Fichas
         tray.forEach((b, i) => {
           const on = pk.includes(pool[i]);
-          p.stroke(on ? C.brand : locked ? C.line : C.mute); p.strokeWeight(on ? 2.5 : 1.5); p.fill(on ? C.card : C.bg); p.rect(b.x, b.y, b.w, b.h, 9);
-          p.noStroke(); p.fill(on ? C.brand : C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, pool[i], b.x + b.w / 2, b.y + b.h / 2 + 1, b.w - 8, 14);
+          // Ficha crema; la que ya entró a las llaves queda color sol y hundida.
+          drawTile(p, C, b, pool[i], on ? { fill: C.sun, r: 9, lift: 1, size: 14, ring: locked ? null : C.sun } : { r: 9, lift: 2, size: 14 });
         });
         if (locked && !ok) { p.noStroke(); p.fill(C.ok); p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.CENTER, p.CENTER); fitText(p, `Por ejemplo: ${listText(r.example || [])}`, W / 2, H - 12, W - 24, 12); }
       };

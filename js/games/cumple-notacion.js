@@ -53,16 +53,15 @@ GAMES['cumple-notacion'] = (() => {
           p.fill(C.ink); p.text(sentence(tok, r.set, r.inside[k]), x + 16, y);
         });
         // Bolsa
-        p.stroke(locked ? (good(ins, r) ? C.ok : C.bad) : C.R); p.strokeWeight(3); p.fill(tint(C.R, 35));
+        p.stroke(locked ? (good(ins, r) ? C.ok : C.bad) : C.sky); p.strokeWeight(3); p.fill(tint(C.sky, 80));
         p.ellipse(bag.x, bag.y, 2 * bag.rx, 2 * bag.ry);
-        p.noStroke(); p.fill(C.R); p.textStyle(p.BOLD); p.textSize(22); p.textAlign(p.LEFT, p.CENTER);
+        p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(22); p.textAlign(p.LEFT, p.CENTER);
         p.text(r.set, bag.x - bag.rx * 0.72, bag.y - bag.ry * 0.62);
         // Fichas
         r.tokens.forEach((tok, k) => {
           const s = spots[k], pt = ins[k] ? s.inn : s.out, bad = locked && ins[k] !== r.inside[k];
-          p.stroke(bad ? C.bad : ins[k] ? C.R : C.mute); p.strokeWeight(1.8); p.fill(C.card);
-          p.rect(pt.x - s.w / 2, pt.y - 15, s.w, 30, 9);
-          p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, tok, pt.x, pt.y + 1, s.w - 8, 14);
+          // Ficha crema afuera, color sol adentro del conjunto; roja si quedó mal al calificar.
+          drawTile(p, C, { x: pt.x - s.w / 2, y: pt.y - 15, w: s.w, h: 30 }, tok, { fill: bad ? C.bad : ins[k] ? C.sun : C.cream, r: 9, lift: 2, size: 14 });
         });
         p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
       };

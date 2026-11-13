@@ -61,8 +61,9 @@ GAMES['fabrica-subconjuntos'] = (() => {
           p.text(subsetText(r.elements, slots[j]), b.x + 10, b.y + 14);
           b.chips.forEach((c, k) => {
             const on = slots[j][k];
-            p.stroke(on ? C.brand : C.line); p.strokeWeight(1.5); p.fill(on ? C.brand : C.bg); p.rect(c.x, c.y, c.w, c.h, 8);
-            p.noStroke(); p.fill(on ? C.bg : C.mute); p.textAlign(p.CENTER, p.CENTER); p.textSize(13); p.text(r.elements[k], c.x + c.w / 2, c.y + c.h / 2 + 1);
+            // Elemento encendido: ficha color sol; apagado: casilla punteada con la letra en gris.
+            if (on) drawTile(p, C, c, r.elements[k], { fill: C.sun, r: 8, lift: 2, size: 13 });
+            else { drawSlot(p, C, c, 8); p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(r.elements[k], c.x + c.w / 2, c.y + c.h / 2 + 1); }
           });
         });
         p.noStroke(); p.textAlign(p.CENTER, p.CENTER); p.textSize(11);

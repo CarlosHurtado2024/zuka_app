@@ -47,8 +47,8 @@ GAMES['encuesta-venn'] = (() => {
         p.text(r.text, 14, 46, W - 28, 64);
         const { box, ca, cb } = venn;
         p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(box.x, box.y, box.w, box.h, 12);
-        p.stroke(C.Z); p.strokeWeight(2.5); p.fill(tint(C.Z, 40)); p.circle(ca.x, ca.y, 2 * venn.r);
-        p.stroke(C.I); p.fill(tint(C.I, 40)); p.circle(cb.x, cb.y, 2 * venn.r);
+        p.stroke(C.sky); p.strokeWeight(3); p.fill(tint(C.sky, 95)); p.circle(ca.x, ca.y, 2 * venn.r);
+        p.stroke(C.coral); p.fill(tint(C.coral, 95)); p.circle(cb.x, cb.y, 2 * venn.r);
         p.noStroke(); p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.CENTER, p.CENTER);
         p.fill(C.Z); fitText(p, r.labels[0], ca.x - venn.r * 0.35, ca.y - venn.r * 1.08, venn.r * 1.3, 12);
         p.fill(C.I); fitText(p, r.labels[1], cb.x + venn.r * 0.35, cb.y - venn.r * 1.08, venn.r * 1.3, 12);
@@ -56,11 +56,11 @@ GAMES['encuesta-venn'] = (() => {
         ctrls.forEach((k, i) => {
           const bad = locked && cnt[i] !== t[i];
           p.noStroke(); p.fill(bad ? C.bad : locked ? C.ok : C.ink); p.textStyle(p.BOLD); p.textSize(20); p.textAlign(p.CENTER, p.CENTER);
-          p.text(cnt[i], k.c.x, k.c.y - 6);
+          if (locked) drawPill(p, C, String(cnt[i]), k.c.x, k.c.y - 6, bad ? C.bad : C.ok, 17);   // al calificar, en píldora: se lee sobre cualquier círculo
+          else p.text(cnt[i], k.c.x, k.c.y - 6);
           if (i === 3) { p.fill(C.mute); p.textSize(12); p.textStyle(p.NORMAL); p.textAlign(p.RIGHT, p.CENTER); p.text('fuera de los dos:', k.minus.x - 8, k.c.y - 6); p.textAlign(p.CENTER, p.CENTER); }
           [[k.minus, '−'], [k.plus, '+']].forEach(([b, s]) => {
-            p.stroke(locked ? C.line : C.brand); p.strokeWeight(1.2); p.fill(C.bg); p.rect(b.x, b.y, b.w, b.h, 6);
-            p.noStroke(); p.fill(locked ? C.mute : C.brand); p.textSize(15); p.textStyle(p.BOLD); p.text(s, b.x + b.w / 2, b.y + b.h / 2);
+            drawTile(p, C, b, s, { fill: locked ? C.card : C.cream, ink: locked ? C.mute : undefined, r: 6, lift: 2, size: 15 });   // crema: el azul se perdía sobre el círculo A
           });
         });
         // Sumas en vivo

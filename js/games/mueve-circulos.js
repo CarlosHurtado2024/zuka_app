@@ -60,12 +60,12 @@ GAMES['mueve-circulos'] = (() => {
         // Universo y círculos
         p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(box.x, box.y, box.w, box.h, 12);
         p.noStroke(); p.fill(C.mute); p.textSize(12); p.textAlign(p.LEFT, p.TOP); p.text('U', box.x + 8, box.y + 6);
-        p.stroke(C.Z); p.strokeWeight(3); p.fill(tint(C.Z, 50)); p.circle(c.x, c.y, 2 * rA);
+        p.stroke(C.sky); p.strokeWeight(3); p.fill(tint(C.sky, 110)); p.circle(c.x, c.y, 2 * rA);
         const bx = c.x + ps[0] * rA, by = c.y + ps[1] * rA, rb = r.rB * rA;
-        p.stroke(locked ? (good(st.pos[cur], r) ? C.ok : C.bad) : C.I); p.strokeWeight(3); p.fill(tint(C.I, 60)); p.circle(bx, by, 2 * rb);
+        p.stroke(locked ? (good(st.pos[cur], r) ? C.ok : C.bad) : C.coral); p.strokeWeight(3); p.fill(tint(C.coral, 120)); p.circle(bx, by, 2 * rb);
         p.noStroke(); p.textStyle(p.BOLD); p.textSize(18); p.textAlign(p.CENTER, p.CENTER);
-        p.fill(C.Z); p.text('A', c.x - rA * 0.7, c.y - rA * 0.7);
-        p.fill(C.I); p.text('B', bx + rb * 0.55, by - rb * 0.55);
+        drawPill(p, C, 'A', c.x - rA * 0.7, c.y - rA * 0.7, C.sky, 14);
+        drawPill(p, C, 'B', bx + rb * 0.55, by - rb * 0.55, C.coral, 14);
         // La notación de lo dibujado
         p.fill(C.ink); p.textSize(14);
         fitText(p, st.pos[cur] ? `Dibujaste: ${TXT[rel]}` : 'Arrastra el círculo B', W / 2, H - 30, W - 28, 14);

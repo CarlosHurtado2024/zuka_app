@@ -74,16 +74,14 @@ GAMES['arma-notacion'] = (() => {
         p.fill(labels.length ? C.ink : C.mute);
         fitText(p, text || 'Toca las fichas en orden', W / 2, board.y + board.h / 2, board.w - 20, labels.length ? 22 : 13);
         // Borrar
-        p.stroke(locked ? C.line : C.brand); p.strokeWeight(1.5); p.fill(C.card); p.rect(back.x, back.y, back.w, back.h, 8);
-        p.noStroke(); p.fill(locked ? C.mute : C.brand); p.textSize(15); p.text('⌫', back.x + back.w / 2, back.y + back.h / 2 + 1);
+        drawTile(p, C, back, '⌫', { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, r: 8, lift: 2, size: 15 });
         p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.LEFT, p.CENTER);
         fitText(p, 'Las fichas se pueden usar varias veces', 14, back.y + back.h / 2, back.x - 24, 11);
         // Fichas
         chipBoxes.forEach((b, i) => {
           const lab = r.chips[i], sym = SYMS.includes(lab);
-          p.stroke(locked ? C.line : sym ? C.R : C.mute); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 9);
-          p.noStroke(); p.fill(sym ? C.R : C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-          fitText(p, lab, b.x + b.w / 2, b.y + b.h / 2 + 1, b.w - 8, sym ? 20 : 15);
+          // Fichas crema; los signos de la notación ({ } , …), color sol.
+          drawTile(p, C, b, lab, { fill: sym ? C.sun : C.cream, r: 9, lift: 2, size: sym ? 20 : 15 });
         });
         p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.CENTER, p.CENTER);
         if (locked && !ok) { p.fill(C.ok); fitText(p, `Así: ${setText(r)}`, W / 2, H - 12, W - 24, 12); }

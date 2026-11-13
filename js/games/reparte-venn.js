@@ -67,9 +67,10 @@ GAMES['reparte-venn'] = (() => {
         const { box, ca, cb } = venn;
         p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(box.x, box.y, box.w, box.h, 12);
         p.noStroke(); p.fill(C.mute); p.textSize(12); p.textAlign(p.LEFT, p.TOP); p.text('U', box.x + 8, box.y + 6);
-        p.stroke(C.Z); p.strokeWeight(2.5); p.fill(tint(C.Z, 40)); p.circle(ca.x, ca.y, 2 * venn.r);
-        p.stroke(C.I); p.fill(tint(C.I, 40)); p.circle(cb.x, cb.y, 2 * venn.r);
+        p.stroke(C.sky); p.strokeWeight(3); p.fill(tint(C.sky, 95)); p.circle(ca.x, ca.y, 2 * venn.r);
+        p.stroke(C.coral); p.fill(tint(C.coral, 95)); p.circle(cb.x, cb.y, 2 * venn.r);
         p.noStroke(); p.textStyle(p.BOLD); p.textSize(15);
+        // Letras sueltas (no píldoras): ahí mismo caen los elementos que van fuera de los dos conjuntos.
         p.fill(C.Z); p.text('A', ca.x - venn.r * 0.75, ca.y - venn.r * 0.95);
         p.fill(C.I); p.text('B', cb.x + venn.r * 0.6, cb.y - venn.r * 0.95);
         // Elementos puestos
@@ -78,15 +79,15 @@ GAMES['reparte-venn'] = (() => {
           idx.forEach((i, k) => {
             const pt = slotPoint(zone, k, idx.length), bad = locked && target[i] !== zone;
             p.noStroke(); p.fill(bad ? C.bad : C.ink); p.textStyle(p.BOLD); p.textSize(15); p.textAlign(p.CENTER, p.CENTER);
-            p.text(r.U[i], pt.x, pt.y);
+            if (bad) drawPill(p, C, r.U[i], pt.x, pt.y, C.bad, 13);   // el que quedó mal, en píldora roja: sobre el círculo coral el rojo solo no se ve
+            else p.text(r.U[i], pt.x, pt.y);
           });
         }
         // Bandeja
         tray.forEach((b, i) => {
           const placed = z[i] != null;
-          if (placed) { p.noFill(); p.stroke(C.line); p.strokeWeight(1); p.drawingContext.setLineDash([3, 4]); p.rect(b.x, b.y, b.w, b.h, 8); p.drawingContext.setLineDash([]); return; }
-          p.stroke(sel === i ? C.brand : C.mute); p.strokeWeight(sel === i ? 2.5 : 1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, r.U[i], b.x + b.w / 2, b.y + b.h / 2 + 1, b.w - 4, 15);
+          if (placed) { drawSlot(p, C, b, 8); return; }
+          drawTile(p, C, b, r.U[i], { fill: sel === i ? C.sun : C.cream, r: 8, lift: 2, size: 15, ring: sel === i ? C.sun : null });
         });
         p.noStroke(); p.textSize(11); p.textStyle(p.NORMAL); p.fill(C.mute);
         const msg = sel >= 0 ? `Ahora toca la zona donde va ${r.U[sel]}` : 'Toca un elemento y luego su zona';
