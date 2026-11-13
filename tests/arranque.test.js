@@ -46,7 +46,7 @@ test('la app quita la portada al estar lista y hay un respaldo si el JS falla', 
   assert.match(app, /function hideBoot\(/);
   assert.match(app, /document\.fonts\.load\(/, 'pide la fuente de la app, no solo fonts.ready');
   const boot = app.slice(app.indexOf('// ---- arranque'));
-  assert.ok(boot.indexOf('Promise.race(') < boot.lastIndexOf("go('learn')"), 'la espera se arma antes de pintar, por si go falla');
+  assert.ok(boot.indexOf('Promise.race(') < boot.lastIndexOf('go(tabFromURL('),'la espera se arma antes de pintar, por si go falla');
   assert.match(index, /setTimeout\(function \(\) \{[^}]*getElementById\('boot'\)/, 'respaldo en línea que la quita');
 });
 

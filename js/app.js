@@ -728,7 +728,9 @@ const fontsReady = document.fonts?.load
 Promise.race([fontsReady, new Promise(r => setTimeout(r, 300))])
   .then(() => requestAnimationFrame(() => requestAnimationFrame(hideBoot)));
 applyTheme();
-go('learn');
+go(tabFromURL(location.search));   // los atajos del icono instalado abren ?tab=clips, etc. (js/pwa.js)
+watchConnection(window, document.body, toast);
+if (isStandalone()) keepData(navigator);   // instalada: que el navegador no borre el progreso
 setupBack();   // botón «atrás» del celular (js/back.js)
 // Primera vez en la app: recorrido guiado (js/tour.js).
 if (tourShouldStart(S)) startTour();
