@@ -162,32 +162,37 @@ function syncMuteBtn(btn, muted) {
   btn.classList.toggle('is-muted', muted);
 }
 
-// Botón de velocidad de reproducción (se recuerda entre videos).
+// Piñón de ajustes: velocidad (se recuerda entre videos) y, con Bunny, calidad, en un solo menú.
 const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+const GEAR_ICON = `<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`;
 const SPEED_UI = `<div class="v-speed">
-    <button class="v-q-btn" type="button" aria-haspopup="true" aria-label="Velocidad de reproducción">1x</button>
-    <div class="v-q-menu" role="menu" hidden></div>
+    <button class="v-gear" type="button" aria-haspopup="true" aria-label="Ajustes del video">${GEAR_ICON}</button>
+    <div class="v-q-menu" role="menu" hidden>
+      <p class="v-set-h">Velocidad <span class="v-speed-now"></span></p>
+      <div class="v-set-row v-speed-list"></div>
+      <div class="v-quality" hidden>
+        <p class="v-set-h">Calidad <span class="v-q-now"></span></p>
+        <div class="v-set-row v-q-list"></div>
+      </div>
+    </div>
   </div>`;
 
 function attachSpeed(el, apply) {
-  const wrap = el.querySelector('.v-speed'), btn = wrap.querySelector('.v-q-btn'), menu = wrap.querySelector('.v-q-menu');
+  const wrap = el.querySelector('.v-speed'), btn = wrap.querySelector('.v-gear'), menu = wrap.querySelector('.v-q-menu');
+  const list = wrap.querySelector('.v-speed-list');
   const render = () => {
     const cur = S.videoSpeed || 1;
-    btn.textContent = `${cur}x`;
-    menu.querySelectorAll('button').forEach(b => b.classList.toggle('on', Number(b.dataset.r) === cur));
+    wrap.querySelector('.v-speed-now').textContent = cur === 1 ? 'Normal' : `${cur}x`;
+    list.querySelectorAll('button').forEach(b => b.classList.toggle('on', Number(b.dataset.r) === cur));
   };
-  menu.innerHTML = SPEEDS.map(r => `<button type="button" data-r="${r}">${r === 1 ? 'Normal (1x)' : `${r}x`}</button>`).join('');
+  list.innerHTML = SPEEDS.map(r => `<button type="button" data-r="${r}">${r}x</button>`).join('');
   wrap.addEventListener('click', e => e.stopPropagation());
-  btn.addEventListener('click', () => {
-    el.querySelectorAll('.v-q-menu').forEach(m => { if (m !== menu) m.hidden = true; });
-    menu.hidden = !menu.hidden;
-  });
-  menu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+  btn.addEventListener('click', () => { menu.hidden = !menu.hidden; });
+  list.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
     S.videoSpeed = Number(b.dataset.r);
     save();
     apply(S.videoSpeed);
     render();
-    menu.hidden = true;
   }));
   render();
   apply(S.videoSpeed || 1);
@@ -265,11 +270,7 @@ class VideoClip {
     el.style.setProperty('--c', course.color);
     el.innerHTML = `<video playsinline preload="metadata"${opts.feed && base ? ` poster="${esc(base)}/thumbnail.jpg"` : ''}></video>
       <div class="clip-loading" role="status" aria-label="Cargando video"><i></i></div>
-      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}${MUTE_BTN}${SPEED_UI}
-      <div class="v-quality" hidden>
-        <button class="v-q-btn" type="button" aria-haspopup="true">Auto</button>
-        <div class="v-q-menu" role="menu" hidden></div>
-      </div>`;
+      <div class="clip-play">${ICON.play}</div>${VIDEO_UI}${MUTE_BTN}${SPEED_UI}`;
     host.appendChild(el);
     this.v = el.querySelector('video');
     this.muteBtn = el.querySelector('.v-mute');
@@ -305,12 +306,6 @@ class VideoClip {
       this.v.muted = !this.v.muted;
       S.videoMuted = this.v.muted;
       save();
-    });
-    el.querySelector('.v-quality').addEventListener('click', e => e.stopPropagation());
-    el.querySelector('.v-quality .v-q-btn').addEventListener('click', () => {
-      const menu = el.querySelector('.v-quality .v-q-menu');
-      el.querySelectorAll('.v-q-menu').forEach(m => { if (m !== menu) m.hidden = true; });
-      menu.hidden = !menu.hidden;
     });
     el.addEventListener('click', () => this.toggle());
     if (/\.m3u8($|\?)/.test(src)) this.attachHls(src); else this.v.src = src;
@@ -360,14 +355,13 @@ class VideoClip {
     if (!this.levels.length) return;
     const maxIndex = Math.max(...this.levels.map(l => l.index));
     this.hls.autoLevelCapping = maxIndex;
-    const menu = this.el.querySelector('.v-quality .v-q-menu');
-    menu.innerHTML = [`<button type="button" data-q="auto">Automática</button>`,
+    const menu = this.el.querySelector('.v-quality .v-q-list');
+    menu.innerHTML = [`<button type="button" data-q="auto">Auto</button>`,
       ...this.levels.map(l => `<button type="button" data-q="${l.height}">${l.height}p</button>`)].join('');
     menu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
       S.videoQuality = b.dataset.q === 'auto' ? 'auto' : Number(b.dataset.q);
       save();
       this.applyQuality();
-      menu.hidden = true;
     }));
     this.applyQuality();
     this.el.querySelector('.v-quality').hidden = this.levels.length < 2;
@@ -384,8 +378,8 @@ class VideoClip {
     const auto = this.hls.autoLevelEnabled;
     const level = this.hls.levels[this.hls.currentLevel];
     const now = level && this.qualityOf(level);
-    this.el.querySelector('.v-quality .v-q-btn').textContent = auto ? `Auto${now ? ` · ${now}p` : ''}` : `${now}p`;
-    this.el.querySelectorAll('.v-quality .v-q-menu button').forEach(b => {
+    this.el.querySelector('.v-quality .v-q-now').textContent = auto ? `Auto${now ? ` · ${now}p` : ''}` : `${now}p`;
+    this.el.querySelectorAll('.v-quality .v-q-list button').forEach(b => {
       b.classList.toggle('on', auto ? b.dataset.q === 'auto' : Number(b.dataset.q) === now);
     });
   }

@@ -306,27 +306,34 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 .v-mute .i { width: 24px; height: 24px; }
 .v-mute.is-muted { background: rgba(0, 0, 0, .7); box-shadow: 0 0 0 2px rgba(255, 255, 255, .55); }
 
-/* Botón de calidad (videos de Bunny) */
-.v-quality { position: absolute; right: 12px; bottom: 58px; z-index: 6; }
+/* Piñón de ajustes (velocidad y calidad), redondo como el de sonido y justo debajo de él. */
 .v-quality[hidden], .v-q-menu[hidden] { display: none; }
-/* Velocidad: encima del botón de calidad */
-.v-speed { position: absolute; right: 12px; bottom: 104px; z-index: 6; }
-/* En el feed, sonido y velocidad van en la columna del riel (encima de «Me gusta»), fuera del texto del video. */
-.clip.in-feed .v-speed { right: 12px; bottom: 226px; }
+.v-speed { position: absolute; right: 12px; bottom: 100px; z-index: 6; }
+/* En el feed, sonido y ajustes van en la columna del riel (encima de «Me gusta»), fuera del texto del video. */
+.clip.in-feed .v-speed { right: 8px; bottom: 216px; }
 .clip.in-feed .v-mute { right: 8px; bottom: 268px; }
-.v-q-btn {
-  padding: 8px 12px; border-radius: 999px; background: rgba(0, 0, 0, .6); color: #fff;
-  font-size: 13px; font-weight: 800;
+.v-gear {
+  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(0, 0, 0, .55); color: #fff; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: transform .12s;
 }
+.v-gear:active { transform: scale(.92); }
+.v-gear .i { width: 24px; height: 24px; }
 .v-q-menu {
-  position: absolute; right: 0; bottom: calc(100% + 8px); min-width: 140px; padding: 6px; border-radius: 14px;
-  background: rgba(12, 15, 31, .95); border: 1px solid rgba(255, 255, 255, .12); display: grid; gap: 2px;
+  position: absolute; right: calc(100% + 8px); bottom: 0; width: min(232px, calc(100vw - 96px)); padding: 10px;
+  border-radius: 14px; background: rgba(12, 15, 31, .95); border: 1px solid rgba(255, 255, 255, .12);
+  display: grid; gap: 6px; color: #fff;
 }
-.v-q-menu button { padding: 9px 12px; border-radius: 10px; text-align: left; color: #fff; font-size: 14px; font-weight: 700; }
-.v-q-menu button:hover { background: rgba(255, 255, 255, .08); }
+.v-set-h { margin: 0; font-size: 12px; font-weight: 800; color: rgba(255, 255, 255, .7); }
+.v-set-h span { color: #fff; }
+.v-set-row { display: flex; flex-wrap: wrap; gap: 4px; }
+.v-quality { display: grid; gap: 6px; margin-top: 4px; }
+.v-q-menu button {
+  padding: 6px 9px; border-radius: 999px; color: #fff; font-size: 13px; font-weight: 700;
+  background: rgba(255, 255, 255, .08);
+}
+.v-q-menu button:hover { background: rgba(255, 255, 255, .16); }
 .v-q-menu button.on { background: var(--brand); }
-.clip.in-feed .v-quality { right: 76px; }
-.v-quality { bottom: 56px; }
 
 /* ---------- controles de video: adelantar ---------- */
 .seek {
@@ -355,8 +362,7 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
 /* En Clips, al pausar vuelve el menú: los controles de abajo suben para quedar sobre él. */
 body[data-tab=clips] .clip.in-feed.paused .seek { bottom: calc(var(--tabbar-h, 0px) + 2px); }
 body[data-tab=clips] .clip.is-video.in-feed.paused .seek-time { bottom: calc(var(--tabbar-h, 0px) + 32px); }
-body[data-tab=clips] .clip.in-feed.paused .v-quality { bottom: calc(var(--tabbar-h, 0px) + 56px); }
-body[data-tab=clips] .clip.in-feed .seek, body[data-tab=clips] .clip.in-feed .seek-time, body[data-tab=clips] .clip.in-feed .v-quality { transition: bottom .25s; }
+body[data-tab=clips] .clip.in-feed .seek, body[data-tab=clips] .clip.in-feed .seek-time { transition: bottom .25s; }
 
 /* ---------- lección: clip a pantalla completa ---------- */
 .clip-close, .clip-skip { display: none; }
