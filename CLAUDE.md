@@ -101,7 +101,11 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   pruebas `tests/juegos-dinamicos-razones.test.js`) → `sirve-la-razon` (mantener presionado para servir y soltar),
   `corta-proporciones` (cortar fichas al vuelo con el dedo), `resortera-tres` (estirar y soltar), `caja-veloz` (teclado
   numérico contra la paciencia del cliente), `vuela-precios` (volar a toques por el aro correcto) y `rompe-cambios`
-  (paleta y pelota; la pelota sale al soltar el dedo). Los del Valle y los de Razones usan la base común
+  (paleta y pelota; la pelota sale al soltar el dedo). Progresiones y sumatoria (spec
+  `2026-11-13-juegos-dinamicos-progresiones`, pruebas `tests/juegos-dinamicos-progresiones.test.js`) → `traza-progresion`
+  (trazar un camino por los términos mientras una mecha lo quema), `encesta-suma` (lanzar un balón deslizando el dedo),
+  `dobla-fichas` (tablero tipo 2048 con razón 2; una sola vida), `rana-zenon` (saltos que se achican y banderas; una garza
+  la persigue) y `maquina-sigma` (arrastrar de una cinta el término de cada k). Los del Valle, los de Razones y los de Progresiones usan la base común
   `makeArcade` del kit (fases, vidas, cola de preguntas, aviso, parar al terminar). Reglas: «Toca para empezar», tres vidas (`drawHearts`), sin vidas la ronda se
   reintenta (no se pierde el ejercicio), `api.ready(true)` al terminar todas las rondas, movimiento con `p.deltaTime`
   (tope 50 ms), cartel con `drawBanner`, y `peek()` en lo que devuelve `create` para probarlos con un robot en el

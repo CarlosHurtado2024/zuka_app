@@ -17,8 +17,8 @@ function strings(v, out = []) {
   return out;
 }
 
-test('alg-15: siete ejercicios, todos juegos', () => {
-  assert.equal(lesson.ex.length, 7);
+test('alg-15: ocho ejercicios, todos juegos', () => {
+  assert.equal(lesson.ex.length, 8);
   assert.ok(lesson.ex.every(e => e.type === 'play'));
 });
 
