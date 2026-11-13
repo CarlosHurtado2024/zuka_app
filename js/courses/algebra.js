@@ -58,9 +58,10 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-0b', title: 'Tipos de conjuntos y relaciones entre ellos',
-          // Video V2 (video/clase_alg_u0_v2_tipos) en Bunny; las escenas son el respaldo.
-          clip: { bunny: 'f56e026e-8127-40d7-b344-14eb34e91fad', duration: 226, scenes: [
-            sc(6, 'El conjunto **vacío** no tiene elementos: $\\varnothing = \\{\\ \\}$. Un conjunto **unitario** tiene uno solo.', { steps: ['$\\{x : x \\text{ es la capital de Colombia}\\} = \\{\\text{Bogotá}\\}$', '$\\{\\varnothing\\}$ no es vacío: tiene un elemento'] }),
+          // Video zoom (video/conjunto-zoom-2, 118 s) en Bunny desde el 2026-11-13; reemplaza al V2 de manimgl
+          // (video/clase_alg_u0_v2_tipos, id f56e026e-…). Las escenas son el respaldo, con sus mismos ejemplos.
+          clip: { bunny: 'de65d162-7fbd-459c-ad71-64f76941ee15', duration: 118, scenes: [
+            sc(6, 'El conjunto **vacío** no tiene elementos: $\\varnothing = \\{\\ \\}$. Un conjunto **unitario** tiene uno solo.', { steps: ['Los meses de 32 días: $\\varnothing$', '$\\{x : x \\text{ es la capital de Colombia}\\} = \\{\\text{Bogotá}\\}$', '$\\{\\varnothing\\}$ no es vacío: tiene un elemento'] }),
             sc(6, '$B \\subseteq A$ (subconjunto) cuando todo elemento de $B$ está en $A$. El vacío es subconjunto de todo conjunto.', { title: '$\\{a, e, i, o, u\\} \\subseteq \\{\\text{letras}\\}$' }),
             sc(6, 'Dos conjuntos son **iguales** si tienen los mismos elementos, y **disjuntos** si no comparten ninguno.', { steps: ['Letras de AMOR = letras de ROMA', 'frutas y herramientas: disjuntos'] }),
             sc(6, 'Con los toppings fresa, mora y coco hay 8 combinaciones posibles, desde ninguno hasta los tres: el **conjunto de partes**.', { title: '$P(\\{f, m, c\\})$' }),
@@ -98,9 +99,10 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-0c', title: 'Operaciones entre conjuntos',
-          // Video V3 (video/clase_alg_u0_v3_operaciones) en Bunny; las escenas son el respaldo.
-          clip: { bunny: '06ed782c-e7dd-49e7-abba-fcfb38ee41f6', duration: 181, scenes: [
-            sc(6, 'En un **diagrama de Venn** cada conjunto es un círculo dentro del universo $U$; lo común va donde se cruzan.', { steps: ['$A$: juegan fútbol · $B$: tocan un instrumento'] }),
+          // Video zoom (video/conjunto-zoom-3, 120 s) en Bunny desde el 2026-11-13; reemplaza al V3 de manimgl
+          // (video/clase_alg_u0_v3_operaciones, id 06ed782c-…). Las escenas son el respaldo, con sus mismos ejemplos.
+          clip: { bunny: '099c6af5-9a75-470c-bf20-7c1aa88f7268', duration: 120, scenes: [
+            sc(6, 'En un **diagrama de Venn** cada conjunto es un círculo dentro del universo $U$; lo común va donde se cruzan.', { steps: ['$U$: siete amigos en el patio', '$A$: juegan fútbol · $B$: tocan un instrumento'] }),
             sc(6, '**Unión** («o»): está en $A$ o en $B$. **Intersección** («y»): está en los dos.', { title: '$A \\cup B \\qquad A \\cap B$' }),
             sc(6, '**Diferencia** («pero no»), **complemento** («no está») y **diferencia simétrica** («en uno solo»).', { title: '$A - B \\qquad A^c \\qquad A \\,\\triangle\\, B$' }),
             sc(6, 'Para contar la unión, lo común se cuenta una sola vez.', { title: '$n(A \\cup B) = n(A) + n(B) - n(A \\cap B)$' }),
