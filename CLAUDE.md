@@ -96,7 +96,8 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   tiempo globos con conjuntos: subconjunto, iguales, disjuntos, unitario) y `luciernagas-venn` (tocar luciérnagas cuando
   están en la zona de la operación); Valle de los Números (spec `2026-11-13-juegos-dinamicos-valle`, pruebas
   `tests/juegos-dinamicos-valle.test.js`) → `buzo-enteros` (subir y bajar a la altura del resultado), `carrera-fracciones`
-  (tres carriles y puertas), `frena-aguja` (parar una aguja en la recta), `dispara-inverso` (apuntar a burbujas que pasan),
+  (tres carriles y puertas; racha con turbo, ayuda tras fallar con `helpOf` y meta) y `frena-aguja` (parar una aguja en la
+  recta; estrellas por puntería y lupa de décimas al acertar; ambos mejorados en la spec `2026-11-14-mejoras-carrera-y-aguja`), `dispara-inverso` (apuntar a burbujas que pasan),
   `salta-signos` (saltar según el signo) y `serpiente-orden` (comer de menor a mayor). Razones, proporciones y porcentajes (spec `2026-11-13-juegos-dinamicos-razones`,
   pruebas `tests/juegos-dinamicos-razones.test.js`) → `sirve-la-razon` (mantener presionado para servir y soltar),
   `corta-proporciones` (cortar fichas al vuelo con el dedo), `resortera-tres` (estirar y soltar), `caja-veloz` (teclado

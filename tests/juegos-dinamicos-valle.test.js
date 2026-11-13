@@ -72,6 +72,47 @@ test('carrera-fracciones (alg-11b): la opción marcada vale lo mismo que la preg
   }
 });
 
+// Mejoras (spec 2026-11-14-mejoras-carrera-y-aguja): ayuda tras fallar y turbo por racha.
+test('carrera-fracciones: valor de un texto, ayuda que no regala el resultado y turbo por racha', () => {
+  const g = G('carrera-fracciones');
+  assert.equal(g.valueOf('1/4'), 0.25);
+  assert.equal(g.valueOf('−6/3'), -2);
+  assert.equal(g.valueOf('0.125'), 0.125);
+  assert.equal(g.helpOf({ ask: '1/4', options: ['0.25', '0.4', '1.4'], answer: 0 }), '1/4 es 1 ÷ 4');
+  assert.equal(g.helpOf({ ask: '−6/3', options: ['−2', '2', '−3'], answer: 0 }), '−6/3 es −6 ÷ 3');
+  const h9 = g.helpOf({ ask: '0.9', options: ['9/10', '1/9', '9/100'], answer: 0 });
+  assert.ok(/décimas/.test(h9) && !/9 décimas/.test(h9), 'si la respuesta es 9/10, la ayuda no cuenta las décimas');
+  assert.equal(g.helpOf({ ask: '0.2', options: ['1/5', '2/1', '1/2'], answer: 0 }), '0.2 son 2 décimas');
+  assert.ok(!/cero|\b0 ÷/.test(g.helpOf({ ask: '0/5', options: ['0', '5', '1/5'], answer: 0 })), 'con 0/5 no dice «cero»');
+  assert.equal(g.helpOf({ ask: '0.125', options: ['1/8', '1/25', '12/5'], answer: 0 }), '0.125 son 125 milésimas');
+  assert.equal(g.helpOf({ ask: '1.5', options: ['3/2', '1/5', '15/100'], answer: 0 }), '1.5 son 15 décimas');
+  assert.match(g.helpOf({ ask: '12/18', options: ['2/3', '18/12', '1/6'], answer: 0 }), /arriba y abajo/);
+  assert.equal(g.turbo(0), 1);
+  assert.ok(g.turbo(3) > g.turbo(1) && g.turbo(1) > 1);
+  assert.equal(g.turbo(50), g.turbo(5), 'la racha tiene tope');
+  assert.ok(g.turbo(50) <= 1.5);
+});
+
+test('carrera-fracciones (alg-11b): la ayuda de cada pregunta existe y no trae la respuesta', () => {
+  const g = GAMES['carrera-fracciones'];
+  for (const r of paramsOf('alg-11b').rounds) for (const it of r.items) {
+    const h = g.helpOf(it);
+    assert.ok(h.length > 8, it.ask);
+    assert.ok(!h.split(/[\s,]+/).includes(it.options[it.answer]), `${it.ask}: «${h}» trae la respuesta`);
+  }
+});
+
+test('frena-aguja: estrellas según la puntería y enteros que encierran al número', () => {
+  const g = G('frena-aguja');
+  assert.equal(g.starsOf(0.02, 0.2), 3);
+  assert.equal(g.starsOf(0.1, 0.2), 2);
+  assert.equal(g.starsOf(0.19, 0.2), 1);
+  assert.equal(g.starsOf(0.25, 0.2), 0);
+  assert.equal(g.bracket(2.646).join(), '2,3');
+  assert.equal(g.bracket(-2.236).join(), '-3,-2');
+  assert.equal(g.bracket(3.1416).join(), '3,4');
+});
+
 // ---------- frena-aguja ----------
 test('frena-aguja: la aguja va y vuelve por la recta, y acierta dentro de la tolerancia', () => {
   const g = G('frena-aguja');
