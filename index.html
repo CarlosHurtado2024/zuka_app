@@ -22,21 +22,7 @@
       document.documentElement.dataset.theme = t;
     })();
   </script>
-  <style>html{background:#0c0f1f}html[data-theme="light"]{background:#f5f7fc}#boot{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1000;display:grid;place-items:center;background:#0c0f1f;transition:opacity .25s ease-out}html[data-theme="light"] #boot{background:#f5f7fc}@media (display-mode:standalone){#boot,html[data-theme="light"] #boot{background:#ffffff}}#boot.out{opacity:0;pointer-events:none}</style>
-  <style>
-    /* Animación de entrada dentro de la portada: letras de «Zuka» que saltan y símbolos que laten. */
-    .bt{display:grid;justify-items:center;gap:14px;color:#eef0ff;font:800 54px/1 'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:-.02em}
-    html[data-theme="light"] .bt{color:#0b1533}
-    @media (display-mode:standalone){.bt,html[data-theme="light"] .bt{color:#0b1533}}
-    .bt-w span{display:inline-block;opacity:0;animation:bt-in .5s cubic-bezier(.3,1.6,.5,1) forwards}
-    .bt-w span:nth-child(2){animation-delay:.08s}.bt-w span:nth-child(3){animation-delay:.16s}.bt-w span:nth-child(4){animation-delay:.24s;color:#3d7bff}
-    .bt-s{display:flex;gap:12px;font-size:18px}
-    .bt-s i{font-style:normal;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;color:#0b1533;opacity:0;animation:bt-in .4s ease-out forwards,bt-pulse 1.2s ease-in-out infinite}
-    .bt-s i:nth-child(1){background:#ffc53d;animation-delay:.4s,.8s}.bt-s i:nth-child(2){background:#ff7a6b;animation-delay:.5s,1s}.bt-s i:nth-child(3){background:#2fd68f;animation-delay:.6s,1.2s}
-    @keyframes bt-in{from{opacity:0;transform:translateY(18px) scale(.8)}to{opacity:1;transform:none}}
-    @keyframes bt-pulse{0%,100%{transform:none}50%{transform:translateY(-6px)}}
-    @media (prefers-reduced-motion:reduce){.bt-w span,.bt-s i{animation:none;opacity:1}}
-  </style>
+  <style>html{background:#0c0f1f}html[data-theme="light"]{background:#f5f7fc}#boot{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1000;display:grid;place-items:center;background:#0c0f1f;transition:opacity .15s ease-out}html[data-theme="light"] #boot{background:#f5f7fc}@media (display-mode:standalone){#boot,html[data-theme="light"] #boot{background:#ffffff}}#boot.out{opacity:0;pointer-events:none}</style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Jost:wght@400;700&display=swap">
@@ -225,7 +211,7 @@
 <body data-tab="learn">
   <!-- Portada: cubre la app mientras se arma y luego se desvanece. En la app instalada es blanca como la
        pantalla de inicio de Android y no lleva icono propio (uno distinto al de Android parece que salta). -->
-  <div id="boot" aria-hidden="true"><div class="bt"><span class="bt-w"><span>Z</span><span>u</span><span>k</span><span>a</span></span><span class="bt-s"><i>+</i><i>×</i><i>π</i></span></div></div>
+  <div id="boot" aria-hidden="true"></div>
   <script>setTimeout(function () { var b = document.getElementById('boot'); if (b) b.remove(); }, 6000);</script>
   <div id="app">
     <header id="topbar"></header>

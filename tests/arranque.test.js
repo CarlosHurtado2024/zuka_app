@@ -42,20 +42,17 @@ test('la portada solo se desvanece: nada se mueve ni cambia de tamaño', () => {
   assert.doesNotMatch(inline, /scale|@keyframes|transform|transition:[^;}]*(width|height|transform)/);
 });
 
-test('la portada trae una animación corta de entrada, sin imagen y respetando «reducir movimiento»', () => {
-  const boot = index.slice(index.indexOf('id="boot"'), index.indexOf('id="app"'));
-  assert.match(boot, /class="bt-w"><span>Z<\/span><span>u<\/span><span>k<\/span><span>a<\/span>/);
-  assert.match(index, /@keyframes bt-in/);
-  assert.match(index, /prefers-reduced-motion:reduce\)\{\.bt-w span,\.bt-s i\{animation:none;opacity:1\}/);
-  assert.match(index, /@media \(display-mode:standalone\)\{\.bt,html\[data-theme="light"\] \.bt\{color:#0b1533\}/, 'texto oscuro sobre la portada blanca de la app instalada');
-  const min = Number((app.match(/BOOT_MIN_MS = (\d+)/) || [])[1]);
-  assert.ok(min >= 600 && min <= 1200, 'se deja ver la animación sin hacer esperar de más');
-});
-
 test('la app quita la portada al estar lista y hay un respaldo si el JS falla', () => {
   assert.match(app, /function hideBoot\(/);
   assert.match(app, /document\.fonts\.load\(/, 'pide la fuente de la app, no solo fonts.ready');
   const boot = app.slice(app.indexOf('// ---- arranque'));
   assert.ok(boot.indexOf('Promise.race(') < boot.lastIndexOf("go('learn')"), 'la espera se arma antes de pintar, por si go falla');
   assert.match(index, /setTimeout\(function \(\) \{[^}]*getElementById\('boot'\)/, 'respaldo en línea que la quita');
+});
+
+test('la app abre rápido: la portada no espera la fuente más de 300 ms y se va en 0.15 s', () => {
+  const cap = Number((app.match(/Promise\.race\(\[fontsReady, new Promise\(r => setTimeout\(r, (\d+)\)\)\]\)/) || [])[1]);
+  assert.ok(cap > 0 && cap <= 300, `espera máxima por la fuente: ${cap} ms`);
+  assert.ok(inline.includes('transition:opacity .15s'), 'desvanecido corto');
+  assert.doesNotMatch(app, /BOOT_MIN_MS/, 'sin tiempo mínimo de portada');
 });
