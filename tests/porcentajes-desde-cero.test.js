@@ -11,6 +11,8 @@ const uses = (l, n) => l.ex.filter(e => e.game === n);
 const IDS = ['alg-13', 'alg-13c', 'alg-13d'];
 const strings = (v, out = []) => { if (typeof v === 'string') out.push(v); else if (v && typeof v === 'object') Object.values(v).forEach(x => strings(x, out)); return out; };
 
+const NUEVOS = { 'alg-13': 'a0e8be95-b8d7-4d9b-99ed-dc2af4c1f630', 'alg-13c': '280b42b6-7fdb-4fe0-a6c4-e1b0f3de9158', 'alg-13d': '8be7aaf7-3780-49a9-a74c-7b088c31682a' };
+
 test('pinta-personas: se pintan justo las personas del porcentaje', () => {
   const g = G['pinta-personas'];
   const P = { rounds: [{ total: 20, pct: 35, what: 'usan gafas' }, { total: 8, pct: 12.5, what: 'x' }] };
@@ -44,7 +46,7 @@ test('porcentajes: cada lección con su video (escenas) y luego juegos con pista
   for (const id of IDS) {
     const l = lesson(id);
     for (const n of need[id]) assert.ok(uses(l, n).length, `${id} sin ${n}`);
-    assert.ok(l.clip.scenes.length >= 3 && !l.clip.bunny, `${id}: escenas de respaldo y sin el video viejo`);
+    assert.ok(l.clip.scenes.length >= 3 && NUEVOS[id] === l.clip.bunny, `${id}: escenas de respaldo y su video nuevo de Bunny`);
     assert.ok(!l.more || !l.more.length, `${id}: un solo video`);
     l.ex.forEach((e, i) => {
       assert.ok(typeof e.hint === 'string' && e.hint.length > 20, `${id} ejercicio ${i} sin pista`);

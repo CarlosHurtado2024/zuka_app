@@ -10,6 +10,8 @@ const lesson = id => alg.units.flatMap(u => u.lessons).find(l => l.id === id);
 const uses = (l, n) => l.ex.filter(e => e.game === n);
 const close = (a, b) => Math.abs(a - b) < 1e-9;
 
+const NUEVOS = { 'alg-12': '0ef9a94d-cd4c-400e-9e07-672775506036', 'alg-12e': '3ef56e47-d0c4-45da-b464-5b59d09b840b', 'alg-12f': 'd7dcc920-e7a7-4a4e-8120-18afe4820519' };
+
 test('bolsa-razon: la bolsa tiene justo las bolas de cada color que pide la ronda', () => {
   const g = G['bolsa-razon'];
   const P = { max: 20, rounds: [{ text: '', red: 12, blue: 8 }, { text: '', red: 9, blue: 6 }] };
@@ -60,7 +62,7 @@ test('razones: tres lecciones, cada una con su video (escenas) y luego sus juego
     const l = lesson(id);
     for (const n of games) assert.ok(uses(l, n).length, `${id} sin ${n}`);
     assert.ok(l.clip.scenes.length >= 3, `${id}: escenas de respaldo`);
-    assert.ok(!l.clip.bunny, `${id}: el video viejo de Bunny ya no va`);
+    assert.equal(l.clip.bunny, NUEVOS[id], `${id}: su video nuevo de Bunny`);
     assert.ok(!l.more || !l.more.length, `${id}: un solo video`);
     assert.ok(l.ex.length >= 5, `${id}: pocos ejercicios`);
     l.ex.forEach((e, i) => {

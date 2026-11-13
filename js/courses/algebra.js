@@ -623,7 +623,7 @@ const COURSE_ALGEBRA = {
           id: 'alg-12', title: 'Razones: comparar dividiendo',
           // Parte 1 de razones y proporciones (spec 2026-11-11-razones-desde-cero): video R1
           // (video/clase_alg_u2_r1_razones). Escenas de respaldo hasta tener su ID de Bunny. Reemplaza a la Clase 2, A3 y E3.
-          clip: { scenes: [
+          clip: { bunny: '0ef9a94d-cd4c-400e-9e07-672775506036', duration: 123, scenes: [
             sc(6, 'Dos cantidades se comparan **restando** (cuánto más hay) o **dividiendo** (cuántas veces cabe una en la otra). La **razón** compara dividiendo.', { title: '$a : b = \\dfrac{a}{b}$', steps: ['12 y 4: $12 - 4 = 8$ de diferencia, pero $\\tfrac{12}{4} = 3$ veces'] }),
             sc(6, '$a : b$ se lee «$a$ es a $b$». El orden importa (la división no conmuta) y $b$ no puede ser 0.', { steps: ['18 niñas y 12 niños: $18 : 12 = 3 : 2$', 'Por cada 3 niñas hay 2 niños'] }),
             sc(6, 'Razones **equivalentes**: se multiplican o se dividen los dos términos por el mismo número, como las fracciones. Sumar lo mismo a los dos **cambia** la razón.', { steps: ['$3 : 2 = 6 : 4$, pero $3 : 2 \\ne 4 : 3$'] }),
@@ -668,7 +668,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-12e', title: 'Proporciones y magnitudes proporcionales',
           // Parte 2 (spec 2026-11-11-razones-desde-cero): video R2 (video/clase_alg_u2_r2_proporciones). Escenas de respaldo.
-          clip: { scenes: [
+          clip: { bunny: '3ef56e47-d0c4-45da-b464-5b59d09b840b', duration: 129, scenes: [
             sc(6, 'Una **proporción** es la igualdad de dos razones: «$a$ es a $b$ como $c$ es a $d$». $a$ y $d$ son los **extremos**; $b$ y $c$, los **medios**.', { title: '$\\dfrac{a}{b} = \\dfrac{c}{d}$', steps: ['$\\dfrac{4}{6} = \\dfrac{10}{15}$: las dos valen $\\tfrac23$'] }),
             sc(6, 'Propiedad fundamental: producto de extremos = producto de medios. Con ella se halla un término desconocido.', { title: '$\\dfrac{a}{b} = \\dfrac{c}{d} \\iff ad = bc$', steps: ['$\\dfrac{x}{8} = \\dfrac{9}{12} \\Rightarrow 12x = 72 \\Rightarrow x = 6$'] }),
             sc(6, '**Directamente proporcionales**: el cociente $y/x$ es constante y la gráfica es una recta por el origen. **Inversamente**: el producto $xy$ es constante y la gráfica es una curva.', { steps: ['$y = kx \\qquad xy = k$'] }),
@@ -718,7 +718,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-12f', title: 'Regla de tres simple y compuesta',
           // Parte 3 (spec 2026-11-11-razones-desde-cero): video R3 (video/clase_alg_u2_r3_regla_tres). Escenas de respaldo.
-          clip: { scenes: [
+          clip: { bunny: 'd7dcc920-e7a7-4a4e-8120-18afe4820519', duration: 135, scenes: [
             sc(6, 'La **regla de tres** resuelve una proporción con tres datos conocidos. Se arma una tabla: una columna por magnitud y una fila por situación.', { steps: ['4 kg cuestan 10 000; ¿cuánto cuestan 7 kg?'] }),
             sc(6, '**Directa**: si una magnitud crece, la otra también. Se reduce a la unidad o se igualan los cocientes.', { steps: ['1 kg: $10\\,000 \\div 4 = 2\\,500$', '7 kg: $7 \\cdot 2\\,500 = 17\\,500$'] }),
             sc(6, '**Inversa**: si una crece, la otra decrece; lo que se conserva es el **producto**.', { steps: ['Comida para 8 personas 15 días: $8 \\cdot 15 = 120$', '12 personas: $12x = 120 \\Rightarrow x = 10$ días'] }),
@@ -766,7 +766,7 @@ const COURSE_ALGEBRA = {
           id: 'alg-13', title: 'Porcentajes: qué son y cómo se calculan',
           // Parte 1 de porcentajes (spec 2026-11-11-porcentajes-desde-cero): video C1 (video/clase_alg_u2_c1_porcentajes).
           // Escenas de respaldo hasta tener su ID de Bunny. Reemplaza a los dos videos viejos de porcentajes y descuentos.
-          clip: { scenes: [
+          clip: { bunny: 'a0e8be95-b8d7-4d9b-99ed-dc2af4c1f630', duration: 123, scenes: [
             sc(6, '«Por ciento» quiere decir **de cada 100**. Un porcentaje es una fracción con denominador 100.', { title: '$35\\% = \\dfrac{35}{100} = 0.35$', steps: ['$\\tfrac12 = 50\\%,\\ \\tfrac14 = 25\\%,\\ \\tfrac15 = 20\\%,\\ \\tfrac1{10} = 10\\%$'] }),
             sc(6, 'Es una razón parte : todo escalada para que el todo sea 100.', { steps: ['9 de 25 usan gafas: $\\dfrac{9}{25} = \\dfrac{36}{100} = 36\\%$'] }),
             sc(6, 'La proporción $\\dfrac{\\text{parte}}{\\text{todo}} = \\dfrac{p}{100}$ responde las tres preguntas.', { steps: ['15 % de 80: $80 \\cdot 0.15 = 12$', '18 de 72: $\\tfrac{18}{72} = 0.25 = 25\\%$', '30 es el 40 % de $30 \\div 0.4 = 75$'] }),
@@ -813,7 +813,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-13c', title: 'Aumentos y descuentos',
           // Parte 2 (spec 2026-11-11-porcentajes-desde-cero): video C2 (video/clase_alg_u2_c2_aumentos). Escenas de respaldo.
-          clip: { scenes: [
+          clip: { bunny: '280b42b6-7fdb-4fe0-a6c4-e1b0f3de9158', duration: 134, scenes: [
             sc(6, 'Un descuento del 25 % deja pagar el 75 %: se multiplica por el **factor** $0.75$ (distributiva).', { title: '$60\\,000 \\cdot (1 - 0.25) = 45\\,000$' }),
             sc(6, 'Aumentar $r\\%$ es multiplicar por $1 + \\tfrac{r}{100}$; descontar, por $1 - \\tfrac{r}{100}$.', { steps: ['IVA del 19 %: $50\\,000 \\cdot 1.19 = 59\\,500$'] }),
             sc(6, 'Para volver al precio de antes se **divide** entre el factor, no se resta el porcentaje.', { steps: ['$71\\,400 \\div 1.19 = 60\\,000$'] }),
@@ -875,7 +875,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-13d', title: 'Cambios sucesivos',
           // Parte 3 (spec 2026-11-11-porcentajes-desde-cero): video C3 (video/clase_alg_u2_c3_sucesivos). Escenas de respaldo.
-          clip: { scenes: [
+          clip: { bunny: '8be7aaf7-3780-49a9-a74c-7b088c31682a', duration: 129, scenes: [
             sc(6, 'Dos descuentos seguidos **se multiplican**, no se suman. El orden no importa.', { steps: ['20 % y luego 10 %: $0.8 \\cdot 0.9 = 0.72$', 'descuento único del 28 %, no del 30 %'] }),
             sc(6, 'Subir y bajar el mismo porcentaje no deja el precio igual.', { steps: ['$+50\\%$ y $-50\\%$: $1.5 \\cdot 0.5 = 0.75$', 'tras $-20\\%$ hay que subir $25\\%$ para volver'] }),
             sc(6, 'Crecer el mismo porcentaje varias veces es una potencia del factor.', { steps: ['10 % tres años: $1.1^3 = 1.331$, es decir $+33.1\\%$'] }),
