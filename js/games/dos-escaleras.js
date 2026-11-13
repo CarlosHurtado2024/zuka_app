@@ -51,21 +51,20 @@ GAMES['dos-escaleras'] = (() => {
         // Escalera original (desde el suelo) y copia volteada (desde la tapa), translúcidas: donde se enciman se ve más oscuro
         for (let k = 0; k < r.n; k++) {
           const x = x0 + k * uw;
-          p.stroke(C.bg); p.strokeWeight(1); p.fill(p.color(C.Q + 'cc')); p.rect(x, base - t[k] * u, uw, t[k] * u);
-          p.fill(p.color(C.Z + '99')); p.rect(x, lidY, uw, t[r.n - 1 - k] * u);
+          p.stroke(C.bg); p.strokeWeight(1); p.fill(p.color(C.mint + 'CC')); p.rect(x, base - t[k] * u, uw, t[k] * u);
+          p.fill(p.color(C.sky + '99')); p.rect(x, lidY, uw, t[r.n - 1 - k] * u);
           p.noStroke(); p.fill(C.mute); p.textSize(10); p.text(t[k], x + uw / 2, base + 10);
           p.fill(C.Z); p.text(t[r.n - 1 - k], x + uw / 2, lidY - 9);
         }
         p.stroke(C.mute); p.strokeWeight(2); p.line(x0 - 8, base, x0 + r.n * uw + 8, base);
-        p.stroke(locked ? C.ok : C.brand); p.strokeWeight(3); p.line(x0 - 8, lidY, x0 + r.n * uw + 8, lidY);
+        p.stroke(locked ? C.ok : C.sun); p.strokeWeight(4); p.line(x0 - 8, lidY, x0 + r.n * uw + 8, lidY);
         if (fits) { p.noFill(); p.stroke(C.ok); p.strokeWeight(2.5); p.rect(x0, lidY, r.n * uw, h * u); }
         // Lectura y botones
         p.noStroke(); p.textAlign(p.CENTER, p.CENTER);
         const msg = fits ? `${r.n} × ${h} = ${r.n * h}, la mitad: ${(r.n * h) / 2}` : `tapa a ${h}`;
         p.fill(fits || locked ? C.ok : C.ink); p.textStyle(p.BOLD); fitText(p, msg, W / 2, H - 28, W - 132, 13);
         for (const [b, s] of [[B.minus, '−'], [B.plus, '+']]) {
-          p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 9);
-          p.noStroke(); p.fill(C.ink); p.textSize(20); p.text(s, b.x + b.w / 2, b.y + b.h / 2 - 1);
+          drawTile(p, C, b, s, { fill: C.sky, r: 9, lift: 2, size: 20 });
         }
       };
 

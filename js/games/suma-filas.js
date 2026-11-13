@@ -45,7 +45,7 @@ GAMES['suma-filas'] = (() => {
         for (let k = 0; k < st.rows; k++) {
           const n = params.first + k * params.d, y = area.y + (k + 0.5) * rowH;
           const dotW = Math.min(rowH * 0.7, (area.w - 40) / n), x0 = W / 2 - ((n - 1) * dotW) / 2;
-          p.noStroke(); p.fill(k === st.rows - 1 ? C.Q : C.Z);
+          p.noStroke(); p.fill(k === st.rows - 1 ? C.coral : C.sky);   // coral: el sol casi no se ve sobre el papel del tema claro
           for (let i = 0; i < n; i++) p.circle(x0 + i * dotW, y, Math.max(3, dotW * 0.72));
           if (rowH >= 11) { p.fill(C.mute); p.textSize(10); p.textStyle(p.NORMAL); p.textAlign(p.RIGHT, p.CENTER); p.text(n, area.x + area.w, y); }
         }
@@ -53,8 +53,7 @@ GAMES['suma-filas'] = (() => {
         p.text(`${st.rows} fila${st.rows === 1 ? '' : 's'} · ${sum} ${params.item}`, W / 2, H - 126);
         buttons.forEach(b => {
           const dim = locked || (b.v < 0 ? st.rows === 0 : st.rows >= params.max);
-          p.stroke(dim ? C.line : b.col); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 12);
-          p.noStroke(); p.fill(dim ? C.mute : b.col); p.textSize(15); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2 + 1);
+          drawTile(p, C, b, b.t, { fill: dim ? C.card : b.col, ink: dim ? C.mute : undefined, r: 12, size: 15, lift: dim ? 1 : 3 });
         });
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         const ans = answerOf(params);

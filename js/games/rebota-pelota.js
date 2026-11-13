@@ -48,22 +48,21 @@ GAMES['rebota-pelota'] = (() => {
         p.text(`Cae desde ${r.h0} cm y cada rebote sube ${r.rTex} de la altura anterior`, 14, 44, W - 28, 54);
         p.textAlign(p.CENTER, p.CENTER);
         // Suelo y caída inicial
-        p.stroke(C.mute); p.strokeWeight(2); p.line(8, ground, W - 8, ground);
+        p.stroke(C.mint); p.strokeWeight(4); p.line(8, ground, W - 8, ground);
         p.stroke(C.line); p.strokeWeight(1.5); dashed(Array.from({ length: 12 }, (_, i) => [L[0], ground - (r.h0 * v * i) / 11]));
-        p.noStroke(); p.fill(C.mute); p.circle(L[0], ground - r.h0 * v, 14);
+        p.noStroke(); p.fill(C.coral); p.circle(L[0], ground - r.h0 * v, 16);
         p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(11); p.textAlign(p.RIGHT, p.CENTER); p.text(`${r.h0}`, L[0] - 10, ground - r.h0 * v);
         p.textAlign(p.CENTER, p.CENTER);
         // Rebotes: parábolas punteadas entre los puntos de bote
         for (let k = 0; k < 3; k++) {
           const hk = hv[k] * v, a = L[k], b = L[k + 1], pts = [];
           for (let i = 0; i <= 24; i++) { const t = i / 24; pts.push([a + (b - a) * t, ground - 4 * hk * t * (1 - t)]); }
-          p.stroke(locked ? C.ok : C.Z); p.strokeWeight(1.5); dashed(pts);
-          p.noStroke(); p.fill(locked ? C.ok : C.brand); p.circle(peaks[k], ground - hk, 16);
+          p.stroke(locked ? C.ok : C.sky); p.strokeWeight(2); dashed(pts);
+          p.noStroke(); p.fill(locked ? C.ok : C.coral); p.circle(peaks[k], ground - hk, 16);
           p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(12); p.text(String(hv[k]), peaks[k], ground - hk - 16);
           p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(10); p.text(`rebote ${k + 1}`, peaks[k], ground + 10);
           for (const [bb, t] of [[btn[k].m, '−'], [btn[k].p, '+']]) {
-            p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(bb.x, bb.y, bb.w, bb.h, 8);
-            p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(17); p.text(t, bb.x + bb.w / 2, bb.y + bb.h / 2 - 1);
+            drawTile(p, C, bb, t, { fill: C.sky, r: 8, lift: 2, size: 17 });
           }
         }
         if (locked && !good) { p.noStroke(); p.fill(C.ok); p.textStyle(p.BOLD); fitText(p, `Eran ${want(r).join(', ')}`, W / 2, 106, W - 24, 12); }

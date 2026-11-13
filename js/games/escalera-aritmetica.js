@@ -48,18 +48,19 @@ GAMES['escalera-aritmetica'] = (() => {
           const x = left + (k - 1) * stepW, y = topOf(k), hgt = base - y;
           const isKnob = k === 2 && !locked;
           const col = k === params.n ? (locked ? (good ? C.ok : C.bad) : C.brand) : isKnob ? C.N : C.line;
-          p.stroke(col); p.strokeWeight(isKnob ? 3 : 1.5); p.fill(C.card); p.rect(x + 2, y, stepW - 4, Math.max(2, hgt), 4, 4, 0, 0);
+          // Peldaños rellenos: azules, el que se arrastra color sol y el último con el color del resultado.
+          const sc = k === params.n ? col : isKnob ? C.sun : C.sky;
+          p.noStroke(); p.fill(sc); p.rect(x + 2, y, stepW - 4, Math.max(2, hgt), 5, 5, 0, 0);
           p.noStroke(); p.fill(k === 2 ? C.N : C.ink); p.textAlign(p.CENTER, p.BOTTOM); p.textStyle(p.BOLD); p.textSize(stepW < 34 ? 10 : 12);
           p.text(termAt(params, d(), k), x + stepW / 2, y - 3);
           p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(10); p.textAlign(p.CENTER, p.TOP); p.text(k, x + stepW / 2, base + 4);
-          if (isKnob) { p.fill(C.N); p.textSize(12); p.textAlign(p.CENTER, p.CENTER); p.text('▲▼', x + stepW / 2, y + Math.min(18, hgt / 2)); }
+          if (isKnob) { p.fill(inkOn(C.sun, C.ink)); p.textSize(12); p.textAlign(p.CENTER, p.CENTER); p.text('▲▼', x + stepW / 2, y + Math.min(18, hgt / 2)); }
         }
-        p.stroke(C.line); p.strokeWeight(2); p.line(12, base, W - 12, base);
+        p.stroke(C.mute); p.strokeWeight(2); p.line(12, base, W - 12, base);
         p.noStroke(); p.fill(st.d === null ? C.mute : C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(16);
         p.text(st.d === null ? 'd = ?' : `d = ${st.d}`, W / 2, 56);
         buttons.forEach(b => {
-          p.stroke(locked ? C.line : b.col); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 12);
-          p.noStroke(); p.fill(locked ? C.mute : b.col); p.textSize(14); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2 + 1);
+          drawTile(p, C, b, b.t, { fill: locked ? C.card : b.col, ink: locked ? C.mute : undefined, r: 12, size: 14, lift: locked ? 1 : 3 });
         });
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL);
         p.text(locked ? (good ? '¡Escalera perfecta!' : `Era d = ${answerOf(params)}`) : 'Arrastra el segundo peldaño o usa los botones: fija la diferencia d', 12, H - 30, W - 24, 28);

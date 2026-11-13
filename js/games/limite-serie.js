@@ -41,15 +41,15 @@ GAMES['limite-serie'] = (() => {
         p.noStroke(); p.fill(C.N); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(14);
         p.text(`${params.a1} + ${fmt(params.a1 * params.r)} + ${fmt(params.a1 * params.r ** 2)} + … · ¿a qué valor se acerca la suma?`, 12, 8, W - 24, 40);
         // Recta con marcas.
-        p.stroke(C.line); p.strokeWeight(2); p.line(line.x0, line.y, line.x1, line.y);
-        for (let v = 0; v <= params.max; v += params.max / 4) { p.line(toPx(v), line.y - 6, toPx(v), line.y + 6); p.noStroke(); p.fill(C.mute); p.textSize(11); p.textAlign(p.CENTER, p.TOP); p.text(v, toPx(v), line.y + 10); p.stroke(C.line); }
+        p.stroke(C.ink); p.strokeWeight(2.5); p.line(line.x0, line.y, line.x1, line.y);
+        for (let v = 0; v <= params.max; v += params.max / 4) { p.line(toPx(v), line.y - 6, toPx(v), line.y + 6); p.noStroke(); p.fill(C.mute); p.textSize(11); p.textAlign(p.CENTER, p.TOP); p.text(v, toPx(v), line.y + 10); p.stroke(C.ink); }
         // Saltos de las sumas parciales.
         let prev = 0;
         for (let n = 1; n <= shown; n++) {
           const s = partial(n, params), x0 = toPx(prev), x1 = toPx(s), lift = Math.min(40, 12 + (x1 - x0) * 0.4);
-          p.stroke(C.Q); p.strokeWeight(2.5); p.noFill();
+          p.stroke(C.mint); p.strokeWeight(3); p.noFill();
           p.bezier(x0, line.y - 2, x0, line.y - lift, x1, line.y - lift, x1, line.y - 2);
-          p.noStroke(); p.fill(C.Q); p.circle(x1, line.y, 7);
+          p.noStroke(); p.fill(C.mint); p.circle(x1, line.y, 9);
           prev = s;
         }
         if (shown) { p.noStroke(); p.fill(C.Q); p.textSize(12); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.BOTTOM); p.text(`S${shown} = ${fmt(partial(shown, params))}`, toPx(partial(shown, params)), line.y - 44); }
@@ -62,8 +62,7 @@ GAMES['limite-serie'] = (() => {
         }
         if (locked && !good) { const x = toPx(L); p.stroke(C.ok); p.strokeWeight(2); p.drawingContext.setLineDash([4, 4]); p.line(x, line.y - 30, x, line.y + 30); p.drawingContext.setLineDash([]); p.noStroke(); p.fill(C.ok); p.textSize(12); p.textAlign(p.CENTER, p.BOTTOM); p.text(fmt(L), x, line.y - 32); }
         const dim = locked || shown >= 12;
-        p.stroke(dim ? C.line : C.Q); p.strokeWeight(2); p.fill(C.card); p.rect(btn.x, btn.y, btn.w, btn.h, 12);
-        p.noStroke(); p.fill(dim ? C.mute : C.Q); p.textSize(14); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text('+ término', btn.x + btn.w / 2, btn.y + btn.h / 2 + 1);
+        drawTile(p, C, btn, '+ término', { fill: dim ? C.card : C.mint, ink: dim ? C.mute : undefined, r: 12, size: 14, lift: dim ? 1 : 3 });
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL);
         p.text(locked ? (good ? '¡Ese es el límite!' : 'En verde, el valor al que se acerca') : 'Suma términos para ver el patrón y arrastra el marcador al límite', 12, H - 36, W - 24, 28);
       };

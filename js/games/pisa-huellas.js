@@ -49,8 +49,7 @@ GAMES['pisa-huellas'] = (() => {
       p.onResize = () => layout(size.w, size.h);
 
       function button(b, t) {
-        p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 9);
-        p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(20); p.textAlign(p.CENTER, p.CENTER); p.text(t, b.x + b.w / 2, b.y + b.h / 2 - 1);
+        drawTile(p, C, b, t, { fill: C.sky, r: 9, lift: 2, size: 20 });
       }
 
       p.draw = () => {
@@ -66,18 +65,18 @@ GAMES['pisa-huellas'] = (() => {
         if (hold && p.mouseIsPressed && !locked && p.frameCount - hold.f > 18 && p.frameCount % 4 === 0) change(ACT[hold.k]);
         const { n, lo, hi } = range(r), x0 = 16, x1 = W - 16, ly = H * 0.47;
         const X = v => x0 + ((v - lo) / (hi - lo)) * (x1 - x0);
-        p.stroke(C.mute); p.strokeWeight(2); p.line(x0, ly, x1, ly);
+        p.stroke(C.ink); p.strokeWeight(3); p.line(x0, ly, x1, ly);
         const every = hi - lo > 60 ? 10 : hi - lo > 30 ? 5 : hi - lo > 14 ? 2 : 1;
         for (let v = Math.ceil(lo); v <= hi; v++) {
           if (v % every) continue;
-          p.stroke(C.line); p.strokeWeight(1.5); p.line(X(v), ly - 4, X(v), ly + 4);
+          p.stroke(C.ink); p.strokeWeight(1.5); p.line(X(v), ly - 5, X(v), ly + 5);
           if (v % (every * 2) === 0 || every >= 5) { p.noStroke(); p.fill(C.mute); p.textSize(10); p.text(neg(v), X(v), ly + 34); }
         }
         // Banderas de los pasos conocidos
         for (const [k, v] of r.known) {
           const fx = X(v);
           p.stroke(C.ink); p.strokeWeight(1.5); p.line(fx, ly, fx, ly - 46);
-          p.noStroke(); p.fill(C.N); p.triangle(fx, ly - 46, fx + 12, ly - 42, fx, ly - 38);
+          p.noStroke(); p.fill(C.coral); p.triangle(fx, ly - 46, fx + 13, ly - 41.5, fx, ly - 37);
           p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(10); p.text(`paso ${k}`, fx, ly - 54);
         }
         // Huellas: arriba y abajo de la recta, alternadas, para que no se tapen
@@ -88,8 +87,9 @@ GAMES['pisa-huellas'] = (() => {
           if (v > hi) { right++; continue; }
           const x = X(v), up = k % 2 === 1, y = up ? ly - 16 : ly + 16;
           const hit = r.known.some(([kk, vv]) => kk === k && vv === v);
-          p.noStroke(); p.fill(hit ? C.ok : locked ? C.ok : C.brand); p.ellipse(x, y, 13, 17);
-          p.fill(C.bg); p.textStyle(p.BOLD); p.textSize(9); p.text(k, x, y + 1);
+          const fc = hit || locked ? C.ok : C.sky;   // huellas azules; verdes cuando pisan una bandera
+          p.noStroke(); p.fill(fc); p.ellipse(x, y, 14, 18);
+          p.fill(inkOn(fc, C.bg)); p.textStyle(p.BOLD); p.textSize(9); p.text(k, x, y + 1);
         }
         p.noStroke(); p.fill(C.brand); p.textStyle(p.BOLD); p.textSize(11);
         if (left) { p.triangle(x0 - 6, ly, x0 + 2, ly - 5, x0 + 2, ly + 5); p.textAlign(p.LEFT, p.CENTER); p.text(`${left} huellas`, x0, ly + 54); }

@@ -43,11 +43,13 @@ GAMES['rellena-medios'] = (() => {
       p.onResize = () => layout(size.w, size.h);
 
       function chip(b, label, col, fill = C.card, dashed = false) {
-        if (dashed) p.drawingContext.setLineDash([5, 4]);
-        p.stroke(col); p.strokeWeight(2); p.fill(fill); p.rect(b.x, b.y, b.w, b.h, 9);
-        p.drawingContext.setLineDash([]);
-        p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(b.w < 60 ? 12 : 14);
-        p.text(label, b.x + b.w / 2, b.y + b.h / 2);
+        // Hueco: casilla punteada con «?». Ficha: con relieve y relleno (crema en la bandeja, color sol ya puesta).
+        if (dashed) {
+          drawSlot(p, C, b, 9, col === C.line ? C.mute : col);
+          p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(14); p.text(label, b.x + b.w / 2, b.y + b.h / 2);
+          return;
+        }
+        drawTile(p, C, b, label, { fill: fill === C.card ? C.cream : fill, r: 9, lift: 2, size: b.w < 60 ? 12 : 14 });
       }
 
       p.draw = () => {
@@ -55,12 +57,12 @@ GAMES['rellena-medios'] = (() => {
         const want = means(params);
         p.noStroke(); p.fill(C.N); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(14);
         p.text(`${params.k} medios ${geo ? 'geométricos' : 'aritméticos'} entre ${params.first} y ${params.last}`, 12, 8, W - 24, 36);
-        p.stroke(C.line); p.strokeWeight(2); p.line(ends[0].x + ends[0].w / 2, ends[0].y + ends[0].h + 10, ends[1].x + ends[1].w / 2, ends[0].y + ends[0].h + 10);
-        chip(ends[0], params.first, C.mute); chip(ends[1], params.last, C.mute);
+        p.stroke(C.mute); p.strokeWeight(2); p.line(ends[0].x + ends[0].w / 2, ends[0].y + ends[0].h + 10, ends[1].x + ends[1].w / 2, ends[0].y + ends[0].h + 10);
+        chip(ends[0], params.first, C.mute, C.sky); chip(ends[1], params.last, C.mute, C.sky);   // los extremos, fijos, en azul
         slots.forEach((s, i) => {
           const j = st.slots[i], good = j !== null && params.chips[j] === want[i];
           const col = locked ? (good ? C.ok : C.bad) : j !== null ? C.brand : C.line;
-          if (j === null) chip(s, '?', col, C.bg, true); else chip(s, params.chips[j], col);
+          if (j === null) chip(s, '?', col, C.bg, true); else chip(s, params.chips[j], col, locked ? col : C.sun);
           if (locked && !good) { p.noStroke(); p.fill(C.ok); p.textSize(11); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.TOP); p.text(`→ ${fmt(want[i])}`, s.x + s.w / 2, s.y + s.h + 16); }
         });
         // Saltos entre casillas: «+ d» o «× r», pista visual sin el valor.
@@ -70,7 +72,7 @@ GAMES['rellena-medios'] = (() => {
         if (!locked) params.chips.forEach((v, j) => { if (placedAt(j) < 0 && !(drag && drag.j === j)) chip(tray[j], v, C.Z); });   // bloqueado, la bandeja sobra
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked ? (grade(st, params).ok ? '¡Huecos bien rellenos!' : 'Mira los valores en verde') : `Arrastra las fichas a los huecos · sobran ${params.chips.length - params.k}`, 12, H - 26, W - 24, 24);
-        if (drag) chip({ x: p.mouseX - tray[0].w / 2, y: p.mouseY - 18, w: tray[0].w, h: 36 }, params.chips[drag.j], C.brand);
+        if (drag) chip({ x: p.mouseX - tray[0].w / 2, y: p.mouseY - 18, w: tray[0].w, h: 36 }, params.chips[drag.j], C.brand, C.sun);
       };
 
       p.mousePressed = () => {

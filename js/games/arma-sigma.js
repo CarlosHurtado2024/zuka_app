@@ -50,11 +50,9 @@ GAMES['arma-sigma'] = (() => {
       p.onResize = () => layout(size.w, size.h);
 
       function chip(b, label, col, fill = C.card, dashed = false) {
-        if (dashed) p.drawingContext.setLineDash([5, 4]);
-        p.stroke(col); p.strokeWeight(2); p.fill(fill); p.rect(b.x, b.y, b.w, b.h, 9);
-        p.drawingContext.setLineDash([]);
-        p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(b.w < 70 ? 12 : 14);
-        p.text(label, b.x + b.w / 2, b.y + b.h / 2);
+        // Casilla vacía punteada, o ficha con relieve (crema en la bandeja, color sol ya puesta).
+        if (dashed) { drawSlot(p, C, b, 9, col === C.line ? C.mute : col); return; }
+        drawTile(p, C, b, label, { fill: fill === C.card ? C.cream : fill, r: 9, lift: 2, size: b.w < 70 ? 12 : 14 });
       }
 
       p.draw = () => {
@@ -63,9 +61,9 @@ GAMES['arma-sigma'] = (() => {
         tabs.forEach((t, i) => {
           const done = CELLS.every(c => st.rounds[i].cells[c] !== null);
           const good = CELLS.every(c => params.rounds[i].chips[st.rounds[i].cells[c]]?.cell === c);
-          const col = locked ? (good ? C.ok : C.bad) : i === cur ? C.brand : done ? C.ok : C.line;
-          p.stroke(col); p.strokeWeight(i === cur ? 2.5 : 1.5); p.fill(C.card); p.rect(t.x, t.y, t.w, t.h, 8);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(13); p.text(i + 1, t.x + t.w / 2, t.y + t.h / 2);
+          const col = locked ? (good ? C.ok : C.bad) : i === cur ? C.brand : done ? C.Z : C.line;   // respondida (no «correcta»): azul, no verde
+          const plain = col === C.line;   // ficha de ronda, como las de drawTabs
+          drawTile(p, C, t, i + 1, { fill: plain ? C.card : col, ink: plain ? C.mute : undefined, r: 8, lift: 0, size: 14, ring: i === cur ? C.sun : null });
         });
         p.noStroke(); p.fill(C.N); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(15);
         p.text(r.text, 12, 46, W - 24, 40);
@@ -76,7 +74,7 @@ GAMES['arma-sigma'] = (() => {
         CELLS.forEach(c => {
           const s = slots[c], i = cells[c], good = i !== null && r.chips[i].cell === c;
           const col = locked ? (good ? C.ok : C.bad) : i !== null ? C.brand : C.line;
-          if (i === null) chip(s, '', col, C.bg, true); else chip(s, r.chips[i].label, col);
+          if (i === null) chip(s, '', col, C.bg, true); else chip(s, r.chips[i].label, col, locked ? col : C.sun);
           // Rótulo: «hasta»/«desde» a la izquierda de su casilla, «término» debajo; la corrección
           // (bloqueado) a la derecha de la casilla, o debajo en el término.
           p.noStroke(); p.fill(i === null ? C.mute : col); p.textSize(10); p.textStyle(p.NORMAL);
@@ -92,7 +90,7 @@ GAMES['arma-sigma'] = (() => {
         if (!locked) r.chips.forEach((ch, i) => { if (placedAt(i) === undefined && !(drag && drag.i === i)) chip(tray[i], ch.label, C.Z); });
         p.noStroke(); p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked ? (grade(st, params).ok ? '¡Sigmas bien armadas!' : 'Mira las fichas en verde') : 'Arrastra cada ficha a su casilla; sobran fichas', 12, H - 24, W - 24, 22);
-        if (drag) chip({ x: p.mouseX - 45, y: p.mouseY - 17, w: 90, h: 34 }, r.chips[drag.i].label, C.brand);
+        if (drag) chip({ x: p.mouseX - 45, y: p.mouseY - 17, w: 90, h: 34 }, r.chips[drag.i].label, C.brand, C.sun);
       };
 
       p.mousePressed = () => {

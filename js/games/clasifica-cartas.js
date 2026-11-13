@@ -51,14 +51,16 @@ GAMES['clasifica-cartas'] = (() => {
       function card(i, x, rot, color = C.line) {
         const c = params.cards[i];
         p.push(); p.translate(W / 2 + x, CARD.y + CARD.h / 2); p.rotate(rot);
-        p.stroke(color); p.strokeWeight(2.5); p.fill(C.card); p.rect(-CARD.w / 2, -CARD.h / 2, CARD.w, CARD.h, 18);
-        p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(12);
+        // Carta crema con relieve (como las fichas de los videos); la tinta es azul noche en los dos temas.
+        p.noStroke(); p.fill(C.creamD); p.rect(-CARD.w / 2, -CARD.h / 2 + 5, CARD.w, CARD.h, 18);
+        p.stroke(color); p.strokeWeight(2.5); p.fill(C.cream); p.rect(-CARD.w / 2, -CARD.h / 2, CARD.w, CARD.h, 18);
+        p.noStroke(); p.fill(shade(C.night, 1.45)); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(12);
         p.text(`${i + 1} / ${params.cards.length}`, 0, -CARD.h / 2 + 12);
-        p.fill(C.ink); p.textSize(20); p.textAlign(p.CENTER, p.CENTER);
+        p.fill(C.night); p.textSize(20); p.textAlign(p.CENTER, p.CENTER);
         const lines = wrap(p, c.text, CARD.w - 40);
         lines.forEach((ln, k) => p.text(ln, 0, (k - (lines.length - 1) / 2) * 26 + 6));
         if (Math.abs(x) > 12 && i === cur) {   // sello según hacia dónde se arrastra
-          const r = x > 0; p.fill(r ? COL.right : COL.left); p.textSize(22); p.textAlign(r ? p.LEFT : p.RIGHT, p.TOP);
+          const r = x > 0; p.fill(shade(r ? COL.right : COL.left, 0.6)); p.textSize(22); p.textAlign(r ? p.LEFT : p.RIGHT, p.TOP);
           p.text((r ? params.right : params.left).toUpperCase(), r ? -CARD.w / 2 + 16 : CARD.w / 2 - 16, -CARD.h / 2 + 30);
         }
         p.pop();
@@ -93,8 +95,7 @@ GAMES['clasifica-cartas'] = (() => {
         }
         buttons.forEach(b => {
           const dim = cur >= params.cards.length;
-          p.stroke(dim ? C.line : b.col); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 12);
-          p.noStroke(); p.fill(dim ? C.mute : b.col); p.textSize(14); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2 + 1);
+          drawTile(p, C, b, b.t, { fill: dim ? C.card : b.col, ink: dim ? C.mute : undefined, r: 12, size: 14, lift: dim ? 1 : 3 });
         });
       };
 

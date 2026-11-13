@@ -49,18 +49,17 @@ GAMES['torre-producto'] = (() => {
         // Torre: un bloque por paso, el ancho crece con el logaritmo del valor (para que quepa).
         const rowH = Math.min(26, tower.h / Math.max(params.max + 1, 1)), lg = Math.log(Math.max(params.target, valueAt(params.max, params)));
         for (let k = 0; k <= st.n; k++) {
-          const val = valueAt(k, params), bw = Math.max(26, (Math.log(Math.max(val, 1.0001)) / lg) * tower.w), y = tower.y + tower.h - (k + 1) * rowH;
-          p.stroke(C.bg); p.strokeWeight(1); p.fill(k === st.n ? C.Q : k % 2 ? C.Z : '#3B7FD6'); p.rect(W / 2 - bw / 2, y, bw, rowH - 2, 4);
-          p.noStroke(); p.fill(C.ink); p.textSize(11); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-          p.text(fact && k ? `${k}! = ${fmt(val)}` : fmt(val), W / 2, y + (rowH - 2) / 2);
+          const val = valueAt(k, params), bw = Math.max(40, (Math.log(Math.max(val, 1.0001)) / lg) * tower.w), y = tower.y + tower.h - (k + 1) * rowH;
+          p.stroke(C.bg); p.strokeWeight(1); p.fill(k === st.n ? C.sun : k % 2 ? C.sky : shade(C.sky, 0.9)); p.rect(W / 2 - bw / 2, y, bw, rowH - 2, 4);
+          p.noStroke(); p.fill(inkOn(k === st.n ? C.sun : C.sky, C.ink)); p.textSize(11); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+          fitText(p, fact && k ? `${k}! = ${fmt(val)}` : fmt(val), W / 2, y + (rowH - 2) / 2, bw - 6, 11);   // dentro del bloque: fuera no se leería
           p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(10); p.textAlign(p.LEFT, p.CENTER); p.text(fact ? (k ? `× ${k}` : '') : `${params.period} ${k}`, tower.x, y + (rowH - 2) / 2);
         }
         p.noStroke(); p.fill(locked ? (good ? C.ok : C.bad) : C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(18);
         p.text(fact ? (st.n ? `${st.n}! = ${fmt(v)}` : '1') : `${st.n} ${plural(params.period, st.n)} · ${fmt(v)} ${unitOf(v)}`, W / 2, H - 118);
         buttons.forEach(b => {
           const dim = locked || (b.v < 0 ? st.n === 0 : st.n >= params.max);
-          p.stroke(dim ? C.line : b.col); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 12);
-          p.noStroke(); p.fill(dim ? C.mute : b.col); p.textSize(15); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.text(b.t, b.x + b.w / 2, b.y + b.h / 2 + 1);
+          drawTile(p, C, b, b.t, { fill: dim ? C.card : b.col, ink: dim ? C.mute : undefined, r: 12, size: 15, lift: dim ? 1 : 3 });
         });
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         const ans = answerOf(params);

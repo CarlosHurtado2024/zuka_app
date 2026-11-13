@@ -61,16 +61,17 @@ GAMES['parejas-gauss'] = (() => {
           const good = params.terms[i] + params.terms[j] === sum;
           const col = locked ? (good ? C.ok : C.bad) : COLS[k % COLS.length];
           const mid = rope(tiles[i], tiles[j], col, k);
-          p.noStroke(); p.fill(C.bg); p.rect(mid.x - 16, mid.y - 7, 32, 14, 4);
-          p.fill(col); p.textSize(11); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-          p.text(params.terms[i] + params.terms[j], mid.x, mid.y);
+          // Rótulo bajo (13 px), relleno con el color de la cuerda: las cuerdas quedan a 11 px unas de otras y una píldora normal las taparía.
+          p.noStroke(); p.fill(col); p.rect(mid.x - 15, mid.y - 6.5, 30, 13, 6.5);
+          p.fill(inkOn(col, C.ink)); p.textSize(10); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+          p.text(params.terms[i] + params.terms[j], mid.x, mid.y + 0.5);
         });
         if (drag) { const c = center(tiles[drag.i]); p.stroke(C.brand); p.strokeWeight(3); p.line(c.x, tiles[drag.i].y, p.mouseX, p.mouseY); }
         params.terms.forEach((v, i) => {
           const k = pairOf(i), paired = k >= 0;
           const col = locked ? (paired ? (params.terms[st.pairs[k][0]] + params.terms[st.pairs[k][1]] === sum ? C.ok : C.bad) : (params.terms.length % 2 && i === (params.terms.length - 1) / 2 ? C.ok : C.bad)) : paired ? COLS[k % COLS.length] : drag && drag.i === i ? C.brand : C.line;
-          p.stroke(col); p.strokeWeight(paired ? 2.5 : 1.5); p.fill(C.card); p.rect(tiles[i].x, tiles[i].y, tiles[i].w, tiles[i].h, 10);
-          p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(15); p.text(v, tiles[i].x + tiles[i].w / 2, tiles[i].y + tiles[i].h / 2);
+          // Ficha crema; al emparejarla toma el color de su cuerda.
+          drawTile(p, C, tiles[i], v, { fill: col === C.line ? C.cream : col === C.brand ? C.sun : col, size: 15 });
         });
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         p.text(locked ? (grade(st, params).ok ? `¡${need} parejas de ${sum}!` : 'En verde, lo que estaba bien') : `${st.pairs.length} de ${need} parejas · arrastra de una ficha a otra${params.terms.length % 2 ? ' · una queda sola' : ''}`, 12, H - 26, W - 24, 24);

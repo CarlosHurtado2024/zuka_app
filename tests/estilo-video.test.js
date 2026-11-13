@@ -148,3 +148,8 @@ test('los juegos de Conjuntos (Álgebra U0) dibujan con las piezas de los videos
   const U0 = 'arma-notacion cumple-notacion tacha-repetidos arma-conjunto mueve-circulos fabrica-subconjuntos reparte-venn pinta-venn encuesta-venn'.split(' ');
   for (const g of U0) assert.match(read(`js/games/${g}.js`), /draw(Tile|Pill|Kicker|Dot|Slot)\(/, g);
 });
+
+test('los juegos de Progresiones y sumatoria dibujan con las piezas de los videos', () => {
+  const U4 = 'pisa-huellas escalera-aritmetica rellena-medios dos-escaleras parejas-gauss suma-filas rebota-pelota torre-producto limite-serie arma-sigma verdadero-falso clasifica-cartas'.split(' ');
+  for (const g of U4) assert.match(read(`js/games/${g}.js`), /draw(Tile|Pill|Kicker|Dot|Slot)\(/, g);
+});

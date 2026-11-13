@@ -60,7 +60,8 @@ letra y fondo, pero no se ha rediseñado juego por juego. El mundo «Razones, pr
 rediseñó después con las mismas piezas: botones − / + en fichas azules, objetos rellenos (engranajes, tragamonedas
 coral, perilla color sol), sellos menta si suben y coral si bajan. Luego Conjuntos (9 juegos): fichas crema que pasan a
 color sol al entrar al conjunto, círculos de Venn azul y coral con su letra en una píldora, zonas pintadas color sol.
-Siguiente: Progresiones.
+Luego Progresiones y sumatoria (12 juegos): peldaños y bloques rellenos, huellas color sol, cartas crema con relieve
+en `verdadero-falso` y `clasifica-cartas`, botones rellenos con su color. Siguiente: potenciación y el resto de Álgebra.
 
 ## Pruebas
 
