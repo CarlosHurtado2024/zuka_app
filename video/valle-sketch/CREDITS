@@ -1,0 +1,25 @@
+Valle de los Números en lápiz — seis videos de lección de Zuka (estilo «Tablet Sketch Explainer» de Lemo-Opuscar)
+
+IMÁGENES
+- Ninguna. Todo se dibuja en código (films/v1.js … v6.js, con kit.js) con el lápiz y los bloques de color del motor.
+  Sin fotos ni imágenes generadas.
+
+MOTOR
+- engine.js y engine2.js vienen de la demo del estilo «Tablet Sketch Explainer» de Lemo-Opuscar
+  (github.com/lemomo-ai/lemo-opuscar, licencia MIT), adaptados a una hoja vertical (vía el corto video/abejas).
+  tools/skeleton.py es su herramienta de trazos de letra, con los signos del español y de las matemáticas.
+  La síntesis del lápiz en mix.py sigue la de esa demo. kit.js y las películas son propios.
+
+LETRA
+- Caveat, de Impallari Type, SIL Open Font License 1.1 (fonts/OFL-caveat.txt). No va en git: build.sh la descarga
+  de github.com/google/fonts y corta los pesos 700 y 500. Los signos que no trae (ℕ ℤ ℚ ℝ ∈ ⊆ ∪ ∩ ∀ π √ → ⟺ ∅) se
+  dibujan a lápiz en kit.js.
+
+SONIDO
+- Muestras (CC0 1.0): VS Chamber Orchestra: Community Edition y Versilian Community Sample Library (Versilian
+  Studios) — arpa, vibráfono y contrabajo en pizzicato.
+- Lápiz, papel, sacudidor y sala: sintetizados en mix.py.
+
+CONTENIDO
+- Manual de Álgebra y Trigonometría, UdeA (Zarrazola, 2024), §1.1 y §1.2; guiones de los videos anteriores de estas
+  lecciones (video/clase_alg_u1_n1… f3).

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Valle de los Números · lápiz</title>
+<style>
+@font-face{font-family:CB;src:url(fonts/Caveat-Bold.ttf);font-display:block}
+@font-face{font-family:CM;src:url(fonts/Caveat-Medium.ttf);font-display:block}
+html,body{margin:0;background:#f3eadb;overflow:hidden}
+canvas{display:block}
+</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas>
+<script src="engine.js"></script>
+<script src="kit.js"></script>
+<script>
+// ?film=v1 … v6 elige la lección (films/v1.js define FILM())
+document.write(`<script src="films/${new URLSearchParams(location.search).get('film') || 'v1'}.js"><\/script>`);
+</script>
+<script src="engine2.js"></script>
+<script>
+async function boot() {
+  GLY = await (await fetch('glyphs.json')).json();
+  await Promise.all([['CB', 'Agñ'], ['CM', 'Agñ']].map(([f, s]) => document.fonts.load(`40px ${f}`, s)));
+  buildGrain();
+  CACHE = mkTarget(); WORK = mkTarget(); TG = CACHE;
+  buildPage();
+  window.DUR = TO - FROM;
+  EL.sort((a, b) => (a.t0 + a.d) - (b.t0 + b.d));
+  NIBS = EL.filter(e => e.nib);
+  const ev = [];
+  for (const e of EL) { if (e.kind === 'occ' || e.kind === 'none') continue; const tm = e.t0 + e.d / 2, c = cam(tm), p = e.nib ? e.nib(0.5) : e.wx;
+    ev.push({ t: e.t0, type: e.kind, d: e.d, pan: clamp(toScreen(c, p[0], p[1])[0] / W * 2 - 1, -1, 1) }); }
+  NIBS.forEach((e, i) => { const prev = NIBS.slice(0, i).reduce((m, q) => Math.max(m, q.t0 + q.d), -1); if (e.t0 - prev > 0.1) { const c = cam(e.t0), p = e.nib(0); ev.push({ t: e.t0, type: 'tap', d: 0, pan: clamp(toScreen(c, p[0], p[1])[0] / W * 2 - 1, -1, 1) }); } });
+  ev.push(...SFX, { t: T_.done, type: 'done', d: 0, pan: 0 });
+  window.EV = ev.filter(e => e.t >= FROM && e.t < TO).map(e => ({ ...e, t: +(e.t - FROM).toFixed(4), d: +e.d.toFixed(4), pan: +e.pan.toFixed(3) }));
+  window.T_ = T_;
+  if (QS.has('dbg')) console.warn('dur ' + FULL + ' marcas ' + EL.length + ' hojas ' + PAGE_T.length);
+  window.render(+(QS.get('t') || 0));
+  window.READY = true;
+}
+boot();
+</script>
+</body></html>

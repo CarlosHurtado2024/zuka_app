@@ -131,3 +131,8 @@ video/conjunto-zoom-3/fonts/*.ttf
 video/conjunto-zoom-3/events.json
 video/conjunto-zoom-3/build_log.txt
 video/conjunto-zoom-3/conjunto-zoom-3.mp4
+video/valle-sketch/out/
+video/valle-sketch/stills/
+video/valle-sketch/fonts/*.ttf
+video/valle-sketch/glyphs.json
+video/valle-sketch/build_log.txt

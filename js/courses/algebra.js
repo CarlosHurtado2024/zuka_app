@@ -307,7 +307,7 @@ const COURSE_ALGEBRA = {
                 { a: { label: '0.66', value: 0.66 }, b: { label: '2/3', value: 2 / 3 }, view: [0, 1] },
                 { a: { label: 'π', value: Math.PI }, b: { label: '22/7', value: 22 / 7 }, view: [3, 4] },
               ],
-            }, 'De lejos parecen el mismo punto, pero son distintos y entre ellos cabe otro: $\\sqrt5 = 2.2360\\ldots < 2.238 < 2.24$, $0.66 < 0.663 < 0.\\overline{6}$ y $\\pi = 3.14159\\ldots < 3.142 < 3.142857\\ldots = \\tfrac{22}{7}$. Por eso $\\tfrac{22}{7}$ no es $\\pi$: solo se le parece. Entre dos reales distintos siempre hay otro (por ejemplo, su promedio), así que la recta no tiene huecos.',
+            }, 'De lejos parecen el mismo punto, pero son distintos y entre ellos cabe otro: $\\sqrt5 = 2.2360\\ldots < 2.238 < 2.24$, $0.66 < 0.663 < 0.\\overline{6}$ y $\\pi = 3.14159\\ldots < 3.142 < 3.142857\\ldots = \\tfrac{22}{7}$. Por eso $\\tfrac{22}{7}$ no es $\\pi$: solo se le parece. Entre dos reales distintos siempre hay otro (por ejemplo, su promedio): por más que acerques la lupa, nunca quedan pegados.',
               { hint: 'Escribe los dos números con varios decimales y compáralos cifra por cifra: la primera cifra en que se diferencian te dice dónde abrir la lupa. Acerca hasta que las banderitas se separen.' }),
             play('ubica-en-recta', 'Suelta cada número en su lugar de la recta', {
               min: -3, max: 4, tol: 0.15,

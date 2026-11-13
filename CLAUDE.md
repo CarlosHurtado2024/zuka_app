@@ -245,6 +245,12 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   Clase 5 (`video/clase_progresiones`).
 - Álgebra unidad 1, **ejemplos resueltos** E4–E5 (`video/clase_alg_u1_ej_*`, escena `ExScene`): un video por
   lección para justo después del de conceptos; al recibir su ID va en `more: [{ bunny, duration }]` **sin `after`**.
+- **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
+  `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
+  `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y
+  `vN_narracion.txt`). Entregados en `Downloads/Zuka_Valle_lapiz`, esperan su ID de Bunny: al recibir cada uno, cambiar
+  `clip.bunny` + `duration` de esa lección (usan los mismos ejemplos que los videos actuales). El cuadro con zoom muestra
+  x ≈ 125–1070 de la hoja: no dibujar texto fuera de ese rango.
 - Álgebra unidad 1, **sistemas numéricos desde cero** (spec `2026-11-11-sistemas-numericos-desde-cero`, sin zoom ni
   3D): la antigua `alg-11` se partió en `alg-11` (N1 naturales y enteros, `video/clase_alg_u1_n1_naturales`),
   `alg-11b` (N2 racionales, `…_n2_racionales`) y `alg-11c` (N3 irracionales y reales, `…_n3_reales`). Los tres
