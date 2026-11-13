@@ -441,3 +441,25 @@ function drawNumLine(p, C, L, o = {}) {
   }
   return X;
 }
+
+// ---------- Juegos dinámicos (de acción): vidas y cartel ----------
+// Vidas como corazones, alineados a la derecha en (x, y): los que quedan en coral, los perdidos apagados.
+function drawHearts(p, C, x, y, left, max = 3) {
+  p.noStroke();
+  for (let i = 0; i < max; i++) {
+    const cx = x - 9 - (max - 1 - i) * 21;
+    p.fill(i < left ? C.coral : C.line);
+    p.circle(cx - 4, y - 2, 9.5); p.circle(cx + 4, y - 2, 9.5); p.triangle(cx - 8.6, y + 0.4, cx + 8.6, y + 0.4, cx, y + 9.5);
+    // La vida perdida va además tachada: no depende solo del color.
+    if (i >= left) { p.stroke(C.mute); p.strokeWeight(2); p.line(cx - 8, y + 8, cx + 8, y - 6); p.noStroke(); }
+  }
+}
+// Cartel centrado sobre el juego («Toca para empezar», «¡Ronda lista!», «Otra vez»): tarjeta con borde de color.
+function drawBanner(p, C, title, sub, cy, col) {
+  const w = Math.min(p.width - 36, 270), h = sub ? 78 : 54, x = (p.width - w) / 2, y = cy - h / 2;
+  p.noStroke(); p.fill(shade(C.card, 0.8)); p.rect(x, y + 4, w, h, 16);
+  p.stroke(col ?? C.sun); p.strokeWeight(3); p.fill(C.card); p.rect(x, y, w, h, 16);
+  p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
+  fitText(p, title, p.width / 2, sub ? cy - 13 : cy, w - 24, 18);
+  if (sub) { p.fill(C.mute); p.textStyle(p.NORMAL); fitText(p, sub, p.width / 2, cy + 15, w - 24, 12); }
+}

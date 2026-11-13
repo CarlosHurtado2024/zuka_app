@@ -87,6 +87,14 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
 - `api.ready(true)` cuando se puede comprobar; `lock()` congela y muestra la solución en verde.
 - Patrón común: pestañas de rondas (44×30 px arriba), texto que se encoge con `textWidth` para caber,
   botones − / + cuando un arrastre necesita precisión.
+- **Juegos dinámicos** (de acción; spec `2026-11-13-juegos-dinamicos-pradera`, pruebas `tests/juegos-dinamicos-conjuntos.test.js`):
+  cada lección lleva al menos uno, como último ejercicio, ligado a su video y **con mecánica distinta a los demás**
+  (no repetir). Hechos: Pradera de Venn → `lluvia-elementos` (arrastrar una canasta: ∈ / ∉), `revienta-globos` (tocar a
+  tiempo globos con conjuntos: subconjunto, iguales, disjuntos, unitario) y `luciernagas-venn` (tocar luciérnagas cuando
+  están en la zona de la operación). Reglas: «Toca para empezar», tres vidas (`drawHearts`), sin vidas la ronda se
+  reintenta (no se pierde el ejercicio), `api.ready(true)` al terminar todas las rondas, movimiento con `p.deltaTime`
+  (tope 50 ms), cartel con `drawBanner`, y `peek()` en lo que devuelve `create` para probarlos con un robot en el
+  navegador. Faltan los demás mundos.
 - Registrar cada juego en `index.html` (`<script defer src="js/games/x.js">`) y en `SHELL` de `sw.js`
   (lo exige `tests/registro.test.js`).
 - Pruebas: `const { loadGame } = require('./load'); loadGame('js/games/x.js')['x']`. Los arreglos que

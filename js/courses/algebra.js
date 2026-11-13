@@ -54,6 +54,15 @@ const COURSE_ALGEBRA = {
             num('¿Cuántos elementos tiene el conjunto de las letras de la palabra CARACOL?', 5,
               'Las letras distintas de CARACOL son $C, A, R, O, L$: el conjunto es $\\{C, A, R, O, L\\}$ y su cardinal es $5$, aunque la palabra tenga 7 letras.',
               { hint: 'Escribe las letras una por una y no repitas las que ya escribiste. Luego cuenta.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-pradera): pertenencia en tiempo real.
+            play('lluvia-elementos', 'Mueve la canasta y atrapa solo lo que **pertenece** a cada conjunto', {
+              rounds: [
+                { name: 'F', rule: 'x : x es una fruta', members: ['mango', 'pera', 'uva', 'piña', 'mora'], others: ['papa', 'queso', 'arroz', 'pan', 'sal'] },
+                { name: 'D', rule: 'x : x es un día de la semana que empieza por M', members: ['martes', 'miércoles'], others: ['lunes', 'mayo', 'marzo', 'jueves', 'mesa'] },
+                { name: 'A', rule: 'x : x es un animal que vuela', members: ['águila', 'colibrí', 'murciélago', 'abeja'], others: ['pingüino', 'gato', 'delfín', 'avestruz'] },
+              ],
+            }, 'Un elemento pertenece al conjunto solo si cumple la condición entera. $F = \\{\\text{mango}, \\text{pera}, \\text{uva}, \\text{piña}, \\text{mora}\\}$. En $D$ solo entran martes y miércoles: mayo y marzo empiezan por M, pero son meses. Y en $A$ no entran el pingüino ni el avestruz: son aves, pero no vuelan.',
+              { hint: 'Lee la condición antes de empezar y pruébala con cada palabra que cae: tiene que cumplirla entera. Si dudas, déjala caer: dejar pasar una palabra no quita vidas.' }),
           ],
         },
         {
@@ -95,6 +104,17 @@ const COURSE_ALGEBRA = {
             num('En un pasillo hay 4 bombillos, y cada uno puede estar prendido o apagado. ¿De cuántas formas distintas se puede ver el pasillo, contando todos apagados?', 16,
               'Cada forma es el conjunto de bombillos prendidos: un subconjunto de los 4. Por tamaños: ninguno prendido (1), uno (4), dos (6), tres (4) y los cuatro (1): $1 + 4 + 6 + 4 + 1 = 16$. Es lo mismo que duplicar con cada bombillo nuevo: $2 \\cdot 2 \\cdot 2 \\cdot 2 = 16$.',
               { hint: 'Cuenta por tamaños, como en el video: ¿cuántas formas hay con ningún bombillo prendido?, ¿con uno?, ¿con dos?… Y suma todo.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-pradera): relaciones entre conjuntos a contrarreloj.
+            play('revienta-globos', 'Revienta solo los globos que cumplen la misión de cada ronda', {
+              goal: 4,
+              rounds: [
+                { kind: 'sub', A: ['🐶', '🐱', '🐰', '🐸'], sets: [['🐶', '🐱'], ['🐸'], [], ['🐱', '🐰', '🐸'], ['🐶', '🦊'], ['🦁'], ['🐰', '🐷'], ['🐸', '🐶', '🐔']] },
+                { kind: 'igual', A: ['🎸', '🥁', '🎹'], sets: [['🥁', '🎹', '🎸'], ['🎹', '🎸', '🥁'], ['🥁', '🎸', '🎹'], ['🎸', '🎹', '🥁', '🎸'], ['🎸', '🥁'], ['🎸', '🥁', '🎺'], ['🎻', '🎺', '🎷'], ['🎹']] },
+                { kind: 'disj', A: ['🍕', '🍔', '🌮'], sets: [['🍦', '🍩'], ['🍪'], ['🍫', '🍭', '🍩'], [], ['🍕', '🍦'], ['🌮'], ['🍔', '🍟'], ['🍩', '🍕', '🍪']] },
+                { kind: 'unit', sets: [['🌙'], ['☀️'], ['🌈'], ['⭐', '⭐'], ['⭐', '🌙'], [], ['🌧️', '⛈️', '🌈'], ['☀️', '🌙']] },
+              ],
+            }, 'Subconjunto de $A$: todos sus elementos están en $A$ (el vacío siempre lo es). Iguales: tienen los mismos elementos, sin importar el orden ni si alguno se escribió dos veces. Disjuntos: no comparten ningún elemento, y el vacío no comparte nada con nadie. Unitario: tiene un solo elemento distinto, así que {⭐, ⭐} también lo es.',
+              { hint: 'Antes de tocar un globo, revisa sus elementos uno por uno contra el conjunto A. Para «subconjunto» basta un intruso para descartarlo; para «disjuntos» basta uno compartido. Dejar pasar un globo no quita vidas.' }),
           ],
         },
         {
@@ -149,6 +169,12 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Se empieza por el centro: los que están en los dos. Solo perro: $18 - 5 = 13$; solo gato: $12 - 5 = 7$; así van $13 + 5 + 7 = 25$ y quedan $30 - 25 = 5$ sin ninguna mascota. En el curso: 15 solo leen, 7 hacen las dos, 11 solo dibujan y 7 ninguna.',
               { hint: 'Llena primero la zona del centro. Después, a cada grupo réstale esa cantidad para saber cuántos están solo en él. Lo que falte para el total no está en ninguno.' }),
+            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-pradera): las operaciones como zonas del diagrama.
+            play('luciernagas-venn', 'Atrapa cada luciérnaga cuando esté en la zona de la operación', {
+              goal: 4,
+              rounds: [{ op: 'inter' }, { op: 'diffAB' }, { op: 'comp' }, { op: 'sim' }],
+            }, '$A \\cap B$ es la zona donde se cruzan los dos círculos. $A - B$ es la parte de $A$ que queda fuera de $B$. $(A \\cup B)^c$ es todo lo que está fuera de los dos círculos. Y $A \\,\\triangle\\, B$ son las dos partes que están en un solo círculo.',
+              { hint: 'Antes de empezar, ubica con el dedo la zona de la operación en el diagrama. Después ten paciencia: toca la luciérnaga solo cuando haya entrado a esa zona.' }),
           ],
         },
       ],
