@@ -93,6 +93,11 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   dos pasos; escenas en `GUIDE_SCENES`: tap, drag, step, slide, turn, hold, fling, swipe, trace, keys, paint, touch) y, si usa
   vidas, su nombre en `GUIDE_ARCADE`; el cartel, las vidas, las rondas y «Comprobar» se añaden solos. No sale sola en las
   evaluaciones. Se recuerda en `S.guides`.
+- **Sin escribir** (spec `2026-11-17-sin-escribir`, pruebas `tests/sin-escribir.test.js`): la app no muestra ningún ejercicio de
+  teclear. Los `num(...)` que quedan en los cursos se cambian al cargar (`js/courses/sin-escribir.js`, tabla `SIN_ESCRIBIR` con clave
+  `lección#posición`) por `arma-la-cuenta` (se plantea la operación con fichas y el juego la calcula) o `escala-solucion` (se elige
+  el paso válido en cada nivel). **No añadir `num` nuevos**; si se mueve un ejercicio de una lección que tiene alguno, ajustar su
+  clave en la tabla (la prueba avisa).
 - **Colores que no se pisan**: el amarillo de relleno (`C.sun`) nunca va como color de letra (para letras, `C.N`); el texto
   sobre un relleno usa `inkOn(color)`. `tests/robot-colores.js` (se carga en la página con `fetch` + `eval`;
   `await __colores.run()`) monta todos los juegos en los dos temas y avisa de textos sin contraste y de figuras del mismo
