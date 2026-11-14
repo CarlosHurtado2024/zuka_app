@@ -1,0 +1,7 @@
+Beto tiene dos millones ahorrados. Quiere duplicarlos: llegar a cuatro. Dos bancos le ofrecen el seis por ciento anual. Uno con interés simple; otro, compuesto. El primer año, los dos pagan igual: ciento veinte mil pesos de interés. ¿Entonces da lo mismo? Mira el segundo año. Esa diferencia mínima se volverá años.
+
+Interés simple: siempre sobre el capital inicial. Cada año, ciento veinte mil, igual. Interés: capital por tasa por tiempo. El monto crece en línea recta. ¿Cuándo llega a cuatro millones? Faltan dos millones, a ciento veinte mil: lo pasa en el año diecisiete. Ahora, el banco compuesto.
+
+Interés compuesto: el interés se suma al capital. El segundo año paga sobre lo que ya creció. Siete mil doscientos más: el interés también gana. Cada año se multiplica por uno punto cero seis. Es una función exponencial del tiempo. Al principio, las dos curvas van juntas… luego, la compuesta se despega. En el año doce pasa los cuatro millones. Y al revés: para tener una meta… ¿cuánto hay que depositar hoy?
+
+Para tener cuatro millones en doce años, se divide entre el factor de doce años. Si la tasa es mensual, n cuenta meses. Y ahora, la carrera completa: simple, hasta el año diecisiete. Compuesto: en el año doce. Beto duplica sus ahorros cinco años antes si el interés también gana interés.

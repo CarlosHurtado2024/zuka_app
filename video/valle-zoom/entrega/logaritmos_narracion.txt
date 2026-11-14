@@ -1,0 +1,7 @@
+Caro recibe un pedido: mil lirios. ¿Qué día tendrá la laguna mil lirios? Dos a la x cuenta los lirios del día. Ahora la pregunta va al revés. Dos a la nueve, quinientos doce: poco. Dos a la diez, mil veinticuatro: se pasa. El día está entre nueve y diez. ¿A mitad de camino? Si crecen sin parar, la respuesta te sorprenderá.
+
+Logaritmo en base dos de treinta y dos: ¿dos a qué da treinta y dos? A cinco. Logaritmo base diez de mil: tres. El logaritmo es un exponente. Su gráfica es el espejo de la exponencial. Solo acepta números positivos. Y el logaritmo de uno es cero. Ahora, unas reglas muy útiles.
+
+Cuatro por dieciséis es sesenta y cuatro. En exponentes: dos más cuatro, seis. El logaritmo de un producto es una suma. El de un cociente, una resta. Y una potencia sale adelante, multiplicando. Ojo: el logaritmo de una suma no se parte. Las calculadoras traen base diez y base e. Logaritmo natural: el de base e. Para otra base, se cambia: se divide entre el logaritmo de la base.
+
+Logaritmo de mil, en base diez, es tres. El de dos es cero punto tres cero uno. Tres entre eso: nueve punto nueve siete. Comprobación: dos a esa potencia… da casi exactamente mil. No a la mitad: casi al final del día. El pedido de Caro estará listo el día nueve punto nueve siete: el logaritmo le dio el exponente.

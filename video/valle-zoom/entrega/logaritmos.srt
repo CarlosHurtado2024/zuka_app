@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Caro recibe un pedido: mil lirios.
+
+2
+00:00:04,000 --> 00:00:06,600
+¿Qué día tendrá la laguna mil lirios?
+
+3
+00:00:06,800 --> 00:00:09,600
+Dos a la x cuenta los lirios del día.
+
+4
+00:00:09,800 --> 00:00:12,400
+Ahora la pregunta va al revés.
+
+5
+00:00:12,800 --> 00:00:15,600
+Dos a la nueve, quinientos doce: poco.
+
+6
+00:00:15,800 --> 00:00:18,600
+Dos a la diez, mil veinticuatro: se pasa.
+
+7
+00:00:19,000 --> 00:00:21,800
+El día está entre nueve y diez.
+
+8
+00:00:22,000 --> 00:00:24,400
+¿A mitad de camino?
+
+9
+00:00:24,800 --> 00:00:29,000
+Si crecen sin parar, la respuesta te sorprenderá.
+
+10
+00:00:31,800 --> 00:00:34,800
+Logaritmo en base dos de treinta y dos:
+
+11
+00:00:35,000 --> 00:00:37,800
+¿dos a qué da treinta y dos? A cinco.
+
+12
+00:00:38,200 --> 00:00:41,000
+Logaritmo base diez de mil: tres.
+
+13
+00:00:41,200 --> 00:00:44,200
+El logaritmo es un exponente.
+
+14
+00:00:44,600 --> 00:00:47,400
+Su gráfica es el espejo de la exponencial.
+
+15
+00:00:47,600 --> 00:00:50,200
+Solo acepta números positivos.
+
+16
+00:00:50,600 --> 00:00:53,600
+Y el logaritmo de uno es cero.
+
+17
+00:00:53,800 --> 00:00:56,600
+Ahora, unas reglas muy útiles.
+
+18
+00:01:00,000 --> 00:01:03,000
+Cuatro por dieciséis es sesenta y cuatro.
+
+19
+00:01:03,200 --> 00:01:06,000
+En exponentes: dos más cuatro, seis.
+
+20
+00:01:06,400 --> 00:01:09,200
+El logaritmo de un producto es una suma.
+
+21
+00:01:09,400 --> 00:01:12,200
+El de un cociente, una resta.
+
+22
+00:01:12,600 --> 00:01:15,400
+Y una potencia sale adelante, multiplicando.
+
+23
+00:01:15,600 --> 00:01:18,400
+Ojo: el logaritmo de una suma no se parte.
+
+24
+00:01:18,800 --> 00:01:21,600
+Las calculadoras traen base diez y base e.
+
+25
+00:01:21,800 --> 00:01:24,400
+Logaritmo natural: el de base e.
+
+26
+00:01:24,800 --> 00:01:27,600
+Para otra base, se cambia:
+
+27
+00:01:27,800 --> 00:01:30,400
+se divide entre el logaritmo de la base.
+
+28
+00:01:35,400 --> 00:01:38,400
+Logaritmo de mil, en base diez, es tres.
+
+29
+00:01:38,600 --> 00:01:41,400
+El de dos es cero punto tres cero uno.
+
+30
+00:01:41,800 --> 00:01:44,600
+Tres entre eso: nueve punto nueve siete.
+
+31
+00:01:44,800 --> 00:01:47,400
+Comprobación: dos a esa potencia…
+
+32
+00:01:47,800 --> 00:01:50,600
+da casi exactamente mil.
+
+33
+00:01:50,800 --> 00:01:54,000
+No a la mitad: casi al final del día.
+
+34
+00:01:55,400 --> 00:01:59,600
+El pedido de Caro estará listo el día nueve punto nueve siete:
+
+35
+00:01:59,800 --> 00:02:04,400
+el logaritmo le dio el exponente.
+

@@ -134,3 +134,16 @@ Beto se enreda entre dos ríos. Ejemplos nuevos, fuera de los ejercicios (`tests
 | `fracciones` | `alg-25b` | Ana llena el estanque en 3 h y Beto en 6: ¿juntos, 4.5 h? → se suman ritmos: 1/3 + 1/6 = 1/2; con letras, x(x + 3)/(2x + 3) → 2 horas |
 | `sistemas` | `alg-101` | el bote de Caro va a 15 a favor y a 9 en contra → cada pista es una recta; a veces paralelas → bote 12 km/h, río 3 km/h |
 | `parciales` | `alg-102` | la curva (3x + 1)/(x² − 1) se enreda entre dos ríos; antes, la orilla y = x² y el puente y = 2x + 3 → es la suma de dos curvas simples → 2/(x − 1) + 1/(x + 1) |
+
+# Selva Exponencial en zoom · lecciones 1 a 4
+
+Mismo proyecto y motor; `valle.js` suma la laguna (`lagoon`) y los lirios (`pad`). Dos hilos se cruzan: la laguna de Caro,
+donde los lirios se duplican cada día (videos 1 y 3), y los ahorros de Beto al 6 % anual (videos 2 y 4). Ejemplos nuevos,
+fuera de los ejercicios (`tests/exponencial-zoom.test.js`).
+
+| Video | Lección | El problema → la sorpresa → la respuesta |
+|---|---|---|
+| `lirios` | `alg-71` | los lirios cubren la laguna el día 10: ¿qué día estaba medio llena? → no el 5 → 512 = 2⁹: el día 9 |
+| `interes` | `alg-13b` | dos bancos al 6 %: el primer año pagan igual y el segundo solo difieren 7 200 pesos → el compuesto duplica en el año 12 y el simple en el 17 → cinco años antes |
+| `logaritmos` | `alg-72` | ¿qué día habrá mil lirios? Entre 9 y 10; ¿a la mitad, 9.5? → log₂ 1000 = 3 ÷ 0.301 ≈ 9.97: casi al final del día |
+| `ecuaciones` | `alg-73` | ¿cuándo se triplican los ahorros? 1.06ᵗ = 3 → igualar bases o tomar ln; la trampa del dominio (x = −2) → t ≈ 18.85: en el año 19 |

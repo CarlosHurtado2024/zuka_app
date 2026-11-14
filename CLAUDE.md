@@ -407,6 +407,12 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   `tests/exponencial-zoom.test.js`. Entregados en `Downloads/Zuka_Selva_zoom`; esperan su ID de Bunny (al recibirlos, poner
   las escenas de respaldo con los ejemplos del video). `alg-13b` y `alg-73` ya tienen otros videos sin ID (A5 y Clase 13):
   el usuario elige. `alg-71` y `alg-72` aún tienen ejercicios de opción múltiple y sin pistas.
+- **Selva Exponencial en zoom, lecciones 1 a 4** (mismo proyecto `video/valle-zoom`; laguna `lagoon` y lirios `pad` en
+  `valle.js`): `lirios` (`alg-71`), `interes` (`alg-13b`), `logaritmos` (`alg-72`), `ecuaciones` (`alg-73`), 130 s. Hilos:
+  la laguna de Caro (lirios que se duplican) y los ahorros de Beto (2 000 000 al 6 % anual). Ejemplos nuevos;
+  `tests/exponencial-zoom.test.js`. Entregados en `Downloads/Zuka_Selva_zoom`; esperan su ID de Bunny (al recibirlos, poner
+  las escenas de respaldo con los ejemplos del video). `alg-13b` y `alg-73` ya tienen otros videos sin ID (A5 y Clase 13):
+  el usuario elige. `alg-71` y `alg-72` aún tienen ejercicios de opción múltiple y sin pistas.
 - **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
   `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
   `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y

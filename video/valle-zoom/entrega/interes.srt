@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Beto tiene dos millones ahorrados.
+
+2
+00:00:04,000 --> 00:00:06,600
+Quiere duplicarlos: llegar a cuatro.
+
+3
+00:00:06,800 --> 00:00:09,600
+Dos bancos le ofrecen el seis por ciento anual.
+
+4
+00:00:09,800 --> 00:00:12,400
+Uno con interés simple; otro, compuesto.
+
+5
+00:00:12,800 --> 00:00:15,600
+El primer año, los dos pagan igual:
+
+6
+00:00:15,800 --> 00:00:18,600
+ciento veinte mil pesos de interés.
+
+7
+00:00:19,000 --> 00:00:21,800
+¿Entonces da lo mismo?
+
+8
+00:00:22,000 --> 00:00:24,400
+Mira el segundo año.
+
+9
+00:00:24,800 --> 00:00:29,000
+Esa diferencia mínima se volverá años.
+
+10
+00:00:31,800 --> 00:00:34,800
+Interés simple: siempre sobre el capital inicial.
+
+11
+00:00:35,000 --> 00:00:37,800
+Cada año, ciento veinte mil, igual.
+
+12
+00:00:38,200 --> 00:00:41,000
+Interés: capital por tasa por tiempo.
+
+13
+00:00:41,200 --> 00:00:44,200
+El monto crece en línea recta.
+
+14
+00:00:44,600 --> 00:00:47,400
+¿Cuándo llega a cuatro millones?
+
+15
+00:00:47,600 --> 00:00:50,200
+Faltan dos millones, a ciento veinte mil:
+
+16
+00:00:50,600 --> 00:00:53,600
+lo pasa en el año diecisiete.
+
+17
+00:00:53,800 --> 00:00:56,600
+Ahora, el banco compuesto.
+
+18
+00:01:00,000 --> 00:01:03,000
+Interés compuesto: el interés se suma al capital.
+
+19
+00:01:03,200 --> 00:01:06,000
+El segundo año paga sobre lo que ya creció.
+
+20
+00:01:06,400 --> 00:01:09,200
+Siete mil doscientos más: el interés también gana.
+
+21
+00:01:09,400 --> 00:01:12,200
+Cada año se multiplica por uno punto cero seis.
+
+22
+00:01:12,600 --> 00:01:15,400
+Es una función exponencial del tiempo.
+
+23
+00:01:15,600 --> 00:01:18,400
+Al principio, las dos curvas van juntas…
+
+24
+00:01:18,800 --> 00:01:21,600
+luego, la compuesta se despega.
+
+25
+00:01:21,800 --> 00:01:24,400
+En el año doce pasa los cuatro millones.
+
+26
+00:01:24,800 --> 00:01:27,600
+Y al revés: para tener una meta…
+
+27
+00:01:27,800 --> 00:01:30,400
+¿cuánto hay que depositar hoy?
+
+28
+00:01:35,400 --> 00:01:38,400
+Para tener cuatro millones en doce años,
+
+29
+00:01:38,600 --> 00:01:41,400
+se divide entre el factor de doce años.
+
+30
+00:01:41,800 --> 00:01:44,600
+Si la tasa es mensual, n cuenta meses.
+
+31
+00:01:44,800 --> 00:01:47,400
+Y ahora, la carrera completa:
+
+32
+00:01:47,800 --> 00:01:50,600
+simple, hasta el año diecisiete.
+
+33
+00:01:50,800 --> 00:01:54,000
+Compuesto: en el año doce.
+
+34
+00:01:55,400 --> 00:01:59,600
+Beto duplica sus ahorros cinco años antes
+
+35
+00:01:59,800 --> 00:02:04,400
+si el interés también gana interés.
+

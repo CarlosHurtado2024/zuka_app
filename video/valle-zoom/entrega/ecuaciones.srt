@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Beto ya sabe duplicar sus dos millones.
+
+2
+00:00:04,000 --> 00:00:06,600
+Ahora quiere triplicarlos: seis millones.
+
+3
+00:00:06,800 --> 00:00:09,600
+Al seis por ciento anual compuesto.
+
+4
+00:00:09,800 --> 00:00:12,400
+La incógnita queda arriba, en el exponente.
+
+5
+00:00:12,800 --> 00:00:15,600
+Es una ecuación exponencial.
+
+6
+00:00:15,800 --> 00:00:18,600
+Y tres no es potencia fácil de esa base.
+
+7
+00:00:19,000 --> 00:00:21,800
+Hay dos caminos, según las bases.
+
+8
+00:00:22,000 --> 00:00:24,400
+Y una trampa en el camino.
+
+9
+00:00:24,800 --> 00:00:29,000
+Primero, el camino fácil: igualar bases.
+
+10
+00:00:31,800 --> 00:00:34,800
+Ocho y cuatro son potencias de dos.
+
+11
+00:00:35,000 --> 00:00:37,800
+Todo se escribe en base dos.
+
+12
+00:00:38,200 --> 00:00:41,000
+Misma base: se igualan los exponentes.
+
+13
+00:00:41,200 --> 00:00:44,200
+Tres x, dos x más dos: x es dos.
+
+14
+00:00:44,600 --> 00:00:47,400
+Comprobación: sesenta y cuatro a cada lado.
+
+15
+00:00:47,600 --> 00:00:50,200
+Pero uno punto cero seis y tres…
+
+16
+00:00:50,600 --> 00:00:53,600
+no se dejan escribir con la misma base.
+
+17
+00:00:53,800 --> 00:00:56,600
+Entonces, se toma logaritmo.
+
+18
+00:01:00,000 --> 00:01:03,000
+Logaritmo natural a los dos lados.
+
+19
+00:01:03,200 --> 00:01:06,000
+El exponente t baja como factor.
+
+20
+00:01:06,400 --> 00:01:09,200
+Queda un producto: t por un número.
+
+21
+00:01:09,400 --> 00:01:12,200
+Se divide: t es ln 3 entre ln 1.06.
+
+22
+00:01:12,600 --> 00:01:15,400
+Unos dieciocho punto ochenta y cinco años.
+
+23
+00:01:15,600 --> 00:01:18,400
+Con años completos: el año diecinueve.
+
+24
+00:01:18,800 --> 00:01:21,600
+Las ecuaciones con logaritmos van al revés:
+
+25
+00:01:21,800 --> 00:01:24,400
+se juntan y se pasa a potencia.
+
+26
+00:01:24,800 --> 00:01:27,600
+Y ahí está la trampa de la selva.
+
+27
+00:01:27,800 --> 00:01:30,400
+Atención al dominio.
+
+28
+00:01:35,400 --> 00:01:38,400
+Suma de logaritmos: logaritmo del producto.
+
+29
+00:01:38,600 --> 00:01:41,400
+x por x menos dos debe dar ocho.
+
+30
+00:01:41,800 --> 00:01:44,600
+Salen dos respuestas: cuatro y menos dos.
+
+31
+00:01:44,800 --> 00:01:47,400
+Menos dos no tiene logaritmo: trampa.
+
+32
+00:01:47,800 --> 00:01:50,600
+Solo cuatro sirve: dos más uno, tres.
+
+33
+00:01:50,800 --> 00:01:54,000
+Volvamos a los ahorros de Beto.
+
+34
+00:01:55,400 --> 00:01:59,600
+Los dos millones de Beto se triplican
+
+35
+00:01:59,800 --> 00:02:04,400
+durante el año diecinueve.
+

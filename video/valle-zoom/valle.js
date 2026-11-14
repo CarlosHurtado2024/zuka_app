@@ -170,7 +170,7 @@ function hole(p, x, y, k, col = C.sun) {
 function pad(p, x, y, r, k, col = MINT) {
   if (k <= 0.01) return;
   const R = r * k, a = 0.35;
-  el('path', { d: `M${r1(x)},${r1(y)}L${r1(x + R * Math.cos(-a))},${r1(y + R * Math.sin(-a))}A${r1(R)},${r1(R)} 0 1,1 ${r1(x + R * Math.cos(a))},${r1(y + R * Math.sin(a))}Z`, fill: col[0], stroke: col[1], 'stroke-width': 3 }, p);
+  el('path', { d: `M${r1(x)},${r1(y)}L${r1(x + R * Math.cos(-a))},${r1(y + R * Math.sin(-a))}A${r1(R)},${r1(R)} 0 1,0 ${r1(x + R * Math.cos(a))},${r1(y + R * Math.sin(a))}Z`, fill: col[0], stroke: col[1], 'stroke-width': 3 }, p);
 }
 // la laguna (elipse) cubierta de lirios hasta la fracción f, de izquierda a derecha
 function lagoon(p, cx, cy, rx, ry, k, f = 0) {

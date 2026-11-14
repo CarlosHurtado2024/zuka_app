@@ -1,0 +1,7 @@
+En la laguna de la selva flota un lirio. Cada día, los lirios se duplican. Uno, dos, cuatro, ocho, dieciséis… El día diez cubren toda la laguna. Caro pregunta: ¿qué día estaba medio llena? La mitad de diez es cinco… ¿o no? Cuidado: aquí el tiempo no reparte por igual. Miremos cómo crece. Y prepárate: la respuesta te va a sorprender.
+
+La fórmula: y igual a dos a la x. Cada paso a la derecha, el doble. Hacia atrás, la mitad: un medio, un cuarto… Se acerca a cero, pero nunca llega. El eje x es una asíntota horizontal. x puede ser cualquier real; y, siempre positiva. Base mayor que uno: la curva sube. ¿Y si la base es menor que uno?
+
+Base un medio: cada paso, la mitad. Es el espejo de dos a la x. Decrece, pero tampoco llega a cero. Hay una base muy especial: e. Uno más uno sobre n, a la n: dos, dos punto veinticinco, dos punto cincuenta y nueve… Se acerca a dos punto setenta y dos. e a la x: el crecimiento continuo. ¿Y cómo se halla un exponente? Igualando las bases.
+
+Medio llena son quinientos doce lirios. Y quinientos doce es dos a la nueve. Misma base, mismo exponente: x es nueve. Igual: veinticinco a la x, ciento veinticinco. El día nueve, la laguna estaba a la mitad. Un solo día después, llena. La laguna de Caro estaba medio llena el día nueve, no el cinco: un día antes de cubrirse.

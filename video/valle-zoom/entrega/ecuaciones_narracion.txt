@@ -1,0 +1,7 @@
+Beto ya sabe duplicar sus dos millones. Ahora quiere triplicarlos: seis millones. Al seis por ciento anual compuesto. La incógnita queda arriba, en el exponente. Es una ecuación exponencial. Y tres no es potencia fácil de esa base. Hay dos caminos, según las bases. Y una trampa en el camino. Primero, el camino fácil: igualar bases.
+
+Ocho y cuatro son potencias de dos. Todo se escribe en base dos. Misma base: se igualan los exponentes. Tres x, dos x más dos: x es dos. Comprobación: sesenta y cuatro a cada lado. Pero uno punto cero seis y tres… no se dejan escribir con la misma base. Entonces, se toma logaritmo.
+
+Logaritmo natural a los dos lados. El exponente t baja como factor. Queda un producto: t por un número. Se divide: t es ln 3 entre ln 1.06. Unos dieciocho punto ochenta y cinco años. Con años completos: el año diecinueve. Las ecuaciones con logaritmos van al revés: se juntan y se pasa a potencia. Y ahí está la trampa de la selva. Atención al dominio.
+
+Suma de logaritmos: logaritmo del producto. x por x menos dos debe dar ocho. Salen dos respuestas: cuatro y menos dos. Menos dos no tiene logaritmo: trampa. Solo cuatro sirve: dos más uno, tres. Volvamos a los ahorros de Beto. Los dos millones de Beto se triplican durante el año diecinueve.

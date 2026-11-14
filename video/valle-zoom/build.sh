@@ -1,5 +1,5 @@
 #!/bin/sh
-# Videos zoom de Álgebra (Valle, Mercado, Torres de Potencias, Escalera de Sigma, Taller de los Bloques, Fuente de la Parábola, Cordillera Cúbica, Río de las Asíntotas) en estilo Scale Zoom Explainer (1080×1920, 24 fps): un video por lección, todos con el mismo motor.
+# Videos zoom de Álgebra (Valle, Mercado, Torres de Potencias, Escalera de Sigma, Taller de los Bloques, Fuente de la Parábola, Cordillera Cúbica, Río de las Asíntotas, Selva Exponencial) en estilo Scale Zoom Explainer (1080×1920, 24 fps): un video por lección, todos con el mismo motor.
 #   sh video/valle-zoom/build.sh                       -> todas las películas de films/
 #   sh video/valle-zoom/build.sh racionales reales     -> solo esas
 # Cada una deja out/<nombre>/<nombre>.mp4, <nombre>.srt, <nombre>_narracion.txt, readcheck.txt y poster.jpg.
