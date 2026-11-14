@@ -108,3 +108,16 @@ toca el suelo tiene raíces complejas, que remite al primero. Ejemplos nuevos, f
 | `lineales` | `alg-1` | Ana: tres cajas de baldosas y cuatro sueltas pesan como 25 → hay balanzas que nunca se equilibran y otras que siempre → 7 por caja |
 | `parabola` | `alg-4a` | ¿qué tan alto sube el chorro de Caro? → el punto más alto se lee en la fórmula: h = −b ÷ (2a) → 5 m de altura, a 2 m de la boquilla |
 | `cuadraticas` | `alg-4` | ¿dónde cae el agua? → la fórmula da dos respuestas y una cae detrás de la boquilla → 2 + √5 ≈ 4.24 m |
+
+# Cordillera Cúbica en zoom · lecciones 1 a 3
+
+Mismo proyecto y motor; `valle.js` suma la cordillera (`ridge`: roca sobre la vía y hondonada bajo ella), la vía del tren
+(`rail`) y ejes con escala vertical propia (`M.sy`). Un hilo une el mundo: el perfil de la cordillera de Ana,
+P(x) = x³ − 2x² − 5x + 6, con la vía a altura 0; sus cruces son los ceros. Ejemplos nuevos, fuera de los ejercicios
+(`tests/cubica-zoom.test.js`).
+
+| Video | Lección | El problema → la sorpresa → la respuesta |
+|---|---|---|
+| `division` | `alg-23b` | Ana quiere quitar el cruce de x = 1: dividir entre x − 1 (47 ÷ 5, bloques, división larga) → no hacía falta dividir: P = (x − 1)(x² + ax + b) + r y se igualan coeficientes → queda x² − x − 6, que cruza en −2 y 3 |
+| `residuo` | `alg-92` | Beto apuesta, entre la niebla, a un cruce en x = 2 → el residuo es la altura del terreno: P(2) = −4 (pierde); P(3) = 0, factor; división sintética entre x − 3 → cruces en −2, 1 y 3 |
+| `ceros` | `alg-93` | la cordillera de Caro, x³ − 3x² + 4x − 2, cruza la vía una sola vez pero el teorema fundamental promete tres ceros (multiplicidad, candidatos, Descartes) → los otros dos están en el plano complejo → 1 + i y 1 − i |

@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Caro también tiene una cordillera.
+
+2
+00:00:04,000 --> 00:00:06,600
+De grado tres, como la de Ana.
+
+3
+00:00:06,800 --> 00:00:09,600
+Pero la suya cruza la vía una sola vez.
+
+4
+00:00:09,800 --> 00:00:12,400
+En x igual a uno, y nada más.
+
+5
+00:00:12,800 --> 00:00:15,600
+Y un teorema dice: grado tres, tres ceros.
+
+6
+00:00:15,800 --> 00:00:18,600
+El teorema fundamental del álgebra.
+
+7
+00:00:19,000 --> 00:00:21,800
+¿Dónde están los otros dos?
+
+8
+00:00:22,000 --> 00:00:24,400
+Fuera del dibujo, ya verás.
+
+9
+00:00:24,800 --> 00:00:29,000
+Primero, una montaña que toca la vía sin cruzarla.
+
+10
+00:00:31,800 --> 00:00:34,800
+Esta tiene el factor x menos dos repetido.
+
+11
+00:00:35,000 --> 00:00:37,800
+En menos uno, la montaña cruza la vía.
+
+12
+00:00:38,200 --> 00:00:41,000
+En dos, la toca y se devuelve.
+
+13
+00:00:41,200 --> 00:00:44,200
+Es un cero doble: cuenta dos veces.
+
+14
+00:00:44,600 --> 00:00:47,400
+Uno más dos: tres ceros, su grado.
+
+15
+00:00:47,600 --> 00:00:50,200
+Repetido impar cruza; par, rebota.
+
+16
+00:00:50,600 --> 00:00:53,600
+La de Caro cruza una vez: ¿cero triple?
+
+17
+00:00:53,800 --> 00:00:56,600
+Toca buscar sus ceros con método.
+
+18
+00:01:00,000 --> 00:01:03,000
+Con coeficientes enteros, un cero racional c sobre d
+
+19
+00:01:03,200 --> 00:01:06,000
+tiene c divisor del último y d del primero.
+
+20
+00:01:06,400 --> 00:01:09,200
+Aquí solo hay cuatro candidatos.
+
+21
+00:01:09,400 --> 00:01:12,200
+Los signos de Q cambian tres veces:
+
+22
+00:01:12,600 --> 00:01:15,400
+tres ceros positivos, o uno.
+
+23
+00:01:15,600 --> 00:01:18,400
+Con menos x no cambian: ningún negativo.
+
+24
+00:01:18,800 --> 00:01:21,600
+Se prueba: Q de uno es cero.
+
+25
+00:01:21,800 --> 00:01:24,400
+Q de dos da dos: no sirve.
+
+26
+00:01:24,800 --> 00:01:27,600
+Un solo cero real, el uno.
+
+27
+00:01:27,800 --> 00:01:30,400
+Los otros dos se esconden en la división.
+
+28
+00:01:35,400 --> 00:01:38,400
+Al dividir entre x menos uno queda una parábola.
+
+29
+00:01:38,600 --> 00:01:41,400
+Su discriminante es negativo:
+
+30
+00:01:41,800 --> 00:01:44,600
+sus ceros: uno más i, uno menos i.
+
+31
+00:01:44,800 --> 00:01:47,400
+En el plano complejo: uno, espejo del otro.
+
+32
+00:01:47,800 --> 00:01:50,600
+Con coeficientes reales, llegan en pareja.
+
+33
+00:01:50,800 --> 00:01:54,000
+Uno, más dos complejos: tres ceros, como prometió.
+
+34
+00:01:55,400 --> 00:01:59,600
+Los ceros perdidos de Caro son uno más i
+
+35
+00:01:59,800 --> 00:02:04,400
+y uno menos i: no están en la recta real.
+

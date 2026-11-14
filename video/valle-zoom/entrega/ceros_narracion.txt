@@ -1,0 +1,7 @@
+Caro también tiene una cordillera. De grado tres, como la de Ana. Pero la suya cruza la vía una sola vez. En x igual a uno, y nada más. Y un teorema dice: grado tres, tres ceros. El teorema fundamental del álgebra. ¿Dónde están los otros dos? Fuera del dibujo, ya verás. Primero, una montaña que toca la vía sin cruzarla.
+
+Esta tiene el factor x menos dos repetido. En menos uno, la montaña cruza la vía. En dos, la toca y se devuelve. Es un cero doble: cuenta dos veces. Uno más dos: tres ceros, su grado. Repetido impar cruza; par, rebota. La de Caro cruza una vez: ¿cero triple? Toca buscar sus ceros con método.
+
+Con coeficientes enteros, un cero racional c sobre d tiene c divisor del último y d del primero. Aquí solo hay cuatro candidatos. Los signos de Q cambian tres veces: tres ceros positivos, o uno. Con menos x no cambian: ningún negativo. Se prueba: Q de uno es cero. Q de dos da dos: no sirve. Un solo cero real, el uno. Los otros dos se esconden en la división.
+
+Al dividir entre x menos uno queda una parábola. Su discriminante es negativo: sus ceros: uno más i, uno menos i. En el plano complejo: uno, espejo del otro. Con coeficientes reales, llegan en pareja. Uno, más dos complejos: tres ceros, como prometió. Los ceros perdidos de Caro son uno más i y uno menos i: no están en la recta real.

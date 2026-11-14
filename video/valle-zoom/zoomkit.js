@@ -120,7 +120,7 @@ function fparts(toks, size) {
     else if (tk.ov) w = tw(tk.ov, size, 600);
     else if (tk.rad != null) w = (tk.idx ? size * .16 : 0) + size * .58 + tw(tk.rad, size, 600) + size * .08;
     else w = SYMW(size);
-    const tight = (typeof tk === 'object' && (tk.sup || tk.sub || tk.ov || tk.tight)) || (typeof tk === 'string' && /^[),.}:]/.test(tk)) || (i > 0 && typeof toks[i - 1] === 'string' && /[({]$/.test(toks[i - 1]));
+    const tight = (typeof tk === 'object' && (tk.sup || tk.sub || tk.ov || tk.tight)) || (typeof tk === 'string' && /^[),.}:]/.test(tk)) || (i > 0 && typeof toks[i - 1] === 'string' && /[({]$/.test(toks[i - 1])) || (i > 0 && typeof tk === 'string' && /^\(/.test(tk) && toks[i - 1] && toks[i - 1].sup);
     if (i > 0 && !tight) x += gap;
     parts.push({ tk, x, w }); x += w;
   });

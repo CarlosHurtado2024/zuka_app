@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Ana dibuja el perfil de una cordillera.
+
+2
+00:00:04,000 --> 00:00:06,600
+La vía del tren va a altura cero.
+
+3
+00:00:06,800 --> 00:00:09,600
+El perfil es un polinomio de grado tres.
+
+4
+00:00:09,800 --> 00:00:12,400
+Lo llama P de x.
+
+5
+00:00:12,800 --> 00:00:15,600
+Uno de sus cruces: x igual a uno.
+
+6
+00:00:15,800 --> 00:00:18,600
+Ana quiere quitar ese cruce del polinomio.
+
+7
+00:00:19,000 --> 00:00:21,800
+¿Qué queda si divide entre x menos uno?
+
+8
+00:00:22,000 --> 00:00:24,400
+Se divide como con números.
+
+9
+00:00:24,800 --> 00:00:29,000
+Y una sorpresa: al final no hará falta dividir.
+
+10
+00:00:31,800 --> 00:00:34,800
+Cuarenta y siete caramelos en bolsas de cinco.
+
+11
+00:00:35,000 --> 00:00:37,800
+Salen nueve bolsas y sobran dos.
+
+12
+00:00:38,200 --> 00:00:41,000
+Lo que sobra es menor que una bolsa.
+
+13
+00:00:41,400 --> 00:00:44,200
+Con bloques pasa igual.
+
+14
+00:00:44,600 --> 00:00:47,400
+Ancho x más dos; sobran dos cuadritos.
+
+15
+00:00:47,600 --> 00:00:50,200
+El residuo no tiene x: grado menor.
+
+16
+00:00:50,600 --> 00:00:53,600
+Dividendo: divisor por cociente, más residuo.
+
+17
+00:00:53,800 --> 00:00:56,600
+Ahora, la cordillera de Ana.
+
+18
+00:01:00,000 --> 00:01:03,000
+Se divide por pasos, como con números.
+
+19
+00:01:03,200 --> 00:01:06,000
+x al cubo entre x: x al cuadrado.
+
+20
+00:01:06,400 --> 00:01:09,200
+Se multiplica y se resta.
+
+21
+00:01:09,400 --> 00:01:12,200
+Ahora manda menos x al cuadrado: va menos x.
+
+22
+00:01:12,600 --> 00:01:15,400
+Queda menos seis x más seis.
+
+23
+00:01:15,600 --> 00:01:18,400
+Va menos seis, y se resta otra vez.
+
+24
+00:01:18,800 --> 00:01:21,600
+Residuo: cero. No sobra nada.
+
+25
+00:01:21,800 --> 00:01:24,400
+x menos uno cabe justo: es un factor.
+
+26
+00:01:24,800 --> 00:01:27,600
+Pero hay un camino sin dividir:
+
+27
+00:01:27,800 --> 00:01:30,400
+comparar los coeficientes.
+
+28
+00:01:35,400 --> 00:01:38,400
+P: x menos uno por una parábola, más r.
+
+29
+00:01:38,600 --> 00:01:41,400
+Se multiplica y se compara con P.
+
+30
+00:01:41,800 --> 00:01:44,600
+Dos polinomios iguales tienen los mismos coeficientes.
+
+31
+00:01:44,800 --> 00:01:47,400
+a, menos uno; b, menos seis; r, cero.
+
+32
+00:01:47,800 --> 00:01:50,600
+Mismo cociente, residuo cero, sin dividir.
+
+33
+00:01:50,800 --> 00:01:54,000
+Esa parábola corta la vía en menos dos y tres.
+
+34
+00:01:55,400 --> 00:01:59,600
+Sin el cruce de uno, a la cordillera de Ana
+
+35
+00:01:59,800 --> 00:02:04,400
+le queda x al cuadrado menos x menos seis.
+

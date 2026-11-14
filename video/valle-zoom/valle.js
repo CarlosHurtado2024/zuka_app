@@ -108,12 +108,12 @@ function cube(p, x, y, s, k, col = SKY, lab = null) {
 }
 // ---------- ejes y curvas (Fuente de la Parábola) ----------
 // M = { ox, oy, s }: el punto (0, 0) va en (ox, oy) y una unidad mide s píxeles
-const mx = (M, v) => M.ox + v * M.s, my = (M, v) => M.oy - v * M.s;
+const mx = (M, v) => M.ox + v * M.s, my = (M, v) => M.oy - v * (M.sy || M.s);
 function axes(p, t, t0, M, x0, x1, y0, y1, o = {}) {
   const k = eio(seg(t, t0, t0 + .6)); if (k <= 0.01) return;
   const col = o.col || C.mist;
   el('rect', { x: r1(mx(M, x0)), y: r1(M.oy - 2.5), width: r1((x1 - x0) * M.s * k), height: 5, rx: 2.5, fill: col }, p);
-  el('rect', { x: r1(M.ox - 2.5), y: r1(my(M, y1)), width: 5, height: r1((y1 - y0) * M.s * k), rx: 2.5, fill: col }, p);
+  el('rect', { x: r1(M.ox - 2.5), y: r1(my(M, y1)), width: 5, height: r1((my(M, y0) - my(M, y1)) * k), rx: 2.5, fill: col }, p);
   if (o.ticks !== false) for (let v = Math.ceil(x0); v <= x1; v++) if (v) {
     const kk = pop(t, t0 + .3 + Math.abs(v) * .03); if (kk <= 0.01) continue;
     el('rect', { x: r1(mx(M, v) - 2), y: r1(M.oy - 10 * kk), width: 4, height: r1(20 * kk), rx: 2, fill: col }, p);
@@ -132,4 +132,22 @@ function curve(p, M, f, a, b, k, col = C.sun, sw = 7, ylo = -1e9, yhi = 1e9) {
     d += (pen ? 'L' : 'M') + r1(mx(M, x)) + ',' + r1(my(M, y)); pen = true;
   }
   if (d) el('path', { d, fill: 'none', stroke: col, 'stroke-width': sw, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, p);
+}
+// ---------- cordillera (Cordillera Cúbica) ----------
+// la montaña y = f(x) de a a b: roca sobre la vía (y > 0) y hondonada bajo ella, dibujada hasta la fracción k
+function ridge(p, M, f, a, b, k, ylo = -1e9, yhi = 1e9) {
+  if (k <= 0.01) return;
+  const n = 120, end = a + (b - a) * clamp(k); let d = `M${r1(mx(M, a))},${r1(M.oy)}`;
+  for (let i = 0; i <= n; i++) { const x = a + (end - a) * i / n; d += `L${r1(mx(M, x))},${r1(my(M, clamp(f(x), ylo, yhi)))}`; }
+  d += `L${r1(mx(M, end))},${r1(M.oy)}Z`;
+  el('path', { d, fill: C.blueD }, g(p, { 'clip-path': clipOf('rect', { x: -W, y: -H, width: 3 * W, height: r1(M.oy + H) }) }));
+  el('path', { d, fill: C.n3 }, g(p, { 'clip-path': clipOf('rect', { x: -W, y: r1(M.oy), width: 3 * W, height: 2 * H }) }));
+  curve(p, M, f, a, b, k, C.blue, 7, ylo, yhi);
+}
+// la vía del tren sobre y = 0, de x0 a x1 (valores), con traviesas
+function rail(p, t, t0, M, x0, x1) {
+  const k = eio(seg(t, t0, t0 + .7)); if (k <= 0.01) return;
+  const a = mx(M, x0), b = lerp(a, mx(M, x1), k);
+  for (let x = a + 14; x < b; x += 34) el('rect', { x: r1(x - 4), y: r1(M.oy - 12), width: 8, height: 24, rx: 3, fill: C.sunD }, p);
+  el('rect', { x: r1(a), y: r1(M.oy - 4), width: r1(b - a), height: 8, rx: 4, fill: C.cream }, p);
 }

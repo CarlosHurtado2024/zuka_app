@@ -1,0 +1,7 @@
+Beto ve la cordillera de Ana entre niebla. Apuesta: la vía también cruza en dos. Para saberlo, habría que dividir entre x menos dos. Una división larga, paso a paso. Si el residuo es cero, gana la apuesta. Pero ese residuo tiene un secreto. Es la altura del terreno en ese punto. Veamos por qué. Y luego, una tabla que divide sin escribir las x.
+
+Toda división se escribe así: divisor por cociente, más residuo. Ahora pon x igual a dos. Dos menos dos es cero: ese pedazo desaparece. P de dos es el residuo. Ocho, menos ocho, menos diez, más seis… Menos cuatro: Beto pierde la apuesta. ¿Y en x igual a tres?
+
+Veintisiete, menos dieciocho, menos quince, más seis. Cero. Sin dividir, ya sabemos el residuo. En el dibujo, en tres corta la vía. En dos, el residuo es la altura: menos cuatro. Teorema del factor: si P de c es cero, x menos c es un factor de P. Al revés: factor x menos c, cruce en c. Falta la otra parte de P. Para hallarla hay una tabla que divide sin escribir las x.
+
+Los coeficientes en fila, y el tres al lado. Baja el uno; por tres, y se suma. Por tres y se suma, hasta el final. La última casilla, cero, es el residuo. Los otros números son el cociente. Y ese cociente cruza en menos dos y en uno. La vía cruza en menos dos, uno y tres. En dos, el terreno va menos cuatro: Beto perdió.

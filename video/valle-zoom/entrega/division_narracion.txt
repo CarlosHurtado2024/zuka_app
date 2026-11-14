@@ -1,0 +1,7 @@
+Ana dibuja el perfil de una cordillera. La vía del tren va a altura cero. El perfil es un polinomio de grado tres. Lo llama P de x. Uno de sus cruces: x igual a uno. Ana quiere quitar ese cruce del polinomio. ¿Qué queda si divide entre x menos uno? Se divide como con números. Y una sorpresa: al final no hará falta dividir.
+
+Cuarenta y siete caramelos en bolsas de cinco. Salen nueve bolsas y sobran dos. Lo que sobra es menor que una bolsa. Con bloques pasa igual. Ancho x más dos; sobran dos cuadritos. El residuo no tiene x: grado menor. Dividendo: divisor por cociente, más residuo. Ahora, la cordillera de Ana.
+
+Se divide por pasos, como con números. x al cubo entre x: x al cuadrado. Se multiplica y se resta. Ahora manda menos x al cuadrado: va menos x. Queda menos seis x más seis. Va menos seis, y se resta otra vez. Residuo: cero. No sobra nada. x menos uno cabe justo: es un factor. Pero hay un camino sin dividir: comparar los coeficientes.
+
+P: x menos uno por una parábola, más r. Se multiplica y se compara con P. Dos polinomios iguales tienen los mismos coeficientes. a, menos uno; b, menos seis; r, cero. Mismo cociente, residuo cero, sin dividir. Esa parábola corta la vía en menos dos y tres. Sin el cruce de uno, a la cordillera de Ana le queda x al cuadrado menos x menos seis.
