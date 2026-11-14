@@ -1,8 +1,7 @@
 // Traza la progresión (Álgebra, progresiones aritméticas; juego dinámico de la lección alg-14): en una cuadrícula de
 // 3 × 3 hay puntos con números. Arriba se dan los dos primeros términos de una progresión aritmética («4, 7, …») y
 // hay que trazar el camino, sin levantar el dedo o por tramos, pasando por los términos en orden y rodeando los demás
-// puntos. Pasar por un punto que no es el siguiente quita una vida. Una mecha va quemando el camino por detrás: si
-// alcanza la punta, el camino se borra y se empieza de nuevo (sin perder vida). Sin vidas, la ronda empieza otra vez.
+// puntos. Pasar por un punto que no es el siguiente quita una vida. No hay reloj: se puede levantar el dedo y pensar. Sin vidas, la ronda empieza otra vez.
 // params = { rounds: [{ title, items: [{ a1, d, len, traps: [...] }] }], lives? }   state = { done: [n] }
 // Spec 2026-11-13-juegos-dinamicos-progresiones.
 
@@ -20,7 +19,7 @@ GAMES['traza-progresion'] = (() => {
   }
 
   function create(host, params, api) {
-    const C = api.palette, R = params.rounds, RAD = 21, FUSE = 26;
+    const C = api.palette, R = params.rounds, RAD = 21;
     const st = { done: R.map(() => 0) };
     let locked = false, W = 0, H = 0, grid = { x0: 0, y0: 0, cw: 0, ch: 0 }, queue = [], dots = [], path = [], burn = 0, press = false, over = -1, pause = 0, n = 0, finger = null;
     const a = makeArcade(R.length, params.lives ?? 3, api, {
@@ -59,10 +58,6 @@ GAMES['traza-progresion'] = (() => {
         if (a.phase !== 'play') return;
         if (pause > 0) { pause -= dt; if (pause <= 0) { queue.shift(); if (!queue.length) { a.win(); return; } load(); } return; }
         if (path.length < 2) return;
-        // La mecha avanza por el camino ya trazado; si llega a la punta, el camino se borra.
-        burn += FUSE * (1 + a.cur * 0.15) * dt;
-        let total = 0; for (let k = 1; k < path.length; k++) total += seg(path[k - 1], path[k]);
-        if (burn >= total) { path = [0]; burn = 0; over = -1; press = false; finger = null; a.say('La mecha alcanzó la punta: empieza otra vez', C.sun); }
       }
 
       p.draw = () => {
@@ -106,7 +101,7 @@ GAMES['traza-progresion'] = (() => {
         arcadeToast(p, C, a, W / 2, H - 17, locked);
         const mid = grid.y0 + grid.ch * 1.5;
         if (locked || a.phase === 'all') drawArcadeSummary(p, C, R.flatMap((rr, i) => rr.items.map(x => ({ ok: st.done[i] >= rr.items.length, text: termsOf(x).map(negTxt).join(', ') }))).slice(0, 7), mid);
-        else drawArcadeBanner(p, C, a, mid, { idle: 'Pasa el dedo por los términos, en orden', lost: 'Demasiados puntos equivocados' });
+        else drawArcadeBanner(p, C, a, mid, { idle: 'Sin prisa: pasa el dedo por los términos, en orden', lost: 'Demasiados puntos equivocados' });
         if (!a.toast || locked || a.phase === 'idle' || a.phase === 'all') {
           p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
           p.text(locked || a.phase === 'all' ? '¡Caminos completos! Ya puedes comprobar' : 'Rodea los puntos que no son de la progresión', W / 2, H - 16);

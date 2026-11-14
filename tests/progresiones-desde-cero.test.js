@@ -109,6 +109,7 @@ test('progresiones: cada ronda se puede ganar con sus controles y los cálculos 
     assert.ok(slots.every(j => j >= 0), 'falta un medio entre las fichas');
     assert.equal(G['rellena-medios'].grade({ slots }, e.params).ok, true);
   }
+  // Los cálculos se volvieron juegos (spec 2026-11-15-escalera-de-sigma): solo queda el de la pelota.
   const answers = IDS.flatMap(id => lesson(id).ex.filter(e => e.type === 'input').map(e => e.answer));
-  for (const a of [149, 860, 486, 315, 3]) assert.ok(answers.includes(a), `falta el cálculo ${a}`);
+  assert.equal(answers.length, 1);
 });

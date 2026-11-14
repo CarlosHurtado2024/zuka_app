@@ -1,13 +1,13 @@
 // Encesta la suma (Álgebra, suma de una progresión aritmética; juego dinámico de la lección alg-14b): arriba hay
 // tres canastas con números y una suma por calcular («2 + 4 + 6 + 8 + 10», «Los pares del 2 al 40»). Abajo hay un
 // balón: se desliza el dedo hacia arriba, en la dirección de la canasta, y al soltar el balón sale lanzado. Hay que
-// encestar en la que tiene la suma. Encestar en otra quita una vida; fallar el tiro no quita nada. Si se acaba el
-// tiempo de la jugada, la pregunta vuelve después. Sin vidas, la ronda empieza otra vez.
+// encestar en la que tiene la suma. Encestar en otra quita una vida; fallar el tiro no quita nada. No hay
+// reloj: se calcula con calma antes de lanzar. Sin vidas, la ronda empieza otra vez.
 // params = { rounds: [{ title, items: [{ ask, sum: [a1, d, n], options: [a, b, c], answer }] }], lives? }
 // state = { done: [n] }      Spec 2026-11-13-juegos-dinamicos-progresiones.
 
 GAMES['encesta-suma'] = (() => {
-  const SPEED = 560, HOOP = 30, CLOCK = 20;
+  const SPEED = 560, HOOP = 30;
   // Velocidad del balón al deslizar (dx, dy): solo si el deslizón va hacia arriba y mide al menos 14 px.
   function flickVel(dx, dy, speed) {
     const d = Math.hypot(dx, dy);
@@ -29,7 +29,7 @@ GAMES['encesta-suma'] = (() => {
   function create(host, params, api) {
     const C = api.palette, R = params.rounds;
     const st = { done: R.map(() => 0) };
-    let locked = false, W = 0, H = 0, hoopY = 0, home = { x: 0, y: 0 }, queue = [], perm = [0, 1, 2], ball = null, drag = null, aim = null, pause = 0, result = null, clock = CLOCK, sway = 0, n = 0;
+    let locked = false, W = 0, H = 0, hoopY = 0, home = { x: 0, y: 0 }, queue = [], perm = [0, 1, 2], ball = null, drag = null, aim = null, pause = 0, result = null, sway = 0, n = 0;
     const a = makeArcade(R.length, params.lives ?? 3, api, {
       start(i) { st.done[i] = 0; queue = R[i].items.map((_, k) => k); load(); },
       lost(i) { st.done[i] = 0; ball = null; drag = null; },
@@ -39,7 +39,7 @@ GAMES['encesta-suma'] = (() => {
     const centers = () => [1, 3, 5].map(k => (W * k) / 6 + (a.cur ? Math.sin(sway) * 14 : 0));
 
     function layout(w, h) { W = w; H = h; hoopY = 150; home = { x: w / 2, y: h - 84 }; }
-    function load() { perm = shuffledOrder(3, item().ask + (n++)); ball = null; drag = null; aim = null; pause = 0; result = null; clock = CLOCK; }
+    function load() { perm = shuffledOrder(3, item().ask + (n++)); ball = null; drag = null; aim = null; pause = 0; result = null; }
 
     const m = mountSketch(host, (p, size) => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
@@ -54,8 +54,6 @@ GAMES['encesta-suma'] = (() => {
           if (pause <= 0) { if (result.good) queue.shift(); else if (result.requeue) queue.push(queue.shift()); if (!queue.length) { a.win(); return; } if (result.good || result.requeue) load(); else { ball = null; result = null; } }
           return;
         }
-        clock -= dt;
-        if (clock <= 0 && !ball) { result = { requeue: true, pick: -1 }; pause = 1; a.say('Se acabó el tiempo: vuelve después', C.sun); return; }
         if (!ball) return;
         ball.x += ball.vx * dt; ball.y += ball.vy * dt;
         if (ball.x < 14) { ball.x = 14; ball.vx = Math.abs(ball.vx); } else if (ball.x > W - 14) { ball.x = W - 14; ball.vx = -Math.abs(ball.vx); }
@@ -79,8 +77,6 @@ GAMES['encesta-suma'] = (() => {
         p.text(`${r.title} · encesta en la suma`, W / 2, 40);
         if (a.phase === 'play') {
           drawPill(p, C, it.ask, W / 2, 68, C.sun, 15);
-          p.noStroke(); p.fill(C.line); p.rect(40, 90, W - 80, 6, 3);
-          p.fill(clock < 5 ? C.coral : C.mint); p.rect(40, 90, Math.max(0, (W - 80) * (clock / CLOCK)), 6, 3);
         }
         // Las canastas: tablero con el número y aro.
         if (a.phase !== 'idle' && !(locked || a.phase === 'all')) cs.forEach((cx, i) => {
@@ -101,7 +97,7 @@ GAMES['encesta-suma'] = (() => {
         arcadeToast(p, C, a, W / 2, H - 17, locked);
         const mid = (hoopY + home.y) / 2 + 10;
         if (locked || a.phase === 'all') drawArcadeSummary(p, C, R.flatMap((rr, i) => rr.items.map(x => ({ ok: st.done[i] >= rr.items.length, text: `${x.ask} = ${x.options[x.answer]}` }))).slice(0, 9), mid);
-        else drawArcadeBanner(p, C, a, mid, { idle: 'Desliza el dedo hacia la canasta y suelta', lost: 'Demasiadas canastas equivocadas' });
+        else drawArcadeBanner(p, C, a, mid, { idle: 'Sin prisa: calcula y luego lanza', lost: 'Demasiadas canastas equivocadas' });
         if (!a.toast || locked || a.phase === 'idle' || a.phase === 'all') {
           p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
           p.text(locked || a.phase === 'all' ? '¡Puras canastas! Ya puedes comprobar' : 'Desliza hacia arriba, apuntando a la canasta', W / 2, H - 16);

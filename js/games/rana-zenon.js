@@ -2,8 +2,7 @@
 // salta sobre una recta numérica y cada salto es el anterior por una misma razón (8, 4, 2, 1…). Cada toque en el estanque
 // es un salto: se ve la suma que lleva. Hay tres banderas. En las preguntas cortas («da 3 saltos: ¿dónde cae?») se da
 // la cantidad de saltos y se toca la bandera donde quedó; en las infinitas hay que saltar varias veces, ver que cada
-// vez avanza menos y tocar la bandera a la que se acerca sin llegar nunca. Una garza viene detrás: si alcanza a la
-// rana, la pregunta vuelve después (sin perder vida). Tocar otra bandera quita una vida. Sin vidas, la ronda empieza
+// vez avanza menos y tocar la bandera a la que se acerca sin llegar nunca. No hay reloj: se salta las veces que haga falta. Tocar otra bandera quita una vida. Sin vidas, la ronda empieza
 // otra vez.
 // params = { rounds: [{ title, items: [{ a1, r: [num, den], n?, flags: [a, b, c], answer, max }] }], lives? }
 // state = { done: [n] }      Spec 2026-11-13-juegos-dinamicos-progresiones.
@@ -27,7 +26,7 @@ GAMES['rana-zenon'] = (() => {
   function create(host, params, api) {
     const C = api.palette, R = params.rounds;
     const st = { done: R.map(() => 0) };
-    let locked = false, W = 0, H = 0, lineY = 0, queue = [], perm = [0, 1, 2], jumps = 0, frog = 0, hop = 0, from = 0, heron = 0, pause = 0, result = null, n = 0;
+    let locked = false, W = 0, H = 0, lineY = 0, queue = [], perm = [0, 1, 2], jumps = 0, frog = 0, hop = 0, from = 0, pause = 0, result = null, n = 0;
     const a = makeArcade(R.length, params.lives ?? 3, api, {
       start(i) { st.done[i] = 0; queue = R[i].items.map((_, k) => k); load(); },
       lost(i) { st.done[i] = 0; },
@@ -37,7 +36,7 @@ GAMES['rana-zenon'] = (() => {
     const need = it => it.n || MIN_INF;
 
     function layout(w, h) { W = w; H = h; lineY = h * 0.6; }
-    function load() { const it = item(); perm = shuffledOrder(3, `${it.a1}|${it.flags.join()}|${n++}`); jumps = 0; frog = 0; from = 0; hop = 0; heron = -0.34 * it.max; pause = 0; result = null; }
+    function load() { const it = item(); perm = shuffledOrder(3, `${it.a1}|${it.flags.join()}|${n++}`); jumps = 0; frog = 0; from = 0; hop = 0; pause = 0; result = null; }
     function answer(i) {
       const it = item(), good = perm[i] === it.answer;
       result = { pick: i, good }; pause = good ? 1.3 : 1.4;
@@ -59,9 +58,6 @@ GAMES['rana-zenon'] = (() => {
           if (pause <= 0) { if (result.good) queue.shift(); else queue.push(queue.shift()); if (!queue.length) { a.win(); return; } load(); }
           return;
         }
-        // La garza: empieza a caminar con el primer salto y, si alcanza a la rana, la pregunta vuelve después.
-        if (jumps > 0) heron += it.max * 0.05 * dt;
-        if (heron >= frog - it.max * 0.02) { result = { pick: -1, good: false }; pause = 1.1; a.say('La garza la alcanzó: vuelve después', C.sun); }
       }
 
       p.draw = () => {
@@ -93,11 +89,9 @@ GAMES['rana-zenon'] = (() => {
             p.stroke(C.ink); p.strokeWeight(2); p.line(x, lineY, x, top);
             drawPill(p, C, it.flags[k], x + 20 > W - 26 ? x - 20 : x + 20, top + 2, col, 13);
           });
-          // Los saltos ya dados (arcos), la garza y la rana.
+          // Los saltos ya dados (arcos) y la rana.
           p.noFill(); p.stroke(C.mint); p.strokeWeight(2);
           for (let k = 0; k < jumps - (hop > 0 ? 1 : 0); k++) { const x0 = X(partial(it, k)), x1 = X(partial(it, k + 1)); p.arc((x0 + x1) / 2, lineY, x1 - x0, Math.min(40, (x1 - x0) * 0.8), Math.PI, 0); }
-          const hx = Math.max(10, X(Math.max(0, heron)));
-          p.stroke(C.ink); p.strokeWeight(3); p.line(hx, lineY, hx, lineY - 26); p.strokeWeight(1.5); p.fill(C.cream); p.ellipse(hx, lineY - 30, 14, 18); p.noStroke(); p.fill(C.coral); p.triangle(hx + 6, lineY - 33, hx + 20, lineY - 30, hx + 6, lineY - 27);
           p.noStroke(); p.fill(shade(C.mint, 0.76)); p.ellipse(fx, lineY - 8 - up + 3, 24, 17);
           p.fill(C.mint); p.ellipse(fx, lineY - 8 - up, 24, 17);
           p.fill(C.cream); p.circle(fx + 5, lineY - 15 - up, 7); p.fill(C.night); p.circle(fx + 6, lineY - 15 - up, 3.5);
@@ -106,7 +100,7 @@ GAMES['rana-zenon'] = (() => {
         arcadeToast(p, C, a, W / 2, H - 17, locked);
         const mid = lineY + (H - lineY - 36) / 2;
         if (locked || a.phase === 'all') drawArcadeSummary(p, C, R.map((rr, i) => ({ ok: st.done[i] >= rr.items.length, text: `${rr.title}: ${Math.min(st.done[i], rr.items.length)} de ${rr.items.length}` })), 170);
-        else drawArcadeBanner(p, C, a, 170, { idle: 'Toca el estanque para saltar', lost: 'Demasiadas banderas equivocadas' });
+        else drawArcadeBanner(p, C, a, 170, { idle: 'Sin prisa: toca el estanque para saltar', lost: 'Demasiadas banderas equivocadas' });
         if (a.phase === 'play' && pause <= 0) {
           p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.CENTER, p.CENTER);
           p.text(jumps < need(it) ? `Salta ${need(it) - jumps} ${need(it) - jumps === 1 ? 'vez' : 'veces'} más` : 'Ahora toca la bandera', W / 2, mid);

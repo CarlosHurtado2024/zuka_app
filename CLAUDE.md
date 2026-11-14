@@ -109,9 +109,9 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   numérico contra la paciencia del cliente), `vuela-precios` (volar a toques por el aro correcto) y `rompe-cambios`
   (paleta y pelota; la pelota sale al soltar el dedo). Progresiones y sumatoria (spec
   `2026-11-13-juegos-dinamicos-progresiones`, pruebas `tests/juegos-dinamicos-progresiones.test.js`) → `traza-progresion`
-  (trazar un camino por los términos mientras una mecha lo quema), `encesta-suma` (lanzar un balón deslizando el dedo),
-  `dobla-fichas` (tablero tipo 2048 con razón 2; una sola vida), `rana-zenon` (saltos que se achican y banderas; una garza
-  la persigue) y `maquina-sigma` (arrastrar de una cinta el término de cada k). Los del Valle, los de Razones y los de Progresiones usan la base común
+  (trazar un camino por los términos), `encesta-suma` (lanzar un balón deslizando el dedo),
+  `dobla-fichas` (tablero tipo 2048 con razón 2; una sola vida), `rana-zenon` (saltos que se achican y banderas) y `maquina-sigma` (arrastrar de una bandeja el término de cada k); desde la spec
+  `2026-11-15-escalera-de-sigma` ninguno apura (sin mecha, reloj, garza ni cinta que corre; pruebas `tests/escalera-de-sigma.test.js`). Los del Valle, los de Razones y los de Progresiones usan la base común
   `makeArcade` del kit (fases, vidas, cola de preguntas, aviso, parar al terminar). Reglas: «Toca para empezar», tres vidas (`drawHearts`), sin vidas la ronda se
   reintenta (no se pierde el ejercicio), `api.ready(true)` al terminar todas las rondas, movimiento con `p.deltaTime`
   (tope 50 ms), cartel con `drawBanner`, y `peek()` en lo que devuelve `create` para probarlos con un robot en el
@@ -124,8 +124,10 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   pestañas, enunciado, pie y estado `{ rounds: [...] }`; el juego solo da `init, ok, solution, prompt, draw, press` (y
   `answered`, `foot`, `layout`, `peek` si hacen falta). Con `sup(n)`, `drawStepper` y `stepHit`. Hechos con él, todos del
   mundo Torres de Potencias: `arbol-potencia`, `pares-negativos`, `cuenta-factores`, `cambia-de-piso`, `salta-la-coma`,
-  `reparte-factores`, `parte-baldosa`, `tabla-conjugado`. Ese mundo ya no tiene opción múltiple ni tarjetas. El robot
-  `tests/robot-torres.js` (se carga en la página con `fetch` + `eval`) los resuelve con `peek()`.
+  `reparte-factores`, `parte-baldosa`, `tabla-conjugado`. Ese mundo ya no tiene opción múltiple ni tarjetas. Escalera de Sigma
+  (spec `2026-11-15-escalera-de-sigma`): `cuenta-saltos` (saltos y no términos; modos `value` y `count`, `arit` y `geo`),
+  `resta-corrida` (rS − S: se tachan las parejas iguales) y `parte-sigma` (Σ(ck + d) = c·Σk + d·n); tampoco le quedan tarjetas. El robot
+  `tests/robot-torres.js` (se carga en la página con `fetch` + `eval`) resuelve con `peek()` los juegos de los dos mundos.
 - **Jefe final de un mundo** (spec `2026-11-14-jefe-final-pradera`, pruebas `tests/jefe-venn.test.js`): `unit.boss = { id, title,
   clip: { scenes }, ex: [play(…)] }`, definido junto a las evaluaciones al final de `js/courses/algebra.js`. Es un nodo propio
   del camino (`.node.boss`, rojo con corona, entre la última lección y la evaluación; `bossUnlocked`, `openBossSheet` en
@@ -336,6 +338,11 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   Ejemplos nuevos (las escenas de respaldo de estas lecciones repiten los de sus ejercicios: al recibir los ID, cambiarlas a
   los del video); `tests/bloques-zoom.test.js`. Entregados en `Downloads/Zuka_Bloques_zoom`; esperan su ID de Bunny. Estas
   lecciones aún tienen ejercicios de opción múltiple y sin pistas.
+- **Fuente de la Parábola en zoom, lecciones 1 a 4** (mismo proyecto `video/valle-zoom`; ejes y curvas `axes`, `curve` en
+  `valle.js`): `complejos` (`alg-23c`), `lineales` (`alg-1`), `parabola` (`alg-4a`, su video viejo `video/clase_cuadratico`
+  sigue sin ID: el usuario elige), `cuadraticas` (`alg-4`), 130 s. Hilo: el chorro de la fuente de Caro y = −x² + 4x + 1.
+  Ejemplos nuevos; `tests/fuente-zoom.test.js`. Entregados en `Downloads/Zuka_Fuente_zoom`; esperan su ID de Bunny (al
+  recibirlos, poner las escenas de respaldo con los ejemplos del video).
 - **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
   `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
   `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y

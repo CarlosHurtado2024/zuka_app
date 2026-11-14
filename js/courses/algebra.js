@@ -1132,9 +1132,10 @@ const COURSE_ALGEBRA = {
             play('rellena-medios', 'Rellena los tres medios aritméticos entre 10 y 26', { first: 10, last: 26, k: 3, kind: 'aritmetica', chips: [13, 14, 18, 20, 22, 24] },
               'Con 3 medios hay 5 términos y 4 saltos: $26 = 10 + 4d$, así que $d = 4$ y los medios son $14, 18, 22$.',
               { hint: 'Si metes 3 números entre los extremos, ¿cuántos saltos iguales quedan? Reparte la distancia de 10 a 26 entre esos saltos.' }),
-            num('En la progresión $4, 9, 14, 19, \\dots$ ¿cuánto vale el término 30?', 149,
-              'La diferencia es $d = 5$ y del término 1 al 30 hay 29 saltos: $a_{30} = 4 + 29 \\cdot 5 = 149$.',
-              { hint: 'Halla el salto restando dos términos seguidos. ¿Cuántos saltos hay del primer término al término 30?' }),
+            play('cuenta-saltos', 'Del primer término al término $n$ hay **saltos**, no términos: da los justos', {
+              rounds: [{ kind: 'arit', mode: 'value', a1: 4, step: 5, n: 12 }, { kind: 'arit', mode: 'value', a1: 20, step: -3, n: 9 }, { kind: 'arit', mode: 'value', a1: -5, step: 4, n: 10 }],
+            }, 'Del término 1 al término $n$ hay $n - 1$ saltos, no $n$: el primero ya está puesto. Por eso $a_n = a_1 + (n - 1)d$. En $4, 9, 14, \\dots$ el término 12 es $4 + 11 \\cdot 5 = 59$; en $20, 17, 14, \\dots$ el noveno es $20 + 8 \\cdot (-3) = -4$.',
+              { hint: 'Mira los postes: el primer término no necesita ningún salto. Cuenta cuántos saltos hay entre el primer poste y el que te piden.' }),
             play('traza-progresion', 'Traza el camino: pasa el dedo por los términos de la progresión, **en orden**, sin tocar los demás puntos', {
               rounds: [
                 { title: 'Sumando', items: [{ a1: 4, d: 3, len: 5, traps: [8, 12, 14] }, { a1: 2, d: 5, len: 5, traps: [10, 15, 20] }] },
@@ -1142,7 +1143,7 @@ const COURSE_ALGEBRA = {
                 { title: 'Saltos grandes', items: [{ a1: 5, d: 11, len: 5, traps: [15, 25, 37] }, { a1: -7, d: 6, len: 6, traps: [0, 6, 12] }] },
               ],
             }, 'Los dos primeros términos dan la diferencia: $d = a_2 - a_1$. De ahí en adelante cada término es el anterior más $d$ (si $d$ es negativa, la progresión baja). Los otros puntos no están a un salto exacto del término anterior.',
-              { hint: 'Resta el primer término del segundo para saber el salto, y antes de mover el dedo calcula el número que sigue. La mecha te persigue: no te quedes quieto.' }),
+              { hint: 'Resta el primer término del segundo para saber el salto, y antes de mover el dedo calcula el número que sigue.' }),
           ],
         },
         {
@@ -1165,9 +1166,10 @@ const COURSE_ALGEBRA = {
             play('suma-filas', 'Añade filas al teatro hasta tener exactamente 170 sillas', { first: 8, d: 2, target: 170, max: 14, item: 'sillas' },
               'Las sillas por fila son $8, 10, 12, \\dots$ y con $n$ filas el total es $S_n = \\dfrac{n(2 \\cdot 8 + (n - 1) 2)}{2} = n(n + 7)$. Con $n = 10$: $10 \\cdot 17 = 170$.',
               { hint: 'Suma con la fórmula de Gauss: número de filas por (primera fila + última fila) entre 2. Prueba con distintas cantidades de filas.' }),
-            num('Calcula la suma $5 + 9 + 13 + \\dots + 81$', 860,
-              'Es aritmética con $d = 4$. Términos: $81 = 5 + (n - 1)4$ da $n = 20$. Suma: $S_{20} = \\dfrac{20\\,(5 + 81)}{2} = 10 \\cdot 86 = 860$.',
-              { hint: 'Primero averigua cuántos términos hay (cuántos saltos de 4 llevan del 5 al 81, más uno). Luego usa la suma de Gauss.' }),
+            play('cuenta-saltos', 'Para sumar hay que saber **cuántos términos** hay: cuenta los saltos y luego los postes', {
+              rounds: [{ kind: 'arit', mode: 'count', a1: 5, step: 4, last: 41 }, { kind: 'arit', mode: 'count', a1: 3, step: 6, last: 63 }, { kind: 'arit', mode: 'count', a1: 50, step: -5, last: 5 }],
+            }, 'Entre el primero y el último hay $\\dfrac{a_n - a_1}{d}$ saltos, y los términos son uno más. De $5$ a $41$ de $4$ en $4$: $36 \\div 4 = 9$ saltos y $10$ términos; su suma es $\\dfrac{10 \\cdot (5 + 41)}{2} = 230$.',
+              { hint: 'Primero llega con los saltos hasta el último número. Después piensa en una cerca: entre dos postes hay un salto, así que los postes son uno más que los saltos.' }),
             play('encesta-suma', 'Lanza el balón a la canasta que tiene la **suma**: desliza el dedo hacia ella y suelta', {
               rounds: [
                 { title: 'Sumas de corrido', items: [
@@ -1210,9 +1212,10 @@ const COURSE_ALGEBRA = {
             play('rellena-medios', 'Rellena los tres medios geométricos **positivos** entre 2 y 512', { first: 2, last: 512, k: 3, kind: 'geometrica', chips: [6, 8, 16, 32, 64, 128] },
               'Con 3 medios hay 5 términos y 4 multiplicaciones: $512 = 2 r^4$, así que $r^4 = 256$ y $r = 4$: los medios son $8, 32, 128$. Con $r = -4$ saldrían $-8, 32, -128$, que no son todos positivos.',
               { hint: 'Entre los extremos hay 4 multiplicaciones por la misma razón. ¿Por cuánto se multiplicó el 2 en total para llegar a 512? Busca el número que elevado a la 4 da eso.' }),
-            num('En la progresión $2, 6, 18, 54, \\dots$ ¿cuánto vale el sexto término?', 486,
-              'La razón es $r = 6 / 2 = 3$ y del término 1 al 6 hay 5 multiplicaciones: $a_6 = 2 \\cdot 3^5 = 2 \\cdot 243 = 486$.',
-              { hint: 'Divide dos términos seguidos para hallar la razón. ¿Cuántas veces hay que multiplicar por ella para pasar del primer término al sexto?' }),
+            play('cuenta-saltos', 'Del primer término al término $n$ hay **multiplicaciones**, no términos: da las justas', {
+              rounds: [{ kind: 'geo', mode: 'value', a1: 3, step: 4, n: 6 }, { kind: 'geo', mode: 'value', a1: 5, step: 2, n: 8 }, { kind: 'geo', mode: 'value', a1: 64, step: 0.5, n: 7 }],
+            }, 'Para llegar al término $n$ se multiplica $n - 1$ veces por la razón: $a_n = a_1 \\cdot r^{\\,n-1}$. En $3, 12, 48, \\dots$ el sexto es $3 \\cdot 4^5 = 3\\,072$; en $64, 32, 16, \\dots$ el séptimo es $64 \\cdot \\left(\\tfrac12\\right)^6 = 1$.',
+              { hint: 'El primer término ya está: no se multiplica para llegar a él. Cuenta cuántas veces hay que multiplicar por la razón para ir del primer poste al que te piden.' }),
             play('dobla-fichas', 'Desliza el tablero: dos fichas iguales que chocan se funden en **el doble**. Arma el término que se pide', {
               rounds: [
                 { title: 'Desde 1', base: 1, n: 4 },
@@ -1232,18 +1235,15 @@ const COURSE_ALGEBRA = {
             sc(5, 'Si $|r| \\ge 1$ la suma no se estabiliza: **diverge**.', { steps: ['$1 + 2 + 4 + \\dots$ crece sin parar', '$1 - 1 + 1 - 1 + \\dots$ salta entre 1 y 0'] }),
           ] },
           ex: [
-            num('Calcula la suma de los seis primeros términos de $5 + 10 + 20 + \\dots$', 315,
-              'Con $a_1 = 5$, $r = 2$ y $n = 6$: $S_6 = 5 \\cdot \\dfrac{2^6 - 1}{2 - 1} = 5 \\cdot 63 = 315$. Comprobación: $5 + 10 + 20 + 40 + 80 + 160 = 315$.',
-              { hint: 'Halla la razón y usa la suma geométrica: primer término por (razón elevada al número de términos, menos 1) entre (razón menos 1). También puedes escribir los seis términos.' }),
+            play('resta-corrida', 'Multiplica la suma por la razón y **resta**: tacha lo que se repite', { rounds: [{ a1: 5, r: 2, n: 6 }, { a1: 4, r: 3, n: 4 }, { a1: 1, r: 4, n: 4 }] },
+              'Al multiplicar $S$ por la razón sale la misma lista corrida un lugar. Al restar se cancela todo menos el último de arriba y el primero de abajo: $2S - S = 320 - 5$, así que $S = 315$. Con razón $3$: $3S - S = 324 - 4$, o sea $2S = 320$ y $S = 160$. De ahí sale $S_n = \\dfrac{a_1(r^n - 1)}{r - 1}$.',
+              { hint: 'Busca los números que aparecen en las dos filas: al restar se van. Fíjate en cuáles dos no tienen pareja y en por cuánto queda multiplicada la S.' }),
             play('limite-serie', 'Suma términos y lleva el marcador al valor al que se acerca 9 + 3 + 1 + …', { a1: 9, r: 1 / 3, rTex: '\\tfrac13', max: 20, step: 0.5, tol: 0.26 },
               'La razón es $\\tfrac13$, menor que 1, así que la suma converge: $S_\\infty = \\dfrac{a_1}{1 - r} = \\dfrac{9}{1 - \\frac13} = \\dfrac{9}{2/3} = 13.5$. Las sumas parciales $9, 12, 13, 13.33, \\dots$ se acercan sin pasarse.',
               { hint: 'Mira cómo se achican los saltos: cada uno es la tercera parte del anterior. La suma se acerca a primer término entre (1 menos la razón).' }),
             play('limite-serie', 'Suma términos y lleva el marcador al valor al que se acerca 12 + 3 + 0.75 + …', { a1: 12, r: 1 / 4, rTex: '\\tfrac14', max: 20, step: 0.5, tol: 0.26 },
               'Cada término es la cuarta parte del anterior: $r = \\tfrac14$, así que converge a $S_\\infty = \\dfrac{12}{1 - \\frac14} = \\dfrac{12}{3/4} = 16$. Las sumas parciales $12, 15, 15.75, 15.94, \\dots$ se acercan a 16 sin pasarse.',
               { hint: 'Halla la razón dividiendo dos términos seguidos. La suma infinita es el primer término entre (1 menos la razón).' }),
-            num('El decimal periódico $0.2727\\ldots$ es la suma $\\tfrac{27}{100} + \\tfrac{27}{10\\,000} + \\dots$ Escríbelo como $\\tfrac{x}{11}$: ¿cuánto vale $x$?', 3,
-              'Es geométrica con $a_1 = \\tfrac{27}{100}$ y $r = \\tfrac{1}{100}$: $S_\\infty = \\dfrac{27/100}{1 - 1/100} = \\dfrac{27/100}{99/100} = \\dfrac{27}{99} = \\dfrac{3}{11}$.',
-              { hint: 'Cada término es el anterior entre 100. Usa la suma infinita con ese primer término y esa razón, y simplifica la fracción que te quede.' }),
             num('Una pelota cae desde 6 m y cada rebote sube la mitad del anterior. Si rebotara para siempre, ¿cuántos metros recorrería en total, subiendo y bajando?', 18,
               'Baja 6 m y luego cada rebote sube y baja: $2(3 + 1.5 + 0.75 + \\dots) = 2 \\cdot \\dfrac{3}{1 - \\frac12} = 12$. En total $6 + 12 = 18$ m: una distancia finita aunque los rebotes no terminen.',
               { hint: 'Separa la primera caída de los rebotes. Cada rebote se recorre dos veces (subida y bajada), y sus alturas forman una geométrica de razón un medio.' }),
@@ -1266,7 +1266,7 @@ const COURSE_ALGEBRA = {
                 ] },
               ],
             }, 'Con una cantidad fija de saltos se suman esos términos y ya. Sin parar, si la razón está entre $-1$ y $1$, la suma se acerca a $S = \\dfrac{a_1}{1 - r}$ y nunca lo pasa: cada salto cubre solo una parte de lo que falta.',
-              { hint: 'Fíjate en cuánto le falta a la rana para cada bandera después de cada salto: a una se le acerca cada vez más sin tocarla. No tardes, que la garza viene detrás.' }),
+              { hint: 'Fíjate en cuánto le falta a la rana para cada bandera después de cada salto: a una se le acerca cada vez más sin tocarla.' }),
           ],
         },
         {
@@ -1284,36 +1284,19 @@ const COURSE_ALGEBRA = {
                 { text: '5 + 7 + 9 + … + 21', chips: [{ label: 'k = 1', cell: 'lower' }, { label: '9', cell: 'upper' }, { label: '2k + 3', cell: 'term' }, { label: '21', cell: null }, { label: '2k + 1', cell: null }] },
                 { text: '1 + 4 + 9 + … + 64', chips: [{ label: 'k = 1', cell: 'lower' }, { label: '8', cell: 'upper' }, { label: 'k²', cell: 'term' }, { label: '64', cell: null }, { label: '2k', cell: null }] },
               ],
-            }, 'El límite superior es el **número de términos**, no el último valor: $3 + 6 + \\cdots + 30$ tiene 10 términos, $\\sum_{k=1}^{10} 3k$ (desde $k = 0$ se colaría un término $0$ y serían 11). En $5 + 7 + \\cdots + 21$ el término es $2k + 3$ (con $k = 1$ da 5) y hay 9 términos. Los cuadrados $1, 4, \\dots, 64 = 8^2$ son $\\sum_{k=1}^{8} k^2$.'),
+            }, 'El límite superior es el **número de términos**, no el último valor: $3 + 6 + \\cdots + 30$ tiene 10 términos, $\\sum_{k=1}^{10} 3k$ (desde $k = 0$ se colaría un término $0$ y serían 11). En $5 + 7 + \\cdots + 21$ el término es $2k + 3$ (con $k = 1$ da 5) y hay 9 términos. Los cuadrados $1, 4, \\dots, 64 = 8^2$ son $\\sum_{k=1}^{8} k^2$.', { hint: 'El número de abajo es donde empieza k y el de arriba donde termina. Para la fórmula, mira cómo sale cada término a partir de su posición.' }),
             play('ordena-terminos', 'Despliega la sigma: pon los términos en orden', { tex: '\\sum_{k=2}^{5} (k^2 - 1)', chips: ['3', '8', '15', '24', '0', '35'], order: [0, 1, 2, 3], result: '50' },
-              'El índice empieza en $k = 2$, no en 1: los términos son $2^2 - 1 = 3$, $3^2 - 1 = 8$, $4^2 - 1 = 15$ y $5^2 - 1 = 24$. La suma es $3 + 8 + 15 + 24 = 50$; el 0 ($k = 1$) y el 35 ($k = 6$) quedan fuera.'),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: 'Σ (aₖ + bₖ) = Σ aₖ + Σ bₖ', truth: true, why: 'La suma de sumas se separa: la sigma es lineal.' },
-                { text: 'Σ (aₖ · bₖ) = Σ aₖ · Σ bₖ', truth: false, why: 'Un producto no se separa: (1·1 + 2·2) = 5, pero (1 + 2)(1 + 2) = 9.' },
-                { text: 'Σ desde k = 1 hasta n de una constante c vale n · c', truth: true, why: 'Se suma c n veces.' },
-                { text: 'Σ c · aₖ = c · Σ aₖ', truth: true, why: 'La constante sale de la suma.' },
-                { text: 'Σ desde k = 1 hasta n de k vale n(n + 1)', truth: false, why: 'Falta dividir entre 2: n(n + 1)/2 (con n = 3: 6, no 12).' },
-              ],
-            }, 'La sigma es lineal: $\\sum (c\\,a_k + b_k) = c \\sum a_k + \\sum b_k$ y $\\sum_{k=1}^{n} c = nc$, pero $\\sum a_k b_k \\ne \\sum a_k \\sum b_k$. La suma de Gauss es $\\sum_{k=1}^{n} k = \\dfrac{n(n + 1)}{2}$.'),
+              'El índice empieza en $k = 2$, no en 1: los términos son $2^2 - 1 = 3$, $3^2 - 1 = 8$, $4^2 - 1 = 15$ y $5^2 - 1 = 24$. La suma es $3 + 8 + 15 + 24 = 50$; el 0 ($k = 1$) y el 35 ($k = 6$) quedan fuera.', { hint: 'Reemplaza k por cada entero, desde el número de abajo hasta el de arriba, y escribe los resultados en ese orden.' }),
+            play('parte-sigma', 'Separa cada sigma en sus dos partes: las que crecen con $k$ y las que **se repiten**', { rounds: [{ c: 2, d: 3, hi: 4 }, { c: 3, d: 1, hi: 5 }, { c: 0, d: 7, hi: 5 }, { c: 1, d: 5, hi: 6 }] },
+              'Una suma se reparte en dos sigmas y un número que multiplica sale afuera: $\\sum (2k + 3) = 2\\sum k + \\sum 3$. La constante se suma una vez por cada $k$: con $k$ de $1$ a $4$, $\\sum 3 = 3 \\cdot 4 = 12$, no $3$. Por eso $\\sum_{k=1}^{5} 7 = 35$.',
+              { hint: 'Cuenta las piezas amarillas de una columna y luego cuántas columnas hay. Las azules crecen como 1, 2, 3…: ¿cuántas veces esa escalera?' }),
             play('suma-filas', 'Apila filas de puntos (1, 2, 3, …) hasta tener exactamente 78', { first: 1, d: 1, target: 78, max: 15, item: 'puntos' },
-              'Las filas suman $1 + 2 + \\cdots + n = \\dfrac{n(n + 1)}{2}$. Con $n = 12$: $\\dfrac{12 \\cdot 13}{2} = 78$. Es la suma de Gauss hecha pirámide.'),
+              'Las filas suman $1 + 2 + \\cdots + n = \\dfrac{n(n + 1)}{2}$. Con $n = 12$: $\\dfrac{12 \\cdot 13}{2} = 78$. Es la suma de Gauss hecha pirámide.', { hint: 'Cada fila tiene un punto más que la anterior. Ve apilando y mira el total: la suma de 1 hasta n crece cada vez más rápido.' }),
             play('ordena-terminos', 'Arma la cadena telescópica en orden y mira qué se cancela', { tex: '\\sum_{k=1}^{5} \\left(\\dfrac{1}{k} - \\dfrac{1}{k + 1}\\right)', chips: ['1 − 1/2', '1/2 − 1/3', '1/3 − 1/4', '1/4 − 1/5', '1/5 − 1/6', '1/2 − 1/4', '1/6 − 1/7'], order: [0, 1, 2, 3, 4], result: '5/6' },
-              'Al poner las restas en fila, cada $-\\tfrac1{k+1}$ se cancela con el $+\\tfrac1{k+1}$ del siguiente término: solo quedan el primero y el último, $1 - \\tfrac16 = \\tfrac56$. Las fichas $\\tfrac12 - \\tfrac14$ y $\\tfrac16 - \\tfrac17$ no pertenecen a la cadena.'),
+              'Al poner las restas en fila, cada $-\\tfrac1{k+1}$ se cancela con el $+\\tfrac1{k+1}$ del siguiente término: solo quedan el primero y el último, $1 - \\tfrac16 = \\tfrac56$. Las fichas $\\tfrac12 - \\tfrac14$ y $\\tfrac16 - \\tfrac17$ no pertenecen a la cadena.', { hint: 'Escribe la resta de cada k, una tras otra, y busca los números que aparecen una vez con más y otra con menos.' }),
             play('torre-producto', 'Multiplica 1 · 2 · 3 · … hasta llegar exactamente a 5.040', { kind: 'factorial', target: 5040, max: 9, unit: '', period: 'paso' },
-              'El factorial multiplica los enteros desde 1: $7! = 1 \\cdot 2 \\cdot 3 \\cdot 4 \\cdot 5 \\cdot 6 \\cdot 7 = 5\\,040$. Cada paso es el anterior por el siguiente número: $6! = 720$ y $7 \\cdot 720 = 5\\,040$.'),
-            play('clasifica-cartas', 'Desliza cada expresión: ¿la abrevia una **suma** (Σ) o un **producto** (Π)?', {
-              left: 'Suma Σ', right: 'Producto Π',
-              cards: [
-                { text: '1 + 1/2 + 1/3 + … + 1/10', side: 'left', why: 'Se suman los términos 1/k.' },
-                { text: '1 · 3 · 5 · 7 · 9', side: 'right', why: 'Se multiplican los impares: Π (2k − 1).' },
-                { text: '5!', side: 'right', why: '5! = 1 · 2 · 3 · 4 · 5 es un producto.' },
-                { text: '3 + 3 + 3 + 3 + 3', side: 'left', why: 'Una constante sumada 5 veces: Σ 3 = 15.' },
-                { text: '2 · 2 · 2 · 2', side: 'right', why: 'Una constante multiplicada 4 veces: Π 2 = 2⁴.' },
-                { text: '1 + 2 + 3 + … + n', side: 'left', why: 'Es la suma de Gauss: Σ k = n(n + 1)/2.' },
-              ],
-            }, '$\\Sigma$ abrevia una suma de términos y $\\Pi$ un producto: $\\sum_{k=1}^{5} 3 = 15$ pero $\\prod_{k=1}^{4} 2 = 2^4$; $5! = \\prod_{k=1}^{5} k$; y $\\dfrac{n(n + 1)}{2}$ es el valor de la suma $\\sum_{k=1}^{n} k$.'),
-            play('maquina-sigma', 'Alimenta la máquina: arrastra desde la cinta el término que toca para cada **k**, en orden', {
+              'El factorial multiplica los enteros desde 1: $7! = 1 \\cdot 2 \\cdot 3 \\cdot 4 \\cdot 5 \\cdot 6 \\cdot 7 = 5\\,040$. Cada paso es el anterior por el siguiente número: $6! = 720$ y $7 \\cdot 720 = 5\\,040$.', { hint: 'Cada paso multiplica lo que llevas por el número siguiente: 1, 2, 6, 24… Sigue hasta llegar justo al número pedido.' }),
+            play('maquina-sigma', 'Alimenta la máquina: arrastra desde la bandeja el término que toca para cada **k**, en orden', {
               rounds: [
                 { title: 'Primeras sumas', kind: 'sum', items: [
                   { expr: '3k', lo: 1, hi: 4, f: k => 3 * k, traps: [4, 10, 15] },
@@ -1332,7 +1315,7 @@ const COURSE_ALGEBRA = {
                 ] },
               ],
             }, 'El índice $k$ recorre los enteros desde el número de abajo hasta el de arriba; en cada paso se reemplaza $k$ en la fórmula y sale un término. $\\Sigma$ suma esos términos y $\\Pi$ los multiplica. Si el índice empieza en 3, el primer término se calcula con $k = 3$, no con 1.',
-              { hint: 'Mira el número de abajo del símbolo: ese es el primer valor de k. Reemplázalo en la fórmula, busca ese resultado en la cinta y sube k de uno en uno hasta el número de arriba.' }),
+              { hint: 'Mira el número de abajo del símbolo: ese es el primer valor de k. Reemplázalo en la fórmula, busca ese resultado en la bandeja y sube k de uno en uno hasta el número de arriba.' }),
           ],
         },
       ],

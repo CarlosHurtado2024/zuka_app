@@ -1,6 +1,6 @@
 // La máquina sigma (Álgebra, sumatoria y productoria; juego dinámico de la lección alg-15): arriba está la orden
-// («Σ 3k, de k = 1 a 4») y por una cinta van pasando fichas con números. Abajo hay una máquina que pide el término
-// del k actual: hay que agarrar de la cinta la ficha que vale ese término y soltarla en la máquina. La máquina la
+// («Σ 3k, de k = 1 a 4») y en una bandeja hay fichas con números (quietas: no hay reloj). Abajo hay una máquina que pide el término
+// del k actual: hay que agarrar de la bandeja la ficha que vale ese término y soltarla en la máquina. La máquina la
 // suma (o la multiplica, si es una productoria) y pasa al k siguiente. Soltar otra ficha quita una vida. Sin vidas,
 // la ronda empieza otra vez.
 // params = { rounds: [{ title, kind: 'sum' | 'prod', items: [{ expr, lo, hi, f, traps: [...] }] }], lives? }
@@ -28,12 +28,11 @@ GAMES['maquina-sigma'] = (() => {
       lost(i) { st.done[i] = 0; drag = null; },
     });
     const item = () => R[a.cur].items[queue[0] ?? 0];
-    const loopLen = () => Math.max(W + TW, tiles.length * (TW + GAP));
-    // Posición de una ficha en la cinta (da la vuelta) o bajo el dedo.
-    const posOf = t => (t === drag ? { x: drag.fx, y: drag.fy } : { x: ((((t.slot * loopLen()) / tiles.length + off) % loopLen()) + loopLen()) % loopLen() - TW / 2, y: beltY });
+    // Posición de una ficha en la bandeja (quieta, en una o dos filas de cuatro) o bajo el dedo.
+    const posOf = t => (t === drag ? { x: drag.fx, y: drag.fy } : { x: (W * ((t.slot % 4) + 0.5)) / 4, y: tiles.length > 4 ? beltY - 24 + Math.floor(t.slot / 4) * 48 : beltY });
     const want = () => termsOf(item())[fed];
 
-    function layout(w, h) { W = w; H = h; beltY = 176; mach = { x: w / 2 - 92, y: h - 150, w: 184, h: 96 }; }
+    function layout(w, h) { W = w; H = h; beltY = 192; mach = { x: w / 2 - 92, y: h - 150, w: 184, h: 96 }; }
     function load() {
       const it = item(), values = [...termsOf(it), ...it.traps], order = shuffledOrder(values.length, `${it.expr}|${n++}`);
       tiles = values.map((value, i) => ({ value, slot: order[i], gone: false }));
@@ -56,7 +55,6 @@ GAMES['maquina-sigma'] = (() => {
         gulp = Math.max(0, gulp - dt * 3);
         if (a.phase !== 'play') return;
         if (pause > 0) { pause -= dt; if (pause <= 0) { queue.shift(); if (!queue.length) { a.win(); return; } load(); } return; }
-        off += (40 + a.cur * 10) * dt;
       }
 
       p.draw = () => {
@@ -76,9 +74,7 @@ GAMES['maquina-sigma'] = (() => {
           p.textSize(24); p.textAlign(p.LEFT, p.CENTER); p.text(it.expr, W / 2 - 20, 96);
 
           // La cinta y sus fichas.
-          p.noStroke(); p.fill(C.card); p.rect(0, beltY - TH / 2 - 8, W, TH + 16);
-          p.stroke(C.line); p.strokeWeight(2);
-          for (let x = ((off % 24) + 24) % 24 - 24; x < W; x += 24) p.line(x, beltY + TH / 2 + 8, x + 10, beltY + TH / 2 + 2);
+          p.noStroke(); p.fill(C.card); p.rect(0, beltY - (tiles.length > 4 ? 52 : TH / 2 + 8), W, tiles.length > 4 ? 104 : TH + 16);
           tiles.forEach(t => { if (t.gone || t === drag) return; const q = posOf(t); drawTile(p, C, { x: q.x - TW / 2, y: q.y - TH / 2, w: TW, h: TH - 3 }, t.value, { fill: C.cream, size: 18, r: 9 }); });
 
           // La máquina: pide el término del k actual y muestra lo que lleva.
@@ -98,10 +94,10 @@ GAMES['maquina-sigma'] = (() => {
         arcadeToast(p, C, a, W / 2, H - 17, locked);
         const mid = (beltY + mach.y) / 2 + 20;
         if (locked || a.phase === 'all') drawArcadeSummary(p, C, R.flatMap((rr, i) => rr.items.map(x => ({ ok: st.done[i] >= rr.items.length, text: `${sym(rr.kind)} ${x.expr}, k de ${x.lo} a ${x.hi}: ${totalOf(x, rr.kind)}` }))).slice(0, 9), H / 2);
-        else drawArcadeBanner(p, C, a, mid, { idle: 'Arrastra a la máquina el término que pide', lost: 'Demasiadas fichas equivocadas' });
+        else drawArcadeBanner(p, C, a, mid, { idle: 'Sin prisa: arrastra el término que pide la máquina', lost: 'Demasiadas fichas equivocadas' });
         if (!a.toast || locked || a.phase === 'idle' || a.phase === 'all') {
           p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
-          p.text(locked || a.phase === 'all' ? '¡Máquina llena! Ya puedes comprobar' : 'Reemplaza k en la fórmula y busca ese número en la cinta', W / 2, H - 16);
+          p.text(locked || a.phase === 'all' ? '¡Máquina llena! Ya puedes comprobar' : 'Reemplaza k en la fórmula y busca ese número en la bandeja', W / 2, H - 16);
         }
         arcadeStop(p, a, locked);
       };
@@ -111,7 +107,7 @@ GAMES['maquina-sigma'] = (() => {
         const tp = a.tap(locked);
         if (tp === 'off') return;
         if (tp !== 'play' || pause > 0) return false;
-        const t = tiles.find(x => { if (x.gone) return false; const q = posOf(x); return Math.abs(p.mouseX - q.x) <= TW / 2 + 5 && Math.abs(p.mouseY - q.y) <= TH / 2 + 8; });
+        const t = tiles.find(x => { if (x.gone) return false; const q = posOf(x); return Math.abs(p.mouseX - q.x) <= TW / 2 + 5 && Math.abs(p.mouseY - q.y) <= TH / 2 + 3; });
         if (t) { drag = t; t.fx = p.mouseX; t.fy = p.mouseY; }
         return false;
       };

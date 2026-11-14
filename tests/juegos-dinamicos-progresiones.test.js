@@ -60,11 +60,6 @@ test('traza-progresion (alg-14): las trampas no son términos y todo cabe en la 
   }
 });
 
-test('traza-progresion: cuando la mecha borra el camino hay que levantar el dedo (no cuenta como error)', () => {
-  const src = fs.readFileSync(path.join(ROOT, 'js/games/traza-progresion.js'), 'utf8');
-  assert.match(src, /burn >= total\) \{ path = \[0\];[^}]*press = false/);
-});
-
 test('maquina-sigma (alg-15): la ronda de índices que no empiezan en 1 cumple su título', () => {
   const r = paramsOf('alg-15').rounds.find(x => /no empiezan en 1/.test(x.title));
   assert.ok(r.items.every(it => it.lo > 1));

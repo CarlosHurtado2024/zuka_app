@@ -104,7 +104,7 @@ GAMES['dobla-fichas'] = (() => {
         if (locked || a.phase === 'all') {
           p.noStroke(); p.fill(C.card); p.rect(box.x, mid - R.length * 13 - 8, box.s, R.length * 26 + 16, 10);
           drawArcadeSummary(p, C, R.map((rr, i) => ({ ok: st.done[i] >= 1, text: Array.from({ length: rr.n }, (_, k) => rr.base * 2 ** k).join(' → ') })), mid, box.s - 16);
-        } else drawArcadeBanner(p, C, a, mid, { idle: 'Desliza el dedo: iguales se funden en el doble', lost: 'Tablero lleno, sin jugadas', won: `¡Armaste ${goalOf(r)}!` });
+        } else drawArcadeBanner(p, C, a, mid, { idle: 'Sin prisa: iguales se funden en el doble', lost: 'Tablero lleno, sin jugadas', won: `¡Armaste ${goalOf(r)}!` });
         if (!a.toast || locked || a.phase === 'idle' || a.phase === 'all') {
           p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
           p.text(locked || a.phase === 'all' ? '¡Progresiones armadas! Ya puedes comprobar' : 'Desliza hacia un lado para correr todas las fichas', W / 2, H - 16);
