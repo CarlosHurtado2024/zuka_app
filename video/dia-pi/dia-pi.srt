@@ -1,0 +1,64 @@
+1
+00:00:00,130 --> 00:00:05,000
+Cada año, el mundo celebra las matemáticas.
+
+2
+00:00:08,600 --> 00:00:12,000
+En Colombia se escribe 14/3. Día primero, mes después.
+
+3
+00:00:12,100 --> 00:00:15,500
+¿Qué tiene de matemático?
+
+4
+00:00:15,600 --> 00:00:20,500
+En EE. UU. el mes va primero. En Estados Unidos, el 14 de marzo se escribe 3/14.
+
+5
+00:00:20,600 --> 00:00:25,500
+3/14 se parece a π. Son los primeros dígitos de pi: 3.14159…
+
+6
+00:00:25,600 --> 00:00:29,000
+¿Y qué es π? Sale de medir un círculo.
+
+7
+00:00:29,100 --> 00:00:34,000
+Contorno entre diámetro. Esta taza: 26.1 cm de contorno y 8.3 cm de diámetro.
+
+8
+00:00:34,100 --> 00:00:39,000
+Siempre da 3.14… El contorno mide un poco más de 3 diámetros.
+
+9
+00:00:39,100 --> 00:00:43,000
+Sin importar el tamaño. Todo círculo da el mismo número.
+
+10
+00:00:43,100 --> 00:00:47,000
+1988: el primer Día de Pi. Larry Shaw, museo de San Francisco.
+
+11
+00:00:47,100 --> 00:00:52,000
+2009: la Cámara de EE. UU. lo apoya. Pi ≈ 3.14: el 14 de marzo es «un día apropiado».
+
+12
+00:00:52,100 --> 00:00:56,500
+2019: la UNESCO elige el 14/3. Lo proclama Día Internacional de las Matemáticas.
+
+13
+00:00:56,600 --> 00:01:00,500
+Primera fiesta: 14/3/2020. 14 de marzo de 2020, en todo el mundo.
+
+14
+00:01:00,600 --> 00:01:05,000
+No es el cumpleaños de π. La fecha sale de escribir 3/14.
+
+15
+00:01:05,500 --> 00:01:08,500
+No celebra un número:
+
+16
+00:01:08,500 --> 00:01:12,000
+celebra las matemáticas.
+

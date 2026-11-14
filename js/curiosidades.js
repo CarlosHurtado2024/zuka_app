@@ -119,6 +119,22 @@ const CURIOS = [
       ],
     },
   },
+  {
+    id: 'cur-pi', topic: 'mate',
+    title: '¿Por qué el 14 de marzo?',
+    fact: 'En EE. UU. el 14 de marzo se escribe 3/14, como pi. La UNESCO lo eligió en 2019 para celebrar las matemáticas.',
+    clip: {
+      video: 'media/clips/dia-pi.mp4', duration: 77,
+      scenes: [
+        sc(6, 'En Colombia el 14 de marzo se escribe 14/3: primero el día y después el mes.', { title: '14/3' }),
+        sc(6, 'En Estados Unidos va primero el mes: 3/14, los primeros dígitos de pi.', { title: '$3/14 \\to 3.14$' }),
+        sc(7, 'Pi es el contorno de un círculo dividido entre su diámetro; da lo mismo en todo círculo.', { title: '$\\pi = \\dfrac{C}{d} = 3.14159\\ldots$' }),
+        sc(6, 'Una taza: 26.1 cm de contorno y 8.3 cm de diámetro.', { title: '$26.1 \\div 8.3 \\approx 3.14$' }),
+        sc(6, '1988: Larry Shaw celebra el primer Día de Pi en un museo de San Francisco.', { title: '1988' }),
+        sc(7, 'El 26 de noviembre de 2019 la UNESCO proclamó el Día Internacional de las Matemáticas; la primera fiesta fue en 2020.', { title: '14/3/2020' }),
+      ],
+    },
+  },
 ];
 
 const curioTopic = id => CURIO_TOPICS.find(t => t.id === id);

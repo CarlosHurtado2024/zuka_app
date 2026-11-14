@@ -147,3 +147,14 @@ test('«La IA está hecha de álgebra» (Sci-fi Hologram HUD, red neuronal) est�
   assert.ok(q.fact.length <= 110);
   assert.match(q.fact, /derivadas/);
 });
+
+test('«¿Por qué el 14 de marzo?» (Caption News, Día de Pi) está en Clips con su video y escenas de respaldo', () => {
+  const q = CURIOS.find(c => c.id === 'cur-pi');
+  assert.ok(q, 'falta cur-pi');
+  assert.equal(q.topic, 'mate');
+  if (q.clip.video) assert.ok(fs.existsSync(path.join(ROOT, q.clip.video)), 'falta el mp4');
+  assert.equal(q.clip.duration, 77);
+  assert.ok(q.clip.scenes.length >= 5);
+  assert.ok(q.fact.length <= 110);
+  assert.match(q.fact, /3\/14/);
+});

@@ -172,3 +172,10 @@ video/ia-algebra/fonts/*.ttf
 video/ia-algebra/events.json
 video/ia-algebra/build_log.txt
 video/ia-algebra/ia-algebra.mp4
+video/dia-pi/out/
+video/dia-pi/raw/
+video/dia-pi/assets/
+video/dia-pi/fonts/*.woff2
+video/dia-pi/events.json
+video/dia-pi/build_log.txt
+video/dia-pi/dia-pi.mp4
