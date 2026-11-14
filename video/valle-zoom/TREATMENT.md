@@ -80,3 +80,17 @@ legible.
 | `geometricas` | `alg-14c` | Ana dobla una hoja de 0.1 mm: ¿cuántos dobleces hasta la Luna? → 7 términos son 6 multiplicaciones → 42 dobleces, 0.1 mm · 2⁴² ≈ 440 000 km |
 | `sumageo` | `alg-14d` | Caro come cada día la mitad de lo que queda de su chocolate: ¿se lo acaba? → infinitos pedazos suman algo finito → nunca, pero en total come una barra |
 | `sumatoria` | `alg-15` | Beto quiere escribir la suma de los cien primeros cuadrados y la pizarra no alcanza → Σ 4 de 1 a 6 da 24, no 4 → un renglón, Σ k² = 338 350 |
+
+# Taller de los Bloques en zoom · lecciones 1 a 4
+
+Mismo proyecto y motor; `valle.js` suma los bloques algebraicos `blk` (cuadrado x², barra x, cubito 1; coral = negativo) y
+`cube` (x³ en perspectiva). Las escenas de respaldo de estas lecciones repiten ejemplos de sus ejercicios, así que los videos
+usan ejemplos nuevos; `tests/bloques-zoom.test.js` comprueba que no salgan en los ejercicios, el ritmo de la narración y el
+cierre.
+
+| Video | Lección | El problema → la sorpresa → la respuesta |
+|---|---|---|
+| `polinomios` | `alg-23a` | Caro quiere anotar su caja de bloques sin dibujarla → con x = 10 la caja es un número conocido → 2x² + 3x + 4 se lee 234 |
+| `notables` | `alg-3` | Beto agranda 4 por lado su mesa de lado x y cree que el área crece 16 → le faltan dos tablas de 4x → crece 8x + 16 |
+| `binomio` | `alg-24c` | Ana debe desarrollar (a + b)⁴: 16 productos → la fila 1, 4, 6, 4, 1 suma 16 → cinco términos contados por el triángulo |
+| `factorizacion` | `alg-24b` | Caro quiere armar un rectángulo con su montón x² + 5x + 6 → con 7 cubitos sobra uno → (x + 2)(x + 3) |

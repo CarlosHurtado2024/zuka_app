@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Caro tiene un montón de bloques revueltos.
+
+2
+00:00:04,000 --> 00:00:06,400
+¿Puede armar con todos un rectángulo?
+
+3
+00:00:06,800 --> 00:00:09,600
+Un cuadrado, cinco barras,
+
+4
+00:00:09,800 --> 00:00:12,400
+y seis cuadritos.
+
+5
+00:00:12,800 --> 00:00:15,600
+Armar el rectángulo es hallar sus lados.
+
+6
+00:00:15,800 --> 00:00:18,600
+Eso es factorizar: convertir una suma en producto.
+
+7
+00:00:19,000 --> 00:00:21,800
+Algo fácil: tres barras y seis cuadritos.
+
+8
+00:00:22,000 --> 00:00:24,400
+Tres filas de x más dos.
+
+9
+00:00:24,800 --> 00:00:29,000
+Pero ojo: no todo montón se deja armar.
+
+10
+00:00:31,800 --> 00:00:34,800
+Un cuadrado de lado x,
+
+11
+00:00:35,000 --> 00:00:37,800
+con una esquina de cuatro por cuatro.
+
+12
+00:00:38,200 --> 00:00:41,000
+Si quitamos la esquina,
+
+13
+00:00:41,200 --> 00:00:44,200
+y pasamos la tira abajo, sale un rectángulo.
+
+14
+00:00:44,600 --> 00:00:47,400
+x al cuadrado menos dieciséis:
+
+15
+00:00:47,600 --> 00:00:50,200
+x más cuatro, por x menos cuatro.
+
+16
+00:00:50,600 --> 00:00:53,600
+Con cubos: el signo del medio va al revés.
+
+17
+00:00:53,800 --> 00:00:56,600
+Ahora sí, el montón de Caro.
+
+18
+00:01:00,000 --> 00:01:03,000
+El cuadrado en la esquina.
+
+19
+00:01:03,200 --> 00:01:06,000
+Tres barras a un lado, dos al otro.
+
+20
+00:01:06,400 --> 00:01:09,200
+Los seis cuadritos llenan el hueco.
+
+21
+00:01:09,400 --> 00:01:12,200
+Dos por tres, seis; dos más tres, cinco.
+
+22
+00:01:12,600 --> 00:01:15,400
+La sorpresa: con siete cuadritos,
+
+23
+00:01:15,600 --> 00:01:18,400
+uno sobra. Ese montón no se arma.
+
+24
+00:01:18,800 --> 00:01:21,600
+Con dos cuadrados: dos por tres, seis;
+
+25
+00:01:21,800 --> 00:01:24,400
+seis y uno suman siete.
+
+26
+00:01:24,800 --> 00:01:27,600
+¿Y si no forma un rectángulo?
+
+27
+00:01:27,800 --> 00:01:30,400
+Se puede completar un cuadrado.
+
+28
+00:01:35,400 --> 00:01:38,400
+Las ocho barras se reparten: cuatro y cuatro.
+
+29
+00:01:38,600 --> 00:01:41,400
+Falta la esquina.
+
+30
+00:01:41,800 --> 00:01:44,600
+Pide dieciséis cuadritos de veinte: sobran cuatro.
+
+31
+00:01:44,800 --> 00:01:47,400
+x más cuatro al cuadrado, más cuatro.
+
+32
+00:01:47,800 --> 00:01:50,600
+Un cuadrado más algo, no un producto.
+
+33
+00:01:50,800 --> 00:01:54,000
+Volvamos al montón de Caro.
+
+34
+00:01:55,400 --> 00:01:59,600
+Con un cuadrado, cinco barras y seis cuadritos,
+
+35
+00:01:59,800 --> 00:02:04,400
+Caro arma x más dos por x más tres.
+

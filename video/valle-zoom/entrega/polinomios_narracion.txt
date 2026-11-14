@@ -1,0 +1,7 @@
+Caro tiene una caja llena de bloques. ¿Cómo anotarla sin dibujarla? Cuadrados de lado x, barras de x por uno, y cuadritos de uno por uno. Dos cuadrados, tres barras, cuatro cuadritos: dos x cuadrado, más tres x, más cuatro. La letra x es la variable. El número que la multiplica, el coeficiente. Y esconde una sorpresa: un número, cuando x vale diez.
+
+Un cubo de lado x es x al cubo. Además de áreas, hay volúmenes. En este polinomio, el mayor exponente es tres: grado tres; menos seis es el independiente. Ojo: el grado es el exponente mayor, aunque no esté de primero. Un número solo, distinto de cero, tiene grado cero. ¿Y si juntamos dos cajas?
+
+Se juntan cuadrados con cuadrados, barras con barras, cuadritos con cuadritos. Las barras rojas son negativas. Una barra y una roja se anulan. Quedan tres x al cuadrado, menos dos x, más cinco. Así se suman los semejantes. Un cuadrado y una barra no se juntan. Son piezas distintas. ¿Y multiplicar? Piensa en un rectángulo: los factores son sus lados.
+
+Lados x más uno y x más cuatro. Lo llenan un cuadrado, cinco barras, cuatro cuadritos. x cuadrado, más cinco x, más cuatro. Los grados se suman: uno más uno, dos. La caja de Caro, con x igual a diez: doscientos treinta y cuatro: sus cifras son los coeficientes. Caro anota su caja en un renglón, y con x igual a diez, se lee doscientos treinta y cuatro.

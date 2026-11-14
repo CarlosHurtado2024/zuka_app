@@ -1,0 +1,7 @@
+Ana debe desarrollar a más b, a la cuarta. ¿Hay un atajo? Empieza por las potencias pequeñas. Al cuadrado salen los números uno, dos, uno. Al cubo: uno, tres, tres, uno. Ya los vimos en el cubo de bloques. A la cuarta hay cuatro paréntesis. Una letra de cada uno: dieciséis productos. Los números esconden un triángulo, y ahí caben los dieciséis.
+
+Es el triángulo de Pascal. Arriba está la fila cero. Cada número suma los dos de arriba. Tres más tres, seis: uno, cuatro, seis, cuatro, uno. Y la sorpresa: la fila suma dieciséis, los dieciséis productos de Ana. Faltan las letras de cada término. Miremos los exponentes.
+
+A la cuarta hay cinco términos. Cada uno con su número del triángulo. Los exponentes de a bajan: cuatro a cero. Los de b suben de cero a cuatro. En cada término suman cuatro, la potencia del binomio. Con números: x más dos, a la cuarta. seis, por x cuadrado, por dos al cuadrado. ¿Por qué el del medio lleva un seis? Hay que contar maneras.
+
+Para el término a cuadrado b cuadrado, dos de los cuatro paréntesis dan b: seis maneras. Es el número combinatorio cuatro sobre dos. Cada coeficiente cuenta maneras de elegir. Ana escribe su binomio en un renglón. Uno, cuatro, seis, cuatro y uno suman dieciséis. Los dieciséis productos no desaparecieron: se agruparon en cinco términos, contados por el triángulo.

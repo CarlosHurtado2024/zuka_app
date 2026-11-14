@@ -89,3 +89,20 @@ function fchip(p, x, y, toks, k, col = ZERO, size = 50, ink = C.night) {
   shaded(S, 'rect', { x: r1(x - w / 2 - 26), y: r1(y - h / 2), width: r1(w + 52), height: r1(h), rx: r1(h / 2) }, col[0], col[1], 4, 4);
   formula(S, x, r1(y + size * .34), size, toks, { fill: ink });
 }
+// ---------- bloques algebraicos (Taller de los Bloques) ----------
+// blk: un bloque con esquina (x, y), ancho w y alto h; lab = tokens de formula para el rótulo
+function blk(p, x, y, w, h, k, col = SKY, lab = null, size = 40) {
+  if (k <= 0.01) return;
+  const S = scaleAt(p, x + w / 2, y + h / 2, k);
+  shaded(S, 'rect', { x: x + 2, y: y + 2, width: w - 4, height: h - 4, rx: Math.min(12, w / 4, h / 4) }, col[0], col[1], 4, 4);
+  if (lab) formula(S, x + w / 2, y + h / 2 + size * .34, size, lab, { fill: C.night });
+}
+// cubo en perspectiva (x³): centro (x, y), lado s
+function cube(p, x, y, s, k, col = SKY, lab = null) {
+  if (k <= 0.01) return;
+  const S = scaleAt(p, x, y, k), d = s * .42, x0 = x - (s + d) / 2, y0 = y - (s - d) / 2;
+  el('path', { d: `M${x0},${y0}L${x0 + d},${y0 - d}L${x0 + s + d},${y0 - d}L${x0 + s},${y0}Z`, fill: col[0] }, S);
+  el('path', { d: `M${x0 + s},${y0}L${x0 + s + d},${y0 - d}L${x0 + s + d},${y0 + s - d}L${x0 + s},${y0 + s}Z`, fill: col[1] }, S);
+  el('rect', { x: x0, y: y0, width: s, height: s, rx: 6, fill: col[0], stroke: col[1], 'stroke-width': 4 }, S);
+  if (lab) formula(S, x0 + s / 2, y0 + s / 2 + 20, 56, lab, { fill: C.night });
+}

@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Caro tiene una caja llena de bloques.
+
+2
+00:00:04,000 --> 00:00:06,400
+¿Cómo anotarla sin dibujarla?
+
+3
+00:00:06,800 --> 00:00:09,600
+Cuadrados de lado x, barras de x por uno,
+
+4
+00:00:09,800 --> 00:00:12,400
+y cuadritos de uno por uno.
+
+5
+00:00:12,800 --> 00:00:15,600
+Dos cuadrados, tres barras, cuatro cuadritos:
+
+6
+00:00:15,800 --> 00:00:18,600
+dos x cuadrado, más tres x, más cuatro.
+
+7
+00:00:19,000 --> 00:00:21,800
+La letra x es la variable.
+
+8
+00:00:22,000 --> 00:00:24,400
+El número que la multiplica, el coeficiente.
+
+9
+00:00:24,800 --> 00:00:29,000
+Y esconde una sorpresa: un número, cuando x vale diez.
+
+10
+00:00:31,800 --> 00:00:34,800
+Un cubo de lado x es x al cubo.
+
+11
+00:00:35,000 --> 00:00:37,800
+Además de áreas, hay volúmenes.
+
+12
+00:00:38,200 --> 00:00:41,000
+En este polinomio, el mayor exponente es tres:
+
+13
+00:00:41,200 --> 00:00:44,200
+grado tres; menos seis es el independiente.
+
+14
+00:00:44,600 --> 00:00:47,400
+Ojo: el grado es el exponente mayor,
+
+15
+00:00:47,600 --> 00:00:50,200
+aunque no esté de primero.
+
+16
+00:00:50,600 --> 00:00:53,600
+Un número solo, distinto de cero, tiene grado cero.
+
+17
+00:00:53,800 --> 00:00:56,600
+¿Y si juntamos dos cajas?
+
+18
+00:01:00,000 --> 00:01:03,000
+Se juntan cuadrados con cuadrados,
+
+19
+00:01:03,200 --> 00:01:06,000
+barras con barras, cuadritos con cuadritos.
+
+20
+00:01:06,400 --> 00:01:09,200
+Las barras rojas son negativas.
+
+21
+00:01:09,400 --> 00:01:12,200
+Una barra y una roja se anulan.
+
+22
+00:01:12,600 --> 00:01:15,400
+Quedan tres x al cuadrado, menos dos x,
+
+23
+00:01:15,600 --> 00:01:18,400
+más cinco. Así se suman los semejantes.
+
+24
+00:01:18,800 --> 00:01:21,600
+Un cuadrado y una barra no se juntan.
+
+25
+00:01:21,800 --> 00:01:24,400
+Son piezas distintas.
+
+26
+00:01:24,800 --> 00:01:27,600
+¿Y multiplicar? Piensa en un rectángulo:
+
+27
+00:01:27,800 --> 00:01:30,400
+los factores son sus lados.
+
+28
+00:01:35,400 --> 00:01:38,400
+Lados x más uno y x más cuatro.
+
+29
+00:01:38,600 --> 00:01:41,400
+Lo llenan un cuadrado, cinco barras, cuatro cuadritos.
+
+30
+00:01:41,800 --> 00:01:44,600
+x cuadrado, más cinco x, más cuatro.
+
+31
+00:01:44,800 --> 00:01:47,400
+Los grados se suman: uno más uno, dos.
+
+32
+00:01:47,800 --> 00:01:50,600
+La caja de Caro, con x igual a diez:
+
+33
+00:01:50,800 --> 00:01:54,000
+doscientos treinta y cuatro: sus cifras son los coeficientes.
+
+34
+00:01:55,400 --> 00:01:59,600
+Caro anota su caja en un renglón,
+
+35
+00:01:59,800 --> 00:02:04,400
+y con x igual a diez, se lee doscientos treinta y cuatro.
+

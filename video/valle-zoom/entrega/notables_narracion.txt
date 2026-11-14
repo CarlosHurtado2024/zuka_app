@@ -1,0 +1,7 @@
+Beto tiene una mesa cuadrada de lado x. La quiere más grande. ¿Cuánto crece? Su área es x al cuadrado. Cada lado crece cuatro: x más cuatro. Beto calcula: x al cuadrado más dieciséis. Pero al armarla, le faltan dos tablas. Dos rectángulos de cuatro por x. x cuadrado, más ocho x, más dieciséis. Al elevar una suma al cuadrado, aparece el doble producto.
+
+¿Y noventa y nueve al cuadrado, de cabeza? Noventa y nueve es cien menos uno. Al cuadrado de cien le quitamos dos tiras. Pero la esquina se quitó dos veces. Diez mil, menos doscientos, más uno. Nueve mil ochocientos uno. Con una resta, el doble producto resta. ¿Y veintiuno por diecinueve?
+
+Veintiuno es veinte más uno; diecinueve, veinte menos uno. Un cuadrado de lado a, y una esquina b. Quitamos la esquina. La tira de la derecha se pasa abajo. Un rectángulo: a más b, por a menos b. Su área: a cuadrado menos b cuadrado. Veintiuno por diecinueve: veinte al cuadrado, menos uno, trescientos noventa y nueve. ¿Y si los dos binomios comparten la x? Otro rectángulo lo muestra.
+
+Lados x más seis y x más dos. Un cuadrado, ocho barras y doce cuadritos. Ocho es seis más dos; doce, seis por dos. Y el cubo de una suma, trae uno, tres, tres, uno: otro patrón. Y la mesa de Beto: ocho x más dieciséis. La mesa de Beto no creció dieciséis: creció ocho x más dieciséis. Le faltaban las dos tablas.

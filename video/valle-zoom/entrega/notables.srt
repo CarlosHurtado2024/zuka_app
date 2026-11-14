@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Beto tiene una mesa cuadrada de lado x.
+
+2
+00:00:04,000 --> 00:00:06,400
+La quiere más grande. ¿Cuánto crece?
+
+3
+00:00:06,800 --> 00:00:09,600
+Su área es x al cuadrado.
+
+4
+00:00:09,800 --> 00:00:12,400
+Cada lado crece cuatro: x más cuatro.
+
+5
+00:00:12,800 --> 00:00:15,600
+Beto calcula: x al cuadrado más dieciséis.
+
+6
+00:00:15,800 --> 00:00:18,600
+Pero al armarla, le faltan dos tablas.
+
+7
+00:00:19,000 --> 00:00:21,800
+Dos rectángulos de cuatro por x.
+
+8
+00:00:22,000 --> 00:00:24,400
+x cuadrado, más ocho x, más dieciséis.
+
+9
+00:00:24,800 --> 00:00:29,000
+Al elevar una suma al cuadrado, aparece el doble producto.
+
+10
+00:00:31,800 --> 00:00:34,800
+¿Y noventa y nueve al cuadrado, de cabeza?
+
+11
+00:00:35,000 --> 00:00:37,800
+Noventa y nueve es cien menos uno.
+
+12
+00:00:38,200 --> 00:00:41,000
+Al cuadrado de cien le quitamos dos tiras.
+
+13
+00:00:41,200 --> 00:00:44,200
+Pero la esquina se quitó dos veces.
+
+14
+00:00:44,600 --> 00:00:47,400
+Diez mil, menos doscientos, más uno.
+
+15
+00:00:47,600 --> 00:00:50,200
+Nueve mil ochocientos uno.
+
+16
+00:00:50,600 --> 00:00:53,600
+Con una resta, el doble producto resta.
+
+17
+00:00:53,800 --> 00:00:56,600
+¿Y veintiuno por diecinueve?
+
+18
+00:01:00,000 --> 00:01:03,000
+Veintiuno es veinte más uno; diecinueve, veinte menos uno.
+
+19
+00:01:03,200 --> 00:01:06,000
+Un cuadrado de lado a, y una esquina b.
+
+20
+00:01:06,400 --> 00:01:09,200
+Quitamos la esquina.
+
+21
+00:01:09,400 --> 00:01:12,200
+La tira de la derecha se pasa abajo.
+
+22
+00:01:12,600 --> 00:01:15,400
+Un rectángulo: a más b, por a menos b.
+
+23
+00:01:15,600 --> 00:01:18,400
+Su área: a cuadrado menos b cuadrado.
+
+24
+00:01:18,800 --> 00:01:21,600
+Veintiuno por diecinueve: veinte al cuadrado, menos uno,
+
+25
+00:01:21,800 --> 00:01:24,400
+trescientos noventa y nueve.
+
+26
+00:01:24,800 --> 00:01:27,600
+¿Y si los dos binomios comparten la x?
+
+27
+00:01:27,800 --> 00:01:30,400
+Otro rectángulo lo muestra.
+
+28
+00:01:35,400 --> 00:01:38,400
+Lados x más seis y x más dos.
+
+29
+00:01:38,600 --> 00:01:41,400
+Un cuadrado, ocho barras y doce cuadritos.
+
+30
+00:01:41,800 --> 00:01:44,600
+Ocho es seis más dos; doce, seis por dos.
+
+31
+00:01:44,800 --> 00:01:47,400
+Y el cubo de una suma,
+
+32
+00:01:47,800 --> 00:01:50,600
+trae uno, tres, tres, uno: otro patrón.
+
+33
+00:01:50,800 --> 00:01:54,000
+Y la mesa de Beto: ocho x más dieciséis.
+
+34
+00:01:55,400 --> 00:01:59,600
+La mesa de Beto no creció dieciséis:
+
+35
+00:01:59,800 --> 00:02:04,400
+creció ocho x más dieciséis. Le faltaban las dos tablas.
+

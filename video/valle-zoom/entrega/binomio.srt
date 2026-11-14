@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Ana debe desarrollar a más b, a la cuarta.
+
+2
+00:00:04,000 --> 00:00:06,400
+¿Hay un atajo?
+
+3
+00:00:06,800 --> 00:00:09,600
+Empieza por las potencias pequeñas.
+
+4
+00:00:09,800 --> 00:00:12,400
+Al cuadrado salen los números uno, dos, uno.
+
+5
+00:00:12,800 --> 00:00:15,600
+Al cubo: uno, tres, tres, uno.
+
+6
+00:00:15,800 --> 00:00:18,600
+Ya los vimos en el cubo de bloques.
+
+7
+00:00:19,000 --> 00:00:21,800
+A la cuarta hay cuatro paréntesis.
+
+8
+00:00:22,000 --> 00:00:24,400
+Una letra de cada uno: dieciséis productos.
+
+9
+00:00:24,800 --> 00:00:29,000
+Los números esconden un triángulo, y ahí caben los dieciséis.
+
+10
+00:00:31,800 --> 00:00:34,800
+Es el triángulo de Pascal.
+
+11
+00:00:35,000 --> 00:00:37,800
+Arriba está la fila cero.
+
+12
+00:00:38,200 --> 00:00:41,000
+Cada número suma los dos de arriba.
+
+13
+00:00:41,200 --> 00:00:44,200
+Tres más tres, seis: uno, cuatro, seis, cuatro, uno.
+
+14
+00:00:44,600 --> 00:00:47,400
+Y la sorpresa: la fila suma dieciséis,
+
+15
+00:00:47,600 --> 00:00:50,200
+los dieciséis productos de Ana.
+
+16
+00:00:50,600 --> 00:00:53,600
+Faltan las letras de cada término.
+
+17
+00:00:53,800 --> 00:00:56,600
+Miremos los exponentes.
+
+18
+00:01:00,000 --> 00:01:03,000
+A la cuarta hay cinco términos.
+
+19
+00:01:03,200 --> 00:01:06,000
+Cada uno con su número del triángulo.
+
+20
+00:01:06,400 --> 00:01:09,200
+Los exponentes de a bajan: cuatro a cero.
+
+21
+00:01:09,400 --> 00:01:12,200
+Los de b suben de cero a cuatro.
+
+22
+00:01:12,600 --> 00:01:15,400
+En cada término suman cuatro,
+
+23
+00:01:15,600 --> 00:01:18,400
+la potencia del binomio.
+
+24
+00:01:18,800 --> 00:01:21,600
+Con números: x más dos, a la cuarta.
+
+25
+00:01:21,800 --> 00:01:24,400
+seis, por x cuadrado, por dos al cuadrado.
+
+26
+00:01:24,800 --> 00:01:27,600
+¿Por qué el del medio lleva un seis?
+
+27
+00:01:27,800 --> 00:01:30,400
+Hay que contar maneras.
+
+28
+00:01:35,400 --> 00:01:38,400
+Para el término a cuadrado b cuadrado,
+
+29
+00:01:38,600 --> 00:01:41,400
+dos de los cuatro paréntesis dan b: seis maneras.
+
+30
+00:01:41,800 --> 00:01:44,600
+Es el número combinatorio cuatro sobre dos.
+
+31
+00:01:44,800 --> 00:01:47,400
+Cada coeficiente cuenta maneras de elegir.
+
+32
+00:01:47,800 --> 00:01:50,600
+Ana escribe su binomio en un renglón.
+
+33
+00:01:50,800 --> 00:01:54,000
+Uno, cuatro, seis, cuatro y uno suman dieciséis.
+
+34
+00:01:55,400 --> 00:01:59,600
+Los dieciséis productos no desaparecieron:
+
+35
+00:01:59,800 --> 00:02:04,400
+se agruparon en cinco términos, contados por el triángulo.
+

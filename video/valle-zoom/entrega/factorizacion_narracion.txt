@@ -1,0 +1,7 @@
+Caro tiene un montón de bloques revueltos. ¿Puede armar con todos un rectángulo? Un cuadrado, cinco barras, y seis cuadritos. Armar el rectángulo es hallar sus lados. Eso es factorizar: convertir una suma en producto. Algo fácil: tres barras y seis cuadritos. Tres filas de x más dos. Pero ojo: no todo montón se deja armar.
+
+Un cuadrado de lado x, con una esquina de cuatro por cuatro. Si quitamos la esquina, y pasamos la tira abajo, sale un rectángulo. x al cuadrado menos dieciséis: x más cuatro, por x menos cuatro. Con cubos: el signo del medio va al revés. Ahora sí, el montón de Caro.
+
+El cuadrado en la esquina. Tres barras a un lado, dos al otro. Los seis cuadritos llenan el hueco. Dos por tres, seis; dos más tres, cinco. La sorpresa: con siete cuadritos, uno sobra. Ese montón no se arma. Con dos cuadrados: dos por tres, seis; seis y uno suman siete. ¿Y si no forma un rectángulo? Se puede completar un cuadrado.
+
+Las ocho barras se reparten: cuatro y cuatro. Falta la esquina. Pide dieciséis cuadritos de veinte: sobran cuatro. x más cuatro al cuadrado, más cuatro. Un cuadrado más algo, no un producto. Volvamos al montón de Caro. Con un cuadrado, cinco barras y seis cuadritos, Caro arma x más dos por x más tres.
