@@ -124,7 +124,7 @@ const CURIOS = [
     title: '¿Por qué el 14 de marzo?',
     fact: 'En EE. UU. el 14 de marzo se escribe 3/14, como pi. La UNESCO lo eligió en 2019 para celebrar las matemáticas.',
     clip: {
-      video: 'media/clips/dia-pi.mp4', duration: 77,
+      bunny: '62d296c8-f672-4858-b5ce-990f1c69d0a1', duration: 77,
       scenes: [
         sc(6, 'En Colombia el 14 de marzo se escribe 14/3: primero el día y después el mes.', { title: '14/3' }),
         sc(6, 'En Estados Unidos va primero el mes: 3/14, los primeros dígitos de pi.', { title: '$3/14 \\to 3.14$' }),

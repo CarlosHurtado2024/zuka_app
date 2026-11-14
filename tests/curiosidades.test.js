@@ -152,7 +152,7 @@ test('«¿Por qué el 14 de marzo?» (Caption News, Día de Pi) está en Clips c
   const q = CURIOS.find(c => c.id === 'cur-pi');
   assert.ok(q, 'falta cur-pi');
   assert.equal(q.topic, 'mate');
-  if (q.clip.video) assert.ok(fs.existsSync(path.join(ROOT, q.clip.video)), 'falta el mp4');
+  assert.equal(q.clip.bunny, '62d296c8-f672-4858-b5ce-990f1c69d0a1');
   assert.equal(q.clip.duration, 77);
   assert.ok(q.clip.scenes.length >= 5);
   assert.ok(q.fact.length <= 110);
