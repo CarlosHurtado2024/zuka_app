@@ -1,0 +1,76 @@
+1
+00:00:00,500 --> 00:00:04,770
+Sofía le enseña a una IA la foto de su gato, Mishi.
+
+2
+00:00:05,600 --> 00:00:09,200
+La IA duda: «gato», pero solo al 57 %.
+
+3
+00:00:10,200 --> 00:00:14,870
+Para la IA, Mishi no es una foto: es una tabla de números.
+
+4
+00:00:15,300 --> 00:00:20,230
+Cada número es el brillo de un píxel: 0 es negro; 255, blanco.
+
+5
+00:00:20,330 --> 00:00:24,730
+Lo sorprendente: aprenderá bajando una montaña.
+
+6
+00:00:24,830 --> 00:00:28,500
+Cada capa multiplica y suma: z = Wx + b.
+
+7
+00:00:28,600 --> 00:00:32,600
+La última neurona recibe dos números: 2 y 3.
+
+8
+00:00:32,900 --> 00:00:37,370
+Los multiplica por sus pesos y suma el sesgo: z = 0.3.
+
+9
+00:00:37,600 --> 00:00:41,930
+La sigmoide lo vuelve un número entre 0 y 1: 0.574.
+
+10
+00:00:42,200 --> 00:00:46,130
+Debía dar 1. Su error: (1 − 0.574)² ≈ 0.181.
+
+11
+00:00:46,600 --> 00:00:50,800
+Ese error depende de los pesos: es una montaña.
+
+12
+00:00:51,200 --> 00:00:55,530
+La derivada señala la subida; el paso va al revés.
+
+13
+00:00:55,630 --> 00:00:59,160
+Cada paso: w nuevo = w − 0.25 · ∂L/∂w.
+
+14
+00:01:02,200 --> 00:01:06,130
+Doce pasos después, el error bajó a 0.008.
+
+15
+00:01:06,230 --> 00:01:10,300
+La misma foto de Mishi, con los pesos nuevos:
+
+16
+00:01:10,400 --> 00:01:13,400
+ahora dice «gato» al 91 %.
+
+17
+00:01:14,600 --> 00:01:19,800
+ChatGPT hace lo mismo con palabras: cada una se vuelve un vector.
+
+18
+00:01:20,000 --> 00:01:24,400
+Sin magia: multiplicar, sumar y bajar la montaña.
+
+19
+00:01:24,600 --> 00:01:28,070
+Mishi es un gato. Y la IA, álgebra.
+

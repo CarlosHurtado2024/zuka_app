@@ -103,6 +103,22 @@ const CURIOS = [
       ],
     },
   },
+  {
+    id: 'cur-ia', topic: 'mate',
+    title: 'La IA está hecha de álgebra',
+    fact: 'Una red neuronal multiplica, suma y aprende bajando la montaña de su error con derivadas.',
+    clip: {
+      video: 'media/clips/ia-algebra.mp4', duration: 90,
+      scenes: [
+        sc(6, 'Para una IA, la foto de un gato es una tabla de números: el brillo de cada píxel.', { title: '$0 \\le \\text{píxel} \\le 255$' }),
+        sc(7, 'Cada neurona multiplica sus datos por unos pesos y suma un sesgo.', { title: '$z = 2(0.4) + 3(-0.2) + 0.1 = 0.3$' }),
+        sc(6, 'La sigmoide convierte cualquier número en uno entre 0 y 1.', { title: '$\\sigma(0.3) = \\dfrac{1}{1 + e^{-0.3}} \\approx 0.574$' }),
+        sc(6, 'Debía dar 1: el error mide qué tan lejos quedó.', { title: '$L = (1 - 0.574)^2 \\approx 0.181$' }),
+        sc(7, 'La derivada señala hacia dónde sube el error; cada paso va al revés y corrige los pesos.', { title: '$w_{\\text{nuevo}} = w - 0.25\\,\\dfrac{\\partial L}{\\partial w}$' }),
+        sc(6, 'Doce pasos después, la misma foto da «gato» al 91 %.', { title: '$L \\approx 0.008$' }),
+      ],
+    },
+  },
 ];
 
 const curioTopic = id => CURIO_TOPICS.find(t => t.id === id);

@@ -167,3 +167,8 @@ video/curva-corta/fonts/*.ttf
 video/curva-corta/events.json
 video/curva-corta/build_log.txt
 video/curva-corta/curva-corta.mp4
+video/ia-algebra/out/
+video/ia-algebra/fonts/*.ttf
+video/ia-algebra/events.json
+video/ia-algebra/build_log.txt
+video/ia-algebra/ia-algebra.mp4

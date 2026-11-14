@@ -1,0 +1,11 @@
+La IA está hecha de álgebra · clip de curiosidades de Zuka (estilo Sci-fi Hologram HUD)
+
+Material de terceros que aparece en la película:
+
+- Motor de alambre y HUD (engine/holo.js, engine/hud.js), copiado del estilo «Sci-fi Hologram HUD» de la biblioteca
+  Lemo-Opuscar (https://github.com/lemomo-ai/lemo-opuscar). Licencia MIT.
+- Tipografías Rajdhani (Indian Type Foundry), Share Tech Mono (Carrois Apostrophe) y Noto Sans (Google, para σ, η, ²
+  y los subíndices). SIL Open Font License 1.1; textos de licencia en fonts/OFL-*.txt.
+
+Todo lo demás (modelos, dibujo de Mishi, montaña del error, música y efectos sintetizados con numpy) está hecho en
+código para este clip. ChatGPT es una marca de OpenAI; solo se nombra en la narración.

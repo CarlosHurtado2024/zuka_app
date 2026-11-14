@@ -1,0 +1,19 @@
+Sofía le enseña a una IA la foto de su gato, Mishi.
+La IA duda: «gato», pero solo al 57 %.
+Para la IA, Mishi no es una foto: es una tabla de números.
+Cada número es el brillo de un píxel: 0 es negro; 255, blanco.
+Lo sorprendente: aprenderá bajando una montaña.
+Cada capa multiplica y suma: z = Wx + b.
+La última neurona recibe dos números: 2 y 3.
+Los multiplica por sus pesos y suma el sesgo: z = 0.3.
+La sigmoide lo vuelve un número entre 0 y 1: 0.574.
+Debía dar 1. Su error: (1 − 0.574)² ≈ 0.181.
+Ese error depende de los pesos: es una montaña.
+La derivada señala la subida; el paso va al revés.
+Cada paso: w nuevo = w − 0.25 · ∂L/∂w.
+Doce pasos después, el error bajó a 0.008.
+La misma foto de Mishi, con los pesos nuevos:
+ahora dice «gato» al 91 %.
+ChatGPT hace lo mismo con palabras: cada una se vuelve un vector.
+Sin magia: multiplicar, sumar y bajar la montaña.
+Mishi es un gato. Y la IA, álgebra.
