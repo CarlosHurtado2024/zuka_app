@@ -141,7 +141,7 @@ test('«La IA está hecha de álgebra» (Sci-fi Hologram HUD, red neuronal) est�
   const q = CURIOS.find(c => c.id === 'cur-ia');
   assert.ok(q, 'falta cur-ia');
   assert.equal(q.topic, 'mate');
-  if (q.clip.video) assert.ok(fs.existsSync(path.join(ROOT, q.clip.video)), 'falta el mp4');
+  assert.equal(q.clip.bunny, 'cf9e8c95-4327-41f0-ae17-fa5f5ef4f45a');
   assert.equal(q.clip.duration, 90);
   assert.ok(q.clip.scenes.length >= 5);
   assert.ok(q.fact.length <= 110);

@@ -108,7 +108,7 @@ const CURIOS = [
     title: 'La IA está hecha de álgebra',
     fact: 'Una red neuronal multiplica, suma y aprende bajando la montaña de su error con derivadas.',
     clip: {
-      video: 'media/clips/ia-algebra.mp4', duration: 90,
+      bunny: 'cf9e8c95-4327-41f0-ae17-fa5f5ef4f45a', duration: 90,
       scenes: [
         sc(6, 'Para una IA, la foto de un gato es una tabla de números: el brillo de cada píxel.', { title: '$0 \\le \\text{píxel} \\le 255$' }),
         sc(7, 'Cada neurona multiplica sus datos por unos pesos y suma un sesgo.', { title: '$z = 2(0.4) + 3(-0.2) + 0.1 = 0.3$' }),
