@@ -48,3 +48,18 @@ vez bien).
 - Los cursos viejos (Polinomios, Cuadráticas, Grado superior, Racionales, Exp-log, Cálculo desde límites, Física,
   Integral, Lineal) siguen teniendo opción múltiple y ejercicios sin pista.
 - Los juegos de las evaluaciones (`detective-pasos` y compañía) siguen sin usarse en lecciones.
+
+## Ajustes tras la revisión
+
+- El juego calcula exacto: la respuesta es el valor de la cuenta de la ficha y ya no se acepta el margen de redondeo del
+  `num` (con él pasaban cuentas falsas). La tolerancia vieja solo decide cuántos decimales se muestran.
+- Hace falta al menos una operación: ni una ficha suelta ni `( ficha )` ganan.
+- La pizarra pone entre paréntesis lo que se leería mal: `2 × π ÷ (π/2)`, `27^(1/3)`, `(−2)^2`.
+- `escala-solucion`: el paso válido cae parejo en cada lugar (rotación por el texto del nivel); un nivel de tres agarres
+  con textos largos ocupa dos renglones.
+- Fichas corregidas: un paso «falso» que era una identidad cierta (`trig-47b#3`); la división del enunciado servía sin
+  usar el recíproco (`alg-12c#3`); área que coincidía con el perímetro (`alg-51#3`); pasos falsos que eran afirmaciones
+  ciertas (`geo-9#3`, `geo-3#3`); fichas que ya eran la respuesta (`geo-4#2`, `geo-5#1`, `calc-recta#4`,
+  `exam-potencias#5`, `alg-24c#2`); `alg-12b#4`, `alg-23b#3` y `trig-46b#2` pasan a escalada; `alg-73#3` usa ln como su pista.
+- Sin hacer: unos 50 de estos ejercicios siguen sin pista (venía de antes); el prefijo «$» de `alg-13c#5` no se muestra;
+  las fichas de operación miden unos 29 px de ancho a 300 px.
