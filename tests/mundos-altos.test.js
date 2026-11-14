@@ -110,6 +110,11 @@ test('juegos nuevos: lógica pura', () => {
   assert.equal(ds.rootsOf({ coef: [1, -2, -5, 6], goal: 'zero' }).join(), '-2,1,3');
   assert.equal(ds.grade({ rounds: [{ r: 3, moved: true }] }, { rounds: [{ coef: [1, 1, -4, 2], goal: 'value', value: 26 }] }).ok, true);
   assert.equal(ds.grade({}, { rounds: [{ coef: [1, 1, -4, 2], goal: 'value', value: 26 }] }).ok, false);
+  // Pocas divisiones: no alcanza para probar todos los valores; la respuesta es el r que queda elegido.
+  assert.equal(ds.maxOf({}), 4); assert.equal(ds.maxOf({ probes: 2 }), 2);
+  assert.equal(ds.grade({ rounds: [{ r: 1, tried: [0, 2] }] }, { rounds: [{ coef: [1, -2, -5, 6], goal: 'zero' }] }).ok, true, 'vale razonar la raíz sin haber dividido con ella');
+  assert.equal(ds.grade({ rounds: [{ r: 2, tried: [2] }] }, { rounds: [{ coef: [1, -2, -5, 6], goal: 'zero' }] }).ok, false);
+  assert.ok(fs.readFileSync(path.join(ROOT, 'js/games/division-sintetica.js'), 'utf8').includes('s.tried.length < maxOf(r) && !s.tried.includes(s.r)'), 'no se divide dos veces con el mismo r ni más de lo permitido');
   const ba = GAMES['bloques-area'];
   assert.equal(ba.grade({ rounds: [{ u: 3, v: 2 }] }, { rounds: [{ mode: 'factor', a: 2, b: 3 }] }).ok, true, 'el orden de a y b no importa');
   assert.equal(ba.grade({ rounds: [{ u: 1, v: 6 }] }, { rounds: [{ mode: 'factor', a: 2, b: 3 }] }).ok, false, 'mismo producto, otra suma');
