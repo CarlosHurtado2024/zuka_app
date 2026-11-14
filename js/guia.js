@@ -352,7 +352,7 @@ const GUIDE_SCENES = {
 const GUIDE_ARCADE = new Set(['lluvia-elementos', 'revienta-globos', 'luciernagas-venn', 'buzo-enteros', 'carrera-fracciones', 'frena-aguja',
   'dispara-inverso', 'salta-signos', 'serpiente-orden', 'sirve-la-razon', 'corta-proporciones', 'resortera-tres', 'caja-veloz', 'vuela-precios',
   'rompe-cambios', 'traza-progresion', 'encesta-suma', 'dobla-fichas', 'rana-zenon', 'maquina-sigma', 'torre-pisos', 'escala-leyes',
-  'siembra-raices', 'muro-radicales', 'jefe-venn']);
+  'siembra-raices', 'muro-radicales', 'jefe-venn', 'jefe-ruta']);
 
 // Los pasos propios de cada juego: [escena, texto, opciones]. El ejemplo de la escena es pequeño y distinto de los
 // ejercicios: enseña el gesto, no la respuesta.
@@ -364,6 +364,10 @@ const GUIDES = {
   'apila-alturas': [['slide', 'Arrastra cada cuenta hacia arriba o abajo hasta la altura que sale de operar f y g.', { vert: true }]],
   'arbol-potencia': [['step', 'Elige con − / + las ramas por nudo y los niveles: el árbol crece solo y cuenta sus hojas.', { from: 2, to: 3, label: 'niveles' }]],
   'arma-la-cuenta': [['tap', 'Toca fichas de número y de operación para plantear la cuenta: el juego la calcula.', { items: ['6', '×', '4', '9'], pick: [0, 1, 2] }], ['tap', 'Sobran fichas: usa solo los datos que sirven. «⌫» borra la última.', { items: ['12', '÷', '3', '⌫'], pick: [0, 1, 2, 3] }]],
+  'bloques-area': [['step', 'Mueve los números con − / +: el rectángulo cambia y cuenta sus barras y cuadritos.', { from: 2, to: 3, label: 'a' }]],
+  'division-sintetica': [['step', 'Elige r con − / +: el juego baja, multiplica y suma. El último número es el residuo.', { from: 0, to: 2, label: 'r' }]],
+  'cancela-factores': [['tap', 'Toca un factor de arriba y luego uno igual de abajo: los dos se tachan.', { items: ['x + 3', 'x − 2', 'x + 3'], pick: [0, 2] }], ['tap', 'Lo que está sumando no se cancela. Cuando no quede nada, toca «Listo».', { items: ['Listo'], pick: [0] }]],
+  'jefe-ruta': [['tap', 'En cada nivel, de abajo hacia arriba, toca el paso que sí se justifica.', { items: ['2x = 8', '2x = 2'], pick: [0] }], ['tap', 'Con la ruta completa toca «¡Atacar!». Si un paso falla, el juego dice en qué nivel.', { items: ['¡Atacar!'], pick: [0] }]],
   'arma-conjunto': [['tap', 'Toca las fichas para meterlas a las llaves o sacarlas, hasta cumplir la condición.', { items: ['a', 'e', 'm'], pick: [0, 1] }]],
   'arma-notacion': [['tap', 'Toca las fichas en orden para escribir el conjunto: nombre, igual, llave y elementos.', { items: ['A', '=', '{', '1'], pick: [0, 1, 2, 3] }]],
   'arma-producto': [['tap', 'Elige dos o más fichas: la máquina las multiplica y cuenta cuántas son negativas.', { items: ['−2', '3', '−5'], pick: [0, 2] }]],

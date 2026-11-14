@@ -553,7 +553,10 @@ function roundsGame(def) {
         p.background(C.bg);
         G.dt = frameDt(p); G.t += G.dt;
         drawTabs(p, C, G.tabs, G.cur, i => (G.locked ? (def.ok(G.st[i], R[i], params) ? C.ok : C.bad) : i === G.cur ? C.brand : answered(i) ? C.Z : C.line));
-        p.noStroke(); p.fill(C.N); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(14); p.text(def.prompt(G.r, G.s, G), 12, 46, G.W - 24, 36);
+        p.noStroke(); p.fill(C.N); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(14);
+        // Un enunciado con matemática va en un renglón, como fórmula; si no, en su caja de dos renglones.
+        const pr = def.prompt(G.r, G.s, G);
+        if (typeof formulaWanted === 'function' && formulaWanted(pr)) fitText(p, pr, 12, 63, G.W - 24, 15, 34); else p.text(pr, 12, 46, G.W - 24, 36);
         def.draw(G);
         const good = def.ok(G.s, G.r, params), pend = R.findIndex((_, i) => !answered(i) && i !== G.cur);
         const foot = G.locked ? (good ? '¡Bien!' : def.solution(G.r, params)) : answered(G.cur) && pend >= 0 ? `Sigue con la pestaña ${pend + 1}` : def.foot?.(G.r, G.s, G) ?? '';

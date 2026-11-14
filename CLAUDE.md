@@ -93,6 +93,12 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   dos pasos; escenas en `GUIDE_SCENES`: tap, drag, step, slide, turn, hold, fling, swipe, trace, keys, paint, touch) y, si usa
   vidas, su nombre en `GUIDE_ARCADE`; el cartel, las vidas, las rondas y «Comprobar» se añaden solos. No sale sola en las
   evaluaciones. Se recuerda en `S.guides`.
+- **Mundos altos de Álgebra** (spec `2026-11-19-mundos-altos`, pruebas `tests/mundos-altos.test.js`): los ejercicios de Taller de los
+  Bloques, Fuente de la Parábola, Cordillera Cúbica, Río de Asíntotas y Selva Exponencial, su jefe final y su evaluación están en
+  `js/courses/mundos-altos.js` (va después de `algebra.js` y reemplaza los `ex` de 16 lecciones; los viejos de `algebra.js` ya no se
+  usan). Juegos: `bloques-area`, `division-sintetica`, `cancela-factores` y `jefe-ruta`, un **jefe genérico** por rutas de pasos
+  (`{ name, color, rounds: [{ title, attacks: [{ say, levels }] }] }`, el paso válido primero) que sirve para cualquier mundo. Faltan
+  jefe en Valle, Mercado, Torres y Escalera (esta también sin evaluación) y jefe y evaluación en los demás cursos.
 - **Fórmulas con TeX en el lienzo** (`js/games/formula.js`, spec `2026-11-18-formulas-tex`, pruebas `tests/formula.test.js`): los
   textos que dibuja un juego (`fitText`, `drawTile`, `p.text` de un renglón centrado en vertical) pueden llevar TeX entre `$…$`
   (`rac`, `^`, `_`, `sqrt`, `	ext`…; barra doble en cadenas JS) y se dibujan con fracciones apiladas, exponentes y raíces, con la
@@ -395,12 +401,12 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   Ejemplos nuevos; `tests/asintotas-zoom.test.js`. Entregados en `Downloads/Zuka_Rio_zoom`; esperan su ID de Bunny. Al
   recibirlos, cambiar las escenas de respaldo (las de `alg-25a` y `alg-25b` repiten hoy los ejercicios) por los ejemplos
   del video. Estas lecciones aún tienen ejercicios de opción múltiple y sin pistas.
-- **Río de las Asíntotas en zoom, lecciones 1 a 4** (mismo proyecto `video/valle-zoom`; río vertical `river` y hueco `hole`
-  en `valle.js`): `dominio` (`alg-25a`), `fracciones` (`alg-25b`), `sistemas` (`alg-101`), `parciales` (`alg-102`), 130 s.
-  Hilo: el río (asíntota): el sendero de Beto, el estanque de Ana y Beto, el bote de Caro y la curva de dos ríos.
-  Ejemplos nuevos; `tests/asintotas-zoom.test.js`. Entregados en `Downloads/Zuka_Rio_zoom`; esperan su ID de Bunny. Al
-  recibirlos, cambiar las escenas de respaldo (las de `alg-25a` y `alg-25b` repiten hoy los ejercicios) por los ejemplos
-  del video. Estas lecciones aún tienen ejercicios de opción múltiple y sin pistas.
+- **Selva Exponencial en zoom, lecciones 1 a 4** (mismo proyecto `video/valle-zoom`; laguna `lagoon` y lirios `pad` en
+  `valle.js`): `lirios` (`alg-71`), `interes` (`alg-13b`), `logaritmos` (`alg-72`), `ecuaciones` (`alg-73`), 130 s. Hilos:
+  la laguna de Caro (lirios que se duplican) y los ahorros de Beto (2 000 000 al 6 % anual). Ejemplos nuevos;
+  `tests/exponencial-zoom.test.js`. Entregados en `Downloads/Zuka_Selva_zoom`; esperan su ID de Bunny (al recibirlos, poner
+  las escenas de respaldo con los ejemplos del video). `alg-13b` y `alg-73` ya tienen otros videos sin ID (A5 y Clase 13):
+  el usuario elige. `alg-71` y `alg-72` aún tienen ejercicios de opción múltiple y sin pistas.
 - **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
   `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
   `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y

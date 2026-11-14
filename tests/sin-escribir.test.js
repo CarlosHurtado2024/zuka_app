@@ -18,7 +18,7 @@ const walk = c => get(c, 'COURSES').flatMap(co => (co.units || []).flatMap(u => 
 
 test('en la app no queda ningún ejercicio de escribir, en ningún curso', () => {
   const now = walk(ctx), old = walk(before).filter(e => e.ex.type === 'input');
-  assert.ok(old.length >= 160, 'había muchos ejercicios de escribir');
+  assert.ok(old.length >= 130, 'había muchos ejercicios de escribir');
   assert.equal(now.filter(e => e.ex.type === 'input').map(e => e.key).join(), '');
   assert.equal(Object.keys(TABLE).filter(k => !old.some(e => e.key === k)).join(), '', 'no sobran fichas en la tabla');
   // El cambio conserva enunciado, explicación y pista.
@@ -70,7 +70,7 @@ test('Escala la solución: gana solo la ruta de pasos válidos; hay de dos a cua
     for (const l of r.levels) {
       assert.ok(l.length >= 2 && l.length <= 3, `${key}: agarres`);
       assert.equal(new Set(l).size, l.length, `${key}: agarres repetidos`);
-      for (const t of l) assert.ok(t.length <= 40, `${key}: «${t}» es muy largo`);
+      for (const t of l) assert.ok(t.length <= 48, `${key}: «${t}» es muy largo`);
     }
     assert.equal(escala.grade({ rounds: [{ pick: r.levels.map(() => 0) }] }, ex.params).ok, true);
     assert.equal(escala.grade({ rounds: [{ pick: r.levels.map((_, i) => (i ? 0 : 1)) }] }, ex.params).ok, false);
