@@ -372,6 +372,12 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   sigue sin ID: el usuario elige), `cuadraticas` (`alg-4`), 130 s. Hilo: el chorro de la fuente de Caro y = −x² + 4x + 1.
   Ejemplos nuevos; `tests/fuente-zoom.test.js`. Entregados en `Downloads/Zuka_Fuente_zoom`; esperan su ID de Bunny (al
   recibirlos, poner las escenas de respaldo con los ejemplos del video).
+- **Cordillera Cúbica en zoom, lecciones 1 a 3** (mismo proyecto `video/valle-zoom`; cordillera `ridge`, vía `rail` y escala
+  vertical `M.sy` en `valle.js`): `division` (`alg-23b`), `residuo` (`alg-92`), `ceros` (`alg-93`), 130 s. Hilo: la
+  cordillera de Ana P(x) = x³ − 2x² − 5x + 6 con la vía a altura 0 (Beto apuesta por un cruce en 2; la de Caro,
+  x³ − 3x² + 4x − 2, esconde 1 ± i). Ejemplos nuevos; `tests/cubica-zoom.test.js`. Entregados en
+  `Downloads/Zuka_Cordillera_zoom`; esperan su ID de Bunny (al recibirlos, poner las escenas de respaldo con los ejemplos
+  del video). `alg-92` y `alg-93` aún tienen ejercicios de opción múltiple y sin pistas.
 - **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
   `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
   `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y
