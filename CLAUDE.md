@@ -93,6 +93,11 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   dos pasos; escenas en `GUIDE_SCENES`: tap, drag, step, slide, turn, hold, fling, swipe, trace, keys, paint, touch) y, si usa
   vidas, su nombre en `GUIDE_ARCADE`; el cartel, las vidas, las rondas y «Comprobar» se añaden solos. No sale sola en las
   evaluaciones. Se recuerda en `S.guides`.
+- **Fórmulas con TeX en el lienzo** (`js/games/formula.js`, spec `2026-11-18-formulas-tex`, pruebas `tests/formula.test.js`): los
+  textos que dibuja un juego (`fitText`, `drawTile`, `p.text` de un renglón centrado en vertical) pueden llevar TeX entre `$…$`
+  (`rac`, `^`, `_`, `sqrt`, `	ext`…; barra doble en cadenas JS) y se dibujan con fracciones apiladas, exponentes y raíces, con la
+  tipografía de KaTeX. Los textos viejos con símbolos (x², 3/4, √12) se convierten solos (`plainToTex`, `formulaWanted`). Las
+  `solution` de los juegos pasan por `texify` antes de `tex()`. **En juegos nuevos, escribir la matemática en TeX.**
 - **Sin escribir** (spec `2026-11-17-sin-escribir`, pruebas `tests/sin-escribir.test.js`): la app no muestra ningún ejercicio de
   teclear. Los `num(...)` que quedan en los cursos se cambian al cargar (`js/courses/sin-escribir.js`, tabla `SIN_ESCRIBIR` con clave
   `lección#posición`) por `arma-la-cuenta` (se plantea la operación con fichas y el juego la calcula) o `escala-solucion` (se elige

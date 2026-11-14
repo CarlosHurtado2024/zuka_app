@@ -246,6 +246,8 @@ function safeText(p, raw, str, x, y, bw, bh) {
   const s = String(str), size0 = r._textSize, align = r._textAlign, base = r._textBaseline;
   const measure = t => p.textWidth(t);
   if (bw == null) {
+    // Un renglón con matemática (x², 3/4, √12, o TeX entre $…$), centrado en vertical: va como fórmula (formula.js).
+    if (base === 'center' && typeof drawFormula === 'function' && !s.includes('\n') && formulaWanted(s)) { drawFormula(p, s, x, y, W - 8, size0); return; }
     const lines = s.split('\n'), width = () => Math.max(...lines.map(measure));
     let size = size0, tw = width();
     while (tw > W - 8 && size > 9) { size -= 0.5; p.textSize(size); tw = width(); }
@@ -370,8 +372,11 @@ function numTxt(v) {
   if (fr[d]) return s + (w ? w : '') + fr[d];
   return s + String(+a.toFixed(3));
 }
-// Escribe `txt` centrado, encogiendo la letra hasta que quepa en `maxW`.
-function fitText(p, txt, x, y, maxW, size) {
+// Escribe `txt` (con la alineación que tenga p), encogiendo la letra hasta que quepa en `maxW`.
+// Si el texto trae matemática (TeX entre $…$, o símbolos como x², 3/4, √12) y el dibujo está centrado en vertical,
+// se dibuja como fórmula (js/games/formula.js): fracciones apiladas, exponentes y raíces de verdad.
+function fitText(p, txt, x, y, maxW, size, maxH) {
+  if (typeof drawFormula === 'function' && formulaWanted(txt) && p.drawingContext?.save && p._renderer?._textBaseline === 'center') { drawFormula(p, txt, x, y, maxW, size, maxH); return; }
   p.textSize(size); while (size > 9 && p.textWidth(txt) > maxW) { size -= 1; p.textSize(size); }
   p.text(txt, x, y);
 }
@@ -393,7 +398,7 @@ function drawTile(p, C, b, txt, o = {}) {
   p.fill(fill); p.rect(x, y, w, h, r);
   if (txt != null && txt !== '') {
     p.fill(o.ink ?? inkOn(fill, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
-    fitText(p, String(txt), b.x + b.w / 2, b.y + b.h / 2 + 1, w - 8, o.size ?? 17);
+    fitText(p, String(txt), b.x + b.w / 2, b.y + b.h / 2 + 1, w - 8, o.size ?? 17, h - 6);   // una fracción no se sale de la ficha
   }
 }
 // Casilla vacía (donde va una ficha): borde punteado.

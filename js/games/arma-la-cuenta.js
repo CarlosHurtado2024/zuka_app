@@ -72,6 +72,41 @@ GAMES['arma-la-cuenta'] = (() => {
       return !isOp(t) && (neg || frac) ? `(${s})` : s;
     }).join(' ').replace(/√ /g, '√').replace(/\( /g, '(').replace(/ \)/g, ')').replace(/ \^ /g, '^');
   }
+  // Una ficha de número en TeX: fracciones apiladas, π, «sen 30°», miles separados.
+  function tileTex(t) {
+    const s = String(t).replace(/−/g, '-'); let m;
+    if ((m = s.match(/^(sen|cos|tan)\((-?[\d.]+)°\)$/))) return `\\operatorname{${m[1]}}${m[2]}^{\\circ}`;
+    if ((m = s.match(/^(log|ln)\(([\d.]+)\)$/))) return `\\${m[1]} ${m[2]}`;
+    if ((m = s.match(/^(-?)(π|[\d.]+)\/([\d.]+)$/))) return `${m[1]}\\frac{${m[2] === 'π' ? '\\pi' : m[2]}}{${m[3]}}`;
+    if (s === 'π') return '\\pi';
+    return s.replace(/\d{5,}/g, d => d.replace(/\B(?=(\d{3})+$)/g, '\\,'));
+  }
+  // La cuenta en TeX (misma gramática que evaluate): potencias arriba, raíces con su barra, negativos entre
+  // paréntesis donde hace falta. Devuelve null si la cuenta aún no está bien escrita.
+  function exprTex(tokens) {
+    let i = 0;
+    const peek = () => tokens[i], par = b => (b.neg ? `(${b.tex})` : b.tex);
+    function atom() {
+      const t = tokens[i++];
+      if (t === '(') { const e = expr(); if (tokens[i++] !== ')') throw 0; return { tex: `(${e.tex})`, inner: e.tex }; }
+      if (t === undefined || isOp(t)) throw 0;
+      const tx = tileTex(t);
+      return { tex: tx, neg: tx.startsWith('-'), frac: tx.includes('\\frac'), fn: /operatorname|\\ln|\\log/.test(tx) };
+    }
+    function unary() { if (peek() === 'r') { i++; const u = unary(); return { tex: `\\sqrt{${u.inner ?? u.tex}}`, root: true }; } return atom(); }
+    function factor() {
+      const b = unary();
+      if (peek() !== '^') return b;
+      i++; const e = factor();
+      // Entre paréntesis lo que, elevado, se leería distinto de lo que se calcula: negativos, fracciones, raíces y «sen 30°».
+      return { tex: `{${b.neg || b.frac || b.root || b.fn ? `(${b.tex})` : b.tex}}^{${e.inner ?? e.tex}}` };
+    }
+    function term() { const f = factor(); let tex = f.tex; while (peek() === '*' || peek() === '/') tex += (tokens[i++] === '*' ? ' \\times ' : ' \\div ') + par(factor()); return { tex, neg: f.neg && tex === f.tex, lead: f.neg }; }
+    function expr() { const f = term(); let tex = f.tex; while (peek() === '+' || peek() === '-') { const op = tokens[i++] === '+' ? ' + ' : ' - ', n = term(); tex += op + (n.lead ? n.tex.replace(/^(-(?:\\frac\{[^{}]*\}\{[^{}]*\}|[\d.,\\]+))/, '($1)') : n.tex); } return { tex, neg: f.neg && tex === f.tex }; }
+    try { const e = expr(); return i === tokens.length ? e.tex : null; } catch { return null; }
+  }
+  const numTex = (v, r) => numText(v, r).replace(/ /g, '\\,').replace('−', '-');
+  const unitTex = r => { if (!r.unit) return ''; if (r.unit === '°') return '^{\\circ}'; const m = String(r.unit).match(/^(.*?)([²³])$/); return m ? `\\text{ ${m[1]}}^{${m[2] === '²' ? 2 : 3}}` : `\\text{ ${r.unit}}`; };
   const withUnit = (txt, r) => (r.unit ? `${txt}${r.unit === '°' ? '' : ' '}${r.unit}` : txt);
 
   const game = roundsGame({
@@ -81,7 +116,7 @@ GAMES['arma-la-cuenta'] = (() => {
     // (a veces un dato del problema vale lo mismo que la respuesta).
     ok: (s, r) => { const t = tokensOf(s, r), v = evaluate(t); return Number.isFinite(v) && Math.abs(v - r.answer) <= tolOf(r) && (r.sol.length === 1 || hasOp(t)); },
     answered: (s, r) => { const t = tokensOf(s, r); return Number.isFinite(evaluate(t)) && (r.sol.length === 1 || hasOp(t)); },
-    solution: r => `${exprText(r.sol)} = ${withUnit(numText(r.answer, r), r)}`,
+    solution: r => { const tx = exprTex(r.sol); return tx ? `$${tx} = ${numTex(r.answer, r)}${unitTex(r)}$` : `${exprText(r.sol)} = ${withUnit(numText(r.answer, r), r)}`; },
     prompt: () => 'Plantea la cuenta con las fichas: el juego la calcula',
     foot: (r, s) => (s.seq.length ? 'Cuando sea la cuenta que responde la pregunta, comprueba' : 'Sobran fichas: elige solo los datos que sirven'),
     layout(G) {
@@ -102,8 +137,11 @@ GAMES['arma-la-cuenta'] = (() => {
       p.noStroke(); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
       if (!toks.length) { p.fill(C.mute); p.textStyle(p.NORMAL); fitText(p, 'Toca las fichas para escribir la cuenta', W / 2, b.y + b.h / 2, b.w - 24, 13); }
       else {
-        const txt = exprText(toks);
+        const txt = exprText(toks), tx = exprTex(toks);
         p.fill(C.ink); p.textSize(19);
+        // Cuenta completa: se dibuja como fórmula. A medias, como texto (se va escribiendo ficha a ficha).
+        if (tx && typeof drawFormulaCtx === 'function') drawFormulaCtx(p.drawingContext, `$${tx}$`, W / 2, b.y + 28, { size: 21, maxW: b.w - 24, maxH: 44, weight: 700 });
+        else
         // Una cuenta larga se parte en dos renglones por la mitad.
         if (p.textWidth(txt) > b.w - 24 && toks.length > 6) {
           const h = Math.ceil(toks.length / 2);
@@ -115,7 +153,7 @@ GAMES['arma-la-cuenta'] = (() => {
         if (!G.locked) drawTile(p, C, G.del, '⌫', { fill: C.coral, size: 14, r: 8, lift: 2 });
       }
       // Fichas de números y de operaciones.
-      for (let i = 0; i < nNum; i++) drawTile(p, C, G.num(i), tileText(keys[i]), { size: 16, lift: 3 });
+      for (let i = 0; i < nNum; i++) drawTile(p, C, G.num(i), `$${tileTex(keys[i])}$`, { size: 17, lift: 3 });
       OPS.forEach((o, j) => drawTile(p, C, G.op(j), OP_TXT[o], { fill: C.sky, size: 17, r: 9, lift: 2 }));
     },
     press(G, x, y) {
@@ -130,5 +168,5 @@ GAMES['arma-la-cuenta'] = (() => {
     },
     peek: G => { const keys = keysOf(G.r), n = keys.length - OPS.length; return { keys, boxes: keys.map((_, i) => (i < n ? G.num(i) : G.op(i - n))), del: G.del, want: G.r.sol.map(t => keys.indexOf(t)), value: valueOf(G.s, G.r) }; },
   });
-  return { ...game, evaluate, tileValue, tileText, exprText, keysOf, numbersOf, OPS };
+  return { ...game, evaluate, tileValue, tileText, tileTex, exprText, exprTex, keysOf, numbersOf, OPS };
 })();

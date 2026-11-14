@@ -601,7 +601,7 @@ function startLesson(c, l) {
     fb.className = `feedback show ${r.ok ? 'ok' : 'bad'}`;
     fb.innerHTML = `<div class="fb-in">
       <div class="fb-head"><span class="fb-icon">${r.ok ? ICON.check : ICON.x}</span><h4>${r.ok ? PRAISE[Math.floor(Math.random() * PRAISE.length)] : 'Incorrecto'}</h4></div>
-      ${r.ok ? '' : `<p class="fb-label">La respuesta correcta es:</p><div class="fb-sol">${tex(r.solution)}</div>`}
+      ${r.ok ? '' : `<p class="fb-label">La respuesta correcta es:</p><div class="fb-sol">${tex(window.katex && typeof texify === 'function' ? texify(r.solution) : r.solution)}</div>`}
       ${ex.explain ? `<p class="fb-exp">${tex(ex.explain)}</p>` : ''}
       <button class="btn">${r.ok ? 'Continuar' : 'Entendido'}</button></div>`;
     root.classList.add('fb-open');

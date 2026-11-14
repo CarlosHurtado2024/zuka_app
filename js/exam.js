@@ -181,7 +181,7 @@ function startExam(c, u) {
         ${E.items.map((it, i) => { const s = rep.items[i].state; return `<details class="er-q ${s}">
           <summary><span class="er-ic">${ICONS[s]}</span><span><small>Pregunta ${i + 1} · ${LABEL[s]}</small>${esc(title(it.lesson))}</span></summary>
           <div class="er-q-body"><p>${tex(it.ex.q)}</p>
-            <p class="fb-label">Respuesta correcta:</p><div class="fb-sol">${tex(examSolution(it.ex))}</div>
+            <p class="fb-label">Respuesta correcta:</p><div class="fb-sol">${tex(window.katex && typeof texify === 'function' ? texify(examSolution(it.ex)) : examSolution(it.ex))}</div>
             ${it.ex.explain ? `<p class="fb-exp">${tex(it.ex.explain)}</p>` : ''}</div></details>`; }).join('')}
       </section>
       <button class="btn ghost er-again" type="button">Repetir evaluación</button>

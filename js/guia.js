@@ -18,6 +18,8 @@ function gBox(ctx, x, y, w, h, r) {
 }
 function gText(ctx, txt, x, y, size, col, maxW = 280, weight = 700) {
   txt = String(txt);
+  // Con matemática (a⁻³, 3/4, √12, $…$) se dibuja como fórmula.
+  if (typeof formulaWanted === 'function' && formulaWanted(txt)) { ctx.fillStyle = col; drawFormulaCtx(ctx, txt, x, y + 1, { size, maxW, weight, align: 'center' }); return; }
   ctx.font = `${weight} ${size}px ${gameFont()}, system-ui, sans-serif`;
   const w = ctx.measureText(txt).width || 0;
   if (w > maxW) ctx.font = `${weight} ${Math.max(8, size * maxW / w)}px ${gameFont()}, system-ui, sans-serif`;
@@ -609,7 +611,7 @@ function openGuide(ex, o = {}) {
   };
   const show = () => {
     kicker.textContent = `Cómo se juega · ${i + 1} de ${steps.length}`;
-    text.textContent = steps[i][1];
+    if (typeof tex === 'function' && typeof texify === 'function' && window.katex) text.innerHTML = tex(texify(steps[i][1])); else text.textContent = steps[i][1];
     dots.forEach((d, k) => d.classList.toggle('on', k === i));
     back.disabled = i === 0;
     next.textContent = i === steps.length - 1 ? '¡A jugar!' : 'Siguiente';

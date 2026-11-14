@@ -18,12 +18,15 @@ GAMES['escala-solucion'] = (() => {
   };
   // Un nivel de tres agarres con textos largos ocupa dos renglones (dos arriba y uno abajo): así se leen en 300 px.
   const rowsOf = lv => (lv.length === 3 && lv.some(t => t.length > 14) ? 2 : 1);
+  // Cada paso que es una ecuación o una cuenta se dibuja (y se muestra en la respuesta) como fórmula.
+  const stepTex = t => (typeof mathStep === 'function' ? mathStep(t) : t);
   const game = roundsGame({
     aspect: 1.3,
     init: r => ({ pick: r.levels.map(() => -1) }),
     ok: (s, r) => r.levels.every((_, l) => s.pick?.[l] === 0),
     answered: (s, r) => r.levels.every((_, l) => (s.pick?.[l] ?? -1) >= 0),
-    solution: r => r.levels.map(l => l[0]).join('  →  '),
+    // Para la respuesta (HTML con KaTeX y pie del juego): cada paso con matemática va como TeX.
+    solution: r => r.levels.map(l => stepTex(l[0])).join('  →  '),
     prompt: () => 'Escala la solución: elige el paso válido en cada nivel',
     foot: (r, s) => (s.pick.some(v => v < 0) ? 'Empieza abajo y sube: un agarre por nivel' : 'Puedes cambiar cualquier agarre antes de comprobar'),
     layout(G) {
@@ -59,8 +62,9 @@ GAMES['escala-solucion'] = (() => {
           drawTile(p, C, b, '', { fill, r: 12, lift: 3, ring: sel && !G.locked ? C.brand : null });
           p.noStroke(); p.fill(inkOn(fill, C.ink)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
           // Un paso largo se parte en dos renglones.
-          const txt = r.levels[l][opt]; p.textSize(13);
-          if (p.textWidth(txt) > b.w - 10 && txt.includes(' ')) {
+          const txt = r.levels[l][opt], tx = stepTex(txt); p.textSize(13);
+          if (tx !== txt) drawFormulaCtx(p.drawingContext, tx, b.x + b.w / 2, b.y + b.h / 2 + 1, { size: 15, maxW: b.w - 10, maxH: b.h - 6, weight: 700 });
+          else if (p.textWidth(txt) > b.w - 10 && txt.includes(' ')) {
             const words = txt.split(' '); let cut = 1, best = 1e9;
             for (let c = 1; c < words.length; c++) { const d = Math.abs(p.textWidth(words.slice(0, c).join(' ')) - p.textWidth(words.slice(c).join(' '))); if (d < best) { best = d; cut = c; } }
             fitText(p, words.slice(0, cut).join(' '), b.x + b.w / 2, b.y + b.h / 2 - 8, b.w - 8, 12); fitText(p, words.slice(cut).join(' '), b.x + b.w / 2, b.y + b.h / 2 + 8, b.w - 8, 12);
