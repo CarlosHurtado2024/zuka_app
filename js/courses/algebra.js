@@ -938,12 +938,12 @@ const COURSE_ALGEBRA = {
       lessons: [
         {
           id: 'alg-21a', title: 'Potencias y exponentes',
-          // Clase 8 (video/clase_potencias): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration). Libro UdeA §1.4.
-          clip: { scenes: [
-            sc(4, 'Una potencia es una multiplicación repetida: la **base** se multiplica tantas veces como dice el **exponente**.', { title: '$a^n = \\underbrace{a \\cdot a \\cdots a}_{n \\text{ veces}}$', steps: ['$2^3 = 2 \\cdot 2 \\cdot 2 = 8$'] }),
-            sc(5, 'Cada vez que el exponente sube en 1, el resultado se multiplica por la base.', { title: '$y = 2^x$', viz: { type: 'graph', xr: [-3, 4.5], yr: [-1, 17], f: x => 2 ** x, draw: true, points: [[0, 1, '2⁰ = 1'], [3, 8, '2³ = 8']] } }),
-            sc(5, '¡Cuidado con el signo! El exponente solo afecta a lo que toca.', { steps: ['$-2^4 = -(2^4) = -16$', '$(-2)^4 = 16$', '$(-2)^3 = -8$'] }),
-            sc(5, 'El exponente cero y los negativos siguen el mismo patrón: dividir entre la base.', { steps: ['$a^0 = 1 \\quad (a \\neq 0)$', '$a^{-n} = \\dfrac{1}{a^n}$', '$2^{-3} = \\dfrac{1}{8}$'] }),
+          // Video «potencias» (video/valle-zoom, Torres de Potencias en zoom); escenas de respaldo con sus mismos ejemplos.
+          clip: { bunny: '38d0baa7-e9ef-4ce7-9328-b4d3b98a7abd', duration: 130, scenes: [
+            sc(6, 'Caro cuenta un secreto a 3 vecinos, y cada uno lo cuenta a otros 3. Cada día se **multiplica por 3**. Una potencia es una multiplicación repetida: la **base** se repite y el **exponente** dice cuántas veces.', { title: '$3^4 = 3 \\cdot 3 \\cdot 3 \\cdot 3 = 81$', steps: ['$3,\\; 9,\\; 27,\\; 81$'] }),
+            sc(5, 'Cuidado con el signo: sin paréntesis, el exponente solo toca al 3. Con base negativa, exponente par da positivo e impar da negativo.', { steps: ['$(-3)^2 = 9$', '$-3^2 = -(3^2) = -9$'] }),
+            sc(5, 'Bajar un escalón de la escalera de potencias es **dividir entre 3**. Así se llega al exponente cero: $3^0 = 1$, no 0.', { steps: ['$81 \\to 27 \\to 9 \\to 3 \\to 1$', '$a^0 = 1 \\quad (a \\neq 0)$'] }),
+            sc(5, 'Por debajo del cero se sigue dividiendo: el exponente negativo manda la potencia abajo.', { steps: ['$3^{-2} = \\dfrac{1}{9}$', '$10^{-2} = 0.01$ (un centímetro es la centésima de un metro)'] }),
           ] },
           ex: [
             play('arbol-potencia', 'Haz crecer el árbol: elige cuántas **ramas** salen de cada nudo y cuántos **niveles** tiene', { rounds: [{ target: 32 }, { target: 64 }, { target: 125 }] },
@@ -973,17 +973,12 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-21b', title: 'Leyes de los exponentes',
-          // Clase 9 (video/clase_leyes_exponentes): parte 1 aquí y parte 2 en `more` (antes del tercer ejercicio); escenas de respaldo hasta enlazar Bunny. Libro UdeA §1.4.
-          more: [{ after: 2, scenes: [
-            sc(6, 'Un exponente **negativo** es un cambio de piso: la potencia baja al denominador (o sube) y se vuelve positiva.', { steps: ['$a^{-n} = \\dfrac{1}{a^n} \\qquad \\dfrac{x^{-2}}{y^{-3}} = \\dfrac{y^3}{x^2}$', '$\\left(\\tfrac25\\right)^{-3} = \\left(\\tfrac52\\right)^3 = \\tfrac{125}{8}$'] }),
-            sc(6, 'Para simplificar: primero los paréntesis (multiplicar exponentes), luego sumar o restar.', { steps: ['$(3x^{-2}y)^{-2} = \\dfrac{x^4}{9y^2}$', '$\\dfrac{(x^{-3}y^2)^{-4}}{(y^6x^{-4})^{-2}} = x^4y^4$'] }),
-            sc(5, 'La **notación científica** usa potencias de 10: $a \\times 10^n$ con $1 \\le a < 10$.', { steps: ['$300\\,000\\,000 = 3 \\times 10^8 \\qquad 0.00000012 = 1.2 \\times 10^{-7}$'] }),
-          ] }],
-          clip: { scenes: [
-            sc(5, 'Al multiplicar potencias de igual base, **se suman** los exponentes; al dividir, **se restan**.', { steps: ['$a^m \\cdot a^n = a^{m+n}$', '$\\dfrac{a^m}{a^n} = a^{m-n}$'] }),
-            sc(5, 'Potencia de una potencia: **se multiplican** los exponentes.', { steps: ['$(a^m)^n = a^{mn}$', '$(ab)^n = a^n b^n$', '$\\left(\\dfrac{a}{b}\\right)^{-n} = \\left(\\dfrac{b}{a}\\right)^{n}$'] }),
-            sc(5, 'Con estas leyes simplificas expresiones con exponentes literales:', { steps: ['$\\dfrac{3^{n+2} - 3^n}{8 \\cdot 3^n}$', '$= \\dfrac{3^n (3^2 - 1)}{8 \\cdot 3^n}$', '$= \\dfrac{8}{8} = 1$'] }),
-            sc(4, 'La **notación científica** usa potencias de 10 para números muy grandes o muy pequeños.', { steps: ['$300\\,000\\,000 = 3 \\times 10^8$', '$0.00042 = 4.2 \\times 10^{-4}$'] }),
+          // Video «leyes» (video/valle-zoom, Torres de Potencias en zoom); escenas de respaldo con sus mismos ejemplos.
+          clip: { bunny: 'd6177a51-0618-4cd2-ad35-1a06d3167926', duration: 131, scenes: [
+            sc(5, 'Beto junta una torre de tres doses con otra de cuatro: quedan siete doses. Con la misma base, al multiplicar **se suman** los exponentes.', { steps: ['$2^3 \\cdot 2^4 = 2^7 = 128$', '$a^m \\cdot a^n = a^{m+n}$'] }),
+            sc(5, 'Al dividir se cancelan por parejas: **se restan** los exponentes. Si abajo hay más, la resta da negativa.', { steps: ['$\\dfrac{5^6}{5^2} = 5^4$', '$\\dfrac{5^2}{5^2} = 5^0 = 1$', '$5^{-3} = \\dfrac{1}{125}$'] }),
+            sc(5, 'Potencia de una potencia: **se multiplican**. Con un producto el exponente va a cada factor, pero **no** se reparte en una suma.', { steps: ['$(2^3)^2 = 2^6$', '$(2 \\cdot 5)^3 = 8 \\cdot 125 = 1000$', '$(1 + 2)^2 = 9 \\neq 1^2 + 2^2$'] }),
+            sc(5, 'La **notación científica**: el exponente cuenta los saltos del punto decimal.', { steps: ['$150\\,000\\,000 \\text{ km} = 1.5 \\times 10^8$', '$0.000002 \\text{ m} = 2 \\times 10^{-6}$'] }),
           ] },
           ex: [
             play('cuenta-factores', 'Las leyes salen de **contar**: mira las x y escribe el exponente del resultado', {
@@ -1030,12 +1025,12 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-22a', title: 'Raíces y exponentes racionales',
-          // Clase 10 (video/clase_raices): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration). Libro UdeA §1.5.
-          clip: { scenes: [
-            sc(5, 'La raíz $n$-ésima deshace la potencia: $\\sqrt[n]{a} = b$ significa $b^n = a$.', { steps: ['$\\sqrt{49} = 7$', '$\\sqrt[3]{-8} = -2$', '$\\sqrt{-4}$ no es un número real'] }),
-            sc(5, 'Un exponente fraccionario es una raíz: el denominador es el índice.', { title: '$a^{m/n} = \\sqrt[n]{a^m} = \\left(\\sqrt[n]{a}\\right)^m$', steps: ['$8^{2/3} = \\left(\\sqrt[3]{8}\\right)^2 = 2^2 = 4$'] }),
-            sc(5, 'Ojo: la raíz cuadrada de un cuadrado es el **valor absoluto**.', { title: '$\\sqrt{x^2} = |x|$', viz: { type: 'graph', xr: [-4, 4], yr: [-1, 4.5], f: x => Math.abs(x), draw: true } }),
-            sc(4, 'Y la raíz **no** se reparte en una suma:', { steps: ['$\\sqrt{9 + 16} = \\sqrt{25} = 5$', '$\\sqrt{9} + \\sqrt{16} = 7$', '$\\sqrt{a + b} \\neq \\sqrt{a} + \\sqrt{b}$'] }),
+          // Video «raices» (video/valle-zoom, Torres de Potencias en zoom); escenas de respaldo con sus mismos ejemplos.
+          clip: { bunny: '11dc3023-ff97-453a-bb4b-3ce39a20d647', duration: 131, scenes: [
+            sc(5, 'El terreno cuadrado de Ana mide 25 m². ¿Qué número por sí mismo da 25? La raíz cuadrada **deshace** el cuadrado y da la positiva.', { steps: ['$\\sqrt{25} = 5$', '$(-5)^2 = 25$, pero $\\sqrt{25} = 5$'] }),
+            sc(5, 'Una caja cúbica de 216 cm³: la raíz cúbica. Con índice impar acepta negativos; con índice par, no.', { steps: ['$\\sqrt[3]{216} = 6$', '$\\sqrt[3]{-1000} = -10$', '$\\sqrt{-16}$ no es un número real'] }),
+            sc(5, 'Un exponente fracción es una raíz: el denominador es el índice y el numerador la potencia. Conviene sacar la raíz primero.', { title: '$a^{m/n} = \\left(\\sqrt[n]{a}\\right)^m$', steps: ['$16^{1/2} = 4$', '$16^{3/4} = \\left(\\sqrt[4]{16}\\right)^3 = 2^3 = 8$'] }),
+            sc(5, 'Dos trampas: la raíz de un cuadrado es el **valor absoluto**, y la raíz **no** se reparte en una suma.', { steps: ['$\\sqrt{x^2} = |x|$: si $x = -5$ da $5$', '$\\sqrt{81 + 144} = 15 \\neq 9 + 12$'] }),
           ] },
           ex: [
             play('lado-del-cuadrado', 'Estira el cuadrado hasta que su área sea la pedida: su lado es la raíz cuadrada', { rounds: [{ area: 36 }, { area: 12.25 }, { area: 3 }], max: 10, step: 0.05, tol: 0.05 },
@@ -1062,11 +1057,12 @@ const COURSE_ALGEBRA = {
         },
         {
           id: 'alg-22b', title: 'Simplificar y racionalizar',
-          // Clase 11 (video/clase_radicales): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration). Libro UdeA §1.5.
-          clip: { scenes: [
-            sc(5, 'Para simplificar un radical, extrae los factores que son potencias exactas.', { steps: ['$\\sqrt{50} = \\sqrt{25 \\cdot 2}$', '$= 5\\sqrt{2}$'] }),
-            sc(5, 'Solo se suman radicales **semejantes** (mismo índice y mismo radicando).', { steps: ['$3\\sqrt2 + 5\\sqrt2 = 8\\sqrt2$', '$\\sqrt2 + \\sqrt3$ no se simplifica'] }),
-            sc(6, '**Racionalizar** es quitar la raíz del denominador. Con un binomio, multiplica por el **conjugado**.', { steps: ['$\\dfrac{9}{4 + \\sqrt5} \\cdot \\dfrac{4 - \\sqrt5}{4 - \\sqrt5}$', '$= \\dfrac{9(4 - \\sqrt5)}{16 - 5}$', '$= \\dfrac{9(4 - \\sqrt5)}{11}$'] }),
+          // Video «radicales» (video/valle-zoom, Torres de Potencias en zoom); escenas de respaldo con sus mismos ejemplos.
+          clip: { bunny: '9774d070-4f10-49dc-8074-b9ff5b369601', duration: 130, scenes: [
+            sc(5, 'La diagonal de la baldosa de Beto mide $\\sqrt{72}$. Se busca un cuadrado escondido: $72 = 36 \\cdot 2$.', { steps: ['$\\sqrt{72} = \\sqrt{36}\\,\\sqrt{2} = 6\\sqrt{2} \\approx 8.49$'] }),
+            sc(5, 'Los radicales **semejantes** se suman como manzanas; los distintos, no. A veces hay que simplificar primero.', { steps: ['$2\\sqrt3 + 5\\sqrt3 = 7\\sqrt3$', '$\\sqrt2 + \\sqrt3 \\neq \\sqrt5$', '$\\sqrt8 + \\sqrt{18} = 5\\sqrt2$'] }),
+            sc(5, '**Racionalizar**: multiplicar por un uno disfrazado para quitar la raíz de abajo.', { steps: ['$\\dfrac{1}{\\sqrt2} \\cdot \\dfrac{\\sqrt2}{\\sqrt2} = \\dfrac{\\sqrt2}{2} \\approx 0.707$'] }),
+            sc(6, 'Con un binomio abajo se usa el **conjugado**: suma por diferencia da cuadrado menos cuadrado.', { steps: ['$\\dfrac{9}{4 + \\sqrt5} \\cdot \\dfrac{4 - \\sqrt5}{4 - \\sqrt5}$', '$= \\dfrac{9(4 - \\sqrt5)}{16 - 5} = \\dfrac{9(4 - \\sqrt5)}{11}$'] }),
           ] },
           ex: [
             play('saca-del-radical', 'Saca del radical las parejas (o tríos) de primos iguales', { rounds: [{ index: 2, n: 98 }, { index: 2, n: 75 }, { index: 3, n: 250 }] },

@@ -261,3 +261,15 @@ test('muro-radicales: solo se juntan los ladrillos del mismo tipo, y cada meta s
   }
   assert.ok(rounds.slice(1).every(r => r.items.every(q => g.solve(q).some(i => g.simp(q.bricks[i]).c > 1))), 'desde la segunda ronda hay que simplificar');
 });
+
+test('cada lección trae su video zoom de Bunny, sin parte 2, y escenas de respaldo con los ejemplos del video', () => {
+  const V = { 'alg-21a': ['38d0baa7-e9ef-4ce7-9328-b4d3b98a7abd', 130, '3^4'], 'alg-21b': ['d6177a51-0618-4cd2-ad35-1a06d3167926', 131, '2^7'],
+    'alg-22a': ['11dc3023-ff97-453a-bb4b-3ce39a20d647', 131, '216'], 'alg-22b': ['9774d070-4f10-49dc-8074-b9ff5b369601', 130, '72'] };
+  for (const [id, [bunny, dur, ejemplo]] of Object.entries(V)) {
+    const l = lesson(id);
+    assert.equal(l.clip.bunny, bunny, `${id}: ID de Bunny`);
+    assert.equal(l.clip.duration, dur, `${id}: duración de Bunny`);
+    assert.ok(!l.more || !l.more.length, `${id}: un solo video`);
+    assert.ok(l.clip.scenes.length >= 3 && JSON.stringify(l.clip.scenes).includes(ejemplo), `${id}: respaldo con el ejemplo del video`);
+  }
+});
