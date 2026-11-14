@@ -97,8 +97,8 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   Bloques, Fuente de la Parábola, Cordillera Cúbica, Río de Asíntotas y Selva Exponencial, su jefe final y su evaluación están en
   `js/courses/mundos-altos.js` (va después de `algebra.js` y reemplaza los `ex` de 16 lecciones; los viejos de `algebra.js` ya no se
   usan). Juegos: `bloques-area`, `division-sintetica`, `cancela-factores` y `jefe-ruta`, un **jefe genérico** por rutas de pasos
-  (`{ name, color, rounds: [{ title, attacks: [{ say, levels }] }] }`, el paso válido primero) que sirve para cualquier mundo. Faltan
-  jefe en Valle, Mercado, Torres y Escalera (esta también sin evaluación) y jefe y evaluación en los demás cursos.
+  (`{ name, color, rounds: [{ title, attacks: [{ say, levels }] }] }`, el paso válido primero) que sirve para cualquier mundo. Los diez
+  mundos de Álgebra ya tienen jefe y evaluación (spec `2026-11-20-jefes-valle-a-escalera`); faltan en los demás cursos.
 - **Fórmulas con TeX en el lienzo** (`js/games/formula.js`, spec `2026-11-18-formulas-tex`, pruebas `tests/formula.test.js`): los
   textos que dibuja un juego (`fitText`, `drawTile`, `p.text` de un renglón centrado en vertical) pueden llevar TeX entre `$…$`
   (`rac`, `^`, `_`, `sqrt`, `	ext`…; barra doble en cadenas JS) y se dibujan con fracciones apiladas, exponentes y raíces, con la
@@ -401,12 +401,6 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   Ejemplos nuevos; `tests/asintotas-zoom.test.js`. Entregados en `Downloads/Zuka_Rio_zoom`; esperan su ID de Bunny. Al
   recibirlos, cambiar las escenas de respaldo (las de `alg-25a` y `alg-25b` repiten hoy los ejercicios) por los ejemplos
   del video. Estas lecciones aún tienen ejercicios de opción múltiple y sin pistas.
-- **Selva Exponencial en zoom, lecciones 1 a 4** (mismo proyecto `video/valle-zoom`; laguna `lagoon` y lirios `pad` en
-  `valle.js`): `lirios` (`alg-71`), `interes` (`alg-13b`), `logaritmos` (`alg-72`), `ecuaciones` (`alg-73`), 130 s. Hilos:
-  la laguna de Caro (lirios que se duplican) y los ahorros de Beto (2 000 000 al 6 % anual). Ejemplos nuevos;
-  `tests/exponencial-zoom.test.js`. Entregados en `Downloads/Zuka_Selva_zoom`; esperan su ID de Bunny (al recibirlos, poner
-  las escenas de respaldo con los ejemplos del video). `alg-13b` y `alg-73` ya tienen otros videos sin ID (A5 y Clase 13):
-  el usuario elige. `alg-71` y `alg-72` aún tienen ejercicios de opción múltiple y sin pistas.
 - **Selva Exponencial en zoom, lecciones 1 a 4** (mismo proyecto `video/valle-zoom`; laguna `lagoon` y lirios `pad` en
   `valle.js`): `lirios` (`alg-71`), `interes` (`alg-13b`), `logaritmos` (`alg-72`), `ecuaciones` (`alg-73`), 130 s. Hilos:
   la laguna de Caro (lirios que se duplican) y los ahorros de Beto (2 000 000 al 6 % anual). Ejemplos nuevos;

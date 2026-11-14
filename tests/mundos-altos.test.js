@@ -11,6 +11,7 @@ const files = [...html.matchAll(/src="(js\/[^"]+)"/g)].map(m => m[1]).filter(f =
 const ctx = loadScripts(files);
 const GAMES = get(ctx, 'GAMES'), ALG = get(ctx, 'COURSE_ALGEBRA'), GUIDES = get(ctx, 'GUIDES');
 const WORLDS = ['polinomios', 'cuadraticas', 'grado-superior', 'racionales', 'exp-log'];
+const BOSSES = [...WORLDS, 'numeros', 'razones', 'potencias', 'progresiones'];   // jefes añadidos después a los mundos anteriores
 const unit = w => ALG.units.find(u => u.world === w);
 const cuenta = GAMES['arma-la-cuenta'], escala = GAMES['escala-solucion'];
 // Comprueba un ejercicio de los juegos que se pueden resolver desde los datos.
@@ -63,7 +64,7 @@ test('las lecciones de los cinco mundos ya no tienen opción múltiple ni teclad
 
 test('cada mundo tiene su jefe final: tres fases, dos retos por fase, rutas válidas', () => {
   const jefe = GAMES['jefe-ruta'];
-  for (const w of WORLDS) {
+  for (const w of BOSSES) {
     const b = unit(w).boss;
     assert.ok(b && /^jefe-alg-/.test(b.id) && b.clip.scenes.length === 2, w);
     const ex = b.ex[0], all = jefe.flat(ex.params);
@@ -77,11 +78,13 @@ test('cada mundo tiene su jefe final: tres fases, dos retos por fase, rutas vál
     }
     assert.equal(jefe.grade({ done: 6 }, ex.params).ok, true); assert.equal(jefe.grade({ done: 5 }, ex.params).ok, false); assert.equal(jefe.grade({}, ex.params).ok, false);
   }
-  assert.equal(new Set(WORLDS.map(w => unit(w).boss.id)).size, 5);
+  assert.equal(new Set(BOSSES.map(w => unit(w).boss.id)).size, 9);
+  // Con la Pradera, todos los mundos de Álgebra tienen jefe y evaluación.
+  for (const u of ALG.units) assert.ok(u.boss && u.exam, `${u.world}: falta jefe o evaluación`);
 });
 
 test('cada mundo tiene su evaluación: cinco preguntas, cada una ligada a una lección del mundo', () => {
-  for (const w of WORLDS) {
+  for (const w of [...WORLDS, 'progresiones']) {
     const e = unit(w).exam, ids = unit(w).lessons.map(l => l.id);
     assert.ok(e && /^exam-alg-/.test(e.id) && e.minutes >= 10, w);
     assert.equal(e.items.length, 5);

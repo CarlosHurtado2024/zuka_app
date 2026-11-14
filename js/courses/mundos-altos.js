@@ -508,6 +508,84 @@
       escala('Resuelve $5^x = 20$', [['x = log 20 ÷ log 5', 'x = log 5 ÷ log 20', 'x = 20 ÷ 5'], ['x ≈ 1.86', 'x ≈ 0.54', 'x = 4']], 'Tomando logaritmos, $x \\log 5 = \\log 20$, así que $x = \\dfrac{\\log 20}{\\log 5} \\approx 1.86$ (entre 1 y 2, porque $5^1 = 5$ y $5^2 = 25$).', 'El exponente baja multiplicando al tomar logaritmo. Comprueba con el sentido común: 20 está entre 5 y 25.')],
   ] };
 
+  // ====================== Jefes de los mundos anteriores (spec 2026-11-20-jefes-valle-a-escalera) ======================
+  BOSS.numeros = { id: 'jefe-alg-numeros', name: 'el Guardián del Valle', color: 'coral', title: 'El Guardián del Valle',
+    intro: ['Al final del Valle de los Números espera su **Guardián**. Conoce todas las familias: enteros, racionales, irracionales.', 'Arma la ruta de pasos de cada reto, de abajo hacia arriba, y ataca. No hay prisa: aquí gana el que piensa.'],
+    phases: [
+      ['Fase 1 · Enteros y racionales', [
+        ['3 − 8 + (−2)', [['3 − 8 = −5', '3 − 8 = 5'], ['−5 + (−2) = −7', '−5 + (−2) = −3'], ['−7', '−3', '7']]],
+        ['0.75 como fracción irreducible', [['0.75 = 75/100', '0.75 = 75/10', '0.75 = 7/5'], ['Divide arriba y abajo entre 25', 'Resta 25 arriba y abajo'], ['3/4', '4/3', '50/75']]],
+      ]],
+      ['Fase 2 · Reales y axiomas de campo', [
+        ['¿√50 es racional o irracional?', [['50 no es un cuadrado perfecto', '50 es un cuadrado perfecto'], ['√50 = 5√2', '√50 = 25'], ['Irracional: no es una fracción', 'Racional: es una fracción', 'Racional: es un entero']]],
+        ['Recíproco de −2/5', [['Multiplicado por el número da 1', 'Sumado con el número da 0'], ['−5/2', '2/5', '5/2']]],
+      ]],
+      ['Fase 3 · Signos, orden y valor absoluto', [
+        ['(−4)(−3) − 20 ÷ (−5)', [['(−4)(−3) = 12', '(−4)(−3) = −12'], ['20 ÷ (−5) = −4', '20 ÷ (−5) = 4'], ['12 − (−4) = 16', '12 − 4 = 8', '−12 + 4 = −8']]],
+        ['Resuelve |x − 2| = 5', [['x − 2 = 5  o  x − 2 = −5', 'x − 2 = 5 solamente', 'x + 2 = 5  o  x + 2 = −5'], ['x = 7  o  x = −3', 'x = 7', 'x = 3  o  x = −7']]],
+      ]],
+    ] };
+  BOSS.razones = { id: 'jefe-alg-razones', name: 'el Guardián del Mercado', color: 'mint', title: 'El Guardián del Mercado',
+    intro: ['En la última esquina del mercado atiende su **Guardián**. Nadie le hace trampa con una razón ni con un porcentaje.', 'Responde cada reto con una ruta de pasos y ataca. Un paso que no se justifica cuesta un corazón.'],
+    phases: [
+      ['Fase 1 · Razones y proporciones', [
+        ['Hay 6 rojas y 9 azules: razón de rojas a azules', [['6 : 9', '9 : 6', '6 : 15'], ['Divide los dos entre 3', 'Resta 3 a los dos'], ['2 : 3', '3 : 2', '3 : 6']]],
+        ['4/10 = x/25', [['10 · x = 4 · 25', '4 · x = 10 · 25', 'x = 25 − 10 + 4'], ['x = 100 ÷ 10', 'x = 250 ÷ 4'], ['x = 10', 'x = 62.5', 'x = 19']]],
+      ]],
+      ['Fase 2 · Regla de tres y porcentajes', [
+        ['6 obreros tardan 10 días. ¿Cuánto tardan 4?', [['Menos obreros, más días: inversa', 'Menos obreros, menos días: directa'], ['6 · 10 = 4 · x', '6/10 = 4/x'], ['15 días', '6.7 días', '8 días']]],
+        ['¿Qué porcentaje es 18 de 72?', [['18 ÷ 72', '72 ÷ 18', '72 − 18'], ['0.25', '4', '54'], ['25 %', '4 %', '54 %']]],
+      ]],
+      ['Fase 3 · Aumentos y cambios sucesivos', [
+        ['Un precio de 80 sube 15 %', [['Factor 1.15', 'Factor 0.15', 'Factor 0.85'], ['80 · 1.15 = 92', '80 · 0.15 = 12', '80 · 0.85 = 68']]],
+        ['Subir 20 % y luego bajar 20 %', [['Factores 1.2 y 0.8', 'Factores 1.2 y 1.2', 'Los cambios se cancelan'], ['1.2 · 0.8 = 0.96', '1.2 − 0.8 = 0.4', '1.2 + 0.8 = 2'], ['Queda 4 % por debajo', 'Queda igual', 'Queda 4 % por encima']]],
+      ]],
+    ] };
+  BOSS.potencias = { id: 'jefe-alg-potencias', name: 'el Guardián de las Torres', color: 'sky', title: 'El Guardián de las Torres',
+    intro: ['En el último piso de las Torres vive su **Guardián**: sube y baja exponentes sin equivocarse nunca.', 'Arma la ruta de cada reto y ataca. Lee con cuidado los paréntesis y los signos.'],
+    phases: [
+      ['Fase 1 · Potencias', [
+        ['(−3)² − 3²', [['(−3)² = 9', '(−3)² = −9'], ['3² = 9', '3² = 6'], ['9 − 9 = 0', '−9 − 9 = −18', '9 − 6 = 3']]],
+        ['Calcula 2⁻³', [['2⁻³ = 1 ÷ 2³', '2⁻³ = −2³', '2⁻³ = 2 · (−3)'], ['1/8', '−8', '−6']]],
+      ]],
+      ['Fase 2 · Leyes de los exponentes', [
+        ['x⁵ · x² ÷ x³', [['x⁵ · x² = x⁷', 'x⁵ · x² = x¹⁰'], ['x⁷ ÷ x³ = x⁴', 'x⁷ ÷ x³ = x¹⁰', 'x¹⁰ ÷ x³ = x⁷']]],
+        ['(2x³)²', [['El exponente alcanza al 2 y a x³', 'El exponente solo alcanza a x³'], ['2² · x⁶', '2 · x⁶', '2² · x⁵'], ['4x⁶', '2x⁶', '4x⁵']]],
+      ]],
+      ['Fase 3 · Raíces y radicales', [
+        ['√50 + √8', [['√50 = 5√2', '√50 = 2√5', '√50 = 25√2'], ['√8 = 2√2', '√8 = 4√2'], ['7√2', '√58', '9√2']]],
+        ['Racionaliza 6 ÷ √3', [['Multiplica arriba y abajo por √3', 'Multiplica solo abajo por √3', 'Eleva todo al cuadrado'], ['6√3 ÷ 3', '6 ÷ 3'], ['2√3', '2', '6√3']]],
+      ]],
+    ] };
+  BOSS.progresiones = { id: 'jefe-alg-progresiones', name: 'el Guardián de la Escalera', color: 'coral', title: 'El Guardián de la Escalera',
+    intro: ['En el último peldaño de la Escalera de Sigma está su **Guardián**. Cuenta saltos, no términos.', 'Cada reto se responde con una ruta de pasos. Elige con calma y ataca cuando la ruta esté completa.'],
+    phases: [
+      ['Fase 1 · Progresiones aritméticas', [
+        ['Término 10 de 3, 7, 11, …', [['d = 4', 'd = 3'], ['Del término 1 al 10 hay 9 saltos', 'Del término 1 al 10 hay 10 saltos'], ['3 + 9 · 4 = 39', '3 + 10 · 4 = 43', '3 + 9 · 3 = 30']]],
+        ['1 + 2 + 3 + … + 20', [['Parejas que suman 21', 'Parejas que suman 20'], ['Hay 10 parejas', 'Hay 20 parejas'], ['210', '420', '200']]],
+      ]],
+      ['Fase 2 · Progresiones geométricas', [
+        ['Término 5 de 3, 6, 12, …', [['r = 2', 'r = 3'], ['4 multiplicaciones por r', '5 multiplicaciones por r'], ['3 · 2⁴ = 48', '3 · 2⁵ = 96', '3 · 3⁴ = 243']]],
+        ['Suma infinita 12 + 6 + 3 + …', [['r = ½', 'r = 2'], ['S = a₁ ÷ (1 − r)', 'S = a₁ ÷ (1 + r)', 'S = a₁ · r'], ['12 ÷ ½ = 24', '12 ÷ (3/2) = 8', '12 · ½ = 6']]],
+      ]],
+      ['Fase 3 · Sumatoria', [
+        ['Σ (2k + 1), con k de 1 a 4', [['3 + 5 + 7 + 9', '2 + 4 + 6 + 8 + 1', '1 + 3 + 5 + 7'], ['24', '21', '16']]],
+        ['Σ 5, con k de 1 a 6', [['La constante se suma una vez por cada k', 'La constante se suma una sola vez'], ['5 · 6', '5 + 6', '5 · 1'], ['30', '11', '5']]],
+      ]],
+    ] };
+  EXAM.progresiones = { id: 'exam-alg-progresiones', title: 'Progresiones y sumatoria', items: [
+    ['alg-14', 'Del término 1 al término $n$ hay $n - 1$ saltos: $a_n = a_1 + (n - 1)d$.',
+      cuenta('Término 12 de la progresión aritmética $5, 8, 11, \\dots$', '5 + 11 * 3', ['12'], 'La diferencia es 3 y del término 1 al 12 hay 11 saltos: $5 + 11 \\cdot 3 = 38$.', 'Cuenta los saltos, no los términos: para llegar al término 12 no se dan 12 saltos.')],
+    ['alg-14b', 'Suma aritmética: $S_n = \\dfrac{n(a_1 + a_n)}{2}$, la mitad del rectángulo que forman dos escaleras.',
+      escala('Suma de los primeros 10 términos de $2, 4, 6, \\dots$', [['a₁₀ = 2 + 9 · 2 = 20', 'a₁₀ = 2 + 10 · 2 = 22'], ['S = 10 · (2 + 20) ÷ 2', 'S = 10 · (2 + 20)'], ['110', '220', '100']], 'El décimo término es 20 y la suma es $\\dfrac{10 \\cdot 22}{2} = 110$.', 'Primero el último término (9 saltos de 2). Después, las parejas de extremos suman lo mismo y hay la mitad de parejas que de términos.')],
+    ['alg-14c', 'En una progresión geométrica cada término es el anterior por la razón: es una multiplicación repetida.',
+      cuenta('Una hoja se dobla por la mitad 5 veces. ¿Cuántas capas quedan?', '2 ^ 5', ['10', '6'], 'Cada doblez duplica las capas: $2^5 = 32$.', 'No se suman 2 capas por doblez: cada vez se duplica lo que ya había.', 'capas')],
+    ['alg-14d', 'Para sumar una geométrica se multiplica la suma por la razón y se resta: casi todo se cancela.',
+      P('resta-corrida', 'Tacha las parejas iguales para sumar $3 + 6 + 12 + 24 + 48$', { rounds: [{ a1: 3, r: 2, n: 5 }] }, '$2S - S = 96 - 3$, así que $S = 93$.', 'Al multiplicar por la razón, la lista se corre un lugar: busca los números que quedan repetidos arriba y abajo.')],
+    ['alg-15', 'La sumatoria se reparte: $\\sum (ck + d) = c\\sum k + d \\cdot n$; la constante se suma una vez por cada $k$.',
+      P('parte-sigma', 'Separa $\\sum (2k + 3)$, con $k$ de 1 a 5, en azules y amarillas', { rounds: [{ c: 2, d: 3, hi: 5 }] }, '$2\\sum k + 3 \\cdot 5 = 2 \\cdot 15 + 15 = 45$.', 'Las amarillas aparecen en todas las columnas: cuéntalas en total, no solo en una.')],
+  ] };
+
   // ====================== Se montan en el curso ======================
   for (const u of COURSE_ALGEBRA.units) for (const l of u.lessons) if (EX[l.id]) { l.ex = EX[l.id]; delete l.more; }
   for (const [w, b] of Object.entries(BOSS)) {
