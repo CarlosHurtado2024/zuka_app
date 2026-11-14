@@ -80,7 +80,7 @@ GAMES['siembra-raices'] = (() => {
         if (!over && a.phase !== 'idle') {
           // La línea de la altura pedida y las plantas.
           const ty = lineY - it.a * unit, inRange = ty <= lineY + dnMax && ty >= lineY - upMax;
-          if (inRange) { p.stroke(C.sun); p.strokeWeight(2); p.drawingContext.setLineDash([6, 6]); p.line(14, ty, W - 14, ty); p.drawingContext.setLineDash([]); p.noStroke(); p.fill(C.sun); p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.RIGHT, p.CENTER); p.text(negTxt(it.a), W - 16, ty - 9); }
+          if (inRange) { p.stroke(C.sun); p.strokeWeight(2); p.drawingContext.setLineDash([6, 6]); p.line(14, ty, W - 14, ty); p.drawingContext.setLineDash([]); p.noStroke(); p.fill(C.N); p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.RIGHT, p.CENTER); p.text(negTxt(it.a), W - 16, ty - 9); }
           p.stroke(C.ink); p.strokeWeight(3); p.line(10, lineY, W - 10, lineY);
           for (let x = -SPAN; x <= SPAN; x++) {
             const v = x ** it.n, h = Math.max(-dnMax, Math.min(upMax, v * unit)) * grow, hitsIt = v === it.a, on = sel.has(x);

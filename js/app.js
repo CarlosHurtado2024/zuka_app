@@ -11,6 +11,7 @@ const DEFAULTS = () => ({
   // se construye. Se apaga en Perfil → Ajustes (o aquí, con false, antes de abrirla a estudiantes).
   unlockAll: true,
   tourDone: false,   // recorrido guiado de bienvenida (js/tour.js): ya visto o saltado
+  guides: {}, guideAuto: true,   // guías «Cómo se juega» ya vistas, por juego o tipo de ejercicio (js/guia.js)
   tutorias: [],      // asesorías separadas en la pestaña Tutorías (js/tutorias.js)
 });
 

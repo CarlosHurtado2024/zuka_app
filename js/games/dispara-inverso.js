@@ -80,7 +80,7 @@ GAMES['dispara-inverso'] = (() => {
         p.fill(shade(C.sun, 0.74)); p.circle(cannon.x, cannon.y + 4, 46);
         p.fill(C.sun); p.circle(cannon.x, cannon.y, 46);
         if (it && a.phase === 'play' && !ball && gap <= 0) { p.fill(inkOn(C.sun, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); fitText(p, it.ball, cannon.x, cannon.y + 1, 38, 16); }
-        if (ball) { p.noStroke(); p.fill(C.sun); p.circle(ball.x, ball.y, 30); p.fill(inkOn(C.sun, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); fitText(p, ball.label, ball.x, ball.y + 1, 26, 12); }
+        if (ball) { p.stroke(shade(C.sun, 0.6)); p.strokeWeight(2.5); p.fill(C.sun); p.circle(ball.x, ball.y, 30); p.noStroke(); p.fill(inkOn(C.sun, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); fitText(p, ball.label, ball.x, ball.y + 1, 26, 12); }
 
         // Encabezado: ronda, vidas y la misión.
         drawArcadeHead(p, C, a, R.length);

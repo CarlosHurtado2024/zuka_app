@@ -68,7 +68,7 @@ GAMES['maquina-sigma'] = (() => {
         p.text(`${r.title} · ${r.kind === 'prod' ? 'productoria: se multiplica' : 'sumatoria: se suma'}`, W / 2, 40);
         if (live) {
           // La orden: el símbolo con sus límites y la fórmula.
-          p.noStroke(); p.fill(C.sun); p.textStyle(p.BOLD); p.textSize(40); p.textAlign(p.CENTER, p.CENTER);
+          p.noStroke(); p.fill(C.N); p.textStyle(p.BOLD); p.textSize(40); p.textAlign(p.CENTER, p.CENTER);
           p.text(sym(r.kind), W / 2 - 46, 96);
           p.fill(C.ink); p.textSize(12); p.text(it.hi, W / 2 - 46, 66); p.text(`k = ${it.lo}`, W / 2 - 46, 126);
           p.textSize(24); p.textAlign(p.LEFT, p.CENTER); p.text(it.expr, W / 2 - 20, 96);

@@ -47,6 +47,6 @@ test('hintBlock: sin pista no dibuja nada; con pista, botón «Ver pista» y el 
   const hintBlock = get(ex, 'hintBlock');
   assert.equal(hintBlock({ q: 'x' }), '');
   const h = hintBlock({ hint: 'Cuenta los pisos' });
-  assert.ok(h.includes('Ver pista') && h.includes('class="hint-btn"'), h);
+  assert.ok(h.includes('Ver pista') && h.includes('class="hint-btn hint-open"'), h);
   assert.ok(/<p class="hint-text" hidden>.*<tex>Cuenta los pisos<\/tex>/.test(h), h);
 });

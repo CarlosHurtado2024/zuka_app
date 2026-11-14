@@ -62,7 +62,7 @@ GAMES['torre-pisos'] = (() => {
         if (!over) for (let k = r.lo; k <= r.hi; k++) {
           const y = Y(k), open = seen.has(k) && a.phase !== 'idle', here = Math.round(pos) === k && live;
           p.noStroke(); p.fill(k < 0 ? C.card : C.halo); p.rect(x0, y - rh / 2 + 2, x1 - x0, rh - 4, 7);
-          p.fill(k === 0 ? C.sun : C.mute); p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.RIGHT, p.CENTER); p.text(negTxt(k), x0 - 8, y);
+          p.fill(k === 0 ? C.N : C.mute); p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.RIGHT, p.CENTER); p.text(negTxt(k), x0 - 8, y);
           drawTile(p, C, { x: W / 2 - 46, y: y - Math.min(13, rh / 2 - 5), w: 92, h: Math.min(24, rh - 12) }, open ? valTxt(r.base, k) : '?', { fill: open ? (here ? C.sun : C.cream) : C.line, ink: open ? undefined : C.mute, size: 14, r: 7, lift: open ? 2 : 0 });
           if (k === 0) { p.stroke(C.ink); p.strokeWeight(3); p.line(14, y + rh / 2, W - 14, y + rh / 2); }
         }

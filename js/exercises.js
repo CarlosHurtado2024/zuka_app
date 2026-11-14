@@ -52,7 +52,7 @@ const EX = {
       <p class="hint">Puedes escribir decimales o fracciones (ej. 3/4).</p>`;
     const inp = area.querySelector('input');
     inp.addEventListener('input', () => ready(inp.value.trim() !== ''));
-    setTimeout(() => inp.focus({ preventScroll: true }), 300);
+    setTimeout(() => { if (typeof guideOpen === 'undefined' || !guideOpen) inp.focus({ preventScroll: true }); }, 300);   // con la guía abierta, el teclado espera
     return {
       check() {
         // «400.000» con puntos de miles: si la respuesta es un entero grande, los puntos separan miles.
@@ -144,14 +144,25 @@ EX.play = (area, ex, ready) => {
 
 // Pista: un botón bajo el enunciado que, al tocarlo, deja ver un empujón (sin regalar la respuesta).
 function hintBlock(ex) {
-  if (!ex.hint) return '';
-  return `<div class="ex-hint"><button type="button" class="hint-btn">${ICON.bulb}<span>Ver pista</span></button>`
-    + `<p class="hint-text" hidden>${ICON.bulb}<span>${tex(ex.hint)}</span></p></div>`;
+  const guide = typeof guideButton === 'function' ? guideButton(ex) : '';
+  if (!ex.hint && !guide) return '';
+  return `<div class="ex-hint"><div class="ex-tools">${guide}${ex.hint ? `<button type="button" class="hint-btn hint-open">${ICON.bulb}<span>Ver pista</span></button>` : ''}</div>`
+    + (ex.hint ? `<p class="hint-text" hidden>${ICON.bulb}<span>${tex(ex.hint)}</span></p>` : '') + '</div>';
 }
 
+// Bajo el enunciado van los botones «Cómo se juega» (js/guia.js) y «Ver pista». La guía sale sola la primera vez
+// que el estudiante ve ese juego o ese tipo de ejercicio.
 function renderExercise(el, ex, ready) {
   el.innerHTML = `<div class="ex"><header class="ex-head"><p class="ex-kind">${EX_KIND[ex.type]}</p><h2 class="ex-q">${tex(ex.q)}</h2></header>${hintBlock(ex)}<div class="ex-area"></div></div>`;
-  const hb = el.querySelector('.hint-btn');
+  const gb = el.querySelector('.guide-btn');
+  const focusInput = () => el.querySelector('.num input:not(:disabled)')?.focus({ preventScroll: true });
+  let guide = null;
+  if (gb) gb.onclick = () => { Sfx.tap(); guide = openGuide(ex); };
+  if (typeof guideWanted === 'function' && guideWanted(ex)) guide = openGuide(ex, { auto: true, onClose: focusInput });
+  const hb = el.querySelector('.hint-open');
   if (hb) hb.onclick = () => { hb.hidden = true; el.querySelector('.hint-text').hidden = false; Sfx.tap(); };
-  return EX[ex.type](el.querySelector('.ex-area'), ex, ready);
+  const h = EX[ex.type](el.querySelector('.ex-area'), ex, ready), destroy = h.destroy;
+  // Al quitar el ejercicio (otra pregunta, salir de la lección) su guía no se queda flotando.
+  h.destroy = () => { if (guide && guideOpen === guide) guide.close(true); destroy?.(); };
+  return h;
 }

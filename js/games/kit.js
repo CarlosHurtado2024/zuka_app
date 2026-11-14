@@ -6,7 +6,8 @@ const GAMES = {};
 
 // Colores de los juegos en cada tema: un tono por familia de números y los del lienzo.
 // Son los de los videos zoom de las lecciones (video/*-zoom/flat.js): azul noche, crema, sol, coral,
-// menta y azul. En el tema claro el papel es crema y los mismos tonos van más oscuros para leerse.
+// menta y azul. En el tema claro el papel es frío (azul muy claro, no crema: sobre crema las piezas amarillas
+// se perdían; spec 2026-11-16-guia-y-colores) y los mismos tonos van más oscuros para leerse.
 // sun, coral, mint, sky, cream, night: rellenos de adorno (fichas, confeti); star y halo: el fondo.
 const PALETTES = {
   dark: {
@@ -18,10 +19,10 @@ const PALETTES = {
   },
   light: {
     N: '#A86F00', Z: '#1479C9', Q: '#0B8A61', I: '#E0453A', R: '#6A4BE6',
-    brand: '#3A5FD9', bg: '#FFF6E6', card: '#FFFFFF', line: '#E2CFAE',
+    brand: '#3A5FD9', bg: '#EEF1FB', card: '#FFFFFF', line: '#C6CFEA',
     ink: '#1D2052', mute: '#5B6090', ok: '#0F9A5C', bad: '#D8314F',
-    sun: '#FFB627', coral: '#FF6B5E', mint: '#22B38C', sky: '#4D7CFE', cream: '#FFFFFF', creamD: '#E2CFAE', night: '#1D2052',
-    star: '#F3CE96', halo: '#FBE8C8',
+    sun: '#FFB627', coral: '#FF6B5E', mint: '#22B38C', sky: '#4D7CFE', cream: '#FFFFFF', creamD: '#CFD6EC', night: '#1D2052',
+    star: '#AFBCE8', halo: '#DEE5F8',
   },
 };
 // `api.palette` de todos los juegos: el mismo objeto cambia de valores con el tema, y como los

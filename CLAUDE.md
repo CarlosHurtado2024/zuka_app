@@ -77,7 +77,8 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   C.ok, C.bad`, familias `C.N, C.Z, C.Q, C.I, C.R`). Así se repintan solos al cambiar de tema. Nada de
   colores fijos para texto o fondo.
 - **Estilo de los videos** (spec `2026-11-13-juegos-estilo-video`, pruebas `tests/estilo-video.test.js`): el kit pone a
-  todos los juegos la paleta de los videos zoom (azul noche / papel crema), fondo con estrellas al limpiar con
+  todos los juegos la paleta de los videos zoom (azul noche en tema oscuro; en tema claro un papel azul muy claro, no crema:
+  sobre crema las piezas amarillas se perdían), fondo con estrellas al limpiar con
   `p.background(C.bg)`, letra Jost, pestañas como fichas, onda al tocar y confeti al acertar (`playFx`). Rellenos
   vivos: `C.sun, C.coral, C.mint, C.sky`; texto encima con `inkOn(color)`. Animar con `fxTween(obj, props, opts)`
   (anime.js 3.2.2 en `js/vendor/anime.min.js`; sin anime o con «reducir movimiento» pone el valor final).
@@ -86,6 +87,16 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   estilo y relleno: volver a fijarlos después. **Álgebra U0 (Conjuntos), U1, Razones y porcentajes, y Progresiones y sumatoria ya están rediseñados con ellas**; faltan las demás unidades.
 - `mountSketch(host, (p, size) => {...}, aspecto)`; solo escribir `mousePressed/Dragged/Released`
   (los toques se enlazan solos). `p.onResize` para reacomodar.
+- **Guía «Cómo se juega»** (`js/guia.js`, spec `2026-11-16-guia-y-colores`, pruebas `tests/guia.test.js`): la primera vez que se ve
+  un juego o un tipo de ejercicio sale una tarjeta con un ejemplo animado (una mano hace el gesto); luego queda el botón
+  «Cómo se juega» junto a la pista. **Cada juego nuevo necesita su entrada en `GUIDES`** (`[escena, texto, opciones]`, uno o
+  dos pasos; escenas en `GUIDE_SCENES`: tap, drag, step, slide, turn, hold, fling, swipe, trace, keys, paint, touch) y, si usa
+  vidas, su nombre en `GUIDE_ARCADE`; el cartel, las vidas, las rondas y «Comprobar» se añaden solos. No sale sola en las
+  evaluaciones. Se recuerda en `S.guides`.
+- **Colores que no se pisan**: el amarillo de relleno (`C.sun`) nunca va como color de letra (para letras, `C.N`); el texto
+  sobre un relleno usa `inkOn(color)`. `tests/robot-colores.js` (se carga en la página con `fetch` + `eval`;
+  `await __colores.run()`) monta todos los juegos en los dos temas y avisa de textos sin contraste y de figuras del mismo
+  color que su fondo.
 - **Celular angosto** (spec `2026-11-12-juegos-algebra-u1-u3-calidad`, pruebas `tests/juegos-celular.test.js`): el lienzo
   conserva el alto de diseño (`heightFor`: `max(ancho, 328) × aspecto`) y todo `p.text` pasa por `safeText` (encoge o
   corre lo que se sale; el texto en caja se dibuja renglón a renglón y nunca se corta). Sobre el lienzo se puede
@@ -291,6 +302,12 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   Euclides a Pacioli, el SI, el Modulor y la regla de tres de la gentamicina (80 mg / 2 mL → 20 mg = 0.5 mL); motor deco de
   lemo-opuscar copiado en `engine/` (MIT); rótulos = `CARDS` en `film.js` (también el `.srt`). Ideas del mismo texto que no cupieron: Grecia y
   la demostración, al-Juarismi y Fibonacci, quipus y yupana, binario y hexadecimal.
+- **`cur-ia`** («La IA está hecha de álgebra», estilo Sci-fi Hologram HUD de lemo-opuscar, 90 s, `video/ia-algebra`,
+  `sh video/ia-algebra/build.sh`, unos 15 min; motor `engine/holo.js` + `engine/hud.js`, todo en canvas 2D). Sofía, su gato Mishi
+  en 16 × 16 píxeles (con la tabla 0 120 240 / 30 180 255 / 10 90 200 adentro), la última neurona x = (2, 3), w = (0.4, −0.2),
+  b = 0.1 → z = 0.3 → σ = 0.574 → L = 0.181, la montaña L(w₁, w₂) y 12 pasos con η = 0.25 (91 %, L = 0.008), y palabras como
+  vectores. Números en `data.js`, pruebas `tests/ia-algebra.test.js`. Vive como mp4 en `media/clips/`; el HD está en
+  `Downloads/Zuka_IA_algebra` y espera su ID de Bunny.
 - Álgebra unidad 0: los tres videos (alg-0a, alg-0b, alg-0c) ya están en Bunny. **Nuevo video de `alg-0a` en estilo Scale Zoom Explainer** (lemo-opuscar; `video/conjunto-zoom`, 116.5 s, sin voz, `sh video/conjunto-zoom/build.sh`, 1 trabajador si otro render corre a la vez): entregado en `Downloads/Zuka_Conjuntos_zoom`, espera su ID de Bunny. Al recibirlo, cambiar `clip.bunny` + `duration` de `alg-0a`; sus escenas de respaldo ya usan los mismos ejemplos (semáforo, azul, vocales, PAPAYA; el conjunto de PAPAYA se llama L y su cardinal es n(L) = 3). **Videos zoom de `alg-0b` y `alg-0c`** (`video/conjunto-zoom-2` y `-3`, 118 y 120 s, mismo estilo; el motor común es `zoomkit.js`, copiado en cada carpeta; `mix.py` escribe además `<nombre>.srt` y `narracion.txt` desde `FILM.NARR`): entregados en `Downloads/Zuka_Conjuntos_zoom`, **ya están en Bunny y puestos en las lecciones** (2026-11-13: `de65d162-…`, 118 s y `099c6af5-…`, 120 s), con las `scenes` de respaldo al día (alg-0b: meses de 32 días, {Bogotá}, {∅}, letras y vocales, AMOR/ROMA, frutas y herramientas, toppings; alg-0c: siete amigos, fútbol y música). **Nuevo video de `alg-0b` en estilo Bauhaus Shapes** (lemo-opuscar; `video/tipos-conjuntos-bauhaus`, 237.5 s, `sh video/tipos-conjuntos-bauhaus/build.sh`, unos 25 min con 2 trabajadores: con 3 la captura se cuelga): entregado, espera su ID de Bunny. Al recibirlo, cambiar `clip.bunny` + `duration` de `alg-0b` y poner sus `scenes` de respaldo al día con los ejemplos nuevos ({s, a} frente a las letras de SOL, redondas y cuadradas, las formas {●, ■, ▲}). `film.js` trae escenas en pulsos de 0.625 s (`BEATS`), una función por escena, `EV` (sonido) y `NARR` (narración → `.srt`). Los videos viejos C0 y EC0
   (`clase_alg_u0_conjuntos`, `clase_alg_u0_ej_conjuntos`) quedaron reemplazados.
 - Álgebra unidad 1, **un video por lección** (nuevos, fondo `fondo_algebra_vivo.png`, zoom y 3D; carpetas

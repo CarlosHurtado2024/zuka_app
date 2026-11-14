@@ -21,7 +21,7 @@
   --outer: #e8ecf6; --glow: #d6e2ff; --track: rgba(11,21,51,.08);
   --locked: #9aa2c0; --locked-shadow: #c9cfe2;
   --fb-ok: #e3f7ec; --fb-bad: #fde8ec;
-  --play-bg: #fff6e6;   /* = PALETTES.light.bg de js/games/kit.js */
+  --play-bg: #eef1fb;   /* = PALETTES.light.bg de js/games/kit.js */
   color-scheme: light;
 }
 html, body { height: 100%; }
@@ -584,6 +584,31 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
   animation: rise .3s cubic-bezier(.2,.8,.2,1);
 }
 .hint-text[hidden], .hint-btn[hidden] { display: none; }
+.ex-tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.ex-tools + .hint-text { margin-top: 10px; }
+/* Guía «Cómo se juega» (js/guia.js): tarjeta con un primer ejemplo animado */
+.guide { position: fixed; inset: 0; z-index: 65; display: grid; place-items: center; padding: 16px; }
+.guide-bg { position: absolute; inset: 0; background: rgba(0,0,0,.6); opacity: 0; transition: opacity .2s; }
+.guide-card {
+  position: relative; width: 100%; max-width: 380px; max-height: calc(100dvh - 32px); overflow: auto;
+  background: var(--bg2); border: 1px solid var(--line); border-radius: 24px; padding: 18px 16px 16px;
+  opacity: 0; transform: translateY(14px) scale(.97); transition: opacity .22s, transform .28s cubic-bezier(.2,.8,.2,1);
+}
+.guide.open .guide-bg { opacity: 1; }
+.guide.open .guide-card { opacity: 1; transform: none; }
+.guide-kicker { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--c-ink); margin-bottom: 10px; }
+.guide-stage { aspect-ratio: 2 / 1; border-radius: 16px; overflow: hidden; background: var(--play-bg); border: 2px solid var(--line); }
+.guide-stage canvas { display: block; width: 100%; height: 100%; }
+.guide-text { min-height: 4.2em; margin: 14px 2px 10px; font-size: 16px; font-weight: 700; line-height: 1.4; color: var(--ink); }
+.guide-dots { display: flex; justify-content: center; gap: 6px; margin-bottom: 14px; }
+.guide-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); transition: width .2s, background .2s; }
+.guide-dots i.on { width: 20px; border-radius: 4px; background: var(--brand); }
+.guide-actions { display: grid; grid-template-columns: 1fr 1.6fr; gap: 10px; }
+.guide-actions .btn { padding: 13px 12px; }
+.guide-actions .guide-next { --c: var(--brand); color: #fff; }
+.guide-actions .guide-back:disabled { opacity: .45; }
+.guide-off { display: block; margin: 14px auto 0; padding: 6px 10px; font-size: 13px; font-weight: 700; color: var(--mute); text-decoration: underline; text-underline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .guide-bg, .guide-card { transition: none; } }
 .hint-text svg { color: var(--c-ink); margin-top: 1px; }
 /* Minijuegos (p5.js) */
 .play {

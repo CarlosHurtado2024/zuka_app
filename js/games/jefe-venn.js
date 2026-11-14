@@ -136,7 +136,7 @@ GAMES['jefe-venn'] = (() => {
         const bw = W - 120, life = hp(), seg = bw / TOTAL;
         p.noStroke(); p.fill(C.mute); p.textStyle(p.BOLD); p.textSize(10); p.textAlign(p.LEFT, p.CENTER); p.text('GUARDIÁN', 14, 44);
         for (let i = 0; i < TOTAL; i++) { p.fill(i < life ? C.coral : C.line); p.rect(80 + i * seg, 39, seg - 2, 10, 3); }
-        if (!over) drawBoss(W / 2, 112); else { p.noStroke(); p.fill(C.sun); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.textSize(18); p.text('¡Venciste al Guardián!', W / 2, 100); }
+        if (!over) drawBoss(W / 2, 112); else { p.noStroke(); p.fill(C.N); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.textSize(18); p.text('¡Venciste al Guardián!', W / 2, 100); }
 
         // La orden: qué hay que hacer y con qué.
         if (live) {
@@ -155,7 +155,7 @@ GAMES['jefe-venn'] = (() => {
         p.stroke(C.sky); p.strokeWeight(3); p.fill(fa); p.circle(W / 2 - OFF, cy, RAD * 2);
         p.stroke(C.mint); p.fill(fb); p.circle(W / 2 + OFF, cy, RAD * 2);
         p.noStroke(); p.textStyle(p.BOLD); p.textSize(15); p.textAlign(p.CENTER, p.CENTER);
-        p.fill(C.sky); p.text('A', W / 2 - OFF - 22, cy - RAD + 19); p.fill(C.mint); p.text('B', W / 2 + OFF + 22, cy - RAD + 19);
+        p.fill(C.sky); p.text('A', W / 2 - OFF - 22, cy - RAD + 19); p.fill(C.Q); p.text('B', W / 2 + OFF + 22, cy - RAD + 19);
         p.fill(C.mute); p.textSize(12); p.text('U', W / 2, cy + halfH - 10);
         if (a.phase !== 'idle') [...els].sort((x, y) => (x === drag) - (y === drag)).forEach(e => {
           const fill = e.sel ? C.sun : C.cream, up = e === drag ? 4 : 0;

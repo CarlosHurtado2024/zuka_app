@@ -43,7 +43,7 @@ GAMES['cascada'] = (() => {
 
       function sticker(x, y, s, i) {
         p.stroke(C.card); p.strokeWeight(3); p.fill(COLS[i % COLS.length]); p.circle(x, y, s);
-        p.noStroke(); p.fill('#fff'); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(s * 0.26);
+        p.noStroke(); p.fill(inkOn(COLS[i % COLS.length])); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(s * 0.26);
         p.text(`${params.changes[i] > 0 ? '+' : '−'}${Math.abs(params.changes[i])} %`, x, y);
       }
 
