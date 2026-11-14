@@ -52,7 +52,7 @@ function setupBack() {
     else if (step === 'tour') endTour();
     else if (step === 'sheet') closeSheet();
     else if (step === 'lesson') lessonClose();
-    else if (step === 'world') { openWorld = null; renderLearn(); }
+    else if (step === 'world') { const b = $('[data-back]', view); if (b) b.click(); else { openWorld = null; renderLearn(); } }   // como el botón «Mundos»: vuelve al mapa centrado en ese mundo
     else go('learn');
   });
 }

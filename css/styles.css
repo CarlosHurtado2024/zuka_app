@@ -60,8 +60,13 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brand); out
   background: var(--c); color: #0b0d1a; font-weight: 800; font-size: 14px;
 }
 .cicon.big { width: 46px; height: 46px; border-radius: 14px; font-size: 18px; }
-.tb-stats { margin-left: auto; display: flex; gap: 14px; }
-.tb-stat { display: flex; align-items: center; gap: 4px; font-weight: 800; font-size: 15px; }
+.tb-stats { margin-left: auto; display: flex; gap: 6px; flex: none; }
+/* Racha, XP y vidas: píldoras con borde. La racha y las vidas son botones. */
+.tb-stat { display: flex; align-items: center; gap: 3px; padding: 5px 9px 5px 7px; border-radius: 999px; border: 2px solid var(--line); font-weight: 800; font-size: 14px; }
+.tb-stat .i { width: 18px; height: 18px; }
+/* El color va en el icono; el número en tinta, para que se lea bien en tema claro. */
+.tb-stat b { color: var(--ink); }
+button.tb-stat:active { transform: translateY(1px); background: var(--card); }
 .streak { color: var(--mute); } .streak.lit { color: var(--fire); }
 .xp { color: var(--gold); } .hearts { color: var(--bad); }
 #view { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
@@ -71,8 +76,10 @@ body[data-tab=clips] #view { overflow: hidden; }
 /* El menú queda por encima de la clase (#overlay, z-index 30), que deja libre su altura (--tabbar-h). */
 #tabbar { position: relative; z-index: 31; display: flex; border-top: 1px solid var(--line); background: var(--bg); padding-bottom: env(safe-area-inset-bottom); }
 #tabbar button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 9px 0 8px; color: var(--mute); font-size: 11px; font-weight: 700; }
-#tabbar button.on { color: var(--brand); }
-#tabbar button.on .i { stroke-width: 2.6; }
+#tabbar button .i { box-sizing: content-box; padding: 4px 16px; border-radius: 999px; transition: background .2s; }
+#tabbar button.on { color: var(--ink); font-weight: 800; }
+/* Pestaña activa: píldora detrás del icono. */
+#tabbar button.on .i { stroke-width: 2.6; color: var(--brand); background: color-mix(in srgb, var(--brand) 16%, transparent); }
 /* En Clips el menú flota sobre el video (el feed usa todo el alto): se esconde mientras un clip se
    reproduce y vuelve al pausar (tocar el video). Aparece con un respiro para no parpadear al deslizar. */
 body[data-tab=clips] #tabbar {
@@ -84,12 +91,13 @@ body[data-tab=clips]:has(.clip.in-feed:not(.paused)) #tabbar {
 }
 body[data-tab=clips] #tabbar button { color: rgba(255,255,255,.6); }
 body[data-tab=clips] #tabbar button.on { color: #fff; }
+body[data-tab=clips] #tabbar button.on .i { color: #fff; background: rgba(255, 255, 255, .16); }
 
 /* ---------- botones ---------- */
 .btn {
   --c2: color-mix(in srgb, var(--c, var(--brand)) 60%, #000);
   display: block; width: 100%; padding: 15px 18px; border-radius: 16px;
-  background: var(--c, var(--brand)); color: #0b0d1a; font-weight: 800; font-size: 15px; letter-spacing: .06em; text-transform: uppercase;
+  background: var(--c, var(--brand)); color: #0b0d1a; font-weight: 800; font-size: 16px;
   box-shadow: 0 4px 0 var(--c2); transition: transform .08s, box-shadow .08s, filter .15s;
 }
 .btn:hover:not(:disabled) { filter: brightness(1.06); }
@@ -115,6 +123,45 @@ body[data-tab=clips] #tabbar button.on { color: #fff; }
   background: conic-gradient(var(--c) calc(var(--p) * 360deg), var(--track) 0);
 }
 .ring span { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--card); font-weight: 800; font-size: 13px; }
+/* «Sigue aquí»: la lección que toca, la que viene y el botón que la abre. */
+.next-card {
+  margin-top: 12px; padding: 16px; border-radius: var(--r); background: var(--card);
+  border: 2px solid var(--line); box-shadow: 0 4px 0 var(--line);
+}
+.next-card .eyebrow { color: color-mix(in srgb, var(--c) 70%, var(--ink)); margin-bottom: 12px; }
+.nc-row { display: flex; align-items: center; gap: 12px; color: var(--mute); font-size: 14px; font-weight: 600; line-height: 1.25; }
+.nc-row + .nc-row { margin-top: 12px; }
+.nc-row > span:last-child { min-width: 0; }
+.nc-row small { display: block; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+.nc-row b { display: block; font-size: 17px; font-weight: 800; color: var(--ink); }
+.nc-dot { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--card2); border: 2px solid var(--line); }
+.nc-row.cur .nc-dot { background: var(--c); border-color: transparent; color: #0b0d1a; box-shadow: 0 3px 0 color-mix(in srgb, var(--c) 52%, #000); }
+.nc-dot .i { width: 18px; height: 18px; }
+.next-card .btn { margin-top: 16px; }
+.world-stats { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px !important; }
+.world-stats span { display: inline-flex; align-items: center; gap: 5px; }
+.world-stats .i { width: 16px; height: 16px; }
+/* Hoja de racha */
+.streak-sheet { text-align: center; }
+.ss-big { display: flex; align-items: center; justify-content: center; gap: 4px; color: var(--mute); }
+.ss-big b { font-size: 56px; font-weight: 800; line-height: 1; color: var(--ink); }
+.ss-big .i { width: 48px; height: 48px; }
+.ss-big.lit, .ss-week li.lit span { color: var(--fire); }
+.streak-sheet h3 { font-size: 20px; font-weight: 800; margin: 6px 0 4px; }
+.streak-sheet .muted { font-size: 14px; }
+.ss-week { list-style: none; display: flex; justify-content: space-between; gap: 4px; margin: 20px 0; }
+.ss-week li { flex: 1; display: grid; justify-items: center; gap: 6px; }
+.ss-week span { display: grid; place-items: center; width: min(38px, 100%); aspect-ratio: 1; border-radius: 50%; border: 2px solid var(--line); }
+.ss-week li.lit span { border-color: var(--fire); background: color-mix(in srgb, var(--fire) 16%, transparent); }
+.ss-week li.today span { outline: 2px solid var(--ink); outline-offset: 2px; }
+.ss-week .i { width: 20px; height: 20px; }
+.ss-week small { font-size: 12px; font-weight: 800; color: var(--mute); }
+.ss-week li.today small { color: var(--ink); }
+.ss-stats { display: flex; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
+.ss-stats p { flex: 1; padding: 14px 8px; }
+.ss-stats p + p { border-left: 1px solid var(--line); }
+.ss-stats b { display: block; font-size: 22px; font-weight: 800; }
+.ss-stats span { font-size: 13px; font-weight: 600; color: var(--mute); }
 .goal { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding: 12px 14px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
 .goal > .i { color: var(--gold); width: 26px; height: 26px; }
 .goal-body { flex: 1; }
@@ -477,12 +524,17 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .lesson-body.is-clip .clip { height: 100%; width: 100%; max-width: calc((100dvh - var(--tabbar-h, 0px) - 170px) * 9 / 16); border-radius: 20px; }
 .lesson-foot { padding: 14px 20px 16px; border-top: 1px solid var(--line); }
 .fb-open .lesson-foot { visibility: hidden; }
-.feedback {
+.fb-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.fb-head h4 { margin: 0; }
+.fb-icon { display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 50%; color: #0b0d1a; }
+.fb-icon .i { width: 18px; height: 18px; stroke-width: 3; }
+.feedback.ok .fb-icon { background: var(--ok); } .feedback.bad .fb-icon { background: var(--bad); }
+.feedback { border-radius: 24px 24px 0 0;
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; transform: translateY(105%);
   transition: transform .28s cubic-bezier(.2,.8,.2,1); padding: 18px 20px calc(18px + env(safe-area-inset-bottom));
 }
 .feedback.show { transform: none; }
-.feedback h4 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+.feedback h4 { font-size: 20px; font-weight: 800; }
 .fb-sol { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
 .fb-label { font-size: 13px; font-weight: 700; color: var(--ink); opacity: .75; margin-bottom: 2px; }
 .fb-exp { font-size: 14.5px; line-height: 1.5; color: var(--ink); opacity: .85; margin-bottom: 14px; }
@@ -927,3 +979,5 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .ag-done-when ul { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); list-style: none; display: grid; gap: 4px; font-size: 14px; font-weight: 600; line-height: 1.35; }
 .ag-done-next { font-size: 14px; line-height: 1.45; text-align: center; }
 .ag a.btn { text-align: center; text-decoration: none; }
+/* Celular muy angosto: el XP total sale de la barra de arriba (sigue en Perfil y en la meta diaria) para que quepa el nombre del curso. */
+@media (max-width: 359px) { #topbar .tb-stat.xp { display: none; } }

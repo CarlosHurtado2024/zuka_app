@@ -48,6 +48,21 @@ const ICON = {
   bulb: svg('<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.4 1.1 2.2h5c0-.8.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/>'),
 };
 
+// Los 7 días de la semana actual (lunes a domingo) para la hoja de racha: cuáles caen dentro de la racha
+// viva (que termina hoy o ayer) y cuál es hoy. Pura: recibe el último día con actividad ('AAAA-MM-DD'),
+// el largo de la racha y la fecha de hoy.
+function streakWeek(lastDay, streak, now = new Date()) {
+  const pad = n => String(n).padStart(2, '0');
+  const at = k => new Date(now.getFullYear(), now.getMonth(), now.getDate() + k);
+  const key = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const lastOff = lastDay === key(at(0)) ? 0 : lastDay === key(at(-1)) ? -1 : null;
+  const monday = -((at(0).getDay() + 6) % 7);
+  return [...'LMXJVSD'].map((label, i) => {
+    const off = monday + i;
+    return { label, today: off === 0, lit: lastOff != null && streak > 0 && off <= lastOff && off > lastOff - streak };
+  });
+}
+
 function toast(msg) {
   document.querySelectorAll('.toast').forEach(t => t.remove());   // uno a la vez: no se apilan
   const t = document.createElement('div');

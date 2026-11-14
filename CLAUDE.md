@@ -182,6 +182,9 @@ cualquier `L(x) = R(x)`). Reutilizables:
   lo guarda) o `clip.bunny` a su id. Riel: «Me gusta» y «Guardar»; sonido y velocidad en esa misma columna; el pie
   (tema, título, dato) solo se ve en pausa. Si el video falla, el feed cambia a `clip.scenes`. En el video, lo que se
   lee debe quedar entre el 14 % y el 86 % del ancho y por encima del 85 % del alto.
+- **Inicio y barra de arriba** (spec `2026-11-15-interfaz-referencias`, pruebas `tests/interfaz.test.js`): racha, XP y vidas son
+  píldoras (`.tb-stat`); la racha abre `openStreakSheet` (semana con `streakWeek` de `js/ui.js`, `S.maxStreak`). El inicio abre
+  arriba con la tarjeta «Sigue aquí» (`.next-card`), que lanza la lección que toca de un toque. Botones `.btn` sin mayúsculas.
 - Durante una lección el menú inferior se esconde (`body.in-lesson`); en la pestaña Clips se esconde
   mientras el video se reproduce y vuelve al pausar.
 

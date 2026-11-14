@@ -5,7 +5,7 @@ const KEY = 'zuka-v1';
 const HEART_MS = 20 * 60 * 1000; // una vida cada 20 minutos
 const DEFAULTS = () => ({
   name: '', xp: 0, done: {}, exams: {}, watched: {}, likes: {}, saved: {}, course: 'algebra',
-  streak: 0, lastDay: null, hearts: 5, heartsAt: Date.now(), today: { day: null, xp: 0 },
+  streak: 0, maxStreak: 0, lastDay: null, hearts: 5, heartsAt: Date.now(), today: { day: null, xp: 0 },
   goal: 30, correct: 0, answered: 0, voice: false, sfx: true, theme: 'system', hideInstall: false, videoQuality: 'auto', videoMuted: false, videoSpeed: 1,
   // Modo revisión: todas las lecciones abiertas y sin perder vidas, para revisar el contenido mientras
   // se construye. Se apaga en Perfil → Ajustes (o aquí, con false, antes de abrirla a estudiantes).
@@ -91,7 +91,10 @@ function addXP(n) {
 }
 function markStreak() {
   if (S.lastDay === today()) return false;
+  // La mejor racha anterior se guarda antes de reiniciarla (quien ya usaba la app llega con maxStreak en 0).
+  S.maxStreak = Math.max(S.maxStreak || 0, S.streak || 0);
   S.streak = S.lastDay === yesterday() ? S.streak + 1 : 1;
+  S.maxStreak = Math.max(S.maxStreak || 0, S.streak);
   S.lastDay = today(); save();
   return true;
 }
@@ -135,6 +138,8 @@ function go(t) {
   ({ learn: renderLearn, clips: renderClips, tutorias: renderTutorias, profile: renderProfile })[t]();
 }
 
+// Números largos de la barra de arriba: 12450 → «12.4 k», para que quepa el nombre del curso.
+const shortNum = n => (n >= 10000 ? `${Math.floor(n / 100) / 10} k` : String(n));
 function renderTop() {
   syncHearts();
   const c = courseById(S.course);
@@ -142,11 +147,12 @@ function renderTop() {
     <button class="tb-course" style="--c:${c.color}" aria-label="Cambiar de curso">
       ${courseArt(c, 'sm')}<span class="tb-name">${esc(c.name)}</span>${ICON.down}</button>
     <div class="tb-stats">
-      <span class="tb-stat streak${S.lastDay === today() ? ' lit' : ''}" title="Racha de días">${ICON.flame}<b>${streakNow()}</b></span>
-      <span class="tb-stat xp" title="Experiencia">${ICON.bolt}<b>${S.xp}</b></span>
+      <button class="tb-stat streak${S.lastDay === today() ? ' lit' : ''}" data-streak aria-label="Racha: ${streakNow()} ${streakNow() === 1 ? 'día' : 'días'}. Ver tu semana">${ICON.flame}<b>${streakNow()}</b></button>
+      <span class="tb-stat xp" title="Experiencia: ${S.xp} XP">${ICON.bolt}<b>${shortNum(S.xp)}</b></span>
       <button class="tb-stat hearts" title="Vidas">${ICON.heart}<b>${S.hearts}</b></button>
     </div>`;
   $('.tb-course').onclick = openCoursePicker;
+  $('#topbar [data-streak]').onclick = openStreakSheet;
   $('#topbar .hearts').onclick = () => toast(S.hearts >= 5
     ? 'Tienes todas tus vidas. Cada error cuesta una.'
     : `Recuperas una vida en ${minsToHeart()} min.`);
@@ -173,6 +179,20 @@ function openCoursePicker() {
   }).join('')}</div>`, sh => sh.querySelectorAll('.course-row').forEach(b => b.onclick = () => {
     S.course = b.dataset.id; openWorld = null; save(); closeSheet(); go('learn'); view.scrollTop = 0;
   }));
+}
+
+// Hoja de racha: la semana (días con actividad dentro de la racha viva), la racha máxima y las lecciones hechas.
+function openStreakSheet() {
+  const n = streakNow(), lit = S.lastDay === today();
+  const doneN = COURSES.reduce((t, c) => t + lessonsOf(c).filter(isDone).length, 0);
+  openSheet(`<div class="streak-sheet">
+    <p class="ss-big${lit ? ' lit' : ''}"><b>${n}</b>${ICON.flame}</p>
+    <h3>${n === 1 ? '1 día de racha' : `${n} días de racha`}</h3>
+    <p class="muted">${lit ? '¡Hoy ya sumaste! Vuelve mañana para seguirla.' : n ? 'Completa una lección hoy para no perderla.' : 'Completa una lección para empezar tu racha.'}</p>
+    <ol class="ss-week" aria-label="Tu semana">${streakWeek(S.lastDay, n).map(d =>
+      `<li class="${d.lit ? 'lit' : ''}${d.today ? ' today' : ''}"><span>${d.lit ? ICON.flame : ''}</span><small>${d.label}</small></li>`).join('')}</ol>
+    <div class="ss-stats"><p><b>${Math.max(S.maxStreak || 0, n)}</b><span>Racha máxima</span></p><p><b>${doneN}</b><span>Lecciones completadas</span></p></div>
+  </div>`);
 }
 
 function openLessonSheet(c, l) {
@@ -221,6 +241,16 @@ function renderLearn() {
         <div class="hero-prog"><span class="mini-bar"><i style="width:${(doneN / ls.length) * 100}%"></i></span><small>${doneN}/${ls.length}</small></div></div>
       ${courseArt(c, 'xl')}
     </section>
+    ${cur ? (() => {
+      // «Sigue aquí»: la lección que toca y la que viene, con un botón que la abre de un toque.
+      const ui = c.units.findIndex(u => u.lessons.includes(cur)), li = c.units[ui].lessons.indexOf(cur), nxt = ls[ls.indexOf(cur) + 1];
+      return `<section class="next-card" aria-label="Sigue aquí">
+      <p class="eyebrow">Sigue aquí · ${esc((WORLDS[c.units[ui].world] || {}).name || c.units[ui].title)}</p>
+      <p class="nc-row cur"><span class="nc-dot">${ICON.play}</span><span><small>Nivel ${ui + 1}-${li + 1}</small><b>${esc(cur.title)}</b></span></p>
+      ${nxt ? `<p class="nc-row"><span class="nc-dot"></span><span>${esc(nxt.title)}</span></p>` : ''}
+      <button class="btn" data-continue>${doneN ? 'Continuar' : 'Empezar'} · +10 XP</button>
+    </section>`;
+    })() : ''}
     <section class="goal">
       ${ICON.target}<div class="goal-body"><p><b>Meta diaria</b><span>${todayXP()} / ${S.goal} XP</span></p>
       <div class="bar"><i style="width:${goalP * 100}%"></i></div></div>
@@ -250,9 +280,10 @@ function renderLearn() {
   view.querySelectorAll('.wnode').forEach(b => b.onclick = () => {
     openWorld = { course: c.id, i: +b.dataset.world }; renderLearn(); $('[data-back]', view).focus({ preventScroll: true });
   });
+  $('[data-continue]', view)?.addEventListener('click', () => startLesson(c, cur));
   $('[data-install]', view)?.addEventListener('click', promptInstall);
   $('[data-hide-install]', view)?.addEventListener('click', () => { S.hideInstall = true; save(); renderLearn(); });
-  if (doneN) view.querySelector('.wnode.current')?.scrollIntoView({ block: 'center' });
+  view.scrollTop = 0;   // arriba queda «Sigue aquí»; el mapa de mundos está debajo
 }
 
 // Vista de un mundo: su tarjeta y el camino de sus niveles (lecciones).
@@ -268,7 +299,8 @@ function renderWorld(c, ui) {
         <div class="world-art">${w.art}
           <span class="world-tag">Mundo ${ui + 1}</span>
           <span class="world-prog" aria-label="${wDone} de ${u.lessons.length} completadas">${all ? ICON.star : closed ? ICON.lock : ''}${wDone}/${u.lessons.length}</span></div>
-        <div class="world-body"><h2>${esc(w.name)}</h2><p>${esc(u.title)}</p></div>
+        <div class="world-body"><h2>${esc(w.name)}</h2><p>${esc(u.title)}</p>
+          <p class="world-stats"><span>${ICON.clips} ${u.lessons.length} lecciones</span><span>${ICON.target} ${u.lessons.reduce((t, l) => t + l.ex.length, 0)} ejercicios</span></p></div>
       </header>
       <div class="path">
         <svg class="trail" width="1" height="1" overflow="visible" aria-hidden="true"><path d="${worldTrail(xs, PATH_STEP)}"/></svg>
@@ -567,7 +599,7 @@ function startLesson(c, l) {
     save(); updateBar();
     fb.className = `feedback show ${r.ok ? 'ok' : 'bad'}`;
     fb.innerHTML = `<div class="fb-in">
-      <h4>${r.ok ? PRAISE[Math.floor(Math.random() * PRAISE.length)] : 'Incorrecto'}</h4>
+      <div class="fb-head"><span class="fb-icon">${r.ok ? ICON.check : ICON.x}</span><h4>${r.ok ? PRAISE[Math.floor(Math.random() * PRAISE.length)] : 'Incorrecto'}</h4></div>
       ${r.ok ? '' : `<p class="fb-label">La respuesta correcta es:</p><div class="fb-sol">${tex(r.solution)}</div>`}
       ${ex.explain ? `<p class="fb-exp">${tex(ex.explain)}</p>` : ''}
       <button class="btn">${r.ok ? 'Continuar' : 'Entendido'}</button></div>`;
