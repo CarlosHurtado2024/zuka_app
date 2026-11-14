@@ -103,6 +103,23 @@ test('pasos largos: se parten en dos renglones por un corte natural', () => {
   assert.match(fs.readFileSync(path.join(ROOT, 'js/games/cancela-factores.js'), 'utf8'), /prompt: \(\) =>/);
 });
 
+test('las escenas de respaldo cuentan el video de cada lección (19 lecciones), con KaTeX bien escrito', () => {
+  const ids = WORLDS.flatMap(w => unit(w).lessons.map(l => l.id));
+  assert.equal(ids.length, 19);
+  for (const id of ids) {
+    const l = ALG.units.flatMap(u => u.lessons).find(x => x.id === id), sc = l.clip.scenes;
+    assert.ok(sc.length >= 5 && sc.length <= 6, `${id}: ${sc.length} escenas`);
+    for (const s of sc) {
+      const all = [s.text, s.title || '', ...(s.steps || [])].join(' ');
+      assert.equal(all.split('$').length % 2, 1, `${id}: un signo de pesos sin pareja en «${s.text.slice(0, 40)}»`);
+      assert.ok(s.text.length >= 40 && s.text.length <= 230, `${id}: escena de ${s.text.length} letras`);
+    }
+  }
+  // Los personajes y ejemplos son los del video.
+  const text = id => ALG.units.flatMap(u => u.lessons).find(x => x.id === id).clip.scenes.map(s => s.text + (s.title || '')).join(' ');
+  assert.match(text('alg-3'), /mesa.*Beto|Beto.*mesa/); assert.ok(text('alg-92').includes('P(2) = 8 - 8 - 10 + 6 = -4')); assert.match(text('alg-71'), /lirio/); assert.match(text('alg-101'), /corriente/);
+});
+
 test('juegos nuevos: lógica pura', () => {
   const ds = GAMES['division-sintetica'];
   assert.equal(ds.rowOf([1, -2, -5, 6], 1).join(), '1,-1,-6,0'); assert.equal(ds.remOf([1, -4, 1, 6], 2), 0); assert.equal(ds.remOf([1, 0, -7, 6], -3), 0);

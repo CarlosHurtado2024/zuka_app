@@ -78,8 +78,8 @@
       'Prueba con las primeras filas: 1 + 1, luego 1 + 2 + 1, luego 1 + 3 + 3 + 1. ¿Qué patrón siguen esas sumas?'),
   ];
   EX['alg-24b'] = [
-    P('bloques-area', 'Factorizar es encontrar los **lados** del rectángulo. Elige $a$ y $b$ para armar cada área', { rounds: [{ mode: 'factor', a: 1, b: 4 }, { mode: 'factor', a: 1, b: 6 }, { mode: 'factor', a: 3, b: 3 }, { mode: 'factor', a: 2, b: 7 }] },
-      'Se buscan dos números que **sumen** el coeficiente de $x$ y **multipliquen** el término independiente: $x^2 + 5x + 4 = (x + 1)(x + 4)$, $x^2 + 7x + 6 = (x + 1)(x + 6)$, $x^2 + 6x + 9 = (x + 3)^2$ y $x^2 + 9x + 14 = (x + 2)(x + 7)$.',
+    P('bloques-area', 'Factorizar es encontrar los **lados** del rectángulo. Elige $a$ y $b$ para armar cada área', { rounds: [{ mode: 'factor', a: 1, b: 5 }, { mode: 'factor', a: 2, b: 4 }, { mode: 'factor', a: 3, b: 3 }, { mode: 'factor', a: 2, b: 7 }] },
+      'Se buscan dos números que **sumen** el coeficiente de $x$ y **multipliquen** el término independiente: $x^2 + 6x + 5 = (x + 1)(x + 5)$, $x^2 + 6x + 8 = (x + 2)(x + 4)$ (los mismos 6 de barras, otros cuadritos), $x^2 + 6x + 9 = (x + 3)^2$ y $x^2 + 9x + 14 = (x + 2)(x + 7)$.',
       'Empieza por los cuadritos: ¿de qué maneras se puede armar ese número como un rectángulo de a por b? Quédate con la que además da las barras.'),
     escala('Factoriza **por completo** $x^4 - 16$',
       [['(x² − 4)(x² + 4)', '(x² − 4)²', '(x² − 8)(x² + 8)'], ['(x − 2)(x + 2)(x² + 4)', '(x − 2)(x + 2)(x − 2)(x + 2)'], ['x² + 4 ya no se parte en los reales', 'x² + 4 = (x + 2)²']],
@@ -442,9 +442,9 @@
     ] }, '$32 = 2^5$, así que $x = 5$. $27 = 3^3$: $x + 1 = 3$ y $x = 2$. $25^3 = 5^6$: $2x = 6$ y $x = 3$.',
       'Escribe el número de la derecha como potencia de la misma base de la izquierda e iguala los exponentes.'),
     P('proyector-sombras', 'Marca el **dominio** y el **rango** de cada función exponencial', { rounds: [
-      { f: x => 2 ** x, xr: [-5, 4], yr: [-2, 6], dom: [null, null, false, false], ran: [0, null, false, false] },
+      { f: x => 2 ** x - 2, xr: [-5, 4], yr: [-4, 6], dom: [null, null, false, false], ran: [-2, null, false, false] },
       { f: x => 3 - 2 ** x, xr: [-5, 3], yr: [-5, 5], dom: [null, null, false, false], ran: [null, 3, false, false] },
-    ] }, '$2^x$ existe para todo $x$ y siempre es positiva, sin llegar a 0: dominio $(-\\infty, \\infty)$, rango $(0, \\infty)$. En $3 - 2^x$ la gráfica se voltea y sube 3: rango $(-\\infty, 3)$.',
+    ] }, '$2^x - 2$ existe para todo $x$; restar 2 baja la asíntota: la curva se acerca a $-2$ sin tocarlo. Dominio $(-\\infty, \\infty)$, rango $(-2, \\infty)$. En $3 - 2^x$ la gráfica se voltea y sube 3: rango $(-\\infty, 3)$.',
       'La exponencial se acerca a su asíntota sin tocarla: ese extremo del rango va abierto. A lo ancho no tiene fin por ningún lado.'),
     escala('Resuelve $9^x = 27$',
       [['3^(2x) = 3³', '3^(x²) = 3³', '9x = 27'], ['2x = 3', 'x² = 3'], ['x = 3/2', 'x = √3', 'x = 3']],
@@ -586,7 +586,148 @@
       P('parte-sigma', 'Separa $\\sum (2k + 4)$, con $k$ de 1 a 6, en azules y amarillas', { rounds: [{ c: 2, d: 4, hi: 6 }] }, '$2\\sum k + 4 \\cdot 6 = 2 \\cdot 21 + 24 = 66$.', 'Las amarillas aparecen en todas las columnas: cuéntalas en total, no solo en una.')],
   ] };
 
+  // ====================== Escenas de respaldo (spec 2026-11-21-dinamicos-mundos-altos) ======================
+  // Lo que se ve si el video no carga: la misma historia y los mismos ejemplos del video zoom de cada lección
+  // (`video/valle-zoom/films/<nombre>.js`, FILM.NARR). [segundos, texto, { title, steps }]
+  const SC = {
+    'alg-23a': [   // polinomios
+      [5, 'Caro tiene una caja de bloques: **cuadrados** de lado $x$, **barras** de $x$ por 1 y **cuadritos** de 1 por 1. ¿Cómo anotarla sin dibujarla?', { title: 'La caja de Caro' }],
+      [6, 'Dos cuadrados, tres barras y cuatro cuadritos se escriben $2x^2 + 3x + 4$. La $x$ es la variable y el número que la multiplica, el coeficiente.', { title: '$2x^2 + 3x + 4$' }],
+      [6, 'El **grado** es el mayor exponente, aunque no esté de primero. Un cubo de lado $x$ es $x^3$; un número solo, distinto de cero, tiene grado 0.', { steps: ['Mayor exponente 3: grado 3', 'El término sin $x$ es el independiente'] }],
+      [6, 'Para sumar se juntan piezas iguales: cuadrados con cuadrados, barras con barras. Una barra y una barra roja (negativa) se anulan. Un cuadrado y una barra no se juntan.', { title: 'Términos semejantes' }],
+      [6, 'Multiplicar es armar un rectángulo: con lados $x + 1$ y $x + 4$ lo llenan un cuadrado, cinco barras y cuatro cuadritos. Los grados se suman.', { title: '$(x + 1)(x + 4) = x^2 + 5x + 4$' }],
+      [5, 'Y la sorpresa: con $x = 10$, la caja de Caro se lee $234$. Sus cifras son los coeficientes.', { title: '$2 \\cdot 10^2 + 3 \\cdot 10 + 4 = 234$' }],
+    ],
+    'alg-3': [   // notables
+      [5, 'Beto tiene una mesa cuadrada de lado $x$ y la agranda 4 por cada lado. Calcula $x^2 + 16$… pero al armarla le faltan dos tablas.', { title: 'La mesa de Beto' }],
+      [6, 'Faltaban dos rectángulos de $4$ por $x$. Al elevar una suma al cuadrado aparece el **doble producto**.', { title: '$(x + 4)^2 = x^2 + 8x + 16$' }],
+      [6, 'Con una resta, el doble producto resta: $99^2 = (100 - 1)^2 = 10\\,000 - 200 + 1 = 9801$.', { title: '$(a - b)^2 = a^2 - 2ab + b^2$' }],
+      [6, 'A un cuadrado de lado $a$ se le quita una esquina $b$ y la tira se pasa abajo: queda un rectángulo. Así, $21 \\cdot 19 = 20^2 - 1 = 399$.', { title: '$(a + b)(a - b) = a^2 - b^2$' }],
+      [6, 'Si los dos binomios comparten la $x$: un cuadrado, ocho barras y doce cuadritos. Ocho es $6 + 2$; doce, $6 \\cdot 2$.', { title: '$(x + 6)(x + 2) = x^2 + 8x + 12$' }],
+    ],
+    'alg-24c': [   // binomio
+      [5, 'Ana debe desarrollar $(a + b)^4$. Son cuatro paréntesis y una letra de cada uno: **dieciséis productos**. ¿Hay un atajo?', { title: '$(a + b)^4$' }],
+      [6, 'Los números de las potencias pequeñas forman un triángulo: el de **Pascal**. Cada número suma los dos de arriba.', { steps: ['$1 \\quad 2 \\quad 1$', '$1 \\quad 3 \\quad 3 \\quad 1$', '$1 \\quad 4 \\quad 6 \\quad 4 \\quad 1$'] }],
+      [6, 'La fila $1, 4, 6, 4, 1$ suma 16: los dieciséis productos de Ana, agrupados en cinco términos.', { title: '$1 + 4 + 6 + 4 + 1 = 16$' }],
+      [6, 'Los exponentes de $a$ bajan de 4 a 0 y los de $b$ suben de 0 a 4: en cada término suman 4.', { title: '$a^4 + 4a^3b + 6a^2b^2 + 4ab^3 + b^4$' }],
+      [6, '¿Por qué el del medio lleva un 6? Para $a^2b^2$, dos de los cuatro paréntesis dan $b$: hay 6 maneras de elegirlos. En $(x + 2)^4$ ese término es $6 \\cdot x^2 \\cdot 2^2$.', { title: '$\\binom{4}{2} = 6$' }],
+    ],
+    'alg-24b': [   // factorizacion
+      [5, 'Caro tiene un montón de bloques: un cuadrado, cinco barras y seis cuadritos. ¿Puede armar con todos un **rectángulo**?', { title: '$x^2 + 5x + 6$' }],
+      [6, 'Armar el rectángulo es hallar sus lados: eso es **factorizar**, convertir una suma en producto. Lo más fácil es el factor común: tres filas de $x + 2$.', { title: '$3x + 6 = 3(x + 2)$' }],
+      [6, 'A un cuadrado de lado $x$ se le quita una esquina de 4 por 4 y la tira se pasa abajo: sale un rectángulo.', { title: '$x^2 - 16 = (x + 4)(x - 4)$' }],
+      [6, 'El montón de Caro: tres barras a un lado, dos al otro, y los seis cuadritos llenan el hueco. $2 \\cdot 3 = 6$ y $2 + 3 = 5$.', { title: '$x^2 + 5x + 6 = (x + 2)(x + 3)$' }],
+      [6, 'No todo montón se arma: con siete cuadritos, uno sobra. Entonces se **completa el cuadrado**: de $x^2 + 8x + 20$, las barras se reparten cuatro y cuatro y la esquina pide 16.', { title: '$x^2 + 8x + 20 = (x + 4)^2 + 4$' }],
+    ],
+    'alg-23c': [   // complejos
+      [5, 'El acertijo de Beto: un número cuyo cuadrado sea $-1$. En la recta no hay ninguno: $3^2 = 9$ y $(-3)^2 = 9$. Ningún cuadrado cae del lado negativo.', { title: '$x^2 = -1$' }],
+      [5, 'Inventemos uno: $i$, con $i^2 = -1$. Entonces $\\sqrt{-25} = 5i$. Pero ¿dónde vive $i$?', { title: '$i^2 = -1$' }],
+      [6, 'Multiplicar por $-1$ es dar media vuelta. Multiplicar por $i$ es un **cuarto de vuelta**: dos cuartos hacen media vuelta, y por eso $i \\cdot i = -1$.', { title: 'Girar' }],
+      [6, 'Los complejos forman un plano: $2 + 3i$ es 2 al ancho y 3 hacia arriba. Se suman real con real e imaginaria con imaginaria, y se multiplican como binomios.', { title: '$a + bi$' }],
+      [6, 'El **conjugado** de $3 + 4i$ es su reflejo, $3 - 4i$. Su distancia al origen, el módulo, es 5, y su producto da 25: con eso se divide.', { title: '$(3 + 4i)(3 - 4i) = 25$' }],
+    ],
+    'alg-1': [   // lineales
+      [5, 'Ana compra baldosas. Tres cajas cerradas iguales y cuatro sueltas pesan lo mismo que 25 baldosas. ¿Cuántas trae cada caja?', { title: '$3x + 4 = 25$' }],
+      [6, 'La regla de la balanza: lo que se hace en un lado, se hace en el otro. Se quitan las 4 sueltas de los dos lados y se reparte entre las 3 cajas.', { steps: ['$3x = 21$', '$x = 7$'] }],
+      [6, 'Con cajas en los dos lados, primero se quita una caja de cada lado y luego las sueltas.', { title: '$4x + 3 = x + 15$', steps: ['$3x + 3 = 15$', '$3x = 12$', '$x = 4$'] }],
+      [5, 'Con paréntesis, primero se reparte. Una fracción se quita multiplicando todo por su denominador.', { title: 'Despejar es deshacer en orden inverso' }],
+      [5, 'Hay balanzas que nunca se equilibran: si sale $1 = 3$, no hay solución. Si sale $0 = 0$, todas las $x$ sirven.', { steps: ['$1 = 3$: sin solución', '$0 = 0$: infinitas'] }],
+    ],
+    'alg-4a': [   // parabola
+      [5, 'Caro diseña una fuente. ¿Qué tan alto subirá el chorro? La curva más sencilla es $y = x^2$: da la vuelta en un punto, el **vértice**, y es simétrica.', { title: '$y = x^2$' }],
+      [6, 'Para moverla: $x - 4$ la corre 4 a la derecha y el $+1$ la sube 1. En la forma canónica el vértice se lee: $(h, k)$.', { title: '$y = (x - 4)^2 + 1$' }],
+      [6, 'Si la fórmula viene sin armar, se **completa el cuadrado**: las 4 barras se reparten dos y dos, la esquina pide 4 y de los 7 sobran 3.', { title: '$x^2 + 4x + 7 = (x + 2)^2 + 3$' }],
+      [5, 'El vértice es $(-2, 3)$, y como abre hacia arriba, 3 es el mínimo. Atajo: $h = -\\dfrac{b}{2a}$.', { title: '$h = -\\dfrac{b}{2a}$' }],
+      [6, 'El chorro de Caro: $y = -x^2 + 4x + 1$. Con $a$ negativo abre hacia abajo. $h = 2$ y $k = 5$: sube 5 metros, a 2 metros de la boquilla.', { title: 'Vértice $(2, 5)$' }],
+    ],
+    'alg-4': [   // cuadraticas
+      [5, 'El chorro de Caro sube 5 metros. ¿Dónde cae el agua? Donde la altura vale cero: en las **raíces**.', { title: '$y = 0$' }],
+      [6, 'Si un producto da cero, algún factor es cero. Dos números de producto $-6$ y suma $-1$: $-3$ y $2$.', { title: '$x^2 - x - 6 = (x - 3)(x + 2) = 0$', steps: ['$x = 3$', '$x = -2$'] }],
+      [6, 'Si no se deja factorizar, la **fórmula general** sirve para cualquiera. Sale de completar el cuadrado.', { title: '$x = \\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$' }],
+      [6, 'En la fuente, $-x^2 + 4x + 1 = 0$ da $x = 2 \\pm \\sqrt5$. El agua cae en $2 + \\sqrt5 \\approx 4.24$ m; la otra raíz queda detrás de la boquilla y no sirve.', { title: '$x = 2 \\pm \\sqrt5$' }],
+      [6, 'Lo de adentro de la raíz cuenta las raíces: positivo, la parábola cruza dos veces; cero, toca una; negativo, ninguna (son complejas).', { title: '$b^2 - 4ac$' }],
+    ],
+    'alg-23b': [   // division
+      [5, 'Ana dibuja el perfil de una cordillera: un polinomio de grado 3. La vía del tren va a altura cero y uno de sus cruces es $x = 1$.', { title: '$P(x) = x^3 - 2x^2 - 5x + 6$' }],
+      [6, 'Se divide como con números: 47 caramelos en bolsas de 5 dan 9 bolsas y sobran 2. Lo que sobra es menor que una bolsa.', { title: '$47 = 5 \\cdot 9 + 2$' }],
+      [6, 'Con polinomios igual: dividendo = divisor · cociente + residuo, y el residuo tiene grado menor que el divisor.', { title: '$P = D \\cdot Q + R$' }],
+      [6, 'Al dividir la cordillera entre $x - 1$ por pasos, el residuo es 0: $x - 1$ cabe justo, es un **factor**.', { title: '$P(x) = (x - 1)(x^2 - x - 6)$' }],
+      [6, 'Y un camino sin dividir: escribir $(x - 1)(x^2 + ax + b) + r$, multiplicar y comparar. Dos polinomios iguales tienen los mismos coeficientes.', { steps: ['$a = -1$', '$b = -6$', '$r = 0$'] }],
+    ],
+    'alg-92': [   // residuo
+      [5, 'Beto ve la cordillera de Ana entre la niebla y apuesta: la vía también cruza en $x = 2$. Para saberlo habría que dividir entre $x - 2$…', { title: '¿Cruza en 2?' }],
+      [6, 'Pero el residuo tiene un secreto. En $P(x) = (x - 2)\\,Q(x) + R$, al poner $x = 2$ el primer pedazo desaparece: **el residuo es $P(2)$**.', { title: 'Teorema del residuo' }],
+      [6, '$P(2) = 8 - 8 - 10 + 6 = -4$: Beto pierde. En cambio $P(3) = 27 - 18 - 15 + 6 = 0$: ahí sí cruza.', { steps: ['$P(2) = -4$', '$P(3) = 0$'] }],
+      [5, '**Teorema del factor**: si $P(c) = 0$, entonces $x - c$ es un factor de $P$. Y al revés.', { title: '$P(c) = 0 \\iff (x - c)$ es factor' }],
+      [6, 'La **división sintética** divide sin escribir las $x$: los coeficientes en fila y el 3 al lado. Baja el 1; por 3 y se suma, hasta el final. La última casilla es el residuo.', { title: '$1 \\;\\; -2 \\;\\; -5 \\;\\; 6 \\;\\to\\; 1 \\;\\; 1 \\;\\; -2 \\;\\; 0$' }],
+    ],
+    'alg-93': [   // ceros
+      [5, 'La cordillera de Caro también es de grado 3, pero cruza la vía una sola vez, en $x = 1$. Y un teorema dice: grado 3, **tres ceros**. ¿Dónde están los otros dos?', { title: 'Teorema fundamental del álgebra' }],
+      [6, 'Una montaña con un factor repetido cruza en $-1$ y en $2$ toca la vía y se devuelve: es un cero **doble** y cuenta dos veces. Repetido impar cruza; par, rebota.', { title: '$(x + 1)(x - 2)^2$' }],
+      [6, 'Con coeficientes enteros, un cero racional $\\tfrac{c}{d}$ tiene $c$ divisor del último coeficiente y $d$ divisor del primero. Quedan pocos candidatos.', { title: 'Ceros racionales' }],
+      [6, 'Los signos de los coeficientes cambian tres veces: tres ceros positivos, o uno. Con $-x$ no cambian: ningún cero negativo.', { title: 'Regla de los signos de Descartes' }],
+      [6, 'Al dividir entre $x - 1$ queda una parábola con discriminante negativo: sus ceros son $1 + i$ y $1 - i$. Con coeficientes reales, los complejos llegan en pareja.', { title: '$1,\\; 1 + i,\\; 1 - i$' }],
+    ],
+    'alg-25a': [   // dominio
+      [5, 'Beto camina por un sendero junto al río. El sendero sigue una fracción de polinomios: una **expresión racional**. Pero en dos puntos la fórmula falla.', { title: '$\\dfrac{x^2 - 1}{x^2 + 2x - 3}$' }],
+      [6, 'En $-3$ y en $1$ el denominador da cero, y dividir entre cero no se puede: 6 entre 0, ¿cuántos grupos de cero? Ninguna cantidad sirve.', { title: 'El denominador no puede ser 0' }],
+      [6, 'Cerca de cero, $\\tfrac{1}{x}$ se dispara: 10, 100, 1000… Sube pegada a una recta que nunca toca: una **asíntota**.', { title: '$y = \\dfrac{1}{x}$' }],
+      [6, 'Se factoriza arriba y abajo y aparece $x - 1$ en los dos: se cancela. Ojo: solo se cancelan **factores**; en $x + 5$, el 5 no es un factor.', { title: '$\\dfrac{(x - 1)(x + 1)}{(x - 1)(x + 3)} = \\dfrac{x + 1}{x + 3}$' }],
+      [6, 'El dominio se mira en la fracción original: todos los reales menos $-3$ y $1$. En $-3$ hay un río (asíntota); en $1$, solo un hueco.', { steps: ['$x = -3$: asíntota', '$x = 1$: un hueco'] }],
+    ],
+    'alg-25b': [   // fracciones
+      [5, 'Ana sola llena el estanque en 3 horas; Beto solo, en 6. ¿Cuánto tardan juntos? No es el promedio: con ayuda, Ana tardaría menos de 3.', { title: '¿Juntos?' }],
+      [6, 'Hay que pensar en cuánto llenan **por hora**: un tercio y un sexto. Se pasan a sextos, el denominador común.', { title: '$\\dfrac13 + \\dfrac16 = \\dfrac26 + \\dfrac16 = \\dfrac12$' }],
+      [5, 'Medio estanque por hora. Para llenar uno entero: 1 entre $\\tfrac12$. Se voltea: **2 horas**.', { title: '$1 \\div \\dfrac12 = 2$' }],
+      [6, 'Con letras es igual: si Ana tarda $x$ horas y Beto 3 más, el denominador común es $x(x + 3)$ y cada fracción se completa con lo que le falta.', { title: '$\\dfrac1x + \\dfrac1{x + 3} = \\dfrac{2x + 3}{x(x + 3)}$' }],
+      [6, 'El tiempo de los dos es 1 entre esa suma: una fracción dentro de otra. Se voltea. Con $x = 3$ da 2, como con números.', { title: '$\\dfrac{x(x + 3)}{2x + 3}$' }],
+    ],
+    'alg-101': [   // sistemas
+      [5, 'Caro navega por el río. A favor de la corriente va a 15 km/h; en contra, solo a 9. ¿Cuánto pone el bote y cuánto el río?', { title: '$v + c = 15, \\quad v - c = 9$' }],
+      [6, 'Con una sola pista no alcanza: $v + c = 15$ tiene muchas soluciones, y todas forman una recta. La segunda pista es otra recta; la solución es donde se **cortan**.', { title: '$v = 12, \\; c = 3$' }],
+      [6, 'Tres caminos sin dibujar: **reducción** (se suman y $c$ desaparece: $2v = 24$), **sustitución** ($v = 15 - c$) e **igualación**.', { steps: ['Reducción', 'Sustitución', 'Igualación'] }],
+      [5, 'Si las rectas son paralelas, no hay solución. Si son la misma recta, hay infinitas.', { title: '¿Cuántas soluciones?' }],
+      [6, 'Con tres incógnitas se arma una escalera: abajo queda $z = 2$; un escalón arriba, $y = 3$; y arriba, $x = 4$.', { title: 'Escalonar' }],
+    ],
+    'alg-102': [   // parciales
+      [5, 'Beto dibuja el mapa del río: una curva enredada entre dos ríos, en $x = 1$ y $x = -1$. Esa curva esconde un secreto.', { title: '$\\dfrac{3x + 1}{x^2 - 1}$' }],
+      [6, 'Antes: ¿dónde se cortan una orilla curva, $y = x^2$, y un puente recto, $y = 2x + 3$? Donde las alturas son iguales.', { title: '$x^2 = 2x + 3$', steps: ['$(x - 3)(x + 1) = 0$', '$(3, 9)$ y $(-1, 1)$'] }],
+      [6, 'Igualar también sirve para partir fracciones. Se factoriza el denominador y cada factor lineal pone una fracción con una letra.', { title: '$\\dfrac{3x + 1}{(x - 1)(x + 1)} = \\dfrac{A}{x - 1} + \\dfrac{B}{x + 1}$' }],
+      [6, 'Un factor cuadrático pide $Bx + C$ arriba; uno repetido, una fracción por cada potencia. Y la fracción debe ser propia: si no, se divide antes.', { title: 'La forma de cada pedazo' }],
+      [6, 'Se igualan los numeradores: $A + B = 3$ y $A - B = 1$, así que $A = 2$ y $B = 1$. La curva enredada es dos fracciones simples.', { title: '$\\dfrac{2}{x - 1} + \\dfrac{1}{x + 1}$' }],
+    ],
+    'alg-71': [   // lirios
+      [5, 'En la laguna flota un lirio y cada día los lirios se **duplican**: 1, 2, 4, 8, 16… El día 10 cubren toda la laguna. ¿Qué día estaba medio llena?', { title: 'Los lirios de Caro' }],
+      [6, 'La fórmula es $y = 2^x$: cada paso a la derecha, el doble; hacia atrás, la mitad. Se acerca a cero y nunca llega: el eje $x$ es una asíntota.', { title: '$y = 2^x$' }],
+      [6, '$x$ puede ser cualquier real; $y$ siempre es positiva. Con base mayor que 1 la curva sube; con base $\\tfrac12$ es su espejo y decrece.', { steps: ['Dominio: todos los reales', 'Rango: $(0, \\infty)$'] }],
+      [5, 'Hay una base muy especial: $e \\approx 2.72$, a la que se acerca $\\left(1 + \\tfrac1n\\right)^n$. $e^x$ es el crecimiento continuo.', { title: '$e \\approx 2.72$' }],
+      [6, 'Para hallar un exponente se igualan las bases. Medio llena son 512 lirios, y $512 = 2^9$: fue el **día 9**, no el 5. Un día después, llena.', { title: '$2^x = 2^9 \\Rightarrow x = 9$' }],
+    ],
+    'alg-13b': [   // interes
+      [5, 'Beto tiene 2 millones y quiere duplicarlos. Dos bancos le ofrecen el 6 % anual: uno con interés **simple** y otro **compuesto**. El primer año pagan igual: 120 000.', { title: '¿Da lo mismo?' }],
+      [6, 'Interés simple: siempre sobre el capital inicial. Cada año, los mismos 120 000. El monto crece en línea recta y llega a 4 millones en el año 17.', { title: '$I = C \\cdot i \\cdot t$' }],
+      [6, 'Interés compuesto: el interés se suma al capital. El segundo año paga sobre lo que ya creció: 7200 más. El interés también gana interés.', { title: '$M = C(1 + i)^n$' }],
+      [5, 'Cada año se multiplica por 1.06: es una función exponencial del tiempo. La curva se despega de la recta y pasa los 4 millones en el año 12.', { title: '$\\times 1.06$ cada año' }],
+      [6, 'Y al revés: para tener una meta, se divide entre el factor de todos los años. Si la tasa es mensual, $n$ cuenta meses.', { title: '$C = \\dfrac{M}{(1 + i)^n}$' }],
+    ],
+    'alg-72': [   // logaritmos
+      [5, 'Caro recibe un pedido de mil lirios. ¿Qué día tendrá la laguna mil? $2^9 = 512$ es poco y $2^{10} = 1024$ se pasa: está entre 9 y 10.', { title: '$2^x = 1000$' }],
+      [6, 'La pregunta va al revés, y para eso está el **logaritmo**: $\\log_2 32$ pregunta «¿2 a qué da 32?». A 5. El logaritmo es un exponente.', { title: '$\\log_2 32 = 5$' }],
+      [6, 'Su gráfica es el espejo de la exponencial: solo acepta números positivos, y el logaritmo de 1 es 0.', { steps: ['Dominio: $(0, \\infty)$', '$\\log_b 1 = 0$'] }],
+      [6, 'Como $4 \\cdot 16 = 64$ es $2 + 4 = 6$ en exponentes: el logaritmo de un producto es una suma; el de un cociente, una resta; y una potencia sale adelante. El de una suma no se parte.', { title: '$\\log(ab) = \\log a + \\log b$' }],
+      [6, 'Para otra base se divide entre el logaritmo de la base: $\\log_2 1000 = \\dfrac{3}{0.301} \\approx 9.97$. El pedido está listo casi al final del día 9.', { title: 'Cambio de base' }],
+    ],
+    'alg-73': [   // ecuaciones
+      [5, 'Beto ahora quiere **triplicar** sus 2 millones al 6 % anual compuesto. La incógnita queda arriba, en el exponente.', { title: '$1.06^{\\,t} = 3$' }],
+      [6, 'El camino fácil: igualar bases. 8 y 4 son potencias de 2; con la misma base se igualan los exponentes.', { title: '$8^x = 4^{x + 1}$', steps: ['$2^{3x} = 2^{2x + 2}$', '$3x = 2x + 2$', '$x = 2$'] }],
+      [6, 'Pero 1.06 y 3 no se dejan escribir con la misma base. Se toma logaritmo a los dos lados y el exponente baja como factor.', { title: '$t = \\dfrac{\\ln 3}{\\ln 1.06} \\approx 18.85$' }],
+      [6, 'Las ecuaciones con logaritmos van al revés: se juntan y se pasa a potencia. $\\log_2 x + \\log_2(x - 2) = 3$ da $x(x - 2) = 8$.', { steps: ['$x = 4$', '$x = -2$'] }],
+      [5, 'La trampa: $-2$ no tiene logaritmo. Hay que mirar el dominio; solo sirve $x = 4$.', { title: 'Cuidado con las soluciones extrañas' }],
+    ],
+  };
+
   // ====================== Se montan en el curso ======================
+  for (const u of COURSE_ALGEBRA.units) for (const l of u.lessons) if (SC[l.id]) l.clip = { ...l.clip, scenes: SC[l.id].map(([d, text, o]) => sc(d, text, o)) };
   for (const u of COURSE_ALGEBRA.units) for (const l of u.lessons) if (EX[l.id]) { l.ex = EX[l.id]; delete l.more; }
   for (const [w, b] of Object.entries(BOSS)) {
     U(w).boss = { id: b.id, title: b.title,
