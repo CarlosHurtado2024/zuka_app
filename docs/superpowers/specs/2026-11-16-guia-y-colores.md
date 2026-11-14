@@ -33,7 +33,7 @@ que lo que tapan. Muchos avisos son falsos (texto recortado, rótulo junto a su 
   quieto. `Esc` o tocar afuera la cierra.
 - Se recuerda en `S.guides[juego]`; «No mostrar la guía al empezar» pone `S.guideAuto = false` (el botón sigue).
 - El ejemplo enseña el gesto, no la respuesta: usa fichas pequeñas distintas de las de los ejercicios.
-- La mano es crema con borde azul noche (se ve en los dos temas y sobre cualquier ficha); las fichas elegidas van en
+- La mano es un índice que señala (dedos doblados y pulgar, con rayitas al tocar), crema con borde azul noche (se ve en los dos temas y sobre cualquier ficha); las fichas elegidas van en
   menta con aro, las que se mueven en azul. No se usa amarillo de relleno en las escenas del tema claro.
 
 ## Pruebas

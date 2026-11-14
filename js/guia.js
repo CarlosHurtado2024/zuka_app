@@ -45,18 +45,36 @@ function gSlot(ctx, C, x, y, w, h, col, solid) {
   gBox(ctx, x - w / 2, y - h / 2, w, h, 10); ctx.stroke(); ctx.setLineDash([]);
 }
 const gDark = C => inkOn(C.bg) === '#FFFFFF';
-// La mano: la yema del dedo en (x, y). Crema con borde azul noche (se ve sobre cualquier tema y cualquier ficha);
-// al presionar se encoge y suelta una onda.
+// La mano: un índice que señala, con los otros dedos doblados y el pulgar a un lado; la yema queda en (x, y).
+// Crema con borde azul noche (se ve sobre cualquier tema y cualquier ficha). Al presionar se encoge un poco y
+// salen rayitas alrededor de la punta, además de la onda.
 function gHand(ctx, C, x, y, down, pulse = 0) {
+  const hot = gDark(C) ? C.sun : C.coral;
   if (down) {
-    ctx.strokeStyle = gDark(C) ? C.sun : C.coral; ctx.lineWidth = 2.5; ctx.globalAlpha = 0.85 - 0.6 * pulse;
+    ctx.strokeStyle = hot; ctx.lineWidth = 2.5; ctx.globalAlpha = 0.85 - 0.6 * pulse;
     ctx.beginPath(); ctx.arc(x, y, 12 + 12 * pulse, 0, 6.2832); ctx.stroke(); ctx.globalAlpha = 1;
   }
-  ctx.save(); ctx.translate(x, y); ctx.rotate(-0.42); ctx.scale(down ? 0.9 : 1, down ? 0.9 : 1);
-  ctx.fillStyle = '#FFF4E2'; ctx.strokeStyle = '#1D2052'; ctx.lineWidth = 2; ctx.lineJoin = 'round';
-  gBox(ctx, -7, -7, 14, 34, 7); ctx.fill(); ctx.stroke();          // dedo
-  gBox(ctx, -13, 16, 30, 24, 9); ctx.fill(); ctx.stroke();         // palma
-  ctx.fillStyle = '#FFF4E2'; ctx.fillRect(-5.5, 13, 11, 8);          // une dedo y palma
+  ctx.save(); ctx.translate(x, y); ctx.rotate(-0.36); ctx.scale(down ? 0.8 : 0.86, down ? 0.8 : 0.86);
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  if (down) {
+    ctx.strokeStyle = hot; ctx.lineWidth = 3;
+    for (const a of [-2.75, -2.1, -1.57, -1.04, -0.39]) {
+      ctx.beginPath(); ctx.moveTo(Math.cos(a) * 10, Math.sin(a) * 10 - 1); ctx.lineTo(Math.cos(a) * 16, Math.sin(a) * 16 - 1); ctx.stroke();
+    }
+  }
+  ctx.fillStyle = '#FFF4E2'; ctx.strokeStyle = '#1D2052'; ctx.lineWidth = 2.4;
+  ctx.beginPath();
+  ctx.moveTo(-4.5, 1); ctx.arc(0, 1, 4.5, Math.PI, 0);                 // punta del índice
+  ctx.lineTo(4.5, 14); ctx.arc(9, 14, 4.5, Math.PI, 0);                // nudillo del medio
+  ctx.lineTo(13.5, 16); ctx.arc(17.5, 16, 4, Math.PI, 0);              // anular
+  ctx.lineTo(21.5, 19); ctx.arc(25, 19, 3.5, Math.PI, 0);              // meñique
+  ctx.lineTo(28.5, 30); ctx.bezierCurveTo(28.5, 42, 19, 46, 10, 46);   // canto de la mano
+  ctx.bezierCurveTo(3, 46, -1, 42, -5, 37);                            // base
+  ctx.lineTo(-14, 27); ctx.bezierCurveTo(-18, 22, -12, 17, -8, 21);    // pulgar
+  ctx.lineTo(-4.5, 25); ctx.closePath();
+  ctx.fill(); ctx.stroke();
+  ctx.lineWidth = 2;                                                    // separación entre los dedos doblados
+  ctx.beginPath(); ctx.moveTo(4.5, 14); ctx.lineTo(4.5, 23); ctx.moveTo(13.5, 16); ctx.lineTo(13.5, 24); ctx.moveTo(21.5, 19); ctx.lineTo(21.5, 25); ctx.stroke();
   ctx.restore();
 }
 // Mano que va de un punto a otro: u en 0…1.
