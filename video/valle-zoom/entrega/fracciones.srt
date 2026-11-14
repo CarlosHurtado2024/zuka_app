@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Ana sola llena el estanque en tres horas.
+
+2
+00:00:04,000 --> 00:00:06,600
+Beto solo, en seis.
+
+3
+00:00:06,800 --> 00:00:09,600
+¿Cuánto tardan si llenan juntos?
+
+4
+00:00:09,800 --> 00:00:12,400
+¿Cuatro horas y media, el promedio?
+
+5
+00:00:12,800 --> 00:00:15,600
+Imposible: con ayuda, Ana tardaría menos de tres.
+
+6
+00:00:15,800 --> 00:00:18,600
+Hay que pensar en cuánto llenan por hora.
+
+7
+00:00:19,000 --> 00:00:21,800
+Ana, un tercio; Beto, un sexto.
+
+8
+00:00:22,000 --> 00:00:24,400
+Toca sumar fracciones.
+
+9
+00:00:24,800 --> 00:00:29,000
+Y al final, una fracción dentro de otra fracción.
+
+10
+00:00:31,800 --> 00:00:34,800
+Tercios y sextos no se suman directo.
+
+11
+00:00:35,000 --> 00:00:37,800
+Se pasan a sextos: el denominador común.
+
+12
+00:00:38,200 --> 00:00:41,000
+Dos sextos más un sexto:
+
+13
+00:00:41,200 --> 00:00:44,200
+tres sextos, medio estanque por hora.
+
+14
+00:00:44,600 --> 00:00:47,400
+Para llenar uno entero: uno entre un medio.
+
+15
+00:00:47,600 --> 00:00:50,200
+Se voltea el medio: dos.
+
+16
+00:00:50,600 --> 00:00:53,600
+Juntos tardan dos horas.
+
+17
+00:00:53,800 --> 00:00:56,600
+¿Y si los tiempos tienen letras?
+
+18
+00:01:00,000 --> 00:01:03,000
+Ana tarda x horas; Beto, tres más.
+
+19
+00:01:03,200 --> 00:01:06,000
+Común denominador: x por x más tres.
+
+20
+00:01:06,400 --> 00:01:09,200
+Cada fracción se completa con lo que le falta.
+
+21
+00:01:09,400 --> 00:01:12,200
+Arriba queda dos x más tres.
+
+22
+00:01:12,600 --> 00:01:15,400
+Ese es el ritmo de los dos juntos.
+
+23
+00:01:15,600 --> 00:01:18,400
+Multiplicar es más directo:
+
+24
+00:01:18,800 --> 00:01:21,600
+se factoriza todo y se cancela.
+
+25
+00:01:21,800 --> 00:01:24,400
+Queda dos por x menos cinco.
+
+26
+00:01:24,800 --> 00:01:27,600
+Al restar, el menos va a todo el numerador.
+
+27
+00:01:27,800 --> 00:01:30,400
+Con eso sale el tiempo de los dos.
+
+28
+00:01:35,400 --> 00:01:38,400
+El tiempo es uno entre la suma de ritmos.
+
+29
+00:01:38,600 --> 00:01:41,400
+Se suma abajo y se divide: se voltea.
+
+30
+00:01:41,800 --> 00:01:45,000
+x por x más tres, entre dos x más tres.
+
+31
+00:01:45,200 --> 00:01:47,400
+Con x igual a tres…
+
+32
+00:01:47,800 --> 00:01:50,600
+tres por seis, entre nueve: dos.
+
+33
+00:01:50,800 --> 00:01:54,000
+Lo mismo que con números.
+
+34
+00:01:55,400 --> 00:01:59,600
+Juntos, Ana y Beto llenan el estanque
+
+35
+00:01:59,800 --> 00:02:04,400
+en dos horas: menos que las tres de Ana.
+

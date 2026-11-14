@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Caro navega en el río de las asíntotas.
+
+2
+00:00:04,000 --> 00:00:06,600
+A favor de la corriente, va a quince.
+
+3
+00:00:06,800 --> 00:00:09,600
+Contra la corriente, solo a nueve.
+
+4
+00:00:09,800 --> 00:00:12,400
+¿Cuánto pone el bote y cuánto el río?
+
+5
+00:00:12,800 --> 00:00:15,600
+Dos incógnitas: v, el bote; c, la corriente.
+
+6
+00:00:15,800 --> 00:00:18,600
+A favor se suman: v más c, quince.
+
+7
+00:00:19,000 --> 00:00:21,800
+En contra se restan: v menos c, nueve.
+
+8
+00:00:22,000 --> 00:00:24,400
+Un sistema de ecuaciones.
+
+9
+00:00:24,800 --> 00:00:29,000
+Ojo: con una sola pista no alcanza.
+
+10
+00:00:31,800 --> 00:00:34,800
+v más c igual a quince tiene muchas soluciones:
+
+11
+00:00:35,000 --> 00:00:37,800
+diez y cinco, doce y tres, catorce y uno…
+
+12
+00:00:38,200 --> 00:00:41,000
+Todas forman una recta.
+
+13
+00:00:41,200 --> 00:00:44,200
+La segunda pista es otra recta.
+
+14
+00:00:44,600 --> 00:00:47,400
+Solo un punto cumple las dos:
+
+15
+00:00:47,600 --> 00:00:50,200
+v igual a doce, c igual a tres.
+
+16
+00:00:50,600 --> 00:00:53,600
+La solución es donde se cortan.
+
+17
+00:00:53,800 --> 00:00:56,600
+Hay tres caminos para hallarla sin dibujar.
+
+18
+00:01:00,000 --> 00:01:03,000
+Reducción: se suman y c desaparece.
+
+19
+00:01:03,200 --> 00:01:06,000
+Dos v es veinticuatro: v es doce.
+
+20
+00:01:06,400 --> 00:01:09,200
+Sustitución: v es quince menos c.
+
+21
+00:01:09,400 --> 00:01:12,200
+Se reemplaza en la otra: c es tres.
+
+22
+00:01:12,600 --> 00:01:15,400
+Igualación: se despeja v en las dos.
+
+23
+00:01:15,600 --> 00:01:18,400
+Y se igualan: el mismo resultado.
+
+24
+00:01:18,800 --> 00:01:21,600
+Si las rectas son paralelas, no hay solución.
+
+25
+00:01:21,800 --> 00:01:24,400
+Si son la misma, hay infinitas.
+
+26
+00:01:24,800 --> 00:01:27,600
+¿Y con tres incógnitas?
+
+27
+00:01:27,800 --> 00:01:30,400
+Se arma una escalera.
+
+28
+00:01:35,400 --> 00:01:38,400
+Se resta la primera ecuación a las otras dos.
+
+29
+00:01:38,600 --> 00:01:41,400
+Queda una escalera: z vale dos.
+
+30
+00:01:41,800 --> 00:01:44,600
+Sube un escalón: y vale tres.
+
+31
+00:01:44,800 --> 00:01:47,400
+Arriba, x vale cuatro.
+
+32
+00:01:47,800 --> 00:01:50,600
+Volvamos al bote de Caro.
+
+33
+00:01:50,800 --> 00:01:54,000
+Con dos pistas, el sistema tiene respuesta.
+
+34
+00:01:55,400 --> 00:01:59,600
+El bote de Caro va a doce kilómetros por hora
+
+35
+00:01:59,800 --> 00:02:04,400
+y el río la empuja a tres.
+

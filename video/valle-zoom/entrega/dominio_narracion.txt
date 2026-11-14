@@ -1,0 +1,7 @@
+Beto camina por un sendero junto al río. El sendero sigue una fórmula. Una fracción de polinomios: una expresión racional. Pero en dos puntos, la fórmula falla. En menos tres y en uno, abajo da cero. Y dividir entre cero no se puede. En menos tres hay un río. ¿Y en uno? Pero en uno pasa algo raro: ya verás.
+
+Seis entre dos: tres grupos de dos. Seis entre cero: ¿cuántos grupos de cero? Ninguna cantidad sirve: no está definido. Cerca de cero, uno entre x se dispara. Diez, cien, mil: sube pegada al eje. Nunca lo toca: es una asíntota. Para x muy grande, se acerca a cero. Ahora, el sendero de Beto factorizado.
+
+Se factoriza arriba y abajo. Arriba, diferencia de cuadrados; abajo, un trinomio. Aparece x menos uno en los dos. Se cancela: es un factor común. Ojo: solo se cancelan factores. En x más cinco, el cinco no es factor. La curva simplificada es la misma… salvo en uno: ahí falta un punto. Un hueco, no un río. Entonces, ¿qué x se permiten?
+
+Todos los reales, menos menos tres y uno. Se miran en la fracción original, sin cancelar. En menos tres, la curva huye hacia el infinito. En uno, sigue derecho, con un hueco. Beto salta el hueco de un paso, pero el río no lo puede cruzar. En menos tres, el sendero choca con un río; en uno, solo le falta una piedra.

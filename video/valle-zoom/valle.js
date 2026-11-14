@@ -151,3 +151,36 @@ function rail(p, t, t0, M, x0, x1) {
   for (let x = a + 14; x < b; x += 34) el('rect', { x: r1(x - 4), y: r1(M.oy - 12), width: 8, height: 24, rx: 3, fill: C.sunD }, p);
   el('rect', { x: r1(a), y: r1(M.oy - 4), width: r1(b - a), height: 8, rx: 4, fill: C.cream }, p);
 }
+// ---------- río y hueco (Río de las Asíntotas) ----------
+// un río vertical en x (asíntota): banda azul con ondas, de y = y0 a y = y1 (valores), que baja desde arriba
+function river(p, t, t0, M, x, y0, y1) {
+  const k = eio(seg(t, t0, t0 + .8)); if (k <= 0.01) return;
+  const cx = mx(M, x), top = my(M, y1), h = (my(M, y0) - top) * k;
+  el('rect', { x: r1(cx - 20), y: r1(top), width: 40, height: r1(h), rx: 14, fill: C.blueD, opacity: .55 }, p);
+  let d = ''; for (let j = 0; j <= 40; j++) { const yy = top + h * j / 40; d += (j ? 'L' : 'M') + r1(cx + 7 * Math.sin(yy / 22 - t * 2.4)) + ',' + r1(yy); }
+  el('path', { d, fill: 'none', stroke: C.blue, 'stroke-width': 5, 'stroke-linecap': 'round' }, p);
+}
+// un hueco: punto que falta en una curva
+function hole(p, x, y, k, col = C.sun) {
+  if (k <= 0.01) return;
+  el('circle', { cx: r1(x), cy: r1(y), r: r1(15 * k), fill: C.night, stroke: col, 'stroke-width': 5 }, p);
+}
+// ---------- laguna y lirios (Selva Exponencial) ----------
+// un lirio: hoja redonda con una muesca
+function pad(p, x, y, r, k, col = MINT) {
+  if (k <= 0.01) return;
+  const R = r * k, a = 0.35;
+  el('path', { d: `M${r1(x)},${r1(y)}L${r1(x + R * Math.cos(-a))},${r1(y + R * Math.sin(-a))}A${r1(R)},${r1(R)} 0 1,1 ${r1(x + R * Math.cos(a))},${r1(y + R * Math.sin(a))}Z`, fill: col[0], stroke: col[1], 'stroke-width': 3 }, p);
+}
+// la laguna (elipse) cubierta de lirios hasta la fracción f, de izquierda a derecha
+function lagoon(p, cx, cy, rx, ry, k, f = 0) {
+  if (k <= 0.01) return;
+  const S = scaleAt(p, cx, cy, k);
+  el('ellipse', { cx, cy, rx, ry, fill: C.blueD }, S);
+  if (f > 0.001) {
+    const G = g(S, { 'clip-path': clipOf('ellipse', { cx, cy, rx: rx - 6, ry: ry - 6 }) });
+    el('rect', { x: cx - rx, y: cy - ry, width: r1(2 * rx * clamp(f)), height: 2 * ry, fill: C.mint }, G);
+    for (let i = 0; i < 40; i++) { const x = cx - rx + ((i * 97) % 100) / 100 * 2 * rx, y = cy - ry + ((i * 61) % 100) / 100 * 2 * ry; if (x < cx - rx + 2 * rx * f) pad(G, x, y, 34, 1, [C.mint, C.mintD]); }
+  }
+  el('ellipse', { cx, cy, rx, ry, fill: 'none', stroke: C.mint, 'stroke-width': 6 }, S);
+}

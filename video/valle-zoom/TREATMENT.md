@@ -121,3 +121,16 @@ P(x) = x³ − 2x² − 5x + 6, con la vía a altura 0; sus cruces son los ceros
 | `division` | `alg-23b` | Ana quiere quitar el cruce de x = 1: dividir entre x − 1 (47 ÷ 5, bloques, división larga) → no hacía falta dividir: P = (x − 1)(x² + ax + b) + r y se igualan coeficientes → queda x² − x − 6, que cruza en −2 y 3 |
 | `residuo` | `alg-92` | Beto apuesta, entre la niebla, a un cruce en x = 2 → el residuo es la altura del terreno: P(2) = −4 (pierde); P(3) = 0, factor; división sintética entre x − 3 → cruces en −2, 1 y 3 |
 | `ceros` | `alg-93` | la cordillera de Caro, x³ − 3x² + 4x − 2, cruza la vía una sola vez pero el teorema fundamental promete tres ceros (multiplicidad, candidatos, Descartes) → los otros dos están en el plano complejo → 1 + i y 1 − i |
+
+# Río de las Asíntotas en zoom · lecciones 1 a 4
+
+Mismo proyecto y motor; `valle.js` suma el río vertical (`river`, la asíntota) y el hueco (`hole`). El río une el mundo:
+el sendero de Beto choca con él, Ana y Beto llenan un estanque a su orilla, Caro navega en él y la curva del mapa de
+Beto se enreda entre dos ríos. Ejemplos nuevos, fuera de los ejercicios (`tests/asintotas-zoom.test.js`).
+
+| Video | Lección | El problema → la sorpresa → la respuesta |
+|---|---|---|
+| `dominio` | `alg-25a` | el sendero (x² − 1)/(x² + 2x − 3) falla en −3 y en 1 → en 1 no hay río: al cancelar x − 1 queda un hueco → en −3 choca con un río; en 1 solo falta una piedra |
+| `fracciones` | `alg-25b` | Ana llena el estanque en 3 h y Beto en 6: ¿juntos, 4.5 h? → se suman ritmos: 1/3 + 1/6 = 1/2; con letras, x(x + 3)/(2x + 3) → 2 horas |
+| `sistemas` | `alg-101` | el bote de Caro va a 15 a favor y a 9 en contra → cada pista es una recta; a veces paralelas → bote 12 km/h, río 3 km/h |
+| `parciales` | `alg-102` | la curva (3x + 1)/(x² − 1) se enreda entre dos ríos; antes, la orilla y = x² y el puente y = 2x + 3 → es la suma de dos curvas simples → 2/(x − 1) + 1/(x + 1) |

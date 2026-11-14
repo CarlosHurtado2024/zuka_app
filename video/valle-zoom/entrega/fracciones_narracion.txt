@@ -1,0 +1,7 @@
+Ana sola llena el estanque en tres horas. Beto solo, en seis. ¿Cuánto tardan si llenan juntos? ¿Cuatro horas y media, el promedio? Imposible: con ayuda, Ana tardaría menos de tres. Hay que pensar en cuánto llenan por hora. Ana, un tercio; Beto, un sexto. Toca sumar fracciones. Y al final, una fracción dentro de otra fracción.
+
+Tercios y sextos no se suman directo. Se pasan a sextos: el denominador común. Dos sextos más un sexto: tres sextos, medio estanque por hora. Para llenar uno entero: uno entre un medio. Se voltea el medio: dos. Juntos tardan dos horas. ¿Y si los tiempos tienen letras?
+
+Ana tarda x horas; Beto, tres más. Común denominador: x por x más tres. Cada fracción se completa con lo que le falta. Arriba queda dos x más tres. Ese es el ritmo de los dos juntos. Multiplicar es más directo: se factoriza todo y se cancela. Queda dos por x menos cinco. Al restar, el menos va a todo el numerador. Con eso sale el tiempo de los dos.
+
+El tiempo es uno entre la suma de ritmos. Se suma abajo y se divide: se voltea. x por x más tres, entre dos x más tres. Con x igual a tres… tres por seis, entre nueve: dos. Lo mismo que con números. Juntos, Ana y Beto llenan el estanque en dos horas: menos que las tres de Ana.

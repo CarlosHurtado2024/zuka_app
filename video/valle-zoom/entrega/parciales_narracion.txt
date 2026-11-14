@@ -1,0 +1,7 @@
+Beto dibuja el mapa del río. Una curva se enreda entre dos ríos. Es una fracción con x al cuadrado abajo. Abajo da cero en uno y menos uno. Ahí están los dos ríos. ¿Cómo se dibuja algo tan enredado? Pero esta curva esconde un secreto. Lo verás al final. Pero antes: ¿dónde se cortan dos curvas?
+
+Una orilla curva: y igual a x al cuadrado. Un puente recto: dos x más tres. Se cortan donde las dos alturas son iguales. x al cuadrado igual a dos x más tres. Se factoriza: x menos tres por x más uno. x es tres, o menos uno. Los puntos: tres, nueve, y menos uno, uno. Igualar sirve también para partir fracciones.
+
+Primero, la fracción debe ser propia: arriba, menor grado que abajo. Si no, se divide antes. Luego se factoriza el denominador. Cada factor lineal pone una fracción con una letra. A con x menos uno; B, con la otra. Un factor cuadrático pide Bx más C; uno repetido, una fracción por potencia. ¿Cuánto valen A y B? Se igualan los numeradores.
+
+Se igualan los de arriba, término a término. A más B da tres; A menos B, uno. Como el bote de Caro: A dos, B uno. Atajo: x igual a uno da A. La curva enredada es dos simples: dos entre x menos uno, más uno entre x más uno. Los dos ríos de Beto son dos fracciones simples: una por cada factor del denominador.

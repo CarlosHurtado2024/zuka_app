@@ -1,0 +1,7 @@
+Caro navega en el río de las asíntotas. A favor de la corriente, va a quince. Contra la corriente, solo a nueve. ¿Cuánto pone el bote y cuánto el río? Dos incógnitas: v, el bote; c, la corriente. A favor se suman: v más c, quince. En contra se restan: v menos c, nueve. Un sistema de ecuaciones. Ojo: con una sola pista no alcanza.
+
+v más c igual a quince tiene muchas soluciones: diez y cinco, doce y tres, catorce y uno… Todas forman una recta. La segunda pista es otra recta. Solo un punto cumple las dos: v igual a doce, c igual a tres. La solución es donde se cortan. Hay tres caminos para hallarla sin dibujar.
+
+Reducción: se suman y c desaparece. Dos v es veinticuatro: v es doce. Sustitución: v es quince menos c. Se reemplaza en la otra: c es tres. Igualación: se despeja v en las dos. Y se igualan: el mismo resultado. Si las rectas son paralelas, no hay solución. Si son la misma, hay infinitas. ¿Y con tres incógnitas? Se arma una escalera.
+
+Se resta la primera ecuación a las otras dos. Queda una escalera: z vale dos. Sube un escalón: y vale tres. Arriba, x vale cuatro. Volvamos al bote de Caro. Con dos pistas, el sistema tiene respuesta. El bote de Caro va a doce kilómetros por hora y el río la empuja a tres.

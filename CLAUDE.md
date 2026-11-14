@@ -395,6 +395,12 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   Ejemplos nuevos; `tests/asintotas-zoom.test.js`. Entregados en `Downloads/Zuka_Rio_zoom`; esperan su ID de Bunny. Al
   recibirlos, cambiar las escenas de respaldo (las de `alg-25a` y `alg-25b` repiten hoy los ejercicios) por los ejemplos
   del video. Estas lecciones aún tienen ejercicios de opción múltiple y sin pistas.
+- **Río de las Asíntotas en zoom, lecciones 1 a 4** (mismo proyecto `video/valle-zoom`; río vertical `river` y hueco `hole`
+  en `valle.js`): `dominio` (`alg-25a`), `fracciones` (`alg-25b`), `sistemas` (`alg-101`), `parciales` (`alg-102`), 130 s.
+  Hilo: el río (asíntota): el sendero de Beto, el estanque de Ana y Beto, el bote de Caro y la curva de dos ríos.
+  Ejemplos nuevos; `tests/asintotas-zoom.test.js`. Entregados en `Downloads/Zuka_Rio_zoom`; esperan su ID de Bunny. Al
+  recibirlos, cambiar las escenas de respaldo (las de `alg-25a` y `alg-25b` repiten hoy los ejercicios) por los ejemplos
+  del video. Estas lecciones aún tienen ejercicios de opción múltiple y sin pistas.
 - **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
   `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
   `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y

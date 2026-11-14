@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Beto camina por un sendero junto al río.
+
+2
+00:00:04,000 --> 00:00:06,600
+El sendero sigue una fórmula.
+
+3
+00:00:06,800 --> 00:00:09,600
+Una fracción de polinomios: una expresión racional.
+
+4
+00:00:09,800 --> 00:00:12,400
+Pero en dos puntos, la fórmula falla.
+
+5
+00:00:12,800 --> 00:00:15,600
+En menos tres y en uno, abajo da cero.
+
+6
+00:00:15,800 --> 00:00:18,600
+Y dividir entre cero no se puede.
+
+7
+00:00:19,000 --> 00:00:21,800
+En menos tres hay un río.
+
+8
+00:00:22,000 --> 00:00:24,400
+¿Y en uno?
+
+9
+00:00:24,800 --> 00:00:29,000
+Pero en uno pasa algo raro: ya verás.
+
+10
+00:00:31,800 --> 00:00:34,800
+Seis entre dos: tres grupos de dos.
+
+11
+00:00:35,000 --> 00:00:37,800
+Seis entre cero: ¿cuántos grupos de cero?
+
+12
+00:00:38,200 --> 00:00:41,000
+Ninguna cantidad sirve: no está definido.
+
+13
+00:00:41,200 --> 00:00:44,200
+Cerca de cero, uno entre x se dispara.
+
+14
+00:00:44,600 --> 00:00:47,400
+Diez, cien, mil: sube pegada al eje.
+
+15
+00:00:47,600 --> 00:00:50,200
+Nunca lo toca: es una asíntota.
+
+16
+00:00:50,600 --> 00:00:53,600
+Para x muy grande, se acerca a cero.
+
+17
+00:00:53,800 --> 00:00:56,600
+Ahora, el sendero de Beto factorizado.
+
+18
+00:01:00,000 --> 00:01:03,000
+Se factoriza arriba y abajo.
+
+19
+00:01:03,200 --> 00:01:06,000
+Arriba, diferencia de cuadrados; abajo, un trinomio.
+
+20
+00:01:06,400 --> 00:01:09,200
+Aparece x menos uno en los dos.
+
+21
+00:01:09,400 --> 00:01:12,200
+Se cancela: es un factor común.
+
+22
+00:01:12,600 --> 00:01:15,400
+Ojo: solo se cancelan factores.
+
+23
+00:01:15,600 --> 00:01:18,400
+En x más cinco, el cinco no es factor.
+
+24
+00:01:18,800 --> 00:01:21,600
+La curva simplificada es la misma…
+
+25
+00:01:21,800 --> 00:01:24,400
+salvo en uno: ahí falta un punto.
+
+26
+00:01:24,800 --> 00:01:27,600
+Un hueco, no un río.
+
+27
+00:01:27,800 --> 00:01:30,400
+Entonces, ¿qué x se permiten?
+
+28
+00:01:35,400 --> 00:01:38,400
+Todos los reales, menos menos tres y uno.
+
+29
+00:01:38,600 --> 00:01:41,400
+Se miran en la fracción original, sin cancelar.
+
+30
+00:01:41,800 --> 00:01:44,600
+En menos tres, la curva huye hacia el infinito.
+
+31
+00:01:44,800 --> 00:01:47,400
+En uno, sigue derecho, con un hueco.
+
+32
+00:01:47,800 --> 00:01:50,600
+Beto salta el hueco de un paso,
+
+33
+00:01:50,800 --> 00:01:54,000
+pero el río no lo puede cruzar.
+
+34
+00:01:55,400 --> 00:01:59,600
+En menos tres, el sendero choca con un río;
+
+35
+00:01:59,800 --> 00:02:04,400
+en uno, solo le falta una piedra.
+
