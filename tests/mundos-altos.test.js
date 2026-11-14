@@ -32,6 +32,12 @@ function check(ex, where) {
     for (const lv of r.levels) { assert.ok(lv.length >= 2 && lv.length <= 3 && new Set(lv).size === lv.length, `${where}: agarres`); for (const t of lv) assert.ok(t.length <= 48, `${where}: «${t}» es largo`); }
     assert.equal(escala.grade({ rounds: [{ pick: r.levels.map(() => 0) }] }, ex.params).ok, true);
   }
+  if (ex.game === 'arma-la-cuenta') for (const r of R) if (r.sol.length > 1) for (const t of cuenta.numbersOf(r)) assert.ok(Math.abs(cuenta.tileValue(t) - r.answer) > 1e-9, `${where}: la ficha ${t} ya es la respuesta`);
+  // La estrella de combina-vectores y su camino caben en el plano (de −6 a 6).
+  if (ex.game === 'combina-vectores') for (const r of R) for (const v of [...r.target, ...r.u, ...r.v]) assert.ok(Math.abs(v) <= 6, `${where}: ${r.target} se sale del plano`);
+  if (ex.game === 'raices-imanes') for (const r of R) { const f = x => r.a * r.roots.reduce((t, q) => t * (x - q), 1); assert.ok(Math.abs(f(r.mark[0]) - r.mark[1]) < 1e-9, `${where}: la marca no está en la curva`); for (let x = Math.min(...r.roots); x <= Math.max(...r.roots); x += 0.1) assert.ok(f(x) >= r.yr[0] && f(x) <= r.yr[1], `${where}: la curva se corta en x = ${x.toFixed(1)}`); }
+  if (ex.game === 'balanza-exponencial') for (const r of R) assert.ok(Math.abs(r.L(r.x) - r.R(r.x)) < 1e-9 && r.x >= -4 && r.x <= 6, `${where}: ${r.txt}`);
+  if (ex.game === 'espejo-diagonal') for (const r of R) { for (const [x, y] of r.pts) assert.ok(Math.abs(r.f(x) - y) < 1e-9, `${where}: punto`); assert.ok(r.pts.filter(([x, y]) => x !== y).length >= 2, `${where}: casi todos los puntos están sobre el espejo`); }
   if (ex.game === 'une-parejas') { assert.equal(new Set(ex.params.right).size, ex.params.right.length, `${where}: opciones repetidas`); assert.ok(ex.params.right.length > ex.params.left.length, `${where}: sin distractores`); }
   if (ex.game === 'bloques-area') for (const r of R) {
     const st = r.mode === 'factor' ? { u: r.a, v: r.b } : { u: r.a + r.b, v: r.a * r.b };
@@ -82,6 +88,16 @@ test('cada mundo tiene su evaluación: cinco preguntas, cada una ligada a una le
     e.items.forEach((it, i) => { assert.ok(ids.includes(it.lesson), `${w}#${i}: ${it.lesson}`); assert.ok(it.review.length > 30); check(it.ex, `${e.id}#${i}`); });
     assert.ok(new Set(e.items.map(it => it.lesson)).size >= 3, `${w}: cubre varias lecciones`);
   }
+});
+
+test('pasos largos: se parten en dos renglones por un corte natural', () => {
+  const stepLines = get(ctx, 'stepLines');
+  assert.equal(stepLines('x = 3').join('|'), 'x = 3');
+  assert.equal(stepLines('Con x = 1: A = 2. Con x = −2: B = 3').join('|'), 'Con x = 1: A = 2.|Con x = −2: B = 3');
+  assert.equal(stepLines('x² + 4x + 4 − (x² − 4x + 4)').length, 1, 'sin corte natural queda en uno');
+  assert.equal(stepLines('Factor común: 3x(x − 2)(x + 2)').join('|'), 'Factor común:|3x(x − 2)(x + 2)'); assert.equal(stepLines('x² + 7x + 12 = (x + 3)(x + 4)').join('|'), 'x² + 7x + 12|= (x + 3)(x + 4)');
+  // El enunciado de cancela-factores es el mismo en todas las rondas: no delata la trampa.
+  assert.match(fs.readFileSync(path.join(ROOT, 'js/games/cancela-factores.js'), 'utf8'), /prompt: \(\) =>/);
 });
 
 test('juegos nuevos: lógica pura', () => {

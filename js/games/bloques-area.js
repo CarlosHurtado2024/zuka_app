@@ -25,7 +25,7 @@ GAMES['bloques-area'] = (() => {
       cell(x0, y0, X, X, C.sky);
       for (let i = 0; i < a; i++) cell(x0 + X + i * k, y0, k, X, C.mint);
       for (let j = 0; j < b; j++) cell(x0, y0 + X + j * k, X, k, C.mint);
-      for (let i = 0; i < a; i++) for (let j = 0; j < b; j++) cell(x0 + X + i * k, y0 + X + j * k, k, k, C.coral);
+      for (let i = 0; i < a; i++) for (let j = 0; j < b; j++) cell(x0 + X + i * k, y0 + X + j * k, k, k, C.sun);   // sol, no coral: en el kit y en los videos el coral es «negativo»
       p.noStroke(); p.fill(inkOn(C.sky, C.ink)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, '$x^2$', x0 + X / 2, y0 + X / 2, X - 8, 18);
       p.fill(C.mute); p.textSize(12);
       fitText(p, fac || G.locked ? M(`x + ${a}`) : M('x + a'), x0 + (X + a * k) / 2, y0 - 12, W - 40, 13);
@@ -34,7 +34,7 @@ GAMES['bloques-area'] = (() => {
       p.fill(C.ink); p.textStyle(p.BOLD);
       fitText(p, fac ? `${bars} ${bars === 1 ? 'barra' : 'barras'} x · ${units} ${units === 1 ? 'cuadrito' : 'cuadritos'}` : G.locked ? `${bars} barras x · ${units} cuadritos` : `tu respuesta: ${M(poly(s.u, s.v))}`, W / 2, H - 64 - 30, W - 24, 14);
       drawStepper(p, C, G.box[0], s.u, fac ? 'a' : 'barras x', C.Q);
-      drawStepper(p, C, G.box[1], s.v, fac ? 'b' : 'cuadritos', fac ? C.Q : C.I);
+      drawStepper(p, C, G.box[1], s.v, fac ? 'b' : 'cuadritos', fac ? C.Q : C.N);
     },
     press(G, x, y) {
       const d0 = stepHit(G.box[0], x, y), d1 = stepHit(G.box[1], x, y), fac = G.r.mode === 'factor';

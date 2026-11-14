@@ -59,3 +59,17 @@ En el navegador un robot resolvió los ejercicios nuevos, los cinco jefes y las 
 - Jefe y evaluación de los mundos de la tabla.
 - Las escenas de respaldo de los videos de estas lecciones siguen usando los ejemplos viejos.
 - Borrar de `algebra.js` los `ex` viejos de las 16 lecciones.
+
+## Ajustes tras la revisión
+
+- `combina-vectores`: dos estrellas caían fuera del plano (de −6 a 6); se cambiaron los sistemas.
+- Ejemplos que salían en los videos zoom de estas lecciones: cambiados (cortes de la parábola, polinomios de la
+  división sintética y de los imanes, primer rectángulo de bloques, trinomio con coeficiente principal, fila de
+  Pascal, conjugado complejo, raíz de un negativo, fracciones de `alg-25a`).
+- Pasos «falsos» que eran ciertos (`alg-24b` y `alg-23a`) y una ficha que ya era la respuesta (evaluación de la Cordillera).
+- `cancela-factores` usa el mismo enunciado en todas las rondas: ya no delata cuáles son la trampa.
+- Los pasos largos se parten en dos renglones por un corte natural (`stepLines`) en la escalada y en el jefe.
+- `bloques-area`: los cuadritos son color sol (el coral es «negativo» en el kit y en los videos).
+- «Vence al Guardián», no «a el».
+- Sin hacer: `division-sintetica` deja llegar al residuo probando valores; `lock()` del jefe antes de ganar mostraría el
+  cartel de victoria (hoy no se alcanza); el nombre del Guardián sale con el artículo en minúscula.

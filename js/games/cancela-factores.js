@@ -24,7 +24,8 @@ GAMES['cancela-factores'] = (() => {
     ok: (s, r) => !!s.done && valid(s, r) && (s.pairs || []).length === bestPairs(r),
     answered: s => !!s.done,
     solution: r => { const n = bestPairs(r), top = [...r.top.keys()], pairs = []; const left = r.bottom.map((t, j) => [t, j]); if (n) for (const i of top) { const k = left.findIndex(q => q[0] === r.top[i]); if (k >= 0) { pairs.push([i, left[k][1]]); left.splice(k, 1); } } return n ? `Queda $${resultTex({ pairs }, r)}$` : 'No se cancela nada: son términos que se suman, no factores'; },
-    prompt: r => (r.sumTop || r.sumBottom ? 'Simplifica si se puede. Ojo con lo que está sumando' : 'Simplifica: cancela cada factor de arriba con uno igual de abajo'),
+    // El mismo enunciado en todas las rondas: no delata cuáles son la trampa.
+    prompt: () => 'Simplifica: cancela solo lo que multiplica a todo su piso',
     foot: (r, s) => (s.pick >= 0 ? 'Ahora toca la ficha igual del otro piso' : 'Toca una ficha de arriba y luego su igual de abajo · «Listo» cuando termines'),
     layout(G) {
       const { W, H } = G, mid = 96 + (H - 96 - 110) / 2;

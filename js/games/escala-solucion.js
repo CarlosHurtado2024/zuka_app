@@ -63,7 +63,9 @@ GAMES['escala-solucion'] = (() => {
           p.noStroke(); p.fill(inkOn(fill, C.ink)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
           // Un paso largo se parte en dos renglones.
           const txt = r.levels[l][opt], tx = stepTex(txt); p.textSize(13);
-          if (tx !== txt) drawFormulaCtx(p.drawingContext, tx, b.x + b.w / 2, b.y + b.h / 2 + 1, { size: 15, maxW: b.w - 10, maxH: b.h - 6, weight: 700 });
+          const parts = typeof stepLines === 'function' ? stepLines(txt) : [txt];
+          if (parts.length === 2 && typeof drawFormulaCtx === 'function') parts.forEach((q, j) => { const f = stepTex(q); if (f !== q) drawFormulaCtx(p.drawingContext, f, b.x + b.w / 2, b.y + b.h / 2 + (j ? 9 : -8), { size: 13, maxW: b.w - 10, maxH: b.h / 2 - 2, weight: 700 }); else fitText(p, q, b.x + b.w / 2, b.y + b.h / 2 + (j ? 9 : -8), b.w - 8, 12); });
+          else if (tx !== txt) drawFormulaCtx(p.drawingContext, tx, b.x + b.w / 2, b.y + b.h / 2 + 1, { size: 15, maxW: b.w - 10, maxH: b.h - 6, weight: 700 });
           else if (p.textWidth(txt) > b.w - 10 && txt.includes(' ')) {
             const words = txt.split(' '); let cut = 1, best = 1e9;
             for (let c = 1; c < words.length; c++) { const d = Math.abs(p.textWidth(words.slice(0, c).join(' ')) - p.textWidth(words.slice(c).join(' '))); if (d < best) { best = d; cut = c; } }

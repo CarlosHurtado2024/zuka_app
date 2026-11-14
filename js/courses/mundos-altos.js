@@ -18,7 +18,7 @@
   // ====================== Taller de los Bloques ======================
   EX['alg-23a'] = [
     escala('Halla el **grado** de $P(x) = 7x^2 - 3x^5 + x - 9$',
-      [['Ordena: −3x⁵ + 7x² + x − 9', 'El primer término manda: 7x²'], ['El mayor exponente es 5', 'El mayor coeficiente es 7', 'Hay 4 términos'], ['grado 5', 'grado 7', 'grado 4']],
+      [['Ordena: −3x⁵ + 7x² + x − 9', 'El primer término manda: 7x²'], ['El grado es el mayor exponente: 5', 'El grado es el mayor coeficiente: 7', 'El grado es el número de términos: 4'], ['grado 5', 'grado 7', 'grado 4']],
       'El grado es el mayor exponente de la variable, sin importar en qué orden estén escritos los términos ni qué coeficientes tengan: aquí es 5.',
       'No mires los números que multiplican ni cuántos términos hay: busca la potencia más alta de x.'),
     parejas('Une cada operación con su resultado',
@@ -38,12 +38,12 @@
       'Reparte el −2 a los tres términos de Q, uno por uno, antes de juntar con P. El último término de Q es negativo: ¿qué signo le queda?'),
   ];
   EX['alg-3'] = [
-    P('bloques-area', 'Cada producto es un rectángulo. Di cuántas **barras** $x$ y cuántos **cuadritos** tiene', { rounds: [{ mode: 'expand', a: 2, b: 5 }, { mode: 'expand', a: 4, b: 4 }, { mode: 'expand', a: 1, b: 7 }] },
-      '$(x + a)(x + b) = x^2 + (a + b)x + ab$: las barras son $a + b$ y los cuadritos de la esquina son $a \\cdot b$. Con $a = b = 4$ sale un cuadrado perfecto: $x^2 + 8x + 16$.',
+    P('bloques-area', 'Cada producto es un rectángulo. Di cuántas **barras** $x$ y cuántos **cuadritos** tiene', { rounds: [{ mode: 'expand', a: 2, b: 5 }, { mode: 'expand', a: 3, b: 3 }, { mode: 'expand', a: 1, b: 7 }] },
+      '$(x + a)(x + b) = x^2 + (a + b)x + ab$: las barras son $a + b$ y los cuadritos de la esquina son $a \\cdot b$. Con $a = b = 3$ sale un cuadrado perfecto: $x^2 + 6x + 9$.',
       'Las barras se reparten a la derecha y abajo del cuadrado grande; los cuadritos llenan la esquina, que es un rectángulo pequeño de a por b.'),
     parejas('Une cada producto notable con su desarrollo',
-      ['(x + 4)²', '(x − 4)²', '(x + 4)(x − 4)', '(2x + 3)²'],
-      ['x² + 8x + 16', 'x² − 8x + 16', 'x² − 16', '4x² + 12x + 9', 'x² + 16', '4x² + 9'],
+      ['(x + 5)²', '(x − 5)²', '(x + 5)(x − 5)', '(2x + 3)²'],
+      ['x² + 10x + 25', 'x² − 10x + 25', 'x² − 25', '4x² + 12x + 9', 'x² + 25', '4x² + 9'],
       'Cuadrado de un binomio: los dos cuadrados **más el doble producto**. Suma por diferencia: diferencia de cuadrados, sin término del medio.',
       'El cuadrado de un binomio siempre tiene tres términos. Solo la suma por la diferencia deja dos.'),
     escala('Desarrolla $(x - 6)^2$',
@@ -61,10 +61,10 @@
     cuenta('Calcula el número combinatorio $\\binom{6}{2}$', '6 * 5 / 2', ['3', '4'],
       '$\\binom{6}{2} = \\dfrac{6 \\cdot 5}{2 \\cdot 1} = 15$: es el tercer número de la fila 6 del triángulo de Pascal.',
       'Arriba van dos factores que bajan desde 6; abajo, los dos factores de 2 · 1.'),
-    escala('Construye la **fila 4** del triángulo de Pascal',
-      [['Cada número es la suma de los dos de arriba', 'Cada número es el producto de los dos de arriba'], ['Fila 3: 1, 3, 3, 1', 'Fila 3: 1, 2, 2, 1'], ['Fila 4: 1, 4, 6, 4, 1', 'Fila 4: 1, 4, 4, 4, 1', 'Fila 4: 1, 3, 6, 3, 1']],
-      'Los bordes son 1 y cada número de adentro es la suma de los dos que tiene encima: $1 + 3 = 4$, $3 + 3 = 6$, $3 + 1 = 4$.',
-      'Empieza y termina con 1. Para el del centro, suma los dos números del centro de la fila anterior.'),
+    escala('Construye la **fila 5** del triángulo de Pascal',
+      [['Cada número: suma de los dos de arriba', 'Cada número: producto de los dos de arriba'], ['Fila 4: 1, 4, 6, 4, 1', 'Fila 4: 1, 4, 4, 4, 1'], ['Fila 5: 1, 5, 10, 10, 5, 1', 'Fila 5: 1, 5, 6, 6, 5, 1', 'Fila 5: 1, 5, 10, 5, 1']],
+      'Los bordes son 1 y cada número de adentro es la suma de los dos que tiene encima: $1 + 4 = 5$, $4 + 6 = 10$, $6 + 4 = 10$, $4 + 1 = 5$.',
+      'Empieza y termina con 1. Una fila n tiene n + 1 números; cada uno de adentro sale de sumar la pareja que tiene encima.'),
     parejas('Une cada potencia de un binomio con su desarrollo',
       ['(x + 1)³', '(x − 1)³', '(x + 2)³', '(x + 1)⁴'],
       ['x³ + 3x² + 3x + 1', 'x³ − 3x² + 3x − 1', 'x³ + 6x² + 12x + 8', 'x⁴ + 4x³ + 6x² + 4x + 1', 'x³ + 1', 'x³ + 2x² + 4x + 8'],
@@ -72,14 +72,14 @@
       'Cuenta los términos: una potencia n tiene n + 1. Luego mira los signos y el último término, que es el segundo número elevado a n.'),
     cuenta('Coeficiente de $x^2$ en $(x + 3)^4$', '6 * 3 ^ 2', ['4', '12'],
       'El término con $x^2$ es $\\binom{4}{2}x^2 \\cdot 3^2 = 6 \\cdot 9\\,x^2 = 54x^2$.',
-      'En la fila 4 de Pascal (1, 4, 6, 4, 1) el coeficiente del término con x² es el del centro. Los exponentes de x y de 3 suman 4.'),
+      'El término con x² usa el número del centro de la fila 4 de Pascal (1, 4, 6, 4, 1); el 3 también va elevado a una potencia, y los dos exponentes suman 4.'),
     cuenta('¿Cuánto suman todos los coeficientes de $(a + b)^5$?', '2 ^ 5', ['10', '6'],
       'Con $a = b = 1$ el desarrollo es justo la suma de los coeficientes: $(1 + 1)^5 = 32$. Cada fila de Pascal suma el doble de la anterior.',
       'Prueba con las primeras filas: 1 + 1, luego 1 + 2 + 1, luego 1 + 3 + 3 + 1. ¿Qué patrón siguen esas sumas?'),
   ];
   EX['alg-24b'] = [
-    P('bloques-area', 'Factorizar es encontrar los **lados** del rectángulo. Elige $a$ y $b$ para armar cada área', { rounds: [{ mode: 'factor', a: 2, b: 3 }, { mode: 'factor', a: 1, b: 6 }, { mode: 'factor', a: 3, b: 3 }, { mode: 'factor', a: 2, b: 7 }] },
-      'Se buscan dos números que **sumen** el coeficiente de $x$ y **multipliquen** el término independiente: $x^2 + 5x + 6 = (x + 2)(x + 3)$, $x^2 + 7x + 6 = (x + 1)(x + 6)$, $x^2 + 6x + 9 = (x + 3)^2$ y $x^2 + 9x + 14 = (x + 2)(x + 7)$.',
+    P('bloques-area', 'Factorizar es encontrar los **lados** del rectángulo. Elige $a$ y $b$ para armar cada área', { rounds: [{ mode: 'factor', a: 1, b: 4 }, { mode: 'factor', a: 1, b: 6 }, { mode: 'factor', a: 3, b: 3 }, { mode: 'factor', a: 2, b: 7 }] },
+      'Se buscan dos números que **sumen** el coeficiente de $x$ y **multipliquen** el término independiente: $x^2 + 5x + 4 = (x + 1)(x + 4)$, $x^2 + 7x + 6 = (x + 1)(x + 6)$, $x^2 + 6x + 9 = (x + 3)^2$ y $x^2 + 9x + 14 = (x + 2)(x + 7)$.',
       'Empieza por los cuadritos: ¿de qué maneras se puede armar ese número como un rectángulo de a por b? Quédate con la que además da las barras.'),
     escala('Factoriza **por completo** $x^4 - 16$',
       [['(x² − 4)(x² + 4)', '(x² − 4)²', '(x² − 8)(x² + 8)'], ['(x − 2)(x + 2)(x² + 4)', '(x − 2)(x + 2)(x − 2)(x + 2)'], ['x² + 4 ya no se parte en los reales', 'x² + 4 = (x + 2)²']],
@@ -90,9 +90,9 @@
       ['(x − 7)(x + 7)', '(x − 7)²', '(x − 2)(x² + 2x + 4)', '(x + 7)(x − 2)', '3x(x + 2)', '(x − 2)³', '(x − 7)(x + 2)'],
       'Diferencia de cuadrados, trinomio cuadrado perfecto, diferencia de cubos ($a^3 - b^3 = (a - b)(a^2 + ab + b^2)$), trinomio $x^2 + sx + p$ y factor común.',
       'Cuenta los términos y mira los signos: dos términos con resta de cuadrados o de cubos; tres términos, trinomio. Si todos comparten un factor, sácalo primero.'),
-    escala('Factoriza $2x^2 + 7x + 3$',
-      [['Busca dos números: producto 6, suma 7', 'Busca dos números: producto 3, suma 7'], ['2x² + 6x + x + 3', '2x² + 3x + 4x + 3'], ['2x(x + 3) + (x + 3)', 'x(2x + 3) + (4x + 3)'], ['(2x + 1)(x + 3)', '(2x + 3)(x + 1)']],
-      'Con coeficiente principal 2 se buscan dos números de producto $2 \\cdot 3 = 6$ y suma 7: son 6 y 1. Se parte el término del medio, se agrupa y sale el factor común $(x + 3)$.',
+    escala('Factoriza $3x^2 + 7x + 2$',
+      [['Dos números: producto 6, suma 7', 'Dos números: producto 2, suma 7'], ['3x² + 6x + x + 2', '3x² + 6x + 2x + 2'], ['3x(x + 2) + (x + 2)', '3x(x + 2) + 2'], ['(3x + 1)(x + 2)', '(3x + 2)(x + 1)']],
+      'Con coeficiente principal 3 se buscan dos números de producto $3 \\cdot 2 = 6$ y suma 7: son 6 y 1. Se parte el término del medio, se agrupa y sale el factor común $(x + 2)$.',
       'Cuando x² lleva un número, el producto que buscas es ese número por el término independiente. Comprueba al final multiplicando los dos factores.'),
     P('completa-cuadrado', 'Pasa cuadritos a la esquina hasta **completar el cuadrado** de cada polinomio', { rounds: [{ b: 6, c: 13 }, { b: 4, c: 1 }, { b: 8, c: 10 }] },
       'La esquina necesita $(b/2)^2$ cuadritos: $x^2 + 6x + 13 = (x + 3)^2 + 4$, $x^2 + 4x + 1 = (x + 2)^2 - 3$ y $x^2 + 8x + 10 = (x + 4)^2 - 6$.',
@@ -129,8 +129,8 @@
 
   // ====================== Fuente de la Parábola ======================
   EX['alg-23c'] = [
-    cuenta('Calcula $(3 + 4i)(3 - 4i)$', '3 ^ 2 + 4 ^ 2', ['7', '12'],
-      'Un complejo por su conjugado da la suma de los cuadrados: $9 - 16i^2 = 9 + 16 = 25$, porque $i^2 = -1$.',
+    cuenta('Calcula $(5 + 2i)(5 - 2i)$', '5 ^ 2 + 2 ^ 2', ['10', '21'],
+      'Un complejo por su conjugado da la suma de los cuadrados: $25 - 4i^2 = 25 + 4 = 29$, porque $i^2 = -1$.',
       'Es una suma por una diferencia: a² − (bi)². Recuerda qué vale i² y qué le hace al signo.'),
     escala('Multiplica $(2 + 3i)(1 - i)$',
       [['2 − 2i + 3i − 3i²', '2 − 2i + 3i + 3i²'], ['i² = −1', 'i² = 1'], ['5 + i', '−1 + i', '5 − i']],
@@ -144,15 +144,15 @@
       'Se multiplica por el conjugado del denominador: abajo queda $1 + 1 = 2$ y arriba $(4 + 2i)(1 - i) = 6 - 2i$. Al dividir entre 2: $3 - i$.',
       'Para quitar la i del denominador se usa su conjugado: el mismo número con el signo de la parte imaginaria cambiado.'),
     parejas('Une cada expresión con su valor',
-      ['i²', 'i³', 'i⁴', 'i⁹', '√(−25)'], ['−1', '−i', '1', 'i', '5i', '−5', '25i'],
-      'Las potencias de $i$ se repiten de cuatro en cuatro: $i, -1, -i, 1$. Como $9 = 8 + 1$, $i^9 = i$. Y $\\sqrt{-25} = \\sqrt{25}\\,\\sqrt{-1} = 5i$.',
+      ['i²', 'i³', 'i⁴', 'i⁹', '√(−16)'], ['−1', '−i', '1', 'i', '4i', '−4', '16i'],
+      'Las potencias de $i$ se repiten de cuatro en cuatro: $i, -1, -i, 1$. Como $9 = 8 + 1$, $i^9 = i$. Y $\\sqrt{-16} = \\sqrt{16}\\,\\sqrt{-1} = 4i$.',
       'Cada vez que juntas cuatro i obtienes 1. Divide el exponente entre 4 y mira lo que sobra.'),
   ];
   EX['alg-1'] = [
     escala('Resuelve $3x - 7 = 11$',
       [['3x = 11 + 7', '3x = 11 − 7'], ['x = 18 ÷ 3', 'x = 18 − 3', 'x = 4 ÷ 3'], ['x = 6', 'x = 15']],
       'Para dejar sola a $x$ se deshace cada operación con su contraria, en los dos lados: se suma 7 y luego se divide entre 3.',
-      'Lo que resta pasa haciendo lo contrario en los dos lados. El 3 no está restando: está multiplicando.'),
+      'Deshaz la resta sumando 7 en los dos lados. Después, el 3 no está restando: está multiplicando.'),
     escala('Resuelve $4(x - 1) = 2x + 10$',
       [['4x − 4 = 2x + 10', '4x − 1 = 2x + 10'], ['2x = 14', '2x = 6', '6x = 14'], ['x = 7', 'x = 3']],
       'El 4 multiplica a los dos términos del paréntesis. Luego se juntan las $x$ a un lado ($4x - 2x$) y los números al otro ($10 + 4$).',
@@ -246,8 +246,8 @@
       'Mira solo los términos más altos de cada polinomio y divídelos.'),
   ];
   EX['alg-92'] = [
-    P('division-sintetica', 'Elige el número $r$ que deja **residuo 0**: entonces $x - r$ es un factor', { rounds: [{ coef: [1, -2, -5, 6], goal: 'zero' }, { coef: [1, 0, -7, 6], goal: 'zero' }, { coef: [2, 1, -5, 2], goal: 'zero' }] },
-      'El residuo de dividir entre $x - r$ es $P(r)$. Por eso las raíces dejan residuo 0: $x^3 - 2x^2 - 5x + 6 = (x - 1)(x + 2)(x - 3)$, $x^3 - 7x + 6 = (x - 1)(x - 2)(x + 3)$ y $2x^3 + x^2 - 5x + 2$ se anula en $x = 1$.',
+    P('division-sintetica', 'Elige el número $r$ que deja **residuo 0**: entonces $x - r$ es un factor', { rounds: [{ coef: [1, -1, -10, -8], goal: 'zero' }, { coef: [1, 0, -7, 6], goal: 'zero' }, { coef: [2, 1, -5, 2], goal: 'zero' }] },
+      'El residuo de dividir entre $x - r$ es $P(r)$. Por eso las raíces dejan residuo 0: $x^3 - x^2 - 10x - 8 = (x + 1)(x + 2)(x - 4)$, $x^3 - 7x + 6 = (x - 1)(x - 2)(x + 3)$ y $2x^3 + x^2 - 5x + 2$ se anula en $x = 1$ y en $x = -2$.',
       'Los candidatos enteros son los divisores del último número (positivos y negativos). Un coeficiente que falta va como 0.'),
     P('division-sintetica', 'Ahora busca el $r$ que deja el residuo pedido', { rounds: [{ coef: [1, 1, -4, 2], goal: 'value', value: 26 }, { coef: [1, -3, 0, 5], goal: 'value', value: 1 }] },
       'El residuo es el valor del polinomio en $r$: $P(3) = 27 + 9 - 12 + 2 = 26$, y en el segundo $P(2) = 8 - 12 + 5 = 1$ (también $P(-1) = 1$).',
@@ -266,9 +266,9 @@
   ];
   EX['alg-93'] = [
     P('raices-imanes', 'Pon los imanes en los **ceros** de cada polinomio y ajusta $a$', { rounds: [
-      { roots: [-2, 1, 3], a: 1, xr: [-4, 5], yr: [-8, 8], mark: [0, 6] },
+      { roots: [-3, 1, 2], a: 1, xr: [-5, 4], yr: [-8, 14], mark: [0, 6] },
       { roots: [-1, -1, 2], a: 1, xr: [-4, 4], yr: [-6, 6], mark: [0, -2] },
-    ] }, '1) $y = (x + 2)(x - 1)(x - 3)$, que en $x = 0$ vale 6. 2) $y = (x + 1)^2(x - 2)$: en $-1$ la curva rebota porque el cero es doble.',
+    ] }, '1) $y = (x + 3)(x - 1)(x - 2)$, que en $x = 0$ vale 6. 2) $y = (x + 1)^2(x - 2)$: en $-1$ la curva rebota porque el cero es doble.',
       'Cada corte con el eje es un cero. Donde la curva toca el eje y se devuelve, el cero cuenta dos veces: pon dos imanes ahí.'),
     escala('¿Qué número **no** puede ser cero racional de $2x^3 - 3x^2 + x - 6$?',
       [['p divide a 6 y q divide a 2', 'p divide a 2 y q divide a 6'], ['±1, ±2, ±3, ±6, ±½, ±3/2', '±1, ±2, ±½, ±⅓, ±⅙, ±⅔'], ['¼ no puede ser cero racional', '3/2 no puede ser cero racional']],
@@ -308,7 +308,7 @@
     ['alg-92', 'Si $P(r) = 0$, entonces $x - r$ es factor de $P$.',
       P('division-sintetica', 'Elige un $r$ que deje residuo 0', { rounds: [{ coef: [1, -4, 1, 6], goal: 'zero' }] }, '$x^3 - 4x^2 + x + 6 = (x + 1)(x - 2)(x - 3)$: sirven $-1$, $2$ y $3$.', 'Prueba los divisores de 6, positivos y negativos.')],
     ['alg-92', 'El residuo de dividir $P(x)$ entre $x - r$ es $P(r)$.',
-      cuenta('Sin dividir: residuo de $2x^3 - x + 3$ entre $x + 1$', '2 * ( -1 ) ^ 3 - -1 + 3', [], '$P(-1) = -2 + 1 + 3 = 2$.', 'x + 1 se anula en x = −1: evalúa ahí, con cuidado con los signos.')],
+      cuenta('Sin dividir: residuo de $2x^3 - x + 5$ entre $x + 1$', '2 * ( -1 ) ^ 3 - -1 + 5', [], 'Teorema del residuo: $P(-1) = -2 + 1 + 5 = 4$.', 'x + 1 se anula en x = −1: evalúa ahí, con cuidado con los signos.')],
     ['alg-93', 'Cada cero $r$ aporta un factor $(x - r)$.',
       P('raices-imanes', 'Pon los imanes en los ceros y ajusta $a$', { rounds: [{ roots: [-3, 0, 2], a: 1, xr: [-5, 4], yr: [-8, 10], mark: [1, -4] }] }, '$y = x(x + 3)(x - 2)$, que en $x = 1$ vale $1 \\cdot 4 \\cdot (-1) = -4$.', 'Cada corte con el eje x es un cero.')],
     ['alg-93', 'Descartes: el número de raíces positivas es el de cambios de signo, o menor en un número par.',
@@ -318,15 +318,15 @@
   // ====================== Río de Asíntotas ======================
   EX['alg-25a'] = [
     P('cancela-factores', '**Simplifica** cada fracción cancelando factores iguales. Cuidado: los términos que se suman no se cancelan', { rounds: [
-      { top: ['x − 3', 'x + 3'], bottom: ['x + 3', 'x − 2'] }, { top: ['2', 'x + 2'], bottom: ['x + 2', 'x − 2'] }, { top: ['x', '2'], bottom: ['x'], sumTop: true }, { top: ['x', 'x − 1'], bottom: ['x − 1', 'x', 'x + 4'] },
-    ] }, '$\\dfrac{(x - 3)(x + 3)}{(x + 3)(x - 2)} = \\dfrac{x - 3}{x - 2}$ y $\\dfrac{2(x + 2)}{(x + 2)(x - 2)} = \\dfrac{2}{x - 2}$. En $\\dfrac{x + 2}{x}$ la $x$ de arriba está sumando: no es un factor y no se cancela. En la última queda $\\dfrac{1}{x + 4}$.',
+      { top: ['x − 4', 'x + 1'], bottom: ['x + 1', 'x − 6'] }, { top: ['2', 'x + 2'], bottom: ['x + 2', 'x − 2'] }, { top: ['x', '3'], bottom: ['x'], sumTop: true }, { top: ['x', 'x − 1'], bottom: ['x − 1', 'x', 'x + 4'] },
+    ] }, '$\\dfrac{(x - 4)(x + 1)}{(x + 1)(x - 6)} = \\dfrac{x - 4}{x - 6}$ y $\\dfrac{2(x + 2)}{(x + 2)(x - 2)} = \\dfrac{2}{x - 2}$. En $\\dfrac{x + 3}{x}$ la $x$ de arriba está sumando: no es un factor y no se cancela. En la última queda $\\dfrac{1}{x + 4}$.',
       'Solo se cancela lo que multiplica a TODO el piso. Si arriba hay una suma, sus pedazos no son factores.'),
     escala('¿Qué valores quedan fuera del **dominio** de $\\dfrac{x + 1}{x^2 - 4}$?',
       [['El denominador no puede ser 0', 'El numerador no puede ser 0'], ['x² − 4 = 0', 'x + 1 = 0'], ['x ≠ 2 y x ≠ −2', 'x ≠ −1', 'x ≠ 4']],
       'No se puede dividir entre cero: se excluyen los valores que anulan el denominador, $x^2 - 4 = (x - 2)(x + 2) = 0$.',
       'El numerador sí puede valer cero (la fracción da 0). Lo prohibido es el cero abajo.'),
     escala('Simplifica $\\dfrac{x^2 - 25}{x^2 + 5x}$ y di para qué $x$ vale',
-      [['Factoriza: (x − 5)(x + 5) sobre x(x + 5)', 'Cancela x² arriba y abajo'], ['(x − 5) ÷ x', '−25 ÷ 5x', '(x − 5) ÷ (x + 5)'], ['Vale si x ≠ 0 y x ≠ −5', 'Vale si x ≠ 0', 'Vale para todo x']],
+      [['Factoriza arriba y abajo', 'Cancela x² arriba y abajo'], ['(x − 5) ÷ x', '−25 ÷ 5x', '(x − 5) ÷ (x + 5)'], ['Vale si x ≠ 0 y x ≠ −5', 'Vale si x ≠ 0', 'Vale para todo x']],
       'Primero se factoriza y luego se cancela el factor común $(x + 5)$. El valor $x = -5$ sigue excluido aunque el factor ya no se vea.',
       'x² no es un factor del numerador: está restando con 25. Factoriza antes de cancelar, y no olvides lo que cancelaste al dar el dominio.'),
     P('cruz-asintotas', 'Lleva la **cruz de asíntotas** a su lugar en cada función racional', { rounds: [{ p: 2, q: 1, h: 3, xr: [-6, 8], yr: [-6, 8] }, { p: -1, q: 4, h: -2, xr: [-7, 5], yr: [-6, 6] }] },
@@ -346,7 +346,7 @@
     ] }, '$\\dfrac{x}{x + 1} \\cdot \\dfrac{x + 1}{x^2} = \\dfrac{1}{x}$ y $\\dfrac{(x - 2)(x + 5)}{(x + 5)(x - 2)(x + 1)} = \\dfrac{1}{x + 1}$. En $\\dfrac{x + 1}{x + 3}$ no hay factores: nada se cancela.',
       'Al multiplicar fracciones todo lo de arriba queda multiplicando y todo lo de abajo también: ahí sí se cancelan parejas iguales.'),
     escala('Divide $\\dfrac{x}{3} \\div \\dfrac{x^2}{6}$',
-      [['Multiplica por el recíproco: x/3 · 6/x²', 'Divide arriba con arriba: x ÷ x²'], ['6x ÷ 3x²', 'x³ ÷ 18'], ['2 ÷ x', '2x', 'x ÷ 2']],
+      [['Por el recíproco: x/3 · 6/x²', 'Arriba con arriba: x ÷ x²'], ['6x ÷ 3x²', 'x³ ÷ 18'], ['2 ÷ x', '2x', 'x ÷ 2']],
       'Dividir es multiplicar por el recíproco: $\\dfrac{x}{3} \\cdot \\dfrac{6}{x^2} = \\dfrac{6x}{3x^2} = \\dfrac{2}{x}$.',
       'Voltea la segunda fracción y multiplica. Luego simplifica números con números y x con x.'),
     escala('Simplifica la fracción compleja $\\dfrac{\\frac{1}{x} - \\frac{1}{2}}{x - 2}$',
@@ -354,7 +354,7 @@
       'Arriba, con denominador común $2x$: $\\dfrac{2 - x}{2x}$. Como $2 - x = -(x - 2)$, se cancela con el $x - 2$ de abajo y queda $-\\dfrac{1}{2x}$.',
       'Resuelve primero la resta de arriba. Después fíjate en que 2 − x y x − 2 son opuestos, no iguales.'),
     escala('Mínimo común denominador de $\\dfrac{1}{x^2 - 9}$ y $\\dfrac{1}{x^2 + 3x}$',
-      [['x² − 9 = (x − 3)(x + 3)  y  x² + 3x = x(x + 3)', 'x² − 9 = (x − 3)²  y  x² + 3x = x(x + 3)'], ['x(x − 3)(x + 3)', 'x(x − 3)(x + 3)²', '(x − 3)(x + 3)']],
+      [['x² − 9 = (x − 3)(x + 3)', 'x² − 9 = (x − 3)²'], ['x² + 3x = x(x + 3)', 'x² + 3x = 3x(x + 1)'], ['x(x − 3)(x + 3)', 'x(x − 3)(x + 3)²', '(x − 3)(x + 3)']],
       'Se factoriza cada denominador y se toma cada factor una vez con su mayor exponente: $x$, $(x - 3)$ y $(x + 3)$.',
       'El factor que comparten no se repite: basta una copia. Los que no comparten sí van todos.'),
   ];
@@ -365,9 +365,9 @@
       { e1: [2, 1, 4], e2: [4, 1, 5], free: [[1, 1], [1, 2]], goal: 'infinitas' },
     ] }, 'Con solución $(3, 1)$: $x + y = 4$ y $x - y = 2$. Sin solución: $2x + 4y = 6$ es paralela a $x + 2y = 4$. Infinitas: $4x + 2y = 8$ es el doble de $2x + y = 4$, la misma recta.',
       'Resolver un sistema es buscar el punto donde se cruzan las rectas. Paralelas: mismos coeficientes de x y de y en proporción, pero otro número a la derecha.'),
-    P('combina-vectores', 'Ronda 1: $x + y = 5,\\; x - y = 1$. Ronda 2: $2x + y = 7,\\; x + 3y = 11$. ¿Cuántas veces va cada **columna** para llegar al lado derecho?', { rounds: [
-      { u: [1, 1], v: [1, -1], target: [5, 1], names: ['c₁', 'c₂'] }, { u: [2, 1], v: [1, 3], target: [7, 11], names: ['c₁', 'c₂'] },
-    ] }, 'El primero da $x = 3$, $y = 2$ y el segundo $x = 2$, $y = 3$: son las veces que entra cada columna de coeficientes.',
+    P('combina-vectores', 'Ronda 1: $x + y = 5,\\; x - y = 1$. Ronda 2: $2x + y = 4,\\; x - 2y = -3$. ¿Cuántas veces va cada **columna** para llegar al lado derecho?', { rounds: [
+      { u: [1, 1], v: [1, -1], target: [5, 1], names: ['c₁', 'c₂'] }, { u: [2, 1], v: [1, -2], target: [4, -3], names: ['c₁', 'c₂'] },
+    ] }, 'El primero da $x = 3$, $y = 2$ y el segundo $x = 1$, $y = 2$: son las veces que entra cada columna de coeficientes.',
       'La primera columna son los coeficientes de x y la segunda los de y. Acércate con una perilla y corrige con la otra.'),
     escala('Resuelve por sustitución: $y = 2x - 1$ y $3x + y = 9$',
       [['3x + (2x − 1) = 9', '3x + 2x = 9', '3(2x − 1) + y = 9'], ['5x = 10', '5x = 8'], ['x = 2, y = 3', 'x = 2, y = 5', 'x = 8/5, y = 11/5']],
@@ -383,9 +383,9 @@
       'Compara las dos compras: ¿qué tiene de más la primera, y cuánto más cuesta?'),
   ];
   EX['alg-102'] = [
-    escala('Halla los puntos donde se cortan $y = x^2$ y $y = 2x + 3$',
-      [['x² = 2x + 3', 'x² + 2x + 3 = 0'], ['(x − 3)(x + 1) = 0', '(x + 3)(x − 1) = 0'], ['(3, 9) y (−1, 1)', '(−3, 9) y (1, 1)', '(3, 9) y (−1, −1)']],
-      'En los cortes las dos $y$ son iguales: $x^2 - 2x - 3 = 0$, con raíces $3$ y $-1$. Cada $x$ se lleva a $y = x^2$: $9$ y $1$.',
+    escala('Halla los puntos donde se cortan $y = x^2$ y $y = x + 6$',
+      [['x² = x + 6', 'x² + x + 6 = 0'], ['(x − 3)(x + 2) = 0', '(x + 3)(x − 2) = 0'], ['(3, 9) y (−2, 4)', '(−3, 9) y (2, 4)', '(3, 9) y (−2, −4)']],
+      'En los cortes las dos $y$ son iguales: $x^2 - x - 6 = 0$, con raíces $3$ y $-2$. Cada $x$ se lleva a $y = x^2$: $9$ y $4$.',
       'Iguala las dos expresiones de y. Cuando tengas las x, calcula su y con cualquiera de las dos ecuaciones.'),
     escala('Descompón $\\dfrac{5x + 1}{(x - 1)(x + 2)}$ en fracciones parciales',
       [['A/(x − 1) + B/(x + 2)', 'A/(x − 1) + B/(x − 2)', '(Ax + B)/(x − 1)(x + 2)'], ['5x + 1 = A(x + 2) + B(x − 1)', '5x + 1 = A(x − 1) + B(x + 2)'], ['Con x = 1: A = 2. Con x = −2: B = 3', 'Con x = 1: A = 3. Con x = −2: B = 2']],
@@ -428,7 +428,7 @@
     ['alg-25b', 'Para sumar fracciones algebraicas se busca el mínimo común denominador.',
       escala('Suma $\\dfrac{3}{x} + \\dfrac{2}{x^2}$', [['Común: x²', 'Común: x³', 'Común: 2x'], ['(3x + 2) ÷ x²', '5 ÷ x²', '(3 + 2x) ÷ x²']], 'El común es $x^2$: la primera fracción se amplifica por $x$ y queda $\\dfrac{3x + 2}{x^2}$.', 'x² ya contiene a x: no hace falta multiplicar los dos denominadores.')],
     ['alg-101', 'La solución de un sistema dice cuántas veces entra cada columna de coeficientes.',
-      P('combina-vectores', 'Resuelve $x + 2y = 8,\\; 2x - y = 1$ mirándolo por columnas', { rounds: [{ u: [1, 2], v: [2, -1], target: [8, 1], names: ['c₁', 'c₂'] }] }, '$x = 2$ y $y = 3$: $2 + 6 = 8$ y $4 - 3 = 1$.', 'La primera columna son los coeficientes de x; la segunda, los de y.')],
+      P('combina-vectores', 'Resuelve $x + 2y = 4,\\; 2x - y = 3$ mirándolo por columnas', { rounds: [{ u: [1, 2], v: [2, -1], target: [4, 3], names: ['c₁', 'c₂'] }] }, '$x = 2$ y $y = 1$: $2 + 2 = 4$ y $4 - 1 = 3$.', 'La primera columna son los coeficientes de x; la segunda, los de y.')],
     ['alg-102', 'En los puntos de corte las dos expresiones de $y$ valen lo mismo.',
       escala('¿Dónde se cortan $y = x^2$ y $y = x + 2$?', [['x² − x − 2 = 0', 'x² + x + 2 = 0'], ['(x − 2)(x + 1) = 0', '(x + 2)(x − 1) = 0'], ['(2, 4) y (−1, 1)', '(−2, 4) y (1, 1)']], '$x^2 = x + 2$ da $x = 2$ y $x = -1$; sus alturas son $4$ y $1$.', 'Iguala las dos y, pasa todo a un lado y factoriza.')],
   ] };
@@ -460,12 +460,12 @@
   ];
   EX['alg-72'] = [
     parejas('Une cada logaritmo con la potencia que dice lo mismo',
-      ['log₂ 8 = 3', 'log₅ 25 = 2', 'log₁₀ 0.01 = −2', 'log₃ 1 = 0'], ['2³ = 8', '5² = 25', '10⁻² = 0.01', '3⁰ = 1', '3² = 8', '2⁵ = 25'],
+      ['log₂ 8 = 3', 'log₅ 25 = 2', 'log₁₀ 0.01 = −2', 'log₃ 1 = 0'], ['2³ = 8', '5² = 25', '10⁻² = 0.01', '3⁰ = 1', '3² = 9', '2⁵ = 32'],
       '$\\log_b a = c$ quiere decir $b^c = a$: el logaritmo **es el exponente** al que hay que elevar la base.',
       'La base del logaritmo es la base de la potencia, y lo que el logaritmo vale es el exponente.'),
-    P('espejo-diagonal', 'Refleja los puntos de $f(x) = 2^{x-1}$ en el espejo $y = x$ para dibujar su inversa', { rounds: [
-      { f: x => 2 ** (x - 1), fTxt: '2ˣ⁻¹', pts: [[1, 1], [2, 2], [3, 4]], t: [-3, 3.3], range: [-5, 5] },
-    ] }, 'Se intercambian las coordenadas: $(1, 1)$, $(2, 2)$ y $(4, 3)$. La inversa de una exponencial es un logaritmo: aquí $y = \\log_2 x + 1$.',
+    P('espejo-diagonal', 'Refleja los puntos de $f(x) = 2^{x+1}$ en el espejo $y = x$ para dibujar su inversa', { rounds: [
+      { f: x => 2 ** (x + 1), fTxt: '2ˣ⁺¹', pts: [[-1, 1], [0, 2], [1, 4]], t: [-5, 1.3], range: [-5, 5] },
+    ] }, 'Se intercambian las coordenadas: $(1, -1)$, $(2, 0)$ y $(4, 1)$. La inversa de una exponencial es un logaritmo: aquí $y = \\log_2 x - 1$.',
       'Reflejar en y = x es intercambiar las dos coordenadas de cada punto. Un punto que está sobre el espejo no se mueve.'),
     cuenta('Calcula $\\log_2 8 + \\log_2 4$', '3 + 2', ['6', '32'],
       '$\\log_2 8 = 3$ y $\\log_2 4 = 2$: suman 5, que es $\\log_2 32$. Sumar logaritmos es multiplicar los números: $8 \\cdot 4 = 32 = 2^5$.',

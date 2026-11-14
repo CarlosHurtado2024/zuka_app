@@ -171,6 +171,15 @@ function mathStep(str) {
   if (typeof str !== 'string' || str.includes('$') || !(formulaWanted(str) || equationLike(str))) return str;
   return `$${plainToTex(str)}$`;
 }
+// Un paso largo se parte en dos renglones por el corte natural más cercano al centro («: », «. », «  y  », « = »).
+function stepLines(str) {
+  if (typeof str !== 'string' || str.length <= 24) return [str];
+  let best = -1, len = 0;
+  for (const m of str.matchAll(/: |\. | {2}y {2}|, | = | sobre /g)) if (best < 0 || Math.abs(m.index + m[0].length / 2 - str.length / 2) < Math.abs(best + len / 2 - str.length / 2)) { best = m.index; len = m[0].length; }
+  if (best < 0) return [str];
+  const sep = str.slice(best, best + len), keep = sep === ' = ' ? '' : sep.trim() === 'y' || sep === ' sobre ' ? '' : sep.trimEnd();
+  return [str.slice(0, best) + keep, (sep === ' = ' ? '= ' : sep.trim() === 'y' ? 'y ' : sep === ' sobre ' ? 'sobre ' : '') + str.slice(best + len)];
+}
 // Texto listo para tex(): si conviene, lo envuelve en $…$ ya convertido.
 function texify(str) {
   if (typeof str !== 'string' || str.includes('$') || !formulaWanted(str)) return str;

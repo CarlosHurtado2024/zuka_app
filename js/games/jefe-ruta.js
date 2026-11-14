@@ -76,8 +76,9 @@ GAMES['jefe-ruta'] = (() => {
               const b = hold(l, k), sel = pick[l] === opt, fill = sel ? C.sky : C.cream;
               drawTile(p, C, b, '', { fill, r: 12, lift: 3, ring: sel ? C.brand : l === wrong ? C.bad : null });
               p.noStroke(); p.fill(inkOn(fill, C.ink)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-              const t = lv[opt], f = tx(t);
-              if (f !== t && typeof drawFormulaCtx === 'function') drawFormulaCtx(p.drawingContext, f, b.x + b.w / 2, b.y + b.h / 2 + 1, { size: 15, maxW: b.w - 10, maxH: b.h - 6, weight: 700 });
+              const t = lv[opt], f = tx(t), parts = typeof stepLines === 'function' ? stepLines(t) : [t];
+              if (parts.length === 2 && typeof drawFormulaCtx === 'function') parts.forEach((q, j) => { const g = tx(q); if (g !== q) drawFormulaCtx(p.drawingContext, g, b.x + b.w / 2, b.y + b.h / 2 + (j ? 9 : -8), { size: 13, maxW: b.w - 10, maxH: b.h / 2 - 2, weight: 700 }); else fitText(p, q, b.x + b.w / 2, b.y + b.h / 2 + (j ? 9 : -8), b.w - 8, 12); });
+              else if (f !== t && typeof drawFormulaCtx === 'function') drawFormulaCtx(p.drawingContext, f, b.x + b.w / 2, b.y + b.h / 2 + 1, { size: 15, maxW: b.w - 10, maxH: b.h - 6, weight: 700 });
               else fitText(p, t, b.x + b.w / 2, b.y + b.h / 2 + 1, b.w - 8, 13);
             });
           });

@@ -44,7 +44,7 @@ GAMES['division-sintetica'] = (() => {
         num(row[i], x, y0 + 2 * rh, last ? (G.locked ? inkOn(row[i] === want(r) ? C.ok : C.bad, C.ink) : C.N) : C.Z);
       }
       p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER); fitText(p, 'baja · multiplica por r · suma', W / 2, y0 + 3 * rh - 4, W - 24, 11);
-      p.fill(C.ink); p.textStyle(p.BOLD); fitText(p, `$P(${s.r}) = ${row[n - 1]}$  ·  residuo al dividir entre $x ${s.r < 0 ? '+' : '-'} ${Math.abs(s.r)}$`, W / 2, y0 + 3 * rh + 22, W - 20, 14);
+      p.fill(C.ink); p.textStyle(p.BOLD); fitText(p, `$P(${s.r}) = ${row[n - 1]}$  ·  residuo al dividir entre ${s.r === 0 ? '$x$' : `$x ${s.r < 0 ? '+' : '-'} ${Math.abs(s.r)}$`}`, W / 2, y0 + 3 * rh + 22, W - 20, 14);
       drawStepper(p, C, G.box, negTxt(s.r), 'r', C.Z);
     },
     press(G, x, y) {
