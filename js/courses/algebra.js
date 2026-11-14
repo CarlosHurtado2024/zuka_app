@@ -1107,7 +1107,7 @@ const COURSE_ALGEBRA = {
           id: 'alg-14', title: 'Sucesiones y progresiones aritméticas',
           // Parte 1 de progresiones (spec 2026-11-11-progresiones-desde-cero): video P1 (video/clase_alg_u3_p1_aritmeticas).
           // Escenas de respaldo hasta tener su ID de Bunny. Reemplaza a la Clase 5 (video/clase_progresiones).
-          clip: { scenes: [
+          clip: { bunny: '0d886620-5ca3-4ac0-bd9c-87a40abe9104', duration: 130, scenes: [
             sc(6, 'Una **sucesión** es una lista ordenada de números. Cada uno tiene su puesto $n = 1, 2, 3, \\dots$ (un natural) y se escribe $a_n$.', { title: '$a_1, a_2, a_3, \\dots, a_n, \\dots$', steps: ['Cuadrados: $1, 4, 9, 16, \\dots$, $a_n = n^2$'] }),
             sc(6, 'En una progresión **aritmética** se suma siempre la misma **diferencia** $d$ (positiva, negativa o cero).', { steps: ['$20, 25, 30, 35, \\dots$: $d = 5$', '$30, 28, 26, \\dots$: $d = -2$'] }),
             sc(6, 'Del primer término al término $n$ hay $n - 1$ saltos de tamaño $d$.', { title: '$a_n = a_1 + (n - 1)\\,d$', steps: ['$7, 11, 15, \\dots$: $a_{20} = 7 + 19 \\cdot 4 = 83$'] }),
@@ -1145,7 +1145,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-14b', title: 'La suma de una progresión aritmética',
           // Parte 2 (spec 2026-11-11-progresiones-desde-cero): video P2 (video/clase_alg_u3_p2_suma_aritmetica). Escenas de respaldo.
-          clip: { scenes: [
+          clip: { bunny: '251a81df-bada-43e9-8404-b88bf4a0346c', duration: 130, scenes: [
             sc(6, 'Gauss sumó del 1 al 100 escribiendo la suma al derecho y al revés: cada columna suma lo mismo.', { title: '$1 + 2 + \\dots + 100 = \\dfrac{100 \\cdot 101}{2} = 5050$' }),
             sc(6, 'Dos escaleras iguales forman un rectángulo de $n$ por $a_1 + a_n$: cada escalera es la mitad.', { title: '$S_n = \\dfrac{n\\,(a_1 + a_n)}{2}$', steps: ['$3 + 5 + 7 + 9 + 11 = \\dfrac{5 \\cdot 14}{2} = 35$'] }),
             sc(6, 'Los impares forman cuadrados.', { title: '$1 + 3 + 5 + \\dots + (2n - 1) = n^2$' }),
@@ -1191,7 +1191,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-14c', title: 'Progresiones geométricas',
           // Parte 3 (spec 2026-11-11-progresiones-desde-cero): video P3 (video/clase_alg_u3_p3_geometricas), en Bunny (3:37).
-          clip: { bunny: '3a0b2b72-92f0-49fd-8946-8daf8b6fb21b', duration: 217, scenes: [
+          clip: { bunny: 'c4f32f4e-e22f-44da-a13c-d0332c3906c7', duration: 130, scenes: [
             sc(6, 'En una progresión **geométrica** se multiplica siempre por la misma **razón** $r$: el cociente de dos términos seguidos.', { steps: ['$1, 3, 9, 27, \\dots$: $r = 3$', '$800, 400, 200, \\dots$: $r = \\tfrac12$', '$1, -2, 4, -8, \\dots$: $r = -2$'] }),
             sc(6, 'Del primer término al término $n$ hay $n - 1$ multiplicaciones por $r$: una potencia.', { title: '$a_n = a_1\\,r^{\\,n-1}$', steps: ['$3, 6, 12, \\dots$: $a_7 = 3 \\cdot 2^6 = 192$'] }),
             sc(6, 'Sumar crece en línea recta; multiplicar crece cada vez más rápido. Los **medios geométricos** van entre dos términos dados.', { steps: ['Entre 2 y 162, tres medios: $r^4 = 81$, $r = \\pm 3$: $6, 18, 54$ o $-6, 18, -54$'] }),
@@ -1225,7 +1225,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-14d', title: 'Suma geométrica y suma infinita',
           // Parte 4 (spec 2026-11-11-progresiones-desde-cero): video P4 (video/clase_alg_u3_p4_suma_geometrica). Escenas de respaldo.
-          clip: { scenes: [
+          clip: { bunny: 'fd578978-f16e-45a2-b24c-cdae0c4c47ca', duration: 130, scenes: [
             sc(6, 'Para sumar una geométrica se multiplica por $r$ y se resta: casi todo se cancela.', { title: '$S_n = a_1\\,\\dfrac{r^n - 1}{r - 1}$', steps: ['$1 + 2 + 4 + \\dots + 2^9 = 2^{10} - 1 = 1023$'] }),
             sc(6, 'Si $|r| < 1$ los términos se achican tanto que la suma infinita se acerca a un número.', { title: '$S_\\infty = \\dfrac{a_1}{1 - r}$', steps: ['$\\tfrac12 + \\tfrac14 + \\tfrac18 + \\dots = 1$', '$0.333\\ldots = \\tfrac{3}{10} + \\tfrac{3}{100} + \\dots = \\tfrac13$'] }),
             sc(5, 'Si $|r| \\ge 1$ la suma no se estabiliza: **diverge**.', { steps: ['$1 + 2 + 4 + \\dots$ crece sin parar', '$1 - 1 + 1 - 1 + \\dots$ salta entre 1 y 0'] }),
@@ -1268,7 +1268,7 @@ const COURSE_ALGEBRA = {
         {
           id: 'alg-15', title: 'Sumatoria y productoria',
           // Clase 6 (video/clase_sumatoria): escenas de respaldo hasta enlazar el video de Bunny (bunny + duration).
-          clip: { scenes: [
+          clip: { bunny: '5b36dd19-2ee0-47e1-a0cc-e44539a79d17', duration: 130, scenes: [
             sc(6, 'La letra griega $\\Sigma$ abrevia sumas largas: índice, límites y término general.', { title: '$\\displaystyle\\sum_{k=1}^{n} a_k = a_1 + a_2 + \\cdots + a_n$', steps: ['$\\displaystyle\\sum_{k=1}^{5} 2k = 2 + 4 + 6 + 8 + 10 = 30$'] }),
             sc(6, 'Es **lineal**: las constantes salen y las sumas se separan. Y hay sumas notables.', { steps: ['$\\displaystyle\\sum (c\\,a_k + b_k) = c\\sum a_k + \\sum b_k \\qquad \\sum_{k=1}^{n} c = nc$', '$\\displaystyle\\sum_{k=1}^{n} k = \\dfrac{n(n + 1)}{2} \\qquad \\sum_{k=1}^{n} k^2 = \\dfrac{n(n + 1)(2n + 1)}{6}$'] }),
             sc(6, '$\\Pi$ abrevia productos. El más famoso es el **factorial**.', { title: '$\\displaystyle\\prod_{k=1}^{n} k = n!$', steps: ['$\\displaystyle\\prod_{k=1}^{4} 2k = 2 \\cdot 4 \\cdot 6 \\cdot 8 = 384$', '$4! = 24 \\quad 5! = 120 \\quad 6! = 720$'] }),

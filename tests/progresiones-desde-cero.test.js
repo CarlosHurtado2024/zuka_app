@@ -70,11 +70,16 @@ test('progresiones: cada lección con su video (escenas) y luego juegos con pist
   assert.equal(uses(lesson('alg-14c'), 'rellena-medios')[0].params.kind, 'geometrica');
 });
 
-test('progresiones: el video P3 (alg-14c) viene de Bunny y conserva sus escenas de respaldo', () => {
-  const c = lesson('alg-14c').clip;
-  assert.equal(c.bunny, '3a0b2b72-92f0-49fd-8946-8daf8b6fb21b');
-  assert.equal(c.duration, 217);
-  assert.ok(c.scenes.length >= 3);
+test('progresiones: cada lección trae su video zoom de Bunny y conserva sus escenas de respaldo', () => {
+  const V = { 'alg-14': '0d886620-5ca3-4ac0-bd9c-87a40abe9104', 'alg-14b': '251a81df-bada-43e9-8404-b88bf4a0346c',
+    'alg-14c': 'c4f32f4e-e22f-44da-a13c-d0332c3906c7', 'alg-14d': 'fd578978-f16e-45a2-b24c-cdae0c4c47ca', 'alg-15': '5b36dd19-2ee0-47e1-a0cc-e44539a79d17' };
+  for (const [id, bunny] of Object.entries(V)) {
+    const l = lesson(id), c = l.clip;
+    assert.equal(c.bunny, bunny, `${id}: ID de Bunny`);
+    assert.equal(c.duration, 130, `${id}: duración de Bunny`);
+    assert.ok(c.scenes.length >= 3, `${id}: escenas de respaldo`);
+    assert.ok(!l.more || !l.more.length, `${id}: un solo video`);
+  }
 });
 
 test('progresiones: los ejemplos de los videos no se repiten en los ejercicios', () => {

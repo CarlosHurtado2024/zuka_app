@@ -372,8 +372,7 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
 - **Escalera de Sigma en zoom, lecciones 1 a 5** (mismo proyecto `video/valle-zoom`; tokens `{big: 'sum'|'prod', hi, lo}` para Σ y Π
   y `{sub}` para subíndices): `sucesiones` (`alg-14`), `sumaarit` (`alg-14b`), `geometricas` (`alg-14c`, ya tiene video en Bunny:
   el usuario elige), `sumageo` (`alg-14d`), `sumatoria` (`alg-15`), 130 s. Usan los ejemplos de las escenas de respaldo más
-  algunos nuevos; `tests/sigma-zoom.test.js`. Entregados en `Downloads/Zuka_Sigma_zoom`; esperan su ID de Bunny: al recibirlo,
-  poner `clip.bunny` + `duration`.
+  algunos nuevos; `tests/sigma-zoom.test.js`. **Ya están en Bunny y puestos en las lecciones** (130 s cada uno; el de `alg-14c` reemplazó al video viejo P3).
 - **Taller de los Bloques en zoom, lecciones 1 a 4** (mismo proyecto `video/valle-zoom`; bloques algebraicos `blk` y `cube` en
   `valle.js`): `polinomios` (`alg-23a`), `notables` (`alg-3`), `binomio` (`alg-24c`), `factorizacion` (`alg-24b`), 130 s.
   Ejemplos nuevos (las escenas de respaldo de estas lecciones repiten los de sus ejercicios: al recibir los ID, cambiarlas a
@@ -390,6 +389,12 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   x³ − 3x² + 4x − 2, esconde 1 ± i). Ejemplos nuevos; `tests/cubica-zoom.test.js`. Entregados en
   `Downloads/Zuka_Cordillera_zoom`; esperan su ID de Bunny (al recibirlos, poner las escenas de respaldo con los ejemplos
   del video). `alg-92` y `alg-93` aún tienen ejercicios de opción múltiple y sin pistas.
+- **Río de las Asíntotas en zoom, lecciones 1 a 4** (mismo proyecto `video/valle-zoom`; río vertical `river` y hueco `hole`
+  en `valle.js`): `dominio` (`alg-25a`), `fracciones` (`alg-25b`), `sistemas` (`alg-101`), `parciales` (`alg-102`), 130 s.
+  Hilo: el río (asíntota): el sendero de Beto, el estanque de Ana y Beto, el bote de Caro y la curva de dos ríos.
+  Ejemplos nuevos; `tests/asintotas-zoom.test.js`. Entregados en `Downloads/Zuka_Rio_zoom`; esperan su ID de Bunny. Al
+  recibirlos, cambiar las escenas de respaldo (las de `alg-25a` y `alg-25b` repiten hoy los ejercicios) por los ejemplos
+  del video. Estas lecciones aún tienen ejercicios de opción múltiple y sin pistas.
 - **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
   `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
   `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y
