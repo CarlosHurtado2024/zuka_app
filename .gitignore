@@ -160,3 +160,10 @@ video/arroz-ajedrez/fonts/*.ttf
 video/arroz-ajedrez/events.json
 video/arroz-ajedrez/build_log.txt
 video/arroz-ajedrez/arroz-ajedrez.mp4
+video/curva-corta/out/
+video/curva-corta/raw/
+video/curva-corta/assets/
+video/curva-corta/fonts/*.ttf
+video/curva-corta/events.json
+video/curva-corta/build_log.txt
+video/curva-corta/curva-corta.mp4

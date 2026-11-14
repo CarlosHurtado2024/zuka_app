@@ -281,7 +281,11 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   Bunny solo responde con `Referer` de la app o de localhost. **`cur-arroz`** («El arroz del rey», estilo Data Physicalization, 72.5 s, `video/arroz-ajedrez`,
   `sh video/arroz-ajedrez/build.sh`, unos 25 min; escena 3D con three.js; `render.mjs` guarda cuadro a cuadro y reintenta si el GPU
   se cuelga, porque `video.mjs` aborta): ya está en Bunny (`f68c6ba7-…`, 72.5 s); el HD está en `Downloads/Zuka_Arroz_rey`.
-  Granos reales en las casillas 1–10 y luego 1 placa = un año de cosecha mundial (443 + 443); datos en `FACTS.md`, pruebas `tests/arroz-ajedrez.test.js`. **`cur-razon-deco`** («La razón que no cambia», estilo Art Deco,
+  Granos reales en las casillas 1–10 y luego 1 placa = un año de cosecha mundial (443 + 443); datos en `FACTS.md`, pruebas `tests/arroz-ajedrez.test.js`. **`cur-curva`** («La curva más corta», estilo 3D Map Explainer, 82.5 s, `video/curva-corta`,
+  `sh video/curva-corta/build.sh`, unos 15 min): Nueva York–Tokio, el mapa Mercator se enrolla en el globo, corte por el centro
+  (d = R·θ = 10 829 km frente a 12 745 km de la recta del mapa), vuelo bajo sobre Alaska y placas de 1 000 km. Imagen Sentinel-2
+  cloudless 2016 de EOX (CC BY 4.0) y AWS Terrain Tiles (se bajan solos a `raw/`). Vive como mp4 en `media/clips/`; el HD está en
+  `Downloads/Zuka_Curva_corta` y espera su ID de Bunny; pruebas `tests/curva-corta.test.js`. **`cur-razon-deco`** («La razón que no cambia», estilo Art Deco,
   90 s, `video/razon-deco`, `sh video/razon-deco/build.sh`, unos 10 min): ya está en Bunny (`688591e8-…`, 90 s); el HD está en
   `Downloads/Zuka_Razon_deco`. Una barra partida en razón áurea (el único elemento en coral) va de
   Euclides a Pacioli, el SI, el Modulor y la regla de tres de la gentamicina (80 mg / 2 mL → 20 mg = 0.5 mL); motor deco de

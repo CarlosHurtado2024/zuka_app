@@ -87,6 +87,22 @@ const CURIOS = [
       ],
     },
   },
+  {
+    id: 'cur-curva', topic: 'mate',
+    title: 'La curva más corta',
+    fact: 'Sobre la Tierra, lo más corto entre dos ciudades es un arco de círculo máximo, no la recta del mapa.',
+    clip: {
+      video: 'media/clips/curva-corta.mp4', duration: 82.5,
+      scenes: [
+        sc(6, 'Un avión de Nueva York a Tokio sube hasta Alaska. En el mapa parece un rodeo.', { title: 'Nueva York → Tokio' }),
+        sc(7, 'Un mapa plano no puede guardar las distancias de una esfera: la línea recta del mapa no es la más corta.', { title: 'Mapa ≠ esfera' }),
+        sc(7, 'Un círculo máximo es el corte de la esfera por un plano que pasa por su centro, como el ecuador.', { title: 'Círculo máximo' }),
+        sc(7, 'Su arco mide el radio por el ángulo central, en radianes.', { title: '$d = R\\,\\theta$' }),
+        sc(7, 'Nueva York–Tokio: θ ≈ 1.6998 rad, así que d ≈ 6 371 × 1.6998 ≈ 10 829 km.', { title: '$d \\approx 10\\,829 \\text{ km}$' }),
+        sc(6, 'La línea recta del mapa mide 12 745 km: casi 2 000 km más.', { title: '$12\\,745 - 10\\,829 = 1\\,916$' }),
+      ],
+    },
+  },
 ];
 
 const curioTopic = id => CURIO_TOPICS.find(t => t.id === id);

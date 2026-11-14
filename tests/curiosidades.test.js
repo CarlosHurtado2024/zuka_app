@@ -124,3 +124,15 @@ test('«El arroz del rey» (Data Physicalization, ajedrez) está en Clips con su
   assert.ok(q.clip.scenes.length >= 5);
   assert.match(q.fact, /18 trillones/);
 });
+
+test('«La curva más corta» (3D Map Explainer, rutas de avión) está en Clips con su video y escenas de respaldo', () => {
+  const q = CURIOS.find(c => c.id === 'cur-curva');
+  assert.ok(q, 'falta cur-curva');
+  assert.equal(q.topic, 'mate');
+  assert.ok(q.clip.video === 'media/clips/curva-corta.mp4' || q.clip.bunny);
+  if (q.clip.video) assert.ok(fs.existsSync(path.join(ROOT, q.clip.video)), 'falta el mp4');
+  assert.equal(q.clip.duration, 82.5);
+  assert.ok(q.clip.scenes.length >= 5);
+  assert.ok(q.fact.length <= 110);
+  assert.match(q.fact, /círculo máximo/);
+});

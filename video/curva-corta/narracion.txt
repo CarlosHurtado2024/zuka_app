@@ -1,0 +1,19 @@
+Ana vuela de Nueva York a Tokio.
+En el mapa, lo directo es esta línea recta.
+Pero su avión sube hasta Alaska.
+¿Un rodeo? Espera: al final, la curva gana.
+El mapa es plano. La Tierra no.
+Enrollado, la curva se endereza…
+…y la «recta» se va al sur.
+Cortemos la Tierra por su centro
+y por las dos ciudades: un círculo máximo.
+Su arco es el camino más corto en la esfera.
+Radio por ángulo, en radianes: d = R·θ.
+Por dentro es más corto, pero no se vuela.
+Así, la ruta pasa por Alaska:
+su punto más al norte está a 69.6° N.
+El arco: 10 829 km.
+La recta del mapa: 12 745 km.
+Casi 2 000 km más: unas 2 horas de vuelo.
+Ningún mapa plano guarda todas las distancias.
+Ana mira por la ventana: abajo, Alaska.
