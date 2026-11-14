@@ -1,0 +1,17 @@
+La curva más corta · clip de curiosidades de Zuka (estilo 3D Map Explainer)
+
+Material de terceros que aparece en la película (build.sh lo baja a raw/ y tools/prep.py lo prepara en assets/; no va en git):
+
+- Imagen: Sentinel-2 cloudless 2016 - https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel
+  data 2016), CC BY 4.0. Capa s2cloudless_3857, zoom 5. Las ediciones posteriores son CC BY-NC-SA y no se usan.
+- Relieve y batimetría: AWS Terrain Tiles (terrarium), https://registry.opendata.aws/terrain-tiles/, zoom 4. Fuentes:
+  SRTM, GMTED, ETOPO1 y GEBCO, con la atribución que pide su documentación.
+- Tipografía Barlow Condensed (Jeremy Tribby), SIL Open Font License 1.1 (fonts/OFL-barlowcondensed.txt).
+- Gramática del estilo y post-proceso (core/three/post.js) de la biblioteca Lemo-Opuscar
+  (https://github.com/lemomo-ai/lemo-opuscar), licencia MIT. three.js (MIT).
+
+La película lleva en pantalla, al principio y al final, la línea de fuentes de la imagen y del relieve y la advertencia
+de que las rutas son teóricas. Cada descarga queda anotada en raw/manifest.jsonl.
+
+Todo lo demás está hecho en código para este video: la escena (film.js), la geometría (data.js) y la música y los
+efectos, sintetizados con numpy (mix.py). Sin voz, sin muestras ni imágenes ajenas. Datos y cuentas: FACTS.md.
