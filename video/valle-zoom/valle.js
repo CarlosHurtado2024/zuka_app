@@ -106,3 +106,30 @@ function cube(p, x, y, s, k, col = SKY, lab = null) {
   el('rect', { x: x0, y: y0, width: s, height: s, rx: 6, fill: col[0], stroke: col[1], 'stroke-width': 4 }, S);
   if (lab) formula(S, x0 + s / 2, y0 + s / 2 + 20, 56, lab, { fill: C.night });
 }
+// ---------- ejes y curvas (Fuente de la Parábola) ----------
+// M = { ox, oy, s }: el punto (0, 0) va en (ox, oy) y una unidad mide s píxeles
+const mx = (M, v) => M.ox + v * M.s, my = (M, v) => M.oy - v * M.s;
+function axes(p, t, t0, M, x0, x1, y0, y1, o = {}) {
+  const k = eio(seg(t, t0, t0 + .6)); if (k <= 0.01) return;
+  const col = o.col || C.mist;
+  el('rect', { x: r1(mx(M, x0)), y: r1(M.oy - 2.5), width: r1((x1 - x0) * M.s * k), height: 5, rx: 2.5, fill: col }, p);
+  el('rect', { x: r1(M.ox - 2.5), y: r1(my(M, y1)), width: 5, height: r1((y1 - y0) * M.s * k), rx: 2.5, fill: col }, p);
+  if (o.ticks !== false) for (let v = Math.ceil(x0); v <= x1; v++) if (v) {
+    const kk = pop(t, t0 + .3 + Math.abs(v) * .03); if (kk <= 0.01) continue;
+    el('rect', { x: r1(mx(M, v) - 2), y: r1(M.oy - 10 * kk), width: 4, height: r1(20 * kk), rx: 2, fill: col }, p);
+    if (o.nums) text(p, r1(mx(M, v)), r1(M.oy + 42), minus(v), { 'font-size': r1(28 * kk), 'font-weight': 600, fill: col, 'text-anchor': 'middle' });
+  }
+  if (o.yl) text(p, r1(M.ox + 16), r1(my(M, y1) + 30), o.yl, { 'font-size': 34, 'font-weight': 600, fill: col });
+  if (o.xl) text(p, r1(mx(M, x1) - 6), r1(M.oy - 18), o.xl, { 'font-size': 34, 'font-weight': 600, fill: col, 'text-anchor': 'end' });
+}
+// curva y = f(x) de a a b, dibujada hasta la fracción k; se recorta a [ylo, yhi]
+function curve(p, M, f, a, b, k, col = C.sun, sw = 7, ylo = -1e9, yhi = 1e9) {
+  if (k <= 0.01) return;
+  const n = 90, end = a + (b - a) * clamp(k); let d = '', pen = false;
+  for (let i = 0; i <= n; i++) {
+    const x = a + (end - a) * i / n, y = f(x);
+    if (y < ylo || y > yhi) { pen = false; continue; }
+    d += (pen ? 'L' : 'M') + r1(mx(M, x)) + ',' + r1(my(M, y)); pen = true;
+  }
+  if (d) el('path', { d, fill: 'none', stroke: col, 'stroke-width': sw, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, p);
+}

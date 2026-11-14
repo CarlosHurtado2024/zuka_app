@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+El chorro de Caro sube cinco metros.
+
+2
+00:00:04,000 --> 00:00:06,400
+Pero ¿dónde cae el agua?
+
+3
+00:00:06,800 --> 00:00:09,600
+Primero, una que se deja factorizar.
+
+4
+00:00:09,800 --> 00:00:12,400
+Baja, da la vuelta y vuelve a subir.
+
+5
+00:00:12,800 --> 00:00:15,600
+Toca el eje en menos dos y en tres.
+
+6
+00:00:15,800 --> 00:00:18,600
+Ahí la altura y vale cero: son las raíces.
+
+7
+00:00:19,000 --> 00:00:21,800
+Buscar las raíces es resolver una ecuación:
+
+8
+00:00:22,000 --> 00:00:24,400
+el polinomio igual a cero.
+
+9
+00:00:24,800 --> 00:00:29,000
+Un aviso: a veces salen dos respuestas y una no sirve.
+
+10
+00:00:31,800 --> 00:00:34,800
+Cinco por cero es cero; cero por siete, también.
+
+11
+00:00:35,000 --> 00:00:37,800
+Si un producto da cero, algún factor es cero.
+
+12
+00:00:38,200 --> 00:00:41,000
+Dos números que multiplicados den menos seis
+
+13
+00:00:41,200 --> 00:00:44,200
+y sumados menos uno: menos tres y dos.
+
+14
+00:00:44,600 --> 00:00:47,400
+O x es tres,
+
+15
+00:00:47,600 --> 00:00:50,200
+o x es menos dos.
+
+16
+00:00:50,600 --> 00:00:53,600
+Tres al cuadrado, menos tres, menos seis: cero.
+
+17
+00:00:53,800 --> 00:00:56,600
+¿Y si no se deja factorizar?
+
+18
+00:01:00,000 --> 00:01:03,000
+La fórmula general sirve para cualquiera.
+
+19
+00:01:03,200 --> 00:01:06,000
+Sale de completar el cuadrado.
+
+20
+00:01:06,400 --> 00:01:09,200
+En la fuente, a es menos uno.
+
+21
+00:01:09,400 --> 00:01:12,200
+Da dos más o menos raíz de cinco.
+
+22
+00:01:12,600 --> 00:01:15,400
+Dos más raíz de cinco: unos cuatro punto veinticuatro.
+
+23
+00:01:15,600 --> 00:01:18,400
+Ahí cae el agua.
+
+24
+00:01:18,800 --> 00:01:21,600
+La otra queda detrás de la boquilla.
+
+25
+00:01:21,800 --> 00:01:24,400
+El chorro nunca pasa por ahí: no sirve.
+
+26
+00:01:24,800 --> 00:01:27,600
+Y lo de adentro de la raíz
+
+27
+00:01:27,800 --> 00:01:30,400
+cuenta cuántas raíces hay.
+
+28
+00:01:35,400 --> 00:01:38,400
+Si es positivo, la parábola cruza dos veces.
+
+29
+00:01:38,600 --> 00:01:41,400
+Si es cero, toca una vez; negativo, ninguna.
+
+30
+00:01:41,800 --> 00:01:44,600
+Sin cruces, las raíces son complejas:
+
+31
+00:01:44,800 --> 00:01:47,400
+dos más i y dos menos i.
+
+32
+00:01:47,800 --> 00:01:50,600
+Volvamos al chorro de Caro.
+
+33
+00:01:50,800 --> 00:01:54,000
+De las dos respuestas, una tenía sentido.
+
+34
+00:01:55,400 --> 00:01:59,600
+El agua de la fuente de Caro
+
+35
+00:01:59,800 --> 00:02:04,400
+cae a unos cuatro punto veinticuatro metros de la boquilla.
+

@@ -1,0 +1,7 @@
+Ana compra baldosas para la fuente. ¿Cuántas trae cada caja? Tres cajas cerradas iguales y cuatro sueltas, pesan lo mismo que veinticinco baldosas. Tres x más cuatro, igual a veinticinco. Si quitamos algo de un solo lado, se inclina. La regla: lo que se hace en un lado, se hace también en el otro. Y un aviso: hay balanzas que nunca se equilibran.
+
+Quitamos las cuatro sueltas de los dos lados. El equilibrio sigue. Quedan tres cajas, contra veintiuna baldosas. Repartimos las veintiuna entre las tres cajas: siete en cada una. Despejar es deshacer en orden inverso. ¿Y si hay cajas en los dos lados?
+
+Cuatro cajas y tres sueltas, contra una caja y quince sueltas. Quitamos una caja de cada lado. Ahora hay cajas solo a la izquierda. Quitamos tres sueltas de cada lado: tres cajas contra doce. Cada caja trae cuatro. Y se comprueba: los dos lados dan diecinueve. ¿Y con paréntesis? Primero se reparte.
+
+Se reparte el dos, y x es cinco. Una fracción se quita multiplicando todo por tres. Si sale uno igual a tres, no hay solución. Si sale cero igual a cero, todas sirven. Volvamos a las cajas de Ana: tres por siete, más cuatro, es veinticinco. La balanza de Ana se equilibra con siete: cada caja trae siete baldosas.

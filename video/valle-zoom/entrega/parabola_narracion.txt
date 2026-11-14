@@ -1,0 +1,7 @@
+Caro está diseñando una fuente. ¿Qué tan alto subirá el chorro? La curva más sencilla: y igual a x cuadrado. Cero da cero; uno, uno; dos, cuatro. Los puntos dibujan una parábola. Da la vuelta en un solo punto: el vértice. Dos y menos dos dan lo mismo. La curva es simétrica. Y una promesa: el punto más alto se leerá en la fórmula.
+
+Para mover la parábola, x menos cuatro la corre cuatro a la derecha. Y el más uno la sube uno. El vértice queda en cuatro, uno. Con un menos adelante se voltea, y con más cinco sube: vértice más alto. En la forma canónica, el vértice es h, k. ¿Y si la fórmula viene sin armar?
+
+x cuadrado, más cuatro x, más siete. Las cuatro barras se reparten: dos y dos. Mitad de cuatro, dos; al cuadrado, cuatro. De los siete, sobran tres. Es x más dos, al cuadrado, más tres. Completamos el cuadrado. El vértice es menos dos, tres. Como abre hacia arriba, tres es el mínimo. Atajo: h es menos b entre dos a. Probémoslo en la fuente.
+
+El chorro de Caro sigue esta parábola. Con a negativo, abre hacia abajo. h: menos cuatro entre menos dos, dos metros. k: el valor en dos, cinco metros. La promesa se cumplió: el punto más alto salió de la fórmula. El chorro de Caro llega a cinco metros de altura, a dos metros de la boquilla. ¿Y dónde caerá?

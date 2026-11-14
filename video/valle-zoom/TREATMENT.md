@@ -94,3 +94,17 @@ cierre.
 | `notables` | `alg-3` | Beto agranda 4 por lado su mesa de lado x y cree que el área crece 16 → le faltan dos tablas de 4x → crece 8x + 16 |
 | `binomio` | `alg-24c` | Ana debe desarrollar (a + b)⁴: 16 productos → la fila 1, 4, 6, 4, 1 suma 16 → cinco términos contados por el triángulo |
 | `factorizacion` | `alg-24b` | Caro quiere armar un rectángulo con su montón x² + 5x + 6 → con 7 cubitos sobra uno → (x + 2)(x + 3) |
+
+# Fuente de la Parábola en zoom · lecciones 1 a 4
+
+Mismo proyecto y motor; `valle.js` suma ejes y curvas (`axes`, `curve`, `mx`, `my`). Un hilo une el mundo: la fuente de Caro,
+cuyo chorro es y = −x² + 4x + 1. El tercer video halla su punto más alto y el cuarto dónde cae; al final, la parábola que no
+toca el suelo tiene raíces complejas, que remite al primero. Ejemplos nuevos, fuera de los ejercicios
+(`tests/fuente-zoom.test.js`).
+
+| Video | Lección | El problema → la sorpresa → la respuesta |
+|---|---|---|
+| `complejos` | `alg-23c` | Beto busca un número cuyo cuadrado sea −1 y en la recta no hay → por −1 es media vuelta; por i, un cuarto → x = i o x = −i |
+| `lineales` | `alg-1` | Ana: tres cajas de baldosas y cuatro sueltas pesan como 25 → hay balanzas que nunca se equilibran y otras que siempre → 7 por caja |
+| `parabola` | `alg-4a` | ¿qué tan alto sube el chorro de Caro? → el punto más alto se lee en la fórmula: h = −b ÷ (2a) → 5 m de altura, a 2 m de la boquilla |
+| `cuadraticas` | `alg-4` | ¿dónde cae el agua? → la fórmula da dos respuestas y una cae detrás de la boquilla → 2 + √5 ≈ 4.24 m |

@@ -1,0 +1,7 @@
+El chorro de Caro sube cinco metros. Pero ¿dónde cae el agua? Primero, una que se deja factorizar. Baja, da la vuelta y vuelve a subir. Toca el eje en menos dos y en tres. Ahí la altura y vale cero: son las raíces. Buscar las raíces es resolver una ecuación: el polinomio igual a cero. Un aviso: a veces salen dos respuestas y una no sirve.
+
+Cinco por cero es cero; cero por siete, también. Si un producto da cero, algún factor es cero. Dos números que multiplicados den menos seis y sumados menos uno: menos tres y dos. O x es tres, o x es menos dos. Tres al cuadrado, menos tres, menos seis: cero. ¿Y si no se deja factorizar?
+
+La fórmula general sirve para cualquiera. Sale de completar el cuadrado. En la fuente, a es menos uno. Da dos más o menos raíz de cinco. Dos más raíz de cinco: unos cuatro punto veinticuatro. Ahí cae el agua. La otra queda detrás de la boquilla. El chorro nunca pasa por ahí: no sirve. Y lo de adentro de la raíz cuenta cuántas raíces hay.
+
+Si es positivo, la parábola cruza dos veces. Si es cero, toca una vez; negativo, ninguna. Sin cruces, las raíces son complejas: dos más i y dos menos i. Volvamos al chorro de Caro. De las dos respuestas, una tenía sentido. El agua de la fuente de Caro cae a unos cuatro punto veinticuatro metros de la boquilla.

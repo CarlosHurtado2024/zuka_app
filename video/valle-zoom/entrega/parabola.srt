@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Caro está diseñando una fuente.
+
+2
+00:00:04,000 --> 00:00:06,400
+¿Qué tan alto subirá el chorro?
+
+3
+00:00:06,800 --> 00:00:09,600
+La curva más sencilla: y igual a x cuadrado.
+
+4
+00:00:09,800 --> 00:00:12,400
+Cero da cero; uno, uno; dos, cuatro.
+
+5
+00:00:12,800 --> 00:00:15,600
+Los puntos dibujan una parábola.
+
+6
+00:00:15,800 --> 00:00:18,600
+Da la vuelta en un solo punto: el vértice.
+
+7
+00:00:19,000 --> 00:00:21,800
+Dos y menos dos dan lo mismo.
+
+8
+00:00:22,000 --> 00:00:24,400
+La curva es simétrica.
+
+9
+00:00:24,800 --> 00:00:29,000
+Y una promesa: el punto más alto se leerá en la fórmula.
+
+10
+00:00:31,800 --> 00:00:34,800
+Para mover la parábola,
+
+11
+00:00:35,000 --> 00:00:37,800
+x menos cuatro la corre cuatro a la derecha.
+
+12
+00:00:38,200 --> 00:00:41,000
+Y el más uno la sube uno.
+
+13
+00:00:41,200 --> 00:00:44,200
+El vértice queda en cuatro, uno.
+
+14
+00:00:44,600 --> 00:00:47,400
+Con un menos adelante se voltea,
+
+15
+00:00:47,600 --> 00:00:50,200
+y con más cinco sube: vértice más alto.
+
+16
+00:00:50,600 --> 00:00:53,600
+En la forma canónica, el vértice es h, k.
+
+17
+00:00:53,800 --> 00:00:56,600
+¿Y si la fórmula viene sin armar?
+
+18
+00:01:00,000 --> 00:01:03,000
+x cuadrado, más cuatro x, más siete.
+
+19
+00:01:03,200 --> 00:01:06,000
+Las cuatro barras se reparten: dos y dos.
+
+20
+00:01:06,400 --> 00:01:09,200
+Mitad de cuatro, dos; al cuadrado, cuatro.
+
+21
+00:01:09,400 --> 00:01:12,200
+De los siete, sobran tres.
+
+22
+00:01:12,600 --> 00:01:15,400
+Es x más dos, al cuadrado, más tres.
+
+23
+00:01:15,600 --> 00:01:18,400
+Completamos el cuadrado.
+
+24
+00:01:18,800 --> 00:01:21,600
+El vértice es menos dos, tres.
+
+25
+00:01:21,800 --> 00:01:24,400
+Como abre hacia arriba, tres es el mínimo.
+
+26
+00:01:24,800 --> 00:01:27,600
+Atajo: h es menos b entre dos a.
+
+27
+00:01:27,800 --> 00:01:30,400
+Probémoslo en la fuente.
+
+28
+00:01:35,400 --> 00:01:38,400
+El chorro de Caro sigue esta parábola.
+
+29
+00:01:38,600 --> 00:01:41,400
+Con a negativo, abre hacia abajo.
+
+30
+00:01:41,800 --> 00:01:44,600
+h: menos cuatro entre menos dos, dos metros.
+
+31
+00:01:44,800 --> 00:01:47,400
+k: el valor en dos, cinco metros.
+
+32
+00:01:47,800 --> 00:01:50,600
+La promesa se cumplió:
+
+33
+00:01:50,800 --> 00:01:54,000
+el punto más alto salió de la fórmula.
+
+34
+00:01:55,400 --> 00:01:59,600
+El chorro de Caro llega a cinco metros de altura,
+
+35
+00:01:59,800 --> 00:02:04,400
+a dos metros de la boquilla. ¿Y dónde caerá?
+

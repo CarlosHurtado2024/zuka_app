@@ -1,0 +1,140 @@
+1
+00:00:00,800 --> 00:00:03,600
+Ana compra baldosas para la fuente.
+
+2
+00:00:04,000 --> 00:00:06,400
+¿Cuántas trae cada caja?
+
+3
+00:00:06,800 --> 00:00:09,600
+Tres cajas cerradas iguales y cuatro sueltas,
+
+4
+00:00:09,800 --> 00:00:12,400
+pesan lo mismo que veinticinco baldosas.
+
+5
+00:00:12,800 --> 00:00:15,600
+Tres x más cuatro, igual a veinticinco.
+
+6
+00:00:15,800 --> 00:00:18,600
+Si quitamos algo de un solo lado, se inclina.
+
+7
+00:00:19,000 --> 00:00:21,800
+La regla: lo que se hace en un lado,
+
+8
+00:00:22,000 --> 00:00:24,400
+se hace también en el otro.
+
+9
+00:00:24,800 --> 00:00:29,000
+Y un aviso: hay balanzas que nunca se equilibran.
+
+10
+00:00:31,800 --> 00:00:34,800
+Quitamos las cuatro sueltas de los dos lados.
+
+11
+00:00:35,000 --> 00:00:37,800
+El equilibrio sigue.
+
+12
+00:00:38,200 --> 00:00:41,000
+Quedan tres cajas,
+
+13
+00:00:41,200 --> 00:00:44,200
+contra veintiuna baldosas.
+
+14
+00:00:44,600 --> 00:00:47,400
+Repartimos las veintiuna entre las tres cajas:
+
+15
+00:00:47,600 --> 00:00:50,200
+siete en cada una.
+
+16
+00:00:50,600 --> 00:00:53,600
+Despejar es deshacer en orden inverso.
+
+17
+00:00:53,800 --> 00:00:56,600
+¿Y si hay cajas en los dos lados?
+
+18
+00:01:00,000 --> 00:01:03,000
+Cuatro cajas y tres sueltas,
+
+19
+00:01:03,200 --> 00:01:06,000
+contra una caja y quince sueltas.
+
+20
+00:01:06,400 --> 00:01:09,200
+Quitamos una caja de cada lado.
+
+21
+00:01:09,400 --> 00:01:12,200
+Ahora hay cajas solo a la izquierda.
+
+22
+00:01:12,600 --> 00:01:15,400
+Quitamos tres sueltas de cada lado:
+
+23
+00:01:15,600 --> 00:01:18,400
+tres cajas contra doce.
+
+24
+00:01:18,800 --> 00:01:21,600
+Cada caja trae cuatro.
+
+25
+00:01:21,800 --> 00:01:24,400
+Y se comprueba: los dos lados dan diecinueve.
+
+26
+00:01:24,800 --> 00:01:27,600
+¿Y con paréntesis?
+
+27
+00:01:27,800 --> 00:01:30,400
+Primero se reparte.
+
+28
+00:01:35,400 --> 00:01:38,400
+Se reparte el dos, y x es cinco.
+
+29
+00:01:38,600 --> 00:01:41,400
+Una fracción se quita multiplicando todo por tres.
+
+30
+00:01:41,800 --> 00:01:44,600
+Si sale uno igual a tres, no hay solución.
+
+31
+00:01:44,800 --> 00:01:47,400
+Si sale cero igual a cero, todas sirven.
+
+32
+00:01:47,800 --> 00:01:50,600
+Volvamos a las cajas de Ana:
+
+33
+00:01:50,800 --> 00:01:54,000
+tres por siete, más cuatro, es veinticinco.
+
+34
+00:01:55,400 --> 00:01:59,600
+La balanza de Ana se equilibra con siete:
+
+35
+00:01:59,800 --> 00:02:04,400
+cada caja trae siete baldosas.
+

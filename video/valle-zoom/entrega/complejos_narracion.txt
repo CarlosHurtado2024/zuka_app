@@ -1,0 +1,7 @@
+Beto tiene un acertijo: un número cuyo cuadrado sea menos uno. Tres al cuadrado, nueve. Menos tres, también nueve. Y cero al cuadrado, cero. Ningún cuadrado cae del lado negativo. En la recta no hay respuesta. Inventemos uno: i, cuyo cuadrado es menos uno. Raíz de menos veinticinco es cinco i. Pero ¿dónde vive i? Una pista: hay que girar.
+
+Multiplicar por menos uno es girar. El dos da media vuelta: menos dos. Dos medias vueltas son una vuelta entera: por eso menos por menos da más. Multiplicar por i es un cuarto de vuelta. Dos cuartos: media vuelta. Así, i por i es menos uno. Cuatro cuartos dan la vuelta entera.
+
+Los complejos forman un plano: Dos más tres i: dos al ancho, tres arriba. Para sumar, real con real, e imaginaria con imaginaria. Es poner una flecha tras otra: llegamos a cuatro menos i. Se multiplican como binomios, y cada i cuadrado vale menos uno. ¿Y si reflejamos un complejo en el eje real, como en un espejo?
+
+Tres más cuatro i, reflejado, es tres menos cuatro i: su conjugado. Su distancia al origen, el módulo, es cinco. Por su conjugado da veinticinco: así se divide. El acertijo de Beto tiene respuesta: i, o menos i: los dos dan menos uno. En la recta no había ningún número así. Beto lo encontró girando: x es i, o menos i.
