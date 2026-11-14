@@ -511,3 +511,66 @@ function drawArcadeSummary(p, C, lines, cy, w) {
 const inCanvas = p => p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height;
 const frameDt = p => Math.min(0.05, (p.deltaTime || 16) / 1000);
 const negTxt = v => String(v).replace('-', '−');
+
+// ---------- Juegos por rondas con pestañas (spec 2026-11-15-torres-de-potencias) ----------
+// Exponente en superíndice: sup(-3) → «⁻³».
+const sup = n => String(n).replace(/-/g, '⁻').replace(/\d/g, d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]);
+// Control «− valor +» dentro de la caja b: la dibuja (con un rótulo pequeño encima) y dice qué botón se tocó.
+function drawStepper(p, C, b, value, label, col) {
+  drawTile(p, C, { x: b.x, y: b.y, w: 40, h: b.h }, '−', { fill: C.cream, size: 20, r: 9, lift: 2 });
+  drawTile(p, C, { x: b.x + b.w - 40, y: b.y, w: 40, h: b.h }, '+', { fill: C.cream, size: 20, r: 9, lift: 2 });
+  p.noStroke(); p.fill(col ?? C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, String(value), b.x + b.w / 2, b.y + b.h / 2 + 1, b.w - 92, 20);
+  if (label) { p.fill(C.mute); p.textStyle(p.BOLD); fitText(p, label, b.x + b.w / 2, b.y - 10, b.w, 11); }
+}
+const stepHit = (b, x, y) => (y < b.y - 4 || y > b.y + b.h + 6 ? 0 : x >= b.x - 4 && x <= b.x + 44 ? -1 : x >= b.x + b.w - 44 && x <= b.x + b.w + 4 ? 1 : 0);
+// Armazón de un juego por rondas: pestañas arriba, enunciado, pie y estado por ronda.
+// def = { aspect, init(r, params) → estado de la ronda (serializable), ok(s, r, params), answered?(s, r), solution(r, params),
+//   prompt(r, s), foot?(r, s), layout?(G), enter?(G), draw(G), press?(G, x, y) → bool, drag?(G, x, y) → bool, release?(G, x, y), peek?(G) }
+// G = { p, C, api, params, W, H, cur, locked, st, r, s, t, dt, touch() }. Estado del juego: { rounds: [estado de cada ronda] }.
+function roundsGame(def) {
+  const grade = (state, params) => ({
+    ok: params.rounds.every((r, i) => !!def.ok(state.rounds?.[i] ?? def.init(r, params), r, params)),
+    solution: params.rounds.map(r => def.solution(r, params)).join(' · '),
+  });
+  function create(host, params, api) {
+    const C = api.palette, R = params.rounds;
+    const G = { C, api, params, W: 0, H: 0, cur: 0, locked: false, t: 0, dt: 0, tabs: [], p: null, st: R.map(r => def.init(r, params)), touched: R.map(() => false),
+      get r() { return R[this.cur]; }, get s() { return this.st[this.cur]; },
+      touch() { this.touched[this.cur] = true; api.ready(R.every((r, i) => (def.answered ? def.answered(G.st[i], r) : G.touched[i]))); api.sfx?.tap?.(); } };
+    const answered = i => (def.answered ? def.answered(G.st[i], R[i]) : G.touched[i]);
+    const m = mountSketch(host, (p, size) => {
+      G.p = p;
+      const lay = () => { G.W = size.w; G.H = size.h; G.tabs = roundTabs(R.length, size.w); def.layout?.(G); };
+      p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); lay(); def.enter?.(G); };
+      p.onResize = lay;
+      p.draw = () => {
+        p.background(C.bg);
+        G.dt = frameDt(p); G.t += G.dt;
+        drawTabs(p, C, G.tabs, G.cur, i => (G.locked ? (def.ok(G.st[i], R[i], params) ? C.ok : C.bad) : i === G.cur ? C.brand : answered(i) ? C.Z : C.line));
+        p.noStroke(); p.fill(C.N); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(14); p.text(def.prompt(G.r, G.s, G), 12, 46, G.W - 24, 36);
+        def.draw(G);
+        const good = def.ok(G.s, G.r, params), pend = R.findIndex((_, i) => !answered(i) && i !== G.cur);
+        const foot = G.locked ? (good ? '¡Bien!' : def.solution(G.r, params)) : answered(G.cur) && pend >= 0 ? `Sigue con la pestaña ${pend + 1}` : def.foot?.(G.r, G.s, G) ?? '';
+        p.noStroke(); p.fill(G.locked ? (good ? C.ok : C.bad) : C.mute); p.textStyle(G.locked ? p.BOLD : p.NORMAL); p.textAlign(p.CENTER, p.CENTER); fitText(p, foot, G.W / 2, G.H - 14, G.W - 20, 11);
+      };
+      p.mousePressed = () => {
+        if (!inCanvas(p)) return;
+        const tb = G.tabs.findIndex(b => hitBox(b, p.mouseX, p.mouseY));
+        if (tb >= 0) { G.cur = tb; def.enter?.(G); api.sfx?.tap?.(); return false; }
+        if (G.locked || !def.press) return;
+        return def.press(G, p.mouseX, p.mouseY) ? false : undefined;
+      };
+      p.mouseDragged = () => { if (G.locked || !def.drag) return; return def.drag(G, p.mouseX, p.mouseY) ? false : undefined; };
+      p.mouseReleased = () => { if (!G.locked) def.release?.(G, p.mouseX, p.mouseY); };
+    }, def.aspect ?? 1.2);
+    return {
+      loaded: m.ready,
+      getState: () => ({ rounds: JSON.parse(JSON.stringify(G.st)) }),
+      lock() { G.locked = true; },
+      destroy: () => m.remove(),
+      // Para pruebas en el navegador: lo que hay en pantalla en este momento.
+      peek: () => ({ cur: G.cur, W: G.W, H: G.H, tabs: G.tabs, s: JSON.parse(JSON.stringify(G.s)), ...(def.peek?.(G) || {}) }),
+    };
+  }
+  return { grade, create };
+}

@@ -946,42 +946,35 @@ const COURSE_ALGEBRA = {
             sc(5, 'El exponente cero y los negativos siguen el mismo patrón: dividir entre la base.', { steps: ['$a^0 = 1 \\quad (a \\neq 0)$', '$a^{-n} = \\dfrac{1}{a^n}$', '$2^{-3} = \\dfrac{1}{8}$'] }),
           ] },
           ex: [
-            num('Calcula $-2^4$', -16, 'El exponente solo afecta al 2: $-(2^4) = -16$.', { hint: 'Ojo con el paréntesis: sin él, el exponente solo toca al 2. Calcula primero la potencia de 2 y después pon el signo menos delante.' }),
-            num('Calcula $(-2)^3$', -8, 'Base negativa con exponente impar: el resultado es negativo.', { hint: 'Aquí el paréntesis hace que el −2 completo se multiplique por sí mismo tres veces. Cuenta los factores negativos: ¿son una cantidad par o impar?' }),
-            mc('$5^0 = \\;?$', ['$1$', '$0$', '$5$', 'No está definido'], 0, 'Toda base distinta de cero elevada a la 0 vale 1.', { hint: 'Piensa en la escalera de potencias: $5^2$, $5^1$… cada peldaño hacia abajo divide entre 5. ¿Qué queda al bajar un peldaño más desde $5^1$?' }),
-            num('Calcula $2^{-3}$ (puedes escribir una fracción)', 0.125, '$2^{-3} = \\dfrac{1}{2^3} = \\dfrac{1}{8}$.', { hint: 'Un exponente negativo no hace negativo el número: lo manda al denominador. Escribe $\\tfrac{1}{2^3}$ y calcula; puedes responder con una fracción.', answerText: '$\\tfrac{1}{8}$' }),
-            mc('$-(-2)^3 = \\;?$', ['$8$', '$-8$', '$6$', '$-6$'], 0, '$(-2)^3 = -8$, y su opuesto es $8$.', { hint: 'Hazlo por partes: primero $(-2)^3$ con su signo, y después aplica el signo menos de afuera, que le cambia el signo al resultado.' }),
+            play('arbol-potencia', 'Haz crecer el árbol: elige cuántas **ramas** salen de cada nudo y cuántos **niveles** tiene', { rounds: [{ target: 32 }, { target: 64 }, { target: 125 }] },
+              'Cada nivel multiplica las puntas por el número de ramas: con $b$ ramas y $n$ niveles hay $b^n$ hojas. $32 = 2^5$, $125 = 5^3$ y $64$ sale de tres formas: $2^6 = 4^3 = 8^2$. La base es lo que se repite y el exponente cuántas veces.',
+              { hint: 'Prueba con pocas ramas y ve subiendo niveles: mira cómo cambia el número de hojas en cada nivel. Si te pasas, cambia las ramas por nudo.' }),
             play('torre-producto', 'Dobla la hoja hasta tener exactamente 512 capas', { kind: 'ratio', start: 1, r: 2, target: 512, max: 12, unit: 'capas', period: 'doblez' },
               'Cada doblez duplica las capas: tras $n$ dobleces hay $2^n$. Como $512 = 2^9$, son 9 dobleces. Con 10 ya serían 1024: lo exponencial se dispara.', { hint: 'Cada doblez duplica las capas: 1, 2, 4, 8… ¿Cuántas veces hay que duplicar para llegar a 512? Cuenta los dobleces.' }),
-            play('clasifica-cartas', 'Desliza cada potencia según el **signo** de su valor', {
-              left: 'Negativo', right: 'Positivo',
-              cards: [
-                { text: '(−3)⁴', side: 'right', why: 'Cuatro factores −3: exponente par, positivo (81).' },
-                { text: '−3⁴', side: 'left', why: 'El exponente solo toca al 3: −(81) = −81.' },
-                { text: '(−3)³', side: 'left', why: 'Tres factores −3: exponente impar, negativo (−27).' },
-                { text: '−(−3)³', side: 'right', why: '(−3)³ = −27 y su opuesto es 27.' },
-                { text: '(−1)¹⁰⁰', side: 'right', why: 'Exponente par: 1.' },
-                { text: '−(−2)²', side: 'left', why: '(−2)² = 4 y el menos de afuera lo vuelve −4.' },
-                { text: '(−2)⁻³', side: 'left', why: '1/(−2)³ = 1/(−8) = −1/8: el exponente negativo no cambia el signo.' },
+            play('pares-negativos', 'Empareja los factores **negativos** de cada potencia y decide su signo', {
+              rounds: [{ base: 2, n: 4, paren: true, outer: false }, { base: 2, n: 5, paren: true, outer: false }, { base: 2, n: 4, paren: false, outer: true }, { base: 2, n: 3, paren: true, outer: true }],
+            }, 'Con paréntesis el signo se repite con la base: $(-2)^4$ tiene cuatro negativos (dos parejas, positivo) y $(-2)^5$ deja uno suelto (negativo). Sin paréntesis, $-2^4 = -(2^4)$: hay un solo negativo, el de afuera. En $-(-2)^3$ hay cuatro: los tres de adentro y el de afuera.',
+              { hint: 'Mira si el signo menos está dentro del paréntesis: solo así se repite con cada factor. Empareja los negativos de dos en dos y fíjate si sobra alguno.' }),
+            play('une-parejas', 'Une cada potencia con su valor', {
+              left: ['4⁻²', '2⁻⁵', '(1/2)⁻³', '7⁰', '10⁻⁴'],
+              right: ['1/16', '1/32', '8', '1', '0.0001', '−16', '0', '−8'],
+              pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+            }, 'Un exponente negativo manda la potencia al denominador: $4^{-2} = \\tfrac{1}{16}$, $2^{-5} = \\tfrac{1}{32}$ y $10^{-4} = 0.0001$. Si la base ya es una fracción, se voltea: $\\left(\\tfrac12\\right)^{-3} = 2^3 = 8$. Y toda base distinta de cero elevada a $0$ da $1$. Ninguna da un número negativo ni cero.',
+              { hint: 'El exponente negativo no pone un signo menos: indica cuántas veces se divide entre la base. Empieza por las que conoces y deja las trampas para el final.' }),
+            play('torre-pisos', 'Reparte los paquetes: cada número vive en el **piso** de su exponente', {
+              rounds: [
+                { title: 'Torre del 2', base: 2, lo: -3, hi: 4, items: [{ exp: 4 }, { exp: -2 }, { exp: 0 }] },
+                { title: 'Torre del 5', base: 5, lo: -2, hi: 3, items: [{ exp: 2 }, { exp: -1 }, { exp: -2 }] },
+                { title: 'Torre del 10', base: 10, lo: -3, hi: 3, items: [{ exp: 3 }, { exp: -1 }, { exp: -3 }] },
               ],
-            }, 'Con paréntesis, el signo entra en la potencia: exponente par da positivo e impar da negativo. Sin paréntesis, $-a^n = -(a^n)$. El exponente negativo solo manda la potencia al denominador.', { hint: 'Fíjate si el signo está dentro del paréntesis. Si está, cuenta los factores negativos: par da positivo, impar da negativo. Sin paréntesis, el exponente solo toca al número y el menos queda afuera.' }),
-            play('rellena-medios', 'Completa la escalera de potencias de 2: cada peldaño hacia abajo divide entre 2', { first: 16, last: 0.25, k: 5, kind: 'geometrica', chips: [8, 4, 2, 1, 0.5, 0, -2, -1] },
-              'De $2^4 = 16$ hacia abajo cada peldaño divide entre 2: $8, 4, 2$, luego $2^0 = 1$, $2^{-1} = 0.5$ y $2^{-2} = 0.25$. Ningún peldaño es 0 ni negativo: las potencias de 2 siempre son positivas.', { hint: 'Cada peldaño se divide entre 2. Después del 1 viene la mitad de 1, y así sigue: los exponentes negativos dan fracciones, nunca números negativos.' }),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿**verdadero** o **falso**?', {
-              cards: [
-                { text: '2⁻³ = −8', truth: false, why: '2⁻³ = 1/2³ = 1/8: el exponente negativo pone una fracción, no un signo.' },
-                { text: '0⁵ = 0', truth: true, why: '0 · 0 · 0 · 0 · 0 = 0.' },
-                { text: '7⁰ = 0', truth: false, why: 'Toda base no nula a la cero vale 1.' },
-                { text: '(2/3)⁻² = 9/4', truth: true, why: 'El exponente negativo voltea la fracción: (3/2)² = 9/4.' },
-                { text: '(−5)² = −5²', truth: false, why: '(−5)² = 25 pero −5² = −25.' },
-              ],
-            }, 'Las trampas de siempre: $a^{-n} = \\dfrac{1}{a^n}$ (no un negativo), $a^0 = 1$ para $a \\ne 0$, $0^n = 0$ para $n > 0$, y el paréntesis decide si el signo entra en la potencia.', { hint: 'Tres reglas para revisar las tarjetas: toda base no nula a la 0 vale 1, un exponente negativo da una fracción (no un signo) y en $-5^2$ el exponente no toca al menos.' }),
+            }, 'El piso es el exponente. En la planta baja vive el $1$ porque $a^0 = 1$. Subir un piso multiplica por la base y bajar uno divide, así que en los sótanos viven fracciones: $2^{-2} = \\tfrac14$, $5^{-2} = \\tfrac{1}{25}$, $10^{-3} = 0.001$. Un exponente negativo nunca da un número negativo.',
+              { hint: 'Empieza en la planta baja, donde vive el 1, y cuenta piso por piso: cada piso hacia arriba multiplica por la base y cada piso hacia abajo divide. Las ventanas solo se abren al entregar.' }),
           ],
         },
         {
           id: 'alg-21b', title: 'Leyes de los exponentes',
-          // Clase 9 (video/clase_leyes_exponentes): parte 1 aquí y parte 2 en `more` (tras el sexto ejercicio); escenas de respaldo hasta enlazar Bunny. Libro UdeA §1.4.
-          more: [{ after: 6, scenes: [
+          // Clase 9 (video/clase_leyes_exponentes): parte 1 aquí y parte 2 en `more` (antes del tercer ejercicio); escenas de respaldo hasta enlazar Bunny. Libro UdeA §1.4.
+          more: [{ after: 2, scenes: [
             sc(6, 'Un exponente **negativo** es un cambio de piso: la potencia baja al denominador (o sube) y se vuelve positiva.', { steps: ['$a^{-n} = \\dfrac{1}{a^n} \\qquad \\dfrac{x^{-2}}{y^{-3}} = \\dfrac{y^3}{x^2}$', '$\\left(\\tfrac25\\right)^{-3} = \\left(\\tfrac52\\right)^3 = \\tfrac{125}{8}$'] }),
             sc(6, 'Para simplificar: primero los paréntesis (multiplicar exponentes), luego sumar o restar.', { steps: ['$(3x^{-2}y)^{-2} = \\dfrac{x^4}{9y^2}$', '$\\dfrac{(x^{-3}y^2)^{-4}}{(y^6x^{-4})^{-2}} = x^4y^4$'] }),
             sc(5, 'La **notación científica** usa potencias de 10: $a \\times 10^n$ con $1 \\le a < 10$.', { steps: ['$300\\,000\\,000 = 3 \\times 10^8 \\qquad 0.00000012 = 1.2 \\times 10^{-7}$'] }),
@@ -993,33 +986,46 @@ const COURSE_ALGEBRA = {
             sc(4, 'La **notación científica** usa potencias de 10 para números muy grandes o muy pequeños.', { steps: ['$300\\,000\\,000 = 3 \\times 10^8$', '$0.00042 = 4.2 \\times 10^{-4}$'] }),
           ] },
           ex: [
-            mc('$x^3 \\cdot x^5 = \\;?$', ['$x^8$', '$x^{15}$', '$x^2$', '$2x^8$'], 0, 'Misma base: se suman los exponentes, $3 + 5 = 8$.', { hint: 'Escribe los factores: $x^3$ son tres $x$ multiplicadas y $x^5$ son cinco. ¿Cuántas $x$ hay en total?' }),
-            mc('$(x^5)^2 = \\;?$', ['$x^{10}$', '$x^7$', '$x^{25}$', '$x^3$'], 0, 'Potencia de potencia: $5 \\cdot 2 = 10$.', { hint: 'Elevar al cuadrado es multiplicar por sí mismo: $x^5 \\cdot x^5$. ¿Cuántas $x$ quedan multiplicadas?' }),
-            mc('Escribe sin exponentes negativos: $(2x^3y^{-2})^{-2}$', ['$\\dfrac{y^4}{4x^6}$', '$\\dfrac{4x^6}{y^4}$', '$-4x^6y^4$', '$\\dfrac{y^4}{2x^6}$'], 0, '$2^{-2}x^{-6}y^{4} = \\dfrac{y^4}{4x^6}$.', { hint: 'Primero el exponente de afuera va a cada factor: multiplica cada exponente por $-2$, también el del 2. Luego pasa los exponentes negativos al otro piso de la fracción.' }),
-            mc('Simplifica $\\dfrac{2^x \\cdot 4^{x+1}}{8^x}$', ['$4$', '$2^x$', '$8$', '$4^x$'], 0, '$\\dfrac{2^x \\cdot 2^{2x+2}}{2^{3x}} = 2^{x + 2x + 2 - 3x} = 2^2 = 4$.', { hint: 'Escribe todo en base 2: $4 = 2^2$ y $8 = 2^3$. Después suma los exponentes de arriba y resta el de abajo; las $x$ se cancelan.' }),
-            num('¿Cuánto es $3.2 \\times 10^4$?', 32000, 'Mueve la coma 4 lugares a la derecha.', { hint: 'Multiplicar por $10^4$ corre la coma cuatro lugares a la derecha; rellena con ceros los lugares vacíos.' }),
-            ord('Ordena de menor a mayor', ['$2^{-2}$', '$2^{0}$', '$2^{1}$', '$2^{3}$'], '$\\tfrac14 < 1 < 2 < 8$.', { hint: 'Calcula cada potencia: un exponente negativo da una fracción menor que 1, y cualquier base no nula a la 0 vale 1.' }),
-            // --- Parte 2: negativos y simplificación ---
+            play('cuenta-factores', 'Las leyes salen de **contar**: mira las x y escribe el exponente del resultado', {
+              rounds: [{ kind: 'prod', m: 5, n: 2 }, { kind: 'quot', m: 7, n: 3 }, { kind: 'pow', m: 2, n: 4 }, { kind: 'quot', m: 2, n: 5 }],
+            }, 'Al multiplicar se juntan los factores: $x^5 \\cdot x^2 = x^7$ (se suman). Al dividir, cada $x$ de abajo cancela una de arriba: $x^7 \\div x^3 = x^4$ (se restan); si sobran abajo, el exponente queda negativo: $x^2 \\div x^5 = x^{-3}$. Y una potencia de potencia repite el grupo: $(x^2)^4 = x^8$ (se multiplican).',
+              { hint: 'No uses ninguna fórmula: cuenta las x del dibujo. Fíjate si las filas se juntan, si se tachan por parejas o si un mismo grupo aparece varias veces.' }),
             play('une-parejas', 'Une cada expresión con su forma simplificada', {
               left: ['x⁴ · x⁶', '(x³)⁴', 'x⁷ / x²', '(3x)²', 'x⁻³'],
               right: ['x¹⁰', 'x¹²', 'x⁵', '9x²', '1/x³', 'x²⁴', '3x²'],
               pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
             }, 'Multiplicar suma exponentes ($x^{10}$), potencia de potencia los multiplica ($x^{12}$), dividir los resta ($x^5$), el exponente de un producto va a cada factor ($9x^2$) y el negativo cambia de piso ($\\tfrac{1}{x^3}$). $x^{24}$ y $3x^2$ son las trampas.', { hint: 'Misma base al multiplicar: se suman exponentes; potencia de potencia: se multiplican; al dividir: se restan. En $(3x)^2$ el exponente va al 3 y a la $x$, y un exponente negativo cambia de piso.' }),
+            play('cambia-de-piso', 'Deja la fracción **sin exponentes negativos**: toca una potencia para cambiarla de piso', {
+              rounds: [
+                { top: [{ b: 'a', e: -3 }, { b: 'b', e: 2 }], bottom: [{ b: 'c', e: -1 }] },
+                { top: [{ b: 'x', e: -2 }, { b: 'y', e: 1 }], bottom: [{ b: 'z', e: -4 }, { b: 'w', e: 3 }] },
+                { top: [{ b: '2', e: -1 }, { b: 'm', e: -5 }], bottom: [{ b: 'n', e: -2 }] },
+              ],
+            }, 'Un exponente negativo es un cambio de piso: $a^{-n} = \\dfrac{1}{a^n}$ y $\\dfrac{1}{a^{-n}} = a^n$. Por eso $\\dfrac{a^{-3}b^2}{c^{-1}} = \\dfrac{b^2c}{a^3}$. Las potencias que ya tenían exponente positivo se quedan donde están: si las mueves, se vuelven negativas.',
+              { hint: 'Solo hay que mover las potencias con exponente negativo (las de color coral). Al cruzar la raya su exponente cambia de signo; las demás déjalas quietas.' }),
             play('ordena-terminos', 'Ordena los pasos para simplificar $(3x^{-2}y^3)^{-2}$', { tex: '(3x^{-2}y^3)^{-2}', chips: ['3⁻²x⁴y⁻⁶', 'x⁴ / (3²y⁶)', 'x⁴ / (9y⁶)', '3⁻²x⁻⁴y⁻⁶', '9x⁴ / y⁶'], order: [0, 1, 2], sep: '=' },
               'Primero el paréntesis: cada exponente se multiplica por $-2$ ($3^{-2}x^{4}y^{-6}$). Luego los negativos cambian de piso: $\\dfrac{x^4}{3^2y^6}$, y $3^2 = 9$. Las fichas $3^{-2}x^{-4}y^{-6}$ (signo mal) y $\\dfrac{9x^4}{y^6}$ (pisos al revés) sobran.', { hint: 'Primero reparte el exponente de afuera: multiplica cada exponente por $-2$, sin olvidar el del 3. Después manda los exponentes negativos al otro piso y calcula la potencia del 3.' }),
-            play('verdadero-falso', 'Desliza cada tarjeta: ¿la ley es **verdadera** o **falsa**?', {
-              cards: [
-                { text: '(a + b)² = a² + b²', truth: false, why: 'El exponente no se reparte en sumas: (1 + 1)² = 4 pero 1 + 1 = 2.' },
-                { text: '(ab)ⁿ = aⁿ · bⁿ', truth: true, why: 'El exponente de un producto va a cada factor.' },
-                { text: 'aᵐ · bⁿ = (ab)ᵐ⁺ⁿ', truth: false, why: 'Solo se suman exponentes con la misma base.' },
-                { text: '(aᵐ)ⁿ = aᵐⁿ', truth: true, why: 'Potencia de potencia: se multiplican.' },
-                { text: '2ˣ · 2ˣ = 4ˣ', truth: true, why: '2ˣ · 2ˣ = 2²ˣ = (2²)ˣ = 4ˣ.' },
-                { text: 'a⁻ⁿ = −aⁿ', truth: false, why: 'a⁻ⁿ = 1/aⁿ: una fracción, no un negativo.' },
+            play('salta-la-coma', 'Corre el **punto decimal** y mira cómo la potencia de 10 lo compensa', {
+              rounds: [{ digits: '384000', point: 6, goal: 'sci' }, { digits: '000072', point: 1, goal: 'sci' }, { digits: '6100', point: 1, exp: 3, goal: 'std' }, { digits: '0025', point: 3, exp: -2, goal: 'std' }],
+            }, 'En notación científica el número de adelante queda entre $1$ y $10$: $384\\,000 = 3.84 \\times 10^5$ (el punto saltó 5 lugares a la izquierda) y $0.00072 = 7.2 \\times 10^{-4}$ (4 a la derecha). Al revés: $6.1 \\times 10^3 = 6\\,100$ y $2.5 \\times 10^{-2} = 0.025$. Cada salto del punto cambia el exponente en uno y el valor no cambia.',
+              { hint: 'Cada vez que corres el punto un lugar, el exponente de 10 cambia en uno para que el número siga valiendo lo mismo. Mira el exponente mientras mueves el punto.' }),
+            play('escala-leyes', 'Lleva al escalador a la bandera usando **todas** las tarjetas: el orden importa', {
+              rounds: [
+                { title: 'Dos tarjetas', items: [
+                  { start: 2, cards: [{ op: 'mul', k: 1 }, { op: 'pow', k: 3 }], target: 7 },
+                  { start: 3, cards: [{ op: 'pow', k: 2 }, { op: 'div', k: 1 }], target: 4 },
+                ] },
+                { title: 'Tres tarjetas', items: [
+                  { start: 2, cards: [{ op: 'pow', k: 2 }, { op: 'div', k: 4 }, { op: 'mul', k: 3 }], target: 6 },
+                  { start: 1, cards: [{ op: 'div', k: 5 }, { op: 'mul', k: 2 }, { op: 'pow', k: 3 }], target: 4 },
+                ] },
+                { title: 'Con exponentes negativos', items: [
+                  { start: -1, cards: [{ op: 'pow', k: 2 }, { op: 'mul', k: 4 }, { op: 'div', k: 2 }], target: 4 },
+                  { start: 3, cards: [{ op: 'pow', k: 3 }, { op: 'div', k: 5 }, { op: 'mul', k: 1 }], target: -3 },
+                ] },
               ],
-            }, 'Las leyes valen para productos, cocientes y potencias, nunca para sumas: $(a + b)^n \\ne a^n + b^n$. Y solo se suman exponentes cuando la base es la misma.', { hint: 'Las leyes valen para productos, cocientes y potencias, nunca para sumas. Si dudas, prueba la igualdad con números pequeños, como $a = 1$, $b = 1$ o $x = 2$.' }),
-            mc('Simplifica $\\dfrac{(x^{-2}y^3)^{-3}}{(y^4x^{-5})^{-2}}$', ['$\\dfrac{1}{x^4y}$', '$x^4y$', '$x^{16}y^{-17}$', '$\\dfrac{y}{x^4}$'], 0, 'Arriba: $x^{6}y^{-9}$; abajo: $y^{-8}x^{10}$. Dividiendo: $x^{6 - 10}\\,y^{-9 + 8} = x^{-4}y^{-1} = \\dfrac{1}{x^4y}$.', { hint: 'Primero los paréntesis: multiplica los exponentes de adentro por el de afuera, arriba y abajo. Luego, para cada letra, resta el exponente de abajo al de arriba.' }),
-            mc('Simplifica $\\dfrac{2^{n+1}}{(2^{n-1})^{n}} \\div \\dfrac{4^{n+1}}{(2^{n-1})^{n+1}}$', ['$\\tfrac14$', '$\\tfrac12$', '$1$', '$2$'], 0, 'Dividir es multiplicar por el recíproco: $\\dfrac{2^{n+1}}{2^{n(n-1)}} \\cdot \\dfrac{2^{(n-1)(n+1)}}{2^{2n+2}}$. Los exponentes: $(n + 1) - n(n - 1) + (n - 1)(n + 1) - (2n + 2) = n + 1 - n^2 + n + n^2 - 1 - 2n - 2 = -2$. Queda $2^{-2} = \\tfrac14$. Compruébalo con $n = 1$: $\\tfrac{4}{1} \\div \\tfrac{16}{1} = \\tfrac14$.', { hint: 'Pasa todo a base 2 ($4 = 2^2$) y cambia la división por una multiplicación por el recíproco. Al sumar y restar exponentes, los términos con $n^2$ se cancelan. Si te enredas, prueba con $n = 1$.' }),
-            mc('Simplifica $\\dfrac{3^{p+1}}{(3^{p})^{p-1}} \\div \\dfrac{9^{p+1}}{(3^{p-1})^{p+1}}$', ['$\\tfrac19$', '$\\tfrac13$', '$1$', '$3$'], 0, 'Con $9 = 3^2$ todo queda en base 3: exponentes $(p + 1) - p(p - 1) + (p - 1)(p + 1) - 2(p + 1) = p + 1 - p^2 + p + p^2 - 1 - 2p - 2 = -2$. Resultado $3^{-2} = \\tfrac19$.', { hint: 'Igual que con base 2: escribe $9 = 3^2$, divide multiplicando por el recíproco y suma los exponentes. También puedes probar con $p = 1$ y comparar con las opciones.' }),
+            }, 'El exponente es el piso. Multiplicar por $x^k$ suma $k$ pisos ($x^m \\cdot x^k = x^{m+k}$), dividir los resta ($x^m \\div x^k = x^{m-k}$) y elevar a la $k$ multiplica el piso en que estés ($(x^m)^k = x^{mk}$). Por eso el orden importa: $(x^3 \\cdot x)^2 = x^8$ pero $(x^3)^2 \\cdot x = x^7$.',
+              { hint: 'Antes de tocar, piensa qué tarjeta conviene usar cuando el piso es grande y cuál cuando es pequeño: elevar multiplica lo que ya llevas. Si no llegas, usa «Deshacer» y cambia el orden.' }),
           ],
         },
         {
@@ -1032,32 +1038,26 @@ const COURSE_ALGEBRA = {
             sc(4, 'Y la raíz **no** se reparte en una suma:', { steps: ['$\\sqrt{9 + 16} = \\sqrt{25} = 5$', '$\\sqrt{9} + \\sqrt{16} = 7$', '$\\sqrt{a + b} \\neq \\sqrt{a} + \\sqrt{b}$'] }),
           ] },
           ex: [
-            num('Calcula $27^{2/3}$', 9, '$\\left(\\sqrt[3]{27}\\right)^2 = 3^2 = 9$.', { hint: 'El denominador del exponente es el índice de la raíz y el numerador es la potencia: primero saca la raíz cúbica de 27 y después eleva al cuadrado.' }),
-            num('Calcula $\\left(\\dfrac{27}{125}\\right)^{-1/3}$ (puedes escribir una fracción)', 5 / 3, 'Invierte y saca raíz cúbica: $\\left(\\tfrac{125}{27}\\right)^{1/3} = \\tfrac{5}{3}$.', { hint: 'El exponente negativo voltea la fracción y el $\\tfrac13$ pide raíz cúbica. Busca qué número al cubo da 27 y cuál da 125; puedes responder con una fracción.', tol: 0.01, answerText: '$\\tfrac{5}{3}$' }),
-            mc('$\\sqrt{x^2} = \\;?$', ['$|x|$', '$x$', '$-x$', '$\\pm x$'], 0, 'Si $x = -3$: $\\sqrt{9} = 3 = |-3|$.', { hint: 'Prueba con un número negativo, por ejemplo $x = -3$: calcula $(-3)^2$ y luego su raíz. ¿Volviste al −3?' }),
-            mc('¿Es cierto que $\\sqrt{a + b} = \\sqrt{a} + \\sqrt{b}$?', ['No, en general es falso', 'Sí, siempre', 'Solo si $a$ y $b$ son negativos', 'Solo para raíces cúbicas'], 0, 'Contraejemplo: $\\sqrt{9 + 16} = 5$ pero $3 + 4 = 7$.', { hint: 'Prueba con números que tengan raíz exacta, como $a = 36$ y $b = 64$, y compara los dos lados.' }),
             play('lado-del-cuadrado', 'Estira el cuadrado hasta que su área sea la pedida: su lado es la raíz cuadrada', { rounds: [{ area: 36 }, { area: 12.25 }, { area: 3 }], max: 10, step: 0.05, tol: 0.05 },
               'La raíz cuadrada es el lado del cuadrado con esa área: $\\sqrt{36} = 6$, $\\sqrt{12.25} = 3.5$ y $\\sqrt{3} \\approx 1.73$, un número que no termina ni se repite pero es un lado perfectamente real.', { hint: 'El área de un cuadrado es lado por lado. Busca un número que multiplicado por sí mismo dé el área pedida; si no es exacto, ajusta fino con − y +.' }),
+            play('reparte-factores', 'El exponente fracción da dos órdenes: **repartir** en grupos iguales y **tomar** algunos', { rounds: [{ n: 64, num: 2, den: 3 }, { n: 81, num: 3, den: 4 }, { n: 1000, num: 2, den: 3 }] },
+              'En $a^{m/n}$ el denominador reparte los factores en $n$ grupos iguales (la raíz $n$-ésima) y el numerador dice cuántos grupos se toman (la potencia). $64 = 2^6$: tres grupos de $2 \\cdot 2$, se toman dos, $4^2 = 16$. $81 = 3^4$: cuatro grupos de $3$, se toman tres, $3^3 = 27$. $1000 = 2^3 \\cdot 5^3$: tres grupos de $2 \\cdot 5$, se toman dos, $10^2 = 100$.',
+              { hint: 'Mira la fracción del exponente: el número de abajo dice en cuántos grupos iguales repartir y el de arriba cuántos de esos grupos tomar. Si no se reparten parejo, prueba con otro número de grupos.' }),
             play('une-parejas', 'Une cada potencia de exponente fraccionario con su valor', {
               left: ['27^(1/3)', '32^(3/5)', '49^(−1/2)', '(−8)^(1/3)', '9^(3/2)'],
               right: ['3', '8', '1/7', '−2', '27', '1/49', '6'],
               pairs: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
             }, 'El denominador es el índice y el numerador la potencia: $\\sqrt[3]{27} = 3$, $(\\sqrt[5]{32})^3 = 2^3 = 8$, $49^{-1/2} = \\tfrac{1}{\\sqrt{49}} = \\tfrac17$, $\\sqrt[3]{-8} = -2$ y $(\\sqrt9)^3 = 27$.', { hint: 'En $a^{m/n}$ el denominador $n$ es el índice de la raíz y el numerador $m$ la potencia: saca primero la raíz y después eleva. Un exponente negativo pone el resultado en el denominador.' }),
-            play('clasifica-cartas', 'Desliza cada raíz: ¿es un **número real** o **no**?', {
-              left: 'No es real', right: 'Es real',
-              cards: [
-                { text: '√(−4)', side: 'left', why: 'Índice par con radicando negativo: ningún real al cuadrado da −4.' },
-                { text: '∛(−8)', side: 'right', why: 'Índice impar: (−2)³ = −8, así que vale −2.' },
-                { text: '√0', side: 'right', why: '0² = 0: vale 0.' },
-                { text: '(−16)^(1/4)', side: 'left', why: 'Es la raíz cuarta de −16: índice par, radicando negativo.' },
-                { text: '(−32)^(1/5)', side: 'right', why: 'Raíz quinta de −32: (−2)⁵ = −32, vale −2.' },
-                { text: '√((−3)²)', side: 'right', why: '(−3)² = 9 y √9 = 3: el radicando ya es positivo.' },
+            num('Calcula $\\sqrt{64 + 36}$', 10, 'Primero se suma lo de adentro: $\\sqrt{100} = 10$. Si repartieras la raíz saldría $8 + 6 = 14$, que no es lo mismo: la raíz no se reparte en una suma.',
+              { hint: 'La raíz cubre toda la suma: resuelve primero lo que está adentro y saca la raíz al final. No saques la raíz de cada sumando por separado.' }),
+            play('siembra-raices', 'Elige en la recta los números que cumplen y **siembra** para comprobarlo', {
+              rounds: [
+                { title: 'Deshacer el cuadrado', items: [{ kind: 'eq', n: 2, a: 36 }, { kind: 'root', n: 2, a: 36 }, { kind: 'eq', n: 2, a: -9 }] },
+                { title: 'Deshacer el cubo', items: [{ kind: 'eq', n: 3, a: -64 }, { kind: 'root', n: 3, a: 125 }, { kind: 'root', n: 3, a: -1 }] },
+                { title: 'Mezcla', items: [{ kind: 'eq', n: 4, a: 81 }, { kind: 'root', n: 4, a: 81 }, { kind: 'root', n: 2, a: -25 }] },
               ],
-            }, 'Con índice impar siempre hay raíz real, aun de negativos. Con índice par el radicando debe ser $\\ge 0$; ojo que $(-3)^2 = 9$ es positivo, así que $\\sqrt{(-3)^2} = 3 = |-3|$.', { hint: 'Mira el índice: si es impar, siempre hay raíz real, aun de un negativo. Si es par, lo de adentro no puede ser negativo. Calcula primero lo que haya dentro del radical.' }),
-            mc('¿Qué valor de $x$ satisface $\\sqrt{x} = 4$?', ['$x = 16$', '$x = 2$', '$x = 8$', '$x = 64$'], 0, 'La raíz deshace el cuadrado: $x = 4^2 = 16$. Comprueba: $\\sqrt{16} = 4$.', { hint: 'La raíz deshace el cuadrado, y el cuadrado deshace la raíz: eleva los dos lados al cuadrado.' }),
-            mc('¿Cuál es el valor de $\\sqrt[3]{-64}$?', ['$-4$', '$4$', '$-8$', 'No es real'], 0, 'Índice impar: $(-4)^3 = -64$. Las raíces cúbicas de negativos sí existen.', { hint: '¿Qué número multiplicado por sí mismo tres veces da 64? Con índice impar, el signo negativo se conserva.' }),
-            num('Si $x = \\sqrt{36}$, ¿cuánto vale $x^2$?', 36, '$x = 6$ y $6^2 = 36$: elevar al cuadrado deshace la raíz.', { hint: 'No hace falta calcular la raíz: elevar al cuadrado deshace la raíz cuadrada.' }),
-            mc('$\\sqrt{a^2}$ con $a = -7$ vale', ['$7$', '$-7$', '$49$', '$-49$'], 0, '$(-7)^2 = 49$ y $\\sqrt{49} = 7 = |-7|$: la raíz cuadrada nunca es negativa.', { hint: 'Primero eleva al cuadrado (el resultado es positivo) y después saca la raíz. La raíz cuadrada nunca da un resultado negativo.' }),
+            }, 'Si $x^2 = 36$, hay dos números: $6$ y $-6$. Pero $\\sqrt{36}$ es un solo número, el positivo: $6$. Por eso $\\sqrt{x^2} = |x|$. Con índice par no hay raíz real de un negativo, porque ningún número elevado a una potencia par da negativo. Con índice impar siempre hay exactamente una: $\\sqrt[3]{-64} = -4$.',
+              { hint: 'Imagina cada semilla creciendo hasta su potencia: los negativos elevados a un exponente par suben, y a uno impar bajan. Fíjate si la pregunta es una ecuación (pueden ser varios) o una raíz (es uno solo).' }),
           ],
         },
         {
@@ -1069,12 +1069,22 @@ const COURSE_ALGEBRA = {
             sc(6, '**Racionalizar** es quitar la raíz del denominador. Con un binomio, multiplica por el **conjugado**.', { steps: ['$\\dfrac{9}{4 + \\sqrt5} \\cdot \\dfrac{4 - \\sqrt5}{4 - \\sqrt5}$', '$= \\dfrac{9(4 - \\sqrt5)}{16 - 5}$', '$= \\dfrac{9(4 - \\sqrt5)}{11}$'] }),
           ] },
           ex: [
-            num('Si $\\sqrt{32} = k\\sqrt{2}$, ¿cuánto vale $k$?', 4, '$\\sqrt{32} = \\sqrt{16 \\cdot 2} = 4\\sqrt2$.', { hint: 'Busca el cuadrado perfecto más grande que divide a 32 y sepáralo: $\\sqrt{32} = \\sqrt{\\square \\cdot 2}$. Su raíz sale afuera.', prefix: '$k =$' }),
-            mc('Simplifica $\\sqrt{48} + 2\\sqrt{27} - \\sqrt{12}$', ['$8\\sqrt3$', '$10\\sqrt3$', '$\\sqrt{63}$', '$12\\sqrt3$'], 0, '$4\\sqrt3 + 6\\sqrt3 - 2\\sqrt3 = 8\\sqrt3$.', { hint: 'Simplifica cada radical por separado sacando el cuadrado perfecto que tiene adentro (todos esconden un $\\sqrt3$). Luego suma los coeficientes, como si $\\sqrt3$ fuera una $x$.' }),
-            mc('Racionaliza $\\dfrac{6}{\\sqrt5 - \\sqrt2}$', ['$2(\\sqrt5 + \\sqrt2)$', '$6(\\sqrt5 + \\sqrt2)$', '$2(\\sqrt5 - \\sqrt2)$', '$\\dfrac{6}{3}$'], 0, 'Multiplica por el conjugado: el denominador queda $5 - 2 = 3$.', { hint: 'Multiplica arriba y abajo por el conjugado: la misma resta con el signo cambiado. Abajo, suma por diferencia borra las raíces.' }),
-            ord('Ordena los pasos para racionalizar $\\dfrac{1}{\\sqrt7}$', ['$\\dfrac{1}{\\sqrt7}$', '$\\dfrac{1}{\\sqrt7} \\cdot \\dfrac{\\sqrt7}{\\sqrt7}$', '$\\dfrac{\\sqrt7}{7}$'], 'Multiplica arriba y abajo por $\\sqrt7$: abajo queda $7$.', { hint: 'Para quitar una raíz sola del denominador, multiplica arriba y abajo por esa misma raíz: $\\sqrt7 \\cdot \\sqrt7$ da un número sin raíz.' }),
             play('saca-del-radical', 'Saca del radical las parejas (o tríos) de primos iguales', { rounds: [{ index: 2, n: 98 }, { index: 2, n: 75 }, { index: 3, n: 250 }] },
               'Cada pareja de primos iguales sale de la raíz cuadrada como un solo factor: $\\sqrt{98} = \\sqrt{2 \\cdot 7 \\cdot 7} = 7\\sqrt2$ y $\\sqrt{75} = \\sqrt{3 \\cdot 5 \\cdot 5} = 5\\sqrt3$. En la raíz cúbica salen los tríos: $\\sqrt[3]{250} = \\sqrt[3]{2 \\cdot 5^3} = 5\\sqrt[3]{2}$.', { hint: 'Las fichas ya son los factores primos. En raíz cuadrada sale un factor por cada pareja igual; en raíz cúbica, uno por cada trío.' }),
+            play('parte-baldosa', 'Parte la baldosa para sacar de la raíz el **cuadrado escondido**', { rounds: [{ n: 48 }, { n: 20 }, { n: 63 }, { n: 200 }] },
+              'Una baldosa de área $48$ se parte en $4 \\times 4$ baldosas de área $3$: su lado es cuatro veces el de una pequeña, $\\sqrt{48} = 4\\sqrt3$. Igual $\\sqrt{20} = 2\\sqrt5$, $\\sqrt{63} = 3\\sqrt7$ y $\\sqrt{200} = 10\\sqrt2$. Con $2 \\times 2$ la de $48$ daría $2\\sqrt{12}$: sirve, pero todavía esconde un cuadrado.',
+              { hint: 'Busca la cuadrícula con más baldosas por lado en la que el área de cada baldosa pequeña siga siendo un número entero. Sube de a una y mira el área de la pequeña.' }),
+            num('Si $\\sqrt{20} + \\sqrt{80} = k\\sqrt{5}$, ¿cuánto vale $k$?', 6, 'Primero se simplifica cada raíz: $\\sqrt{20} = 2\\sqrt5$ y $\\sqrt{80} = 4\\sqrt5$. Ya son semejantes y se suman contando: $2\\sqrt5 + 4\\sqrt5 = 6\\sqrt5$.',
+              { hint: 'Saca de cada raíz su cuadrado escondido para que las dos queden con la misma raíz. Después suma los números que quedaron adelante.' }),
+            play('tabla-conjugado', 'Elige por cuál multiplicar el denominador para que **la raíz desaparezca**', {
+              rounds: [
+                { den: [{ c: 1, r: 7 }], options: [[{ c: 1, r: 7 }], [{ c: 7, r: 1 }], [{ c: 1, r: 1 }, { c: 1, r: 7 }], [{ c: 1, r: 7 }, { c: -1, r: 1 }]] },
+                { den: [{ c: 2, r: 1 }, { c: 1, r: 3 }], options: [[{ c: 1, r: 3 }], [{ c: 2, r: 1 }, { c: 1, r: 3 }], [{ c: 2, r: 1 }, { c: -1, r: 3 }], [{ c: 3, r: 1 }, { c: -1, r: 2 }]] },
+                { den: [{ c: 1, r: 6 }, { c: -1, r: 2 }], options: [[{ c: 1, r: 6 }, { c: -1, r: 2 }], [{ c: 1, r: 2 }], [{ c: 1, r: 12 }], [{ c: 1, r: 6 }, { c: 1, r: 2 }]] },
+                { den: [{ c: 5, r: 1 }, { c: 2, r: 3 }], options: [[{ c: 2, r: 3 }], [{ c: 5, r: 1 }, { c: -2, r: 3 }], [{ c: 5, r: 1 }, { c: 2, r: 3 }], [{ c: 5, r: 1 }, { c: -1, r: 3 }]] },
+              ],
+            }, 'Una raíz sola se quita multiplicando por ella misma: $\\sqrt7 \\cdot \\sqrt7 = 7$. Con un binomio no basta: hay que usar el **conjugado**, el mismo binomio con el signo del medio cambiado. En la tabla, las dos casillas del medio salen opuestas y se cancelan: $(2 + \\sqrt3)(2 - \\sqrt3) = 4 - 3 = 1$, $(\\sqrt6 - \\sqrt2)(\\sqrt6 + \\sqrt2) = 6 - 2 = 4$ y $(5 + 2\\sqrt3)(5 - 2\\sqrt3) = 25 - 12 = 13$.',
+              { hint: 'Prueba cada opción y mira la tabla: buscas que las casillas con raíz se cancelen entre sí o que no aparezca ninguna. Con dos términos, fíjate en los signos de las casillas del medio.' }),
             play('une-parejas', 'Une cada fracción con su forma racionalizada', {
               left: ['1/√3', '4/√2', '5/(1 + √2)', '2/(3 − √5)'],
               right: ['√3 / 3', '2√2', '5(√2 − 1)', '(3 + √5) / 2', '5(√2 + 1)', '(3 − √5) / 2'],
@@ -1082,11 +1092,14 @@ const COURSE_ALGEBRA = {
             }, 'Con un radical solo se multiplica por él: $\\tfrac{1}{\\sqrt3} = \\tfrac{\\sqrt3}{3}$ y $\\tfrac{4}{\\sqrt2} = \\tfrac{4\\sqrt2}{2} = 2\\sqrt2$. Con un binomio, por el conjugado: $\\tfrac{5(\\sqrt2 - 1)}{2 - 1} = 5(\\sqrt2 - 1)$ y $\\tfrac{2(3 + \\sqrt5)}{9 - 5} = \\tfrac{3 + \\sqrt5}{2}$. Las dos fichas sobrantes tienen el conjugado al revés.', { hint: 'Si abajo hay una raíz sola, multiplica por ella. Si hay una suma o resta con raíz, multiplica por el conjugado (signo cambiado) y usa $(a + b)(a - b) = a^2 - b^2$.' }),
             play('ordena-terminos', 'Ordena los pasos para racionalizar $\\dfrac{6}{3 + \\sqrt7}$', { tex: '\\dfrac{6}{3 + \\sqrt7}', chips: ['6(3−√7)/(3²−(√7)²)', '6(3−√7)/2', '3(3−√7)', '6(3+√7)/(3²+(√7)²)', '6(3+√7)/2'], order: [0, 1, 2], sep: '=' },
               'Se multiplica arriba y abajo por el conjugado $3 - \\sqrt7$; abajo, suma por diferencia: $3^2 - (\\sqrt7)^2 = 9 - 7 = 2$, y $\\tfrac{6}{2} = 3$. Las fichas con $3 + \\sqrt7$ arriba o con $+$ abajo son las trampas.', { hint: 'El conjugado de $3 + \\sqrt7$ tiene el signo del medio cambiado. Abajo queda $3^2 - (\\sqrt7)^2$; después simplifica el 6 de arriba con lo que dé abajo.' }),
-            mc('¿Cuál es el resultado de racionalizar el denominador de $\\dfrac{3}{\\sqrt5}$?', ['$\\dfrac{3\\sqrt5}{5}$', '$\\dfrac{5\\sqrt3}{5}$', '$\\dfrac{\\sqrt{15}}{5}$', '$\\dfrac{3}{5\\sqrt5}$'], 0, 'Se multiplica por $\\tfrac{\\sqrt5}{\\sqrt5}$: $\\dfrac{3\\sqrt5}{5}$.', { hint: 'Multiplica arriba y abajo por $\\sqrt5$: abajo queda $\\sqrt5 \\cdot \\sqrt5$, un número sin raíz.' }),
-            mc('Racionaliza el denominador de $\\dfrac{5}{2\\sqrt3}$', ['$\\dfrac{5\\sqrt3}{6}$', '$\\dfrac{2\\sqrt3}{5}$', '$\\dfrac{10\\sqrt3}{3}$', '$\\dfrac{\\sqrt{15}}{6}$'], 0, '$\\dfrac{5}{2\\sqrt3} \\cdot \\dfrac{\\sqrt3}{\\sqrt3} = \\dfrac{5\\sqrt3}{2 \\cdot 3} = \\dfrac{5\\sqrt3}{6}$.', { hint: 'Solo hay que quitar la raíz: multiplica arriba y abajo por $\\sqrt3$ (no por todo el denominador). El 2 de abajo se queda y se multiplica por lo que salga.' }),
-            mc('Al simplificar y racionalizar $\\dfrac{5}{\\sqrt{x + 5} - \\sqrt{x}}$ se obtiene', ['$\\sqrt{x + 5} + \\sqrt{x}$', '$5$', '$x$', '$\\dfrac{\\sqrt{x + 5} + \\sqrt{x}}{5}$'], 0, 'Por el conjugado: abajo queda $(x + 5) - x = 5$, que se cancela con el 5 de arriba.', { hint: 'Multiplica por el conjugado. Abajo, $(\\sqrt{x + 5})^2 - (\\sqrt{x})^2$ deja solo un número: compáralo con el 5 de arriba.' }),
-            mc('¿Cuál es el resultado de racionalizar $\\dfrac{1}{\\sqrt[3]{3} - \\sqrt[3]{2}}$?', ['$\\sqrt[3]{9} + \\sqrt[3]{6} + \\sqrt[3]{4}$', '$\\sqrt[3]{19}$', '$19$', '$\\sqrt[3]{9} - \\sqrt[3]{6} + \\sqrt[3]{4}$'], 0, 'Diferencia de cubos: se multiplica por $\\sqrt[3]{9} + \\sqrt[3]{6} + \\sqrt[3]{4}$ y abajo queda $3 - 2 = 1$.', { hint: 'Con raíces cúbicas el conjugado no basta: usa la diferencia de cubos $(a - b)(a^2 + ab + b^2) = a^3 - b^3$ con $a = \\sqrt[3]{3}$ y $b = \\sqrt[3]{2}$.' }),
-            mc('¿Cuál es el valor de $\\sqrt{63}$ simplificado?', ['$3\\sqrt7$', '$9\\sqrt7$', '$7\\sqrt3$', '$21\\sqrt3$'], 0, '$63 = 9 \\cdot 7$ y $\\sqrt{9} = 3$.', { hint: 'Busca un cuadrado perfecto que divida a 63 (prueba con 4, 9, 16…) y saca su raíz afuera del radical.' }),
+            play('muro-radicales', 'Arma filas de ladrillos que midan lo pedido: solo se juntan los del **mismo tipo**', {
+              rounds: [
+                { title: 'Ladrillos simples', items: [{ target: { c: 3, r: 2 }, bricks: [2, 3, 2, 5, 2] }, { target: { c: 2, r: 5 }, bricks: [3, 5, 2, 5] }] },
+                { title: 'Con costuras', items: [{ target: { c: 4, r: 3 }, bricks: [27, 2, 12, 3, 8] }, { target: { c: 5, r: 5 }, bricks: [20, 12, 45, 18, 5] }] },
+                { title: 'Filas largas', items: [{ target: { c: 7, r: 2 }, bricks: [32, 12, 18, 2, 27] }, { target: { c: 7, r: 3 }, bricks: [48, 20, 27, 3, 12] }] },
+              ],
+            }, 'Cada radical se simplifica primero: $\\sqrt{27} = 3\\sqrt3$, $\\sqrt{12} = 2\\sqrt3$, $\\sqrt{20} = 2\\sqrt5$, $\\sqrt{45} = 3\\sqrt5$. Los que quedan con la misma raíz son **semejantes** y se suman contando: $\\sqrt{27} + \\sqrt3 = 4\\sqrt3$ y $\\sqrt{20} + \\sqrt{45} = 5\\sqrt5$. Los de raíz distinta no se juntan: $\\sqrt2 + \\sqrt5$ se queda así, no hay nada que sumar.',
+              { hint: 'Mira las costuras: un ladrillo con costuras son varios ladrillos pequeños pegados. Elige solo ladrillos que, al partirlos, queden del mismo tipo que la meta, y cuenta cuántos pequeños llevas.' }),
           ],
         },
       ],

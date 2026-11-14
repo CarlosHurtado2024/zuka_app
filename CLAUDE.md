@@ -116,7 +116,16 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   reintenta (no se pierde el ejercicio), `api.ready(true)` al terminar todas las rondas, movimiento con `p.deltaTime`
   (tope 50 ms), cartel con `drawBanner`, y `peek()` en lo que devuelve `create` para probarlos con un robot en el
   navegador. Si el panel del navegador está oculto todo corre en cámara lenta: los tiempos del robot no sirven.
-  Faltan los demás mundos.
+  Torres de Potencias (spec `2026-11-15-torres-de-potencias`, pruebas `tests/torres-de-potencias.test.js`; ya sin reloj,
+  cartel «Sin prisa») → `torre-pisos` (el piso n es aⁿ; se cuentan pisos con un ascensor y se entregan paquetes), `escala-leyes`
+  (tarjetas «· xᵏ», «÷ xᵏ», «( )ᵏ» que hay que usar en el orden correcto), `siembra-raices` (elegir enteros y verlos crecer
+  hasta xⁿ; ecuación frente a raíz) y `muro-radicales` (ladrillos de largo √n a escala, con costuras). Faltan los demás mundos.
+- **Juegos por rondas con `roundsGame(def)`** (al final de `kit.js`; spec `2026-11-15-torres-de-potencias`): armazón con
+  pestañas, enunciado, pie y estado `{ rounds: [...] }`; el juego solo da `init, ok, solution, prompt, draw, press` (y
+  `answered`, `foot`, `layout`, `peek` si hacen falta). Con `sup(n)`, `drawStepper` y `stepHit`. Hechos con él, todos del
+  mundo Torres de Potencias: `arbol-potencia`, `pares-negativos`, `cuenta-factores`, `cambia-de-piso`, `salta-la-coma`,
+  `reparte-factores`, `parte-baldosa`, `tabla-conjugado`. Ese mundo ya no tiene opción múltiple ni tarjetas. El robot
+  `tests/robot-torres.js` (se carga en la página con `fetch` + `eval`) los resuelve con `peek()`.
 - **Jefe final de un mundo** (spec `2026-11-14-jefe-final-pradera`, pruebas `tests/jefe-venn.test.js`): `unit.boss = { id, title,
   clip: { scenes }, ex: [play(…)] }`, definido junto a las evaluaciones al final de `js/courses/algebra.js`. Es un nodo propio
   del camino (`.node.boss`, rojo con corona, entre la última lección y la evaluación; `bossUnlocked`, `openBossSheet` en
