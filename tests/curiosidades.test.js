@@ -129,7 +129,7 @@ test('«La curva más corta» (3D Map Explainer, rutas de avión) está en Clips
   const q = CURIOS.find(c => c.id === 'cur-curva');
   assert.ok(q, 'falta cur-curva');
   assert.equal(q.topic, 'mate');
-  assert.ok(q.clip.video === 'media/clips/curva-corta.mp4' || q.clip.bunny);
+  assert.equal(q.clip.bunny, 'b0f02e88-4969-4e34-807a-f33f1c92121e');
   if (q.clip.video) assert.ok(fs.existsSync(path.join(ROOT, q.clip.video)), 'falta el mp4');
   assert.equal(q.clip.duration, 82.5);
   assert.ok(q.clip.scenes.length >= 5);

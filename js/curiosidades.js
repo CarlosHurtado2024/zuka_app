@@ -92,7 +92,7 @@ const CURIOS = [
     title: 'La curva más corta',
     fact: 'Sobre la Tierra, lo más corto entre dos ciudades es un arco de círculo máximo, no la recta del mapa.',
     clip: {
-      video: 'media/clips/curva-corta.mp4', duration: 82.5,
+      bunny: 'b0f02e88-4969-4e34-807a-f33f1c92121e', duration: 82.5,
       scenes: [
         sc(6, 'Un avión de Nueva York a Tokio sube hasta Alaska. En el mapa parece un rodeo.', { title: 'Nueva York → Tokio' }),
         sc(7, 'Un mapa plano no puede guardar las distancias de una esfera: la línea recta del mapa no es la más corta.', { title: 'Mapa ≠ esfera' }),
