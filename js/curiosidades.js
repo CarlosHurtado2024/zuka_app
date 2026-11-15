@@ -135,6 +135,22 @@ const CURIOS = [
       ],
     },
   },
+  {
+    id: 'cur-distancias', topic: 'ciencia',
+    title: '¿Cómo se mide el universo?',
+    fact: 'Nadie ha ido a una estrella, pero un ángulo diminuto basta para saber a qué distancia está.',
+    clip: {
+      video: 'media/clips/distancias.mp4', duration: 97,
+      scenes: [
+        sc(7, 'Un láser rebota en el espejo que dejó el Apolo 11 en la Luna y vuelve en 2.56 segundos.', { title: '$d = \\dfrac{c \\cdot t}{2} \\approx 384\\,000\\text{ km}$' }),
+        sc(7, 'En seis meses la Tierra mira desde el otro lado de su órbita: una estrella cercana parece correrse frente a las lejanas.', { title: 'Paralaje' }),
+        sc(7, 'La mitad de ese corrimiento es el ángulo p: para Próxima Centauri, 0.768″, menos que una moneda vista a 5 km.', { title: '$d = \\dfrac{1}{p} = \\dfrac{1}{0.768} \\approx 1.30\\text{ pc} \\approx 4.2\\text{ años luz}$' }),
+        sc(7, 'Al doble de distancia, la misma luz se reparte en cuatro veces más área: se ve cuatro veces más débil.', { title: '$F = \\dfrac{L}{4\\pi d^2}$' }),
+        sc(6, 'Las cefeidas laten a un ritmo que dice cuánta luz dan: así se midió Andrómeda.', { title: '$\\approx 2.5$ millones de años luz' }),
+        sc(7, 'La luz de una galaxia llega estirada: con la ley de Hubble y Lemaître se despeja su distancia.', { title: '$d = \\dfrac{v}{H_0} \\approx \\dfrac{6\\,000}{70} \\approx 86\\text{ Mpc}$' }),
+      ],
+    },
+  },
 ];
 
 const curioTopic = id => CURIO_TOPICS.find(t => t.id === id);

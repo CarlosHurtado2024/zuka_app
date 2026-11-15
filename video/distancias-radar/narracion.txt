@@ -1,0 +1,16 @@
+Mateo busca con su telescopio la estrella más cercana al Sol y quiere saber a qué distancia está.
+Nadie ha ido hasta allá y no hay regla que alcance. Pero hay luz.
+Primer escalón, la Luna: un láser rebota en el espejo que dejó el Apolo 11 y vuelve en 2.56 segundos.
+La luz recorre 299 792 km por segundo. Fue y volvió: la distancia es la mitad, unos 384 000 km.
+De una estrella la luz no vuelve. La pista será un ángulo diminuto.
+Segundo escalón, el paralaje: en seis meses la Tierra mira desde el otro lado de su órbita.
+Desde ahí, una estrella cercana parece correrse frente a las lejanas, como un dedo visto con un ojo y luego con el otro.
+La mitad de ese corrimiento es el ángulo p. Para Próxima Centauri, 0.768 segundos de arco: menos que una moneda vista a 5 kilómetros.
+Y alcanza. Un pársec es la distancia desde la que 1 UA se ve con 1 segundo de arco: d = 1 ÷ p da 1.30 pársecs, unos 4.2 años luz. Cuarenta billones de kilómetros, medidos con un ángulo.
+Tercer escalón, el brillo: al doble de distancia, la misma luz se reparte en cuatro veces más área y se ve cuatro veces más débil.
+En 1912 Henrietta Leavitt descubrió que las cefeidas que laten más despacio dan más luz; esa regla se calibró con cefeidas cercanas medidas por paralaje.
+Comparando su luz real con la que llega se despeja la distancia: así se midió Andrómeda, a unos 2.5 millones de años luz.
+Cuarto escalón: el universo se expande y estira la luz que viaja por él. La línea del hidrógeno llega corrida hacia el rojo.
+Corrida un 2 %: para un corrimiento pequeño el estiramiento se lee como una velocidad, unos 6 000 km/s. Las galaxias más lejanas se alejan más rápido; con la ley de Hubble y Lemaître, esta está a unos 280 millones de años luz.
+Cada escalón calibra el siguiente. Y Mateo ya tiene su número: 4.2 años luz, sin salir de casa.
+Lo que no podemos alcanzar lo medimos con luz y geometría.

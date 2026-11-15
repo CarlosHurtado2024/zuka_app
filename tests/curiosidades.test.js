@@ -158,3 +158,14 @@ test('«¿Por qué el 14 de marzo?» (Caption News, Día de Pi) está en Clips c
   assert.ok(q.fact.length <= 110);
   assert.match(q.fact, /3\/14/);
 });
+
+test('«¿Cómo se mide el universo?» (Radar Sweep, distancias astronómicas) está en Clips con su video y escenas de respaldo', () => {
+  const q = CURIOS.find(c => c.id === 'cur-distancias');
+  assert.ok(q, 'falta cur-distancias');
+  assert.equal(q.topic, 'ciencia');
+  assert.equal(q.clip.video, 'media/clips/distancias.mp4');
+  assert.equal(q.clip.duration, 97);
+  assert.ok(q.clip.scenes.length >= 5);
+  assert.ok(q.fact.length <= 110);
+  assert.match(q.fact, /ángulo/);
+});

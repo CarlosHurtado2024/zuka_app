@@ -1,0 +1,64 @@
+1
+00:00:00,500 --> 00:00:05,100
+Mateo busca con su telescopio la estrella más cercana al Sol y quiere saber a qué distancia está.
+
+2
+00:00:05,200 --> 00:00:09,060
+Nadie ha ido hasta allá y no hay regla que alcance. Pero hay luz.
+
+3
+00:00:09,400 --> 00:00:15,020
+Primer escalón, la Luna: un láser rebota en el espejo que dejó el Apolo 11 y vuelve en 2.56 segundos.
+
+4
+00:00:15,400 --> 00:00:20,500
+La luz recorre 299 792 km por segundo. Fue y volvió: la distancia es la mitad, unos 384 000 km.
+
+5
+00:00:20,600 --> 00:00:24,300
+De una estrella la luz no vuelve. La pista será un ángulo diminuto.
+
+6
+00:00:24,400 --> 00:00:29,610
+Segundo escalón, el paralaje: en seis meses la Tierra mira desde el otro lado de su órbita.
+
+7
+00:00:30,200 --> 00:00:36,300
+Desde ahí, una estrella cercana parece correrse frente a las lejanas, como un dedo visto con un ojo y luego con el otro.
+
+8
+00:00:36,400 --> 00:00:42,300
+La mitad de ese corrimiento es el ángulo p. Para Próxima Centauri, 0.768 segundos de arco: menos que una moneda vista a 5 kilómetros.
+
+9
+00:00:42,400 --> 00:00:50,100
+Y alcanza. Un pársec es la distancia desde la que 1 UA se ve con 1 segundo de arco: d = 1 ÷ p da 1.30 pársecs, unos 4.2 años luz. Cuarenta billones de kilómetros, medidos con un ángulo.
+
+10
+00:00:50,200 --> 00:00:57,240
+Tercer escalón, el brillo: al doble de distancia, la misma luz se reparte en cuatro veces más área y se ve cuatro veces más débil.
+
+11
+00:00:59,000 --> 00:01:04,300
+En 1912 Henrietta Leavitt descubrió que las cefeidas que laten más despacio dan más luz; esa regla se calibró con cefeidas cercanas medidas por paralaje.
+
+12
+00:01:04,400 --> 00:01:08,800
+Comparando su luz real con la que llega se despeja la distancia: así se midió Andrómeda, a unos 2.5 millones de años luz.
+
+13
+00:01:08,900 --> 00:01:15,500
+Cuarto escalón: el universo se expande y estira la luz que viaja por él. La línea del hidrógeno llega corrida hacia el rojo.
+
+14
+00:01:15,600 --> 00:01:24,600
+Corrida un 2 %: para un corrimiento pequeño el estiramiento se lee como una velocidad, unos 6 000 km/s. Las galaxias más lejanas se alejan más rápido; con la ley de Hubble y Lemaître, esta está a unos 280 millones de años luz.
+
+15
+00:01:24,700 --> 00:01:30,090
+Cada escalón calibra el siguiente. Y Mateo ya tiene su número: 4.2 años luz, sin salir de casa.
+
+16
+00:01:30,600 --> 00:01:34,220
+Lo que no podemos alcanzar lo medimos con luz y geometría.
+

@@ -179,3 +179,8 @@ video/dia-pi/fonts/*.woff2
 video/dia-pi/events.json
 video/dia-pi/build_log.txt
 video/dia-pi/dia-pi.mp4
+video/distancias-radar/out/
+video/distancias-radar/fonts/*.ttf
+video/distancias-radar/events.json
+video/distancias-radar/build_log.txt
+video/distancias-radar/distancias.mp4
