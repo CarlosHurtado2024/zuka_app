@@ -103,7 +103,7 @@ const TRIG_EXTRA = (() => {
         { hint: 'Decide primero los signos: ¿el punto está a la derecha o a la izquierda?, ¿arriba o abajo? Después mira qué tan lejos está de cada eje para elegir entre 1/2, √2/2 y √3/2.' }),
     ],
     'trig-43b': [
-      play('espejo-cuadrantes', 'Los espejos reflejan el punto: «↕» lo pasa al otro lado del eje x y «↔» al otro lado del eje y. Llévalo adonde se pide sin gastar espejos de más', {
+      play('espejo-cuadrantes', 'Los espejos reflejan el punto: «↕» lo pasa al otro lado del eje x y «↔» al otro lado del eje y. Llévalo adonde se pide sin gastar espejos de más; cuando caiga en el cuadrante I, pon con − y + cuánto mide su ángulo de referencia y toca «Comprobar»', {
         rounds: [
           { title: 'Ángulo de referencia', items: [{ deg: 160, to: 1, max: 1 }, { deg: 250, to: 1 }] },
           { title: 'Más referencias', items: [{ deg: 320, to: 1, max: 1 }, { deg: 195, to: 1 }] },
@@ -113,7 +113,7 @@ const TRIG_EXTRA = (() => {
             { deg: 25, to: 2, max: 1, cond: 'solo el seno sea positivo' }] },
         ],
       }, 'El reflejo que cae en el cuadrante I muestra el ángulo de referencia: $160^\\circ \\to 20^\\circ$, $250^\\circ \\to 70^\\circ$, $320^\\circ \\to 40^\\circ$ y $195^\\circ \\to 15^\\circ$. Cada espejo cambia un signo: «↕» el del seno y «↔» el del coseno; la tangente cambia con cualquiera de los dos. Seno y coseno negativos: cuadrante III ($220^\\circ$); solo coseno positivo: IV ($290^\\circ$); solo seno positivo: II ($155^\\circ$).',
-        { hint: 'Mira las tres etiquetas de signos: te dicen en qué cuadrante estás. El espejo «↕» cambia arriba por abajo (el seno) y el «↔» cambia derecha por izquierda (el coseno).' }),
+        { hint: 'Mira las tres etiquetas de signos: te dicen en qué cuadrante estás. El espejo «↕» cambia arriba por abajo (el seno) y el «↔» cambia derecha por izquierda (el coseno). El ángulo de referencia es lo que le falta o le sobra al ángulo para llegar a 180° o a 360°.' }),
     ],
     'trig-44a': [
       play('ola-entre-lineas', 'La ola debe tocar justo el techo y el piso, sin pasarse. Elige la amplitud y la línea media con − y +, y toca «Lanzar ola» para verla', {
@@ -155,7 +155,7 @@ const TRIG_EXTRA = (() => {
         { hint: 'Divide mentalmente cada lado: sen θ entre cos θ es la tangente; 1 entre cos θ es la secante. La hipotenusa era 1, así que la nueva hipotenusa es 1 dividido entre lo que elegiste.' }),
     ],
     'trig-47b': [
-      play('todo-en-senos', 'La estrategia para simplificar: todo a senos y cosenos. Toca cada ficha de color para abrirla; luego toca una ficha de arriba y una igual de abajo para cancelarlas, y al final «Listo»', {
+      play('todo-en-senos', 'La estrategia para simplificar: todo a senos y cosenos. Toca una ficha amarilla y arma su fracción (qué va arriba y qué va abajo); luego toca una ficha de arriba y una igual de abajo para cancelarlas, y al final «Listo»', {
         rounds: [
           { title: 'Dos fichas', items: [{ f: ['cot', 'sen'] }, { f: ['sec', 'sen'] }] },
           { title: 'Tres fichas', items: [{ f: ['tan', 'csc', 'cos'] }, { f: ['sec', 'cot', 'cos'] }] },
@@ -165,7 +165,7 @@ const TRIG_EXTRA = (() => {
         { hint: 'Cada función se escribe con senos y cosenos: tan = sen/cos, cot = cos/sen, sec = 1/cos y csc = 1/sen. Solo se cancela un factor de arriba con uno igual de abajo; si no queda pareja, ya terminaste.' }),
     ],
     'trig-48a': [
-      play('rectangulo-suma', 'Un triángulo de hipotenusa 1 está inclinado dentro de un rectángulo, y cada tramo del borde tiene su medida. Toca los tramos que forman el lado marcado con «?»', {
+      play('rectangulo-suma', 'Un triángulo de hipotenusa 1 está inclinado dentro de un rectángulo, y sus catetos miden cos β y sen β. Toca cada tramo de color y luego la ficha con su medida: juntos dan el lado marcado con «?»', {
         rounds: [
           { title: 'Con letras', items: [{ ask: 'sen' }, { ask: 'cos' }] },
           { title: 'Con un ángulo que ya conoces: 30° + 30°', items: [
@@ -173,7 +173,7 @@ const TRIG_EXTRA = (() => {
             { ask: 'cos', a: 30, b: 30, vals: ['\\tfrac34', '\\tfrac{\\sqrt3}{4}', '\\tfrac{\\sqrt3}{4}', '\\tfrac14'], res: '\\tfrac12' }] },
         ],
       }, 'Los lados opuestos de un rectángulo miden lo mismo. El izquierdo es $\\operatorname{sen}(\\alpha + \\beta)$ y el derecho tiene dos tramos: $\\operatorname{sen}\\alpha\\cos\\beta + \\cos\\alpha\\operatorname{sen}\\beta$. Arriba, $\\cos(\\alpha + \\beta)$ es el lado de abajo menos un pedazo: $\\cos\\alpha\\cos\\beta - \\operatorname{sen}\\alpha\\operatorname{sen}\\beta$. Con $30^\\circ + 30^\\circ$ se comprueba: $\\tfrac{\\sqrt3}{4} + \\tfrac{\\sqrt3}{4} = \\tfrac{\\sqrt3}{2} = \\operatorname{sen} 60^\\circ$ y $\\tfrac34 - \\tfrac14 = \\tfrac12 = \\cos 60^\\circ$.',
-        { hint: 'Compara el lado marcado con el lado del frente del rectángulo: miden lo mismo. Fíjate si el del frente está hecho de dos tramos que se suman, o si es más largo y le sobra un pedazo.' }),
+        { hint: 'Cada tramo de color es cateto de un triángulo pequeño que tiene el ángulo α. Mira cuál es la hipotenusa de ese triángulo (cos β o sen β) y si el tramo queda frente a α (va con seno) o pegado a α (va con coseno).' }),
     ],
     'trig-48b': [
       play('tira-doble', 'Una tira de largo 1 se parte en dos: lo azul es cos²θ y lo rojo es sen²θ. Mueve el corte con − y + para que azul menos rojo dé lo pedido, y toca «Restar»', {

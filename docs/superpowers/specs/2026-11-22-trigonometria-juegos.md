@@ -23,15 +23,15 @@ ya convertidos a «Arma la cuenta» o «Escala la solución», y **un juego nuev
 | `trig-2` | `figuras-notables` | Sacar cada razón notable tocando lados del medio equilátero (1, √3, 2) o del medio cuadrado (1, 1, √2). |
 | `trig-42c` | `multiplica-razon` | Elegir, entre las seis razones, la que convierte el lado conocido en el buscado; el juego calcula. |
 | `trig-3` | `proyecta-punto` | Poner el coseno y el seno (con signo) de un punto de la circunferencia y proyectarlo. |
-| `trig-43b` | `espejo-cuadrantes` | Reflejar un punto en los ejes para llevarlo al cuadrante pedido: referencia y signos. |
+| `trig-43b` | `espejo-cuadrantes` | Reflejar un punto en los ejes hasta el cuadrante pedido y decir cuánto mide su ángulo de referencia (el juego no lo escribe). |
 | `trig-44a` | `ola-entre-lineas` | Elegir amplitud y línea media para que la ola toque justo el techo y el piso: rango. |
 | `trig-44b` | `crestas-faroles` | Elegir cuántas ondas caben y cuánto se corre la ola para que las crestas caigan en los faroles. |
 | `trig-45` | `ventana-inversa` | Recortar un tramo de la gráfica que no repita alturas y las tenga todas: por qué se restringe el dominio. |
 | `trig-4` | `escala-triangulo` | Dividir el triángulo (cos, sen, 1) entre cos o entre sen y tocar el lado que quedó valiendo tan, sec, cot o csc. |
-| `trig-47b` | `todo-en-senos` | Abrir cada función en senos y cosenos y cancelar lo igual de arriba con lo de abajo. |
-| `trig-48a` | `rectangulo-suma` | Tocar en el rectángulo los tramos que forman sen(α + β) o cos(α + β). |
+| `trig-47b` | `todo-en-senos` | Armar la fracción de cada función (qué va arriba y qué va abajo) y cancelar lo igual de arriba con lo de abajo. |
+| `trig-48a` | `rectangulo-suma` | Ponerle su medida a los dos tramos que forman sen(α + β) o cos(α + β), razonando con los triángulos pequeños. |
 | `trig-48b` | `tira-doble` | Partir una tira de largo 1 en cos² y sen² para que su diferencia sea el cos 2θ pedido. |
-| `trig-49` | `red-periodica` | Atrapar todas las soluciones con redes: un primer pez y un salto (la solución general). |
+| `trig-49` | `red-periodica` | Atrapar todas las soluciones con redes: primera solución y salto (la solución general); los peces solo se ven al lanzar. |
 | `trig-46a` | `pareja-opuesta` | Resolver un triángulo tocando lo que ya se puede calcular: tercer ángulo o lado con una pareja completa. |
 | `trig-46b` | `bisagra-area` | Girar un lado hasta la altura que da el área pedida: suelen servir dos ángulos (C y 180° − C). |
 | `trig-151` | `parientes-polares` | Llevar un punto al conjugado, al opuesto, a i·z o al inverso de z moviendo módulo y ángulo. |
