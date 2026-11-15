@@ -6,9 +6,9 @@ GAMES['bisagra-area'] = (() => {
   const at = it => it.atex ?? `${it.area}`;
   return questGame({
     aspect: 1.35,
-    init: () => ({ c: 6, marks: [] }),
+    init: () => ({ c: 1, marks: [] }),
     ok: (s, it) => [...s.marks].sort((a, b) => a - b).join() === sols(it).join(),
-    answer: it => ({ c: 6, marks: sols(it) }),
+    answer: it => ({ c: 1, marks: sols(it) }),
     solution: it => `$C = ${sols(it).map(c => `${c}^\\circ`).join('$ y $')}$`,
     prompt: it => `Área pedida: $${at(it)}$. Gira el lado azul y marca todos los ángulos que sirven`,
     foot: () => 'Área = ½ · base · altura, y la altura es $a\\,\\operatorname{sen} C$',
@@ -21,7 +21,7 @@ GAMES['bisagra-area'] = (() => {
       const { p, C, s, item: it, P, u } = G, Q = [P[0] + it.b * u, P[1]], tip = c => [P[0] + it.a * u * Math.cos(TK.rad(c)), P[1] - it.a * u * Math.sin(TK.rad(c))], T = tip(15 * s.c), hy = P[1] - 2 * it.area / it.b * u;
       p.stroke(C.line); p.strokeWeight(1.5); p.line(10, P[1], G.W - 10, P[1]);
       p.stroke(C.coral); p.strokeWeight(2.5); p.drawingContext.setLineDash([7, 5]); p.line(10, hy, G.W - 10, hy); p.drawingContext.setLineDash([]);
-      drawPill(p, C, `altura para área ${at(it).replace(/\\sqrt(\d)/, '√$1')}`, G.W - 86, hy - 13, C.coral, 11);
+      drawPill(p, C, `línea punteada: altura para área ${at(it).replace(/\\sqrt(\d)/, '√$1')}`, G.W / 2, G.top + 12, C.coral, 11);
       for (const m of s.marks) { const t = tip(m); p.stroke(C.ok); p.strokeWeight(3); p.line(...P, ...t); drawDot(p, C, t[0], t[1], 9, C.ok); TK.label(p, C, `${m}°`, t[0], t[1] - 14, C.ok, 12, 40); }
       p.noStroke(); p.fill(C.card); p.triangle(...P, ...Q, ...T);
       p.stroke(C.ink); p.strokeWeight(3); p.line(...P, ...Q); p.line(...Q, ...T); p.stroke(C.sky); p.strokeWeight(5); p.line(...P, ...T);

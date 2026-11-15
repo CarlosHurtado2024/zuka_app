@@ -23,7 +23,7 @@ GAMES['proyecta-punto'] = (() => {
       if (s.miss && !G.solved) { const mx = cx + TK.VAL[s.miss[0]] * R, my = cy - TK.VAL[s.miss[1]] * R; p.stroke(C.bad); p.strokeWeight(3); p.line(mx - 6, my - 6, mx + 6, my + 6); p.line(mx - 6, my + 6, mx + 6, my - 6); TK.label(p, C, 'tu punto', mx, my + 16, C.bad, 11, 70); }
       drawDot(p, C, x, y, 12, G.solved ? C.ok : C.N);
       TK.label(p, C, `$${name(it)}$`, x + (x >= cx ? 26 : -26), y + (y <= cy ? -12 : 14), C.ink, 14, 60);
-      drawStepper(p, C, G.bc, `$${TK.VTEX[s.c]}$`, 'coseno (de lado)', C.sky); drawStepper(p, C, G.bs, `$${TK.VTEX[s.s]}$`, 'seno (arriba o abajo)', C.coral);
+      drawStepper(p, C, G.bc, `$${TK.VTEX[s.c]}$`, 'coseno (de lado)', C.Z); drawStepper(p, C, G.bs, `$${TK.VTEX[s.s]}$`, 'seno (arriba o abajo)', C.I);
       drawBtn(p, C, G.go, 'Proyectar', G.solved, G.solved ? C.ok : C.coral);
     },
     press(G, x, y) {

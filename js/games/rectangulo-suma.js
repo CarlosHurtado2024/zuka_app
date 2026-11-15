@@ -11,7 +11,7 @@ GAMES['rectangulo-suma'] = (() => {
     ok: (s, it) => (it.ask === 'sen' ? [...s.pick].sort().join() : s.pick.join()) === want(it).join(),
     answer: it => ({ pick: want(it) }),
     solution: it => `$${name(it)} = ${lab(it, want(it)[0])} ${it.ask === 'sen' ? '+' : '-'} ${lab(it, want(it)[1])}${it.res ? ` = ${it.res}` : ''}$`,
-    prompt: it => (it.ask === 'sen' ? 'Toca los dos tramos que juntos miden lo mismo que el lado «?»' : 'Toca el tramo largo y luego el pedazo que hay que quitarle'),
+    prompt: it => (it.ask === 'sen' ? 'Toca los dos tramos que, sumados, dan el lado «?»' : 'Toca dos tramos: uno menos el otro debe dar el lado «?»'),
     foot: it => (it.a ? `Aquí $\\alpha = ${it.a}^\\circ$ y $\\beta = ${it.b}^\\circ$` : 'El triángulo inclinado tiene hipotenusa 1'),
     no: it => (it.ask === 'sen' ? 'Mira el lado derecho: está hecho de dos tramos' : 'Primero el tramo largo de abajo; después el pedacito de arriba'),
     retry: G => { G.s.pick = []; },

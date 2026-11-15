@@ -13,7 +13,7 @@ GAMES['espejo-cuadrantes'] = (() => {
     prompt: it => (it.cond ? `Lleva ${it.deg}° adonde ${it.cond}` : `Lleva ${it.deg}° al cuadrante I: verás su ángulo de referencia`),
     foot: (it, s) => `Espejos usados: ${s.ops.length} de ${it.max ?? 2}`,
     retry: G => { G.s.ops = []; },
-    layout(G) { G.btn = TK.row(G, 3); const h = G.btn[0].y - G.top - 46; G.R = Math.min(G.W * 0.27, h / 2 - 2); G.cx = G.W / 2; G.cy = G.top + 10 + G.R; },
+    layout(G) { G.btn = TK.row(G, 2); const h = G.btn[0].y - G.top - 46; G.R = Math.min(G.W * 0.27, h / 2 - 2); G.cx = G.W / 2; G.cy = G.top + 10 + G.R; },
     draw(G) {
       const { p, C, s, item: it, cx, cy, R } = G, d = run(it, s.ops), [x, y] = TK.at(cx, cy, R, d), [ox, oy] = TK.at(cx, cy, R, it.deg), r = TK.rad(d);
       TK.ring(p, C, cx, cy, R);
@@ -25,19 +25,18 @@ GAMES['espejo-cuadrantes'] = (() => {
       // Signos del punto actual.
       const sg = [['sen', Math.sin(r)], ['cos', Math.cos(r)], ['tan', Math.tan(r)]], w = (G.W - 24) / 3, py = G.btn[0].y - 22;
       sg.forEach(([n, v], i) => drawPill(p, C, `${n} ${v > 0 ? '+' : '−'}`, 12 + w * (i + 0.5), py, v > 0 ? C.mint : C.coral, 12));
-      drawBtn(p, C, G.btn[0], 'Espejo ↕', false, C.cream); drawBtn(p, C, G.btn[1], 'Espejo ↔', false, C.cream); drawBtn(p, C, G.btn[2], '↶ deshacer', false, C.sky);
+      drawBtn(p, C, G.btn[0], 'Espejo ↕', false, C.cream); drawBtn(p, C, G.btn[1], 'Espejo ↔', false, C.cream);
     },
     press(G, x, y) {
       const s = G.s, it = G.item, i = G.btn.findIndex(b => hitBox(b, x, y));
       if (i < 0) return false;
-      if (i === 2) { s.ops.pop(); return true; }
       s.ops.push(i); G.api.sfx?.tap?.();
       const d = run(it, s.ops);
       if (quad(d) === it.to) G.good(it.to === 1 ? `Ángulo de referencia: ${d}°` : `Llegaste a ${d}°`);
       else if (s.ops.length >= (it.max ?? 2)) G.bad('Se acabaron los espejos: empieza de nuevo');
       return true;
     },
-    peek: G => ({ solve: [...G.s.ops.map(() => G.btn[2]), ...route(G.item).map(k => G.btn[k])], wrong: (G.item.max ?? 2) === 1 && !G.s.ops.length ? G.btn[1 - route(G.item)[0]] : null }),
+    peek: G => ({ solve: route(G.item).slice(G.s.ops.length).map(k => G.btn[k]), wrong: (G.item.max ?? 2) === 1 && !G.s.ops.length ? G.btn[1 - route(G.item)[0]] : null }),
   });
 })();
 // Juego con `questGame` y las ayudas `TK` del kit (spec 2026-11-22-trigonometria-juegos).   params = { rounds: [{ title, items }], lives? }   state = { done: [n] }

@@ -14,7 +14,7 @@ GAMES['rueda-rodante'] = (() => {
     draw(G) {
       const { p, C, s, item: it, W, gy } = G, x0 = 60, span = W - 100, dist = n => it.r * n * Math.PI / 6;
       const sc = Math.min(span * 0.74 / dist(it.n), 44 / it.r), rp = it.r * sc, th = s.rolled ? s.n * Math.PI / 6 : 0;
-      const wx = Math.min(W - 18, x0 + (s.rolled ? dist(s.n) * sc : 0)), wy = gy - rp, fx = x0 + dist(it.n) * sc;
+      const wx = Math.min(W - rp - 4, x0 + (s.rolled ? dist(s.n) * sc : 0)), wy = gy - rp, fx = x0 + dist(it.n) * sc;
       p.stroke(C.line); p.strokeWeight(3); p.line(10, gy, W - 10, gy);
       p.stroke(C.coral); p.strokeWeight(5); p.line(x0, gy, wx, gy);
       // Bandera.

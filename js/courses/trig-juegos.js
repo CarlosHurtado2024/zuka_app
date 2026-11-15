@@ -18,7 +18,7 @@ const TRIG_EXTRA = (() => {
       play('rueda-rodante', 'La rueda debe parar justo en la bandera. Elige con − y + el ángulo que tiene que girar y toca «Rodar»', {
         rounds: [
           { title: 'Del arco al ángulo', items: [{ r: 2, n: 9 }, { r: 3, n: 4 }] },
-          { title: 'Más de una vuelta', items: [{ r: 1, n: 15 }, { r: 4, n: 3 }] },
+          { title: 'Otros radios', items: [{ r: 1, n: 15 }, { r: 4, n: 3 }] },
           { title: 'Rueda grande y rueda pequeña', items: [{ r: 3, n: 10 }, { r: 0.5, n: 12 }] },
         ],
       }, 'La rueda avanza lo que mide el arco que apoya: $s = r\\theta$, así que $\\theta = \\tfrac{s}{r}$. $\\tfrac{3\\pi}{2}$, $\\tfrac{2\\pi}{3}$, $\\tfrac{5\\pi}{2}$ (una vuelta y cuarto), $\\tfrac{\\pi}{2}$, $\\tfrac{5\\pi}{3}$ y, con el radio de medio metro, $\\tfrac{\\pi}{0.5} = 2\\pi$: una vuelta entera para avanzar apenas $\\pi$ metros.',
@@ -38,9 +38,9 @@ const TRIG_EXTRA = (() => {
         { hint: 'Nombra los dos lados mirando desde el ángulo: ¿el conocido es la hipotenusa, el opuesto o el adyacente? ¿Y el buscado? Con esos dos nombres, SOH CAH TOA te dice la razón.' }),
       play('toca-lados', 'El triángulo sale girado o volteado. Mira desde θ y toca dos lados: primero el que va arriba de la fracción y luego el que va abajo', {
         rounds: [
-          { title: 'Triángulo de pie', items: [{ fn: 'sen', t: 0, len: [3, 4, 5] }, { fn: 'cos', t: 1, len: [5, 12, 13] }] },
-          { title: 'Volteado', items: [{ fn: 'tan', t: 2, len: [8, 15, 17] }, { fn: 'sen', t: 5, len: [7, 24, 25] }] },
-          { title: 'De cabeza', items: [{ fn: 'cos', t: 6, len: [20, 21, 29] }, { fn: 'tan', t: 7, len: [12, 35, 37] }] },
+          { title: 'Triángulo de pie', items: [{ fn: 'sen', t: 0, len: [3, 4, 5] }, { fn: 'cos', t: 1, len: [12, 5, 13] }] },
+          { title: 'Volteado', items: [{ fn: 'tan', t: 2, len: [8, 15, 17] }, { fn: 'sen', t: 5, len: [24, 7, 25] }] },
+          { title: 'De cabeza', items: [{ fn: 'cos', t: 6, len: [20, 21, 29] }, { fn: 'tan', t: 7, len: [35, 12, 37] }] },
         ],
       }, 'No importa cómo esté puesto el triángulo: el opuesto es el lado que no toca a θ, la hipotenusa está frente al ángulo recto y el adyacente es el otro lado que sale de θ. $\\operatorname{sen}\\theta = \\tfrac{\\text{op}}{\\text{hip}}$, $\\cos\\theta = \\tfrac{\\text{ady}}{\\text{hip}}$ y $\\tan\\theta = \\tfrac{\\text{op}}{\\text{ady}}$.',
         { hint: 'Primero ubica la hipotenusa: es el lado frente al cuadradito del ángulo recto. De los otros dos, el que no toca a θ es el opuesto. Luego recuerda SOH CAH TOA.' }),
@@ -65,8 +65,8 @@ const TRIG_EXTRA = (() => {
     'trig-42c': [
       play('toca-lados', 'Ahora con las razones recíprocas: son las mismas fracciones dadas vuelta. Toca primero el lado de arriba de la fracción y luego el de abajo', {
         rounds: [
-          { title: 'Cosecante y secante', items: [{ fn: 'csc', t: 3, len: [9, 40, 41] }, { fn: 'sec', t: 4, len: [11, 60, 61] }] },
-          { title: 'Cotangente y otra más', items: [{ fn: 'cot', t: 1, len: [28, 45, 53] }, { fn: 'csc', t: 6, len: [33, 56, 65] }] },
+          { title: 'Cosecante y secante', items: [{ fn: 'csc', t: 3, len: [9, 40, 41] }, { fn: 'sec', t: 4, len: [60, 11, 61] }] },
+          { title: 'Cotangente y otra más', items: [{ fn: 'cot', t: 1, len: [28, 45, 53] }, { fn: 'csc', t: 6, len: [56, 33, 65] }] },
         ],
       }, 'La cosecante es el seno al revés: $\\csc\\theta = \\tfrac{\\text{hip}}{\\text{op}}$. La secante es el coseno al revés: $\\sec\\theta = \\tfrac{\\text{hip}}{\\text{ady}}$. La cotangente es la tangente al revés: $\\cot\\theta = \\tfrac{\\text{ady}}{\\text{op}}$. En la cosecante y la secante la hipotenusa va arriba, así que siempre valen más que 1.',
         { hint: 'Piensa primero en la razón conocida (seno, coseno o tangente) y después dale la vuelta: lo que iba abajo pasa arriba. Cosecante va con seno; secante, con coseno.' }),
@@ -142,7 +142,7 @@ const TRIG_EXTRA = (() => {
           { title: 'La ventana oficial', items: [{ fn: 'sen', std: true }, { fn: 'cos', std: true }] },
           { title: 'La tangente', items: [{ fn: 'tan' }, { fn: 'tan', std: true }] },
         ],
-      }, 'Un tramo sirve si recorre todas las alturas una sola vez: para el seno, de un valle a la cresta siguiente (ancho $\\pi$); para el coseno, de una cresta al valle siguiente; para la tangente, de una asíntota a la otra. Las oficiales contienen los ángulos agudos: $\\left[-\\tfrac{\\pi}{2}, \\tfrac{\\pi}{2}\\right]$ para $\\operatorname{sen}^{-1}$ y $\\tan^{-1}$ (abierto en la tangente), y $[0, \\pi]$ para $\\cos^{-1}$. Por eso cada inversa devuelve un solo ángulo.',
+      }, 'Un tramo sirve si recorre todas las alturas una sola vez: para el seno y el coseno, de un extremo (cresta o valle) al siguiente, con ancho $\\pi$; para la tangente, de una asíntota a la otra. Las oficiales contienen los ángulos agudos: $\\left[-\\tfrac{\\pi}{2}, \\tfrac{\\pi}{2}\\right]$ para $\\operatorname{sen}^{-1}$ y $\\tan^{-1}$ (abierto en la tangente), y $[0, \\pi]$ para $\\cos^{-1}$. Por eso cada inversa devuelve un solo ángulo.',
         { hint: 'Si la ventana es muy ancha, la curva sube y vuelve a bajar: repite alturas. Si es muy angosta, no alcanza todas. Busca un tramo donde la curva solo suba o solo baje, de extremo a extremo.' }),
     ],
     'trig-4': [
@@ -186,14 +186,14 @@ const TRIG_EXTRA = (() => {
         { hint: 'Las dos partes siempre suman 1. Si quieres que la resta dé un número positivo, lo azul debe ser más de la mitad. Prueba a pensar: ¿qué dos números suman 1 y se diferencian en lo pedido?' }),
     ],
     'trig-49': [
-      play('red-periodica', 'Las soluciones se repiten sin fin: cada red atrapa una familia. Toca el primer pez de la red, elige su salto con − y +, y toca «Lanzar» cuando no quede pez suelto ni anzuelo vacío', {
+      play('red-periodica', 'Las soluciones se repiten sin fin: cada red atrapa una familia. Resuelve la ecuación, pon con − y + la primera solución y el salto de cada red, y toca «Lanzar»: ahí se ven los peces', {
         rounds: [
           { title: 'Una sola red', items: [{ eq: '\\tan x = 1', fams: [[3, 12]] }, { eq: '\\cos x = 0', fams: [[6, 12]] }] },
           { title: 'Dos redes', items: [{ eq: '\\operatorname{sen} x = -\\tfrac12', fams: [[14, 24], [22, 24]] }, { eq: '2\\cos x = -\\sqrt3', fams: [[10, 24], [14, 24]] }] },
           { title: 'Ángulos múltiples', items: [{ eq: '\\tan 2x = \\sqrt3', fams: [[2, 6]] }, { eq: '\\operatorname{sen} 3x = 1', fams: [[2, 8]] }] },
         ],
       }, 'La tangente se repite cada $\\pi$: $x = \\tfrac{\\pi}{4} + k\\pi$. Los ceros del coseno también van cada $\\pi$: $x = \\tfrac{\\pi}{2} + k\\pi$. El seno y el coseno dan dos soluciones por vuelta, cada una con salto $2\\pi$: $\\tfrac{7\\pi}{6}$ y $\\tfrac{11\\pi}{6}$; $\\tfrac{5\\pi}{6}$ y $\\tfrac{7\\pi}{6}$. Con ángulo múltiple el salto se divide: $2x = \\tfrac{\\pi}{3} + k\\pi$ da $x = \\tfrac{\\pi}{6} + \\tfrac{k\\pi}{2}$, y $3x = \\tfrac{\\pi}{2} + 2k\\pi$ da $x = \\tfrac{\\pi}{6} + \\tfrac{2k\\pi}{3}$.',
-        { hint: 'Mira la distancia entre un pez y el siguiente. Si todos están a la misma distancia, basta una red con ese salto. Si las distancias se alternan (una corta y una larga), son dos familias: cada una salta una vuelta entera.' }),
+        { hint: 'Despeja primero la función y busca los ángulos entre 0 y 2π que la cumplen. El salto es el periodo: 2π para seno y coseno, π para la tangente; si adentro va 2x o 3x, ese periodo se divide entre 2 o entre 3.' }),
     ],
     'trig-46a': [
       play('pareja-opuesta', 'Lo azul ya se conoce. Toca, en orden, lo que ya se puede calcular hasta llegar a lo que se pide (en rojo): un ángulo sale de los otros dos, y la ley de senos necesita una pareja completa de lado y ángulo opuesto', {
@@ -205,10 +205,10 @@ const TRIG_EXTRA = (() => {
             { ang: [50, 70, 60], base: [0, 9], know: ['A', 'B', 'a'], want: 'c' },
             { ang: [35, 100, 45], base: [2, 20], know: ['A', 'B', 'c'], want: 'b' }] },
           { title: 'Dos lados y un ángulo opuesto', items: [
-            { ang: [30, 48.6, 101.4], base: [0, 6], know: ['A', 'a', 'b'], want: 'B' },
+            { ang: [50, 37.8, 92.2], base: [0, 10], know: ['A', 'a', 'b'], want: 'B' },
             { ang: [60, 40, 80], base: [0, 13], know: ['A', 'a', 'b'], want: 'c' }] },
         ],
-      }, 'La ley de senos, $\\tfrac{a}{\\operatorname{sen} A} = \\tfrac{b}{\\operatorname{sen} B} = \\tfrac{c}{\\operatorname{sen} C}$, solo arranca con una pareja completa. Si el lado buscado no tiene su ángulo, primero se saca con $A + B + C = 180^\\circ$. Con dos lados y un ángulo opuesto (LLA) se despeja primero el seno del otro ángulo: $\\operatorname{sen} B = \\tfrac{b\\operatorname{sen} A}{a}$.',
+      }, 'La ley de senos, $\\tfrac{a}{\\operatorname{sen} A} = \\tfrac{b}{\\operatorname{sen} B} = \\tfrac{c}{\\operatorname{sen} C}$, solo arranca con una pareja completa. Si el lado buscado no tiene su ángulo, primero se saca con $A + B + C = 180^\\circ$. Con dos lados y un ángulo opuesto (LLA) se despeja primero el seno del otro ángulo: $\\operatorname{sen} B = \\tfrac{b\\operatorname{sen} A}{a}$. En estos dos retos el lado $a$ es mayor que $b$, así que $B$ es agudo y solo hay un triángulo; si $a$ fuera menor, habría que revisar el caso ambiguo.',
         { hint: 'Busca una pareja completa: un lado y el ángulo que tiene al frente, los dos en azul. Si a lo que buscas le falta su compañero del frente, calcula primero ese compañero.' }),
     ],
     'trig-46b': [
@@ -235,10 +235,10 @@ const TRIG_EXTRA = (() => {
       play('hermanas-raiz', 'Ya tienes una raíz (el punto amarillo). Las demás tienen el mismo módulo y reparten la vuelta en partes iguales: toca sobre la circunferencia dónde están', {
         rounds: [
           { title: 'Tres y cuatro raíces', items: [{ n: 3, deg0: 45, step: 15 }, { n: 4, deg0: 15, step: 15 }] },
-          { title: 'Seis y cinco raíces', items: [{ n: 6, deg0: 20, step: 10 }, { n: 5, deg0: 12, step: 12 }] },
-          { title: 'Dos y ocho raíces', items: [{ n: 2, deg0: 250, step: 10 }, { n: 8, deg0: 30, step: 15 }] },
+          { title: 'Seis y cinco raíces', items: [{ n: 6, deg0: 30, step: 15 }, { n: 5, deg0: 12, step: 12 }] },
+          { title: 'Dos y ocho raíces', items: [{ n: 2, deg0: 255, step: 15 }, { n: 8, deg0: 15, step: 15 }] },
         ],
-      }, 'Las $n$ raíces $n$-ésimas están separadas $\\tfrac{360^\\circ}{n}$: cúbicas cada $120^\\circ$ ($45^\\circ, 165^\\circ, 285^\\circ$), cuartas cada $90^\\circ$, sextas cada $60^\\circ$, quintas cada $72^\\circ$ ($12^\\circ, 84^\\circ, 156^\\circ, 228^\\circ, 300^\\circ$), cuadradas a media vuelta ($250^\\circ$ y $70^\\circ$) y octavas cada $45^\\circ$. Forman un polígono regular.',
+      }, 'Las $n$ raíces $n$-ésimas están separadas $\\tfrac{360^\\circ}{n}$: cúbicas cada $120^\\circ$ ($45^\\circ, 165^\\circ, 285^\\circ$), cuartas cada $90^\\circ$, sextas cada $60^\\circ$, quintas cada $72^\\circ$ ($12^\\circ, 84^\\circ, 156^\\circ, 228^\\circ, 300^\\circ$), cuadradas a media vuelta ($255^\\circ$ y $75^\\circ$) y octavas cada $45^\\circ$. Forman un polígono regular.',
         { hint: 'Divide la vuelta completa, 360°, entre el número de raíces: ese es el salto de una raíz a la siguiente. Súmalo una y otra vez al ángulo de la raíz que ya tienes; si te pasas de 360°, resta una vuelta.' }),
     ],
   };

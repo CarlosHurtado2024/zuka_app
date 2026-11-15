@@ -21,7 +21,7 @@ GAMES['quita-vueltas'] = (() => {
       for (let i = 0; i <= n; i++) { const a = d * i / n, r = R * 0.2 + Math.min(R * 0.62, Math.abs(a) / 360 * R * 0.17); p.vertex(...TK.at(cx, cy, r, a)); }
       p.endShape();
       p.stroke(C.sky); p.strokeWeight(4); p.line(cx, cy, tx, ty); drawDot(p, C, tx, ty, 11, C.sky);
-      TK.label(p, C, fmt(it, d), cx, cy + R + 20, G.solved ? C.ok : C.ink, 17, 150);
+      TK.label(p, C, G.solved ? fmt(it, d) : `${fmt(it, it.deg)} ${s.k < 0 ? '−' : '+'} ${Math.abs(s.k)} ${Math.abs(s.k) === 1 ? 'vuelta' : 'vueltas'}`, cx, cy + R + 20, G.solved ? C.ok : C.ink, 17, 220);
       drawBtn(p, C, G.btn[0], '− 1 vuelta', false, C.cream); drawBtn(p, C, G.btn[1], '+ 1 vuelta', false, C.cream); drawBtn(p, C, G.btn[2], 'Listo', G.solved, G.solved ? C.ok : C.coral);
     },
     press(G, x, y) {

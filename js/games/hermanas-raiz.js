@@ -31,7 +31,7 @@ GAMES['hermanas-raiz'] = (() => {
       if (s.pick.length === it.n - 1) G.good(`Una raíz cada ${360 / it.n}°: son los vértices de un polígono regular`);
       return true;
     },
-    peek: G => ({ solve: others(G.item).filter(d => !G.s.pick.includes(d)).map(G.dot), wrong: G.dot(TK.mod(G.item.deg0 + G.item.step, 360)) }),
+    peek: G => ({ solve: others(G.item).filter(d => !G.s.pick.includes(d)).map(G.dot), wrong: G.dot([1, 2, 3].map(k => TK.mod(G.item.deg0 + k * G.item.step, 360)).find(d => !others(G.item).includes(d))) }),
   });
 })();
 // Juego con `questGame` y las ayudas `TK` del kit (spec 2026-11-22-trigonometria-juegos).   params = { rounds: [{ title, items }], lives? }   state = { done: [n] }

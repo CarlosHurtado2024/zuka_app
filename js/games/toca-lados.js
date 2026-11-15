@@ -13,10 +13,10 @@ GAMES['toca-lados'] = (() => {
     no: () => 'Esos dos lados forman otra razón',
     retry: G => { G.s.pick = []; },
     layout(G) {
-      const it = G.item, t = it.t || 0, k = Math.max(0.4, Math.min(1, it.len[0] / it.len[1]));
-      const w = Math.min(G.W - 110, 220), h = Math.min(G.bottom - G.top - 96, 170), x0 = (G.W - w) / 2, y0 = G.top + 58;
+      const it = G.item, t = it.t || 0, k = Math.max(0.4, Math.min(1, it.len[0] / it.len[1])), kx = Math.max(0.4, Math.min(1, it.len[1] / it.len[0]));
+      const w = Math.min(G.W - 110, G.bottom - G.top - 96, 180), h = w, x0 = (G.W - w) / 2, y0 = G.top + 58;
       const P = ([u, v]) => { if (t & 4) [u, v] = [v, u]; if (t & 1) u = 1 - u; if (t & 2) v = 1 - v; return [x0 + u * w, y0 + v * h]; };
-      const A = P([0, 1]), B = P([1, 1]), T = P([1, 1 - k]);
+      const A = P([(1 - kx) / 2, 1]), B = P([(1 + kx) / 2, 1]), T = P([(1 + kx) / 2, 1 - k]);
       G.A = A; G.B = B; G.T = T; G.seg = [[B, T], [A, B], [A, T]]; G.cen = [(A[0] + B[0] + T[0]) / 3, (A[1] + B[1] + T[1]) / 3];
     },
     draw(G) {

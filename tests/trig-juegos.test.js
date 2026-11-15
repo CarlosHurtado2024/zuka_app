@@ -88,3 +88,19 @@ test('los juegos nuevos están registrados, con guía y como juegos de vidas', (
   const arcade = guia.slice(guia.indexOf('GUIDE_ARCADE'), guia.indexOf('const GUIDES'));
   for (const g of NEW) { assert.ok(GAMES[g], g); assert.ok(guia.includes(`'${g}': [[`), `guía de ${g}`); assert.ok(arcade.includes(`'${g}'`), `vidas de ${g}`); }
 });
+
+test('tras la revisión: LLA sin caso ambiguo, θ no siempre el ángulo menor, la bisagra no empieza resuelta, peces ocultos', () => {
+  const items = g => lessons.flatMap(l => l.ex.filter(e => e.game === g).flatMap(e => e.params.rounds.flatMap(r => r.items)));
+  for (const it of items('pareja-opuesta').filter(q => q.know.join() === 'A,a,b')) {
+    const sinB = Math.sin(it.ang[1] * Math.PI / 180), sinA = Math.sin(it.ang[0] * Math.PI / 180);
+    assert.ok(sinB <= sinA + 1e-9, `con a ≥ b solo hay un triángulo: ${JSON.stringify(it)}`);
+    assert.ok(Math.abs(it.ang[0] + it.ang[1] + it.ang[2] - 180) < 0.05);
+  }
+  const tl = items('toca-lados');
+  assert.ok(tl.filter(it => it.len[0] > it.len[1]).length >= 4 && tl.filter(it => it.len[0] < it.len[1]).length >= 4);
+  for (const it of tl) assert.equal(it.len[0] ** 2 + it.len[1] ** 2, it.len[2] ** 2);
+  const bis = GAMES['bisagra-area'];
+  for (const it of items('bisagra-area')) assert.ok(!bis.answer(it).marks.includes(15 * bis.init(it).c), 'no empieza en una respuesta');
+  assert.equal(GAMES['red-periodica'].init(items('red-periodica')[0]).seen, false);
+  for (const it of items('hermanas-raiz')) assert.ok(it.step >= 12, 'puntos separados para el dedo');
+});

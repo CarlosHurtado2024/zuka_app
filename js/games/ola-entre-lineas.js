@@ -22,7 +22,7 @@ GAMES['ola-entre-lineas'] = (() => {
       dash(it.hi, C.coral, `techo ${TK.minusTxt(it.hi)}`); dash(it.lo, C.sky, `piso ${TK.minusTxt(it.lo)}`);
       p.stroke(C.mute); p.strokeWeight(1); p.drawingContext.setLineDash([2, 4]); p.line(box.x, Y(s.sd / 2), box.x + box.w, Y(s.sd / 2)); p.drawingContext.setLineDash([]);
       p.noFill(); p.stroke(G.solved ? C.ok : C.mint); p.strokeWeight(3.5); p.beginShape();
-      for (let i = 0; i <= 120; i++) { const t = i / 120 * 4 * Math.PI; p.vertex(X(t), Y(s.sa / 2 * Math.sin(t) + s.sd / 2)); }
+      for (let i = 0; i <= 120; i++) { const t = i / 120 * 4 * Math.PI; p.vertex(X(t), Y(Math.max(-5.4, Math.min(5.4, s.sa / 2 * Math.sin(t) + s.sd / 2)))); }
       p.endShape();
       drawStepper(p, C, G.ba, half(s.a), 'amplitud (a)'); drawStepper(p, C, G.bd, half(s.d), 'línea media (d)');
       drawBtn(p, C, G.go, 'Lanzar ola', G.solved, G.solved ? C.ok : C.coral);

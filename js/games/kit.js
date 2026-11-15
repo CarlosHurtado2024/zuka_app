@@ -694,7 +694,8 @@ const TK = (() => {
   const steps = (b, from, to) => Array(Math.abs(to - from)).fill(to > from ? plus(b) : minus(b));
   const segDist = (x, y, a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], t = Math.max(0, Math.min(1, ((x - a[0]) * dx + (y - a[1]) * dy) / (dx * dx + dy * dy))); return Math.hypot(x - a[0] - t * dx, y - a[1] - t * dy); };
   const mid = (a, b, s = 14) => ({ x: (a[0] + b[0]) / 2 - s / 2, y: (a[1] + b[1]) / 2 - s / 2, w: s, h: s });
-  function label(p, C, txt, x, y, col, size = 13, w = 110) { p.noStroke(); p.fill(col); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, String(txt), x, y, w, size); }
+  const inkOf = (C, col) => (col === C.sky ? C.Z : col === C.coral ? C.I : col === C.mint ? C.Q : col);
+  function label(p, C, txt, x, y, col, size = 13, w = 110) { p.noStroke(); p.fill(inkOf(C, col)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, String(txt), x, y, w, size); }
   // Lado más cercano al toque (índice en `segs`), o −1.
   const hitSeg = (segs, x, y, r = 22) => { let best = -1, bd = r; segs.forEach(([a, b], i) => { const d = segDist(x, y, a, b); if (d < bd) { bd = d; best = i; } }); return best; };
   // Rótulo de un lado, corrido hacia afuera del triángulo.
