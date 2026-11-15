@@ -22,7 +22,7 @@ GAMES['cruza-o-rebota'] = (() => {
       G.btn = { x: G.W / 2 - 60, y: G.bottom - 38, w: 120, h: 34 };
       const top = G.top + 6, h = G.btn.y - top - 60;
       G.X = x => 20 + (x + 5) * (G.W - 40) / 10; G.mid = top + h / 2; G.amp = h / 2 - 6;
-      G.chip = i => { const x = G.X(G.item.factors[i][0]); return { x: Math.max(8, Math.min(G.W - 86, x - 39)), y: G.btn.y - 50, w: 78, h: 34 }; };
+      G.chip = i => { const x = G.X(G.item.factors[i][0]), w = Math.min(78, 2 * (G.W - 40) / 10 - 6); return { x: Math.max(8, Math.min(G.W - 8 - w, x - w / 2)), y: G.btn.y - 50, w, h: 34 }; };   // ceros a 2 unidades no se enciman
     },
     draw(G) {
       const { p, C, W, s, item: it } = G;

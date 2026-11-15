@@ -735,7 +735,7 @@
     ] }, 'El grado es el mayor exponente de la variable, aunque ese término no esté de primero ni tenga el coeficiente más grande. El número solo es el término de grado 0.',
       'No mires el número que multiplica: mira el pequeño número de arriba de la x. Una x sola tiene exponente 1 y un número sin x, exponente 0.'),
     'alg-3': P('arma-la-mesa', 'Completa cada mesa: elige las piezas que le faltan y toca «Listo»', { rounds: [
-      { title: 'La mesa crece por los dos lados', items: [{ a: 3, pieces: ['3x', '9', '3x', '6', 'x', '3'] }, { a: 5, pieces: ['25', '5x', '10', '5x', '5', '2x'] }] },
+      { title: 'La mesa crece por los dos lados', items: [{ a: 3, pieces: ['3x', '9', '3x', '6', 'x', '3'] }, { a: 7, pieces: ['49', '7x', '14', '7x', '7', '2x'] }] },
       { title: 'Más mesas', items: [{ a: 2, pieces: ['2x', '4', '2', '2x', 'x', '8'] }, { a: 6, pieces: ['36', '6x', '12', '6x', '6', '3x'] }] },
     ] }, 'Al crecer $a$ por lado, a la mesa $x^2$ le hacen falta **dos** tablas de $a$ por $x$ y la esquina de $a$ por $a$: $(x + a)^2 = x^2 + 2ax + a^2$.',
       'La esquina sola no alcanza: a la derecha y abajo quedan dos huecos largos, tan largos como el lado de la mesa.'),
@@ -764,10 +764,10 @@
       { title: 'Fórmula sin armar', items: [{ a: -1, h: 3, k: 7, std: true }, { a: 1, h: -2, k: 1, std: true }, { a: -2, h: 1, k: 8, std: true }] },
     ] }, 'En $y = a(x - h)^2 + k$ el vértice es $(h, k)$: ojo, $(x + 1)^2$ es $h = -1$. Sin armar, $h = -\\dfrac{b}{2a}$ y $k$ es el valor en $h$: $-x^2 + 6x - 2$ tiene $h = 3$ y $k = -9 + 18 - 2 = 7$.',
       'En la forma armada el signo de adentro del paréntesis va al revés. En la otra, calcula primero h con −b entre 2a y luego reemplázalo para hallar la altura.'),
-    'alg-4': P('donde-cae', 'Pon un balde donde **cae el agua** (solo cae adelante de la boquilla) y abre la llave', { rounds: [
-      { title: 'Raíces a la vista', items: [{ eq: '(x - 5)(x + 1) = 0', roots: [5, -1] }, { eq: 'x^2 - 7x + 10 = 0', roots: [2, 5] }] },
-      { title: 'Una, ninguna o detrás', items: [{ eq: 'x^2 - 6x + 9 = 0', roots: [3, 3] }, { eq: 'x^2 + 4 = 0', roots: [] }, { eq: 'x^2 + 3x = 0', roots: [0, -3] }] },
-    ] }, 'El agua toca el suelo en las raíces. $(x - 5)(x + 1) = 0$ da 5 y $-1$, pero $-1$ queda detrás. $x^2 - 7x + 10 = (x - 2)(x - 5)$. $x^2 - 6x + 9 = (x - 3)^2$ tiene una sola raíz, doble. $x^2 + 4 = 0$ no tiene raíces reales. $x^2 + 3x = x(x + 3)$ da 0 y $-3$: ninguna adelante.',
+    'alg-4': P('donde-cae', 'La altura del chorro vale cero donde **cae el agua**. Pon un balde ahí (solo cae adelante de la boquilla) y abre la llave', { rounds: [
+      { title: 'Raíces a la vista', items: [{ eq: '-x^2 + 4x + 5 = 0', roots: [5, -1] }, { eq: '-x^2 + 2x + 8 = 0', roots: [4, -2] }] },
+      { title: 'Una, ninguna o detrás', items: [{ eq: '-x^2 + 6x - 9 = 0', roots: [3, 3] }, { eq: '-x^2 + 2x - 3 = 0', roots: [] }, { eq: '-x^2 - 3x = 0', roots: [0, -3] }] },
+    ] }, 'El agua toca el suelo en las raíces. $-x^2 + 4x + 5 = -(x - 5)(x + 1)$ da 5 y $-1$, pero $-1$ queda detrás. $-x^2 + 2x + 8 = -(x - 4)(x + 2)$ da 4 y $-2$. $-x^2 + 6x - 9 = -(x - 3)^2$ tiene una sola raíz, doble. $-x^2 + 2x - 3 = 0$ no tiene raíces reales: el discriminante es $4 - 12 < 0$. $-x^2 - 3x = -x(x + 3)$ da 0 y $-3$: ninguna adelante.',
       'Resuelve la ecuación y luego mira cada raíz: ¿está adelante de la boquilla? Si el discriminante es negativo, el agua nunca toca el suelo.'),
     'alg-23b': P('empaca-filas', 'Empaca los bloques en **filas del ancho del divisor**. Lo que no alcance para otra fila es el residuo', { rounds: [
       { title: 'Empaca y mira qué sobra', items: [{ a: 3, s: 5, p: 7 }, { a: 1, s: 4, p: 5 }] },
@@ -815,13 +815,13 @@
     ] }, 'Con interés simple del 20 % cada año suma 0.20: se duplica en el año 5. Con compuesto cada año multiplica por 1.2: $1.2^4 \\approx 2.07$, se duplica en el año 4. Al 10 %: año 10 con simple y año 8 con compuesto ($1.1^8 \\approx 2.14$).',
       'Con simple, divide lo que falta entre lo que suma cada año. Con compuesto, sigue multiplicando: cada año el salto es más grande que el anterior.'),
     'alg-72': P('regla-de-calculo', 'Multiplica y divide **sumando distancias** en la regla: corre la de arriba y toca el resultado abajo', { rounds: [
-      { title: 'Multiplicar es sumar exponentes', items: [{ base: 2, a: 4, b: 8 }, { base: 2, a: 8, b: 8 }] },
-      { title: 'Otra base, y dividir', items: [{ base: 3, a: 9, b: 27 }, { base: 2, a: 64, b: 8, div: true }, { base: 3, a: 81, b: 9, div: true }] },
-    ] }, 'En la regla cada paso es un exponente más. $4 \\times 8$: exponentes $2 + 3 = 5$, y $2^5 = 32$. Eso es $\\log(ab) = \\log a + \\log b$. Al dividir se restan: $64 \\div 8$ es $6 - 3 = 3$, y $2^3 = 8$.',
+      { title: 'Multiplicar es sumar exponentes', items: [{ base: 2, a: 2, b: 16 }, { base: 2, a: 8, b: 8 }] },
+      { title: 'Otra base, y dividir', items: [{ base: 3, a: 3, b: 81 }, { base: 2, a: 64, b: 8, div: true }, { base: 3, a: 81, b: 9, div: true }] },
+    ] }, 'En la regla cada paso es un exponente más. $2 \\times 16$: exponentes $1 + 4 = 5$, y $2^5 = 32$. Eso es $\\log(ab) = \\log a + \\log b$. Al dividir se restan: $64 \\div 8$ es $6 - 3 = 3$, y $2^3 = 8$.',
       'Mira los exponentes de abajo: el del resultado es la suma (o la resta) de los exponentes de los dos números.'),
     'alg-73': P('piedras-selva', 'Cruza el río pisando **todas las soluciones que sí sirven** y ninguna de las falsas', { rounds: [
       { title: 'Candidatas tramposas', items: [
-        { eq: '\\log_3 x + \\log_3(x - 8) = 2', stones: [{ x: '9', ok: true }, { x: '-1', ok: false, why: 'Un logaritmo no acepta números negativos' }, { x: '3', ok: false, why: 'Con 3, x − 8 es negativo' }] },
+        { eq: '\\log_2 x + \\log_2(x - 6) = 4', stones: [{ x: '8', ok: true }, { x: '-2', ok: false, why: 'Un logaritmo no acepta números negativos' }, { x: '4', ok: false, why: 'Con 4, x − 6 es negativo' }] },
         { eq: '2^{x^2} = 16', stones: [{ x: '2', ok: true }, { x: '4', ok: false, why: '2 elevado a 16 no es 16' }, { x: '-2', ok: true }] },
       ] },
       { title: 'Revisa el dominio', items: [
@@ -829,7 +829,7 @@
         { eq: '\\log_3(x^2) = 2', stones: [{ x: '3', ok: true }, { x: '9', ok: false, why: 'Con 9, x² es 81 y el logaritmo da 4' }, { x: '-3', ok: true }] },
         { eq: '\\ln(x - 5) = 0', stones: [{ x: '5', ok: false, why: 'ln 0 no existe' }, { x: '6', ok: true }, { x: '0', ok: false, why: 'Con 0, x − 5 es negativo' }] },
       ] },
-    ] }, '$\\log_3 x + \\log_3(x - 8) = 2$ da $x(x - 8) = 9$, con candidatas 9 y $-1$; $-1$ no tiene logaritmo. En cambio en $\\log_3(x^2) = 2$ sirven 3 y $-3$, porque lo que entra al logaritmo es $x^2 = 9$, positivo. Siempre se revisa lo de adentro del logaritmo.',
+    ] }, '$\\log_2 x + \\log_2(x - 6) = 4$ da $x(x - 6) = 16$, con candidatas 8 y $-2$; $-2$ no tiene logaritmo. En cambio en $\\log_3(x^2) = 2$ sirven 3 y $-3$, porque lo que entra al logaritmo es $x^2 = 9$, positivo. Siempre se revisa lo de adentro del logaritmo.',
       'Resuelve la ecuación y luego prueba cada candidata en la ecuación ORIGINAL: lo que queda dentro de cada logaritmo tiene que ser positivo.'),
   };
 

@@ -7,7 +7,7 @@
 GAMES['gira-complejos'] = (() => {
   const OPS = [z => [-z[1], z[0]], z => [-z[0], -z[1]], z => [z[0], -z[1]]], NAMES = ['× i', '× (−1)', 'conjugado'];
   const same = (a, b) => a[0] === b[0] && a[1] === b[1];
-  const cx = z => `${z[0] || (z[1] ? '' : 0)}${z[1] ? `${z[1] < 0 ? ' − ' : z[0] ? ' + ' : ''}${Math.abs(z[1]) === 1 ? '' : Math.abs(z[1])}i` : ''}`.trim().replace(/^− /, '−');
+  const cx = z => `${z[0] || (z[1] ? '' : 0)}${z[1] ? `${z[1] < 0 ? ' − ' : z[0] ? ' + ' : ''}${Math.abs(z[1]) === 1 ? '' : Math.abs(z[1])}i` : ''}`.trim().replace(/^− /, '−').replace(/-/g, '−');
   // La cadena más corta de movimientos que lleva z a w (o null si no cabe en `max`).
   function route(it) {
     let layer = [{ z: it.z, ops: [] }];

@@ -12,7 +12,7 @@ GAMES['llena-estanque'] = (() => {
   const fits = (it, n) => n % it.p === 0 && n % it.q === 0;
   return questGame({
     aspect: 1.3,
-    init: () => ({ n: 2, h: 0, fill: 0, end: false }),
+    init: it => ({ n: Math.min(it.p, it.q), h: 0, fill: 0, end: false }),
     ok: (s, it) => !!s.end && fits(it, s.n) && s.fill === s.n && s.h === hoursOf(it),
     answer: it => ({ n: lcm(it.p, it.q), h: hoursOf(it), fill: lcm(it.p, it.q), end: true }),
     solution: it => `$\\frac{1}{${it.p}} + \\frac{1}{${it.q}} = \\frac{${lcm(it.p, it.q) / it.p + lcm(it.p, it.q) / it.q}}{${lcm(it.p, it.q)}}$ por hora: juntas tardan ${hoursOf(it)} horas`,
@@ -31,8 +31,11 @@ GAMES['llena-estanque'] = (() => {
       p.noFill(); p.stroke(C.ink); p.strokeWeight(3); p.line(t.x, t.y, t.x, t.y + t.h); p.line(t.x, t.y + t.h, t.x + t.w, t.y + t.h); p.line(t.x + t.w, t.y + t.h, t.x + t.w, t.y);
       const lx = t.x + t.w + 14, lw = W - lx - 10, row = (txt, y, col) => { p.noStroke(); p.fill(col); p.textStyle(p.BOLD); p.textAlign(p.LEFT, p.CENTER); fitText(p, txt, lx, y, lw, 13, 30); };
       row(`Estanque en ${s.n} partes`, t.y + 12, C.ink);
-      row(ok ? `Llave 1: $\\frac{${s.n / it.p}}{${s.n}}$ por hora` : `Llave 1: $\\frac{1}{${it.p}}$ no cabe en partes de ${s.n}`, t.y + 46, ok ? C.Z : C.mute);
-      row(ok ? `Llave 2: $\\frac{${s.n / it.q}}{${s.n}}$ por hora` : `Llave 2: $\\frac{1}{${it.q}}$ por hora`, t.y + 84, ok ? C.Z : C.mute);
+      // Lo que llena cada llave en partes del estanque solo se ve después de dejar pasar una hora: así no se
+      // encuentra el denominador común subiendo n hasta que el renglón cambie.
+      const seen = ok && s.h > 0;
+      row(seen ? `Llave 1: $\\frac{${s.n / it.p}}{${s.n}}$ por hora` : `Llave 1: $\\frac{1}{${it.p}}$ por hora`, t.y + 46, seen ? C.Z : C.mute);
+      row(seen ? `Llave 2: $\\frac{${s.n / it.q}}{${s.n}}$ por hora` : `Llave 2: $\\frac{1}{${it.q}}$ por hora`, t.y + 84, seen ? C.Z : C.mute);
       row(`Horas: ${s.h}`, t.y + 122, C.ink);
       row(G.solved ? `Juntas: ${s.h} horas` : `Lleno: $\\frac{${s.fill}}{${s.n}}$`, t.y + 152, G.solved ? C.ok : C.N);
       drawStepper(p, C, G.box, s.n, 'partes', C.Z);

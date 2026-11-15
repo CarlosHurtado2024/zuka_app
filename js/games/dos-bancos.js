@@ -27,17 +27,17 @@ GAMES['dos-bancos'] = (() => {
       G.chart = { y: G.top + 8, h: y0 - G.top - 34 };
     },
     draw(G) {
-      const { p, C, W, s, item: it } = G, ch = G.chart, shown = G.solved ? yearOf(it) : 3, bw = (W - 40) / 17, top = it.goal * 1.15, Y = v => ch.y + ch.h - (v / top) * ch.h;
+      const { p, C, W, s, item: it } = G, ch = G.chart, shown = G.solved ? yearOf(it) : Math.max(3, s.ran || 0), bw = (W - 40) / 17, top = it.goal * 1.15, Y = v => ch.y + ch.h - (v / top) * ch.h;
       p.stroke(C.coral); p.strokeWeight(2); p.drawingContext.setLineDash([6, 5]); p.line(14, Y(it.goal), W - 14, Y(it.goal)); p.drawingContext.setLineDash([]);
       p.noStroke(); p.fill(C.I); p.textStyle(p.BOLD); p.textSize(10); p.textAlign(p.RIGHT, p.CENTER); p.text(`meta ×${it.goal}`, W - 14, Y(it.goal) - 8);
-      for (let n = 0; n <= shown; n++) { const v = amount(it, n); p.noStroke(); p.fill(n === shown && G.solved ? C.ok : n ? C.sky : C.mute); p.rect(20 + n * bw, Y(v), bw - 4, ch.y + ch.h - Y(v), 3); }
+      for (let n = 0; n <= shown; n++) { const v = Math.min(top, amount(it, n)); p.noStroke(); p.fill(n === shown && G.solved ? C.ok : n ? C.sky : C.mute); p.rect(20 + n * bw, Y(v), bw - 4, ch.y + ch.h - Y(v), 3); }
       p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
       fitText(p, `Por cada peso: ${[0, 1, 2, 3].map(n => fmt(amount(it, n))).join(' → ')} → …`, W / 2, ch.y + ch.h + 16, W - 20, 13);
       for (let n = 1; n <= 16; n++) drawTile(p, C, G.cell(n), n, { fill: s.year === n ? (G.solved ? C.ok : C.sun) : C.cream, size: 14, r: 8, lift: 2 });
       drawBtn(p, C, G.btn, 'Correr los años', G.solved, G.solved ? C.ok : s.year ? C.coral : C.line);
     },
     press(G, x, y) {
-      if (hitBox(G.btn, x, y)) { if (G.s.year) G.submit(); return true; }
+      if (hitBox(G.btn, x, y)) { if (G.s.year) { G.s.ran = G.s.year; G.submit(); } return true; }   // aun fallando, los años corren hasta la apuesta
       for (let n = 1; n <= 16; n++) if (hitBox(G.cell(n), x, y)) { G.s.year = n; G.api.sfx?.tap?.(); return true; }
       return false;
     },

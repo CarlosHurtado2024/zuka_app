@@ -25,7 +25,9 @@ GAMES['arma-la-mesa'] = (() => {
       G.area = { y: G.top + 4, h: y0 - G.top - 14 };
     },
     draw(G) {
-      const { p, C, W, s, item: it } = G, got = picked(s).map(i => it.pieces[i]), bars = Math.min(2, got.filter(t => t === `${it.a}x`).length), corner = got.includes(`${it.a * it.a}`);
+      const { p, C, W, s, item: it } = G, got = picked(s).map(i => it.pieces[i]);
+      // Lo elegido se pone en la mesa tal cual, encaje o no: el juego no avisa cuál pieza es la buena antes de «Listo».
+      const xs = got.filter(t => /x$/.test(t)), nums = got.filter(t => !/x$/.test(t));
       const side = Math.min(G.area.h - 22, W - 120), X = side * 0.68, a = side - X, x0 = W / 2 - side / 2, y0 = G.area.y + 20;
       p.noStroke(); p.fill(C.sky); p.rect(x0, y0, X - 2, X - 2, 4);
       p.fill(inkOn(C.sky, C.ink)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, '$x^2$', x0 + X / 2, y0 + X / 2, X - 8, 18);
@@ -33,7 +35,7 @@ GAMES['arma-la-mesa'] = (() => {
         if (on) { p.noStroke(); p.fill(col); p.rect(x, y, w - 2, h - 2, 4); p.fill(inkOn(col, C.ink)); p.textStyle(p.BOLD); fitText(p, txt, x + w / 2, y + h / 2, w - 4, 13); }
         else { p.noFill(); p.stroke(C.mute); p.strokeWeight(1.5); p.drawingContext.setLineDash([4, 4]); p.rect(x, y, w - 2, h - 2, 4); p.drawingContext.setLineDash([]); }
       };
-      part(x0 + X, y0, a, X, bars >= 1, C.mint, `${it.a}x`); part(x0, y0 + X, X, a, bars >= 2, C.mint, `${it.a}x`); part(x0 + X, y0 + X, a, a, corner, C.sun, `${it.a * it.a}`);
+      part(x0 + X, y0, a, X, xs.length >= 1, C.mint, `$${xs[0]}$`); part(x0, y0 + X, X, a, xs.length >= 2, C.mint, `$${xs[1]}$`); part(x0 + X, y0 + X, a, a, nums.length >= 1, C.sun, nums[0]);
       p.noStroke(); p.fill(C.mute); p.textStyle(p.BOLD); fitText(p, `$x + ${it.a}$`, x0 + side / 2, y0 - 11, W - 40, 13);
       it.pieces.forEach((t, i) => drawTile(p, C, G.tile(i), `$${t}$`, { fill: s.on[i] ? C.mint : C.cream, size: 16, ring: s.on[i] ? C.ok : null }));
       drawBtn(p, C, G.btn, 'Listo', G.solved, G.solved ? C.ok : C.coral);

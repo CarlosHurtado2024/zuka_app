@@ -14,7 +14,7 @@ GAMES['balanza-cajas'] = (() => {
     ok: (s, it) => !!s.div && s.b === 0 && s.c === 0 && s.d / s.a === xOf(it),
     answer: it => ({ a: it.a - it.c, b: 0, c: 0, d: it.d - it.b, div: true }),
     solution: it => `$${side(it.a, it.b)} = ${side(it.c, it.d)}$: $x = ${xOf(it)}$`,
-    prompt: it => `$${side(it.a, it.b)} = ${side(it.c, it.d)}$`,
+    prompt: () => 'Deja una caja sola: ¿cuántas baldosas trae?',
     foot: () => 'Lo que haces en un lado, hazlo también en el otro',
     layout(G) { const w = (G.W - 24 - 2 * 8) / 3, y = G.bottom - 44; G.btn = [0, 1, 2].map(i => ({ x: 12 + i * (w + 8), y, w, h: 38 })); G.area = { y: G.top + 4, h: y - G.top - 12 }; },
     draw(G) {
@@ -23,8 +23,8 @@ GAMES['balanza-cajas'] = (() => {
       p.stroke(C.ink); p.strokeWeight(4); p.line(40, base, W - 40, base); p.line(half, base, half, base + 26);
       p.noStroke(); p.fill(C.ink); p.triangle(half - 14, base + 30, half + 14, base + 30, half, base + 8);
       const pan = (x0, w, boxes, loose) => {
-        const bw = Math.min(40, (w - 8) / Math.max(1, boxes) - 6);
-        for (let i = 0; i < boxes; i++) drawTile(p, C, { x: x0 + 4 + i * (bw + 6), y: base - 44, w: bw, h: 38 }, 'x', { fill: C.sky, size: 16, r: 6, lift: 2 });
+        const bw = Math.min(40, (w - 8) / Math.max(1, boxes) - 3);
+        for (let i = 0; i < boxes; i++) drawTile(p, C, { x: x0 + 4 + i * (bw + 3), y: base - 44, w: bw, h: 38 }, 'x', { fill: C.sky, size: 16, r: 6, lift: 2 });
         const cols = Math.max(1, Math.floor((w - 8) / 13));
         for (let i = 0; i < loose; i++) { p.noStroke(); p.fill(C.sun); p.rect(x0 + 4 + (i % cols) * 13, base - 58 - Math.floor(i / cols) * 13, 11, 11, 2); }
         p.noStroke(); p.fill(C.mute); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, `${boxes} ${boxes === 1 ? 'caja' : 'cajas'} · ${loose} ${loose === 1 ? 'suelta' : 'sueltas'}`, x0 + w / 2, base + 14, w, 11);

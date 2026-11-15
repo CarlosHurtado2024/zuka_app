@@ -58,3 +58,19 @@ registrado, con dos rondas o más y retos con solución (`ok(answer(reto))`); la
 ronda; hay casos para pensar (lo que no se arma, lo que no cae, lo que no se corta, soluciones extrañas, sendero sin
 río); las escenas de respaldo tienen de 5 a 6 escenas, KaTeX parejo y los personajes del video. En el navegador un robot
 juega cada uno con `peek().solve` y comprueba que un error quita una vida.
+
+## Ajustes tras la revisión fresca
+
+- **Armazón**: al pasar de ronda (o perderla) el reto nuevo empieza limpio; antes se dibujaba resuelto con el estado
+  del reto anterior, debajo del cartel. Un toque en zona vacía del lienzo ya deja desplazar la lección.
+- `cruce-curvas`: el puente se recorta al cuadro (la recta tangente se veía torcida y cortaba dos veces).
+- `dos-bancos`: una apuesta fallida también corre los años hasta el año apostado (las cuentas las hace el juego).
+- `arma-la-mesa`: la mesa muestra cualquier pieza elegida, encaje o no; ya no delata cuál es la buena.
+- `llena-estanque`: lo que llena cada llave en partes del estanque solo se ve tras dejar pasar una hora, y las partes
+  empiezan en el menor de los dos tiempos (menos toques).
+- `donde-cae`: las ecuaciones son chorros de verdad (abren hacia abajo).
+- Retos que repetían un ejercicio de su lección: cambiados en `arma-la-mesa`, `regla-de-calculo` y `piedras-selva`.
+- `cruza-o-rebota`: las fichas de dos ceros cercanos ya no se enciman. `balanza-cajas`: el enunciado no repite la
+  ecuación y cinco cajas caben. `gira-complejos`: el signo menos es «−».
+- Se dejó como está, por ser «comparar» y no adivinar: `cruce-curvas` muestra las dos alturas en números y
+  `reparte-barras` dice si sobran o faltan cuadritos.

@@ -601,7 +601,7 @@ function questGame(def) {
   function create(host, params, api) {
     const C = api.palette, R = params.rounds, st = { done: R.map(() => 0) };
     let locked = false, p5 = null;
-    const a = makeArcade(R.length, params.lives ?? 3, api, { start: i => { st.done[i] = 0; fresh(); }, lost: i => { st.done[i] = 0; } });
+    const a = makeArcade(R.length, params.lives ?? 3, api, { start: i => { st.done[i] = 0; fresh(); }, lost: i => { st.done[i] = 0; fresh(); } });
     const G = { C, api, params, a, W: 0, H: 0, p: null, t: 0, dt: 0, s: null, wait: 0, solved: false, top: 100, bottom: 0,
       get round() { return R[a.cur]; },
       get item() { const r = R[a.cur]; return r.items[Math.min(st.done[a.cur], r.items.length - 1)]; },
@@ -620,7 +620,8 @@ function questGame(def) {
         p.background(C.bg);
         G.dt = frameDt(p) * a.slow; G.t += G.dt;
         if (!locked) {
-          a.tick(G.dt);
+          // Al cambiar de ronda el reto nuevo empieza limpio (si no, se vería resuelto con el estado del anterior).
+          const was = a.cur; a.tick(G.dt); if (a.cur !== was && a.cur < R.length) fresh();
           // Pausa tras un acierto: después pasa al reto siguiente (o gana la ronda).
           if (G.wait > 0 && a.phase === 'play' && (G.wait -= G.dt) <= 0) { st.done[a.cur]++; if (st.done[a.cur] >= R[a.cur].items.length) a.win(); else fresh(); }
         }
@@ -642,9 +643,10 @@ function questGame(def) {
         if (!inCanvas(p)) return;
         const t = a.tap(locked);
         if (t === 'off') return;
-        if (t !== 'play' || G.wait > 0 || !def.press) return false;
-        def.press(G, p.mouseX, p.mouseY);
-        return false;
+        if (t === 'start') return false;
+        if (t !== 'play' || G.wait > 0 || !def.press) return;
+        // Un toque en zona vacía no agarra nada: deja desplazar la lección.
+        return def.press(G, p.mouseX, p.mouseY) ? false : undefined;
       };
       p.mouseDragged = () => { if (locked || a.phase !== 'play' || G.wait > 0 || !def.drag) return; return def.drag(G, p.mouseX, p.mouseY) ? false : undefined; };
       p.mouseReleased = () => { if (!locked && a.phase === 'play' && G.wait <= 0) def.release?.(G, p.mouseX, p.mouseY); };

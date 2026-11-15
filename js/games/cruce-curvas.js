@@ -26,7 +26,8 @@ GAMES['cruce-curvas'] = (() => {
       for (let x = -3; x <= 3; x++) { p.stroke(C.line); p.strokeWeight(1); p.line(G.X(x), G.Y(10), G.X(x), G.Y(-1)); p.noStroke(); p.fill(x === s.x ? C.N : C.mute); p.textStyle(p.BOLD); p.textSize(11); p.textAlign(p.CENTER, p.CENTER); p.text(negTxt(x), G.X(x), G.ax); }
       if (G.solved) {   // al acertar se despeja la niebla
         p.noFill(); p.stroke(C.sky); p.strokeWeight(3); p.beginShape(); for (let x = -3; x <= 3.001; x += 0.1) p.vertex(G.X(x), G.Y(x * x)); p.endShape();
-        p.stroke(C.coral); p.line(G.X(-3), G.Y(it.m * -3 + it.b), G.X(3), G.Y(it.m * 3 + it.b));
+        // El puente, recortado al cuadro (si se recortara solo la altura, la recta se torcería).
+        p.stroke(C.coral); p.beginShape(); for (let x = -3; x <= 3.001; x += 0.05) { const v = it.m * x + it.b; if (v >= -1 && v <= 10) p.vertex(G.X(x), G.Y(v)); } p.endShape();
       }
       for (const x of s.marks) { p.noStroke(); p.fill(G.solved ? C.ok : C.sun); p.circle(G.X(x), G.Y(x * x), 16); }
       // La mira: las dos alturas en el x actual.

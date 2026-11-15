@@ -154,6 +154,29 @@ test('cada lección de los cinco mundos termina con su juego dinámico: uno dist
   for (const it of P('alg-92')) assert.ok(it.roots.length < 5 && new Set(it.roots).size === it.roots.length && it.roots.every(r => r >= -4 && r <= 4));
 });
 
+test('revisión de los juegos dinámicos: ronda nueva limpia, se puede desplazar, sin repetir ejercicios', () => {
+  const kit = fs.readFileSync(path.join(ROOT, 'js/games/kit.js'), 'utf8'), q = kit.slice(kit.indexOf('function questGame'));
+  assert.ok(q.includes('if (a.cur !== was && a.cur < R.length) fresh();'), 'al cambiar de ronda el reto empieza limpio');
+  assert.ok(q.includes('lost: i => { st.done[i] = 0; fresh(); }'), 'al perder la ronda también');
+  assert.ok(q.includes('return def.press(G, p.mouseX, p.mouseY) ? false : undefined;'), 'un toque en zona vacía deja desplazar la lección');
+  const lessons = WORLDS.flatMap(w => unit(w).lessons), L = id => lessons.find(l => l.id === id);
+  const items = id => L(id).ex.slice(-1)[0].params.rounds.flatMap(r => r.items), rest = id => JSON.stringify(L(id).ex.slice(0, -1));
+  // El chorro de una fuente abre hacia abajo.
+  for (const it of items('alg-4')) assert.match(it.eq, /^-x\^2/, `donde-cae: ${it.eq}`);
+  // Los retos no repiten un ejercicio de la misma lección.
+  for (const it of items('alg-73')) assert.ok(!rest('alg-73').includes(JSON.stringify(it.eq).slice(1, -1)), `piedras-selva repite ${it.eq}`);
+  assert.ok(!items('alg-3').some(it => it.a === 5) && !items('alg-72').some(it => (it.a === 4 && it.b === 8) || (it.a === 9 && it.b === 27)));
+  // Fichas de «cruza / rebota»: los ceros están a 2 unidades o más (la ficha mide menos de 2 unidades).
+  for (const it of items('alg-93')) { const z = it.factors.map(f => f[0]).sort((a, b) => a - b); for (let i = 1; i < z.length; i++) assert.ok(z[i] - z[i - 1] >= 2); }
+  assert.match(fs.readFileSync(path.join(ROOT, 'js/games/cruza-o-rebota.js'), 'utf8'), /Math\.min\(78, 2 \* \(G\.W - 40\) \/ 10 - 6\)/);
+  // El estanque no empieza lejos del denominador común ni lo delata antes de dejar pasar una hora.
+  for (const it of items('alg-25b')) assert.equal(GAMES['llena-estanque'].init(it).n, Math.min(it.p, it.q));
+  assert.ok(!fs.readFileSync(path.join(ROOT, 'js/games/llena-estanque.js'), 'utf8').includes('no cabe en partes'));
+  // La mesa muestra lo elegido, encaje o no; y la apuesta fallida también corre los años.
+  assert.ok(fs.readFileSync(path.join(ROOT, 'js/games/arma-la-mesa.js'), 'utf8').includes('xs.length >= 1'));
+  assert.ok(fs.readFileSync(path.join(ROOT, 'js/games/dos-bancos.js'), 'utf8').includes('G.s.ran = G.s.year'));
+});
+
 test('juegos nuevos: lógica pura', () => {
   const ds = GAMES['division-sintetica'];
   assert.equal(ds.rowOf([1, -2, -5, 6], 1).join(), '1,-1,-6,0'); assert.equal(ds.remOf([1, -4, 1, 6], 2), 0); assert.equal(ds.remOf([1, 0, -7, 6], -3), 0);
