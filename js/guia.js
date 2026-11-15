@@ -352,7 +352,9 @@ const GUIDE_SCENES = {
 const GUIDE_ARCADE = new Set(['lluvia-elementos', 'revienta-globos', 'luciernagas-venn', 'buzo-enteros', 'carrera-fracciones', 'frena-aguja',
   'dispara-inverso', 'salta-signos', 'serpiente-orden', 'sirve-la-razon', 'corta-proporciones', 'resortera-tres', 'caja-veloz', 'vuela-precios',
   'rompe-cambios', 'traza-progresion', 'encesta-suma', 'dobla-fichas', 'rana-zenon', 'maquina-sigma', 'torre-pisos', 'escala-leyes',
-  'siembra-raices', 'muro-radicales', 'jefe-venn', 'jefe-ruta']);
+  'siembra-raices', 'muro-radicales', 'jefe-venn', 'jefe-ruta',
+  'torre-grados', 'arma-la-mesa', 'camino-pascal', 'reparte-barras', 'gira-complejos', 'balanza-cajas', 'apunta-chorro', 'donde-cae', 'empaca-filas', 'sondea-niebla',
+  'cruza-o-rebota', 'rio-o-hueco', 'llena-estanque', 'bote-corriente', 'cruce-curvas', 'lirios-laguna', 'dos-bancos', 'regla-de-calculo', 'piedras-selva']);
 
 // Los pasos propios de cada juego: [escena, texto, opciones]. El ejemplo de la escena es pequeño y distinto de los
 // ejercicios: enseña el gesto, no la respuesta.
@@ -368,6 +370,25 @@ const GUIDES = {
   'division-sintetica': [['step', 'Elige r con − / + y toca «Dividir»: el juego baja, multiplica y suma. El último es el residuo.', { from: 0, to: 2, label: 'r' }], ['tap', 'Hay pocas divisiones: mira el signo de los residuos anotados para decidir cuál probar.', { items: ['P(1) = −8', 'P(3) = 4'], pick: [0, 1] }]],
   'cancela-factores': [['tap', 'Toca un factor de arriba y luego uno igual de abajo: los dos se tachan.', { items: ['x + 3', 'x − 2', 'x + 3'], pick: [0, 2] }], ['tap', 'Lo que está sumando no se cancela. Cuando no quede nada, toca «Listo».', { items: ['Listo'], pick: [0] }]],
   'jefe-ruta': [['tap', 'En cada nivel, de abajo hacia arriba, toca el paso que sí se justifica.', { items: ['2x = 8', '2x = 2'], pick: [0] }], ['tap', 'Con la ruta completa toca «¡Atacar!». Si un paso falla, el juego dice en qué nivel.', { items: ['¡Atacar!'], pick: [0] }]],
+  'torre-grados': [['tap', 'Toca los términos del exponente mayor al menor: se apilan en orden.', { items: ['3x', 'x⁴', '7'], pick: [1, 0, 2] }]],
+  'arma-la-mesa': [['tap', 'Toca las piezas que completan la mesa y luego «Listo».', { items: ['3x', '9', '6', '3x'], pick: [0, 3, 1] }]],
+  'camino-pascal': [['trace', 'Baja casilla por casilla, a la izquierda o a la derecha, hasta la estrella.', { labels: ['▼', '·', '★'], trap: '·' }]],
+  'reparte-barras': [['tap', 'Pasa barras de un lado al otro hasta llenar justo el hueco.', { items: ['← barra', 'barra →', 'Listo'], pick: [1, 1, 2] }]],
+  'gira-complejos': [['turn', 'Gira o refleja el complejo con los botones hasta llegar a la estrella.', {}]],
+  'balanza-cajas': [['tap', 'Quita lo mismo de los dos platillos y al final reparte.', { items: ['− 1 suelta', '− 1 caja', 'Repartir'], pick: [0, 1, 2] }]],
+  'apunta-chorro': [['drag', 'Toca en la cuadrícula el vértice del chorro y luego «Lanzar».', { dot: true }]],
+  'donde-cae': [['tap', 'Pon un balde en cada marca donde cae el agua y abre la llave.', { items: ['1', '2', '3', '4'], pick: [1, 3] }]],
+  'empaca-filas': [['tap', 'Arma filas del ancho del divisor; lo que no alcance es el residuo.', { items: ['Fila de alto x', 'Fila de alto 1', 'Listo'], pick: [0, 1, 2] }]],
+  'sondea-niebla': [['tap', 'Alumbra pocas columnas, cambia a «Bandera» y marca los cruces.', { items: ['Linterna', 'Bandera', 'Listo'], pick: [0, 1, 2] }]],
+  'cruza-o-rebota': [['tap', 'Toca la ficha de cada cero para elegir cruza o rebota, y dibuja.', { items: ['cruza', 'rebota', 'Dibujar'], pick: [0, 1, 2] }]],
+  'rio-o-hueco': [['tap', 'Antes de cada paso decide: caminar, saltar el hueco o río.', { items: ['Caminar', 'Saltar', 'Río'], pick: [0, 1, 2] }]],
+  'llena-estanque': [['step', 'Elige en cuántas partes medir el estanque; luego deja pasar las horas.', { from: 4, to: 6, label: 'partes' }]],
+  'bote-corriente': [['step', 'Elige la corriente con − / +: el bote sale de la primera pista. Luego zarpa.', { from: 1, to: 3, label: 'corriente' }]],
+  'cruce-curvas': [['slide', 'Mueve la mira con ◀ ▶ y marca donde las dos alturas son iguales.', { label: 'x' }]],
+  'lirios-laguna': [['tap', 'Mueve el calendario con ◀ ▶ y responde con «Este día».', { items: ['◀ día', 'día ▶', 'Este día'], pick: [0, 0, 2] }]],
+  'dos-bancos': [['tap', 'Toca el año en que crees que llega a la meta y corre los años.', { items: ['3', '4', '5', '6'], pick: [1] }]],
+  'regla-de-calculo': [['slide', 'Corre la regla de arriba y toca abajo el número del resultado.', { label: 'regla' }]],
+  'piedras-selva': [['tap', 'Pisa todas las piedras que sí son solución; las falsas quitan una vida.', { items: ['x = 4', 'x = −2', 'x = 8'], pick: [0] }]],
   'arma-conjunto': [['tap', 'Toca las fichas para meterlas a las llaves o sacarlas, hasta cumplir la condición.', { items: ['a', 'e', 'm'], pick: [0, 1] }]],
   'arma-notacion': [['tap', 'Toca las fichas en orden para escribir el conjunto: nombre, igual, llave y elementos.', { items: ['A', '=', '{', '1'], pick: [0, 1, 2, 3] }]],
   'arma-producto': [['tap', 'Elige dos o más fichas: la máquina las multiplica y cuenta cuántas son negativas.', { items: ['−2', '3', '−5'], pick: [0, 2] }]],

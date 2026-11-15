@@ -583,3 +583,82 @@ function roundsGame(def) {
   }
   return { grade, create };
 }
+
+// ---------- Juegos dinámicos por retos (spec 2026-11-21-dinamicos-mundos-altos) ----------
+// Armazón de un juego de acción sin prisa: rondas con varios retos, tres vidas, cartel «Toca para empezar», pausa
+// corta tras cada acierto (el reto resuelto se queda en pantalla) y resumen al terminar. Usa makeArcade.
+// params = { rounds: [{ title, items: [reto, …] }], lives? }      state = { done: [retos resueltos por ronda] }
+// def = { aspect?, init(item, round, G) → s, ok(s, item, round) → bool (pura), answer(item, round) → s que gana (pura),
+//   solution(item, round) → texto, prompt(item, round, G), draw(G), press(G, x, y) → bool, drag?, release?, layout?(G),
+//   foot?(item, s, G), yes?(item, s) / no?(item, s) → mensajes, retry?(G), idle?, lost?, peek?(G) → { solve: [cajas por tocar], … } }
+// G = { p, C, api, params, a (makeArcade), W, H, top, bottom, t, dt, s, item, round, solved, wait,
+//   good(texto), bad(texto) → true si se perdió la ronda, submit(textoSiFalla) → califica s con def.ok }
+function questGame(def) {
+  const grade = (state, params) => ({
+    ok: params.rounds.every((r, i) => (state?.done?.[i] ?? 0) >= r.items.length),
+    solution: params.rounds.map(r => r.items.map(it => def.solution(it, r)).join(' · ')).join(' · '),
+  });
+  function create(host, params, api) {
+    const C = api.palette, R = params.rounds, st = { done: R.map(() => 0) };
+    let locked = false, p5 = null;
+    const a = makeArcade(R.length, params.lives ?? 3, api, { start: i => { st.done[i] = 0; fresh(); }, lost: i => { st.done[i] = 0; } });
+    const G = { C, api, params, a, W: 0, H: 0, p: null, t: 0, dt: 0, s: null, wait: 0, solved: false, top: 100, bottom: 0,
+      get round() { return R[a.cur]; },
+      get item() { const r = R[a.cur]; return r.items[Math.min(st.done[a.cur], r.items.length - 1)]; },
+      get locked() { return locked; },
+      good(text) { if (G.wait > 0) return; a.hit(); a.say(text || '¡Bien!', C.ok); G.wait = 1.2; G.solved = true; },
+      bad(text) { a.say(text || 'Piénsalo otra vez', C.bad); const lost = a.miss(); if (!lost) def.retry?.(G); return lost; },
+      submit(text) { if (def.ok(G.s, G.item, G.round)) { G.good(def.yes?.(G.item, G.s)); return true; } G.bad(text ?? def.no?.(G.item, G.s)); return false; },
+    };
+    function fresh() { G.solved = false; G.wait = 0; G.s = def.init(G.item, G.round, G); def.layout?.(G); }
+    const m = mountSketch(host, (p, size) => {
+      G.p = p; p5 = p;
+      const lay = () => { G.W = size.w; G.H = size.h; G.bottom = size.h - 34; def.layout?.(G); };
+      p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); G.W = size.w; G.H = size.h; G.bottom = size.h - 34; G.s = def.init(G.item, G.round, G); lay(); };
+      p.onResize = () => { lay(); if (a.stopped) p.redraw(); };
+      p.draw = () => {
+        p.background(C.bg);
+        G.dt = frameDt(p) * a.slow; G.t += G.dt;
+        if (!locked) {
+          a.tick(G.dt);
+          // Pausa tras un acierto: después pasa al reto siguiente (o gana la ronda).
+          if (G.wait > 0 && a.phase === 'play' && (G.wait -= G.dt) <= 0) { st.done[a.cur]++; if (st.done[a.cur] >= R[a.cur].items.length) a.win(); else fresh(); }
+        }
+        const all = locked || a.phase === 'all', mid = (G.top + G.bottom) / 2;
+        drawArcadeHead(p, C, a, R.length);
+        p.noStroke(); p.fill(C.mute); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, G.round.title, G.W / 2, 40, G.W - 24, 11);
+        if (all) drawArcadeSummary(p, C, R.map((r, i) => ({ text: r.title, ok: st.done[i] >= r.items.length })), mid);
+        else {
+          p.noStroke(); p.fill(C.N); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, def.prompt(G.item, G.round, G), G.W / 2, 68, G.W - 20, 16, 36);
+          def.draw(G);
+          drawArcadeBanner(p, C, a, mid, { idle: def.idle || 'Sin prisa: piensa y luego toca', lost: def.lost });
+        }
+        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
+        if (a.toast && !all) arcadeToast(p, C, a, G.W / 2, G.H - 17, locked);
+        else fitText(p, all ? '¡Completado! Ya puedes comprobar' : def.foot?.(G.item, G.s, G) ?? '', G.W / 2, G.H - 15, G.W - 20, 11);
+        arcadeStop(p, a, locked);
+      };
+      p.mousePressed = () => {
+        if (!inCanvas(p)) return;
+        const t = a.tap(locked);
+        if (t === 'off') return;
+        if (t !== 'play' || G.wait > 0 || !def.press) return false;
+        def.press(G, p.mouseX, p.mouseY);
+        return false;
+      };
+      p.mouseDragged = () => { if (locked || a.phase !== 'play' || G.wait > 0 || !def.drag) return; return def.drag(G, p.mouseX, p.mouseY) ? false : undefined; };
+      p.mouseReleased = () => { if (!locked && a.phase === 'play' && G.wait <= 0) def.release?.(G, p.mouseX, p.mouseY); };
+    }, def.aspect ?? 1.3);
+    return {
+      loaded: m.ready,
+      getState: () => ({ done: [...st.done] }),
+      lock() { locked = true; if (p5 && a.stopped) p5.redraw(); },
+      destroy: () => m.remove(),
+      // Para el robot del navegador: en juego y sin pausa, `solve` trae las cajas que resuelven el reto actual.
+      peek: () => ({ phase: a.phase, cur: a.cur, lives: a.lives, done: [...st.done], wait: G.wait, W: G.W, H: G.H, ...(a.phase === 'play' && G.wait <= 0 ? def.peek?.(G) : {}) }),
+    };
+  }
+  return { grade, create, ok: def.ok, answer: def.answer, init: def.init };
+}
+// Botón de un juego (ficha con texto); `on`: resaltado.
+function drawBtn(p, C, b, txt, on, col) { drawTile(p, C, b, txt, { fill: col ?? (on ? C.mint : C.sky), size: 14, r: 12 }); }

@@ -99,6 +99,13 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   usan). Juegos: `bloques-area`, `division-sintetica`, `cancela-factores` y `jefe-ruta`, un **jefe genérico** por rutas de pasos
   (`{ name, color, rounds: [{ title, attacks: [{ say, levels }] }] }`, el paso válido primero) que sirve para cualquier mundo. Los diez
   mundos de Álgebra ya tienen jefe y evaluación (spec `2026-11-20-jefes-valle-a-escalera`); faltan en los demás cursos.
+- **Juegos dinámicos por retos con `questGame(def)`** (al final de `kit.js`; spec `2026-11-21-dinamicos-mundos-altos`): armazón de un juego
+  de acción sin prisa (rondas de dos o tres retos, tres vidas, cartel, pausa tras acertar, resumen). El juego da `init`, `ok` y
+  `answer` (puras), `solution`, `prompt`, `draw`, `press` y `peek` con `solve` (cajas por tocar, para el robot). Hechos con él, uno
+  por lección de los cinco mundos altos (`DYN` en `mundos-altos.js`): `torre-grados`, `arma-la-mesa`, `camino-pascal`,
+  `reparte-barras`, `gira-complejos`, `balanza-cajas`, `apunta-chorro`, `donde-cae`, `empaca-filas`, `sondea-niebla`,
+  `cruza-o-rebota`, `rio-o-hueco`, `llena-estanque`, `bote-corriente`, `cruce-curvas`, `lirios-laguna`, `dos-bancos`,
+  `regla-de-calculo`, `piedras-selva`. Las escenas de respaldo de esas 19 lecciones (`SC`, mismo archivo) cuentan su video zoom.
 - **Fórmulas con TeX en el lienzo** (`js/games/formula.js`, spec `2026-11-18-formulas-tex`, pruebas `tests/formula.test.js`): los
   textos que dibuja un juego (`fitText`, `drawTile`, `p.text` de un renglón centrado en vertical) pueden llevar TeX entre `$…$`
   (`rac`, `^`, `_`, `sqrt`, `	ext`…; barra doble en cadenas JS) y se dibujan con fracciones apiladas, exponentes y raíces, con la

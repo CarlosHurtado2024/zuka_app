@@ -120,6 +120,40 @@ test('las escenas de respaldo cuentan el video de cada lección (19 lecciones), 
   assert.match(text('alg-3'), /mesa.*Beto|Beto.*mesa/); assert.ok(text('alg-92').includes('P(2) = 8 - 8 - 10 + 6 = -4')); assert.match(text('alg-71'), /lirio/); assert.match(text('alg-101'), /corriente/);
 });
 
+test('cada lección de los cinco mundos termina con su juego dinámico: uno distinto por lección, sin reloj y con solución', () => {
+  const lessons = WORLDS.flatMap(w => unit(w).lessons), used = new Set();
+  assert.equal(lessons.length, 19);
+  for (const l of lessons) {
+    const ex = l.ex[l.ex.length - 1], g = GAMES[ex.game];
+    assert.ok(g && typeof g.answer === 'function', `${l.id}: ${ex.game} no es un juego dinámico por retos`);
+    assert.ok(!used.has(ex.game), `${l.id}: ${ex.game} ya se usó en otra lección`); used.add(ex.game);
+    assert.ok(ex.hint.length >= 40 && ex.explain.length >= 40 && GUIDES[ex.game], `${l.id}: pista, explicación y guía`);
+    const src = fs.readFileSync(path.join(ROOT, `js/games/${ex.game}.js`), 'utf8');
+    assert.match(src, /questGame\(/); assert.ok(!/clock|timer|countdown|Date\.now/i.test(src), `${ex.game}: sin reloj`);
+    assert.ok(html.includes(`js/games/${ex.game}.js`), `${ex.game} en index.html`);
+    assert.ok(ex.params.rounds.length >= 2, `${l.id}: rondas`);
+    for (const r of ex.params.rounds) {
+      assert.ok(r.title.length > 5 && r.items.length >= 2 && r.items.length <= 3, `${l.id}: «${r.title}»`);
+      for (const it of r.items) {
+        assert.equal(g.ok(g.answer(it, r), it, r), true, `${l.id} ${ex.game}: ${JSON.stringify(it)} no tiene solución`);
+        assert.equal(typeof g.grade({}, { rounds: [{ title: 't', items: [it] }] }).solution, 'string');
+      }
+    }
+    // Se califica por retos resueltos en cada ronda.
+    assert.equal(g.grade({ done: ex.params.rounds.map(r => r.items.length) }, ex.params).ok, true);
+    assert.equal(g.grade({ done: ex.params.rounds.map(() => 0) }, ex.params).ok, false); assert.equal(g.grade({}, ex.params).ok, false);
+  }
+  // Casos que el estudiante debe pensar: lo que no se arma, lo que no cae, lo que no se corta.
+  const P = id => lessons.find(l => l.id === id).ex.slice(-1)[0].params.rounds.flatMap(r => r.items);
+  assert.ok(P('alg-24b').some(it => GAMES['reparte-barras'].answer(it).none), 'un montón que no se arma');
+  assert.ok(P('alg-4').some(it => !it.roots.length) && P('alg-4').some(it => it.roots.length && it.roots.every(r => r <= 0)), 'sin raíces y raíz detrás');
+  assert.ok(P('alg-102').some(it => GAMES['cruce-curvas'].answer(it).marks.length === 0) && P('alg-102').some(it => GAMES['cruce-curvas'].answer(it).marks.length === 1));
+  assert.ok(P('alg-73').some(it => it.stones.filter(q => q.ok).length === 2) && P('alg-73').every(it => it.stones.some(q => !q.ok)));
+  assert.ok(P('alg-25a').some(it => !it.bottom.some(b => !it.top.includes(b))), 'un sendero sin río');
+  // Con cinco linternas y nueve columnas hay que razonar con los signos.
+  for (const it of P('alg-92')) assert.ok(it.roots.length < 5 && new Set(it.roots).size === it.roots.length && it.roots.every(r => r >= -4 && r <= 4));
+});
+
 test('juegos nuevos: lógica pura', () => {
   const ds = GAMES['division-sintetica'];
   assert.equal(ds.rowOf([1, -2, -5, 6], 1).join(), '1,-1,-6,0'); assert.equal(ds.remOf([1, -4, 1, 6], 2), 0); assert.equal(ds.remOf([1, 0, -7, 6], -3), 0);

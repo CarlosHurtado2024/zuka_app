@@ -726,9 +726,118 @@
     ],
   };
 
+  // ====================== Juego dinámico de cada lección (spec 2026-11-21-dinamicos-mundos-altos) ======================
+  // Va de último en la lección, ligado a la historia de su video y con una mecánica distinta en cada una. Sin reloj.
+  const DYN = {
+    'alg-23a': P('torre-grados', 'Apila los términos **de mayor a menor exponente**: el primero dice el grado', { rounds: [
+      { title: 'Ordena y di el grado', items: [{ terms: [[3, 1], [-2, 4], [7, 0], [1, 2]] }, { terms: [[9, 0], [1, 3], [-5, 1]] }] },
+      { title: 'Ojo con los coeficientes grandes', items: [{ terms: [[12, 1], [-1, 5], [8, 2], [-3, 0]] }, { terms: [[20, 0], [6, 2], [1, 6], [-4, 3], [2, 1]] }] },
+    ] }, 'El grado es el mayor exponente de la variable, aunque ese término no esté de primero ni tenga el coeficiente más grande. El número solo es el término de grado 0.',
+      'No mires el número que multiplica: mira el pequeño número de arriba de la x. Una x sola tiene exponente 1 y un número sin x, exponente 0.'),
+    'alg-3': P('arma-la-mesa', 'Completa cada mesa: elige las piezas que le faltan y toca «Listo»', { rounds: [
+      { title: 'La mesa crece por los dos lados', items: [{ a: 3, pieces: ['3x', '9', '3x', '6', 'x', '3'] }, { a: 5, pieces: ['25', '5x', '10', '5x', '5', '2x'] }] },
+      { title: 'Más mesas', items: [{ a: 2, pieces: ['2x', '4', '2', '2x', 'x', '8'] }, { a: 6, pieces: ['36', '6x', '12', '6x', '6', '3x'] }] },
+    ] }, 'Al crecer $a$ por lado, a la mesa $x^2$ le hacen falta **dos** tablas de $a$ por $x$ y la esquina de $a$ por $a$: $(x + a)^2 = x^2 + 2ax + a^2$.',
+      'La esquina sola no alcanza: a la derecha y abajo quedan dos huecos largos, tan largos como el lado de la mesa.'),
+    'alg-24c': P('camino-pascal', 'Traza **todos** los caminos desde la punta hasta la estrella, bajando casilla por casilla', { rounds: [
+      { title: 'Pocos caminos', items: [{ row: 2, k: 1 }, { row: 3, k: 1 }] },
+      { title: 'Cuenta con orden', items: [{ row: 3, k: 2 }, { row: 4, k: 1 }] },
+    ] }, 'A cada casilla se llega desde las dos de arriba, así que sus caminos son la suma de los de esas dos: por eso cada número de Pascal suma los dos de encima, y por eso cuenta maneras de elegir.',
+      'Para no repetir ni olvidar, decide en qué fila das el paso a la derecha: primero lo más arriba posible, luego una fila más abajo, y así.'),
+    'alg-24b': P('reparte-barras', 'Reparte las barras a los dos lados para **armar el rectángulo**. Si ningún reparto sirve, dilo', { rounds: [
+      { title: 'Montones que se arman', items: [{ s: 7, p: 10 }, { s: 8, p: 15 }] },
+      { title: 'No todo montón se arma', items: [{ s: 6, p: 7 }, { s: 9, p: 20 }, { s: 5, p: 5 }] },
+    ] }, '$x^2 + 7x + 10 = (x + 2)(x + 5)$ y $x^2 + 8x + 15 = (x + 3)(x + 5)$. Con 6 barras los huecos posibles piden 5, 8 o 9 cuadritos, nunca 7; con 5 barras piden 4 o 6, nunca 5. $x^2 + 9x + 20 = (x + 4)(x + 5)$.',
+      'El hueco mide un lado por el otro. Ve pasando barras de una en una y mira cómo cambia lo que pide; si te pasas de largo sin dar justo, no se arma.'),
+    'alg-23c': P('gira-complejos', 'Lleva el complejo a la **estrella** girando o reflejando, sin pasarte de movimientos', { rounds: [
+      { title: 'Un solo movimiento', items: [{ z: [3, 1], w: [-1, 3], max: 1 }, { z: [2, -3], w: [2, 3], max: 1 }, { z: [1, 4], w: [-1, -4], max: 1 }] },
+      { title: 'Combina movimientos', items: [{ z: [4, 2], w: [2, -4], max: 2 }, { z: [3, 2], w: [-2, -3], max: 2 }] },
+    ] }, 'Multiplicar por $i$ gira un cuarto de vuelta: $(a + bi)\\,i = -b + ai$. Por $-1$, media vuelta. El conjugado refleja en el eje real: cambia el signo de la parte imaginaria.',
+      'Mira en qué cuadrante está la estrella: un cuarto de vuelta, media vuelta o un reflejo hacia abajo. Dos cuartos de vuelta hacen media.'),
+    'alg-1': P('balanza-cajas', 'Deja **una caja sola** para saber cuántas baldosas trae: quita lo mismo de los dos lados', { rounds: [
+      { title: 'Cajas en un solo lado', items: [{ a: 2, b: 3, c: 0, d: 11 }, { a: 4, b: 1, c: 0, d: 13 }] },
+      { title: 'Cajas en los dos lados', items: [{ a: 4, b: 1, c: 2, d: 7 }, { a: 5, b: 4, c: 2, d: 19 }, { a: 3, b: 6, c: 1, d: 10 }] },
+    ] }, 'Quitar lo mismo de los dos platillos mantiene el equilibrio. Primero se van las sueltas del lado de las cajas, luego las cajas del otro lado, y al final se reparte: $2x + 3 = 11$ da $x = 4$; $4x + 1 = 2x + 7$ da $x = 3$.',
+      'No puedes quitar de un lado lo que el otro no tiene. Busca dejar cajas solas en un platillo y sueltas solas en el otro antes de repartir.'),
+    'alg-4a': P('apunta-chorro', 'Toca el punto donde el chorro **da la vuelta** (el vértice) y lánzalo', { rounds: [
+      { title: 'Fórmula armada', items: [{ a: -1, h: -1, k: 6 }, { a: 1, h: 3, k: 2 }] },
+      { title: 'Fórmula sin armar', items: [{ a: -1, h: 3, k: 7, std: true }, { a: 1, h: -2, k: 1, std: true }, { a: -2, h: 1, k: 8, std: true }] },
+    ] }, 'En $y = a(x - h)^2 + k$ el vértice es $(h, k)$: ojo, $(x + 1)^2$ es $h = -1$. Sin armar, $h = -\\dfrac{b}{2a}$ y $k$ es el valor en $h$: $-x^2 + 6x - 2$ tiene $h = 3$ y $k = -9 + 18 - 2 = 7$.',
+      'En la forma armada el signo de adentro del paréntesis va al revés. En la otra, calcula primero h con −b entre 2a y luego reemplázalo para hallar la altura.'),
+    'alg-4': P('donde-cae', 'Pon un balde donde **cae el agua** (solo cae adelante de la boquilla) y abre la llave', { rounds: [
+      { title: 'Raíces a la vista', items: [{ eq: '(x - 5)(x + 1) = 0', roots: [5, -1] }, { eq: 'x^2 - 7x + 10 = 0', roots: [2, 5] }] },
+      { title: 'Una, ninguna o detrás', items: [{ eq: 'x^2 - 6x + 9 = 0', roots: [3, 3] }, { eq: 'x^2 + 4 = 0', roots: [] }, { eq: 'x^2 + 3x = 0', roots: [0, -3] }] },
+    ] }, 'El agua toca el suelo en las raíces. $(x - 5)(x + 1) = 0$ da 5 y $-1$, pero $-1$ queda detrás. $x^2 - 7x + 10 = (x - 2)(x - 5)$. $x^2 - 6x + 9 = (x - 3)^2$ tiene una sola raíz, doble. $x^2 + 4 = 0$ no tiene raíces reales. $x^2 + 3x = x(x + 3)$ da 0 y $-3$: ninguna adelante.',
+      'Resuelve la ecuación y luego mira cada raíz: ¿está adelante de la boquilla? Si el discriminante es negativo, el agua nunca toca el suelo.'),
+    'alg-23b': P('empaca-filas', 'Empaca los bloques en **filas del ancho del divisor**. Lo que no alcance para otra fila es el residuo', { rounds: [
+      { title: 'Empaca y mira qué sobra', items: [{ a: 3, s: 5, p: 7 }, { a: 1, s: 4, p: 5 }] },
+      { title: 'A veces no sobra nada', items: [{ a: 2, s: 6, p: 8 }, { a: 4, s: 6, p: 11 }] },
+    ] }, '$(x^2 + 5x + 7) \\div (x + 3)$: una fila de alto $x$ y dos de alto 1, cociente $x + 2$, y sobra 1. $(x^2 + 6x + 8) \\div (x + 2)$ es exacta: cociente $x + 4$, residuo 0, así que $x + 2$ es un factor.',
+      'Empieza por la pieza más grande. Cada fila de alto 1 se lleva una barra y tantos cuadritos como dice el divisor.'),
+    'alg-92': P('sondea-niebla', 'Hay niebla. Alumbra pocos puntos y pon una **bandera en cada cruce** con la vía', { rounds: [
+      { title: 'Dos cruces', items: [{ roots: [-1, 3], a: 1 }, { roots: [-3, 2], a: -1 }] },
+      { title: 'Tres cruces', items: [{ roots: [-3, 0, 2], a: 1 }, { roots: [-2, 1, 4], a: -1 }, { roots: [-4, -1, 3], a: 1 }] },
+    ] }, 'La altura en $x = c$ es $P(c)$, el residuo de dividir entre $x - c$. Si es 0, ahí hay un cruce y $x - c$ es un factor. Y si en un punto el terreno está arriba y en otro abajo, entre los dos tiene que cruzar.',
+      'No gastes las linternas en puntos seguidos: alumbra salteado y fíjate dónde la altura cambia de arriba a abajo de la vía.'),
+    'alg-93': P('cruza-o-rebota', 'Decide en cada cero si la montaña **cruza** la vía o **rebota**, y dibújala', { rounds: [
+      { title: 'Mira los exponentes', items: [{ a: 1, factors: [[-2, 1], [1, 2]] }, { a: -1, factors: [[-3, 2], [0, 1], [2, 1]] }] },
+      { title: 'Exponentes más altos', items: [{ a: 1, factors: [[-1, 3], [3, 2]] }, { a: 1, factors: [[-4, 1], [-1, 2], [2, 3]] }] },
+    ] }, 'La multiplicidad de un cero es el exponente de su factor. Si es impar (1, 3…), la gráfica cruza el eje; si es par (2, 4…), lo toca y se devuelve.',
+      'Busca el exponente de cada paréntesis; si no se ve ninguno, es 1. Impar cruza, par rebota.'),
+    'alg-25a': P('rio-o-hueco', 'Guía a Beto por el sendero: en cada paso decide si **camina**, **salta un hueco** o hay un **río**', { rounds: [
+      { title: 'Un hueco y un río', items: [{ top: [2, -1], bottom: [2, 4], from: 0, to: 5 }, { top: [1], bottom: [-1], from: -3, to: 1 }] },
+      { title: 'Mira arriba y abajo', items: [{ top: [0, 3], bottom: [0, 3, 5], from: -1, to: 5 }, { top: [-2, 1], bottom: [1], from: -3, to: 3 }] },
+    ] }, 'Donde solo se anula el denominador, la expresión se dispara: es una asíntota (el río). Donde se anulan los dos, el factor común se cancela y solo falta un punto (un hueco). Los dos quedan fuera del dominio.',
+      'Reemplaza el siguiente x en el denominador. Si da cero, mira si arriba hay el mismo factor: si lo hay, es un hueco; si no, un río.'),
+    'alg-25b': P('llena-estanque', 'Dos llaves llenan el estanque. Parte el estanque en partes que sirvan a las dos y deja pasar las horas', { rounds: [
+      { title: 'Busca el denominador común', items: [{ p: 4, q: 12 }, { p: 6, q: 12 }] },
+      { title: 'Denominadores más grandes', items: [{ p: 10, q: 15 }, { p: 12, q: 24 }] },
+    ] }, 'Se suman los ritmos por hora: $\\tfrac14 + \\tfrac1{12} = \\tfrac{3}{12} + \\tfrac{1}{12} = \\tfrac{4}{12}$, un tercio por hora, así que juntas tardan 3 horas. Con 10 y 15: $\\tfrac{3}{30} + \\tfrac{2}{30} = \\tfrac{5}{30}$, 6 horas.',
+      'El número de partes tiene que poder dividirse entre las horas de cada llave. El más pequeño que sirve a las dos es el denominador común.'),
+    'alg-101': P('bote-corriente', 'Halla la **corriente** y la velocidad del **bote** con las dos pistas, y zarpa', { rounds: [
+      { title: 'Dos pistas, dos incógnitas', items: [{ down: 14, up: 6 }, { down: 11, up: 5 }] },
+      { title: 'Más ríos', items: [{ down: 20, up: 8 }, { down: 9, up: 9 }, { down: 17, up: 3 }] },
+    ] }, 'Si $v + c = 14$ y $v - c = 6$, al restar queda $2c = 8$: la corriente es 4 y el bote va a 10. Si las dos velocidades son iguales, no hay corriente.',
+      'La diferencia entre ir a favor y en contra es dos veces la corriente: una vez porque deja de ayudar y otra porque empieza a frenar.'),
+    'alg-102': P('cruce-curvas', 'Hay niebla. Mueve la mira y **marca los puntos** donde la orilla y el puente tienen la misma altura', { rounds: [
+      { title: 'Dos cruces', items: [{ m: -1, b: 2 }, { m: 0, b: 4 }] },
+      { title: 'Uno, dos o ninguno', items: [{ m: 2, b: -1 }, { m: -1, b: 6 }, { m: 1, b: -3 }] },
+    ] }, 'Las curvas se cortan donde $x^2 = mx + b$. Con $y = -x + 2$: $x^2 + x - 2 = 0$, en $x = 1$ y $x = -2$. Con $y = 2x - 1$: $(x - 1)^2 = 0$, un solo punto (el puente apenas toca). Con $y = x - 3$ no hay solución real: no se cortan.',
+      'Iguala las dos fórmulas y resuelve la cuadrática; el discriminante te dice cuántos cruces buscar.'),
+    'alg-71': P('lirios-laguna', 'Los lirios se duplican cada día. Retrocede en el calendario hasta el día que te piden', { rounds: [
+      { title: 'Antes de llenarse', items: [{ full: 12, ask: 'half' }, { full: 8, ask: 'quarter' }] },
+      { title: 'Cuenta lirios', items: [{ full: 6, ask: 8 }, { full: 7, ask: 'eighth' }, { full: 6, ask: 32 }] },
+    ] }, 'Si cada día hay el doble, el día anterior había la mitad: medio llena un día antes, a la cuarta parte dos días antes. Y $2^x = 8$ pasa el día 3, porque $8 = 2^3$.',
+      'No busques a mitad del calendario: piensa cuántas veces hay que partir por la mitad para llegar a lo que te piden.'),
+    'alg-13b': P('dos-bancos', 'Apuesta en qué año el ahorro **llega a la meta** y corre los años para verlo', { rounds: [
+      { title: 'Al 20 % anual', items: [{ kind: 'simple', rate: 20, goal: 2 }, { kind: 'comp', rate: 20, goal: 2 }] },
+      { title: 'Otras tasas', items: [{ kind: 'simple', rate: 10, goal: 2 }, { kind: 'comp', rate: 10, goal: 2 }, { kind: 'comp', rate: 50, goal: 3 }] },
+    ] }, 'Con interés simple del 20 % cada año suma 0.20: se duplica en el año 5. Con compuesto cada año multiplica por 1.2: $1.2^4 \\approx 2.07$, se duplica en el año 4. Al 10 %: año 10 con simple y año 8 con compuesto ($1.1^8 \\approx 2.14$).',
+      'Con simple, divide lo que falta entre lo que suma cada año. Con compuesto, sigue multiplicando: cada año el salto es más grande que el anterior.'),
+    'alg-72': P('regla-de-calculo', 'Multiplica y divide **sumando distancias** en la regla: corre la de arriba y toca el resultado abajo', { rounds: [
+      { title: 'Multiplicar es sumar exponentes', items: [{ base: 2, a: 4, b: 8 }, { base: 2, a: 8, b: 8 }] },
+      { title: 'Otra base, y dividir', items: [{ base: 3, a: 9, b: 27 }, { base: 2, a: 64, b: 8, div: true }, { base: 3, a: 81, b: 9, div: true }] },
+    ] }, 'En la regla cada paso es un exponente más. $4 \\times 8$: exponentes $2 + 3 = 5$, y $2^5 = 32$. Eso es $\\log(ab) = \\log a + \\log b$. Al dividir se restan: $64 \\div 8$ es $6 - 3 = 3$, y $2^3 = 8$.',
+      'Mira los exponentes de abajo: el del resultado es la suma (o la resta) de los exponentes de los dos números.'),
+    'alg-73': P('piedras-selva', 'Cruza el río pisando **todas las soluciones que sí sirven** y ninguna de las falsas', { rounds: [
+      { title: 'Candidatas tramposas', items: [
+        { eq: '\\log_3 x + \\log_3(x - 8) = 2', stones: [{ x: '9', ok: true }, { x: '-1', ok: false, why: 'Un logaritmo no acepta números negativos' }, { x: '3', ok: false, why: 'Con 3, x − 8 es negativo' }] },
+        { eq: '2^{x^2} = 16', stones: [{ x: '2', ok: true }, { x: '4', ok: false, why: '2 elevado a 16 no es 16' }, { x: '-2', ok: true }] },
+      ] },
+      { title: 'Revisa el dominio', items: [
+        { eq: '\\log x + \\log(x - 3) = 1', stones: [{ x: '-2', ok: false, why: 'El logaritmo de −2 no existe' }, { x: '5', ok: true }, { x: '10', ok: false, why: 'Con 10 el producto es 70, no 10' }] },
+        { eq: '\\log_3(x^2) = 2', stones: [{ x: '3', ok: true }, { x: '9', ok: false, why: 'Con 9, x² es 81 y el logaritmo da 4' }, { x: '-3', ok: true }] },
+        { eq: '\\ln(x - 5) = 0', stones: [{ x: '5', ok: false, why: 'ln 0 no existe' }, { x: '6', ok: true }, { x: '0', ok: false, why: 'Con 0, x − 5 es negativo' }] },
+      ] },
+    ] }, '$\\log_3 x + \\log_3(x - 8) = 2$ da $x(x - 8) = 9$, con candidatas 9 y $-1$; $-1$ no tiene logaritmo. En cambio en $\\log_3(x^2) = 2$ sirven 3 y $-3$, porque lo que entra al logaritmo es $x^2 = 9$, positivo. Siempre se revisa lo de adentro del logaritmo.',
+      'Resuelve la ecuación y luego prueba cada candidata en la ecuación ORIGINAL: lo que queda dentro de cada logaritmo tiene que ser positivo.'),
+  };
+
   // ====================== Se montan en el curso ======================
   for (const u of COURSE_ALGEBRA.units) for (const l of u.lessons) if (SC[l.id]) l.clip = { ...l.clip, scenes: SC[l.id].map(([d, text, o]) => sc(d, text, o)) };
   for (const u of COURSE_ALGEBRA.units) for (const l of u.lessons) if (EX[l.id]) { l.ex = EX[l.id]; delete l.more; }
+  // El juego dinámico va de último (también en las lecciones que conservan sus ejercicios de algebra.js).
+  for (const u of COURSE_ALGEBRA.units) for (const l of u.lessons) if (DYN[l.id]) l.ex = [...l.ex, DYN[l.id]];
   for (const [w, b] of Object.entries(BOSS)) {
     U(w).boss = { id: b.id, title: b.title,
       clip: { scenes: [sc(5, b.intro[0], { title: 'Jefe final' }), sc(5, b.intro[1], { steps: b.phases.map(f => f[0]) })] },

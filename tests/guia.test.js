@@ -59,7 +59,7 @@ test('la guía completa añade el cartel y las vidas a los juegos de acción, la
   assert.equal(guideButton({ type: 'play', game: 'no-existe' }), '');
   assert.match(guideButton({ type: 'mc' }), /guide-btn.*Cómo se juega/);
   // Los juegos de acción de la lista existen y de verdad usan el armazón de vidas.
-  for (const name of get(ctx, 'GUIDE_ARCADE')) assert.ok(/makeArcade\(|drawHearts\(/.test(read(`js/games/${name}.js`)), `${name} no es de acción`);
+  for (const name of get(ctx, 'GUIDE_ARCADE')) assert.ok(/makeArcade\(|drawHearts\(|questGame\(/.test(read(`js/games/${name}.js`)), `${name} no es de acción`);
   // Y no falta ninguno: todo juego con vidas lleva esos pasos.
   for (const name of Object.keys(GAMES)) if (/makeArcade\(/.test(read(`js/games/${name}.js`))) assert.ok(get(ctx, 'GUIDE_ARCADE').has(name), `${name} es de acción y no está en la lista`);
 });
