@@ -1,0 +1,410 @@
+% Resumen del mundo «Escalera de Sigma» (Álgebra, mundo 5: progresiones y sumatoria).
+% Lecciones alg-14, alg-14b, alg-14c, alg-14d, alg-15. Usa los ejemplos de los videos (video/valle-zoom/films:
+% sucesiones, sumaarit, geometricas, sumageo, sumatoria); el taller trae ejercicios nuevos (no repite los de la app).
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{algebra}
+\zukamundo{5}{Escalera de Sigma}{Progresiones y sumatoria}
+
+\begin{document}
+
+\portada{%
+Una \clave{sucesión} es una lista de números en orden. Cuando se pasa de un término al siguiente
+\emph{sumando} siempre lo mismo, la lista es una progresión aritmética; cuando se pasa \emph{multiplicando}
+siempre por lo mismo, es una progresión geométrica. En este mundo aprendiste a hallar cualquier término de
+esas listas, a sumarlos sin escribirlos todos y a abreviar sumas y productos largos con $\Sigma$ y $\Pi$.
+Este resumen reúne las definiciones, las fórmulas y los ejemplos de los videos, y termina con un taller.}{%
+\item \textbf{Nivel 5-1.} Sucesiones, progresiones aritméticas, término general y medios aritméticos.
+\item \textbf{Nivel 5-2.} La suma de una progresión aritmética: el truco de Gauss y la suma de los impares.
+\item \textbf{Nivel 5-3.} Progresiones geométricas: razón, término general y medios geométricos.
+\item \textbf{Nivel 5-4.} Suma geométrica finita, suma infinita, convergencia y divergencia.
+\item \textbf{Nivel 5-5.} Notación sigma, sus propiedades, sumas notables, productoria y factorial.}
+
+\begin{clavebox}[LAS IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\qquad}c@{\qquad}c@{}}
+$\displaystyle a_n=a_1+(n-1)\,d$ & $\displaystyle a_n=a_1\,r^{\,n-1}$ & $\displaystyle \sum_{k=1}^{n}k=\frac{n(n+1)}{2}$\\[2pt]
+\small del 1 al $n$ hay $n-1$ saltos & \small y $n-1$ multiplicaciones & \small dos escaleras forman un rectángulo
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{5-1}{Sucesiones y progresiones aritméticas}
+
+\begin{definicion}[Sucesión]
+Una \clave{sucesión} es una lista ordenada de números $a_1,\ a_2,\ a_3,\ \dots,\ a_n,\ \dots$
+Cada número es un \clave{término}; el subíndice $n\in\N$ dice su \emph{puesto}. Formalmente, una sucesión es una
+función que a cada natural $n$ le asigna un número real $a_n$. Una fórmula para $a_n$ en términos de $n$ se llama
+\clave{término general}.
+\end{definicion}
+
+Por ejemplo, la alcancía de Caro empieza con $7$ monedas y cada semana recibe $4$: $7,\ 11,\ 15,\ 19,\ \dots$, con
+$a_3=15$. Los cuadrados $1,\ 4,\ 9,\ 16,\ \dots$ tienen término general $a_n=n^2$.
+
+\begin{definicion}[Progresión aritmética]
+Una sucesión es una \clave{progresión aritmética} si cada término se obtiene sumando al anterior un número fijo $d$,
+la \clave{diferencia}:
+\[ a_{n+1}=a_n+d\qquad\text{para todo } n,\qquad\text{es decir,}\qquad d=a_{n+1}-a_n . \]
+\end{definicion}
+Con $d>0$ la progresión sube ($20,\ 25,\ 30,\ \dots$ tiene $d=5$); con $d<0$ baja ($30,\ 28,\ 26,\ \dots$ tiene $d=-2$);
+y con $d=0$ todos los términos son iguales.
+
+\subsection{El término general: contar saltos}
+\begin{figura}[Del primer término al quinto hay cuatro saltos, no cinco.]
+\begin{tikzpicture}[x=0.62cm,y=1cm]
+  \draw[->,zmute,line width=0.7pt] (5,0) -- (25.6,0);
+  \foreach \x in {5,...,25} \draw[zmute] (\x,-0.07) -- (\x,0.07);
+  \foreach \n/\x in {1/7,2/11,3/15,4/19,5/23} {
+    \node[punto,fill=zaccent,inner sep=1.8pt] at (\x,0) {};
+    \node[font=\small] at (\x,-0.38) {$\x$};
+    \node[font=\footnotesize,text=zmute] at (\x,-0.78) {$a_{\n}$};}
+  \foreach \x in {7,11,15,19}
+    \draw[->,zaccent,line width=0.9pt] (\x+0.15,0.15) to[bend left=55] node[above,font=\footnotesize,text=zink]{$+4$} (\x+3.85,0.15);
+  \draw[decorate,decoration={brace,mirror,amplitude=5pt},zmute] (7,-1.05) -- (23,-1.05)
+    node[midway,below=6pt,font=\small,text=zink]{$4$ saltos de tamaño $d=4$:\quad $a_5=7+4\cdot 4=23$};
+\end{tikzpicture}
+\end{figura}
+
+El primer término ya está puesto: para llegar al término $n$ se dan $n-1$ saltos de tamaño $d$.
+\begin{propiedad}[Término general de una progresión aritmética]
+\[ a_n=a_1+(n-1)\,d,\qquad\text{y en general}\qquad a_n=a_m+(n-m)\,d . \]
+\end{propiedad}
+
+\begin{ejemplo}[La semana veinte de Caro]
+Con $a_1=7$ y $d=4$: de la semana $1$ a la $20$ hay $19$ saltos, así que
+\[ a_{20}=7+19\cdot 4=7+76=83\ \text{monedas}. \]
+\end{ejemplo}
+\begin{ojo}[La trampa de los saltos]
+Escribir $a_{20}=7+20\cdot 4=87$ es contar un salto de más. Entre el término $1$ y el término $n$ hay $n-1$ saltos,
+como entre $n$ postes de una cerca hay $n-1$ tramos.
+\end{ojo}
+
+\subsection{Dos términos bastan, y los medios aritméticos}
+\begin{ejemplo}[Sin conocer el primero]
+Se sabe que $a_3=10$ y $a_8=25$. Entre el término $3$ y el $8$ hay $8-3=5$ saltos, que suben $25-10=15$: así
+$5d=15$, $d=3$ y $a_1=a_3-2d=10-6=4$. La progresión es $4,\ 7,\ 10,\ 13,\ \dots$, con término general $a_n=4+3(n-1)=3n+1$.
+\end{ejemplo}
+\begin{definicion}[Medios aritméticos]
+Los \clave{medios aritméticos} entre dos números son los términos que se colocan entre ellos para formar una
+progresión aritmética. Si se interpolan $k$ medios entre $a$ y $b$, hay $k+2$ términos y $k+1$ saltos, así que
+$d=(b-a)/(k+1)$. Por ejemplo, tres medios entre $5$ y $25$: $4$ saltos, $d=5$, y los medios son $10,\ 15,\ 20$.
+\end{definicion}
+
+%=====================================================================
+\nivel{5-2}{La suma de una progresión aritmética}
+
+Cuenta la historia que a un niño, Gauss, le pidieron sumar del $1$ al $100$. Escribió la suma dos veces, una al
+derecho y otra al revés:
+\[
+\begin{array}{r@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c}
+S={} & 1 &+& 2 &+& \cdots &+& 100\\
+S={} & 100 &+& 99 &+& \cdots &+& 1\\ \hline
+2S={} & 101 &+& 101 &+& \cdots &+& 101
+\end{array}
+\qquad\Longrightarrow\qquad 2S=100\cdot 101,\quad S=\frac{100\cdot101}{2}=5050 .
+\]
+Cada columna suma lo mismo, pero así se contó todo dos veces: por eso se toma la mitad.
+
+\begin{minipage}[c]{0.5\linewidth}
+\textbf{Las dos escaleras.} Con $3+5+7+9+11$ cada término es un escalón. Otra escalera igual, puesta al revés
+encima, encaja con la primera: cada columna mide $3+11=14$ y se forma un rectángulo de $5$ por $14$. Cada escalera
+es la mitad:
+\[ 3+5+7+9+11=\frac{5\cdot 14}{2}=35 . \]
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\begin{tikzpicture}[x=0.85cm,y=0.24cm]
+  \foreach \i/\h in {1/3,2/5,3/7,4/9,5/11} {
+    \pgfmathtruncatemacro\u{14-\h}
+    \fill[zaccent!28] (\i-1,0) rectangle (\i,\h);
+    \fill[zsun!35] (\i-1,\h) rectangle (\i,14);
+    \draw[zink,line width=0.6pt] (\i-1,0) rectangle (\i,14);
+    \draw[zink,line width=0.6pt] (\i-1,\h) -- (\i,\h);
+    \node[font=\small] at (\i-0.5,\h/2) {$\h$};
+    \node[font=\small] at (\i-0.5,{(\h+14)/2}) {$\u$};}
+  \draw[decorate,decoration={brace,amplitude=4pt},zmute] (5.15,14) -- (5.15,0) node[midway,right=5pt,font=\small,text=zink]{$14$};
+  \draw[decorate,decoration={brace,mirror,amplitude=4pt},zmute] (0,-0.6) -- (5,-0.6) node[midway,below=5pt,font=\small,text=zink]{$5$ términos};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{propiedad}[Suma de los $n$ primeros términos]
+\[ S_n=a_1+a_2+\cdots+a_n=\frac{n\,(a_1+a_n)}{2}=\frac{n\,\bigl(2a_1+(n-1)d\bigr)}{2}. \]
+\end{propiedad}
+
+\subsection{¿Cuántos términos hay?}
+\begin{ejemplo}[$7+12+17+\cdots+57$]
+Del $7$ al $57$ hay $50$; en saltos de $5$ son $50\div5=10$ saltos. Pero diez saltos unen \emph{once} números, como
+los postes de una cerca: $n=10+1=11$. Entonces
+\[ S_{11}=\frac{11\,(7+57)}{2}=\frac{11\cdot 64}{2}=352 . \]
+\end{ejemplo}
+\begin{clavebox}[NÚMERO DE TÉRMINOS]
+$\displaystyle n=\frac{a_n-a_1}{d}+1\qquad\text{(los saltos, más uno)}$
+\end{clavebox}
+
+\subsection{La sorpresa de los impares}
+\begin{minipage}[c]{0.64\linewidth}
+Cada impar es una escuadra que agranda el cuadrado: $1$, luego $1+3=4$, luego $1+3+5=9$, luego $1+3+5+7=16$.
+Los primeros $n$ impares llenan un cuadrado de lado $n$:
+\[ 1+3+5+\cdots+(2n-1)=n^2 . \]
+La fórmula de las escaleras dice lo mismo: el último impar es $2n-1$ y
+$S_n=\dfrac{n\,\bigl(1+(2n-1)\bigr)}{2}=n^2$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.3\linewidth}\centering
+\begin{tikzpicture}[scale=0.62]
+  \foreach \k/\c in {1/zsun,2/zcoral,3/zmint,4/zsky} {
+    \fill[\c!40] (0,\k-1) rectangle (\k,\k);
+    \fill[\c!40] (\k-1,0) rectangle (\k,\k-1);
+    \pgfmathtruncatemacro\o{2*\k-1}
+    \node[font=\footnotesize] at (\k-0.5,\k-0.5) {$\o$};}
+  \draw[zink,line width=0.5pt] (0,0) grid (4,4);
+  \node[font=\footnotesize,text=zmute] at (2,-0.55) {$1+3+5+7=4^2$};
+\end{tikzpicture}
+\end{minipage}
+
+
+%=====================================================================
+\nivel{5-3}{Progresiones geométricas}
+
+Ana tiene una hoja de papel de $\SI{0.1}{\milli\metre}$ de grosor. Al doblarla, una capa se vuelve dos; dos se vuelven
+cuatro; cuatro, ocho. Cada doblez \emph{multiplica} por $2$.
+
+\begin{definicion}[Progresión geométrica]
+Una sucesión es una \clave{progresión geométrica} si cada término se obtiene multiplicando el anterior por un número
+fijo $r\neq 0$, la \clave{razón}:
+\[ a_{n+1}=a_n\cdot r\qquad\text{es decir,}\qquad r=\frac{a_{n+1}}{a_n}. \]
+\end{definicion}
+\begin{minipage}[c]{0.44\linewidth}
+\begin{itemize}
+\item $1,\ 3,\ 9,\ 27,\ \dots$ tiene $r=3$: crece cada vez más rápido.
+\item $800,\ 400,\ 200,\ \dots$ tiene $r=\frac12$: cada término es la mitad del anterior.
+\item $1,\ -2,\ 4,\ -8,\ \dots$ tiene $r=-2$: el signo salta, positivo, negativo, positivo\dots
+\end{itemize}
+\smallskip
+{\small\color{zmute}A la derecha: sumar $2$ cada vez crece parejo (puntos en línea recta); multiplicar por $2$ empieza
+lento y se dispara.}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.53\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,axis lines=left,width=8.6cm,height=5.4cm,xmin=0,xmax=8.6,ymin=0,ymax=140,
+  xtick={1,...,8},ytick={0,32,64,96,128},xlabel={$n$},
+  legend style={at={(0.04,0.96)},anchor=north west,font=\footnotesize,draw=zline,fill=white},legend cell align=left]
+  \addplot[only marks,mark=*,mark size=2.2pt,zaccent,samples at={1,...,8}] {2*x-1};
+  \addlegendentry{$1,3,5,\dots$\ \ ($d=2$)}
+  \addplot[only marks,mark=square*,mark size=2.2pt,zcoral,samples at={1,...,8}] {2^(x-1)};
+  \addlegendentry{$1,2,4,\dots$\ \ ($r=2$)}
+\end{axis}
+\end{tikzpicture}
+\end{minipage}
+
+\begin{propiedad}[Término general de una progresión geométrica]
+Del primer término al término $n$ hay $n-1$ multiplicaciones por $r$:
+\[ a_n=a_1\,r^{\,n-1},\qquad\text{y en general}\qquad a_n=a_m\,r^{\,n-m}. \]
+\end{propiedad}
+\begin{ejemplo}[El séptimo término de $3,\ 6,\ 12,\ \dots$]
+La razón es $r=\frac63=2$. Del primero al séptimo hay $6$ multiplicaciones:
+\[ a_7=3\cdot 2^{6}=3\cdot 64=192 . \]
+\end{ejemplo}
+\begin{ojo}[La misma trampa, ahora con potencias]
+$a_7=3\cdot 2^{7}=384$ es un error: siete términos, pero solo seis multiplicaciones.
+\end{ojo}
+
+\begin{ejemplo}[Medios geométricos entre $2$ y $162$]
+Con tres medios hay cinco términos y cuatro multiplicaciones: $162=2\,r^{4}$, así que $r^{4}=81$ y $r=3$ o $r=-3$.
+\[ r=3:\ \ 2,\ \mathbf{6},\ \mathbf{18},\ \mathbf{54},\ 162\qquad\qquad r=-3:\ \ 2,\ \mathbf{-6},\ \mathbf{18},\ \mathbf{-54},\ 162 . \]
+\end{ejemplo}
+
+\begin{ejemplo}[¿Doblar una hoja hasta la Luna?]
+Tras $n$ dobleces el grosor es $0.1\cdot 2^{n}$ milímetros. Con $n=42$:
+\[ 0.1\cdot 2^{42}\ \si{\milli\metre}\approx 4.4\times10^{11}\ \si{\milli\metre}\approx\SI{440000}{\kilo\metre}, \]
+más que la distancia a la Luna (unos $\SI{384000}{\kilo\metre}$). En cambio, $42$ hojas \emph{apiladas} (sumar, no
+multiplicar) miden $4.2$ milímetros: ni medio centímetro.
+\end{ejemplo}
+
+%=====================================================================
+\nivel{5-4}{Suma geométrica y suma infinita}
+
+\subsection{El truco: multiplicar por la razón y restar}
+\begin{ejemplo}[$1+2+4+\cdots+512$]
+Son diez términos, cada uno el doble del anterior. Se multiplica toda la suma por la razón $2$: queda la misma lista
+corrida un lugar. Al restar, casi todo se cancela:
+\[
+\begin{array}{r@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c@{\;}c}
+2S={} &   & & 2 &+& 4 &+& \cdots &+& 512 &+\ 1024\\
+S={} & 1 &+& 2 &+& 4 &+& \cdots &+& 512 & \\ \hline
+2S-S={} & -1 & & & & & & & & & +\ 1024
+\end{array}
+\qquad\Longrightarrow\qquad S=1024-1=1023 .
+\]
+\end{ejemplo}
+\begin{propiedad}[Suma de $n$ términos de una progresión geométrica]
+Si $r\neq1$,
+\[ S_n=a_1+a_1r+\cdots+a_1r^{\,n-1}=a_1\,\frac{r^{n}-1}{r-1}=a_1\,\frac{1-r^{n}}{1-r}. \]
+Se obtiene como en el ejemplo: $rS_n-S_n=a_1r^{n}-a_1$. Si $r=1$, todos los términos son iguales y $S_n=n\,a_1$.
+\end{propiedad}
+
+\subsection{Sumar para siempre}
+Caro tiene una barra de chocolate y cada día se come la mitad de lo que queda: el primer día $\frac12$, el segundo
+$\frac14$, el tercero $\frac18$\dots\ Después de tres días lleva $\frac78$, y siempre queda un pedazo.
+\begin{figura}[Las sumas parciales $\tfrac12,\ \tfrac34,\ \tfrac78,\ \tfrac{15}{16},\dots$ se acercan a $1$ sin pasarse nunca.]
+\begin{tikzpicture}[x=12cm,y=1cm]
+  \foreach \a/\b/\c/\l in {0/0.5/zsun/{\tfrac12},0.5/0.75/zcoral/{\tfrac14},0.75/0.875/zmint/{\tfrac18},0.875/0.9375/zsky/{\tfrac1{16}}} {
+    \fill[\c!45] (\a,0) rectangle (\b,0.8);
+    \node[font=\small] at ({(\a+\b)/2},0.4) {$\l$};}
+  \fill[zviolet!40] (0.9375,0) rectangle (0.96875,0.8);
+  \fill[zsun!45] (0.96875,0) rectangle (0.984375,0.8);
+  \fill[zcoral!45] (0.984375,0) rectangle (0.9921875,0.8);
+  \draw[zink,line width=0.7pt] (0,0) rectangle (1,0.8);
+  \foreach \b in {0.5,0.75,0.875,0.9375,0.96875,0.984375,0.9921875} \draw[zink,line width=0.5pt] (\b,0) -- (\b,0.8);
+  \foreach \x/\l in {0/0,0.5/{\tfrac12},0.75/{\tfrac34},0.875/{\tfrac78},1/1}
+    {\draw[zmute] (\x,0) -- (\x,-0.12); \node[font=\small,below] at (\x,-0.12) {$\l$};}
+\end{tikzpicture}
+\end{figura}
+
+\begin{propiedad}[Suma infinita de una progresión geométrica]
+Si $\abs{r}<1$, las potencias $r^{n}$ se acercan a $0$ y la suma infinita \clave{converge}:
+\[ S_\infty=a_1+a_1r+a_1r^{2}+\cdots=\frac{a_1}{1-r}. \]
+Si $\abs{r}\ge 1$ (y $a_1\neq0$), la suma no se acerca a ningún número: \clave{diverge}.
+\end{propiedad}
+\begin{ejemplo}[Tres sumas infinitas del video]
+\begin{itemize}
+\item El chocolate: $\frac12+\frac14+\frac18+\cdots=\dfrac{1/2}{1-1/2}=1$. Infinitos pedazos caben en una sola barra.
+\item Un decimal periódico: $0.\overline{3}=\frac{3}{10}+\frac{3}{100}+\cdots=\dfrac{3/10}{1-1/10}=\dfrac{3/10}{9/10}=\dfrac13$.
+\item Con $r=2$, $3+6+12+24+\cdots$ crece sin parar; con $r=-1$, $1-1+1-1+\cdots$ salta entre $1$ y $0$. Ninguna converge.
+\end{itemize}
+\end{ejemplo}
+\begin{ojo}[La fórmula infinita solo vale si $|r|<1$]
+Con $r=2$ daría $\frac{3}{1-2}=-3$: un número negativo para una suma de positivos, un absurdo que avisa que diverge.
+\end{ojo}
+
+%=====================================================================
+\nivel{5-5}{Sumatoria y productoria}
+
+Beto quiere sumar los cien primeros cuadrados, $1+4+9+16+\cdots$, pero la pizarra no le alcanza. La letra griega
+$\Sigma$ (sigma) lo dice en un renglón.
+\begin{figura}[Las partes de una sumatoria.]
+\begin{tikzpicture}
+  \node[scale=1.9,inner sep=1pt] (S) at (0,0) {$\displaystyle\sum$};
+  \node[above=0pt of S] (up) {$100$};
+  \node[below=0pt of S] (lo) {$k=1$};
+  \node[right=2pt of S,scale=1.4] (t) {$k^{2}$};
+  \node[etq,anchor=west] (L1) at (3.2,0.95) {límite superior: el último valor de $k$};
+  \node[etq,anchor=west] (L2) at (3.2,0) {término general: lo que se suma para cada $k$};
+  \node[etq,anchor=east] (L3) at (-2.4,-0.95) {índice $k$ y límite inferior};
+  \draw[->,zmute] (L1.west) -- (up.east);
+  \draw[->,zmute] (L2.west) -- (t.east);
+  \draw[->,zmute] (L3.east) -- (lo.west);
+\end{tikzpicture}
+\end{figura}
+
+\begin{definicion}[Notación sigma]
+$\displaystyle\sum_{k=m}^{n}a_k=a_m+a_{m+1}+\cdots+a_n$. El índice $k$ recorre los enteros desde $m$ hasta $n$:
+hay $n-m+1$ términos. Por ejemplo, $\displaystyle\sum_{k=1}^{5}2k=2+4+6+8+10=30$.
+\end{definicion}
+
+\begin{propiedad}[Linealidad y sumas notables]
+Para una constante $c$,
+\[ \sum_{k=1}^{n}c=n\,c,\qquad \sum_{k=1}^{n}c\,a_k=c\sum_{k=1}^{n}a_k,\qquad \sum_{k=1}^{n}(a_k+b_k)=\sum_{k=1}^{n}a_k+\sum_{k=1}^{n}b_k ; \]
+\[ \sum_{k=1}^{n}k=\frac{n(n+1)}{2},\qquad\qquad \sum_{k=1}^{n}k^{2}=\frac{n(n+1)(2n+1)}{6}. \]
+\end{propiedad}
+La primera regla esconde una sorpresa: $\sum_{k=1}^{6}4$ no da $4$, sino $4+4+4+4+4+4=6\cdot4=24$, porque cada $k$
+pone su propio $4$.
+\begin{ejemplo}[Los cuadrados de Beto]
+Con $n=3$: $1+4+9=14$ y la fórmula da $\frac{3\cdot4\cdot7}{6}=14$. Con $n=100$, en un solo renglón:
+$\sum_{k=1}^{100}k^{2}=\frac{100\cdot101\cdot201}{6}=338\,350$.
+\end{ejemplo}
+
+\subsection{La productoria y el factorial}
+\begin{definicion}[Productoria y factorial]
+La pi mayúscula multiplica los términos: $\prod_{k=m}^{n}a_k=a_m\cdot a_{m+1}\cdots a_n$. El \clave{factorial} de
+$n$ es $n!=\prod_{k=1}^{n}k=1\cdot2\cdot3\cdots n$, y por convenio $0!=1$. Así, $5!=120$ y $10!=3\,628\,800$: el
+factorial crece muy rápido. Con $2k$ de $1$ a $4$: $\prod_{k=1}^{4}2k=2\cdot4\cdot6\cdot8=384$.
+\end{definicion}
+Si el índice no empieza en $1$, el primer término se calcula con ese valor y hay $n-m+1$ términos. Las fórmulas
+notables son para índices desde $1$, así que se restan: $\sum_{k=3}^{6}k=\sum_{k=1}^{6}k-\sum_{k=1}^{2}k=21-3=18$.
+
+%=====================================================================
+\repaso
+\begin{center}\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}l L l@{}}
+\toprule
+Concepto & Fórmula & Ejemplo\\ \midrule
+Término aritmético & $a_n=a_1+(n-1)d$ & $a_{20}=7+19\cdot4=83$\\
+Número de términos & $n=\frac{a_n-a_1}{d}+1$ & $7,\dots,57$ de $5$ en $5$: $11$\\
+Suma aritmética & $S_n=\frac{n(a_1+a_n)}{2}$ & $1+\cdots+100=5050$\\
+Término geométrico & $a_n=a_1\,r^{\,n-1}$ & $a_7=3\cdot2^6=192$\\
+Suma geométrica ($r\neq1$) & $S_n=a_1\frac{r^n-1}{r-1}$ & $1+2+\cdots+512=1023$\\
+Suma infinita ($|r|<1$) & $S_\infty=\frac{a_1}{1-r}$ & $\frac12+\frac14+\cdots=1$\\
+Sumas notables & $\sum k=\frac{n(n+1)}{2}$,\ \ $\sum k^2=\frac{n(n+1)(2n+1)}{6}$ & $\sum_{k=1}^{3}k^2=14$\\
+Constante & $\sum_{k=1}^{n}c=nc$ & $\sum_{k=1}^{6}4=24$\\
+Factorial & $n!=\prod_{k=1}^{n}k$,\ \ $0!=1$ & $5!=120$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Contar $n$ saltos (o $n$ multiplicaciones) en vez de $n-1$ para llegar al término $n$.
+\item Olvidar la mitad en la suma de Gauss, o contar los saltos en lugar de los términos (son uno más).
+\item Usar $S_\infty=\frac{a_1}{1-r}$ cuando $\abs{r}\ge1$: esa suma diverge.
+\item Creer que $\sum_{k=1}^{n}c=c$ (se suma una vez por cada $k$), o contar $n$ términos en $\sum_{k=m}^{n}$.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Escribe los cuatro primeros términos de cada sucesión y decide si es aritmética, geométrica o ninguna de las dos.
+  \begin{ejercicios}
+  \item $a_n=5-2n$ \qquad (b) $b_n=3\cdot 2^{n}$ \qquad (c) $c_n=n^{2}+1$
+  \end{ejercicios}
+\item En una progresión aritmética, $a_5=17$ y $a_{12}=45$. Halla $d$, $a_1$ y $a_{30}$. ¿Es $200$ un término de la progresión?
+\item Interpola cuatro medios aritméticos entre $-3$ y $22$.
+\item Un almacén apila latas en forma de pirámide: la fila de abajo tiene $30$ latas y cada fila tiene $2$ latas menos que
+  la de abajo, hasta llegar a una fila de $2$ latas. ¿Cuántas filas hay? ¿Cuántas latas tiene la décima fila contando desde
+  abajo? ¿Cuántas latas hay en total?
+\item ¿Cuántos múltiplos de $7$ hay entre $100$ y $300$? ¿Cuánto suman?
+\item Considera $a_n=4+2(n-1)$ y $b_n=4\left(\tfrac32\right)^{n-1}$.
+  \begin{ejercicios}
+  \item Dibuja en un mismo plano los puntos $(n,a_n)$ y $(n,b_n)$ para $n=1,\dots,6$.
+  \item ¿Cuáles puntos quedan sobre una recta? ¿Qué pendiente tiene?
+  \item ¿A partir de qué $n$ la geométrica supera a la aritmética?
+  \end{ejercicios}
+\item En una progresión geométrica, $a_2=12$ y $a_5=324$. Halla $r$, $a_1$ y $a_8$. ¿Qué lugar ocupa el término $2916$?
+\item Calcula:
+  \begin{ejercicios}
+  \item $2+6+18+\cdots+4374$.
+  \item El decimal $0.\overline{45}=0.454545\ldots$ como fracción, escribiéndolo como una suma infinita.
+  \item $1-\frac23+\frac49-\frac{8}{27}+\cdots$
+  \item ¿Converge $5+5.5+6.05+\cdots$? Justifica.
+  \end{ejercicios}
+\item Un paciente recibe $\SI{500}{\milli\gram}$ de un medicamento cada $6$ horas. En cada intervalo de $6$ horas el cuerpo
+  elimina el \SI{40}{\percent} de lo que tiene.
+  \begin{ejercicios}
+  \item Si recibiera una sola dosis, ¿cuánto medicamento le quedaría a las $24$ horas?
+  \item Con las dosis repetidas, ¿cuánto tiene justo después de la cuarta dosis?
+  \item ¿A qué cantidad se acerca, a la larga, lo que tiene justo después de cada dosis?
+  \end{ejercicios}
+\item Sumatoria y productoria.
+  \begin{ejercicios}
+  \item Escribe $4+9+14+\cdots+99$ con notación sigma y calcula su valor.
+  \item Calcula $\displaystyle\sum_{k=1}^{20}(3k-2)$ usando las propiedades.
+  \item Calcula $\displaystyle\sum_{k=1}^{10}k(k-1)$ y $\displaystyle\sum_{k=11}^{30}k$.
+  \item Calcula $\displaystyle\prod_{k=1}^{5}\frac{k+1}{k}$ y $\dfrac{8!}{6!}$.
+  \end{ejercicios}
+\end{ejercicios}
+
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) $3,1,-1,-3$: aritmética, $d=-2$. (b) $6,12,24,48$: geométrica, $r=2$. (c) $2,5,10,17$: ninguna (las diferencias $3,5,7$ y los cocientes cambian).
+\item $7d=28$: $d=4$, $a_1=17-4\cdot4=1$, $a_{30}=1+29\cdot4=117$. $1+4(n-1)=200$ da $n-1=49.75$: no es término.
+\item $5$ saltos, $d=\frac{25}{5}=5$: los medios son $2,\ 7,\ 12,\ 17$.
+\item $n=\frac{2-30}{-2}+1=15$ filas; décima fila: $30-9\cdot2=12$ latas; total $\frac{15(30+2)}{2}=240$ latas.
+\item Van de $105$ a $294$: $n=\frac{294-105}{7}+1=28$ múltiplos; suma $\frac{28(105+294)}{2}=5586$.
+\item (a) $a_n$: $4,6,8,10,12,14$; $b_n$: $4,6,9,13.5,20.25,30.375$. (b) Los de $a_n$, pendiente $d=2$. (c) Coinciden en $n=1,2$; desde $n=3$ la geométrica es mayor ($9>8$).
+\item $r^{3}=\frac{324}{12}=27$: $r=3$, $a_1=4$, $a_8=4\cdot3^{7}=8748$. $4\cdot3^{n-1}=2916\Rightarrow3^{n-1}=729=3^6$: es $a_7$.
+\item (a) $r=3$, $\frac{4374}{2}=3^7$: $8$ términos, $S=2\cdot\frac{3^8-1}{2}=6560$. (b) $\frac{45/100}{1-1/100}=\frac{45}{99}=\frac{5}{11}$. (c) $r=-\frac23$: $S=\frac{1}{1+2/3}=\frac35$. (d) No: $r=1.1>1$, diverge.
+\item Queda el \SI{60}{\percent}. (a) $500\cdot0.6^{4}=\SI{64.8}{\milli\gram}$. (b) $500\cdot\frac{1-0.6^4}{1-0.6}=\SI{1088}{\milli\gram}$. (c) $\frac{500}{1-0.6}=\SI{1250}{\milli\gram}$.
+\item (a) $\sum_{k=1}^{20}(5k-1)=5\cdot210-20=1030$. (b) $3\cdot210-2\cdot20=590$. (c) $385-55=330$; $465-55=410$. (d) Telescópico: $\frac21\cdot\frac32\cdots\frac65=6$; $\frac{8!}{6!}=8\cdot7=56$.
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

@@ -282,3 +282,11 @@ function worldTrail(xs, step, cy = 34) {
   const y = i => cy + i * step, h = step / 2;
   return `M${xs[0]} ${y(0)}` + xs.slice(1).map((x, i) => ` C${xs[i]} ${y(i) + h} ${x} ${y(i + 1) - h} ${x} ${y(i + 1)}`).join('');
 }
+
+// Resumen en PDF de cada mundo (spec 2026-11-13-resumenes-pdf): fuente LaTeX en docs/resumenes/tex/<mundo>.tex,
+// compilado con `sh docs/resumenes/build.sh` en media/resumenes/<mundo>.pdf. Por ahora: Álgebra y Trigonometría.
+const RESUMENES = ['conjuntos', 'numeros', 'razones', 'potencias', 'progresiones', 'polinomios', 'cuadraticas',
+  'grado-superior', 'racionales', 'exp-log', 'ondas', 'inversas', 'polar'];
+function summaryOf(u) {
+  return u && RESUMENES.includes(u.world) ? `media/resumenes/${u.world}.pdf` : null;
+}

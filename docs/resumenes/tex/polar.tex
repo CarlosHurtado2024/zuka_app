@@ -1,0 +1,309 @@
+% Resumen del mundo «Galaxia Polar» (Trigonometría, mundo 3). Lecciones trig-151 y trig-152 (con su parte de raíces).
+% Usa los ejemplos de los videos T18–T20; el taller trae ejercicios nuevos.
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{trig}
+\zukamundo{3}{Galaxia Polar}{Forma polar de números complejos}
+
+% Un nivel no empieza al pie de una página
+\usepackage{needspace}
+\let\nivelorig\nivel
+\renewcommand{\nivel}[2]{\Needspace{8\baselineskip}\nivelorig{#1}{#2}}
+\newcommand{\sinpartir}{\tcbset{zbase/.append style={unbreakable}}}
+\newcommand{\cis}{\operatorname{cis}}
+% Ejes del plano complejo: \planoc{xmin}{xmax}{ymin}{ymax}
+\newcommand{\planoc}[4]{%
+  \draw[->,zmute] (#1,0)--(#2,0) node[right,font=\footnotesize]{$\mathrm{Re}$};
+  \draw[->,zmute] (0,#3)--(0,#4) node[above,font=\footnotesize]{$\mathrm{Im}$};}
+
+\begin{document}
+
+\portada{%
+Un número complejo $a+bi$ es un punto del plano. Se puede llegar a él con un mapa normal (camina $a$ a la derecha y $b$
+hacia arriba) o con la instrucción de un pirata: mira en una dirección y camina cierta distancia. Esa segunda forma, la
+\clave{forma polar}, convierte multiplicar en girar y estirar, y vuelve fáciles las potencias y las raíces. Este resumen
+reúne las definiciones, las fórmulas y los ejemplos de los videos, y termina con un taller de práctica.}{%
+\item \textbf{Nivel 3-1.} Forma trigonométrica de un complejo: módulo, argumento y $z=r\cis\theta$.
+\item \textbf{Nivel 3-2.} Producto, cociente y potencias (teorema de De Moivre); raíces $n$-ésimas.}
+
+\begin{clavebox}[LAS TRES IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\quad}c@{\quad}c@{}}
+$\displaystyle z=r(\cos\theta+i\sen\theta)$ & $\displaystyle z_1z_2=r_1r_2\cis(\theta_1+\theta_2)$ & $\displaystyle z^n=r^n\cis n\theta$\\[2pt]
+\small un rumbo y unos pasos & \small multiplicar es estirar y girar & \small De Moivre: potencias y raíces
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{3-1}{Forma trigonométrica de un complejo}
+
+\begin{minipage}[c]{0.55\linewidth}\sinpartir 
+En el \clave{plano complejo} la parte real va hacia la derecha y la imaginaria hacia arriba: $z=a+bi$ es el punto
+$(a,b)$. Esa es la \clave{forma rectangular}. Pero el punto también queda determinado por su distancia al origen y por la
+dirección en que está.
+\begin{definicion}[Módulo y argumento]
+El \clave{módulo} de $z=a+bi$ es su distancia al origen:
+\[ r=\abs{z}=\sqrt{a^2+b^2}. \]
+Un \clave{argumento} es el ángulo $\theta$ que forma con el eje real positivo; cumple $\tan\theta=\tfrac ba$ ($a\neq0$)
+y se elige según el cuadrante del punto.
+\end{definicion}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.41\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=1.5]
+  \planoc{-0.4}{2.3}{-0.4}{1.5}
+  \draw[zline] (1.732,0)--(1.732,1); \draw[zline] (0,1)--(1.732,1);
+  \draw[zcoral,line width=1.3pt] (0,0)--(1.732,1);
+  \fill[zink] (1.732,1) circle (1.4pt);
+  \node[etq,above right] at (1.732,1) {$\sqrt3+i$};
+  \draw[zmute] (0.5,0) arc (0:30:0.5); \node[font=\footnotesize] at (15:0.72) {$30^\circ$};
+  \node[font=\footnotesize,text=zcoral,above left] at (0.86,0.5) {$r=2$};
+  \node[font=\footnotesize,below] at (1.732,0) {$\sqrt3$};
+  \node[font=\footnotesize,left] at (0,1) {$1$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{ejemplo}[El tesoro en $\sqrt3+i$]
+Pasos (módulo): $r=\sqrt{3+1}=2$. Rumbo (argumento): $\tan\theta=\tfrac{1}{\sqrt3}$ y el punto está en el cuadrante I, así que
+$\theta=30^\circ$.
+\end{ejemplo}
+
+\begin{propiedad}[Forma trigonométrica]
+Como $a=r\cos\theta$ y $b=r\sen\theta$ (la circunferencia de siempre, pero de radio $r$):
+\[ z=a+bi=r(\cos\theta+i\sen\theta)=r\cis\theta. \]
+La abreviatura $\cis\theta$ se lee «c-i-s»: \emph{c}oseno, \emph{i}, \emph{s}eno. El argumento no es único: $\theta$ y
+$\theta+360^\circ k$ dan el mismo punto. Aquí se toma $0^\circ\le\theta<360^\circ$.
+\end{propiedad}
+
+\subsection{El cuadrante decide}
+\begin{minipage}[c]{0.55\linewidth}\sinpartir 
+\begin{ejemplo}[El tesoro en $-2-2\sqrt3\,i$]
+$r=\sqrt{4+12}=4$. La tangente da $\tfrac{-2\sqrt3}{-2}=\sqrt3$ y la calculadora responde $60^\circ$, pero $60^\circ$ apunta
+arriba a la derecha: es el \emph{gemelo opuesto}, que tiene la misma tangente. El punto vive en el cuadrante III, con
+$60^\circ$ de referencia desde el eje real negativo:
+\[ \theta=180^\circ+60^\circ=240^\circ,\qquad -2-2\sqrt3\,i=4\cis240^\circ. \]
+\end{ejemplo}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.41\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=0.62]
+  \planoc{-3}{3}{-3.9}{3.9}
+  \draw[zline,dashed] (-2,-3.464)--(2,3.464);
+  \fill[white,draw=zmute] (2,3.464) circle (2.2pt);
+  \node[font=\scriptsize,text=zmute,right] at (2.1,3.3) {gemelo, $60^\circ$};
+  \draw[zcoral,line width=1.3pt] (0,0)--(-2,-3.464);
+  \fill[zink] (-2,-3.464) circle (2.2pt);
+  \node[font=\footnotesize,left] at (-2.1,-3.464) {$-2-2\sqrt3\,i$};
+  \draw[zmute,->] (0.6,0) arc (0:240:0.6);
+  \node[font=\scriptsize] at (100:1.05) {$240^\circ$};
+  \draw[zsky,line width=1.2pt] (-1.4,0) arc (180:240:1.4);
+  \node[font=\scriptsize,text=zsky] at (205:2.0) {$60^\circ$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{itemize}
+\item Los puntos sobre un eje no necesitan tangente: $-5=5\cis180^\circ$ (media vuelta) y $6i=6\cis90^\circ$ (un cuarto de vuelta).
+\item Al revés, el pirata dice «4 pasos a $150^\circ$»: $a=4\cos150^\circ=-2\sqrt3\approx-3.46$ y $b=4\sen150^\circ=2$, así que
+      $4\cis150^\circ=-2\sqrt3+2i$. Dos idiomas, el mismo punto.
+\end{itemize}
+
+\begin{ojo}[La tangente sola no basta]
+$\tan^{-1}$ solo devuelve ángulos entre $-90^\circ$ y $90^\circ$, es decir, de los cuadrantes I y IV. Si $a<0$, hay que sumar
+$180^\circ$; si $a>0$ y $b<0$, hay que sumar $360^\circ$. Ubica siempre el punto en el plano \emph{antes} de calcular el ángulo.
+\end{ojo}
+
+%=====================================================================
+\nivel{3-2}{Producto, cociente y raíces: De Moivre}
+
+\begin{minipage}[c]{0.55\linewidth}\sinpartir 
+Un truco: multiplica $3+2i$ por $i$. Como $i^2=-1$,
+\[ i(3+2i)=3i+2i^2=-2+3i. \]
+El punto giró exactamente un cuarto de vuelta alrededor del origen sin acercarse ni alejarse. Otra vez por $i$: media
+vuelta, el punto opuesto $-3-2i$. Por eso $i^2=-1$: girar $180^\circ$ es cambiar de signo. En forma polar,
+$i=1\cis90^\circ$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.41\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=0.55]
+  \planoc{-4}{4.2}{-3}{3.8}
+  \draw[zline] (0,0) circle (3.606);
+  \foreach \p/\c/\l/\a in {{(3,2)}/zink/{3+2i}/right,{(-2,3)}/zcoral/{-2+3i}/above left,{(-3,-2)}/zviolet/{-3-2i}/below left}{
+    \draw[\c,line width=1.1pt] (0,0)--\p; \fill[\c] \p circle (2.4pt); \node[font=\footnotesize,text=\c,\a] at \p {$\l$};}
+  \draw[->,zmute] (33.7:1.3) arc (33.7:123.7:1.3); \node[font=\scriptsize] at (78:1.75) {$\cdot i$};
+  \draw[->,zmute] (123.7:1.0) arc (123.7:213.7:1.0); \node[font=\scriptsize] at (168:1.45) {$\cdot i$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{propiedad}[Producto y cociente en forma polar]
+Si $z_1=r_1\cis\theta_1$ y $z_2=r_2\cis\theta_2$:
+\[ z_1z_2=r_1r_2\cis(\theta_1+\theta_2),\qquad \frac{z_1}{z_2}=\frac{r_1}{r_2}\cis(\theta_1-\theta_2)\quad(z_2\neq0). \]
+Multiplicar estira por el módulo y gira por el argumento; dividir encoge y «desgira». Por debajo trabajan las fórmulas de
+suma de ángulos: $(\cos\theta_1+i\sen\theta_1)(\cos\theta_2+i\sen\theta_2)=\cos(\theta_1+\theta_2)+i\sen(\theta_1+\theta_2)$.
+\end{propiedad}
+
+\begin{ejemplo}[Del video]
+$2\cis20^\circ\cdot3\cis40^\circ=6\cis60^\circ$: se gira $40^\circ$ y se estira $3$ veces. Y
+$\dfrac{8\cis100^\circ}{2\cis40^\circ}=4\cis60^\circ$: se gira $40^\circ$ hacia atrás y se encoge a la mitad.
+\end{ejemplo}
+
+\begin{ojo}[Los módulos se multiplican, no se suman]
+En el producto se \emph{suman} los argumentos pero se \emph{multiplican} los módulos. Si el ángulo resultante pasa de
+$360^\circ$ o queda negativo, se ajusta con vueltas completas.
+\end{ojo}
+
+\subsection{Potencias: el teorema de De Moivre}
+\begin{minipage}[c]{0.55\linewidth}\sinpartir 
+Multiplicar varias veces por el mismo número es elevar a una potencia. Con $1+\sqrt3\,i=2\cis60^\circ$, cada
+multiplicación dobla el largo y suma $60^\circ$:
+\[ (1+\sqrt3\,i)^3=8\cis180^\circ=-8, \]
+\[ (1+\sqrt3\,i)^6=64\cis360^\circ=64. \]
+\begin{clavebox}[TEOREMA DE DE MOIVRE]
+$\displaystyle \bigl[r(\cos\theta+i\sen\theta)\bigr]^n=r^n(\cos n\theta+i\sen n\theta)$\\[2pt] {\small para todo $n\in\N$}
+\end{clavebox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.41\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=0.4]
+  \planoc{-9.5}{3}{-0.8}{4.6}
+  \draw[zcoral,line width=0.7pt,dashed] plot[smooth,domain=0:180,samples=60] (\x:{2^(\x/60)});
+  \foreach \r/\a/\l/\p in {2/60/{z=2\cis60^\circ}/right,4/120/{z^2=4\cis120^\circ}/above left,8/180/{z^3=-8}/below}{
+    \draw[zink,line width=1pt] (0,0)--(\a:\r); \fill[zcoral] (\a:\r) circle[radius=0.22];
+    \node[font=\scriptsize,\p] at (\a:\r) {$\l$};}
+  \fill[zcoral] (1,0) circle[radius=0.22]; \node[font=\scriptsize,below right] at (0.8,0) {$1$};
+\end{tikzpicture}\\
+{\small\color{zmute}Cada potencia de $z=1+\sqrt3\,i$ dobla el largo y gira $60^\circ$.}
+\end{minipage}
+
+\begin{ejemplo}[$(1+i)^{10}$ de memoria]
+$1+i=\sqrt2\cis45^\circ$. Entonces $(\sqrt2)^{10}=2^5=32$ y $10\cdot45^\circ=450^\circ=360^\circ+90^\circ$:
+\[ (1+i)^{10}=32\cis90^\circ=32i. \]
+\end{ejemplo}
+
+\subsection{Raíces $n$-ésimas}
+La raíz cúbica de $8$ es $2$, pero en los complejos hay más números cuyo cubo es $8$. Por De Moivre,
+$(2\cis120^\circ)^3=8\cis360^\circ=8$ y $(2\cis240^\circ)^3=8\cis720^\circ=8$. Tres raíces cúbicas, cada una a
+$120^\circ$ de la siguiente.
+
+\begin{propiedad}[Raíces $n$-ésimas]
+Todo complejo $z=r\cis\theta\neq0$ tiene exactamente $n$ raíces $n$-ésimas distintas:
+\[ w_k=\sqrt[n]{r}\,\cis\frac{\theta+360^\circ k}{n},\qquad k=0,1,\dots,n-1. \]
+Están en una circunferencia de radio $\sqrt[n]{r}$, la primera en $\tfrac{\theta}{n}$ y las demás cada $\tfrac{360^\circ}{n}$:
+son los vértices de un polígono regular de $n$ lados.
+\end{propiedad}
+Sale de pensar De Moivre al revés: si $w^n=r\cis\theta$, el módulo de $w$ es $\sqrt[n]{r}$; y como $\theta$,
+$\theta+360^\circ$, $\theta+720^\circ,\dots$ son el mismo punto, al dividir entre $n$ dan ángulos distintos.
+
+\begin{ejemplo}[Las raíces cuartas de $-16$]
+En los reales $-16$ no tiene raíz cuarta: ningún real a la cuarta es negativo. En los complejos tiene cuatro.
+$-16=16\cis180^\circ$: radio $\sqrt[4]{16}=2$, primera raíz en $\tfrac{180^\circ}{4}=45^\circ$ y paso de $90^\circ$:
+\[ 2\cis45^\circ,\ 2\cis135^\circ,\ 2\cis225^\circ,\ 2\cis315^\circ,\quad\text{es decir}\quad \pm\sqrt2\pm\sqrt2\,i. \]
+Comprobación: $(2\cis45^\circ)^4=16\cis180^\circ=-16$.
+\end{ejemplo}
+
+\begin{figura}[Las raíces forman polígonos regulares: cúbicas de $8$ (triángulo), cuartas de $-16$ (cuadrado) y sextas de $1$ (hexágono).]
+\begin{tikzpicture}[scale=0.85]
+  \foreach \x/\R/\n/\s/\lab in {0/1.5/3/0/{\sqrt[3]{8}},4.6/1.5/4/45/{\sqrt[4]{-16}},9.2/1.5/6/0/{\sqrt[6]{1}}}{
+    \begin{scope}[shift={(\x,0)}]
+      \draw[->,zmute] (-2,0)--(2.1,0); \draw[->,zmute] (0,-1.9)--(0,2);
+      \draw[zline] (0,0) circle (\R);
+      \pgfmathsetmacro{\paso}{360/\n}
+      \fill[zaccent!15,draw=zaccent,line width=0.9pt] (\s:\R) \foreach \k in {1,...,\n}{-- ({\s+\k*\paso}:\R)} -- cycle;
+      \foreach \k in {1,...,\n}{\fill[zcoral] ({\s+\k*\paso}:\R) circle (2pt);}
+      \node[font=\footnotesize] at (0,-2.3) {$n=\n$};
+    \end{scope}}
+  \node[font=\scriptsize,anchor=west] at (1.55,0.2) {$2$};
+  \node[font=\scriptsize,anchor=south west] at (4.6+1.06,1.06) {$\sqrt2+\sqrt2\,i$};
+  \node[font=\scriptsize,anchor=west] at (9.2+1.55,0.2) {$1$};
+\end{tikzpicture}
+\end{figura}
+
+\begin{ejemplo}[Las raíces sextas de $1$]
+$1=1\cis0^\circ$: radio $1$, primera raíz en $0^\circ$ y paso de $60^\circ$; aparecen los seis vértices de un hexágono regular.
+Entre ellas, una sí y una no, están las raíces cúbicas de $1$ ($0^\circ$, $120^\circ$, $240^\circ$), y $1$ y $-1$ son las cuadradas.
+\end{ejemplo}
+
+\begin{ojo}[{El radio es $\sqrt[n]{r}$, no $\frac rn$}]
+Las raíces cuartas de $16\cis\theta$ tienen radio $\sqrt[4]{16}=2$, no $\tfrac{16}{4}=4$. Y hay que dar las $n$ raíces: la
+primera sola no basta.
+\end{ojo}
+
+%=====================================================================
+\Needspace{14\baselineskip}
+\repaso
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+Fórmula & Qué dice\\ \midrule
+$r=\abs z=\sqrt{a^2+b^2}$ & módulo: distancia al origen\\
+$\tan\theta=\frac ba$ y el cuadrante & argumento: si $a<0$, sumar $180^\circ$; si $a>0$ y $b<0$, sumar $360^\circ$\\
+$a=r\cos\theta$,\ \ $b=r\sen\theta$ & de polar a rectangular\\
+$z=r(\cos\theta+i\sen\theta)=r\cis\theta$ & forma trigonométrica (o polar)\\
+$z_1z_2=r_1r_2\cis(\theta_1+\theta_2)$ & producto: multiplicar módulos, sumar argumentos\\
+$\frac{z_1}{z_2}=\frac{r_1}{r_2}\cis(\theta_1-\theta_2)$ & cociente: dividir módulos, restar argumentos\\
+$i=\cis90^\circ$ & multiplicar por $i$ gira un cuarto de vuelta\\
+$z^n=r^n\cis n\theta$ & teorema de De Moivre\\
+$w_k=\sqrt[n]r\cis\frac{\theta+360^\circ k}{n}$,\ $k=0,\dots,n-1$ & las $n$ raíces $n$-ésimas: polígono regular\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Tomar el argumento que da la calculadora sin mirar el cuadrante (el gemelo opuesto tiene la misma tangente).
+\item Sumar los módulos en un producto, o elevar el argumento a la $n$ en vez de multiplicarlo por $n$.
+\item Dividir el módulo entre $n$ al sacar raíces, o dar una sola raíz.
+\item No reducir ángulos mayores que $360^\circ$ o negativos antes de volver a la forma rectangular.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Ubica cada número en el plano complejo y escríbelo en forma trigonométrica, con $0^\circ\le\theta<360^\circ$:
+  \begin{ejercicios}
+  \item $3+3\sqrt3\,i$ \quad (b) $-5\sqrt3+5i$ \quad (c) $5-5\sqrt3\,i$ \quad (d) $12-5i$ (argumento con dos decimales)
+  \end{ejercicios}
+\item Escribe en forma rectangular $a+bi$, con valores exactos:
+  \begin{ejercicios}
+  \item $6\cis135^\circ$ \quad (b) $2\cis\tfrac{5\pi}{3}$ \quad (c) $10\cis210^\circ$
+  \end{ejercicios}
+\item Argumento y simetrías.
+  \begin{ejercicios}
+  \item Un compañero dice que el argumento de $-2-2i$ es $45^\circ$ porque $\tan\theta=\tfrac{-2}{-2}=1$. Explica el error y da el argumento correcto.
+  \item Si $z=r\cis\theta$, escribe en forma polar su conjugado $\overline{z}$ y su opuesto $-z$. Interprétalos como reflexiones o giros.
+  \end{ejercicios}
+\item Sean $z_1=4\cis75^\circ$ y $z_2=2\cis15^\circ$. Halla $z_1z_2$ y $\tfrac{z_1}{z_2}$ en forma polar y en forma rectangular.
+\item La pinza de un brazo robótico está en el punto $4+2i$ (en decímetros) y el brazo gira alrededor del origen sin cambiar de largo.
+  \begin{ejercicios}
+  \item ¿Dónde queda la pinza si gira $90^\circ$ en sentido antihorario? ¿Y si gira $90^\circ$ en sentido horario?
+  \item ¿Dónde queda si gira $45^\circ$ en sentido antihorario? (Multiplica por $\cis45^\circ$.)
+  \end{ejercicios}
+\item Usa el teorema de De Moivre y da el resultado en forma rectangular:
+  \begin{ejercicios}
+  \item $(\sqrt3+i)^6$ \quad (b) $(2-2i)^5$ \quad (c) $(\cis20^\circ)^{9}$
+  \end{ejercicios}
+\item Halla las tres raíces cúbicas de $-64i$ en forma rectangular y dibújalas en el plano. ¿Qué figura forman?
+\item Resuelve en $\C$ la ecuación $z^6+64=0$. Dibuja las seis soluciones y escríbelas en forma rectangular.
+\item Una de las raíces cuartas de un número complejo $z$ es $2\cis25^\circ$. Halla $z$ y las otras tres raíces cuartas.
+\item En un circuito de corriente alterna la corriente es $I=2\cis30^\circ$ amperios y la impedancia es $Z=3+4i$ ohmios.
+  El voltaje es $V=I\cdot Z$.
+  \begin{ejercicios}
+  \item Escribe $Z$ en forma polar.
+  \item Halla $V$ en forma polar y en forma rectangular. ¿Cuál es su módulo (la amplitud del voltaje)?
+  \end{ejercicios}
+\end{ejercicios}
+
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) $6\cis60^\circ$ (b) $10\cis150^\circ$ (c) $10\cis300^\circ$ (d) $r=13$; $\theta=360^\circ-\tan^{-1}\tfrac{5}{12}\approx337.38^\circ$.
+\item (a) $-3\sqrt2+3\sqrt2\,i$ (b) $1-\sqrt3\,i$ (c) $-5\sqrt3-5i$.
+\item (a) $-2-2i$ está en el cuadrante III; $45^\circ$ es su gemelo opuesto. Correcto: $2\sqrt2\cis225^\circ$.
+  (b) $\overline z=r\cis(-\theta)=r\cis(360^\circ-\theta)$: reflejo en el eje real. $-z=r\cis(\theta+180^\circ)$: giro de media vuelta.
+\item $z_1z_2=8\cis90^\circ=8i$; $\tfrac{z_1}{z_2}=2\cis60^\circ=1+\sqrt3\,i$.
+\item (a) $i(4+2i)=-2+4i$; $-i(4+2i)=2-4i$. (b) $(4+2i)\tfrac{\sqrt2}{2}(1+i)=\tfrac{\sqrt2}{2}(2+6i)=\sqrt2+3\sqrt2\,i\approx1.41+4.24i$.
+\item (a) $64\cis180^\circ=-64$. (b) $2-2i=2\sqrt2\cis315^\circ$; $(2\sqrt2)^5=128\sqrt2$ y $5\cdot315^\circ=1575^\circ\equiv135^\circ$: $-128+128i$.
+  (c) $\cis180^\circ=-1$.
+\item $-64i=64\cis270^\circ$: radio $4$, ángulos $90^\circ,210^\circ,330^\circ$: $4i$, $-2\sqrt3-2i$, $2\sqrt3-2i$. Triángulo equilátero.
+\item $z^6=-64=64\cis180^\circ$: radio $2$, ángulos $30^\circ,90^\circ,\dots,330^\circ$: $\pm\sqrt3\pm i$ y $\pm2i$. Hexágono regular.
+\item $z=(2\cis25^\circ)^4=16\cis100^\circ$. Las otras: $2\cis115^\circ$, $2\cis205^\circ$, $2\cis295^\circ$.
+\item (a) $Z=5\cis53.13^\circ$. (b) $V=10\cis83.13^\circ=(3\sqrt3-4)+(4\sqrt3+3)i\approx1.20+9.93i$ voltios; módulo $10$.
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

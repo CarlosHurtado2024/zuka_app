@@ -1,0 +1,459 @@
+% Resumen del mundo «Mercado de las Razones» (Álgebra, mundo 3: razones, proporciones y porcentajes).
+% Lecciones alg-12, alg-12e, alg-12f, alg-13, alg-13c, alg-13d. Ejemplos de los videos; el taller es nuevo.
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{algebra}
+\zukamundo{3}{Mercado de las Razones}{Razones, proporciones y porcentajes}
+
+% Que un título de nivel no quede solo al pie de una página.
+\usepackage{needspace}
+\let\nivelzuka\nivel
+\renewcommand{\nivel}[2]{\Needspace{8\baselineskip}\nivelzuka{#1}{#2}}
+\newcommand{\pesos}[1]{\$\,\num{#1}}
+
+\begin{document}
+
+\portada{%
+En el mercado todo se compara: quién tiene más cromos, qué paquete sale más barato, cuánto rinde una receta, cuánto
+baja un precio con descuento. En este mundo aprendiste a comparar \clave{dividiendo} (razones), a reconocer cuándo dos
+magnitudes crecen al mismo ritmo (proporciones), a resolver problemas con la \clave{regla de tres} y a trabajar con
+\clave{porcentajes}, aumentos, descuentos y cambios sucesivos. Este resumen reúne las definiciones, las propiedades y los
+ejemplos de los videos de Ana, Beto y Caro en el mercado, y termina con un taller.}{%
+\item \textbf{Nivel 3-1.} Razones: comparar dividiendo, razones equivalentes, tasas y escalas.
+\item \textbf{Nivel 3-2.} Proporciones, magnitudes directa e inversamente proporcionales y reparto proporcional.
+\item \textbf{Nivel 3-3.} Regla de tres simple (directa e inversa) y compuesta.
+\item \textbf{Nivel 3-4.} Porcentajes: qué son y las tres preguntas de siempre.
+\item \textbf{Nivel 3-5.} Aumentos y descuentos con el factor multiplicador; cambio porcentual.
+\item \textbf{Nivel 3-6.} Cambios sucesivos: los porcentajes seguidos se multiplican.}
+
+\begin{clavebox}[LAS IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\quad}c@{\quad}c@{}}
+$\dfrac ab=\dfrac cd\iff a\,d=b\,c$ & $p\%=\dfrac{p}{100}$ & $\text{factor}=1\pm\dfrac{r}{100}$\\[2pt]
+\small una proporción se resuelve en cruz & \small «por ciento» es «de cada cien» & \small los cambios se multiplican
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{3-1}{Razones: comparar dividiendo}
+
+Ana tiene $12$ cromos y Beto tiene $4$. Hay dos maneras de compararlos. \textbf{Restando}: $12-4=8$, Ana tiene ocho más
+(la resta dice \emph{cuánto más} hay). \textbf{Dividiendo}: $12\div4=3$, los cuatro de Beto caben tres veces en los de Ana:
+Ana tiene \emph{el triple}. Comparar dividiendo tiene nombre propio.
+
+\begin{definicion}[Razón]
+La \clave{razón} entre $a$ y $b$ (con $b\neq0$) es el cociente $\dfrac ab$, que también se escribe $a:b$ y se lee
+«$a$ es a $b$». $a$ es el \clave{antecedente} y $b$ el \clave{consecuente}. El orden importa: $a:b$ y $b:a$ son razones distintas.
+\end{definicion}
+
+\begin{minipage}[c]{0.5\linewidth}
+\textbf{Parte a parte y parte al todo.} En el salón de Ana hay $18$ niñas y $12$ niños. La razón niñas a niños es
+\[ 18:12=\frac{18}{12}=\frac32=3:2: \]
+se pueden formar seis grupos iguales, cada uno con tres niñas y dos niños. Si se compara la parte con el todo, $3$ de
+cada $5$ son niñas: $\tfrac{18}{30}=\tfrac35=0.6$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}[x=0.55cm,y=0.55cm]
+  \foreach \g in {0,...,5} {
+    \foreach \i in {0,1,2} \fill[zcoral!55] (\g*1.6,\i*0.5+1.2) circle (0.19);
+    \foreach \i in {0,1} \fill[zsky!70] (\g*1.6,\i*0.5) circle (0.19);
+    \draw[zline,rounded corners=3pt,line width=0.8pt] (\g*1.6-0.45,-0.4) rectangle (\g*1.6+0.45,2.6);}
+  \node[font=\footnotesize,anchor=west] at (8.6,1.7) {niñas};
+  \node[font=\footnotesize,anchor=west] at (8.6,0.25) {niños};
+  \node[font=\footnotesize,text=zmute] at (4,-1.05) {$6$ grupos de $3:2$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{propiedad}[Razones equivalentes]
+Multiplicar (o dividir) los dos términos de una razón por el mismo número $k\neq0$ da una razón equivalente:
+$a:b=ka:kb$. \emph{Sumar} la misma cantidad a los dos términos, en cambio, cambia la razón.
+\end{propiedad}
+
+\begin{minipage}[c]{0.48\linewidth}
+\textbf{La foto del puesto.} Ana quiere agrandar una foto de $3\times2$. Si multiplica los dos lados por $2$ obtiene
+$6\times4$: la razón $3:2$ se conserva y la foto se ve igual, solo más grande. Beto propone sumar $3$ a cada lado:
+$6\times5$, y la foto se estira, porque $\tfrac65\neq\tfrac32$. Una razón se agranda multiplicando, nunca sumando.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.48\linewidth}\centering
+\begin{tikzpicture}[scale=0.42]
+  \draw[zink,fill=zsky!25,line width=0.8pt] (0,0) rectangle (3,2);
+  \node[font=\scriptsize] at (1.5,-0.6) {$3\times2$};
+  \draw[zink,fill=zmint!30,line width=0.8pt] (4,0) rectangle (10,4);
+  \draw[zmint!80!black,dashed] (4,0) -- (10,4);
+  \node[font=\scriptsize] at (7,-0.6) {$6\times4$ \ (\textcolor{zok}{igual})};
+  \draw[zink,fill=zcoral!25,line width=0.8pt] (11,0) rectangle (17,5);
+  \node[font=\scriptsize] at (14,-0.6) {$6\times5$ \ (\textcolor{zbad}{estirada})};
+  \draw[zsky!80!black,dashed] (0,0) -- (3,2);
+\end{tikzpicture}
+\end{minipage}
+
+\subsection{Razones con unidades: tasas, precios unitarios y escalas}
+\begin{itemize}
+\item \textbf{Rapidez.} El bus de los jugos recorre $\SI{180}{km}$ en $\SI{3}{h}$: $\dfrac{\SI{180}{km}}{\SI{3}{h}}=\SI{60}{km/h}$.
+\item \textbf{Precio unitario.} Seis jugos por \pesos{7200} salen a $\pesos{7200}\div6=\pesos{1200}$ cada uno; ocho por \pesos{9200},
+      a $\pesos{9200}\div8=\pesos{1150}$. Por unidad, el paquete de ocho es más barato.
+\item \textbf{Escala.} En un mapa a escala $1:\num{100000}$, $\SI{1}{cm}$ del mapa son $\num{100000}$ cm reales, es decir $\SI{1}{km}$.
+      Entonces $\SI{4.5}{cm}$ del mapa son $\SI{4.5}{km}$. La escala compara centímetros con centímetros: no lleva unidades.
+\end{itemize}
+\begin{ojo}[Orden y unidades]
+$12:4$ no es lo mismo que $4:12$. Y en una escala las dos cantidades deben estar en la \emph{misma} unidad antes de dividir.
+\end{ojo}
+
+%=====================================================================
+\nivel{3-2}{Proporciones y magnitudes proporcionales}
+
+Ana quiere hornear más pan sin que cambie el sabor. La receta pequeña usa $4$ huevos por $6$ tazas de harina; la grande,
+$10$ huevos por $15$ tazas. Las dos razones se simplifican a $\tfrac23$: por eso los dos panes saben igual.
+
+\begin{definicion}[Proporción]
+Una \clave{proporción} es la igualdad de dos razones: \ $\dfrac ab=\dfrac cd$ \ («$a$ es a $b$ como $c$ es a $d$»).
+$a$ y $d$ son los \clave{extremos}; $b$ y $c$, los \clave{medios}.
+\end{definicion}
+\Needspace{5\baselineskip}
+\begin{propiedad}[Propiedad fundamental: multiplicar en cruz]
+Con $b,d\neq0$: \qquad $\dfrac ab=\dfrac cd\iff a\cdot d=b\cdot c$ \qquad (extremos por extremos igual a medios por medios).
+\end{propiedad}
+\begin{ejemplo}[Comprobar y completar]
+¿Forman proporción $\tfrac23$ y $\tfrac57$? \ $2\cdot7=14$ y $3\cdot5=15$: como $14\neq15$, no.\par
+Para hallar $x$ en $\dfrac x8=\dfrac9{12}$ se multiplica en cruz: $12x=72$, así que $x=6$. Comprobación:
+$\tfrac68=\tfrac9{12}=\tfrac34$.
+\end{ejemplo}
+
+\subsection{Magnitudes directa e inversamente proporcionales}
+\begin{minipage}[t]{0.49\linewidth}
+\textbf{Directa.} Cada cuaderno cuesta \pesos{2500}: el doble de cuadernos cuesta el doble. El \emph{cociente} no cambia:
+\[ \frac yx=k\quad\Longleftrightarrow\quad y=kx. \]
+La gráfica es una recta que pasa por el origen.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\textbf{Inversa.} Se reparten $24$ caramelos: más niños, menos caramelos para cada uno. El \emph{producto} no cambia:
+\[ x\cdot y=k\quad\Longleftrightarrow\quad y=\frac kx. \]
+La gráfica es una curva (una rama de hipérbola).
+\end{minipage}
+
+\begin{figura}[Izquierda: $y=2500x$ (directa, $k=2500$). Derecha: $y=24/x$ (inversa, $k=24$).]
+\begin{tikzpicture}
+\begin{axis}[zplot,width=7cm,height=5cm,xmin=0,xmax=5.5,ymin=0,ymax=13000,xlabel={cuadernos},ylabel={pesos},
+  every axis x label/.style={at={(axis description cs:1.02,0)},anchor=west,font=\footnotesize},every axis y label/.style={at={(axis description cs:0,1.03)},anchor=south,font=\footnotesize},
+  scaled y ticks=false,yticklabel style={/pgf/number format/fixed,/pgf/number format/1000 sep={\,}},ytick={0,5000,10000},xtick={1,...,5}]
+  \addplot[zaccent,domain=0:5.2] {2500*x};
+  \addplot[only marks,mark=*,zaccent,mark size=1.8pt] coordinates {(1,2500)(2,5000)(3,7500)(4,10000)};
+\end{axis}
+\end{tikzpicture}\qquad
+\begin{tikzpicture}
+\begin{axis}[zplot,width=7cm,height=5cm,xmin=0,xmax=13,ymin=0,ymax=26,xlabel={niños},ylabel={caramelos},
+  every axis x label/.style={at={(axis description cs:1.02,0)},anchor=west,font=\footnotesize},every axis y label/.style={at={(axis description cs:0,1.03)},anchor=south,font=\footnotesize},
+  xtick={2,4,6,8,10,12},ytick={4,8,12,16,20,24}]
+  \addplot[zcoral,domain=1:12.5,samples=80] {24/x};
+  \addplot[only marks,mark=*,zcoral,mark size=1.8pt] coordinates {(1,24)(2,12)(3,8)(4,6)(6,4)(8,3)(12,2)};
+\end{axis}
+\end{tikzpicture}
+\end{figura}
+\begin{ojo}[No todo lo que crece es proporcional]
+Un taxi cobra \pesos{4000} por subirse y \pesos{2000} por kilómetro: $y=4000+2000x$. Dos kilómetros cuestan \pesos{8000}
+y uno \pesos{6000}: no es el doble. No es directa ni inversa (la recta no pasa por el origen).
+\end{ojo}
+
+\begin{ejemplo}[Reparto proporcional: el boleto]
+Ana, Beto y Caro pusieron $2$, $3$ y $4$ mil pesos en un boleto y ganaron \pesos{45000}. Para repartir con justicia, cada
+uno recibe en proporción a lo que puso. Juntos son $2+3+4=9$ partes iguales, y cada parte vale $\pesos{45000}\div9=\pesos{5000}$:
+\[ \text{Ana: }2\cdot5000=\num{10000},\qquad \text{Beto: }3\cdot5000=\num{15000},\qquad \text{Caro: }4\cdot5000=\num{20000}. \]
+\end{ejemplo}
+
+%=====================================================================
+\nivel{3-3}{Regla de tres simple y compuesta}
+
+La \clave{regla de tres} halla un valor desconocido cuando dos (o más) magnitudes son proporcionales. Se sigue siempre el
+mismo camino: \textbf{1)} tabla, \textbf{2)} decidir si es directa o inversa, \textbf{3)} resolver, \textbf{4)} revisar.
+
+\begin{figura}[La tabla: una columna por magnitud y una fila por situación; la flecha dice cómo cambia cada magnitud.]
+\begin{tikzpicture}[font=\small]
+  \begin{scope}
+    \node[font=\footnotesize\bfseries,text=zmute] at (1,1.25) {kilos}; \node[font=\footnotesize\bfseries,text=zmute] at (3.3,1.25) {pesos};
+    \draw[zline] (0,0.95) -- (4.4,0.95); \draw[zline] (2.15,-1.2) -- (2.15,1.5);
+    \node at (1,0.5) {$4$}; \node at (3.3,0.5) {$\num{10000}$};
+    \node at (1,-0.5) {$7$}; \node at (3.3,-0.5) {$x$};
+    \draw[->,zmint,line width=1pt] (0.25,0.5) -- (0.25,-0.5); \draw[->,zmint,line width=1pt] (4.3,0.5) -- (4.3,-0.5);
+    \node[font=\footnotesize\bfseries,text=zmint] at (2.15,-1.6) {directa: las dos crecen};
+  \end{scope}
+  \begin{scope}[xshift=7.5cm]
+    \node[font=\footnotesize\bfseries,text=zmute] at (1,1.25) {personas}; \node[font=\footnotesize\bfseries,text=zmute] at (3.3,1.25) {días};
+    \draw[zline] (0,0.95) -- (4.4,0.95); \draw[zline] (2.15,-1.2) -- (2.15,1.5);
+    \node at (1,0.5) {$8$}; \node at (3.3,0.5) {$15$};
+    \node at (1,-0.5) {$12$}; \node at (3.3,-0.5) {$x$};
+    \draw[->,zcoral,line width=1pt] (0.25,0.5) -- (0.25,-0.5); \draw[->,zcoral,line width=1pt] (4.3,-0.5) -- (4.3,0.5);
+    \node[font=\footnotesize\bfseries,text=zcoral] at (2.15,-1.6) {inversa: una crece, la otra baja};
+  \end{scope}
+\end{tikzpicture}
+\end{figura}
+
+\begin{minipage}[t]{0.49\linewidth}
+\begin{ejemplo}[Directa: el arroz de Beto]
+$4$ kg cuestan \pesos{10000}. ¿Cuánto cuestan $7$ kg? El doble de arroz cuesta el doble: es directa.
+Reduciendo a la unidad, $\num{10000}\div4=\num{2500}$ por kilo, y
+\[ 7\cdot2500=\pesos{17500}. \]
+Con la proporción: $\dfrac47=\dfrac{\num{10000}}{x}$, en cruz $4x=\num{70000}$ y sale lo mismo.
+\end{ejemplo}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{ejemplo}[Inversa: la comida]
+$8$ personas tienen comida para $15$ días. Llegan $4$ más: ¿para cuántos días alcanza? Más personas, menos días: es inversa.
+Lo que no cambia son las raciones: $8\cdot15=120$. Entonces
+\[ 12\,x=120\ \Longrightarrow\ x=10\text{ días}. \]
+\end{ejemplo}
+\end{minipage}
+\begin{ojo}[Plantearla directa por costumbre]
+Si en el problema de la comida se hace $\tfrac{8}{12}=\tfrac{15}{x}$ sale $x=22.5$ días: ¿más gente y más días? No tiene
+sentido. Antes de resolver, decide siempre si es directa o inversa.
+\end{ojo}
+
+\subsection{Regla de tres compuesta}
+Tres impresoras imprimen $900$ hojas en $5$ minutos. ¿Cuánto tardan cinco impresoras con $\num{1800}$ hojas? Se cambia
+\emph{una magnitud a la vez}, dejando las demás fijas:
+\begin{itemize}
+\item Impresoras $3\to5$ (más impresoras, menos tiempo: \emph{inversa}): \ $5\cdot\tfrac35=3$ minutos.
+\item Hojas $900\to\num{1800}$ (el doble de hojas, el doble de tiempo: \emph{directa}): \ $3\cdot\tfrac{1800}{900}=6$ minutos.
+\end{itemize}
+En una sola cuenta, la razón de la directa va al derecho y la de la inversa, volteada:
+\[ x=5\cdot\frac35\cdot\frac{1800}{900}=6\text{ minutos}. \]
+
+%=====================================================================
+\Needspace{16\baselineskip}
+\nivel{3-4}{Porcentajes}
+
+\begin{minipage}[c]{0.6\linewidth}
+\begin{definicion}[Porcentaje]
+«Por ciento» quiere decir \clave{de cada cien}:
+\[ p\%=\frac{p}{100}. \]
+El $35\%$ es $\tfrac{35}{100}=0.35$: treinta y cinco casillas de cada cien. El todo es el $100\%$.
+\end{definicion}
+Referencias útiles: $50\%=\tfrac12$, \ $25\%=\tfrac14$, \ $10\%=\tfrac1{10}$, \ $1\%=\tfrac1{100}$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.3]
+  \foreach \k in {0,...,99} {
+    \pgfmathtruncatemacro{\c}{mod(\k,10)}\pgfmathtruncatemacro{\r}{9-int(\k/10)}
+    \ifnum\k<35 \fill[zaccent!55] (\c,\r) rectangle ++(1,1); \fi}
+  \draw[zline,step=1] (0,0) grid (10,10);
+  \draw[zink,line width=0.8pt] (0,0) rectangle (10,10);
+  \node[font=\footnotesize,text=zmute] at (5,-0.8) {$35$ de $100$: el $35\%$};
+\end{tikzpicture}
+\end{minipage}
+
+\textbf{Llevar el todo a cien.} En el curso de Caro hay $25$ estudiantes y $9$ usan gafas. Si hubiera cuatro cursos así
+serían $100$ estudiantes y $36$ con gafas: el $36\%$. También se puede dividir: $9\div25=0.36=36\%$.
+
+\begin{clavebox}[TODO PROBLEMA DE PORCENTAJES ES UNA PROPORCIÓN]
+$\displaystyle \frac{\text{parte}}{\text{todo}}=\frac{p}{100}$
+\end{clavebox}
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l L l@{}}
+\toprule
+Pregunta & Cómo se resuelve & Resultado\\ \midrule
+¿Cuánto es el $15\%$ de $80$? & $10\%$ es $8$ y $5\%$ es $4$; o bien $80\cdot0.15$ & $12$\\
+¿Qué porcentaje es $18$ de $72$? & $\tfrac{18}{72}=\tfrac14=0.25$ & $25\%$\\
+$30$ es el $40\%$ de un número. ¿Cuál? & $30\div0.4$; comprobación: $0.4\cdot75=30$ & $75$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+Un porcentaje puede pasar de cien: el $150\%$ de $40$ es $1.5\cdot40=60$. Y puede ser menor que uno: el $1\%$ de
+$\num{2000}$ es $20$, así que el $0.5\%$ es $10$.
+\begin{ojo}[Porcentaje de qué]
+Un porcentaje siempre es \emph{de} algo: «el $20\%$» no dice nada si no se sabe cuál es el todo.
+\end{ojo}
+
+%=====================================================================
+\nivel{3-5}{Aumentos y descuentos}
+
+\begin{minipage}[c]{0.56\linewidth}
+\textbf{La camisa de Caro.} Cuesta \pesos{60000} con un descuento del $25\%$. Una forma: el descuento es
+$0.25\cdot\num{60000}=\num{15000}$ y quedan \pesos{45000}. Más rápido: si quitan el $25\%$, se paga el $75\%$:
+\[ \num{60000}\cdot0.75=\num{45000}. \]
+Las dos formas son la misma cuenta, por la distributiva: $x-0.25x=(1-0.25)x=0.75x$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[x=0.08cm,y=0.55cm]
+  \fill[zsky!35] (0,1.2) rectangle (60,2); \draw[zink] (0,1.2) rectangle (60,2);
+  \node[font=\footnotesize,anchor=east] at (-1,1.6) {antes};
+  \node[font=\footnotesize] at (30,1.6) {$\num{60000}$ \ ($100\%$)};
+  \fill[zmint!40] (0,0) rectangle (45,0.8); \fill[zcoral!25] (45,0) rectangle (60,0.8);
+  \draw[zink] (0,0) rectangle (60,0.8); \draw[zink,dashed] (45,0) -- (45,0.8);
+  \node[font=\footnotesize,anchor=east] at (-1,0.4) {paga};
+  \node[font=\footnotesize] at (22.5,0.4) {$75\%$};
+  \node[font=\footnotesize] at (52.5,0.4) {$25\%$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{definicion}[Factor multiplicador]
+Aumentar un $r\%$ es multiplicar por $1+\tfrac{r}{100}$; descontar un $r\%$ es multiplicar por $1-\tfrac{r}{100}$.
+\end{definicion}
+Un producto vale \pesos{50000} sin impuesto y el IVA le suma el $19\%$: se paga el $119\%$, es decir
+$\num{50000}\cdot1.19=\pesos{59500}$. Subir el $8\%$ es multiplicar por $1.08$; subir el $100\%$, por $2$ (el doble).
+
+\begin{ejemplo}[Quitar el IVA]
+Un televisor cuesta \pesos{71400} con IVA. ¿Cuánto costaba sin IVA? Para deshacer una multiplicación se \emph{divide}:
+\[ \frac{\num{71400}}{1.19}=\num{60000},\qquad\text{comprobación: } \num{60000}\cdot1.19=\num{71400}. \]
+\end{ejemplo}
+\begin{ojo}[Restar el 19 \% del precio final]
+$\num{71400}\cdot0.81=\num{57834}$ está mal: el $19\%$ se calculó sobre el precio \emph{sin} IVA, no sobre el precio final.
+\end{ojo}
+
+\begin{propiedad}[Cambio porcentual]
+\[ \text{cambio porcentual}=\frac{\text{valor nuevo}-\text{valor de antes}}{\text{valor de antes}}\cdot100\%. \]
+\end{propiedad}
+El pasaje subió de \pesos{2500} a \pesos{3000}: $\tfrac{500}{2500}=0.2$, subió el $20\%$. Si bajara de vuelta a
+\pesos{2500}, bajaría $\tfrac{500}{3000}\approx16.7\%$. No es simétrico: el cambio se mide \emph{siempre} sobre el valor de antes.
+
+%=====================================================================
+\nivel{3-6}{Cambios sucesivos}
+
+Beto cree que ahorró el $30\%$: la bici costaba \pesos{100000} con un $20\%$ de descuento y en caja le hicieron otro $10\%$.
+
+\begin{minipage}[c]{0.52\linewidth}
+Primero el $20\%$: queda el $80\%$, \pesos{80000}. Luego el $10\%$, pero sobre \pesos{80000}: queda \pesos{72000}.
+Con factores:
+\[ 0.8\cdot0.9=0.72. \]
+Se paga el $72\%$; el descuento real es del $28\%$, no del $30\%$, porque el segundo descuento se aplicó sobre un
+precio menor. Como el producto es conmutativo, el orden de los descuentos no importa.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\begin{tikzpicture}[x=1.1cm,y=0.032cm]
+  \foreach \i/\v/\t/\c in {0/100/{\num{100000}}/zsky,1/80/{\num{80000}}/zmint,2/72/{\num{72000}}/zsun} {
+    \fill[\c!45] (\i*1.3,0) rectangle (\i*1.3+0.9,\v); \draw[zink] (\i*1.3,0) rectangle (\i*1.3+0.9,\v);
+    \node[font=\scriptsize,above] at (\i*1.3+0.45,\v) {\t};}
+  \draw[dashed,zbad] (0,70) -- (3.6,70); \node[font=\scriptsize,text=zbad,anchor=west] at (3.6,70) {$70\%$?};
+  \node[font=\scriptsize] at (1.75,12) {$\times0.8$};
+  \node[font=\scriptsize] at (3.05,12) {$\times0.9$};
+  \draw[zink] (-0.1,0) -- (3.7,0);
+\end{tikzpicture}
+\end{minipage}
+
+\begin{propiedad}[Cambios sucesivos]
+Varios cambios seguidos equivalen a un solo cambio con factor $f=f_1\cdot f_2\cdots f_n$. Si el mismo cambio de $r\%$
+se repite $n$ veces,
+\[ V_n=V_0\left(1+\frac{r}{100}\right)^{n}. \]
+\end{propiedad}
+
+\begin{ejemplo}[Subir y bajar no se cancela]
+Una acción vale $100$, sube el $50\%$ y luego baja el $50\%$: \ $100\cdot1.5=150$ y $150\cdot0.5=75$. ¡No vuelve a $100$!
+La bajada se calculó sobre $150$, un número más grande. Del mismo modo, si algo baja el $20\%$ queda en $80$, y para volver
+a $100$ hay que subir $\tfrac{20}{80}=25\%$.
+\end{ejemplo}
+
+\begin{minipage}[c]{0.5\linewidth}
+\textbf{Crecimiento repetido.} Un pueblo de $\num{1000}$ habitantes crece el $10\%$ al año. Cada año se multiplica por $1.1$:
+\[ 1000\to1100\to1210\to1331=1000\cdot1.1^{3}. \]
+En tres años creció el $33.1\%$, no el $30\%$: cada año el $10\%$ se calcula sobre una población mayor.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=6.6cm,height=4.6cm,ybar,bar width=7pt,xmin=-0.6,xmax=3.6,ymin=900,ymax=1400,
+  xtick={0,1,2,3},xticklabels={año 0,año 1,año 2,año 3},axis lines=left,ytick={1000,1100,1200,1300},yticklabel style={/pgf/number format/1000 sep={}},
+  legend style={font=\scriptsize,at={(0.5,-0.22)},anchor=north,draw=none,fill=none,legend columns=2},
+  every axis plot/.append style={line width=0.6pt}]
+  \addplot[fill=zaccent!55,draw=zaccent] coordinates {(0,1000)(1,1100)(2,1210)(3,1331)};
+  \addplot[fill=zline,draw=zmute] coordinates {(0,1000)(1,1100)(2,1200)(3,1300)};
+  \legend{$\times1.1$ cada año, $+100$ cada año}
+\end{axis}
+\end{tikzpicture}
+\end{minipage}
+
+%=====================================================================
+\repaso
+\begin{center}\small
+\begin{tabularx}{\linewidth}{@{}>{\centering\arraybackslash}p{46mm} L >{\raggedright\arraybackslash}p{44mm}@{}}
+\toprule
+Fórmula o regla & Qué dice & Ejemplo\\ \midrule
+$a:b=\tfrac ab$, \ $b\neq0$ & razón: comparar dividiendo & $12:4=3$ (el triple)\\
+$a:b=ka:kb$ & razones equivalentes & $3:2=6:4$\\
+$\tfrac ab=\tfrac cd\iff ad=bc$ & proporción, en cruz & $\tfrac x8=\tfrac9{12}\Rightarrow x=6$\\
+$y=kx$ \ / \ $xy=k$ & directa / inversa & cuadernos / caramelos\\
+$p\%=\tfrac p{100}$, \ $\tfrac{\text{parte}}{\text{todo}}=\tfrac p{100}$ & porcentaje & $9$ de $25$ es el $36\%$\\
+$1+\tfrac r{100}$ \ / \ $1-\tfrac r{100}$ & factor de aumento / descuento & IVA: $\times1.19$\\
+$\tfrac{\text{nuevo}-\text{antes}}{\text{antes}}\cdot100\%$ & cambio porcentual & $2500\to3000$: $20\%$\\
+$V_0\,(1+\tfrac r{100})^n$ & cambios repetidos & $1000\cdot1.1^3=1331$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Agrandar una razón sumando en vez de multiplicar, o invertir el orden de una razón.
+\item Plantear directa una regla de tres inversa (revisa: ¿más de una, más o menos de la otra?).
+\item Quitar un aumento restando el mismo porcentaje: se divide entre el factor.
+\item Sumar porcentajes sucesivos ($20\%+10\%\neq30\%$): los factores se multiplican.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item En un grupo de baile hay $15$ hombres y $25$ mujeres.
+  \begin{ejercicios}
+  \item Escribe la razón hombres a mujeres en su forma más simple.
+  \item ¿Qué fracción y qué porcentaje del grupo son mujeres?
+  \end{ejercicios}
+\item Un supermercado vende arroz en bolsas de $\SI{3}{kg}$ por \pesos{11400} y de $\SI{5}{kg}$ por \pesos{18500}.
+  ¿Cuál sale más barata por kilo? ¿Cuánto se ahorra por kilo?
+\item Escalas.
+  \begin{ejercicios}
+  \item En el plano de una casa a escala $1:250$, una habitación mide $\SI{1.6}{cm}\times\SI{1.4}{cm}$. Halla sus medidas
+        reales y su área en $\si{m^2}$.
+  \item Dos ciudades están a $\SI{30}{km}$. ¿A qué distancia quedan en un mapa a escala $1:\num{500000}$?
+  \end{ejercicios}
+\item Proporciones.
+  \begin{ejercicios}
+  \item ¿Forman proporción $\dfrac{6}{14}$ y $\dfrac{9}{21}$? \quad (b) Halla $x$: $\dfrac5x=\dfrac{15}{27}$.
+        \quad (c) Halla $x$: $\dfrac{x+2}{6}=\dfrac53$.
+  \end{ejercicios}
+\item Para cada tabla decide si la relación es directa, inversa o ninguna de las dos; halla la constante cuando exista y
+  dibuja las tres en el plano cartesiano. ¿Qué rasgo de cada gráfica confirma tu respuesta?
+  \begin{center}\small
+  \begin{tabular}{@{}c@{\hspace{10mm}}c@{\hspace{10mm}}c@{}}
+  (a)\ \begin{tabular}{c|cccc} $x$ & 1 & 2 & 4 & 5\\ \hline $y$ & 3.5 & 7 & 14 & 17.5\end{tabular} &
+  (b)\ \begin{tabular}{c|cccc} $x$ & 2 & 3 & 4 & 6\\ \hline $y$ & 18 & 12 & 9 & 6\end{tabular} &
+  (c)\ \begin{tabular}{c|cccc} $x$ & 1 & 2 & 3 & 4\\ \hline $y$ & 5 & 7 & 9 & 11\end{tabular}
+  \end{tabular}
+  \end{center}
+\item Tres socios aportan $4$, $6$ y $10$ millones de pesos a un negocio. Al final del año reparten una utilidad de
+  $7$ millones en proporción a lo aportado. ¿Cuánto recibe cada uno?
+\item Regla de tres simple.
+  \begin{ejercicios}
+  \item Un grifo vierte $\SI{360}{L}$ en $8$ minutos. ¿Cuántos litros vierte en $15$ minutos?
+  \item Seis pintores terminan una obra en $12$ días. ¿Cuántos días tardarían nueve pintores al mismo ritmo?
+  \end{ejercicios}
+\item Cuatro máquinas iguales fabrican $\num{1200}$ piezas en $6$ horas. ¿Cuántas horas necesitan seis máquinas para
+  fabricar $\num{2700}$ piezas? Indica qué magnitudes son directas y cuáles inversas respecto al tiempo.
+\item Calcula.
+  \begin{ejercicios}
+  \item El $35\%$ de $240$. \quad (b) ¿Qué porcentaje es $27$ de $180$? \quad (c) $42$ es el $120\%$ de un número: ¿cuál?
+  \item El $0.8\%$ de $\num{4500}$.
+  \end{ejercicios}
+\item Aumentos, descuentos y cambios sucesivos.
+  \begin{ejercicios}
+  \item Un computador cuesta \pesos{1785000} con el IVA del $19\%$ incluido. ¿Cuánto cuesta sin IVA?
+  \item Un arriendo pasa de \pesos{800000} a \pesos{920000}. ¿En qué porcentaje subió?
+  \item Una tienda hace un descuento del $15\%$ y luego otro del $10\%$. ¿A qué descuento único equivale?
+  \item Un precio sube el $20\%$ y después baja el $20\%$. ¿Queda igual? ¿Qué porcentaje cambió en total?
+  \item Una ciudad de $\num{50000}$ habitantes crece el $4\%$ anual. ¿Cuántos habitantes tendrá dentro de $3$ años?
+  \end{ejercicios}
+\end{ejercicios}
+
+\Needspace{8\baselineskip}
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) $15:25=3:5$. (b) $\tfrac{25}{40}=\tfrac58=62.5\%$.
+\item $\num{11400}\div3=\num{3800}$ y $\num{18500}\div5=\num{3700}$ por kilo: la de $\SI{5}{kg}$; ahorro de \pesos{100} por kilo.
+\item (a) $1.6\cdot250=\SI{400}{cm}=\SI{4}{m}$ y $\SI{3.5}{m}$; área $\SI{14}{m^2}$. (b) $\num{3000000}\text{ cm}\div\num{500000}=\SI{6}{cm}$.
+\item (a) Sí: $6\cdot21=126=14\cdot9$. (b) $15x=135$, $x=9$. (c) $3(x+2)=30$, $x=8$.
+\item (a) directa, $k=\tfrac yx=3.5$: recta por el origen. (b) inversa, $k=xy=36$: curva que baja. (c) ninguna: $y=2x+3$,
+      recta que no pasa por el origen.
+\item $20$ partes de $\num{350000}$: $1.4$, $2.1$ y $3.5$ millones.
+\item (a) directa: $\tfrac{360}{8}=45$ L/min, $45\cdot15=\SI{675}{L}$. (b) inversa: $6\cdot12=72$, $72\div9=8$ días.
+\item Piezas: directa; máquinas: inversa. $x=6\cdot\tfrac46\cdot\tfrac{2700}{1200}=9$ horas.
+\item (a) $84$ (b) $15\%$ (c) $42\div1.2=35$ (d) $36$.
+\item (a) $\num{1785000}\div1.19=\pesos{1500000}$. (b) $\tfrac{120000}{800000}=15\%$. (c) $0.85\cdot0.9=0.765$: $23.5\%$.
+      (d) No: $1.2\cdot0.8=0.96$, baja el $4\%$. (e) $\num{50000}\cdot1.04^3=\num{56243.2}\approx\num{56243}$.
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

@@ -1,0 +1,186 @@
+% zuka-resumen.sty — plantilla común de los resúmenes en PDF de cada mundo de Zuka.
+% Fondo blanco, Palatino (newpx), fórmulas con amsmath, diagramas con TikZ / pgfplots.
+% Uso (ver conjuntos.tex):
+%   \documentclass[11pt,a4paper]{article}
+%   \usepackage{zuka-resumen}
+%   \zukacurso{algebra}            % algebra | trig | calc | geo | fis | int | lin (fija el color)
+%   \zukamundo{1}{Pradera de Venn}{Conjuntos}
+%   \begin{document}
+%   \portada{Lo que aprendiste en este mundo...}{\item Nivel 1-1 ... \item ...}
+%   \nivel{1-1}{Título del nivel}  ... cajas ...
+%   \taller ... \begin{ejercicios} \item ... \end{ejercicios}
+%   \respuestas \begin{soluciones} \item ... \end{soluciones}
+%   \end{document}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{zuka-resumen}[2026/11/15 Resumenes de Zuka]
+
+\RequirePackage[spanish,es-noshorthands,es-tabla]{babel}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{newpxtext,newpxmath}
+\RequirePackage{amsmath,mathtools}
+\RequirePackage[a4paper,top=22mm,bottom=22mm,left=20mm,right=20mm,headheight=14pt,headsep=8mm]{geometry}
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{enumitem}
+\RequirePackage{multicol}
+\RequirePackage{booktabs,array,tabularx}
+\RequirePackage{fancyhdr}
+\RequirePackage{titlesec}
+\RequirePackage{siunitx}
+\RequirePackage{xparse}
+\RequirePackage{microtype}
+\RequirePackage[hidelinks]{hyperref}
+
+\usetikzlibrary{arrows.meta,calc,patterns,positioning,shapes.geometric,decorations.pathreplacing,angles,quotes,intersections,backgrounds}
+\pgfplotsset{compat=1.18}
+\sisetup{output-decimal-marker={.},group-separator={\,},group-minimum-digits=4}
+\decimalpoint
+
+% ---------- colores ----------
+\definecolor{zink}{HTML}{1D2052}     % azul noche de la marca
+\definecolor{zmute}{HTML}{5B6090}
+\definecolor{zline}{HTML}{D9DCEB}
+\definecolor{zsoft}{HTML}{F5F6FB}
+\definecolor{zok}{HTML}{0F9A5C}
+\definecolor{zbad}{HTML}{D8314F}
+\definecolor{zsun}{HTML}{E8A100}
+\definecolor{zcoral}{HTML}{E5533F}
+\definecolor{zmint}{HTML}{1A9E7C}
+\definecolor{zsky}{HTML}{3A6BE0}
+\definecolor{zviolet}{HTML}{6A4BE6}
+\colorlet{zaccent}{zviolet}
+\newcommand{\zukacurso}[1]{%
+  \def\zuka@curso{#1}%
+  \ifx\zuka@curso\zuka@algebra \definecolor{zaccent}{HTML}{5B4BD6}\def\zuka@cursonombre{Álgebra}\fi
+  \ifx\zuka@curso\zuka@trig    \definecolor{zaccent}{HTML}{0B7F99}\def\zuka@cursonombre{Trigonometría}\fi
+  \ifx\zuka@curso\zuka@calc    \definecolor{zaccent}{HTML}{B8306F}\def\zuka@cursonombre{Cálculo Diferencial}\fi
+  \ifx\zuka@curso\zuka@geo     \definecolor{zaccent}{HTML}{2457D6}\def\zuka@cursonombre{Geometría Vectorial y Analítica}\fi
+  \ifx\zuka@curso\zuka@fis     \definecolor{zaccent}{HTML}{A8670A}\def\zuka@cursonombre{Física Mecánica}\fi
+  \ifx\zuka@curso\zuka@int     \definecolor{zaccent}{HTML}{0C8059}\def\zuka@cursonombre{Cálculo Integral}\fi
+  \ifx\zuka@curso\zuka@lin     \definecolor{zaccent}{HTML}{C2531A}\def\zuka@cursonombre{Álgebra Lineal}\fi
+}
+\def\zuka@algebra{algebra}\def\zuka@trig{trig}\def\zuka@calc{calc}\def\zuka@geo{geo}
+\def\zuka@fis{fis}\def\zuka@int{int}\def\zuka@lin{lin}
+\def\zuka@cursonombre{Álgebra}
+\newcommand{\zukamundo}[3]{\def\zuka@num{#1}\def\zuka@mundo{#2}\def\zuka@tema{#3}}
+\zukamundo{1}{Mundo}{Tema}
+
+% ---------- texto ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt plus 1pt}
+\linespread{1.06}
+\color{zink}
+\setlist{nosep,leftmargin=1.4em,topsep=2pt,itemsep=2pt}
+\setlist[itemize,1]{label={\color{zaccent}\small$\blacktriangleright$}}
+\newcommand{\clave}[1]{\textbf{\color{zaccent}#1}}   % palabra clave en el texto
+
+% ---------- encabezado y pie ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\small\color{zmute}\textsc{\zuka@cursonombre}\enspace·\enspace Mundo \zuka@num: \zuka@mundo}
+\fancyhead[R]{\small\color{zmute}Resumen del mundo}
+\fancyfoot[L]{\small\color{zmute}\textbf{\color{zink}Zuka}\enspace Matemáticas en corto}
+\fancyfoot[R]{\small\color{zmute}\thepage}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[R]{\small\color{zmute}\thepage}\fancyfoot[L]{\small\color{zmute}\textbf{\color{zink}Zuka}\enspace Matemáticas en corto}}
+
+% ---------- títulos ----------
+\titleformat{\section}{\normalfont\Large\bfseries\color{zink}}{}{0pt}{}[\vspace{-2pt}{\color{zaccent}\rule{\linewidth}{1.2pt}}]
+\titlespacing*{\section}{0pt}{14pt}{8pt}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{zaccent}}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+% \nivel{1-2}{Título}: abre cada nivel (lección) del mundo, con su ficha.
+\newcommand{\nivel}[2]{%
+  \section[#2]{\tikz[baseline=(b.base)]\node[fill=zaccent,text=white,rounded corners=3pt,inner xsep=6pt,inner ysep=3pt,font=\normalsize\sffamily\bfseries](b){Nivel #1};\enspace #2}}
+
+% ---------- portada ----------
+% \portada{párrafo de entrada}{lista de \item con lo que hay en el mundo}
+\newcommand{\portada}[2]{%
+  \thispagestyle{plain}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[zaccent] (current page.north west) rectangle ([yshift=-62mm]current page.north east);
+    \fill[zink,opacity=.18] ([yshift=-62mm]current page.north west) rectangle ([yshift=-64mm]current page.north east);
+    \node[anchor=north west,text=white,font=\sffamily\bfseries\small,inner sep=0] at ([xshift=20mm,yshift=-16mm]current page.north west)
+      {\MakeUppercase{\zuka@cursonombre}\enspace·\enspace MUNDO \zuka@num};
+    \node[anchor=north west,text=white,font=\fontsize{30}{32}\selectfont\bfseries,inner sep=0] at ([xshift=20mm,yshift=-25mm]current page.north west) {\zuka@mundo};
+    \node[anchor=north west,text=white,font=\Large,inner sep=0,text width=150mm] at ([xshift=20mm,yshift=-40mm]current page.north west) {Resumen: \zuka@tema};
+    \node[anchor=north east,inner sep=0] at ([xshift=-18mm,yshift=-12mm]current page.north east) {\IfFileExists{logo-light.png}{\includegraphics[height=11mm]{logo-light.png}}{}};
+    \foreach \i/\r in {0/30,1/22,2/14} \draw[white,opacity=.16,line width=1.2pt] ([xshift=-30mm,yshift=-46mm]current page.north east) circle (\r mm);
+  \end{tikzpicture}%
+  \vspace*{50mm}%
+  \begin{tcolorbox}[enhanced,colback=zsoft,colframe=zsoft,arc=3mm,boxrule=0pt,left=5mm,right=5mm,top=4mm,bottom=4mm]
+    #1\par\smallskip
+    {\sffamily\bfseries\color{zaccent}En este mundo}\par
+    \begin{itemize}[leftmargin=1.2em]#2\end{itemize}
+  \end{tcolorbox}\par\medskip}
+
+% ---------- cajas ----------
+\tcbset{zbase/.style={enhanced,breakable,arc=2mm,boxrule=0pt,left=4mm,right=4mm,top=2.5mm,bottom=2.5mm,
+  fonttitle=\sffamily\bfseries\small,coltitle=zink,attach title to upper,after title={\par\smallskip},before skip=7pt,after skip=7pt}}
+% Definición: barra de color a la izquierda
+\newtcolorbox{definicion}[1][]{zbase,colback=zaccent!6,borderline west={2.2pt}{0pt}{zaccent},
+  title={\color{zaccent}DEFINICIÓN\ifx\relax#1\relax\else\ \textcolor{zink}{· #1}\fi}}
+% Propiedad o teorema
+\newtcolorbox{propiedad}[1][]{zbase,colback=white,colframe=zaccent,boxrule=0.8pt,
+  title={\color{zaccent}PROPIEDAD\ifx\relax#1\relax\else\ \textcolor{zink}{· #1}\fi}}
+% Ejemplo resuelto
+\newtcolorbox{ejemplo}[1][]{zbase,colback=zsoft,borderline west={2.2pt}{0pt}{zmute},
+  title={\color{zmute}EJEMPLO\ifx\relax#1\relax\else\ \textcolor{zink}{· #1}\fi}}
+% Error frecuente
+\newtcolorbox{ojo}[1][]{zbase,colback=zbad!5,borderline west={2.2pt}{0pt}{zbad},
+  title={\color{zbad}OJO\ifx\relax#1\relax\else\ \textcolor{zink}{· #1}\fi}}
+% Fórmula o idea clave, centrada
+\newtcolorbox{clavebox}[1][]{zbase,colback=zaccent!10,arc=3mm,halign=center,before upper app={\medmuskip=4mu\thickmuskip=5mu\relax},
+  title={\color{zaccent}\ifx\relax#1\relax IDEA CLAVE\else #1\fi}}
+% Figura con pie
+\NewDocumentEnvironment{figura}{o}{\par\smallskip\begin{center}}{\IfValueT{#1}{\par\smallskip{\small\color{zmute}#1}}\end{center}\par\smallskip}
+
+% ---------- repaso, taller y respuestas ----------
+\newcommand{\repaso}{\section{Repaso del mundo}}
+\newcommand{\taller}{\clearpage\section{Taller de práctica}
+  {\color{zmute}Ejercicios para resolver con lápiz y papel. Las respuestas están al final.}\par\smallskip}
+\newlist{ejercicios}{enumerate}{2}
+\setlist[ejercicios,1]{label={\sffamily\bfseries\color{zaccent}\arabic*.},leftmargin=2em,itemsep=9pt,topsep=6pt}
+\setlist[ejercicios,2]{label={\color{zmute}(\alph*)},leftmargin=1.8em,itemsep=2pt,topsep=2pt}
+\newcommand{\respuestas}{\subsection{Respuestas}}
+\newlist{soluciones}{enumerate}{2}
+\setlist[soluciones,1]{label={\sffamily\bfseries\color{zaccent}\arabic*.},leftmargin=2em,itemsep=4pt}
+\setlist[soluciones,2]{label={\color{zmute}(\alph*)},leftmargin=1.6em,itemsep=1pt}
+\newenvironment{respuestascortas}{\small\begin{multicols}{2}\raggedcolumns}{\end{multicols}}
+
+% ---------- tablas ----------
+\renewcommand{\arraystretch}{1.25}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+
+% ---------- TikZ ----------
+\tikzset{
+  zstyle/.style={line width=0.8pt,line cap=round,line join=round,draw=zink},
+  conj/.style={draw=zink,line width=0.9pt},
+  universo/.style={draw=zink,line width=0.9pt,rounded corners=3pt},
+  punto/.style={circle,fill=zink,inner sep=1.3pt},
+  etq/.style={font=\small,text=zink},
+  >={Stealth[length=2.4mm]},
+}
+\pgfplotsset{zplot/.style={axis lines=middle,axis line style={zink,-{Stealth[length=2mm]}},
+  tick label style={font=\footnotesize,text=zmute},label style={font=\small},
+  grid=major,grid style={zline,line width=0.4pt},width=8cm,height=5.5cm,
+  every axis plot/.append style={line width=1.2pt}}}
+
+% ---------- macros matemáticas ----------
+\newcommand{\N}{\mathbb{N}}\newcommand{\Z}{\mathbb{Z}}\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}\newcommand{\C}{\mathbb{C}}\newcommand{\I}{\mathbb{I}}
+\AtBeginDocument{\let\sen\relax\let\tg\relax\let\arcsen\relax
+  \DeclareRobustCommand{\sen}{\operatorname{sen}}\DeclareRobustCommand{\tg}{\operatorname{tan}}
+  \DeclareRobustCommand{\arcsen}{\operatorname{arcsen}}}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\norma}[1]{\left\lVert #1\right\rVert}
+\newcommand{\conjunto}[1]{\left\{\,#1\,\right\}}
+\newcommand{\tq}{\;:\;}
+\newcommand{\vect}[1]{\vec{#1}}
+
+\endinput

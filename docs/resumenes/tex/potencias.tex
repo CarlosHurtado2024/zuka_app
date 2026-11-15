@@ -1,0 +1,393 @@
+% Resumen del mundo «Torres de Potencias» (Álgebra, mundo 4: potenciación y radicación).
+% Lecciones alg-21a, alg-21b, alg-22a, alg-22b. Ejemplos de los videos; el taller es nuevo.
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{algebra}
+\zukamundo{4}{Torres de Potencias}{Potenciación y radicación}
+
+% Que un título de nivel no quede solo al pie de una página.
+\usepackage{needspace}
+\let\nivelzuka\nivel
+\renewcommand{\nivel}[2]{\Needspace{8\baselineskip}\nivelzuka{#1}{#2}}
+% Bloque de una torre: \bloque{x}{y}{color}{texto}
+\newcommand{\bloque}[4]{\draw[zink,fill=#3!45,rounded corners=1.5pt] (#1,#2) rectangle ++(0.8,0.5); \node[font=\footnotesize] at (#1+0.4,#2+0.25) {$#4$};}
+
+\begin{document}
+
+\portada{%
+Cuando una multiplicación se repite muchas veces, escribirla completa cansa: para eso existen las \clave{potencias}.
+En este mundo aprendiste qué significan la base y el exponente (también cero y negativo), los atajos para operar con
+potencias (\clave{leyes de los exponentes}), la notación científica, las \clave{raíces} como operación que deshace una
+potencia y los exponentes fraccionarios, y cómo simplificar y \clave{racionalizar} expresiones con radicales. Este resumen
+reúne las definiciones, las leyes y los ejemplos de los videos, y termina con un taller.}{%
+\item \textbf{Nivel 4-1.} Potencias y exponentes: base, exponente, signos, exponente cero y exponente negativo.
+\item \textbf{Nivel 4-2.} Leyes de los exponentes y notación científica.
+\item \textbf{Nivel 4-3.} Raíces y exponentes racionales; las dos trampas de las raíces.
+\item \textbf{Nivel 4-4.} Simplificar radicales, sumar radicales semejantes y racionalizar.}
+
+\begin{clavebox}[LAS IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\quad}c@{\quad}c@{}}
+$a^{m}\cdot a^{n}=a^{m+n}$ & $a^{-n}=\dfrac{1}{a^{n}},\ \ a^{0}=1$ & $a^{m/n}=\left(\sqrt[n]{a}\right)^{m}$\\[2pt]
+\small misma base: se suman los exponentes & \small bajar escalones es dividir & \small un exponente fracción es una raíz
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{4-1}{Potencias y exponentes}
+
+\begin{minipage}[c]{0.54\linewidth}
+\textbf{El secreto de Caro.} Caro le cuenta un secreto a $3$ vecinos; al día siguiente cada uno se lo cuenta a otros $3$,
+y así sucesivamente. Cada día los nuevos que se enteran se multiplican por $3$:
+\[ 3,\quad 9,\quad 27,\quad 81,\ \ldots \]
+El cuarto día se enteran $3\cdot3\cdot3\cdot3=3^{4}=81$ personas.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[x=0.24cm,y=0.75cm]
+  \node[circle,fill=zcoral,inner sep=2.6pt,label={[font=\scriptsize]left:Caro}] (r) at (13,0) {};
+  \foreach \i in {0,1,2} {
+    \node[circle,fill=zsun,inner sep=2.2pt] (a\i) at (4+9*\i,-1) {};
+    \draw[zmute] (r) -- (a\i);
+    \foreach \j in {0,1,2} {
+      \node[circle,fill=zsky,inner sep=1.7pt] (b\i\j) at (1+9*\i+3*\j,-2) {};
+      \draw[zmute] (a\i) -- (b\i\j);}}
+  \node[font=\scriptsize,anchor=west] at (27,-1) {$3^1=3$};
+  \node[font=\scriptsize,anchor=west] at (27,-2) {$3^2=9$};
+  \node[font=\scriptsize,text=zmute] at (13,-2.7) {cada nivel se multiplica por $3$};
+\end{tikzpicture}
+\end{minipage}
+
+\Needspace{6\baselineskip}
+\begin{definicion}[Potencia]
+Si $a\in\R$ y $n\in\N$, la \clave{potencia} $a^{n}$ es el producto de $n$ factores iguales a $a$:
+\[ a^{n}=\underbrace{a\cdot a\cdots a}_{n\text{ factores}}. \]
+$a$ es la \clave{base} (lo que se repite) y $n$ el \clave{exponente} (cuántas veces se repite).
+\end{definicion}
+
+\begin{ojo}[Cuidado con el signo]
+El exponente afecta solo a lo que tiene pegado. Con paréntesis, $(-3)^{2}=(-3)(-3)=9$; sin paréntesis, el exponente solo
+toca al $3$: $-3^{2}=-(3\cdot3)=-9$. Con base negativa, un exponente \emph{par} da positivo y uno \emph{impar}, negativo:
+$(-2)^{3}=-8$, $(-2)^{4}=16$.
+\end{ojo}
+
+\subsection{Exponente cero y exponente negativo}
+\begin{minipage}[c]{0.5\linewidth}
+Una escalera de potencias de $3$: subir un escalón es multiplicar por $3$ y bajar uno es dividir entre $3$. Si se baja
+desde $3^{1}=3$ se llega a $3\div3=1$, así que $3^{0}=1$. Si se sigue bajando aparecen fracciones:
+\[ 3^{-1}=\frac13,\qquad 3^{-2}=\frac19,\qquad 3^{-3}=\frac1{27}. \]
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}[x=0.95cm,y=0.42cm]
+  \foreach \k/\v [count=\i from 0] in {-2/{\tfrac19},-1/{\tfrac13},0/{1},1/{3},2/{9},3/{27},4/{81}} {
+    \fill[zaccent!\the\numexpr 12+\i*8\relax] (\i*0.85,0) rectangle ++(0.85,\i+1);
+    \draw[zink] (\i*0.85,0) rectangle ++(0.85,\i+1);
+    \node[font=\scriptsize,above] at (\i*0.85+0.425,\i+1) {$\v$};
+    \node[font=\scriptsize,text=zmute,below] at (\i*0.85+0.425,0) {$3^{\k}$};}
+  \draw[->,zok,line width=0.8pt] (0.6,6.2) -- node[above,font=\scriptsize,sloped]{$\times3$ al subir} (3.2,8.4);
+\end{tikzpicture}
+\end{minipage}
+
+\begin{definicion}[Exponente cero y exponente negativo]
+Para $a\neq0$ y $n\in\N$:
+\qquad $a^{0}=1$, \qquad $a^{-n}=\dfrac{1}{a^{n}}$.
+\quad El exponente negativo no pone un signo menos: manda la potencia al denominador.
+\end{definicion}
+\begin{ejemplo}[Potencias de diez]
+$10^{-2}=\dfrac1{10^{2}}=\dfrac1{100}=0.01$: un centímetro es la centésima parte de un metro, $\SI{1}{cm}=10^{-2}\,\si{m}$.
+Y el día cero del secreto solo lo sabía Caro: $3^{0}=1$.
+\end{ejemplo}
+\begin{ojo}[Errores típicos]
+$3^{-2}\neq-9$ (es $\tfrac19$); \ $3^{0}\neq0$ (es $1$); \ $0^{0}$ y $0^{-n}$ no están definidos.
+\end{ojo}
+
+%=====================================================================
+\Needspace{14\baselineskip}
+\nivel{4-2}{Leyes de los exponentes}
+
+\begin{minipage}[c]{0.56\linewidth}
+Beto tiene una torre de tres doses y otra de cuatro, y quiere multiplicarlas. Al juntarlas quedan siete doses:
+\[ 2^{3}\cdot2^{4}=2^{3+4}=2^{7}=128. \]
+Si se dividen $5^{6}$ entre $5^{2}$, los factores se cancelan por parejas y quedan cuatro cincos; si abajo hay más,
+la resta da negativa:
+\[ \frac{5^6}{5^2}=5^{6-2}=5^{4},\qquad \frac{5^{2}}{5^{5}}=5^{-3}=\frac1{125}. \]
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \foreach \j in {0,1,2} \bloque{0}{\j*0.55}{zsun}{2}
+  \foreach \j in {0,...,3} \bloque{1.3}{\j*0.55}{zsky}{2}
+  \node[font=\small] at (1.05,0.5) {$\cdot$};
+  \node[font=\footnotesize,text=zmute] at (0.4,-0.35) {$2^3$}; \node[font=\footnotesize,text=zmute] at (1.7,-0.35) {$2^4$};
+  \draw[->,zmute,line width=0.8pt] (2.35,1.1) -- (2.95,1.1);
+  \foreach \j in {0,1,2} \bloque{3.2}{\j*0.55}{zsun}{2}
+  \foreach \j in {3,...,6} \bloque{3.2}{\j*0.55}{zsky}{2}
+  \node[font=\footnotesize,text=zmute] at (3.6,-0.35) {$2^{7}$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{propiedad}[Leyes de los exponentes]
+Para $a,b\neq0$ y exponentes enteros $m,n$:
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{@{}l@{\qquad}l@{\qquad}l@{}}
+$a^{m}\cdot a^{n}=a^{m+n}$ & $\dfrac{a^{m}}{a^{n}}=a^{m-n}$ & $\left(a^{m}\right)^{n}=a^{m\cdot n}$\\
+$(a\,b)^{n}=a^{n}\,b^{n}$ & $\left(\dfrac ab\right)^{n}=\dfrac{a^{n}}{b^{n}}$ & $\left(\dfrac ab\right)^{-n}=\left(\dfrac ba\right)^{n}$
+\end{tabular}
+\end{center}
+\end{propiedad}
+Dos torres iguales de tres doses son seis doses: $(2^{3})^{2}=2^{6}$. Con un producto, el exponente va a cada factor:
+$(2\cdot5)^{3}=2^{3}\cdot5^{3}=8\cdot125=1000$.
+
+\begin{ojo}[El exponente no se reparte en una suma]
+$(1+2)^{2}=3^{2}=9$, pero $1^{2}+2^{2}=5$. En general $(a+b)^{n}\neq a^{n}+b^{n}$. Tampoco se juntan bases distintas:
+$2^{3}\cdot3^{2}=8\cdot9=72$, no $6^{5}$.
+\end{ojo}
+
+\begin{ejemplo}[Simplificar con varias leyes]
+Simplificar $\dfrac{\left(2x^{3}y^{-2}\right)^{3}}{4x^{5}y^{-4}}$ sin exponentes negativos ($x,y\neq0$):
+\[ \frac{\left(2x^{3}y^{-2}\right)^{3}}{4x^{5}y^{-4}}=\frac{8x^{9}y^{-6}}{4x^{5}y^{-4}}=2\,x^{9-5}\,y^{-6-(-4)}=2x^{4}y^{-2}=\frac{2x^{4}}{y^{2}}. \]
+\end{ejemplo}
+
+\subsection{Notación científica}
+\begin{definicion}[Notación científica]
+Un número positivo está en \clave{notación científica} si se escribe $c\times10^{k}$ con $1\le c<10$ y $k\in\Z$.
+El exponente $k$ cuenta cuántos lugares salta el punto decimal: positivo si el número es grande, negativo si es pequeño.
+\end{definicion}
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l l L l@{}}
+\toprule
+Cantidad & Número & Saltos del punto & Notación científica\\ \midrule
+Del Sol a la Tierra & $\num{150000000}$ km & $8$ a la izquierda & $1.5\times10^{8}$ km\\
+Tamaño de una bacteria & $0.000002$ m & $6$ a la derecha & $2\times10^{-6}$ m\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+%=====================================================================
+\nivel{4-3}{Raíces y exponentes racionales}
+
+\begin{minipage}[c]{0.6\linewidth}
+\textbf{El terreno y la caja de Ana.} Su terreno cuadrado tiene $\SI{25}{m^2}$; para cercarlo necesita el lado: el número
+que multiplicado por sí mismo da $25$. Es $5$, porque $5\cdot5=25$: \ $\sqrt{25}=5$. La raíz cuadrada \emph{deshace} el cuadrado.
+Su caja cúbica de semillas tiene $\SI{216}{cm^3}$: la arista es $\sqrt[3]{216}=6$, porque $6\cdot6\cdot6=216$. El tres
+pequeño es el \clave{índice}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.5]
+  \fill[zmint!35] (0,0) rectangle (3,3); \draw[zink,line width=0.8pt] (0,0) rectangle (3,3);
+  \node[font=\footnotesize] at (1.5,1.5) {$\SI{25}{m^2}$};
+  \node[font=\footnotesize,below] at (1.5,0) {$5$};
+  \begin{scope}[xshift=4.3cm]
+    \fill[zsun!40] (0,0) rectangle (2.6,2.6);
+    \fill[zsun!60] (0,2.6) -- (1,3.4) -- (3.6,3.4) -- (2.6,2.6) -- cycle;
+    \fill[zsun!25] (2.6,0) -- (3.6,0.8) -- (3.6,3.4) -- (2.6,2.6) -- cycle;
+    \draw[zink,line width=0.8pt] (0,0) rectangle (2.6,2.6) (0,2.6) -- (1,3.4) -- (3.6,3.4) -- (2.6,2.6) (3.6,3.4) -- (3.6,0.8) -- (2.6,0);
+    \node[font=\footnotesize] at (1.3,1.3) {$216$};
+    \node[font=\footnotesize,below] at (1.3,0) {$6$};
+  \end{scope}
+\end{tikzpicture}
+\end{minipage}
+
+\begin{definicion}[Raíz $n$-ésima]
+Sea $n\ge2$ un natural. \ $\sqrt[n]{a}=b$ significa $b^{n}=a$, con estas condiciones:
+\begin{itemize}
+\item si $n$ es \emph{par}, se exige $a\ge0$ y se toma $b\ge0$ (la raíz principal);
+\item si $n$ es \emph{impar}, $a$ puede ser cualquier real, y $b$ tiene el mismo signo que $a$.
+\end{itemize}
+\end{definicion}
+Así, $(-5)^{2}=25$ también, pero $\sqrt{25}=5$ es la positiva. Con índice impar la raíz acepta negativos:
+$\sqrt[3]{-1000}=-10$. Con índice par no: ningún real al cuadrado da negativo, y $\sqrt{-16}$ no es un número real.
+
+\begin{minipage}[c]{0.46\linewidth}
+\begin{definicion}[Exponente racional]
+Si $\sqrt[n]{a}$ existe, $a^{1/n}=\sqrt[n]{a}$ y
+\[ a^{m/n}=\left(\sqrt[n]{a}\right)^{m}=\sqrt[n]{a^{m}}. \]
+El denominador es el índice; el numerador, la potencia.
+\end{definicion}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=7cm,height=4.8cm,xmin=-8.5,xmax=9,ymin=-2.6,ymax=3.4,xtick={-8,-4,4,8},ytick={-2,2,3},
+  legend style={font=\scriptsize,at={(0.98,0.03)},anchor=south east,draw=none,fill=white,fill opacity=0.85,text opacity=1}]
+  \addplot[zaccent,domain=0:9,samples=120] {sqrt(x)};
+  \addplot[zcoral,domain=-8.3:8.6,samples=161] {x/abs(x+0.000001)*abs(x)^(1/3)};
+  \node[font=\scriptsize,text=zaccent,anchor=south east,fill=white,inner sep=1pt] at (axis cs:4.2,2.6) {$y=\sqrt{x}$};
+  \node[font=\scriptsize,text=zcoral,anchor=north west,fill=white,inner sep=1pt] at (axis cs:-6.5,-2.05) {$y=\sqrt[3]{x}$};
+\end{axis}
+\end{tikzpicture}
+
+{\footnotesize\color{zmute}$\sqrt x$ solo existe para $x\ge0$; $\sqrt[3]x$, para todo $x$.}
+\end{minipage}
+
+\begin{ejemplo}[Exponentes fraccionarios]
+$16^{1/2}$ multiplicado por sí mismo da $16^{1/2+1/2}=16$, así que $16^{1/2}=\sqrt{16}=4$. \ Y
+\[ 16^{3/4}=\left(\sqrt[4]{16}\right)^{3}=2^{3}=8. \]
+Conviene sacar primero la raíz: los números quedan pequeños ($\sqrt[4]{16^{3}}=\sqrt[4]{4096}$ da lo mismo, con más trabajo).
+\end{ejemplo}
+
+\subsection{Las dos trampas de las raíces}
+\begin{minipage}[c]{0.62\linewidth}
+\begin{propiedad}[Raíz de un cuadrado]
+$\sqrt{x^{2}}=\abs{x}$ para todo $x\in\R$. \ Si $x=-5$: $\sqrt{(-5)^{2}}=\sqrt{25}=5=\abs{-5}$, no $-5$.
+\end{propiedad}
+\begin{ojo}[La raíz no se reparte en una suma]
+$\sqrt{81+144}=\sqrt{225}=15$, pero $\sqrt{81}+\sqrt{144}=9+12=21$. En general $\sqrt{a+b}\neq\sqrt a+\sqrt b$: cruzar
+por la diagonal ($15$) es más corto que rodear ($21$).
+\end{ojo}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.34\linewidth}\centering
+\begin{tikzpicture}[scale=0.25]
+  \fill[zsky!15] (0,0) -- (12,0) -- (12,9) -- cycle;
+  \draw[zink,line width=0.9pt] (0,0) -- node[below,font=\footnotesize]{$12$} (12,0) -- node[right,font=\footnotesize]{$9$} (12,9);
+  \draw[zcoral,line width=1.2pt] (0,0) -- node[above left,font=\footnotesize,text=zcoral]{$15$} (12,9);
+  \draw[zink] (11,0) -- (11,1) -- (12,1);
+  \node[font=\scriptsize,text=zmute] at (6,-2.7) {$\sqrt{12^2+9^2}=15$};
+\end{tikzpicture}
+\end{minipage}
+
+%=====================================================================
+\nivel{4-4}{Simplificar y racionalizar}
+
+\begin{propiedad}[Producto y cociente de raíces]
+Para $a,b\ge0$ (y $b\neq0$ en el cociente): \qquad $\sqrt[n]{a\,b}=\sqrt[n]{a}\,\sqrt[n]{b}$, \qquad
+$\sqrt[n]{\dfrac ab}=\dfrac{\sqrt[n]{a}}{\sqrt[n]{b}}$.
+\end{propiedad}
+
+\begin{minipage}[c]{0.6\linewidth}
+\textbf{La baldosa de Beto.} La diagonal de una baldosa cuadrada de lado $6$ mide $\sqrt{6^2+6^2}=\sqrt{72}$. Para
+simplificar se busca un cuadrado escondido en $72$:
+\[ \sqrt{72}=\sqrt{36\cdot2}=\sqrt{36}\,\sqrt2=6\sqrt2. \]
+El $36$ sale de la raíz como $6$ y el $2$ se queda adentro. Comprobación: $\sqrt{72}\approx8.49$ y $6\sqrt2\approx6\cdot1.414=8.49$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.42]
+  \fill[zsun!25] (0,0) rectangle (6,6);
+  \foreach \i in {1,...,5} \draw[zline] (\i,0) -- (\i,6) (0,\i) -- (6,\i);
+  \draw[zink,line width=0.9pt] (0,0) rectangle (6,6);
+  \draw[zcoral,line width=1.3pt] (0,0) -- (6,6);
+  \node[font=\footnotesize,fill=white,inner sep=1pt,rotate=45] at (3.2,2.6) {$\sqrt{72}=6\sqrt2$};
+  \node[font=\footnotesize,below] at (3,0) {$6$}; \node[font=\footnotesize,left] at (0,3) {$6$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{definicion}[Radicales semejantes]
+Dos radicales son \clave{semejantes} si tienen el mismo índice y la misma cantidad dentro de la raíz. Solo los semejantes
+se suman, como se cuentan manzanas: \ $2\sqrt3+5\sqrt3=7\sqrt3$.
+\end{definicion}
+\begin{ojo}[$\sqrt2+\sqrt3\neq\sqrt5$]
+$\sqrt2+\sqrt3\approx1.414+1.732=3.146$, mientras que $\sqrt5\approx2.236$. A veces hay que simplificar primero para
+descubrir que son semejantes: $\sqrt8+\sqrt{18}=2\sqrt2+3\sqrt2=5\sqrt2$.
+\end{ojo}
+
+\subsection{Racionalizar}
+Los constructores de antes dividían a mano, y odiaban dividir entre $\sqrt2=1.41421356\ldots$: una división que no termina.
+\clave{Racionalizar} es quitar la raíz del denominador multiplicando por un \emph{uno disfrazado}, que no cambia el valor.
+\begin{ejemplo}[Un solo radical abajo]
+\[ \frac1{\sqrt2}=\frac1{\sqrt2}\cdot\frac{\sqrt2}{\sqrt2}=\frac{\sqrt2}{2}\approx\frac{1.414}{2}=0.707. \]
+Ya no hay raíz abajo, y dividir entre $2$ es fácil. Con raíz cúbica se completa un cubo ($2\cdot4=2^3$):
+\[ \frac{1}{\sqrt[3]{2}}=\frac{\sqrt[3]{4}}{\sqrt[3]{2}\,\sqrt[3]{4}}=\frac{\sqrt[3]{4}}{\sqrt[3]{8}}=\frac{\sqrt[3]{4}}{2}. \]
+\end{ejemplo}
+\begin{ejemplo}[Un binomio abajo: el conjugado]
+El \clave{conjugado} de $a+\sqrt b$ es $a-\sqrt b$, y su producto no tiene raíz: $(a+\sqrt b)(a-\sqrt b)=a^{2}-b$.
+\[ \frac{9}{4+\sqrt5}=\frac{9}{4+\sqrt5}\cdot\frac{4-\sqrt5}{4-\sqrt5}=\frac{9\left(4-\sqrt5\right)}{16-5}=\frac{9\left(4-\sqrt5\right)}{11}. \]
+\end{ejemplo}
+
+%=====================================================================
+\repaso
+\begin{center}\small
+\begin{tabularx}{\linewidth}{@{}>{\centering\arraybackslash}p{48mm} L >{\raggedright\arraybackslash}p{46mm}@{}}
+\toprule
+Fórmula & Qué dice & Ejemplo\\ \midrule
+$a^{0}=1$, \ $a^{-n}=\tfrac1{a^{n}}$ \ ($a\neq0$) & exponente cero y negativo & $3^{-2}=\tfrac19$\\
+$a^{m}a^{n}=a^{m+n}$, \ $\tfrac{a^{m}}{a^{n}}=a^{m-n}$ & misma base: sumar o restar & $2^3\cdot2^4=2^7$\\
+$(a^{m})^{n}=a^{mn}$, \ $(ab)^{n}=a^{n}b^{n}$ & potencia de potencia, de producto & $(2\cdot5)^3=1000$\\
+$c\times10^{k}$, \ $1\le c<10$ & notación científica & $0.000002=2\times10^{-6}$\\
+$\sqrt[n]{a}=b\iff b^{n}=a$ & raíz ($n$ par: $a,b\ge0$) & $\sqrt[3]{-1000}=-10$\\
+$a^{m/n}=(\sqrt[n]{a})^{m}$ & exponente racional & $16^{3/4}=8$\\
+$\sqrt{x^{2}}=\abs{x}$ & raíz de un cuadrado & $\sqrt{(-5)^2}=5$\\
+$\sqrt{ab}=\sqrt a\sqrt b$ & simplificar & $\sqrt{72}=6\sqrt2$\\
+$(a+\sqrt b)(a-\sqrt b)=a^2-b$ & conjugado: racionalizar & $\tfrac9{4+\sqrt5}=\tfrac{9(4-\sqrt5)}{11}$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Confundir $-3^{2}$ con $(-3)^{2}$, o creer que $a^{-n}$ es negativo y que $a^{0}=0$.
+\item Repartir un exponente o una raíz en una suma: $(a+b)^{2}\neq a^{2}+b^{2}$, \ $\sqrt{a+b}\neq\sqrt a+\sqrt b$.
+\item Multiplicar exponentes al multiplicar potencias ($x^{2}x^{3}=x^{5}$, no $x^{6}$) o juntar bases distintas.
+\item Sumar radicales no semejantes, o calcular raíces pares de negativos.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Calcula sin calculadora.
+  \begin{ejercicios}
+  \item $(-2)^{5}$ \quad (b) $-2^{4}$ \quad (c) $\left(\dfrac23\right)^{-3}$ \quad (d) $(-7)^{0}$ y $-7^{0}$ \quad (e) $10^{-3}$
+  \end{ejercicios}
+\item Una célula se divide en dos cada $30$ minutos. Si al comienzo hay una sola célula, ¿cuántas hay a las $5$ horas?
+  ¿Cuándo había exactamente la mitad de esa cantidad? Escribe las respuestas como potencias.
+\item Simplifica y escribe sin exponentes negativos (todas las letras son distintas de cero).
+  \begin{ejercicios}
+  \item $x^{5}\cdot x^{-8}$ \quad (b) $\left(a^{-2}\right)^{-3}\cdot a$ \quad (c) $\dfrac{12m^{4}n^{-1}}{3m^{-2}n^{3}}$
+        \quad (d) $\left(2p^{-1}q^{2}\right)^{-3}$
+  \end{ejercicios}
+\item Notación científica.
+  \begin{ejercicios}
+  \item Escribe en notación científica: $0.000\,000\,45$ y $\num{6020000000}$.
+  \item Calcula $\left(3\times10^{5}\right)\left(4\times10^{-8}\right)$ y da el resultado en notación científica.
+  \item La luz recorre $3\times10^{5}$ km cada segundo y un año tiene unos $3.15\times10^{7}$ s. ¿Cuántos kilómetros mide
+        un año luz?
+  \end{ejercicios}
+\item Calcula, o explica por qué no es un número real.
+  \begin{ejercicios}
+  \item $\sqrt[3]{-125}$ \quad (b) $\sqrt[4]{81}$ \quad (c) $\sqrt{-36}$ \quad (d) $\sqrt[5]{-32}$ \quad (e) $\sqrt{0.09}$
+  \end{ejercicios}
+\item Exponentes racionales.
+  \begin{ejercicios}
+  \item $27^{2/3}$ \quad (b) $32^{-2/5}$ \quad (c) $\left(\dfrac{16}{81}\right)^{3/4}$
+        \quad (d) Escribe $\sqrt[3]{x^{2}}\cdot\sqrt{x}$ como una sola potencia de $x$ ($x>0$).
+  \end{ejercicios}
+\item Las trampas de las raíces.
+  \begin{ejercicios}
+  \item Para $x=-4$ calcula $\sqrt{x^{2}}$. ¿Es igual a $x$? ¿A qué es igual?
+  \item ¿Es cierto que $\sqrt{16+9}=4+3$? Justifica.
+  \item Una pantalla rectangular mide $32$ pulgadas de ancho y $24$ de alto. ¿Cuánto mide su diagonal?
+  \end{ejercicios}
+\item Simplifica.
+  \begin{ejercicios}
+  \item $\sqrt{180}$ \quad (b) $\sqrt[3]{54}$ \quad (c) $\sqrt{50}-\sqrt{18}+\sqrt8$ \quad (d) $\sqrt{15}\cdot\sqrt6$
+  \end{ejercicios}
+\item Racionaliza el denominador y simplifica.
+  \begin{ejercicios}
+  \item $\dfrac6{\sqrt3}$ \quad (b) $\dfrac{10}{\sqrt[3]5}$ \quad (c) $\dfrac{4}{\sqrt7-\sqrt3}$ \quad (d) $\dfrac{1+\sqrt2}{3-\sqrt2}$
+  \end{ejercicios}
+\item En un mismo plano dibuja $y=x^{2}$ y $y=\sqrt{x}$ para $0\le x\le4$ (haz una tabla con $x=0,\ \tfrac14,\ 1,\ 2,\ 4$).
+  \begin{ejercicios}
+  \item ¿En qué puntos se cortan las dos gráficas?
+  \item Para $0<x<1$, ¿cuál es mayor, $x^{2}$ o $\sqrt x$? ¿Y para $x>1$?
+  \item ¿Qué relación geométrica hay entre las dos curvas? Explica por qué, usando que $\sqrt{x^{2}}=x$ cuando $x\ge0$.
+  \end{ejercicios}
+\end{ejercicios}
+
+\Needspace{8\baselineskip}
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) $-32$ (b) $-16$ (c) $\tfrac{27}{8}$ (d) $1$ y $-1$ (e) $0.001$.
+\item $10$ divisiones: $2^{10}=1024$ células. La mitad, $2^{9}=512$, a las $4.5$ horas.
+\item (a) $\tfrac1{x^{3}}$ (b) $a^{7}$ (c) $\tfrac{4m^{6}}{n^{4}}$ (d) $\tfrac{p^{3}}{8q^{6}}$.
+\item (a) $4.5\times10^{-7}$; $6.02\times10^{9}$. (b) $12\times10^{-3}=1.2\times10^{-2}$.
+      (c) $9.45\times10^{12}$ km.
+\item (a) $-5$ (b) $3$ (c) no es real: índice par y radicando negativo (d) $-2$ (e) $0.3$.
+\item (a) $(\sqrt[3]{27})^2=9$ (b) $\tfrac1{(\sqrt[5]{32})^2}=\tfrac14$ (c) $\left(\tfrac23\right)^3=\tfrac8{27}$
+      (d) $x^{2/3+1/2}=x^{7/6}$.
+\item (a) $\sqrt{16}=4=\abs{x}\neq x$. (b) No: $\sqrt{25}=5\neq7$. (c) $\sqrt{1024+576}=\sqrt{1600}=40$ pulgadas.
+\item (a) $6\sqrt5$ (b) $3\sqrt[3]{2}$ (c) $5\sqrt2-3\sqrt2+2\sqrt2=4\sqrt2$ (d) $\sqrt{90}=3\sqrt{10}$.
+\item (a) $2\sqrt3$ (b) $\tfrac{10\sqrt[3]{25}}{5}=2\sqrt[3]{25}$ (c) $\tfrac{4(\sqrt7+\sqrt3)}{7-3}=\sqrt7+\sqrt3$
+      (d) $\tfrac{(1+\sqrt2)(3+\sqrt2)}{9-2}=\tfrac{5+4\sqrt2}{7}$.
+\item (a) En $(0,0)$ y $(1,1)$. (b) Para $0<x<1$, $\sqrt x>x^{2}$; para $x>1$, $x^{2}>\sqrt x$. (c) Son simétricas
+      respecto a la recta $y=x$: para $x\ge0$ cada una deshace a la otra (son inversas).
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

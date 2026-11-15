@@ -1,0 +1,399 @@
+% Resumen del mundo «Río de las Asíntotas» (Álgebra, mundo 9: expresiones racionales y fracciones parciales).
+% Lecciones alg-25a, alg-25b, alg-101, alg-102. Ejemplos de los videos (el sendero de Beto, el estanque de Ana y Beto,
+% el bote de Caro y la curva de dos ríos); el taller trae ejercicios nuevos (no repite los de la app, del jefe ni de la evaluación).
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{algebra}
+\zukamundo{9}{Río de las Asíntotas}{Expresiones racionales y fracciones parciales}
+
+\newcommand{\gr}{\operatorname{gr}}
+\newcommand{\Dom}{\operatorname{Dom}}
+
+\begin{document}
+
+\portada{%
+Una \clave{expresión racional} es una fracción de polinomios. Casi siempre se comporta bien, pero donde el
+denominador se anula aparece un \clave{río}: la curva se dispara junto a una asíntota. En este mundo aprendiste a
+decidir dónde existe una fracción algebraica, a simplificarla y operarla, a resolver sistemas de ecuaciones y a
+partir una fracción en fracciones parciales. Este resumen reúne las definiciones y los ejemplos de los videos, y
+termina con un taller de práctica.}{%
+\item \textbf{Nivel 9-1.} Dominio y simplificación: denominador distinto de cero, cancelar factores, asíntotas y huecos.
+\item \textbf{Nivel 9-2.} Operaciones con fracciones algebraicas: producto, cociente, suma con denominador común y fracciones complejas.
+\item \textbf{Nivel 9-3.} Sistemas de ecuaciones lineales: interpretación gráfica, reducción, sustitución, igualación y escalonamiento.
+\item \textbf{Nivel 9-4.} Sistemas no lineales y fracciones parciales.}
+
+\begin{clavebox}[LAS TRES IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\qquad}c@{\qquad}c@{}}
+$\dfrac{P(x)}{Q(x)}$ con $Q(x)\neq0$ & $\dfrac{A\,C}{B\,C}=\dfrac{A}{B}$ & solución $=$ punto de corte\\[2pt]
+\small nunca se divide entre cero & \small se cancela lo que multiplica & \small dos condiciones a la vez
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{9-1}{Dominio y simplificación}
+
+Beto camina por un sendero junto al río. El sendero sigue una fracción de polinomios,
+\[ f(x)=\frac{x^2-1}{x^2+2x-3}, \]
+pero en dos puntos la fórmula falla.
+
+\begin{definicion}[Expresión racional y dominio]
+Una \clave{expresión racional} es un cociente $\dfrac{P(x)}{Q(x)}$ de polinomios, con $Q$ distinto del polinomio cero.
+Su \clave{dominio} es el conjunto de los reales donde el denominador no se anula:
+\[ \Dom=\conjunto{x\in\R \tq Q(x)\neq 0}. \]
+\end{definicion}
+\textbf{Por qué no se divide entre cero.} $6\div 2=3$ porque $2\cdot3=6$. Para $6\div0$ habría que hallar un número
+que multiplicado por $0$ dé $6$, y no existe ninguno.
+
+\begin{propiedad}[Simplificar]
+Si $C(x)\neq0$, entonces $\dfrac{A(x)\,C(x)}{B(x)\,C(x)}=\dfrac{A(x)}{B(x)}$. Se factoriza arriba y abajo y se
+cancelan \emph{factores} comunes. El dominio se lee siempre en la expresión \emph{original}.
+\end{propiedad}
+
+\begin{ejemplo}[El sendero de Beto]
+Se factoriza arriba y abajo:
+\[ \frac{x^2-1}{x^2+2x-3}=\frac{(x-1)(x+1)}{(x-1)(x+3)}=\frac{x+1}{x+3},\qquad x\neq1,\ x\neq-3 . \]
+El denominador original se anula en $x=1$ y en $x=-3$, así que $\Dom=\R\setminus\{-3,\,1\}$. Pero los dos puntos
+no fallan igual:
+\begin{itemize}
+\item En $x=-3$ solo se anula el denominador: la expresión se dispara. Hay una \clave{asíntota vertical} (el río).
+\item En $x=1$ se anulan los dos y el factor $x-1$ se cancela: la gráfica es la de $\frac{x+1}{x+3}$ con un
+      \clave{hueco} en $\left(1,\tfrac{2}{4}\right)=\left(1,\tfrac12\right)$.
+\end{itemize}
+\end{ejemplo}
+
+\begin{minipage}[c]{0.48\linewidth}
+\begin{definicion}[Asíntotas]
+La recta $x=a$ es \clave{asíntota vertical} si $\abs{f(x)}$ crece sin límite cuando $x$ se acerca a $a$; en una
+fracción simplificada, ocurre donde se anula el denominador.\par\smallskip
+La recta $y=L$ es \clave{asíntota horizontal} si $f(x)$ se acerca a $L$ cuando $\abs{x}$ crece sin límite.
+\end{definicion}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.48\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=7.4cm,height=5.8cm,xmin=-7,xmax=4,ymin=-6,ymax=6,
+  xtick={-6,-3,3},ytick={-4,1,4},xlabel={$x$},ylabel={$y$},
+  xlabel style={at={(ticklabel* cs:1)},anchor=north west},ylabel style={at={(ticklabel* cs:1)},anchor=south west}]
+  \addplot[zcoral,dashed,line width=0.9pt] coordinates {(-3,-6) (-3,6)};
+  \addplot[zmute,dashed,line width=0.9pt] coordinates {(-7,1) (4,1)};
+  \addplot[zaccent,domain=-7:-3.4,samples=80] {(x+1)/(x+3)};
+  \addplot[zaccent,domain=-2.714:4,samples=120] {(x+1)/(x+3)};
+  \addplot[only marks,mark=*,mark size=2.4pt,fill=white,draw=zaccent,line width=1pt] coordinates {(1,0.5)};
+  \node[font=\footnotesize,text=zcoral,anchor=west] at (axis cs:-2.9,-5.2) {$x=-3$};
+  \node[font=\footnotesize,text=zmute,anchor=north] at (axis cs:-5.5,0.85) {$y=1$};
+  \draw[zmute,line width=0.6pt] (axis cs:1.15,0.3) -- (axis cs:2.2,-1.8) node[below,font=\footnotesize,text=zink] {hueco};
+\end{axis}
+\end{tikzpicture}
+
+{\small\color{zmute}$y=\frac{x^2-1}{x^2+2x-3}$: un río en $x=-3$ y un hueco en $x=1$.}
+\end{minipage}
+
+\begin{propiedad}[Asíntota horizontal de $\frac{P}{Q}$, con $\gr P=n$ y $\gr Q=m$]
+Si $n<m$, la asíntota es $y=0$. Si $n=m$, es $y=\dfrac{\text{coef.\ principal de }P}{\text{coef.\ principal de }Q}$.
+Si $n>m$, no hay asíntota horizontal.
+\end{propiedad}
+En el sendero, $n=m=2$ y la asíntota es $y=\frac11=1$: para $x$ enorme, los números sueltos dejan de pesar.
+
+\begin{ojo}[Solo se cancelan factores]
+$\dfrac{x+5}{5}\neq x$: el $5$ de arriba está \emph{sumando}, no multiplica a todo el numerador. Y
+$\dfrac{x^2+3}{x^2}\neq 3$ por la misma razón. Antes de cancelar, factoriza.
+\end{ojo}
+
+%=====================================================================
+\nivel{9-2}{Operaciones con fracciones algebraicas}
+
+Ana sola llena el estanque en $3$ horas; Beto solo, en $6$. ¿Cuánto tardan juntos? No es el promedio: con ayuda,
+Ana tardaría \emph{menos} de $3$ horas.
+
+\begin{ejemplo}[El estanque, con números]
+Se piensa en cuánto llena cada uno \emph{por hora}: Ana $\frac13$ de estanque y Beto $\frac16$. Con el denominador
+común $6$:
+\[ \frac13+\frac16=\frac26+\frac16=\frac36=\frac12\ \text{ de estanque por hora}. \]
+Para llenar un estanque entero: $1\div\frac12=2$ horas.
+\end{ejemplo}
+
+\begin{figura}[Por hora, Ana llena dos sextos del estanque y Beto uno: juntos, la mitad.]
+\begin{tikzpicture}[x=1.4cm,y=1cm]
+  \fill[zsky!45] (0,0) rectangle (2,0.8);
+  \fill[zsun!55] (2,0) rectangle (3,0.8);
+  \foreach \i in {0,...,6} \draw[zink,line width=0.6pt] (\i,0) -- (\i,0.8);
+  \draw[zink,line width=0.9pt] (0,0) rectangle (6,0.8);
+  \draw[decorate,decoration={brace,amplitude=5pt,mirror},zmute] (0,-0.1) -- (2,-0.1) node[midway,below=5pt,font=\footnotesize,text=zink] {Ana: $\tfrac13=\tfrac26$};
+  \draw[decorate,decoration={brace,amplitude=5pt,mirror},zmute] (2,-0.1) -- (3,-0.1) node[midway,below=5pt,font=\footnotesize,text=zink] {Beto: $\tfrac16$};
+  \draw[decorate,decoration={brace,amplitude=5pt},zmute] (0,0.9) -- (3,0.9) node[midway,above=5pt,font=\footnotesize,text=zink] {juntos: $\tfrac36=\tfrac12$};
+  \node[font=\footnotesize,text=zmute,anchor=west] at (6.1,0.4) {un estanque};
+\end{tikzpicture}
+\end{figura}
+
+\begin{propiedad}[Las cuatro operaciones]
+Para expresiones con denominadores no nulos:
+\[
+\frac{A}{B}\cdot\frac{C}{D}=\frac{AC}{BD},\qquad
+\frac{A}{B}\div\frac{C}{D}=\frac{A}{B}\cdot\frac{D}{C}\ (C\neq0),\qquad
+\frac{A}{B}\pm\frac{C}{B}=\frac{A\pm C}{B}.
+\]
+Para sumar o restar con denominadores distintos se usa el \clave{mínimo común denominador} (mcd): se factoriza cada
+denominador y se toma cada factor una vez, con su mayor exponente; luego cada fracción se amplifica por lo que le falta.
+\end{propiedad}
+
+\begin{ejemplo}[El estanque, con letras]
+Si Ana tarda $x$ horas y Beto $3$ horas más, por hora llenan $\frac1x$ y $\frac1{x+3}$. El mcd es $x(x+3)$:
+\[ \frac1x+\frac1{x+3}=\frac{x+3}{x(x+3)}+\frac{x}{x(x+3)}=\frac{2x+3}{x(x+3)} . \]
+El tiempo juntos es $1$ entre esa suma: se voltea la fracción,
+\[ T(x)=\frac{x(x+3)}{2x+3}. \qquad\text{Con }x=3:\quad T=\frac{3\cdot6}{9}=2\text{ horas, como con números.} \]
+\end{ejemplo}
+
+\begin{ejemplo}[Una fracción compleja]
+Se resuelve arriba y abajo por separado y luego se divide:
+\[ \frac{1+\frac1x}{1-\frac1{x^2}}=\frac{\frac{x+1}{x}}{\frac{x^2-1}{x^2}}=\frac{x+1}{x}\cdot\frac{x^2}{(x-1)(x+1)}=\frac{x}{x-1},
+\qquad x\neq0,\ \pm1 . \]
+\end{ejemplo}
+
+\begin{ojo}[Errores al operar]
+\begin{itemize}
+\item $\dfrac{a}{b}+\dfrac{c}{d}\neq\dfrac{a+c}{b+d}$: con $\frac12+\frac12$ saldría $\frac24$, ¡menos que uno!
+\item Al restar, el signo afecta a \emph{todo} el numerador: $\dfrac{A}{B}-\dfrac{C+D}{B}=\dfrac{A-C-D}{B}$.
+\item $2-x$ y $x-2$ no son iguales sino opuestos: $2-x=-(x-2)$.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\nivel{9-3}{Sistemas de ecuaciones lineales}
+
+Caro navega por el río. A favor de la corriente va a $\SI{15}{km/h}$; en contra, solo a $\SI{9}{km/h}$. Si $v$ es la
+velocidad del bote y $c$ la de la corriente:
+\[ \begin{cases} v+c=15\\ v-c=9 \end{cases} \]
+
+\begin{minipage}[c]{0.5\linewidth}
+Con una sola pista no alcanza: $v+c=15$ tiene muchas soluciones ($10$ y $5$, $12$ y $3$, $14$ y $1$\dots), y todas
+forman una \clave{recta}. La segunda pista es otra recta. Solo el punto donde se \clave{cortan} cumple las dos:
+$v=12$, $c=3$.
+\begin{definicion}[Solución de un sistema]
+Una \clave{solución} de un sistema es una asignación de valores a las incógnitas que cumple \emph{todas} las
+ecuaciones a la vez.
+\end{definicion}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=7cm,height=5.6cm,xmin=0,xmax=18,ymin=-2,ymax=10,
+  xtick={3,6,9,12,15},ytick={3,6,9},xlabel={$v$},ylabel={$c$},
+  xlabel style={at={(ticklabel* cs:1)},anchor=north west},ylabel style={at={(ticklabel* cs:1)},anchor=south west}]
+  \addplot[zsky,domain=5:17.5] {15-x};
+  \addplot[zcoral,domain=7.5:18] {x-9};
+  \addplot[only marks,mark=*,mark size=2.4pt,zink] coordinates {(12,3)};
+  \node[font=\footnotesize,text=zsky,anchor=west] at (axis cs:7.6,8) {$v+c=15$};
+  \node[font=\footnotesize,text=zcoral,anchor=east] at (axis cs:14.8,6.5) {$v-c=9$};
+  \node[font=\footnotesize,text=zink,anchor=west] at (axis cs:12.4,3.4) {$(12,3)$};
+\end{axis}
+\end{tikzpicture}
+\end{minipage}
+
+\subsection{Tres caminos sin dibujar}
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}l L L@{}}
+\toprule
+Método & Idea & Con el bote de Caro\\ \midrule
+Reducción & sumar o restar ecuaciones para que una incógnita desaparezca & sumando: $2v=24$, $v=12$; luego $c=3$\\
+Sustitución & despejar una incógnita y reemplazarla en la otra ecuación & $v=15-c$ en la segunda: $15-2c=9$, $c=3$\\
+Igualación & despejar la misma incógnita en las dos e igualar & $15-c=9+c$, así que $c=3$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{¿Cuántas soluciones?}
+\begin{figura}[Dos rectas del plano: se cortan, son paralelas o son la misma.]
+\begin{tikzpicture}[scale=0.8]
+  \foreach \x/\t/\s in {0/{una solución}/{se cortan},5.5/{ninguna}/{paralelas distintas},11/{infinitas}/{la misma recta}} {
+    \draw[zline] (\x-2,-1.4) rectangle (\x+2,1.4);
+    \node[font=\small\bfseries] at (\x,-1.9) {\t};
+    \node[font=\footnotesize,text=zmute] at (\x,-2.45) {\s};}
+  \draw[zsky,line width=1.2pt] (-1.8,-1.1) -- (1.8,1.1);
+  \draw[zcoral,line width=1.2pt] (-1.8,1.0) -- (1.8,-1.0);
+  \fill[zink] (0,0) circle (2.2pt);
+  \draw[zsky,line width=1.2pt] (3.7,-1.2) -- (6.6,1.2);
+  \draw[zcoral,line width=1.2pt] (4.4,-1.2) -- (7.3,1.2);
+  \draw[zsky,line width=2.6pt] (9.2,-1.1) -- (12.8,1.1);
+  \draw[zcoral,line width=1.1pt,dashed] (9.2,-1.1) -- (12.8,1.1);
+\end{tikzpicture}
+\end{figura}
+En $a_1x+b_1y=c_1$, $a_2x+b_2y=c_2$: si $\frac{a_1}{a_2}=\frac{b_1}{b_2}$, las rectas son paralelas; no hay solución
+si además $\frac{c_1}{c_2}$ es distinto, y hay infinitas si también coincide (una ecuación es múltiplo de la otra).
+
+\subsection{Tres incógnitas: la escalera}
+\begin{ejemplo}[Escalonar un sistema $3\times3$]
+\[
+\begin{cases} x+y+z=9\\ 2x-y+z=7\\ x+2y-z=8 \end{cases}
+\xrightarrow[\;E_3-E_1\;]{\;E_2-2E_1\;}
+\begin{cases} x+y+z=9\\ -3y-z=-11\\ y-2z=-1 \end{cases}
+\xrightarrow{\;E_2+3E_3\;}
+\begin{cases} x+y+z=9\\ y-2z=-1\\ -7z=-14 \end{cases}
+\]
+Abajo queda $z=2$. Un escalón arriba, $y=-1+2z=3$. Arriba, $x=9-3-2=4$. Comprobación en la segunda ecuación:
+$2(4)-3+2=7$.
+\end{ejemplo}
+
+\begin{ojo}[Comprueba siempre]
+Reemplaza la solución en \emph{todas} las ecuaciones originales, no solo en la última que usaste. Y si al reducir
+aparece $0=5$, el sistema no tiene solución; si aparece $0=0$, tiene infinitas.
+\end{ojo}
+
+%=====================================================================
+\nivel{9-4}{Sistemas no lineales y fracciones parciales}
+
+\subsection{Sistemas no lineales}
+\begin{minipage}[c]{0.52\linewidth}
+¿Dónde se cortan una orilla curva, $y=x^2$, y un puente recto, $y=2x+3$? Donde las dos alturas son iguales:
+\begin{align*}
+x^2&=2x+3\\
+x^2-2x-3&=0\\
+(x-3)(x+1)&=0 .
+\end{align*}
+Con $x=3$, $y=9$; con $x=-1$, $y=1$. Los cortes son $(3,9)$ y $(-1,1)$. En general se \clave{despeja una incógnita}
+de la ecuación más sencilla y se \clave{sustituye} en la otra; el discriminante de la cuadrática que resulta dice si
+hay dos, uno o ningún corte.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=6.6cm,height=6cm,xmin=-2.6,xmax=4,ymin=-2,ymax=12,
+  xtick={1,3},ytick={1,5,9},xlabel={$x$},ylabel={$y$},
+  xlabel style={at={(ticklabel* cs:1)},anchor=north west},ylabel style={at={(ticklabel* cs:1)},anchor=south west}]
+  \addplot[zaccent,domain=-2.5:3.45,samples=100] {x^2};
+  \addplot[zcoral,domain=-2.5:4] {2*x+3};
+  \addplot[only marks,mark=*,mark size=2.4pt,zink] coordinates {(3,9) (-1,1)};
+  \node[font=\footnotesize,text=zink,anchor=east] at (axis cs:2.85,9.6) {$(3,9)$};
+  \node[font=\footnotesize,text=zink,anchor=north] at (axis cs:-1,-0.4) {$(-1,1)$};
+  \node[font=\footnotesize,text=zaccent,anchor=west] at (axis cs:-2.4,10.8) {$y=x^2$};
+  \node[font=\footnotesize,text=zcoral,anchor=west] at (axis cs:0.2,11.4) {$y=2x+3$};
+\end{axis}
+\end{tikzpicture}
+\end{minipage}
+
+\subsection{Fracciones parciales}
+Beto dibuja el mapa del río: una curva enredada entre dos ríos, en $x=1$ y $x=-1$,
+\[ g(x)=\frac{3x+1}{x^2-1}. \]
+Esa curva esconde un secreto: es la suma de dos fracciones sencillas. Partirla es el camino inverso de sumar.
+
+\begin{definicion}[Descomposición en fracciones parciales]
+Si $\frac{P}{Q}$ es \clave{propia} ($\gr P<\gr Q$), se factoriza $Q$ en factores lineales y cuadráticos irreducibles,
+y cada factor aporta fracciones según esta tabla:
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Factor de $Q$ & Fracciones que aporta\\ \midrule
+$(x-a)$, lineal & $\dfrac{A}{x-a}$\\[8pt]
+$(x-a)^k$, lineal repetido & $\dfrac{A_1}{x-a}+\dfrac{A_2}{(x-a)^2}+\dots+\dfrac{A_k}{(x-a)^k}$\\[8pt]
+$ax^2+bx+c$, irreducible ($b^2-4ac<0$) & $\dfrac{Bx+C}{ax^2+bx+c}$\\[6pt]
+\bottomrule
+\end{tabular}
+\end{center}
+\end{definicion}
+
+\begin{ejemplo}[La curva de dos ríos]
+Como $x^2-1=(x-1)(x+1)$, se busca
+\[ \frac{3x+1}{(x-1)(x+1)}=\frac{A}{x-1}+\frac{B}{x+1}\quad\Longrightarrow\quad 3x+1=A(x+1)+B(x-1). \]
+\textbf{Comparando coeficientes:} $3x+1=(A+B)x+(A-B)$, así que $A+B=3$ y $A-B=1$: $A=2$, $B=1$.\par
+\textbf{Con valores que anulan factores:} $x=1$ da $4=2A$, $A=2$; $x=-1$ da $-2=-2B$, $B=1$.
+\[ \frac{3x+1}{x^2-1}=\frac{2}{x-1}+\frac{1}{x+1}. \]
+\end{ejemplo}
+
+\begin{ojo}[Antes de partir]
+Si la fracción no es propia ($\gr P\ge\gr Q$), primero se divide: $\frac{P}{Q}=C(x)+\frac{R}{Q}$, y solo se parte
+$\frac{R}{Q}$. Y un factor repetido necesita \emph{una fracción por cada potencia}: $\frac{1}{(x-1)^2}$ no se
+escribe solo como $\frac{A}{(x-1)^2}$ cuando acompaña a otros factores.
+\end{ojo}
+
+%=====================================================================
+\clearpage
+\repaso
+\begin{center}\renewcommand{\arraystretch}{1.55}
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+Idea & Fórmula o regla\\ \midrule
+Dominio de $\frac{P}{Q}$ & $\conjunto{x\in\R\tq Q(x)\neq0}$, leído en la expresión original\\
+Simplificar & $\frac{AC}{BC}=\frac{A}{B}$ si $C\neq0$; solo se cancelan factores\\
+Asíntota vertical & ceros del denominador que no se cancelan; los que se cancelan dan huecos\\
+Asíntota horizontal & $n<m$: $y=0$;\quad $n=m$: cociente de coeficientes principales;\quad $n>m$: no hay\\
+Producto y cociente & $\frac{A}{B}\cdot\frac{C}{D}=\frac{AC}{BD}$,\quad $\frac{A}{B}\div\frac{C}{D}=\frac{A}{B}\cdot\frac{D}{C}$\\
+Suma y resta & mcd: cada factor una vez con su mayor exponente; se amplifica lo que falta\\
+Sistema lineal $2\times2$ & corte de dos rectas: una, ninguna o infinitas soluciones\\
+Métodos & reducción, sustitución, igualación; escalonar en $3\times3$\\
+Sistema no lineal & despejar, sustituir y resolver la ecuación que queda\\
+Fracciones parciales & $\frac{A}{x-a}$;\quad $\frac{A_1}{x-a}+\dots+\frac{A_k}{(x-a)^k}$;\quad $\frac{Bx+C}{ax^2+bx+c}$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Cancelar términos que se suman: $\frac{x+5}{5}\neq x$.
+\item Dar el dominio de la expresión ya simplificada y olvidar el valor del factor cancelado.
+\item Sumar numeradores con numeradores y denominadores con denominadores.
+\item Olvidar el paréntesis al restar una fracción cuyo numerador tiene varios términos.
+\item No comprobar la solución en todas las ecuaciones del sistema.
+\item Partir una fracción impropia sin dividir antes, o poner una constante sobre un factor cuadrático.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Halla el dominio y simplifica:
+  \begin{ejercicios}
+  \item $\dfrac{x^2-5x+6}{x^2-9}$ \qquad (b) $\dfrac{2x^2+6x}{x^2+6x+9}$ \qquad (c) $\dfrac{x^3-8}{x-2}$
+  \end{ejercicios}
+\item Sea $f(x)=\dfrac{x^2-x-2}{x^2-4}$.
+  \begin{ejercicios}
+  \item Halla su dominio, sus asíntotas y su hueco (con sus coordenadas).
+  \item Dibuja la gráfica de $f$ marcando las asíntotas con líneas punteadas y el hueco con un círculo vacío.
+  \end{ejercicios}
+\item Efectúa y simplifica:
+  \begin{ejercicios}
+  \item $\dfrac{x^2-1}{x^2+2x}\cdot\dfrac{x}{x+1}$ \qquad (b) $\dfrac{x^2-4}{3x}\div\dfrac{x+2}{6x^2}$
+  \end{ejercicios}
+\item Efectúa y simplifica:
+  \begin{ejercicios}
+  \item $\dfrac{3}{x-2}-\dfrac{2}{x+1}$ \qquad (b) $\dfrac{x}{x^2-1}+\dfrac{1}{x+1}$
+  \end{ejercicios}
+\item Simplifica la fracción compleja $\dfrac{\frac1x-\frac1y}{\frac1{x^2}-\frac1{y^2}}$.
+\item Una llave llena un tanque en $4$ horas y un desagüe lo vacía en $6$ horas. Si el tanque está vacío y se abren
+  los dos a la vez, ¿en cuánto tiempo se llena?
+\item Para cada sistema, di si tiene una, ninguna o infinitas soluciones y, si tiene una, hállala.
+  \begin{ejercicios}
+  \item $3x-2y=4,\quad 5x+3y=13$
+  \item $2x-4y=6,\quad -x+2y=3$
+  \item $6x+9y=12,\quad 2x+3y=4$
+  \end{ejercicios}
+\item A una función de teatro entraron $100$ personas y se recaudaron $\$900\,000$. La boleta de adulto cuesta
+  $\$12\,000$, la de estudiante $\$8\,000$ y la de niño $\$5\,000$. Entraron el doble de estudiantes que de niños.
+  Plantea un sistema de tres ecuaciones y halla cuántas boletas de cada tipo se vendieron.
+\item Sistemas no lineales.
+  \begin{ejercicios}
+  \item Resuelve el sistema $x^2+y^2=25$, $\ x+y=7$ e interpreta la respuesta en una gráfica (una circunferencia y una recta).
+  \item ¿Para qué valor de $b$ la recta $y=2x+b$ toca la parábola $y=x^2$ en un solo punto?
+  \end{ejercicios}
+\item Descompón en fracciones parciales:
+  \begin{ejercicios}
+  \item $\dfrac{5x}{x^2+x-6}$ \qquad (b) $\dfrac{3x+5}{(x+1)^2}$ \qquad (c) $\dfrac{2x^2+x+3}{(x+1)\left(x^2+1\right)}$
+  \end{ejercicios}
+\end{ejercicios}
+
+\clearpage
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) $x\neq\pm3$; $\dfrac{x-2}{x+3}$. (b) $x\neq-3$; $\dfrac{2x}{x+3}$. (c) $x\neq2$; $x^2+2x+4$.
+\item (a) $f(x)=\dfrac{(x-2)(x+1)}{(x-2)(x+2)}=\dfrac{x+1}{x+2}$, dominio $\R\setminus\{\pm2\}$; asíntotas $x=-2$ y
+  $y=1$; hueco en $\left(2,\tfrac34\right)$. (b) Hipérbola con ramas a los lados de $x=-2$; corta los ejes en
+  $(-1,0)$ y $\left(0,\tfrac12\right)$; para $x>-2$ queda por debajo de $y=1$ y para $x<-2$, por encima.
+\item (a) $\dfrac{x-1}{x+2}$, con $x\neq0,-1,-2$. (b) $2x(x-2)$, con $x\neq0,-2$.
+\item (a) $\dfrac{x+7}{(x-2)(x+1)}$. (b) $\dfrac{2x-1}{x^2-1}$.
+\item $\dfrac{xy}{x+y}$ (con $x\neq\pm y$, $x,y\neq0$).
+\item Por hora: $\frac14-\frac16=\frac1{12}$ de tanque; se llena en $12$ horas.
+\item (a) Una: $(2,1)$. (b) Ninguna: $x-2y=3$ y $x-2y=-3$ son paralelas. (c) Infinitas: la primera es el triple de la segunda.
+\item $a+e+n=100$, $12a+8e+5n=900$ (en miles), $e=2n$. Solución: $40$ adultos, $40$ estudiantes y $20$ niños.
+\item (a) $y=7-x$ da $x^2-7x+12=0$: los puntos $(3,4)$ y $(4,3)$, donde la recta corta la circunferencia de radio $5$.
+  (b) $x^2-2x-b=0$ con discriminante $4+4b=0$: $b=-1$ (tangente en $(1,1)$).
+\item (a) $\dfrac{2}{x-2}+\dfrac{3}{x+3}$. (b) $\dfrac{3}{x+1}+\dfrac{2}{(x+1)^2}$. (c) $\dfrac{2}{x+1}+\dfrac{1}{x^2+1}$.
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

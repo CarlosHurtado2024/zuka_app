@@ -1,0 +1,728 @@
+% Resumen del mundo «Mar de las Ondas» (Trigonometría, mundo 1). Lecciones trig-41a, trig-41b, trig-1, trig-2,
+% trig-42c, trig-3, trig-43b, trig-44a, trig-44b. Usa los ejemplos de los videos T1–T9; el taller trae ejercicios nuevos.
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{trig}
+\zukamundo{1}{Mar de las Ondas}{Funciones trigonométricas, propiedades y gráficas}
+
+% Marcas de pi para los ejes de pgfplots
+\pgfplotsset{pitick/.style={xtick={0,1.5708,3.1416,4.7124,6.2832},
+  xticklabels={$0$,$\frac{\pi}{2}$,$\pi$,$\frac{3\pi}{2}$,$2\pi$}}}
+\pgfplotsset{onda/.style={zplot,width=0.78\linewidth,height=5cm,samples=160,
+  xmin=-0.3,xmax=6.9,clip=false,legend style={font=\footnotesize,draw=zline,fill=white,at={(1.03,1)},anchor=north west},
+  legend cell align=left}}
+
+% Un nivel no empieza al pie de una página
+\usepackage{needspace}
+\let\nivelorig\nivel
+\renewcommand{\nivel}[2]{\Needspace{8\baselineskip}\nivelorig{#1}{#2}}
+% Cajas que no se parten (dentro de minipáginas)
+\newcommand{\sinpartir}{\tcbset{zbase/.append style={unbreakable}}}
+
+\begin{document}
+
+\portada{%
+La trigonometría nació para medir lo que no se alcanza con una regla: la altura de un árbol, la distancia a un barco,
+el camino de una rueda. En este mundo aprendiste a medir ángulos, a usar las razones de un triángulo rectángulo y a
+llevarlas a la circunferencia unitaria, donde se convierten en funciones que dibujan ondas. Este resumen reúne las
+definiciones, las fórmulas y los ejemplos de los videos, y termina con un taller de práctica.}{%
+\item \textbf{Nivel 1-1.} Grados y radianes: posición estándar, conversión, coterminales, complementos y suplementos.
+\item \textbf{Nivel 1-2.} Arco, sector y movimiento circular: $s=r\theta$, $A=\tfrac12r^2\theta$ y $v=r\omega$.
+\item \textbf{Nivel 1-3.} SOH · CAH · TOA: seno, coseno y tangente en el triángulo rectángulo.
+\item \textbf{Nivel 1-4.} Ángulos notables: $30^\circ$, $45^\circ$ y $60^\circ$ con valores exactos.
+\item \textbf{Nivel 1-5.} Las seis razones y la medición indirecta: elevación y depresión.
+\item \textbf{Nivel 1-6.} La circunferencia unitaria: $P(t)=(\cos t,\sen t)$ para cualquier número real.
+\item \textbf{Nivel 1-7.} Signos por cuadrante, ángulo de referencia y paridad.
+\item \textbf{Nivel 1-8.} Gráficas de seno y coseno: amplitud y línea media.
+\item \textbf{Nivel 1-9.} Periodo, desfase y la gráfica de la tangente.}
+
+\begin{clavebox}[LAS TRES IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\quad}c@{\quad}c@{}}
+$\displaystyle 180^\circ=\pi\ \text{rad}$ & $\displaystyle \sen\theta=\frac{\text{op}}{\text{hip}},\ \cos\theta=\frac{\text{ady}}{\text{hip}}$ & $\displaystyle P(t)=(\cos t,\ \sen t)$\\[2pt]
+\small la llave entre las medidas & \small la razón depende solo del ángulo & \small el punto que gira dibuja ondas
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{1-1}{Grados y radianes}
+
+\begin{definicion}[Ángulo en posición estándar]
+Un \clave{ángulo} es un giro. Está en \clave{posición estándar} si su vértice está en el origen y su
+\emph{lado inicial} está sobre el eje $x$ positivo. El \emph{lado terminal} es el que gira: si gira en sentido
+contrario a las manecillas del reloj el ángulo es \clave{positivo}; si gira como las manecillas, es \clave{negativo}.
+\end{definicion}
+
+\begin{figura}[Izquierda: $135^\circ$ en posición estándar. Derecha: un radián abarca un arco tan largo como el radio.]
+\begin{tikzpicture}[scale=1.0]
+  \draw[->,zmute] (-1.7,0)--(1.8,0) node[right,etq]{$x$};
+  \draw[->,zmute] (0,-0.6)--(0,1.6) node[above,etq]{$y$};
+  \draw[zaccent,line width=1.4pt] (0,0)--(1.45,0);
+  \draw[zink,line width=1.4pt] (0,0)--(135:1.5);
+  \draw[->,zcoral,thick] (0.42,0) arc (0:135:0.42);
+  \node[etq] at (70:0.72) {$135^\circ$};
+  \node[font=\footnotesize,text=zmute,below] at (1.0,0) {lado inicial};
+  \node[font=\footnotesize,text=zmute,anchor=east] at (135:1.55) {lado terminal};
+  \node[font=\footnotesize,text=zmute,below left] at (0,0) {vértice};
+\end{tikzpicture}\hspace{14mm}
+\begin{tikzpicture}[scale=1.0]
+  \draw[zline,line width=0.8pt] (0,0) circle (1.3);
+  \fill[zaccent!15] (0,0)--(0:1.3) arc (0:57.2958:1.3)--cycle;
+  \draw[zink,line width=1.1pt] (0,0)--(1.3,0);
+  \draw[zink,line width=1.1pt] (0,0)--(57.2958:1.3);
+  \draw[zcoral,line width=2.2pt] (0:1.3) arc (0:57.2958:1.3);
+  \node[etq,below] at (0.65,0) {$r$};
+  \node[etq,text=zcoral] at (28.6:1.55) {$r$};
+  \draw[zmute] (0.32,0) arc (0:57.2958:0.32);
+  \node[font=\footnotesize] at (28:0.6) {$1$ rad};
+  \fill[zink] (0,0) circle (1pt);
+\end{tikzpicture}
+\end{figura}
+
+\begin{definicion}[Grado y radián]
+Un \clave{grado} ($1^\circ$) es $\tfrac{1}{360}$ de vuelta; se divide en $60$ minutos ($1^\circ=60'$) y cada minuto en
+$60$ segundos ($1'=60''$). Un \clave{radián} es el ángulo central que abarca un arco de longitud igual al radio.
+En una vuelta caben $2\pi\approx 6.28$ radios a lo largo del borde (seis y un pedacito de $0.28$), así que
+$360^\circ=2\pi$ rad y $180^\circ=\pi$ rad.
+\end{definicion}
+
+\begin{propiedad}[Conversión]
+\[ \theta_{\text{rad}}=\theta_{\text{grados}}\cdot\frac{\pi}{180^\circ},\qquad
+   \theta_{\text{grados}}=\theta_{\text{rad}}\cdot\frac{180^\circ}{\pi},\qquad
+   1\ \text{rad}=\frac{180^\circ}{\pi}\approx 57.3^\circ. \]
+\end{propiedad}
+
+\begin{ejemplo}[Del video: con intuición y con fórmula]
+$120^\circ$ son dos de las tres tajadas de $60^\circ$ en que se parte media vuelta: $120^\circ=\tfrac{2\pi}{3}$ (con la
+fórmula, $120\cdot\tfrac{\pi}{180}=\tfrac{2\pi}{3}$). Al revés, $\tfrac{\pi}{4}$ es la cuarta parte de $180^\circ$, o sea
+$45^\circ$, y $\tfrac{5\pi}{4}=5\cdot45^\circ=225^\circ$.
+\end{ejemplo}
+
+\begin{center}\small
+\begin{tabular}{@{}l*{11}{c}@{}}
+\toprule
+Grados & $0^\circ$ & $30^\circ$ & $45^\circ$ & $60^\circ$ & $90^\circ$ & $120^\circ$ & $135^\circ$ & $150^\circ$ & $180^\circ$ & $270^\circ$ & $360^\circ$\\
+Radianes & $0$ & $\frac{\pi}{6}$ & $\frac{\pi}{4}$ & $\frac{\pi}{3}$ & $\frac{\pi}{2}$ & $\frac{2\pi}{3}$ & $\frac{3\pi}{4}$ & $\frac{5\pi}{6}$ & $\pi$ & $\frac{3\pi}{2}$ & $2\pi$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Coterminales, complementos y suplementos}
+\begin{definicion}[Coterminales, complementarios y suplementarios]
+Dos ángulos son \clave{coterminales} si tienen el mismo lado terminal; difieren en vueltas completas:
+$\theta+360^\circ k$ o $\theta+2\pi k$, con $k\in\Z$. Son \clave{complementarios} si suman $90^\circ$ (forman una
+esquina) y \clave{suplementarios} si suman $180^\circ$ (forman una línea recta).
+\end{definicion}
+\begin{ejemplo}
+$765^\circ=2\cdot360^\circ+45^\circ$: dos vueltas y $45^\circ$ más, así que $765^\circ$ es coterminal con $45^\circ$.
+Con un giro negativo pasa lo mismo: $-90^\circ+360^\circ=270^\circ$, los dos apuntan hacia abajo.
+\end{ejemplo}
+
+\begin{ojo}[Modo de la calculadora]
+$\pi$ radianes son $180^\circ$, no $3.14^\circ$. Antes de calcular $\sen 2$ o $\cos 30$, revisa si la calculadora está en
+grados (DEG) o en radianes (RAD): $\sen 30^\circ=0.5$, pero $\sen(30\ \text{rad})\approx-0.988$.
+\end{ojo}
+
+%=====================================================================
+\nivel{1-2}{Arco, sector y movimiento circular}
+
+Los radianes cuentan cuántos radios caben en el arco. Si el ángulo mide $2.4$ rad en un círculo de radio
+$\SI{5}{cm}$, en el arco caben $2.4$ radios: el arco mide $2.4\cdot5=\SI{12}{cm}$.
+
+\begin{minipage}[c]{0.56\linewidth}\sinpartir 
+\begin{propiedad}[Arco y sector, con $\theta$ en radianes]
+\[ s=r\,\theta,\qquad A=\frac12\,r^{2}\,\theta. \]
+El área sale de una regla de tres: la pizza entera ($2\pi$ rad) tiene área $\pi r^2$, y una tajada de $\theta$ rad es
+la fracción $\tfrac{\theta}{2\pi}$ de ella: $A=\tfrac{\theta}{2\pi}\cdot\pi r^2=\tfrac12 r^2\theta$.
+\end{propiedad}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=1.15]
+  \fill[zaccent!15] (0,0)--(0:1.9) arc (0:110:1.9)--cycle;
+  \draw[zmute,dashed] (110:1.9) arc (110:360:1.9);
+  \draw[zink,line width=1pt] (0,0)--(1.9,0);
+  \draw[zink,line width=1pt] (0,0)--(110:1.9);
+  \draw[zcoral,line width=2.2pt] (0:1.9) arc (0:110:1.9);
+  \draw[zmute] (0.45,0) arc (0:110:0.45);
+  \node[etq] at (55:0.7) {$\theta$};
+  \node[etq,below] at (0.95,0) {$r$};
+  \node[etq,text=zcoral] at (55:2.2) {$s$};
+  \node[etq] at (45:1.3) {$A$};
+  \fill[zink] (0,0) circle (1pt);
+\end{tikzpicture}
+\end{minipage}
+
+\begin{ejemplo}[El reloj de la torre]
+El minutero de un reloj mide $\SI{3}{m}$. En $20$ minutos recorre un tercio de vuelta: $120^\circ=\tfrac{2\pi}{3}$ rad.
+\[ s=3\cdot\frac{2\pi}{3}=2\pi\approx\SI{6.28}{m},\qquad A=\frac12\cdot3^2\cdot\frac{2\pi}{3}=3\pi\approx\SI{9.42}{m^2}. \]
+\end{ejemplo}
+
+\begin{ejemplo}[La pizza en seis tajadas]
+Una pizza de radio $\SI{6}{cm}$ partida en $6$ tajadas iguales: cada tajada mide $\tfrac{2\pi}{6}=\tfrac{\pi}{3}$ rad y
+su área es $A=\tfrac12\cdot 36\cdot\tfrac{\pi}{3}=6\pi\approx\SI{18.85}{cm^2}$.
+\end{ejemplo}
+
+\begin{ojo}[Con grados no funciona]
+En $s=r\theta$ el ángulo va en radianes. Con grados, el minutero de $\SI{3}{m}$ habría «caminado» $3\cdot120=\SI{360}{m}$
+en 20 minutos: más alto que la torre entera.
+\end{ojo}
+
+\subsection{Movimiento circular}
+\begin{definicion}[Rapidez angular y lineal]
+Si un punto gira un ángulo $\theta$ (en radianes) en un tiempo $t$ y recorre un arco $s$:
+\[ \omega=\frac{\theta}{t}\quad\text{(rapidez angular)},\qquad v=\frac{s}{t}=\frac{r\theta}{t}=r\,\omega\quad\text{(rapidez lineal)}. \]
+Una vuelta son $2\pi$ rad: $n$ vueltas por minuto (rpm) equivalen a $\omega=2\pi n$ rad/min.
+\end{definicion}
+
+\begin{ejemplo}[La noria]
+Una noria de $\SI{10}{m}$ de radio da $2$ vueltas por minuto. Su rapidez angular es $\omega=2\cdot2\pi=4\pi$ rad/min, y una
+cabina viaja a
+\[ v=r\,\omega=10\cdot4\pi=40\pi\approx\SI{125.7}{m/min}. \]
+Dos puntos del mismo rayo giran el mismo ángulo, pero el de afuera recorre más camino: a más radio, más velocidad.
+\end{ejemplo}
+
+%=====================================================================
+\nivel{1-3}{SOH · CAH · TOA}
+
+En un triángulo rectángulo el lado más largo, frente al ángulo recto, es la \clave{hipotenusa}. Los otros dos son
+\clave{catetos} y se nombran \emph{según el ángulo que se mira}: para $\theta$, el \clave{opuesto} está enfrente y el
+\clave{adyacente} lo toca. Desde el otro ángulo agudo, opuesto y adyacente se intercambian.
+
+\begin{figura}[Izquierda: tres triángulos con el mismo ángulo tienen la misma razón $\tfrac{\text{op}}{\text{hip}}=\tfrac35=0.6$. Derecha: el triángulo $8$, $15$, $17$.]
+\begin{tikzpicture}[scale=0.42]
+  \foreach \k/\c in {3/zaccent!10,2/zaccent!22,1/zaccent!40}{
+    \fill[\c] (0,0)--(4*\k,0)--(4*\k,3*\k)--cycle;
+    \draw[zink,line width=0.8pt] (0,0)--(4*\k,0)--(4*\k,3*\k)--cycle;}
+  \foreach \k/\o in {1/3,2/6,3/9}{\node[font=\footnotesize,anchor=west] at (4*\k,1.5*\k) {$\o$};}
+  \draw[zmute] (1.4,0) arc (0:36.87:1.4); \node[etq] at (18:2.1) {$\theta$};
+  \node[font=\footnotesize,text=zmute,align=center] at (6,-1.4) {hipotenusas $5,\ 10,\ 15$};
+\end{tikzpicture}\hspace{12mm}
+\begin{tikzpicture}[scale=0.3]
+  \fill[zaccent!12] (0,0)--(15,0)--(15,8)--cycle;
+  \draw[zink,line width=0.9pt] (0,0)--(15,0)--(15,8)--cycle;
+  \draw[zink] (14.1,0)--(14.1,0.9)--(15,0.9);
+  \draw[zmute] (2.6,0) arc (0:28.07:2.6); \node[etq] at (14:3.5) {$\theta$};
+  \node[etq,below] at (7.5,0) {adyacente $15$};
+  \node[etq,right] at (15,4) {opuesto $8$};
+  \node[etq,above left] at (7.5,4) {hipotenusa $17$};
+\end{tikzpicture}
+\end{figura}
+
+Si se divide un lado entre otro, el tamaño desaparece: la razón depende \emph{solo del ángulo}. Por eso tiene nombre.
+\begin{definicion}[Razones trigonométricas de un ángulo agudo]
+\[ \sen\theta=\frac{\text{opuesto}}{\text{hipotenusa}}\ \ \text{(SOH)},\qquad
+   \cos\theta=\frac{\text{adyacente}}{\text{hipotenusa}}\ \ \text{(CAH)},\qquad
+   \tan\theta=\frac{\text{opuesto}}{\text{adyacente}}\ \ \text{(TOA)}. \]
+\end{definicion}
+
+\begin{ejemplo}[El triángulo $8$, $15$, $17$]
+Con $\theta$ frente al lado $8$: \ $\sen\theta=\tfrac{8}{17}$, \ $\cos\theta=\tfrac{15}{17}$, \ $\tan\theta=\tfrac{8}{15}$.
+\end{ejemplo}
+
+Si se conocen dos lados, el tercero sale con el \clave{teorema de Pitágoras}: en un triángulo rectángulo de catetos $a$,
+$b$ e hipotenusa $c$, \ $a^2+b^2=c^2$.
+\begin{ejemplo}[Falta un lado]
+Un triángulo rectángulo tiene catetos $7$ y $24$. Entonces $c^2=49+576=625$ y $c=25$. Para el ángulo $\theta$
+frente al $7$: $\sen\theta=\tfrac{7}{25}$, $\cos\theta=\tfrac{24}{25}$, $\tan\theta=\tfrac{7}{24}$.
+\end{ejemplo}
+
+\begin{ejemplo}[La cometa]
+El hilo de una cometa mide $\SI{50}{m}$ y su ángulo con el suelo cumple $\sen\theta=0.28$ y $\cos\theta=0.96$. El hilo
+es la hipotenusa: la altura es $50\cdot0.28=\SI{14}{m}$ y la distancia por el suelo, $50\cdot0.96=\SI{48}{m}$.
+Comprobación: $14^2+48^2=196+2304=2500=50^2$.
+\end{ejemplo}
+
+\begin{ojo}[Errores frecuentes]
+Los nombres «opuesto» y «adyacente» cambian con el ángulo; la hipotenusa nunca. Como la hipotenusa es el lado más
+largo, en un triángulo rectángulo siempre $0<\sen\theta<1$ y $0<\cos\theta<1$; la tangente sí puede pasar de $1$.
+\end{ojo}
+
+%=====================================================================
+\nivel{1-4}{Ángulos notables}
+
+Los ángulos de $30^\circ$, $45^\circ$ y $60^\circ$ aparecen en todas partes (son los de las escuadras) y sus razones
+tienen valores exactos que salen de dos figuras conocidas.
+
+\begin{figura}[El cuadrado de lado $1$ cortado por la diagonal y el equilátero de lado $2$ partido por su altura.]
+\begin{tikzpicture}[scale=1.6]
+  \fill[zaccent!12] (0,0)--(1.5,0)--(1.5,1.5)--cycle;
+  \draw[zline,dashed] (0,0)--(0,1.5)--(1.5,1.5);
+  \draw[zink,line width=0.9pt] (0,0)--(1.5,0)--(1.5,1.5)--cycle;
+  \draw[zink] (1.38,0)--(1.38,0.12)--(1.5,0.12);
+  \node[etq,below] at (0.75,0) {$1$};
+  \node[etq,right] at (1.5,0.75) {$1$};
+  \node[etq,above left] at (0.75,0.75) {$\sqrt2$};
+  \draw[zmute] (0.38,0) arc (0:45:0.38); \node[font=\footnotesize] at (22:0.6) {$45^\circ$};
+  \draw[zmute] (1.5,1.12) arc (270:225:0.38); \node[font=\footnotesize] at (1.33,1.05) {$45^\circ$};
+\end{tikzpicture}\hspace{16mm}
+\begin{tikzpicture}[scale=1.15]
+  \fill[zaccent!12] (0,0)--(1,0)--(1,1.732)--cycle;
+  \draw[zline,dashed] (1,0)--(2,0)--(1,1.732);
+  \draw[zink,line width=0.9pt] (0,0)--(1,0)--(1,1.732)--cycle;
+  \draw[zink] (0.88,0)--(0.88,0.12)--(1,0.12);
+  \node[etq,below] at (0.5,0) {$1$};
+  \node[etq,right] at (1,0.75) {$\sqrt3$};
+  \node[etq,above left] at (0.5,0.87) {$2$};
+  \draw[zmute] (0.4,0) arc (0:60:0.4); \node[font=\footnotesize] at (30:0.66) {$60^\circ$};
+  \draw[zmute] (1,1.33) arc (270:240:0.4); \node[font=\footnotesize] at (0.86,1.12) {$30^\circ$};
+\end{tikzpicture}
+\end{figura}
+
+\begin{itemize}
+\item \textbf{Cuadrado.} La diagonal mide $\sqrt{1^2+1^2}=\sqrt2$. Así $\sen45^\circ=\cos45^\circ=\tfrac{1}{\sqrt2}=\tfrac{\sqrt2}{2}$
+      y $\tan45^\circ=\tfrac11=1$.
+\item \textbf{Equilátero.} La altura parte la base en $1$ y $1$ y el ángulo de arriba en dos de $30^\circ$; mide
+      $\sqrt{2^2-1^2}=\sqrt3$. Del triángulo $1$, $\sqrt3$, $2$ salen $30^\circ$ y $60^\circ$. El seno de $30^\circ$ es
+      el coseno de $60^\circ$: el opuesto de uno es el adyacente del otro.
+\end{itemize}
+
+\begin{clavebox}[EL PATRÓN DE LA TABLA: $\sqrt{n}$ SOBRE 2]
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{@{}c|ccccc@{}}
+$\theta$ & $0^\circ$ & $30^\circ$ & $45^\circ$ & $60^\circ$ & $90^\circ$\\ \hline
+$\sen\theta$ & $\frac{\sqrt0}{2}=0$ & $\frac{\sqrt1}{2}=\frac12$ & $\frac{\sqrt2}{2}$ & $\frac{\sqrt3}{2}$ & $\frac{\sqrt4}{2}=1$\\
+$\cos\theta$ & $1$ & $\frac{\sqrt3}{2}$ & $\frac{\sqrt2}{2}$ & $\frac12$ & $0$\\
+$\tan\theta$ & $0$ & $\frac{\sqrt3}{3}$ & $1$ & $\sqrt3$ & no existe
+\end{tabular}
+\end{clavebox}
+El coseno es la misma fila del seno al revés: lo que el seno sube, el coseno lo baja. La tangente es
+$\tfrac{\sen\theta}{\cos\theta}$; en $90^\circ$ no existe porque el coseno vale $0$.
+
+\begin{ejemplo}[Una rampa de $30^\circ$]
+Una rampa para sillas de ruedas mide $\SI{8}{m}$ y sube con una inclinación de $30^\circ$. La rampa es la hipotenusa:
+\[ h=8\sen30^\circ=8\cdot\tfrac12=\SI{4}{m},\qquad d=8\cos30^\circ=8\cdot\tfrac{\sqrt3}{2}=4\sqrt3\approx\SI{6.93}{m}. \]
+\end{ejemplo}
+
+%=====================================================================
+\nivel{1-5}{Las seis razones y la medición indirecta}
+
+\begin{definicion}[Razones recíprocas]
+Seno, coseno y tangente tienen cada una su pareja: la misma fracción dada vuelta.
+\[ \csc\theta=\frac{1}{\sen\theta}=\frac{\text{hip}}{\text{op}},\qquad
+   \sec\theta=\frac{1}{\cos\theta}=\frac{\text{hip}}{\text{ady}},\qquad
+   \cot\theta=\frac{1}{\tan\theta}=\frac{\text{ady}}{\text{op}}. \]
+Se leen cosecante, secante y cotangente.
+\end{definicion}
+
+\begin{ejemplo}[El triángulo $20$, $21$, $29$]
+Con $\theta$ frente al lado $20$ y adyacente $21$ ($20^2+21^2=841=29^2$):
+\[ \sen\theta=\tfrac{20}{29},\ \cos\theta=\tfrac{21}{29},\ \tan\theta=\tfrac{20}{21},\qquad
+   \csc\theta=\tfrac{29}{20},\ \sec\theta=\tfrac{29}{21},\ \cot\theta=\tfrac{21}{20}. \]
+\end{ejemplo}
+
+\subsection{Elevación y depresión}
+El \clave{ángulo de elevación} se mide desde la horizontal \emph{hacia arriba}; el \clave{ángulo de depresión}, desde
+la horizontal \emph{hacia abajo}. Como la horizontal del observador de arriba y el suelo son paralelas, el ángulo de
+depresión desde arriba es igual al de elevación desde abajo (ángulos alternos internos).
+
+\begin{minipage}[t]{0.49\linewidth}\sinpartir 
+\begin{ejemplo}[La altura de un árbol]
+La sombra de un árbol mide $\SI{15}{m}$ y desde la punta de la sombra se ve la copa con $40^\circ$ de elevación.
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+  \draw[zmute,line width=0.8pt] (0.6,0)--(4.5,0);
+  \fill[zaccent!12] (1,0)--(4,0)--(4,2.517)--cycle;
+  \draw[zink,dashed] (1,0)--(4,2.517);
+  \draw[zmint!70!black,line width=3pt] (4,0)--(4,2.2);
+  \fill[zmint!60] (4,2.517) circle (0.42);
+  \draw[zcoral,line width=2pt] (1,0)--(4,0);
+  \draw[zmute] (1.7,0) arc (0:40:0.7);
+  \node[font=\footnotesize] at (2.1,0.27) {$40^\circ$};
+  \node[etq,below] at (2.5,0) {sombra $\SI{15}{m}$};
+  \node[etq,right] at (4.45,1.3) {$h$};
+\end{tikzpicture}
+\end{center}
+El árbol es el opuesto y la sombra el adyacente:
+\[ h=15\tan40^\circ\approx15\cdot0.839\approx\SI{12.6}{m}. \]
+\end{ejemplo}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}\sinpartir 
+\begin{ejemplo}[Desde el faro]
+Un vigía en lo alto de un faro de $\SI{50}{m}$ ve un barco con $20^\circ$ de depresión.
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+  \draw[zsky,line width=0.8pt] (-0.4,0)--(4.0,0);
+  \fill[zaccent!12] (0,0)--(0,1.25)--(3.434,0)--cycle;
+  \draw[zcoral,line width=3pt] (0,0)--(0,1.25);
+  \fill[zsun] (0,1.32) circle (0.09);
+  \draw[zmute,dashed] (0,1.25)--(3.8,1.25);
+  \draw[zink,dashed] (0,1.25)--(3.434,0);
+  \draw[zmute] (1.3,1.25) arc (0:-20:1.3); \node[font=\footnotesize] at (1.68,1.08) {$20^\circ$};
+  \draw[zmute] (2.334,0) arc (180:160:1.1); \node[font=\footnotesize] at (2.0,0.17) {$20^\circ$};
+  \fill[zink] (3.3,0.06) -- (3.8,0.06) -- (3.68,-0.1) -- (3.42,-0.1) -- cycle;
+  \node[etq,left] at (0,0.62) {$\SI{50}{m}$};
+  \node[etq,below] at (1.7,0) {$d$};
+\end{tikzpicture}
+\end{center}
+Desde el barco el faro se ve con $20^\circ$ de elevación:
+\[ d=\frac{50}{\tan20^\circ}\approx\frac{50}{0.364}\approx\SI{137}{m}. \]
+\end{ejemplo}
+\end{minipage}
+
+\begin{ejemplo}[Dos ángulos para una montaña inalcanzable]
+Desde un barco la cima de una montaña se ve a $30^\circ$; el barco avanza $\SI{1000}{m}$ hacia ella y ahora la ve a
+$45^\circ$. Si $x$ es la distancia final al pie y $h$ la altura, los dos triángulos comparten $h$:
+\[ h=x\tan45^\circ=x,\qquad h=(x+1000)\tan30^\circ. \]
+Igualando: $x=(x+1000)\tfrac{\sqrt3}{3}$, de donde $x=\dfrac{1000\sqrt3}{3-\sqrt3}=500\left(\sqrt3+1\right)\approx\SI{1366}{m}$.
+La montaña mide unos $\SI{1366}{m}$ y la distancia inicial nunca hizo falta.
+\end{ejemplo}
+
+%=====================================================================
+\nivel{1-6}{La circunferencia unitaria}
+
+En un triángulo con hipotenusa $1$ dividir entre la hipotenusa no cambia nada: el coseno es lo que el punto avanza a la
+derecha y el seno es su altura. Al girar el ángulo, la punta recorre la \clave{circunferencia unitaria}
+$x^2+y^2=1$, y ya no hace falta que el ángulo sea agudo.
+
+\begin{minipage}[c]{0.52\linewidth}\sinpartir 
+\begin{definicion}[Seno y coseno de cualquier número real]
+Sea $P(t)$ el punto de la circunferencia unitaria al que se llega girando $t$ radianes desde $(1,0)$. Entonces
+\[ P(t)=(\cos t,\ \sen t),\qquad \tan t=\frac{\sen t}{\cos t} \]
+(si $\cos t\neq0$).
+\end{definicion}
+En el círculo de radio $1$ el arco recorrido mide exactamente $t$: por eso $t$ puede ser cualquier número real. Además
+$-1\le\sen t\le1$, $-1\le\cos t\le1$ y $\sen^2t+\cos^2t=1$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=1.85]
+  \draw[->,zmute] (-1.35,0)--(1.4,0) node[right,etq]{$x$};
+  \draw[->,zmute] (0,-1.3)--(0,1.35) node[above,etq]{$y$};
+  \draw[zink,line width=0.9pt] (0,0) circle (1);
+  \draw[->,zcoral,thick] (0.2,0) arc (0:240:0.2);
+  \node[font=\footnotesize] at (80:0.36) {$t$};
+  \draw[zink,line width=1pt] (0,0)--(240:1);
+  \draw[zsky,line width=1.6pt] (0,0)--(-0.5,0);
+  \draw[zcoral,line width=1.6pt] (-0.5,0)--(-0.5,-0.866);
+  \draw[zmute,dashed] (-0.5,-0.866)--(0,-0.866);
+  \fill[zink] (240:1) circle (1.4pt);
+  \node[etq,anchor=north east] at (-0.52,-0.88) {$P(t)$};
+  \node[font=\footnotesize,text=zsky,anchor=south] at (-0.4,0.01) {$\cos t$};
+  \node[font=\footnotesize,text=zcoral,anchor=east] at (-0.53,-0.5) {$\sen t$};
+  \node[font=\scriptsize,text=zmute,anchor=north west] at (1,0) {$(1,0)$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{ejemplo}[El punto en $240^\circ$]
+$240^\circ$ está $60^\circ$ por debajo del eje $x$ negativo. El punto queda a la izquierda y abajo:
+$P\!\left(\tfrac{4\pi}{3}\right)=\left(-\tfrac12,\,-\tfrac{\sqrt3}{2}\right)$, así que
+$\cos\tfrac{4\pi}{3}=-\tfrac12$ y $\sen\tfrac{4\pi}{3}=-\tfrac{\sqrt3}{2}$.
+\end{ejemplo}
+
+\begin{propiedad}[Con un punto cualquiera del lado terminal]
+Si el lado terminal de $\theta$ pasa por $(x,y)\neq(0,0)$ y $r=\sqrt{x^2+y^2}$, al encoger todo hasta radio $1$ resulta
+\[ \sen\theta=\frac{y}{r},\qquad \cos\theta=\frac{x}{r},\qquad \tan\theta=\frac{y}{x}\ \ (x\neq0). \]
+\end{propiedad}
+\begin{ejemplo}[El punto $(-4,-3)$]
+$r=\sqrt{16+9}=5$. Encogido a radio $1$ el punto es $\left(-\tfrac45,-\tfrac35\right)$: $\sen\theta=-\tfrac35$,
+$\cos\theta=-\tfrac45$ y $\tan\theta=\tfrac{-3}{-4}=\tfrac34$.
+\end{ejemplo}
+
+\begin{propiedad}[Periodicidad]
+Sumar una vuelta deja el punto en el mismo lugar: $\sen(t+2\pi)=\sen t$ y $\cos(t+2\pi)=\cos t$. Seno y coseno son
+funciones \clave{periódicas} de periodo $2\pi$, como el ciclo del día o el de las estaciones.
+\end{propiedad}
+
+%=====================================================================
+\nivel{1-7}{Signos y ángulo de referencia}
+
+El coseno es la $x$ del punto y el seno es su $y$: su signo depende del cuadrante donde cae el lado terminal.
+
+\begin{figura}[Izquierda: qué razones son positivas en cada cuadrante (en el III, $\tan=\tfrac yx$ con los dos negativos). Derecha: ángulos de referencia (en coral) de $150^\circ$, $240^\circ$ y $315^\circ$.]
+\begin{tikzpicture}[scale=1.15]
+  \fill[zmint!14] (0,0) rectangle (1.5,1.5); \fill[zsky!14] (0,0) rectangle (-1.5,1.5);
+  \fill[zsun!16] (0,0) rectangle (-1.5,-1.5); \fill[zcoral!12] (0,0) rectangle (1.5,-1.5);
+  \draw[->,zmute] (-1.6,0)--(1.7,0) node[right,etq]{$x$};
+  \draw[->,zmute] (0,-1.6)--(0,1.7) node[above,etq]{$y$};
+  \node[font=\small,align=center] at (0.75,0.75) {\textbf{I}\\ todas};
+  \node[font=\small,align=center] at (-0.75,0.75) {\textbf{II}\\ $\sen$, $\csc$};
+  \node[font=\small,align=center] at (-0.75,-0.75) {\textbf{III}\\ $\tan$, $\cot$};
+  \node[font=\small,align=center] at (0.75,-0.75) {\textbf{IV}\\ $\cos$, $\sec$};
+\end{tikzpicture}\hspace{8mm}
+\begin{tikzpicture}[scale=0.95]
+  \foreach \x/\a/\from/\to/\m/\e in {0/150/150/180/165/30,3.4/240/180/240/210/60,6.8/315/315/360/337.5/45}{
+    \begin{scope}[shift={(\x,0)}]
+      \draw[->,zmute] (-1.3,0)--(1.35,0); \draw[->,zmute] (0,-1.3)--(0,1.3);
+      \draw[zline] (0,0) circle (1);
+      \draw[zink,line width=1.1pt] (0,0)--(\a:1.15);
+      \draw[zmute,->] (0.2,0) arc (0:\a:0.2);
+      \draw[zcoral,line width=1.4pt] (\from:0.62) arc (\from:\to:0.62);
+      \node[font=\scriptsize,text=zcoral,fill=white,inner sep=1pt] at (\m:1.5) {$\e^\circ$};
+      \node[font=\footnotesize] at (0,-1.65) {$\a^\circ$};
+    \end{scope}}
+\end{tikzpicture}
+\end{figura}
+
+\begin{definicion}[Ángulo de referencia]
+El \clave{ángulo de referencia} $\theta'$ de $\theta$ es el ángulo agudo ($0^\circ\le\theta'\le90^\circ$) entre el lado
+terminal y el eje $x$. Para $0^\circ\le\theta<360^\circ$:
+\[ \text{II: }\theta'=180^\circ-\theta,\qquad \text{III: }\theta'=\theta-180^\circ,\qquad \text{IV: }\theta'=360^\circ-\theta. \]
+Si el ángulo no está en $[0^\circ,360^\circ)$, primero se busca su coterminal en ese intervalo. El valor absoluto de
+cualquier razón de $\theta$ es el de su ángulo de referencia; el \emph{signo} lo decide el cuadrante.
+\end{definicion}
+
+
+\begin{ejemplo}[Tres ángulos del video]
+\begin{itemize}
+\item $150^\circ$: referencia $30^\circ$, cuadrante II. $\sen150^\circ=\tfrac12$ y $\cos150^\circ=-\tfrac{\sqrt3}{2}$.
+\item $240^\circ$: referencia $60^\circ$, cuadrante III. $\sen240^\circ=-\tfrac{\sqrt3}{2}$ y $\cos240^\circ=-\tfrac12$.
+\item $315^\circ$: referencia $45^\circ$, cuadrante IV. $\sen315^\circ=-\tfrac{\sqrt2}{2}$ y $\cos315^\circ=\tfrac{\sqrt2}{2}$.
+\end{itemize}
+\end{ejemplo}
+
+\begin{propiedad}[Paridad: el espejo del eje $x$]
+Girar $-t$ es ver el giro $t$ en un espejo sobre el eje $x$: la $x$ no cambia y la $y$ cambia de signo.
+\[ \cos(-t)=\cos t\ \ \text{(par)},\qquad \sen(-t)=-\sen t\ \ \text{(impar)},\qquad \tan(-t)=-\tan t\ \ \text{(impar)}. \]
+\end{propiedad}
+
+\begin{ojo}[El ángulo de referencia se mide al eje $x$]
+Nunca se mide al eje $y$: la referencia de $120^\circ$ es $60^\circ$ (hasta $180^\circ$), no $30^\circ$.
+\end{ojo}
+
+%=====================================================================
+\nivel{1-8}{Seno y coseno: amplitud}
+
+Si el punto de la circunferencia unitaria gira y al lado se anota su altura mientras el ángulo avanza, aparece la
+\clave{onda seno}: sube a $1$ en $\tfrac{\pi}{2}$, vuelve a $0$ en $\pi$, baja a $-1$ en $\tfrac{3\pi}{2}$ y regresa a
+$0$ en $2\pi$. Si se anota el avance horizontal, aparece la onda coseno, que empieza arriba.
+
+\begin{figura}[Las gráficas de $y=\sen x$ y $y=\cos x$ en una vuelta. Tienen la misma forma: el coseno es el seno adelantado $\tfrac{\pi}{2}$.]
+\begin{tikzpicture}
+\begin{axis}[onda,ymin=-1.4,ymax=1.4,ytick={-1,1},pitick,height=4.4cm]
+  \addplot[zcoral,domain=0:6.2832] {sin(deg(x))}; \addlegendentry{$y=\sen x$}
+  \addplot[zsky,domain=0:6.2832,dashed] {cos(deg(x))}; \addlegendentry{$y=\cos x$}
+\end{axis}
+\end{tikzpicture}
+\end{figura}
+
+\begin{propiedad}[Las funciones seno y coseno]
+Dominio $\R$, rango $[-1,1]$, periodo $2\pi$. El seno es impar, el coseno es par y $\cos x=\sen\!\left(x+\tfrac{\pi}{2}\right)$.
+\end{propiedad}
+
+\begin{definicion}[Amplitud y línea media]
+En $y=a\sen x+d$ o $y=a\cos x+d$ el número $\abs{a}$ es la \clave{amplitud}: la distancia de la línea media a una
+cresta. Si $a<0$, la onda se voltea. El número $d$ sube o baja la onda: la \clave{línea media} es $y=d$ y
+\[ \text{rango}=\bigl[\,d-\abs{a},\ d+\abs{a}\,\bigr]. \]
+El periodo no cambia: sigue siendo $2\pi$.
+\end{definicion}
+
+\begin{figura}[Estirar, voltear y subir la onda: $y=3\sen x$, $y=-2\sen x$ y $y=2\sen x+1$ (línea media $y=1$ punteada).]
+\begin{tikzpicture}
+\begin{axis}[onda,ymin=-3.5,ymax=3.6,ytick={-3,-2,-1,1,2,3},pitick,height=4.6cm]
+  \addplot[zviolet,domain=0:6.2832] {3*sin(deg(x))}; \addlegendentry{$y=3\sen x$}
+  \addplot[zcoral,domain=0:6.2832,dashed] {-2*sin(deg(x))}; \addlegendentry{$y=-2\sen x$}
+  \addplot[zmint,domain=0:6.2832] {2*sin(deg(x))+1}; \addlegendentry{$y=2\sen x+1$}
+  \addplot[zmint,domain=0:6.2832,dotted,line width=0.8pt] {1};
+\end{axis}
+\end{tikzpicture}
+\end{figura}
+
+\begin{ojo}[La amplitud nunca es negativa]
+$y=-2\sen x$ tiene amplitud $\abs{-2}=2$, no $-2$: el signo solo voltea la onda. En $y=2\sen x+1$ la línea media es
+$y=1$, la amplitud $2$ y el rango $[1-2,\ 1+2]=[-1,3]$: $d$ mueve la onda entera, no cambia la amplitud.
+\end{ojo}
+
+%=====================================================================
+\nivel{1-9}{Periodo, desfase y tangente}
+
+\begin{definicion}[La onda general]
+Para $y=a\sen(bx-c)+d$ o $y=a\cos(bx-c)+d$, con $b>0$:
+\[ \text{amplitud}=\abs{a},\qquad \text{periodo}=\frac{2\pi}{b},\qquad \text{desfase}=\frac{c}{b},\qquad \text{línea media } y=d. \]
+Si $c/b>0$ la onda se corre a la derecha; si $c/b<0$, a la izquierda.
+\end{definicion}
+
+Con $b=2$ el ángulo corre el doble de rápido y caben dos ondas en $[0,2\pi]$, cada una de largo $\pi$. Con
+$b=\tfrac12$ va más despacio: una onda mide $4\pi$.
+
+\begin{figura}[El número $b$ cambia el periodo: $y=\sen x$ (periodo $2\pi$), $y=\sen2x$ (periodo $\pi$) y $y=\sen\tfrac{x}{2}$ (periodo $4\pi$, no alcanza a terminar).]
+\begin{tikzpicture}
+\begin{axis}[onda,height=4.2cm,ymin=-1.4,ymax=1.4,ytick={-1,1},pitick,legend columns=3,legend style={at={(0.5,1.03)},anchor=south}]
+  \addplot[zink!45,domain=0:6.2832] {sin(deg(x))}; \addlegendentry{$\sen x$}
+  \addplot[zcoral,domain=0:6.2832] {sin(deg(2*x))}; \addlegendentry{$\sen2x$}
+  \addplot[zsky,domain=0:6.2832,dashed] {sin(deg(x/2))}; \addlegendentry{$\sen\frac{x}{2}$}
+\end{axis}
+\end{tikzpicture}
+\end{figura}
+
+\begin{ojo}[Con $b$, el desfase se divide]
+En $y=\sen\left(2x-\tfrac{\pi}{2}\right)$ la onda \emph{no} se corre $\tfrac{\pi}{2}$. Se saca el $2$ como factor:
+$\sen\left(2x-\tfrac{\pi}{2}\right)=\sen\!\left(2\left(x-\tfrac{\pi}{4}\right)\right)$, así que se corre $\tfrac{c}{b}=\tfrac{\pi}{4}$.
+\end{ojo}
+
+\begin{ejemplo}[Armar la onda $y=2\sen(3x-\pi)+1$ pieza por pieza]
+\begin{minipage}[t]{0.42\linewidth}\sinpartir 
+\begin{itemize}
+\item $b=3$: periodo $\tfrac{2\pi}{3}$; caben tres ondas en $[0,2\pi]$.
+\item $c=\pi$: desfase $\tfrac{\pi}{3}$ a la derecha.
+\item $a=2$: amplitud $2$.
+\item $d=1$: línea media $y=1$, rango $[-1,3]$.
+\end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.56\linewidth}\sinpartir \vspace{-2mm}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=\linewidth,height=4.6cm,samples=160,xmin=-0.2,xmax=4.4,ymin=-1.5,ymax=3.6,ytick={-1,1,3},
+  xtick={1.0472,2.0944,3.1416,4.1888},xticklabels={$\frac{\pi}{3}$,$\frac{2\pi}{3}$,$\pi$,$\frac{4\pi}{3}$}]
+  \addplot[zmint,dotted,line width=0.8pt,domain=0:4.4] {1};
+  \addplot[zcoral,domain=0:4.4] {2*sin(deg(3*x-pi))+1};
+  \fill[zink] (axis cs:1.0472,1) circle (1.6pt);
+\end{axis}
+\end{tikzpicture}
+\end{minipage}
+\end{ejemplo}
+
+\Needspace{11\baselineskip}
+\subsection{La tangente}
+La tangente es $\tfrac{\sen x}{\cos x}$. Cuando el coseno se acerca a cero, la división se dispara sin tope: en esos
+valores la gráfica tiene \clave{asíntotas verticales}, rectas a las que se acerca sin tocarlas nunca.
+
+\begin{minipage}[c]{0.46\linewidth}\sinpartir 
+\begin{propiedad}[La función tangente]
+\begin{itemize}
+\item Dominio: $\{x\in\R\tq x\neq\tfrac{\pi}{2}+k\pi,\ k\in\Z\}$.
+\item Rango: $\R$.
+\item Periodo: $\pi$ (la mitad que el seno); para $y=\tan bx$, el periodo es $\tfrac{\pi}{b}$.
+\item Asíntotas: $x=\tfrac{\pi}{2}+k\pi$.
+\item Es impar: $\tan(-x)=-\tan x$.
+\end{itemize}
+\end{propiedad}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.5\linewidth}\sinpartir \centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=\linewidth,height=4.8cm,samples=80,xmin=-2.2,xmax=5.3,ymin=-4,ymax=4,ytick={-2,2},
+  xtick={-1.5708,1.5708,3.1416,4.7124},xticklabels={$-\frac{\pi}{2}$,$\frac{\pi}{2}$,$\pi$,$\frac{3\pi}{2}$}]
+  \foreach \k in {-1.5708,1.5708,4.7124}{\edef\temp{\noexpand\draw[zmute,dashed,line width=0.7pt] (axis cs:\k,-4)--(axis cs:\k,4);}\temp}
+  \addplot[zviolet,domain=-1.3258:1.3258] {tan(deg(x))};
+  \addplot[zviolet,domain=1.8158:4.4674] {tan(deg(x))};
+\end{axis}
+\end{tikzpicture}
+\end{minipage}
+
+%=====================================================================
+\Needspace{16\baselineskip}
+\repaso
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+Fórmula o símbolo & Qué dice\\ \midrule
+$180^\circ=\pi$ rad,\ \ $1\text{ rad}\approx57.3^\circ$ & conversión: multiplicar por $\frac{\pi}{180}$ o por $\frac{180}{\pi}$\\
+$\theta+360^\circ k$ & ángulos coterminales ($k\in\Z$)\\
+$s=r\theta$,\ \ $A=\frac12r^2\theta$ & arco y sector, con $\theta$ en radianes\\
+$\omega=\frac{\theta}{t}$,\ \ $v=r\omega$ & rapidez angular y lineal\\
+$\sen=\frac{\text{op}}{\text{hip}}$,\ $\cos=\frac{\text{ady}}{\text{hip}}$,\ $\tan=\frac{\text{op}}{\text{ady}}$ & SOH · CAH · TOA\\
+$\csc=\frac{1}{\sen}$,\ $\sec=\frac{1}{\cos}$,\ $\cot=\frac{1}{\tan}$ & razones recíprocas\\
+$\sen30^\circ=\frac12$,\ $\sen45^\circ=\frac{\sqrt2}{2}$,\ $\sen60^\circ=\frac{\sqrt3}{2}$ & notables: $\frac{\sqrt n}{2}$; el coseno al revés\\
+$P(t)=(\cos t,\sen t)$;\ \ $\sen\theta=\frac yr$, $\cos\theta=\frac xr$ & circunferencia unitaria y punto cualquiera\\
+I todas, II $\sen$, III $\tan$, IV $\cos$ & signos por cuadrante\\
+$\cos(-t)=\cos t$,\ \ $\sen(-t)=-\sen t$ & paridad\\
+$y=a\sen(bx-c)+d$ & amplitud $\abs a$, periodo $\frac{2\pi}{b}$, desfase $\frac cb$, rango $[d-\abs a,d+\abs a]$\\
+$y=\tan x$ & periodo $\pi$, asíntotas $x=\frac{\pi}{2}+k\pi$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Usar grados en $s=r\theta$, $A=\tfrac12r^2\theta$ o $v=r\omega$, u olvidar pasar las vueltas a radianes ($1$ vuelta $=2\pi$).
+\item Confundir opuesto y adyacente al cambiar de ángulo, o poner la hipotenusa arriba en el seno.
+\item Medir el ángulo de referencia hasta el eje $y$, u olvidar el signo del cuadrante.
+\item Decir que la amplitud de $y=-2\sen x$ es $-2$, o que $d$ cambia la amplitud.
+\item Tomar el desfase como $c$ en lugar de $\tfrac cb$; creer que la tangente tiene periodo $2\pi$.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Conversiones y coterminales.
+  \begin{ejercicios}
+  \item Expresa $75^\circ$ en radianes y $\tfrac{11\pi}{9}$ en grados.
+  \item ¿Cuántos grados mide un ángulo de $1.5$ rad? (Dos decimales.)
+  \item Halla el ángulo coterminal en $[0^\circ,360^\circ)$ con $1000^\circ$, y el coterminal en $[0,2\pi)$ con $-\tfrac{7\pi}{3}$.
+  \item Halla el complemento y el suplemento de $\tfrac{2\pi}{7}$.
+  \end{ejercicios}
+\item Arco y sector.
+  \begin{ejercicios}
+  \item En un círculo de radio $\SI{8}{cm}$, un ángulo central mide $135^\circ$. Halla la longitud del arco y el área del sector.
+  \item Un sector de radio $\SI{6}{cm}$ tiene área $\SI{30}{cm^2}$. ¿Cuánto mide su ángulo central (en radianes y en grados) y cuánto mide su arco?
+  \end{ejercicios}
+\item Las aspas de un ventilador miden $\SI{40}{cm}$ desde el eje hasta la punta y giran a $900$ rpm.
+  \begin{ejercicios}
+  \item Halla la rapidez angular en rad/s.
+  \item Halla la rapidez lineal de la punta de un aspa en m/s.
+  \item ¿Con qué rapidez se mueve un punto del aspa a $\SI{10}{cm}$ del eje? Compara con (b).
+  \end{ejercicios}
+\item En un triángulo rectángulo la hipotenusa mide $37$ y un cateto mide $12$. Halla el otro cateto y las seis razones
+  trigonométricas del ángulo $\theta$ opuesto al cateto de $12$.
+\item Calcula sin calculadora, con valores exactos:
+  \begin{ejercicios}
+  \item $\sen60^\circ\cos30^\circ+\cos60^\circ\sen30^\circ$
+  \item $\tan^2 30^\circ+\tan^2 45^\circ$
+  \item $\sec^2 45^\circ-\csc30^\circ$
+  \item Los catetos de un triángulo rectángulo isósceles cuya hipotenusa mide $10$.
+  \end{ejercicios}
+\item Desde la azotea de un edificio de $\SI{24}{m}$ de alto, una persona ve un carro estacionado con un ángulo de depresión
+  de $35^\circ$. Un rato después el carro se ha acercado al edificio y el ángulo de depresión es $50^\circ$.
+  \begin{ejercicios}
+  \item ¿A qué distancia del pie del edificio estaba el carro al principio?
+  \item ¿Cuántos metros avanzó? Haz un dibujo con los dos triángulos.
+  \end{ejercicios}
+\item Circunferencia unitaria.
+  \begin{ejercicios}
+  \item El lado terminal de $\theta$ pasa por $(-8,15)$. Halla $\sen\theta$, $\cos\theta$ y $\tan\theta$.
+  \item Escribe las coordenadas exactas de $P\!\left(\tfrac{5\pi}{3}\right)$ y de $P\!\left(-\tfrac{3\pi}{4}\right)$.
+  \item El punto $P(t)=(0.6,\ y)$ está en el cuarto cuadrante. Halla $y$, $\sen t$ y $\tan t$.
+  \end{ejercicios}
+\item Usa el ángulo de referencia y el cuadrante para dar el valor exacto:
+  \begin{ejercicios}
+  \item $\sen300^\circ$ \quad (b) $\cos(-225^\circ)$ \quad (c) $\tan\tfrac{5\pi}{6}$ \quad (d) $\cos\tfrac{19\pi}{6}$
+  \setcounter{ejerciciosii}{4}
+  \item Si $\sen\theta=-\tfrac23$ y $\tan\theta>0$, ¿en qué cuadrante está $\theta$? Halla $\cos\theta$.
+  \end{ejercicios}
+\item Para $y=-2\sen\tfrac{x}{2}+1$:
+  \begin{ejercicios}
+  \item Halla la amplitud, el periodo, la línea media y el rango.
+  \item Dibuja un periodo completo, desde $x=0$, y marca el máximo, el mínimo y los cortes con la línea media.
+  \end{ejercicios}
+\item La gráfica muestra una onda de la forma $y=a\sen(bx-c)+d$ con $a>0$, $b>0$ y $0\le c<2\pi$.
+  \begin{center}
+  \begin{tikzpicture}
+  \begin{axis}[zplot,width=0.62\linewidth,height=5cm,samples=160,xmin=-0.2,xmax=3.6,ymin=-2.6,ymax=4.6,ytick={-2,1,4},
+    xtick={0.7854,1.5708,2.3562,3.1416},xticklabels={$\frac{\pi}{4}$,$\frac{\pi}{2}$,$\frac{3\pi}{4}$,$\pi$}]
+    \addplot[zmute,dotted,line width=0.8pt,domain=0:3.5] {1};
+    \addplot[zsky,domain=0:3.5] {1-3*cos(deg(2*x))};
+  \end{axis}
+  \end{tikzpicture}
+  \end{center}
+  \begin{ejercicios}
+  \item Lee en la gráfica la línea media, la amplitud y el periodo, y escribe su ecuación.
+  \item Para $y=\tan2x$, halla el periodo y las asíntotas verticales que hay en $[0,\pi]$.
+  \end{ejercicios}
+\end{ejercicios}
+
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) $75^\circ=\tfrac{5\pi}{12}$; $\tfrac{11\pi}{9}=220^\circ$. (b) $1.5\cdot\tfrac{180^\circ}{\pi}\approx85.94^\circ$.
+  (c) $1000^\circ-720^\circ=280^\circ$; $-\tfrac{7\pi}{3}+4\pi=\tfrac{5\pi}{3}$. (d) Complemento $\tfrac{3\pi}{14}$; suplemento $\tfrac{5\pi}{7}$.
+\item (a) $\theta=\tfrac{3\pi}{4}$: $s=6\pi\approx\SI{18.85}{cm}$, $A=24\pi\approx\SI{75.40}{cm^2}$.
+  (b) $\theta=\tfrac{2A}{r^2}=\tfrac53$ rad $\approx95.49^\circ$; $s=6\cdot\tfrac53=\SI{10}{cm}$.
+\item (a) $\omega=900\cdot2\pi=1800\pi$ rad/min $=30\pi\approx94.25$ rad/s. (b) $v=0.4\cdot30\pi=12\pi\approx\SI{37.70}{m/s}$.
+  (c) $v=0.1\cdot30\pi=3\pi\approx\SI{9.42}{m/s}$: la cuarta parte, porque el radio es la cuarta parte.
+\item Otro cateto $\sqrt{37^2-12^2}=35$. $\sen\theta=\tfrac{12}{37}$, $\cos\theta=\tfrac{35}{37}$, $\tan\theta=\tfrac{12}{35}$,
+  $\csc\theta=\tfrac{37}{12}$, $\sec\theta=\tfrac{37}{35}$, $\cot\theta=\tfrac{35}{12}$.
+\item (a) $\tfrac34+\tfrac14=1$. (b) $\tfrac13+1=\tfrac43$. (c) $2-2=0$. (d) $10\cos45^\circ=5\sqrt2\approx7.07$ cada uno.
+\item (a) $d_1=\tfrac{24}{\tan35^\circ}\approx\SI{34.28}{m}$. (b) $d_2=\tfrac{24}{\tan50^\circ}\approx\SI{20.14}{m}$; avanzó
+  $\approx\SI{14.14}{m}$.
+\item (a) $r=17$: $\sen\theta=\tfrac{15}{17}$, $\cos\theta=-\tfrac{8}{17}$, $\tan\theta=-\tfrac{15}{8}$.
+  (b) $\left(\tfrac12,-\tfrac{\sqrt3}{2}\right)$ y $\left(-\tfrac{\sqrt2}{2},-\tfrac{\sqrt2}{2}\right)$.
+  (c) $y=-\sqrt{1-0.36}=-0.8$; $\sen t=-0.8$, $\tan t=-\tfrac43$.
+\item (a) $-\tfrac{\sqrt3}{2}$ (ref.\ $60^\circ$, IV). (b) $-\tfrac{\sqrt2}{2}$ (coseno par; $225^\circ$ en III).
+  (c) $-\tfrac{\sqrt3}{3}$ (ref.\ $30^\circ$, II). (d) $\tfrac{19\pi}{6}-2\pi=\tfrac{7\pi}{6}$: $-\tfrac{\sqrt3}{2}$.
+  (e) Cuadrante III; $\cos\theta=-\sqrt{1-\tfrac49}=-\tfrac{\sqrt5}{3}$.
+\item (a) Amplitud $2$, periodo $\tfrac{2\pi}{1/2}=4\pi$, línea media $y=1$, rango $[-1,3]$.
+  (b) Pasa por $(0,1)$ bajando; mínimo $(\pi,-1)$; corte $(2\pi,1)$; máximo $(3\pi,3)$; termina en $(4\pi,1)$.
+\item (a) Línea media $y=1$, amplitud $3$, periodo $\pi$ ($b=2$); cruza la línea media subiendo en $\tfrac{\pi}{4}$, así
+  que $\tfrac cb=\tfrac{\pi}{4}$ y $c=\tfrac{\pi}{2}$: $y=3\sen\left(2x-\tfrac{\pi}{2}\right)+1$ (igual a $1-3\cos2x$).
+  (b) Periodo $\tfrac{\pi}{2}$; asíntotas $x=\tfrac{\pi}{4}$ y $x=\tfrac{3\pi}{4}$.
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

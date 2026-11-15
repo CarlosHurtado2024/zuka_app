@@ -1,0 +1,375 @@
+% Resumen del mundo «Fuente de la Parábola» (Álgebra, mundo 7: números complejos y ecuaciones cuadráticas).
+% Lecciones alg-23c, alg-1, alg-4a, alg-4. Usa los ejemplos de los videos (video/valle-zoom/films: complejos,
+% lineales, parabola, cuadraticas); el taller trae ejercicios nuevos (no repite los de la app, el jefe ni la evaluación).
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{algebra}
+\zukamundo{7}{Fuente de la Parábola}{Números complejos y ecuaciones cuadráticas}
+
+\usepgfplotslibrary{groupplots}
+\usepackage{needspace}
+\newcommand{\conj}[1]{\overline{#1}}
+\DeclareMathOperator{\Ree}{Re}
+\DeclareMathOperator{\Imm}{Im}
+
+\begin{document}
+
+\portada{%
+Caro está diseñando una fuente: ¿qué tan alto sube el chorro y dónde cae el agua? Para responder hacen falta tres
+herramientas. Las \clave{ecuaciones lineales}, que se resuelven como una balanza; la \clave{parábola}, la curva de
+cualquier polinomio cuadrático; y las \clave{ecuaciones cuadráticas}, cuyas soluciones a veces no son números reales:
+por eso el mundo empieza con los \clave{números complejos}.}{%
+\item \textbf{Nivel 7-1.} Números complejos: la unidad $i$, el plano complejo, operaciones, conjugado y módulo.
+\item \textbf{Nivel 7-2.} Ecuaciones lineales: la balanza, despejar, paréntesis y fracciones, casos especiales.
+\item \textbf{Nivel 7-3.} Polinomio cuadrático y parábola: vértice, forma canónica y completar el cuadrado.
+\item \textbf{Nivel 7-4.} Ecuaciones cuadráticas: factorización, fórmula general y discriminante.}
+
+\begin{clavebox}[LAS IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\qquad}c@{\qquad}c@{}}
+$\displaystyle i^2=-1$ & $\displaystyle h=-\frac{b}{2a},\ \ k=f(h)$ & $\displaystyle x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$\\[2pt]
+\small multiplicar por $i$ es girar $90^\circ$ & \small el vértice de la parábola & \small las raíces de $ax^2+bx+c=0$
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{7-1}{Números complejos}
+
+El acertijo de Beto: un número cuyo cuadrado sea $-1$. En la recta no hay ninguno: $3^2=9$, $(-3)^2=9$ y $0^2=0$;
+ningún cuadrado cae del lado negativo. Así que se \emph{inventa} uno.
+\begin{definicion}[Unidad imaginaria y número complejo]
+La \clave{unidad imaginaria} $i$ cumple $i^2=-1$. Para $r>0$ se define $\sqrt{-r}=i\sqrt{r}$; por ejemplo,
+$\sqrt{-25}=5i$. Un \clave{número complejo} es $z=a+bi$ con $a,b\in\R$: $a=\Ree z$ es la parte real y $b=\Imm z$ la
+parte imaginaria. Su conjunto es $\C$, y dos complejos son iguales si coinciden sus dos partes.
+\end{definicion}
+
+\begin{minipage}[c]{0.52\linewidth}
+\textbf{¿Dónde vive $i$?} Multiplicar por $-1$ es dar media vuelta: el $2$ pasa a $-2$, y dos medias vueltas son una
+vuelta entera (por eso menos por menos da más). Multiplicar por $i$ es dar \clave{un cuarto de vuelta}: dos cuartos
+hacen media vuelta, y por eso $i\cdot i=-1$. Cuatro cuartos completan la vuelta:
+\[ i^1=i,\quad i^2=-1,\quad i^3=-i,\quad i^4=1 , \]
+y las potencias se repiten de cuatro en cuatro.
+
+\smallskip
+Los complejos forman un \clave{plano}: $2+3i$ es el punto que está $2$ a la derecha y $3$ hacia arriba.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\begin{tikzpicture}[scale=0.82]
+  \draw[zline,line width=0.4pt] (-2.4,-2.4) grid (3.4,3.4);
+  \draw[->,zink] (-2.6,0) -- (3.6,0) node[right,font=\footnotesize]{$\Ree$};
+  \draw[->,zink] (0,-2.6) -- (0,3.6) node[above,font=\footnotesize]{$\Imm$};
+  \draw[->,zcoral,line width=1pt] (1.1,0.25) arc[start angle=13,end angle=77,radius=1.13];
+  \draw[->,zcoral,line width=1pt] (-0.25,1.1) arc[start angle=103,end angle=167,radius=1.13];
+  \draw[->,zcoral,line width=1pt] (-1.1,-0.25) arc[start angle=193,end angle=257,radius=1.13];
+  \foreach \p in {(1,0),(0,1),(-1,0),(0,-1)} \node[punto,fill=zcoral] at \p {};
+  \node[font=\small] at (1.25,-0.3) {$1$}; \node[font=\small] at (-0.3,1.3) {$i$};
+  \node[font=\small] at (-1.4,-0.3) {$-1$}; \node[font=\small] at (0.35,-1.3) {$-i$};
+  \draw[->,zaccent,line width=1.1pt] (0,0) -- (2,3);
+  \node[punto,fill=zaccent] at (2,3) {}; \node[font=\small,anchor=west] at (2.05,3.05) {$2+3i$};
+  \draw[dashed,zmute] (2,0) -- (2,3) -- (0,3);
+\end{tikzpicture}
+
+{\footnotesize\color{zmute}Cada flecha coral es una multiplicación por $i$.}
+\end{minipage}
+
+\begin{propiedad}[Operaciones]
+\vspace{-4pt}
+\begin{align*}
+(a+bi)\pm(c+di)&=(a\pm c)+(b\pm d)\,i, & (a+bi)(c+di)&=(ac-bd)+(ad+bc)\,i .
+\end{align*}
+Se suma real con real e imaginaria con imaginaria (como poner una flecha tras otra), y se multiplica como binomios
+cambiando $i^2$ por $-1$.
+\end{propiedad}
+\begin{ejemplo}[Sumar y multiplicar]
+$(2+3i)+(2-4i)=4-i$.\qquad
+$(1+2i)(3-i)=3-i+6i-2i^2=3+5i+2=5+5i$.
+\end{ejemplo}
+
+\begin{minipage}[c]{0.6\linewidth}
+\begin{definicion}[Conjugado y módulo]
+El \clave{conjugado} de $z=a+bi$ es $\conj z=a-bi$: su reflejo en el eje real. El \clave{módulo} $\abs z=\sqrt{a^2+b^2}$
+es su distancia al origen, y
+\[ z\,\conj z=a^2+b^2=\abs z^{2}\in\R . \]
+\end{definicion}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.42]
+  \draw[->,zink] (-0.8,0) -- (4.6,0) node[right,font=\footnotesize]{$\Ree$};
+  \draw[->,zink] (0,-4.8) -- (0,4.8);
+  \draw[zaccent,line width=1pt] (0,0) -- node[above left=-2pt,font=\footnotesize,text=zink]{$5$} (3,4);
+  \draw[zcoral,line width=1pt,dashed] (0,0) -- (3,-4);
+  \draw[dotted,zmute,line width=0.8pt] (3,4) -- (3,-4);
+  \node[punto,fill=zaccent] at (3,4) {}; \node[punto,fill=zcoral] at (3,-4) {};
+  \node[font=\footnotesize,anchor=west] at (3.2,4) {$3+4i$};
+  \node[font=\footnotesize,anchor=west] at (3.2,-4) {$3-4i$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{ejemplo}[Dividir con el conjugado]
+Con $z=3+4i$: $\conj z=3-4i$, $\abs z=\sqrt{9+16}=5$ y $(3+4i)(3-4i)=9+16=25$. Para dividir se multiplica arriba y
+abajo por el conjugado del divisor, así el denominador queda real:
+\[ \frac{7+i}{3+4i}=\frac{(7+i)(3-4i)}{(3+4i)(3-4i)}=\frac{21-28i+3i-4i^2}{25}=\frac{25-25i}{25}=1-i . \]
+\end{ejemplo}
+\begin{ojo}[Raíces de negativos]
+La regla $\sqrt{a}\sqrt{b}=\sqrt{ab}$ no vale si $a,b<0$: $\sqrt{-4}\,\sqrt{-9}=(2i)(3i)=6i^2=-6$, no $\sqrt{36}=6$.
+Primero se escribe cada raíz con $i$.
+\end{ojo}
+
+%=====================================================================
+\needspace{10\baselineskip}
+\nivel{7-2}{Ecuaciones lineales}
+
+\begin{minipage}[c]{0.56\linewidth}
+Ana compra baldosas para la fuente. Tres cajas cerradas iguales y cuatro baldosas sueltas pesan lo mismo que
+$25$ baldosas. Si cada caja trae $x$:
+\[ 3x+4=25 . \]
+Una ecuación es una \clave{balanza} en equilibrio: si se quita algo de un solo lado, se inclina.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=1.1]
+  \fill[zmute] (-0.35,-1.6) -- (0.35,-1.6) -- (0,-0.1) -- cycle;
+  \draw[zink,line width=1.4pt] (-2.6,0) -- (2.6,0);
+  \draw[zink] (-2.2,0) -- (-2.2,0.15); \draw[zink] (2.2,0) -- (2.2,0.15);
+  \foreach \i in {0,1,2} \draw[draw=zink,fill=zsky!45] (-3.0+\i*0.62,0.15) rectangle (-2.48+\i*0.62,0.75);
+  \foreach \i in {0,1,2} \node[font=\scriptsize] at (-2.74+\i*0.62,0.45) {$x$};
+  \foreach \i in {0,1} \foreach \j in {0,1} \draw[draw=zink,fill=zsun!55] (-1.08+\i*0.28,0.15+\j*0.28) rectangle (-0.84+\i*0.28,0.39+\j*0.28);
+  \draw[draw=zink,fill=zsun!55] (1.4,0.15) rectangle (3.0,0.75); \node[font=\scriptsize] at (2.2,0.45) {$25$ sueltas};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{definicion}[Ecuación lineal]
+Una \clave{ecuación lineal} en $x$ se puede llevar a la forma $ax+b=0$ con $a\neq0$; su única solución es
+$x=-\dfrac{b}{a}$. Dos ecuaciones son \clave{equivalentes} si tienen las mismas soluciones.
+\end{definicion}
+\begin{propiedad}[La regla de la balanza]
+Sumar o restar el mismo número en los dos lados, o multiplicar o dividir los dos lados por el mismo número
+\emph{distinto de cero}, da una ecuación equivalente. Despejar es deshacer las operaciones en orden inverso.
+\end{propiedad}
+
+\begin{ejemplo}[Las cajas de Ana]
+\[ 3x+4=25\ \xrightarrow{\ -4\ }\ 3x=21\ \xrightarrow{\ \div3\ }\ x=7 . \]
+Comprobación: $3\cdot7+4=25$. Cada caja trae $7$ baldosas.
+\end{ejemplo}
+\begin{ejemplo}[Cajas en los dos lados: $4x+3=x+15$]
+Se quita una caja de cada lado y luego tres sueltas:
+\[ 4x+3=x+15\ \Rightarrow\ 3x+3=15\ \Rightarrow\ 3x=12\ \Rightarrow\ x=4 . \]
+Se comprueba: los dos lados dan $19$.
+\end{ejemplo}
+\begin{ejemplo}[Paréntesis y fracciones]
+Con paréntesis, primero se reparte: $2(x-1)=x+3\Rightarrow 2x-2=x+3\Rightarrow x=5$.
+Una fracción se quita multiplicando \emph{todo} por su denominador:
+\[ \frac{x+1}{3}=x-1\ \xrightarrow{\ \cdot 3\ }\ x+1=3x-3\ \Rightarrow\ 4=2x\ \Rightarrow\ x=2 . \]
+\end{ejemplo}
+\begin{ojo}[Balanzas que nunca se equilibran]
+Si al simplificar sale algo falso, como en $2x+1=2x+3\Rightarrow 1=3$, \emph{no hay solución}. Si sale algo siempre
+cierto, como en $2(x+1)=2x+2\Rightarrow 0=0$, \emph{todo} número real es solución.
+\end{ojo}
+
+%=====================================================================
+\needspace{10\baselineskip}
+\nivel{7-3}{Polinomio cuadrático y parábola}
+
+\begin{definicion}[Función cuadrática]
+Una \clave{función cuadrática} es $f(x)=ax^2+bx+c$ con $a\neq0$. Su gráfica es una \clave{parábola}: una curva
+simétrica respecto a una recta vertical, el \clave{eje de simetría}, que da la vuelta en un solo punto, el \clave{vértice}.
+\end{definicion}
+La más sencilla es $y=x^2$: $0$ da $0$, $1$ da $1$, $2$ da $4$, y $2$ y $-2$ dan lo mismo. Para moverla se usa la
+\clave{forma canónica}:
+\[ y=a\,(x-h)^2+k\qquad\text{vértice } (h,k),\ \text{eje } x=h . \]
+$x-h$ corre la curva $h$ hacia la derecha, $+k$ la sube $k$; si $a>0$ abre hacia arriba y el vértice es un
+\clave{mínimo}; si $a<0$ se voltea, abre hacia abajo y el vértice es un \clave{máximo}.
+
+\begin{figura}[$y=x^2$ tiene vértice $(0,0)$; $y=(x-4)^2+1$ es la misma curva corrida $4$ a la derecha y subida $1$; con un menos adelante, $y=-(x-4)^2+5$ se voltea.]
+\begin{tikzpicture}
+\begin{axis}[zplot,width=9.6cm,height=6.2cm,xmin=-3.2,xmax=7.6,ymin=-1.5,ymax=7.4,xtick={-2,...,7},ytick={1,...,7},
+  xlabel={$x$},ylabel={$y$},xlabel style={anchor=north west},ylabel style={anchor=south east},
+  legend pos=outer north east,legend style={font=\footnotesize,draw=zline},legend cell align=left]
+  \addplot[zsky,domain=-2.7:2.7,samples=60] {x^2}; \addlegendentry{$y=x^2$}
+  \addplot[zaccent,domain=1.3:6.7,samples=60] {(x-4)^2+1}; \addlegendentry{$y=(x-4)^2+1$}
+  \addplot[zcoral,domain=1.4:6.6,samples=60] {-(x-4)^2+5}; \addlegendentry{$y=-(x-4)^2+5$}
+  \addplot[only marks,mark=*,mark size=2pt,zink] coordinates {(0,0) (4,1) (4,5)};
+  \node[font=\footnotesize,anchor=north west] at (axis cs:0.1,-0.05) {$(0,0)$};
+  \node[font=\footnotesize,anchor=west] at (axis cs:4.15,0.85) {$(4,1)$};
+  \node[font=\footnotesize,anchor=south] at (axis cs:4,5.15) {$(4,5)$};
+\end{axis}
+\end{tikzpicture}
+\end{figura}
+
+\subsection{Completar el cuadrado}
+Si la fórmula viene sin armar se \clave{completa el cuadrado}: las barras $bx$ se reparten mitad y mitad alrededor del
+cuadrado $x^2$, y la esquina pide $\left(\frac b2\right)^2$ cuadritos.
+\begin{ejemplo}[$y=x^2+4x+7$]
+Las $4$ barras se reparten dos y dos; la esquina pide $2^2=4$ y de los $7$ sobran $3$:
+\[ x^2+4x+7=(x^2+4x+4)+3=(x+2)^2+3 . \]
+El vértice es $(-2,3)$ y, como abre hacia arriba, $3$ es el valor mínimo.
+\end{ejemplo}
+
+\begin{propiedad}[Vértice de $y=ax^2+bx+c$]
+Al completar el cuadrado en general,
+\[ ax^2+bx+c=a\left(x+\frac{b}{2a}\right)^2+c-\frac{b^2}{4a},\qquad\text{así que}\qquad h=-\frac{b}{2a},\quad k=f(h). \]
+\end{propiedad}
+
+\begin{minipage}[c]{0.46\linewidth}
+\textbf{Ejemplo: el chorro de Caro.} El chorro sigue $y=-x^2+4x+1$ ($x$ e $y$ en metros, la boquilla en $x=0$).
+Como $a=-1<0$, abre hacia abajo y el vértice es el punto más alto:
+\[ h=-\frac{4}{2(-1)}=2,\qquad k=-4+8+1=5 . \]
+El chorro llega a $\SI{5}{\metre}$ de altura, a $\SI{2}{\metre}$ de la boquilla: el punto más alto salió de la
+fórmula.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=7.6cm,height=5.6cm,xmin=-1,xmax=5.2,ymin=-0.8,ymax=6.2,xtick={-1,...,5},ytick={1,...,6},
+  xlabel={$x$},ylabel={$y$},xlabel style={anchor=north west},ylabel style={anchor=south east}]
+  \addplot[zsky,domain=0:4.236,samples=60] {-x^2+4*x+1};
+  \addplot[zsky,dashed,line width=0.8pt,domain=-0.236:0,samples=10] {-x^2+4*x+1};
+  \addplot[only marks,mark=*,mark size=2pt,zink] coordinates {(2,5) (0,1) (4.236,0)};
+  \draw[zmute,dashed,line width=0.6pt] (axis cs:2,0) -- (axis cs:2,5);
+  \node[font=\footnotesize,anchor=south] at (axis cs:2,5.1) {vértice $(2,5)$};
+  \node[font=\footnotesize,anchor=north west] at (axis cs:0.08,0.85) {boquilla};
+  \node[font=\footnotesize,anchor=south east] at (axis cs:4.15,0.1) {$2+\sqrt5$};
+\end{axis}
+\end{tikzpicture}
+\end{minipage}
+
+\begin{ojo}[El signo de $h$]
+En $y=(x+1)^2+3$ el vértice es $(-1,3)$, no $(1,3)$: la forma es $x-h$, y $x+1=x-(-1)$.
+\end{ojo}
+
+%=====================================================================
+\needspace{10\baselineskip}
+\nivel{7-4}{Ecuaciones cuadráticas}
+
+El chorro sube $\SI{5}{\metre}$, pero ¿dónde cae el agua? Donde la altura vale cero: en las \clave{raíces}, los
+puntos en que la parábola corta el eje $x$. Buscarlas es resolver $ax^2+bx+c=0$.
+
+\begin{propiedad}[Producto cero]
+Si $A\cdot B=0$, entonces $A=0$ o $B=0$.
+\end{propiedad}
+\begin{ejemplo}[Una que se deja factorizar: $x^2-x-6=0$]
+Dos números que multiplicados den $-6$ y sumados $-1$: son $-3$ y $2$. Entonces
+\[ x^2-x-6=(x-3)(x+2)=0\quad\Longrightarrow\quad x=3\ \ \text{o}\ \ x=-2 . \]
+Se comprueba: $3^2-3-6=0$ y $(-2)^2+2-6=0$. La parábola $y=x^2-x-6$ corta el eje en $-2$ y en $3$.
+\end{ejemplo}
+
+\subsection{La fórmula general}
+Sirve para cualquier ecuación y sale de completar el cuadrado. Si $a\neq0$:
+\[ ax^2+bx+c=0\iff\left(x+\frac{b}{2a}\right)^2=\frac{b^2-4ac}{4a^2}\iff x+\frac{b}{2a}=\pm\frac{\sqrt{b^2-4ac}}{2a}. \]
+\begin{clavebox}[FÓRMULA GENERAL]
+$\displaystyle x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$
+\end{clavebox}
+\begin{ejemplo}[¿Dónde cae el agua de la fuente?]
+$-x^2+4x+1=0$, con $a=-1$, $b=4$, $c=1$:
+\[ x=\frac{-4\pm\sqrt{16+4}}{-2}=\frac{-4\pm2\sqrt5}{-2}=2\mp\sqrt5 . \]
+$x=2+\sqrt5\approx4.24$: el agua cae a unos $\SI{4.24}{\metre}$ de la boquilla. La otra raíz, $2-\sqrt5\approx-0.24$,
+queda detrás de la boquilla: el chorro nunca pasa por ahí, así que no sirve para el problema.
+\end{ejemplo}
+
+\subsection{El discriminante}
+Lo de adentro de la raíz, $\Delta=b^2-4ac$, cuenta cuántas raíces reales hay.
+\begin{figura}[Tres parábolas con $a>0$: $\Delta>0$ corta el eje dos veces, $\Delta=0$ lo toca una vez, $\Delta<0$ no lo toca.]
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=3 by 1,horizontal sep=0.9cm},zplot,width=5.1cm,height=4.4cm,
+  xmin=-1,xmax=5,ymin=-2.5,ymax=5.5,xtick={0,2,4},ytick={-2,2,4}]
+  \nextgroupplot[title={\small $\Delta>0$: dos raíces}]
+    \addplot[zaccent,domain=-0.6:4.6,samples=50] {(x-1)*(x-3)};
+    \addplot[only marks,mark=*,mark size=1.8pt,zcoral] coordinates {(1,0) (3,0)};
+  \nextgroupplot[title={\small $\Delta=0$: una raíz doble}]
+    \addplot[zaccent,domain=-0.2:4.2,samples=50] {(x-2)^2};
+    \addplot[only marks,mark=*,mark size=1.8pt,zcoral] coordinates {(2,0)};
+  \nextgroupplot[title={\small $\Delta<0$: ninguna real}]
+    \addplot[zaccent,domain=0:4,samples=50] {(x-2)^2+1};
+\end{groupplot}
+\end{tikzpicture}
+\end{figura}
+\begin{ejemplo}[Raíces complejas: $x^2-4x+5=0$]
+$\Delta=16-20=-4<0$: la parábola no cruza el eje. Las raíces son complejas conjugadas:
+\[ x=\frac{4\pm\sqrt{-4}}{2}=\frac{4\pm2i}{2}=2\pm i . \]
+\end{ejemplo}
+\begin{propiedad}[Suma y producto de las raíces]
+Si $x_1,x_2$ son las raíces de $ax^2+bx+c=0$, entonces $x_1+x_2=-\dfrac ba$ y $x_1x_2=\dfrac ca$, y
+$ax^2+bx+c=a(x-x_1)(x-x_2)$.
+\end{propiedad}
+\begin{ojo}[Errores con la fórmula]
+\begin{itemize}
+\item En la fórmula va $-b$: si $b$ ya es negativo, $-b$ es positivo. Y $b^2$ siempre es positivo: $(-3)^2=9$.
+\item El $2a$ divide a \emph{todo} el numerador, no solo a la raíz.
+\item Antes de usar la fórmula, la ecuación debe estar igualada a cero.
+\item En un problema real hay que revisar cada raíz: una puede no tener sentido.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\needspace{12\baselineskip}
+\repaso
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l L l@{}}
+\toprule
+Concepto & Fórmula o regla & Ejemplo\\ \midrule
+Unidad imaginaria & $i^2=-1$,\ \ $\sqrt{-r}=i\sqrt r$\ \ ($r>0$) & $\sqrt{-25}=5i$\\
+Producto & $(a+bi)(c+di)=(ac-bd)+(ad+bc)i$ & $(1+2i)(3-i)=5+5i$\\
+Conjugado y módulo & $\conj z=a-bi$,\ \ $\abs z=\sqrt{a^2+b^2}$,\ \ $z\conj z=\abs z^2$ & $\abs{3+4i}=5$\\
+Ecuación lineal & $ax+b=0\Rightarrow x=-b/a$ & $3x+4=25$: $x=7$\\
+Forma canónica & $y=a(x-h)^2+k$, vértice $(h,k)$ & $(x+2)^2+3$: $(-2,3)$\\
+Vértice & $h=-\frac{b}{2a}$,\ \ $k=f(h)$ & $-x^2+4x+1$: $(2,5)$\\
+Fórmula general & $x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$ & $-x^2+4x+1=0$: $2\pm\sqrt5$\\
+Discriminante & $\Delta=b^2-4ac$: $>0$ dos, $=0$ una, $<0$ ninguna real & $x^2-4x+5$: $\Delta=-4$\\
+Raíces & $x_1+x_2=-\frac ba$,\ \ $x_1x_2=\frac ca$ & $x^2-x-6$: $3+(-2)=1$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Olvidar que $i^2=-1$ al multiplicar complejos, o cambiar de signo la parte real al conjugar.
+\item Hacer una operación en un solo lado de la ecuación, o repartir un número a un solo término del paréntesis.
+\item Leer mal el signo de $h$ en $a(x-h)^2+k$.
+\item Usar $b$ en vez de $-b$ en la fórmula general, o dividir entre $2a$ solo una parte.
+\item No descartar las raíces que no tienen sentido en el problema.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Escribe en la forma $a+bi$:
+  (a) $(3-2i)+(-1+5i)$ \quad (b) $(4+i)(2-3i)$ \quad (c) $i^{23}$ \quad (d) $\sqrt{-49}+\sqrt{-4}$.
+\item Sean $z=1+3i$ y $w=2-i$.
+  \begin{ejercicios}
+  \item Calcula $\dfrac{z}{w}$ en la forma $a+bi$.
+  \item Calcula $\abs z$.
+  \item Dibuja en el plano complejo $z$, $\conj z$ e $i\,z$. ¿Qué movimiento lleva $z$ a cada uno?
+  \end{ejercicios}
+\item Resuelve:
+  (a) $5-3x=2x-20$ \quad (b) $3(2x-1)-2(x+4)=13$ \quad (c) $\dfrac{x-1}{2}-\dfrac{x+2}{3}=1$.\newline
+  (d) Decide cuántas soluciones tiene cada una: $4(x-2)+x=5x-8$ \ y \ $3x+2=3(x+1)$.
+\item Un plan de celular cobra $25\,000$ pesos fijos más $300$ pesos por minuto; otro cobra $40\,000$ pesos fijos más
+  $150$ pesos por minuto. ¿Con cuántos minutos al mes cuestan lo mismo? ¿Cuál conviene a quien habla $150$ minutos?
+\item Para $f(x)=2x^2-8x+3$: escribe la forma canónica, halla el vértice, el eje de simetría, el valor mínimo y el
+  corte con el eje $y$.
+\item Esboza la gráfica de $y=-(x+1)^2+4$ marcando el vértice, los cortes con los ejes y el eje de simetría. Con la
+  gráfica, responde: ¿para qué valores de $x$ es $y>0$?
+\item Halla la ecuación de la parábola con vértice $(3,-2)$ que pasa por el punto $(5,6)$. Escríbela en forma canónica
+  y en la forma $ax^2+bx+c$.
+\item Resuelve en $\C$:
+  (a) $x^2-7x+10=0$ \quad (b) $3x^2=12x$ \quad (c) $2x^2+3x-2=0$ \quad (d) $x^2+2x+5=0$ \quad (e) $4x^2-20x+25=0$.
+\item ¿Para qué valores de $k$ la ecuación $x^2+kx+9=0$ tiene una raíz doble? ¿Para cuáles no tiene raíces reales?
+\item Un jardín rectangular de $\SI{12}{\metre}$ por $\SI{8}{\metre}$ se rodea con un camino de ancho uniforme $x$. El
+  área total, jardín más camino, es de $\SI{140}{\metre\squared}$. Plantea la ecuación y halla el ancho del camino.
+\end{ejercicios}
+
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) $2+3i$ (b) $8-12i+2i-3i^2=11-10i$ (c) $23=20+3$: $i^{23}=i^3=-i$ (d) $7i+2i=9i$.
+\item (a) $\frac{(1+3i)(2+i)}{5}=\frac{-1+7i}{5}=-0.2+1.4i$. (b) $\sqrt{10}$. (c) $\conj z=1-3i$ (reflejo en el eje real); $iz=-3+i$ (giro de $90^\circ$ antihorario).
+\item (a) $25=5x$: $x=5$. (b) $4x-11=13$: $x=6$. (c) $3(x-1)-2(x+2)=6$: $x=13$. (d) La primera da $0=0$: infinitas (todo $\R$); la segunda da $2=3$: ninguna.
+\item $25\,000+300m=40\,000+150m\Rightarrow m=100$ minutos (ambos cuestan $55\,000$). Con $150$ min: $70\,000$ frente a $62\,500$; conviene el segundo.
+\item $f(x)=2(x-2)^2-5$; vértice $(2,-5)$, eje $x=2$, mínimo $-5$, corte $(0,3)$.
+\item Vértice $(-1,4)$, abre hacia abajo, eje $x=-1$; $(x+1)^2=4$: cortes $x=-3$ y $x=1$; corte con $y$ en $(0,3)$. $y>0$ si $-3<x<1$.
+\item $y=a(x-3)^2-2$ con $4a-2=6$: $a=2$. $y=2(x-3)^2-2=2x^2-12x+16$.
+\item (a) $(x-2)(x-5)$: $2,\,5$. (b) $3x(x-4)=0$: $0,\,4$. (c) $(2x-1)(x+2)$: $\frac12,\,-2$. (d) $\Delta=-16$: $-1\pm2i$. (e) $(2x-5)^2$: $\frac52$ doble.
+\item $\Delta=k^2-36$. Raíz doble si $k=\pm6$; sin raíces reales si $-6<k<6$.
+\item $(12+2x)(8+2x)=140\Rightarrow4x^2+40x-44=0\Rightarrow x^2+10x-11=(x+11)(x-1)=0$. Solo sirve $x=\SI{1}{\metre}$.
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

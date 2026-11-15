@@ -1,0 +1,590 @@
+% Resumen del mundo «Faro de los Ángulos» (Trigonometría, mundo 2). Lecciones trig-45, trig-4, trig-47b, trig-48a,
+% trig-48b, trig-49, trig-46a, trig-46b. Usa los ejemplos de los videos T10–T17; el taller trae ejercicios nuevos.
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{trig}
+\zukamundo{2}{Faro de los Ángulos}{Funciones trigonométricas inversas y aplicaciones}
+
+% Un nivel no empieza al pie de una página
+\usepackage{needspace}
+\let\nivelorig\nivel
+\renewcommand{\nivel}[2]{\Needspace{8\baselineskip}\nivelorig{#1}{#2}}
+% Cajas que no se parten (dentro de minipáginas)
+\newcommand{\sinpartir}{\tcbset{zbase/.append style={unbreakable}}}
+\pgfplotsset{pitick/.style={xtick={0,1.5708,3.1416,4.7124,6.2832},
+  xticklabels={$0$,$\frac{\pi}{2}$,$\pi$,$\frac{3\pi}{2}$,$2\pi$}}}
+
+\begin{document}
+
+\portada{%
+En el mundo anterior las funciones trigonométricas convertían ángulos en números. Aquí se hace el camino de vuelta:
+las \clave{funciones inversas} devuelven el ángulo. Con ellas, con las \clave{identidades} y con las fórmulas de suma y
+de ángulo doble se resuelven ecuaciones trigonométricas y cualquier triángulo, tenga o no ángulo recto. Este resumen
+reúne las definiciones, las fórmulas y los ejemplos de los videos, y termina con un taller de práctica.}{%
+\item \textbf{Nivel 2-1.} Seno, coseno y tangente inversos: dominio restringido, rangos y composiciones.
+\item \textbf{Nivel 2-2.} Identidades fundamentales: pitagóricas, de cociente, recíprocas y cofunciones.
+\item \textbf{Nivel 2-3.} Simplificar y demostrar identidades; refutar con un contraejemplo.
+\item \textbf{Nivel 2-4.} Seno, coseno y tangente de una suma y de una resta.
+\item \textbf{Nivel 2-5.} Ángulo doble, reducción de potencias y ángulo medio.
+\item \textbf{Nivel 2-6.} Ecuaciones trigonométricas: soluciones en una vuelta y solución general.
+\item \textbf{Nivel 2-7.} Ley de senos y el caso ambiguo.
+\item \textbf{Nivel 2-8.} Ley de cosenos y área de un triángulo (fórmula de Herón).}
+
+\begin{clavebox}[LAS TRES IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\quad}c@{\quad}c@{}}
+$\displaystyle y=\sen^{-1}x\iff \sen y=x,\ y\in\left[-\tfrac{\pi}{2},\tfrac{\pi}{2}\right]$ & $\displaystyle \sen^2\theta+\cos^2\theta=1$ & $\displaystyle \frac{\sen A}{a}=\frac{\sen B}{b}=\frac{\sen C}{c}$\\[2pt]
+\small la inversa da un solo ángulo & \small la identidad madre & \small todo triángulo se resuelve
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{2-1}{Seno, coseno y tangente inversos}
+
+Si te dan un número, digamos $\tfrac12$, y preguntas de qué ángulo salió su seno, la recta $y=\tfrac12$ corta la onda
+infinitas veces. Una función inversa tiene que dar una sola respuesta, así que se \clave{restringe} el dominio a un
+tramo donde la función no repite valores y pasa por todos: para el seno, $\left[-\tfrac{\pi}{2},\tfrac{\pi}{2}\right]$.
+Luego se refleja la gráfica en la recta $y=x$.
+
+\begin{figura}[Izquierda: el tramo de $y=\sen x$ en $\left[-\frac{\pi}{2},\frac{\pi}{2}\right]$ y su reflejo en $y=x$, que es $y=\sen^{-1}x$. Derecha: $y=\cos^{-1}x$ y $y=\tan^{-1}x$ (asíntotas horizontales en $\pm\frac{\pi}{2}$).]
+\begin{tikzpicture}
+\begin{axis}[zplot,width=6.4cm,height=6.4cm,axis equal image,xmin=-2,xmax=2,ymin=-2,ymax=2,samples=100,
+  xtick={-1.5708,-1,1,1.5708},xticklabels={$-\frac{\pi}{2}$,$-1$,$1$,$\frac{\pi}{2}$},
+  ytick={-1.5708,1.5708},yticklabels={$-\frac{\pi}{2}$,$\frac{\pi}{2}$}]
+  \addplot[zmute,dashed,line width=0.7pt,domain=-2:2] {x};
+  \addplot[zink!30,domain=-2:-1.5708] {sin(deg(x))};
+  \addplot[zink!30,domain=1.5708:2] {sin(deg(x))};
+  \addplot[zsky,domain=-1.5708:1.5708] {sin(deg(x))};
+  \addplot[zcoral,domain=-1:1] {rad(asin(x))};
+  \node[font=\footnotesize,text=zsky,anchor=north west] at (axis cs:0.95,0.6) {$\sen x$};
+  \node[font=\footnotesize,text=zcoral,anchor=east] at (axis cs:0.9,1.78) {$\sen^{-1}x$};
+\end{axis}
+\end{tikzpicture}\hspace{8mm}
+\begin{tikzpicture}
+\begin{axis}[zplot,width=8cm,height=6.4cm,xmin=-4.2,xmax=4.2,ymin=-1.9,ymax=3.5,samples=120,
+  xtick={-1,1},ytick={-1.5708,1.5708,3.1416},yticklabels={$-\frac{\pi}{2}$,$\frac{\pi}{2}$,$\pi$}]
+  \addplot[zmute,dashed,line width=0.6pt,domain=-4.2:4.2] {1.5708};
+  \addplot[zmute,dashed,line width=0.6pt,domain=-4.2:4.2] {-1.5708};
+  \addplot[zviolet,domain=-1:1] {rad(acos(x))};
+  \addplot[zmint,domain=-4.2:4.2] {rad(atan(x))};
+  \node[font=\footnotesize,text=zviolet,anchor=south east] at (axis cs:-1,3.0) {$\cos^{-1}x$};
+  \node[font=\footnotesize,text=zmint,anchor=north west] at (axis cs:1.3,1.0) {$\tan^{-1}x$};
+\end{axis}
+\end{tikzpicture}
+\end{figura}
+
+\begin{definicion}[Funciones trigonométricas inversas]
+\begin{center}\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{}lll@{}}
+Función & Dominio & Rango (ángulo que devuelve)\\ \hline
+$y=\sen^{-1}x\iff \sen y=x$ & $[-1,1]$ & $\left[-\tfrac{\pi}{2},\tfrac{\pi}{2}\right]$ \ (mitad derecha)\\
+$y=\cos^{-1}x\iff \cos y=x$ & $[-1,1]$ & $[0,\pi]$ \ (mitad de arriba)\\
+$y=\tan^{-1}x\iff \tan y=x$ & $\R$ & $\left(-\tfrac{\pi}{2},\tfrac{\pi}{2}\right)$
+\end{tabular}
+\end{center}
+También se escriben $\arcsen x$, $\arccos x$ y $\arctan x$.
+\end{definicion}
+
+\begin{minipage}[c]{0.52\linewidth}\sinpartir 
+En la circunferencia unitaria el seno es la altura y el coseno el avance. Una altura $\tfrac{\sqrt3}{2}$ aparece en
+$60^\circ$ y en $120^\circ$, pero $\sen^{-1}$ solo mira la \emph{mitad derecha}: $\sen^{-1}\tfrac{\sqrt3}{2}=\tfrac{\pi}{3}$.
+Un avance $-\tfrac12$ aparece en $120^\circ$ y en $240^\circ$, pero $\cos^{-1}$ solo mira la \emph{mitad de arriba}:
+$\cos^{-1}\!\left(-\tfrac12\right)=\tfrac{2\pi}{3}$.
+
+\smallskip
+\textbf{Regla de bolsillo:} el seno inverso vive a la derecha; el coseno inverso, arriba.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=1.15]
+  \fill[zsky!15] (0,-1) arc (-90:90:1) -- cycle;
+  \draw[->,zmute] (-1.25,0)--(1.3,0); \draw[->,zmute] (0,-1.2)--(0,1.25);
+  \draw[zink] (0,0) circle (1);
+  \draw[zmute,dashed] (-1.1,0.866)--(1.1,0.866);
+  \fill[zsky] (60:1) circle (1.5pt); \draw[zsky,line width=1pt] (0,0)--(60:1);
+  \fill[white,draw=zmute] (120:1) circle (1.5pt);
+  \node[font=\scriptsize,anchor=south west] at (60:1) {$\frac{\pi}{3}$};
+  \node[font=\scriptsize,text=zsky] at (0.42,-0.4) {$\sen^{-1}$};
+  \begin{scope}[xshift=2.9cm]
+  \fill[zviolet!15] (1,0) arc (0:180:1) -- cycle;
+  \draw[->,zmute] (-1.25,0)--(1.3,0); \draw[->,zmute] (0,-1.2)--(0,1.25);
+  \draw[zink] (0,0) circle (1);
+  \draw[zmute,dashed] (-0.5,-1.1)--(-0.5,1.1);
+  \fill[zviolet] (120:1) circle (1.5pt); \draw[zviolet,line width=1pt] (0,0)--(120:1);
+  \fill[white,draw=zmute] (240:1) circle (1.5pt);
+  \node[font=\scriptsize,anchor=south east] at (120:1) {$\frac{2\pi}{3}$};
+  \node[font=\scriptsize,text=zviolet] at (0.42,0.32) {$\cos^{-1}$};
+  \end{scope}
+\end{tikzpicture}
+\end{minipage}
+
+\begin{propiedad}[Composiciones]
+$\sen\left(\sen^{-1}x\right)=x$ para todo $x\in[-1,1]$, pero $\sen^{-1}(\sen x)=x$ \emph{solo} si
+$x\in\left[-\tfrac{\pi}{2},\tfrac{\pi}{2}\right]$. Igual con el coseno en $[0,\pi]$ y la tangente en $\left(-\tfrac{\pi}{2},\tfrac{\pi}{2}\right)$.
+\end{propiedad}
+
+\begin{ejemplo}[La trampa clásica]
+$\sen^{-1}\!\left(\sen\tfrac{3\pi}{4}\right)$ no es $\tfrac{3\pi}{4}$. Por partes: $\sen\tfrac{3\pi}{4}=\tfrac{\sqrt2}{2}$, y el ángulo de la
+mitad derecha con ese seno es $\tfrac{\pi}{4}$. No se vuelve a $\tfrac{3\pi}{4}$ porque está fuera del rango.
+\end{ejemplo}
+
+\begin{ejemplo}[El tobogán]
+Un tobogán de $\SI{8}{m}$ baja desde una plataforma de $\SI{4}{m}$ de alto. La altura es el opuesto al ángulo con el
+piso y el tobogán la hipotenusa: $\sen\theta=\tfrac48=\tfrac12$, así que $\theta=\sen^{-1}\tfrac12=30^\circ$. Con
+$\SI{3}{m}$ de alto y $\SI{10}{m}$ de largo, la calculadora da $\theta=\sen^{-1}0.3\approx17.5^\circ$: mucho más suave.
+\end{ejemplo}
+
+\begin{ojo}[$\sen^{-1}x$ no es $\frac{1}{\sen x}$]
+El $-1$ indica función inversa, no recíproco: $\tfrac{1}{\sen x}=\csc x$. Y $\sen^{-1}2$ no existe: ningún seno vale $2$.
+\end{ojo}
+
+%=====================================================================
+\nivel{2-2}{Identidades fundamentales}
+
+\begin{minipage}[c]{0.6\linewidth}\sinpartir 
+En la circunferencia unitaria el punto de ángulo $\theta$ forma un triángulo rectángulo de base $\cos\theta$, altura
+$\sen\theta$ e hipotenusa $1$. Pitágoras da la \clave{identidad pitagórica}, que vale para \emph{cualquier} ángulo.
+Al dividirla entre $\cos^2\theta$ o entre $\sen^2\theta$ nacen sus dos hermanas.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=1.7]
+  \draw[->,zmute] (-0.2,0)--(1.25,0); \draw[->,zmute] (0,-0.2)--(0,1.2);
+  \draw[zline] (1,0) arc (0:90:1);
+  \fill[zaccent!12] (0,0)--(0.8,0)--(0.8,0.6)--cycle;
+  \draw[zink,line width=0.9pt] (0,0)--(0.8,0.6);
+  \draw[zsky,line width=1.6pt] (0,0)--(0.8,0);
+  \draw[zcoral,line width=1.6pt] (0.8,0)--(0.8,0.6);
+  \draw[zink] (0.72,0)--(0.72,0.08)--(0.8,0.08);
+  \node[font=\footnotesize,text=zsky,below] at (0.4,0) {$\cos\theta$};
+  \node[font=\footnotesize,text=zcoral,right] at (0.8,0.3) {$\sen\theta$};
+  \node[font=\footnotesize,above left] at (0.4,0.3) {$1$};
+  \draw[zmute] (0.22,0) arc (0:36.87:0.22); \node[font=\scriptsize] at (18:0.36) {$\theta$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{propiedad}[Las identidades fundamentales]
+\begin{align*}
+&\text{Pitagóricas:} && \sen^2\theta+\cos^2\theta=1, && 1+\tan^2\theta=\sec^2\theta, && 1+\cot^2\theta=\csc^2\theta.\\
+&\text{De cociente:} && \tan\theta=\frac{\sen\theta}{\cos\theta}, && \cot\theta=\frac{\cos\theta}{\sen\theta}. &&\\
+&\text{Recíprocas:} && \csc\theta=\frac{1}{\sen\theta}, && \sec\theta=\frac{1}{\cos\theta}, && \cot\theta=\frac{1}{\tan\theta}.
+\end{align*}
+\end{propiedad}
+
+\begin{ejemplo}[Las seis razones a partir de una]
+Si $\cos\theta=-\tfrac{12}{13}$ y $\theta$ está en el cuadrante III:
+\[ \sen^2\theta=1-\frac{144}{169}=\frac{25}{169}\ \Longrightarrow\ \sen\theta=-\frac{5}{13}\quad(\text{en el III el seno es negativo}). \]
+Lo demás son divisiones: $\tan\theta=\tfrac{-5}{-12}=\tfrac{5}{12}$ (positiva, como corresponde al III), $\csc\theta=-\tfrac{13}{5}$,
+$\sec\theta=-\tfrac{13}{12}$ y $\cot\theta=\tfrac{12}{5}$.
+\end{ejemplo}
+
+\begin{minipage}[c]{0.62\linewidth}\sinpartir 
+\begin{propiedad}[Cofunciones]
+Los dos ángulos agudos de un triángulo rectángulo suman $90^\circ$. Lo que es opuesto para $\theta$ es adyacente para
+$90^\circ-\theta$, así que cada razón del complemento es su «co-razón»:
+\[ \sen\!\left(\tfrac{\pi}{2}-\theta\right)=\cos\theta,\qquad \tan\!\left(\tfrac{\pi}{2}-\theta\right)=\cot\theta, \]
+\[ \sec\!\left(\tfrac{\pi}{2}-\theta\right)=\csc\theta, \]
+y al revés. Así nacieron los nombres co-seno, co-tangente y co-secante.
+\end{propiedad}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.34\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=0.8]
+  \fill[zaccent!12] (0,0)--(4,0)--(4,2.6)--cycle;
+  \draw[zink,line width=0.9pt] (0,0)--(4,0)--(4,2.6)--cycle;
+  \draw[zink] (3.75,0)--(3.75,0.25)--(4,0.25);
+  \draw[zmute] (0.8,0) arc (0:33:0.8); \node[font=\footnotesize] at (16:1.15) {$\theta$};
+  \draw[zmute] (4,1.9) arc (270:213:0.7); \node[font=\scriptsize] at (3.4,1.45) {$90^\circ\!-\theta$};
+  \node[etq,below] at (2,0) {$b$};
+  \node[etq,right] at (4,1.3) {$a$};
+  \node[etq,above left] at (2,1.3) {$c$};
+\end{tikzpicture}
+\end{minipage}
+
+%=====================================================================
+\nivel{2-3}{Simplificar y demostrar}
+
+\begin{definicion}[Identidad y ecuación]
+Una \clave{identidad} es una igualdad cierta para \emph{todo} valor del dominio de sus dos lados: sus gráficas quedan una
+encima de la otra. Una \clave{ecuación} solo es cierta para algunos valores, que hay que encontrar.
+Así, $\sen^2x+\cos^2x=1$ es una identidad y $\sen x=\tfrac12$ es una ecuación.
+\end{definicion}
+
+\begin{propiedad}[Cómo demostrar una identidad]
+\begin{itemize}
+\item Trabaja con un solo lado, de preferencia el más complicado, hasta llegar al otro. No «pases términos» de lado.
+\item Escribe todo en senos y cosenos.
+\item Busca identidades disfrazadas ($1-\cos^2x=\sen^2x$, $1+\tan^2x=\sec^2x$…).
+\item Opera con fracciones: denominador común, factorizar, cancelar.
+\end{itemize}
+\end{propiedad}
+
+\begin{ejemplo}[Dos demostraciones del video]
+\[ (1+\tan^2x)\cos^2x=\sec^2x\cos^2x=\frac{1}{\cos^2x}\cdot\cos^2x=1. \]
+\[ \sec x-\cos x=\frac{1}{\cos x}-\frac{\cos^2x}{\cos x}=\frac{1-\cos^2x}{\cos x}=\frac{\sen^2x}{\cos x}=\sen x\cdot\frac{\sen x}{\cos x}=\sen x\tan x. \]
+\end{ejemplo}
+
+\begin{ejemplo}[Refutar con un contraejemplo]
+¿Es $\cos 2x=2\cos x$ una identidad? Con $x=0$: el lado izquierdo vale $\cos0=1$ y el derecho $2\cos0=2$. Como $1\neq2$,
+\emph{no} es identidad.
+\end{ejemplo}
+
+\begin{ojo}[Para afirmar, demuestra; para negar, basta un caso]
+Que la igualdad se cumpla en algunos valores no la vuelve identidad: $\cos2x=2\cos x$ falla en $x=0$ aunque pueda cumplirse
+en otros puntos. En cambio, un solo contraejemplo basta para tumbarla.
+\end{ojo}
+
+%=====================================================================
+\nivel{2-4}{Suma y resta de ángulos}
+
+Primera tentación: repartir el seno sobre la suma. Pero $\sen90^\circ=1$ y $\sen30^\circ+\sen60^\circ=\tfrac12+\tfrac{\sqrt3}{2}\approx1.37$:
+ningún seno pasa de $1$. Repartir está mal; la suma tiene su propia fórmula.
+
+\begin{clavebox}[FÓRMULAS DE SUMA Y RESTA]
+$\displaystyle \sen(x\pm y)=\sen x\cos y\pm\cos x\sen y\qquad \cos(x\pm y)=\cos x\cos y\mp\sen x\sen y$\\[6pt]
+$\displaystyle \tan(x\pm y)=\frac{\tan x\pm\tan y}{1\mp\tan x\tan y}$
+\end{clavebox}
+El seno \emph{mezcla} (seno por coseno más coseno por seno) y conserva el signo; el coseno \emph{junta iguales} (coseno con
+coseno, seno con seno) y voltea el signo.
+
+\begin{ejemplo}[$\sen105^\circ$ con dos notables]
+\[ \sen105^\circ=\sen(60^\circ+45^\circ)=\frac{\sqrt3}{2}\cdot\frac{\sqrt2}{2}+\frac12\cdot\frac{\sqrt2}{2}=\frac{\sqrt6+\sqrt2}{4}\approx0.966. \]
+Tiene sentido: casi $1$, porque $105^\circ$ está cerca de $90^\circ$.
+\end{ejemplo}
+
+\begin{ejemplo}[$\cos15^\circ$ con una resta]
+En la resta el coseno cambia el signo y aparece un más:
+\[ \cos15^\circ=\cos(45^\circ-30^\circ)=\frac{\sqrt2}{2}\cdot\frac{\sqrt3}{2}+\frac{\sqrt2}{2}\cdot\frac12=\frac{\sqrt6+\sqrt2}{4}. \]
+Da lo mismo que $\sen105^\circ$, y no es casualidad: $\sen(90^\circ+15^\circ)=\cos15^\circ$.
+\end{ejemplo}
+
+\begin{ejemplo}[$\tan75^\circ$]
+Con $\tan45^\circ=1$ y $\tan30^\circ=\tfrac{\sqrt3}{3}$, multiplicando arriba y abajo por $3$ y racionalizando:
+\[ \tan75^\circ=\frac{1+\frac{\sqrt3}{3}}{1-\frac{\sqrt3}{3}}=\frac{3+\sqrt3}{3-\sqrt3}=\frac{(3+\sqrt3)^2}{9-3}=\frac{12+6\sqrt3}{6}=2+\sqrt3\approx3.73. \]
+\end{ejemplo}
+
+%=====================================================================
+\nivel{2-5}{Ángulo doble y ángulo medio}
+
+Dos atletas salen juntos y el rosa siempre va al doble: cuando el azul recorre $\theta$, el rosa recorre $2\theta$. Con
+la fórmula de suma y $y=x$ se sabe dónde está el rosa sin medir.
+
+\begin{propiedad}[Ángulo doble]
+\[ \sen2x=2\sen x\cos x,\qquad \tan2x=\frac{2\tan x}{1-\tan^2x}, \]
+\[ \cos2x=\cos^2x-\sen^2x=1-2\sen^2x=2\cos^2x-1. \]
+El coseno del doble tiene tres caras: se escoge la que convenga.
+\end{propiedad}
+
+\begin{ejemplo}[Del video: $\cos\theta=\tfrac45$, con $\theta$ agudo]
+El triángulo es el $3$, $4$, $5$: $\sen\theta=\tfrac35$. Entonces
+\[ \sen2\theta=2\cdot\frac35\cdot\frac45=\frac{24}{25},\qquad \cos2\theta=2\cdot\frac{16}{25}-1=\frac{7}{25}. \]
+Comprobación: $\left(\tfrac{24}{25}\right)^2+\left(\tfrac{7}{25}\right)^2=\tfrac{576+49}{625}=1$: el punto $2\theta$ sí está en la circunferencia.
+\end{ejemplo}
+
+\begin{minipage}[c]{0.5\linewidth}\sinpartir 
+\begin{propiedad}[Reducción de potencias]
+Despejando las caras del coseno se cambia un cuadrado por un ángulo doble sin cuadrado (muy útil en cálculo):
+\[ \sen^2x=\frac{1-\cos2x}{2},\qquad \cos^2x=\frac{1+\cos2x}{2}. \]
+\end{propiedad}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\sinpartir \centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=\linewidth,height=4.4cm,samples=120,xmin=-0.2,xmax=6.6,ymin=-0.3,ymax=1.3,ytick={0.5,1},
+  pitick]
+  \addplot[zmute,dotted,line width=0.8pt,domain=0:6.4] {0.5};
+  \addplot[zcoral,domain=0:6.2832] {sin(deg(x))^2};
+\end{axis}
+\end{tikzpicture}\\[-1mm]
+{\small\color{zmute} $y=\sen^2x=\tfrac12-\tfrac12\cos2x$: periodo $\pi$, línea media $\tfrac12$.}
+\end{minipage}
+
+\begin{propiedad}[Ángulo medio]
+\[ \sen\frac u2=\pm\sqrt{\frac{1-\cos u}{2}},\qquad \cos\frac u2=\pm\sqrt{\frac{1+\cos u}{2}},\qquad \tan\frac u2=\frac{1-\cos u}{\sen u}. \]
+El signo lo decide el cuadrante de $\tfrac u2$, no la fórmula.
+\end{propiedad}
+
+\begin{ejemplo}[$\cos15^\circ$ como la mitad de $30^\circ$]
+$15^\circ$ está en el cuadrante I, donde el coseno es positivo:
+\[ \cos15^\circ=\sqrt{\frac{1+\frac{\sqrt3}{2}}{2}}=\sqrt{\frac{2+\sqrt3}{4}}=\frac{\sqrt{2+\sqrt3}}{2}\approx0.966. \]
+Es el mismo número del nivel anterior escrito de otra forma: dos caminos, la misma cima.
+\end{ejemplo}
+
+%=====================================================================
+\nivel{2-6}{Resolver ecuaciones trigonométricas}
+
+\begin{minipage}[c]{0.5\linewidth}\sinpartir 
+Resolver $\cos x=-\tfrac{\sqrt2}{2}$ es preguntar en qué $x$ la onda del coseno baja justo hasta esa altura. En una vuelta
+hay dos cruces: el ángulo de referencia es $\tfrac{\pi}{4}$ y el coseno es negativo en los cuadrantes II y III:
+\[ x=\pi-\tfrac{\pi}{4}=\tfrac{3\pi}{4},\qquad x=\pi+\tfrac{\pi}{4}=\tfrac{5\pi}{4}. \]
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\sinpartir \centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=\linewidth,height=4.4cm,samples=120,xmin=-0.2,xmax=6.7,ymin=-1.3,ymax=1.3,ytick={-1,1},
+  xtick={2.3562,3.9270,6.2832},xticklabels={$\frac{3\pi}{4}$,$\frac{5\pi}{4}$,$2\pi$}]
+  \addplot[zsun,dashed,domain=0:6.4] {-0.7071};
+  \addplot[zsky,domain=0:6.2832] {cos(deg(x))};
+  \fill[zcoral] (axis cs:2.3562,-0.7071) circle (2pt);
+  \fill[zcoral] (axis cs:3.9270,-0.7071) circle (2pt);
+\end{axis}
+\end{tikzpicture}
+\end{minipage}
+
+Como la onda sigue, los cruces se repiten cada vuelta: la \clave{solución general} es
+\[ x=\frac{3\pi}{4}+2n\pi\quad\text{o}\quad x=\frac{5\pi}{4}+2n\pi,\qquad n\in\Z. \]
+
+\begin{propiedad}[La receta]
+\begin{enumerate}[label=\arabic*.]
+\item Despeja la función (o factoriza si la ecuación es de tipo cuadrático).
+\item Halla el ángulo de referencia con el valor sin signo.
+\item Ubica los cuadrantes según el signo y escribe las soluciones de una vuelta.
+\item Suma vueltas: $2n\pi$ para seno y coseno, $n\pi$ para la tangente.
+\end{enumerate}
+\end{propiedad}
+
+\begin{ejemplo}[Tipo cuadrático: $2\sen^2x-3\sen x+1=0$]
+Con $u=\sen x$: $2u^2-3u+1=(2u-1)(u-1)=0$. Entonces $\sen x=\tfrac12$, que da $x=\tfrac{\pi}{6}$ y $x=\tfrac{5\pi}{6}$, o
+$\sen x=1$, que da solo $x=\tfrac{\pi}{2}$ (en la cima la onda apenas toca la recta). En $[0,2\pi)$: $\tfrac{\pi}{6},\tfrac{\pi}{2},\tfrac{5\pi}{6}$.
+\end{ejemplo}
+
+\begin{ejemplo}[Con raíz cuadrada: $\tan^2x=3$]
+No olvides el menos: $\tan x=\pm\sqrt3$, con referencia $\tfrac{\pi}{3}$. Positiva en I y III, negativa en II y IV. Como la
+tangente se repite cada $\pi$: $\ x=\tfrac{\pi}{3}+n\pi\ $ o $\ x=\tfrac{2\pi}{3}+n\pi$.
+\end{ejemplo}
+
+\begin{ejemplo}[Elevar al cuadrado: $\sen x+\cos x=1$]
+Al cuadrado: $\sen^2x+2\sen x\cos x+\cos^2x=1$, o sea $1+\sen2x=1$ y $\sen2x=0$. Candidatos en $[0,2\pi)$:
+$0,\tfrac{\pi}{2},\pi,\tfrac{3\pi}{2}$. En la ecuación original, $0$ y $\tfrac{\pi}{2}$ cumplen, pero en $\pi$ y en $\tfrac{3\pi}{2}$ la suma vale
+$-1$: son \clave{soluciones extrañas} que nacieron del cuadrado. Solución: $x=0$ y $x=\tfrac{\pi}{2}$.
+\end{ejemplo}
+
+\begin{ojo}[Errores frecuentes]
+Quedarse con la única respuesta de la calculadora (hay dos por vuelta), dividir entre $\sen x$ o $\cos x$ (se pierden las
+soluciones donde valen cero: mejor factorizar) y no verificar después de elevar al cuadrado.
+\end{ojo}
+
+%=====================================================================
+\nivel{2-7}{Ley de senos}
+
+Un triángulo \clave{oblicuo} no tiene ángulo recto. Convención: cada lado se nombra con la minúscula del vértice que tiene
+enfrente; el lado $a$ está frente al ángulo $A$.
+
+\begin{minipage}[c]{0.5\linewidth}\sinpartir 
+La altura $h$ desde $C$ parte el triángulo en dos triángulos rectángulos. En el de la izquierda $h=b\sen A$ y en el de la
+derecha $h=a\sen B$. Es la misma altura: $b\sen A=a\sen B$, y al dividir entre $ab$ queda $\tfrac{\sen A}{a}=\tfrac{\sen B}{b}$.
+Con otra altura entra el tercer par.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=0.85]
+  \fill[zaccent!10] (0,0)--(6,0)--(2,3.2)--cycle;
+  \draw[zink,line width=0.9pt] (0,0)--(6,0)--(2,3.2)--cycle;
+  \draw[zcoral,dashed,line width=0.9pt] (2,3.2)--(2,0);
+  \draw[zcoral] (2,0.25)--(2.25,0.25)--(2.25,0);
+  \node[etq,below left] at (0,0) {$A$}; \node[etq,below right] at (6,0) {$B$}; \node[etq,above] at (2,3.2) {$C$};
+  \node[etq,below] at (3,0) {$c$};
+  \node[etq,above left] at (1,1.6) {$b$};
+  \node[etq,above right] at (4,1.6) {$a$};
+  \node[font=\small,text=zcoral,right] at (2,1.2) {$h$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{clavebox}[LEY DE SENOS]
+$\displaystyle \frac{\sen A}{a}=\frac{\sen B}{b}=\frac{\sen C}{c}$\qquad se usa con una \emph{pareja completa}: un lado y su ángulo opuesto (casos ALA y AAL).
+\end{clavebox}
+
+\begin{ejemplo}[Resolver un triángulo AAL]
+$A=35^\circ$, $B=80^\circ$ y $a=9$. Primero $C=180^\circ-35^\circ-80^\circ=65^\circ$. La pareja completa es $a$ con $A$:
+\[ b=\frac{a\sen B}{\sen A}=\frac{9\sen80^\circ}{\sen35^\circ}\approx15.45,\qquad c=\frac{9\sen65^\circ}{\sen35^\circ}\approx14.22. \]
+Revisión: el lado más largo, $b$, queda frente al ángulo más grande, $B$.
+\end{ejemplo}
+
+\subsection{El caso ambiguo (LLA)}
+\begin{minipage}[c]{0.5\linewidth}\sinpartir 
+Con dos lados y un ángulo que no está entre ellos, el lado $a$ es el brazo de un compás clavado en $C$. Con
+$A=40^\circ$ y $b=3.6$, la altura es $h=b\sen A\approx2.31$.
+\begin{itemize}
+\item $a<h$: el brazo no llega, \textbf{ningún} triángulo.
+\item $a=h$: toca en un punto, \textbf{uno} rectángulo.
+\item $h<a<b$: corta la base dos veces, \textbf{dos} triángulos.
+\item $a\ge b$: el segundo corte cae detrás de $A$, \textbf{uno}.
+\end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=1.25]
+  \draw[zmute,line width=0.8pt] (-0.4,0)--(5,0);
+  \draw[zink,line width=1pt] (0,0)--(2.758,2.314);
+  \draw[zcoral,dashed] (2.758,2.314)--(2.758,0);
+  \draw[zline,line width=0.8pt] (2.758,2.314) ++(208:2.8) arc (208:332:2.8);
+  \draw[zsky,line width=1.1pt] (2.758,2.314)--(1.182,0);
+  \draw[zviolet,line width=1.1pt] (2.758,2.314)--(4.334,0);
+  \fill[zsky] (1.182,0) circle (1.5pt); \fill[zviolet] (4.334,0) circle (1.5pt);
+  \draw[zmute] (0.5,0) arc (0:40:0.5); \node[font=\scriptsize] at (20:0.75) {$40^\circ$};
+  \node[etq,below] at (0,0) {$A$}; \node[etq,above] at (2.758,2.314) {$C$};
+  \node[etq,above left] at (1.35,1.15) {$b$};
+  \node[font=\footnotesize,text=zcoral,right] at (2.758,0.9) {$h$};
+  \node[font=\footnotesize,text=zsky,below] at (1.182,0) {$B_1$};
+  \node[font=\footnotesize,text=zviolet,below] at (4.334,0) {$B_2$};
+  \node[font=\footnotesize,text=zviolet,right] at (3.6,1.2) {$a$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{ojo}[Dos ángulos con el mismo seno]
+En el caso ambiguo, $\sen B=\tfrac{b\sen A}{a}$ da un ángulo agudo $B_1$, pero $B_2=180^\circ-B_1$ tiene el mismo seno.
+Si $A+B_2<180^\circ$, también hay un segundo triángulo.
+\end{ojo}
+
+%=====================================================================
+\nivel{2-8}{Ley de cosenos y área}
+
+Pitágoras funciona cuando $C=90^\circ$. Si se cierra el ángulo, $c$ se encoge y hay que restarle algo a $a^2+b^2$; si se
+abre, $c$ se estira y hay que sumarle. Ese algo es $2ab\cos C$, que cambia de signo justo en $90^\circ$.
+
+\begin{clavebox}[LEY DE COSENOS]
+$\displaystyle c^2=a^2+b^2-2ab\cos C\qquad\Longleftrightarrow\qquad \cos C=\frac{a^2+b^2-c^2}{2ab}$
+\end{clavebox}
+Se usa con dos lados y el ángulo entre ellos (LAL) para hallar el tercer lado, o con los tres lados (LLL) para hallar los
+ángulos. Si $C=90^\circ$, $\cos C=0$ y vuelve a ser Pitágoras.
+
+\begin{minipage}[c]{0.6\linewidth}\sinpartir 
+\begin{ejemplo}[Los dos senderos (LAL)]
+Dos senderos rectos de $\SI{5}{m}$ y $\SI{8}{m}$ salen del mismo punto formando $60^\circ$:
+\[ c^2=25+64-2\cdot5\cdot8\cdot\tfrac12=89-40=49\ \Longrightarrow\ c=\SI{7}{m}. \]
+\end{ejemplo}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\sinpartir \centering
+\begin{tikzpicture}[scale=0.42]
+  \fill[zaccent!10] (0,0)--(8,0)--(2.5,4.33)--cycle;
+  \draw[zink,line width=0.9pt] (0,0)--(8,0);
+  \draw[zink,line width=0.9pt] (0,0)--(2.5,4.33);
+  \draw[zcoral,line width=1.1pt,dashed] (2.5,4.33)--(8,0);
+  \draw[zmute] (1.2,0) arc (0:60:1.2); \node[font=\scriptsize] at (30:1.9) {$60^\circ$};
+  \node[etq,below] at (4,0) {$8$}; \node[etq,above left] at (1.25,2.2) {$5$};
+  \node[etq,text=zcoral,above right] at (5.25,2.2) {$c=7$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{ejemplo}[Un ángulo con los tres lados (LLL)]
+Lados $4$, $5$ y $6$; el ángulo frente al lado más largo:
+$\cos C=\tfrac{16+25-36}{2\cdot4\cdot5}=\tfrac{5}{40}=0.125$, así que $C=\cos^{-1}0.125\approx82.8^\circ$.
+Si el numerador sale negativo, el coseno es negativo y el ángulo es obtuso: el coseno inverso lo detecta solo.
+\end{ejemplo}
+
+\begin{propiedad}[Área de un triángulo]
+Con dos lados y el ángulo comprendido, la altura es $b\sen C$:
+\[ \text{Área}=\frac12\,ab\sen C. \]
+Con los tres lados, la \clave{fórmula de Herón}: si $s=\tfrac{a+b+c}{2}$ es el semiperímetro,
+\[ \text{Área}=\sqrt{s(s-a)(s-b)(s-c)}. \]
+\end{propiedad}
+
+\begin{ejemplo}[Herón con lados $5$, $6$ y $7$]
+$s=\tfrac{18}{2}=9$; las restas dan $4$, $3$ y $2$: \ $\text{Área}=\sqrt{9\cdot4\cdot3\cdot2}=\sqrt{216}=\sqrt{36\cdot6}=6\sqrt6\approx14.7$.
+\end{ejemplo}
+
+%=====================================================================
+\Needspace{16\baselineskip}
+\repaso
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+Fórmula & Cuándo o para qué\\ \midrule
+$\sen^{-1}:[-1,1]\to\left[-\frac{\pi}{2},\frac{\pi}{2}\right]$,\ $\cos^{-1}:[-1,1]\to[0,\pi]$ & el ángulo que devuelve cada inversa\\
+$\tan^{-1}:\R\to\left(-\frac{\pi}{2},\frac{\pi}{2}\right)$ & la tangente inversa nunca llega a $\pm\frac{\pi}{2}$\\
+$\sen^2\theta+\cos^2\theta=1$,\ $1+\tan^2\theta=\sec^2\theta$,\ $1+\cot^2\theta=\csc^2\theta$ & pitagóricas: una razón y el cuadrante dan las seis\\
+$\sen\left(\frac{\pi}{2}-\theta\right)=\cos\theta$ & cofunciones\\
+$\sen(x\pm y)=\sen x\cos y\pm\cos x\sen y$ & el seno mezcla y conserva el signo\\
+$\cos(x\pm y)=\cos x\cos y\mp\sen x\sen y$ & el coseno junta iguales y voltea el signo\\
+$\sen2x=2\sen x\cos x$,\ $\cos2x=1-2\sen^2x=2\cos^2x-1$ & ángulo doble\\
+$\sen^2x=\frac{1-\cos2x}{2}$,\ $\cos^2x=\frac{1+\cos2x}{2}$ & reducción de potencias\\
+$\cos\frac u2=\pm\sqrt{\frac{1+\cos u}{2}}$ & ángulo medio; el signo por el cuadrante de $\frac u2$\\
+$x=x_0+2n\pi$ \ ($x=x_0+n\pi$ para $\tan$) & solución general de una ecuación\\
+$\frac{\sen A}{a}=\frac{\sen B}{b}=\frac{\sen C}{c}$ & ALA, AAL y LLA (caso ambiguo)\\
+$c^2=a^2+b^2-2ab\cos C$ & LAL y LLL\\
+$\frac12ab\sen C$,\ \ $\sqrt{s(s-a)(s-b)(s-c)}$ & área\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Creer que $\sen^{-1}(\sen x)=x$ siempre, o confundir $\sen^{-1}x$ con $\frac{1}{\sen x}$.
+\item Olvidar el signo del cuadrante al sacar una raíz en las pitagóricas o en el ángulo medio.
+\item Repartir: $\sen(x+y)\neq\sen x+\sen y$ y $\sen2x\neq2\sen x$.
+\item Dar una sola solución por vuelta, no sumar las vueltas o no verificar tras elevar al cuadrado.
+\item Usar la ley de senos sin una pareja completa, u olvidar el segundo triángulo del caso ambiguo.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Halla el valor exacto (en radianes):
+  \begin{ejercicios}
+  \item $\sen^{-1}\!\left(-\tfrac{\sqrt3}{2}\right)$ \quad (b) $\cos^{-1}\tfrac{\sqrt2}{2}$ \quad (c) $\tan^{-1}\tfrac{\sqrt3}{3}$ \quad (d) $\cos^{-1}\!\left(-\tfrac{\sqrt2}{2}\right)$
+  \setcounter{ejerciciosii}{4}
+  \item $\cos^{-1}\!\left(\cos\tfrac{5\pi}{3}\right)$ \quad (f) $\sen\!\left(\cos^{-1}\!\left(-\tfrac{5}{13}\right)\right)$
+  \end{ejercicios}
+\item Si $\sen\theta=-\tfrac{8}{17}$ y $\theta$ está en el cuadrante IV, halla las otras cinco razones trigonométricas de $\theta$.
+\item Demuestra las dos identidades y refuta la tercera con un contraejemplo.
+  \begin{ejercicios}
+  \item $(\sec x-1)(\sec x+1)=\tan^2x$
+  \item $\dfrac{\cos x}{1-\sen x}=\dfrac{1+\sen x}{\cos x}$
+  \item $\tan2x=2\tan x$
+  \end{ejercicios}
+\item Fórmulas de suma y resta.
+  \begin{ejercicios}
+  \item Halla el valor exacto de $\sen165^\circ$ y de $\tan105^\circ$.
+  \item Si $\alpha$ y $\beta$ son agudos, $\tan\alpha=2$ y $\tan\beta=3$, halla $\tan(\alpha+\beta)$ y deduce cuánto mide $\alpha+\beta$.
+  \end{ejercicios}
+\item Sea $\cos\theta=-\tfrac{15}{17}$ con $\theta$ en el cuadrante III.
+  \begin{ejercicios}
+  \item Halla $\sen2\theta$ y $\cos2\theta$. ¿En qué cuadrante está $2\theta$?
+  \item Halla $\sen\tfrac{\theta}{2}$ (decide el signo).
+  \item Halla el valor exacto de $\cos22.5^\circ$ con la fórmula del ángulo medio.
+  \end{ejercicios}
+\item Resuelve en $[0,2\pi)$:
+  \begin{ejercicios}
+  \item $2\cos x-\sqrt3=0$ \quad (b) $2\cos^2x-\cos x-1=0$ \quad (c) $\sen2x=\sen x$
+  \setcounter{ejerciciosii}{3}
+  \item Escribe la solución general de $\sqrt3\tan x+1=0$.
+  \end{ejercicios}
+\item Gráficas.
+  \begin{ejercicios}
+  \item Dibuja $y=\cos x$ y la recta $y=0.4$ en $[0,2\pi]$. ¿Cuántas soluciones tiene $\cos x=0.4$ en ese intervalo? Hállalas con $\cos^{-1}$ (tres decimales).
+  \item Dibuja $y=\cos^{-1}x$ e indica su dominio, su rango y los puntos de sus extremos.
+  \end{ejercicios}
+\item Ley de senos.
+  \begin{ejercicios}
+  \item Resuelve el triángulo con $A=42^\circ$, $B=71^\circ$ y $c=20$.
+  \item Con $A=35^\circ$, $a=7$ y $b=11$, ¿cuántos triángulos hay? Halla $B$ en cada uno.
+  \end{ejercicios}
+\item Dos barcos salen del mismo puerto. Uno navega $\SI{12}{km}$ y el otro $\SI{18}{km}$, por rutas rectas que forman un ángulo
+  de $50^\circ$. ¿A qué distancia quedan uno del otro? ¿Cuál es el área del triángulo que forman con el puerto?
+\item Un terreno triangular tiene lados de $\SI{25}{m}$, $\SI{39}{m}$ y $\SI{56}{m}$.
+  \begin{ejercicios}
+  \item Halla su área con la fórmula de Herón.
+  \item Halla su ángulo más grande con la ley de cosenos y comprueba el área con $\tfrac12ab\sen C$.
+  \end{ejercicios}
+\end{ejercicios}
+
+\Needspace{12\baselineskip}
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) $-\tfrac{\pi}{3}$ (b) $\tfrac{\pi}{4}$ (c) $\tfrac{\pi}{6}$ (d) $\tfrac{3\pi}{4}$ (e) $\cos\tfrac{5\pi}{3}=\tfrac12$, así que da
+  $\tfrac{\pi}{3}$ (f) el ángulo está en $[0,\pi]$, donde el seno es positivo: $\tfrac{12}{13}$.
+\item $\cos\theta=\tfrac{15}{17}$, $\tan\theta=-\tfrac{8}{15}$, $\csc\theta=-\tfrac{17}{8}$, $\sec\theta=\tfrac{17}{15}$, $\cot\theta=-\tfrac{15}{8}$.
+\item (a) $\sec^2x-1=\tan^2x$. (b) Multiplica por $\tfrac{1+\sen x}{1+\sen x}$: $\tfrac{\cos x(1+\sen x)}{1-\sen^2x}=\tfrac{\cos x(1+\sen x)}{\cos^2x}=\tfrac{1+\sen x}{\cos x}$.
+  (c) Con $x=\tfrac{\pi}{6}$: $\tan\tfrac{\pi}{3}=\sqrt3\approx1.73$ pero $2\tan\tfrac{\pi}{6}=\tfrac{2\sqrt3}{3}\approx1.15$.
+\item (a) $\sen(120^\circ+45^\circ)=\tfrac{\sqrt6-\sqrt2}{4}$; $\tan(60^\circ+45^\circ)=\tfrac{\sqrt3+1}{1-\sqrt3}=-2-\sqrt3$.
+  (b) $\tan(\alpha+\beta)=\tfrac{2+3}{1-6}=-1$; como $0^\circ<\alpha+\beta<180^\circ$, $\alpha+\beta=135^\circ$.
+\item (a) $\sen\theta=-\tfrac{8}{17}$; $\sen2\theta=\tfrac{240}{289}$, $\cos2\theta=\tfrac{161}{289}$: cuadrante I.
+  (b) $\tfrac{\theta}{2}$ está en el II: $\sen\tfrac{\theta}{2}=\sqrt{\tfrac{1+15/17}{2}}=\tfrac{4}{\sqrt{17}}=\tfrac{4\sqrt{17}}{17}\approx0.970$.
+  (c) $\tfrac{\sqrt{2+\sqrt2}}{2}\approx0.924$.
+\item (a) $\tfrac{\pi}{6},\ \tfrac{11\pi}{6}$. (b) $(2\cos x+1)(\cos x-1)=0$: $0,\ \tfrac{2\pi}{3},\ \tfrac{4\pi}{3}$.
+  (c) $\sen x(2\cos x-1)=0$: $0,\ \tfrac{\pi}{3},\ \pi,\ \tfrac{5\pi}{3}$. (d) $\tan x=-\tfrac{\sqrt3}{3}$: $x=\tfrac{5\pi}{6}+n\pi$, $n\in\Z$.
+\item (a) Dos: $x=\cos^{-1}0.4\approx1.159$ y $x=2\pi-1.159\approx5.124$. (b) Dominio $[-1,1]$, rango $[0,\pi]$;
+  va de $(-1,\pi)$ a $(1,0)$, decreciente, y pasa por $\left(0,\tfrac{\pi}{2}\right)$.
+\item (a) $C=67^\circ$, $a=\tfrac{20\sen42^\circ}{\sen67^\circ}\approx14.54$, $b=\tfrac{20\sen71^\circ}{\sen67^\circ}\approx20.54$.
+  (b) $h=11\sen35^\circ\approx6.31<7<11$: dos. $B_1\approx64.3^\circ$ ($C\approx80.7^\circ$) y $B_2\approx115.7^\circ$ ($C\approx29.3^\circ$).
+\item $d=\sqrt{144+324-432\cos50^\circ}\approx\SI{13.80}{km}$; área $=\tfrac12\cdot12\cdot18\sen50^\circ\approx\SI{82.7}{km^2}$.
+\item (a) $s=60$: $\sqrt{60\cdot35\cdot21\cdot4}=\sqrt{176400}=\SI{420}{m^2}$. (b) $\cos C=\tfrac{625+1521-3136}{1950}\approx-0.5077$,
+  $C\approx120.5^\circ$; $\tfrac12\cdot25\cdot39\sen C\approx420$.
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

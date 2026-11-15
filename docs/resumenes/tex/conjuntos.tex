@@ -1,0 +1,334 @@
+% Resumen del mundo «Pradera de Venn» (Álgebra, mundo 1: conjuntos). Lecciones alg-0a, alg-0b, alg-0c.
+% Usa los ejemplos de los videos; el taller trae ejercicios nuevos (no repite los de la app).
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{algebra}
+\zukamundo{1}{Pradera de Venn}{Conjuntos}
+
+% Diagrama de Venn de dos conjuntos con zonas pintadas.
+% \venn{zonas}{escala}: zonas = lista de AnoB, AyB, BnoA, fuera
+\newcommand{\vennbase}{%
+  \draw[universo] (-2.1,-1.35) rectangle (2.1,1.35);
+  \node[etq,anchor=south east,font=\scriptsize] at (2.05,-1.32) {$U$};
+  \draw[conj] (-0.55,0) circle (1); \draw[conj] (0.55,0) circle (1);
+  \node[etq] at (-1.25,1.12) {$A$}; \node[etq] at (1.25,1.12) {$B$};}
+\newcommand{\pintaAnoB}{\begin{scope}\clip (-0.55,0) circle (1);\fill[zaccent!45,even odd rule] (-0.55,0) circle (1) (0.55,0) circle (1);\end{scope}}
+\newcommand{\pintaBnoA}{\begin{scope}\clip (0.55,0) circle (1);\fill[zaccent!45,even odd rule] (0.55,0) circle (1) (-0.55,0) circle (1);\end{scope}}
+\newcommand{\pintaAyB}{\begin{scope}\clip (-0.55,0) circle (1);\fill[zaccent!45] (0.55,0) circle (1);\end{scope}}
+\newcommand{\pintaFuera}{\fill[zaccent!45,even odd rule] (-2.1,-1.35) rectangle (2.1,1.35) (-0.55,0) circle (1) (0.55,0) circle (1);
+  \begin{scope}\clip (-0.55,0) circle (1);\fill[white] (0.55,0) circle (1);\end{scope}}
+
+\begin{document}
+
+\portada{%
+Un \clave{conjunto} es la forma más sencilla de agrupar objetos en matemáticas. En este mundo aprendiste a
+escribirlos, a compararlos y a operar con ellos usando diagramas de Venn. Este resumen reúne las definiciones,
+la notación y los ejemplos de los videos, y termina con un taller de práctica.}{%
+\item \textbf{Nivel 1-1.} ¿Qué es un conjunto? Notación, pertenencia, extensión, comprensión y cardinal.
+\item \textbf{Nivel 1-2.} Vacío, unitario, subconjuntos, conjuntos iguales y disjuntos, conjunto de partes.
+\item \textbf{Nivel 1-3.} Diagramas de Venn, unión, intersección, diferencia, complemento, diferencia simétrica y conteo.}
+
+\begin{clavebox}[LAS TRES IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\qquad}c@{\qquad}c@{}}
+$x\in A$ & $B\subseteq A$ & $n(A\cup B)=n(A)+n(B)-n(A\cap B)$\\[2pt]
+\small un elemento \emph{pertenece} & \small un conjunto \emph{está contenido} & \small lo común se cuenta una sola vez
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{1-1}{¿Qué es un conjunto?}
+
+\begin{definicion}[Conjunto y elemento]
+Un \clave{conjunto} es una colección de objetos \emph{bien definida}: cualquier persona puede decidir, sin dudar,
+si un objeto está o no está en ella. Los objetos del conjunto se llaman \clave{elementos}.
+\end{definicion}
+
+Los colores de un semáforo forman un conjunto: rojo, amarillo y verde, sin discusión. En cambio,
+«los colores bonitos» \emph{no} es un conjunto: cada persona opina distinto y no hay forma de decidir.
+
+\subsection{Notación}
+El conjunto se nombra con una letra mayúscula y sus elementos se escriben entre llaves, separados por comas:
+\begin{figura}[Anatomía de la notación de un conjunto.]
+\large
+$\displaystyle
+\underbrace{S}_{\substack{\text{nombre}\\ \text{(mayúscula)}}}
+\;=\;
+\overbrace{\Big\{\ \text{rojo}\ ,\ \text{amarillo}\ ,\ \text{verde}\ \Big\}}^{\text{elementos entre llaves, separados por comas}}$
+\end{figura}
+
+\begin{definicion}[Pertenencia]
+Si $x$ es un elemento de $A$ se escribe $x\in A$ y se lee «$x$ \emph{pertenece a} $A$».
+Si no lo es, se escribe $x\notin A$: «$x$ \emph{no pertenece a} $A$».
+\end{definicion}
+
+\begin{ejemplo}[El semáforo]
+Con $S=\{\text{rojo},\ \text{amarillo},\ \text{verde}\}$ se tiene $\text{rojo}\in S$ y $\text{azul}\notin S$.
+\end{ejemplo}
+
+\subsection{Extensión y comprensión}
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}l L >{\centering\arraybackslash}p{58mm}@{}}
+\toprule
+Forma & Qué se escribe & Ejemplo\\ \midrule
+Por extensión & la lista completa de los elementos & $V=\{a,e,i,o,u\}$\\
+Por comprensión & la condición que cumplen todos y solo ellos & $V=\{x\tq x\text{ es una vocal}\}$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+Los dos puntos «:» se leen «\emph{tal que}»: «el conjunto de las $x$ tal que $x$ es una vocal».
+
+\subsection{Orden, repeticiones y cardinal}
+\begin{propiedad}[Un conjunto no tiene orden ni repeticiones]
+Cambiar el orden de los elementos no cambia el conjunto, y cada elemento se escribe una sola vez.
+\end{propiedad}
+\begin{ejemplo}[Las letras de PAPAYA]
+La palabra PAPAYA tiene seis letras, pero solo tres distintas. Su conjunto de letras es
+\[ L=\{P,A,Y\}=\{Y,P,A\}. \]
+El \clave{cardinal} $n(L)$ cuenta los elementos \emph{distintos}: $n(L)=3$.
+\end{ejemplo}
+
+%=====================================================================
+\nivel{1-2}{Tipos de conjuntos y relaciones entre ellos}
+
+\begin{definicion}[Vacío y unitario]
+El \clave{conjunto vacío} no tiene elementos: $\varnothing=\{\ \}$, y $n(\varnothing)=0$.
+Un conjunto \clave{unitario} tiene exactamente un elemento.
+\end{definicion}
+\begin{ejemplo}
+Los meses de 32 días forman el conjunto $\varnothing$. La capital de Colombia forma un conjunto unitario:
+\[ \{x\tq x\text{ es la capital de Colombia}\}=\{\text{Bogotá}\}. \]
+\end{ejemplo}
+\begin{ojo}[$\{\varnothing\}$ no es vacío]
+$\{\varnothing\}$ es una bolsa que guarda una bolsa vacía: tiene \emph{un} elemento, así que $n(\{\varnothing\})=1$.
+\end{ojo}
+
+\subsection{Subconjuntos}
+\begin{minipage}[c]{0.56\linewidth}
+\begin{definicion}[Subconjunto]
+$B\subseteq A$ («$B$ es subconjunto de $A$») si \emph{todo} elemento de $B$ es también elemento de $A$:
+\[ B\subseteq A \iff (x\in B \Rightarrow x\in A). \]
+\end{definicion}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}
+\centering
+\begin{tikzpicture}[scale=0.95]
+  \draw[universo] (-2,-1.3) rectangle (2,1.3);
+  \draw[conj,fill=zaccent!8] (0,0) ellipse (1.75 and 1.05);
+  \draw[conj,fill=zaccent!30] (-0.55,-0.05) circle (0.62);
+  \node[etq] at (-0.55,-0.05) {$V$};
+  \node[etq] at (0.9,0.25) {$X$};
+  \node[font=\footnotesize,text=zmute] at (0.9,-0.3) {letras};
+  \node[font=\footnotesize,text=zmute] at (-0.55,-0.42) {vocales};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{itemize}
+\item Cada vocal es una letra: si $X$ es el conjunto de las letras, $V\subseteq X$.
+\item Basta \emph{un} elemento que falte para que no sea subconjunto: $\{a,7\}\not\subseteq X$, porque $7$ no es una letra.
+\item $\varnothing\subseteq A$ para cualquier conjunto $A$ (no tiene ningún elemento que pueda faltar), y $A\subseteq A$.
+\end{itemize}
+\begin{ojo}[$\in$ frente a $\subseteq$]
+$\in$ relaciona un \emph{elemento} con un conjunto; $\subseteq$ relaciona dos \emph{conjuntos}.
+Se escribe $a\in V$ pero $\{a\}\subseteq V$.
+\end{ojo}
+
+\subsection{Iguales, disjuntos y que se cruzan}
+\begin{figura}[Las cuatro formas en que pueden quedar dos conjuntos.]
+\begin{tikzpicture}[scale=0.62]
+  \foreach \x/\t/\s in {0/{$B\subseteq A$}/{todo $B$ está en $A$},6/{$A=B$}/{los mismos elementos},12/{disjuntos}/{nada en común},18/{se cruzan}/{comparten algunos}} {
+    \draw[universo] (\x-2.3,-1.6) rectangle (\x+2.3,1.6);
+    \node[font=\small\bfseries] at (\x,-2.2) {\t};
+    \node[font=\footnotesize,text=zmute] at (\x,-2.85) {\s};}
+  \draw[conj,fill=zaccent!12] (0,0) circle (1.3); \draw[conj,fill=zaccent!40] (0.35,-0.2) circle (0.6);
+  \node[etq] at (-0.75,0.55) {$A$}; \node[etq] at (0.35,-0.2) {$B$};
+  \draw[conj,fill=zaccent!25] (6,0) circle (1.2); \draw[conj,dashed] (6,0) circle (1.2);
+  \node[etq] at (6,0) {$A=B$};
+  \draw[conj,fill=zaccent!12] (11,0) circle (0.85); \draw[conj,fill=zaccent!40] (13,0) circle (0.85);
+  \node[etq] at (11,0) {$A$}; \node[etq] at (13,0) {$B$};
+  \draw[conj,fill=zaccent!12] (17.4,0) circle (1.05); \draw[conj,fill=zaccent!40,fill opacity=.6] (18.6,0) circle (1.05);
+  \node[etq] at (17.1,0) {$A$}; \node[etq] at (18.9,0) {$B$};
+\end{tikzpicture}
+\end{figura}
+\begin{itemize}
+\item \clave{Iguales}: $A=B$ si tienen exactamente los mismos elementos, es decir, $A\subseteq B$ y $B\subseteq A$.
+      Las letras de AMOR y las de ROMA forman el mismo conjunto.
+\item \clave{Disjuntos}: no tienen elementos en común. Las frutas y las herramientas son disjuntos.
+\end{itemize}
+
+\subsection{El conjunto de partes}
+\begin{definicion}[Conjunto de partes]
+$P(A)$ es el conjunto formado por \emph{todos} los subconjuntos de $A$, incluidos $\varnothing$ y el propio $A$.
+\end{definicion}
+\begin{ejemplo}[Los toppings de la heladería]
+Con $T=\{f,m,c\}$ (fresa, mora y coco), los subconjuntos se cuentan por tamaños:
+\begin{figura}
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small]
+  \foreach \x/\lab/\n in {0/{ninguno}/1,2.6/{uno}/3,6.6/{dos}/3,10.6/{los tres}/1}
+    \node[font=\footnotesize\sffamily\bfseries,text=zmute] at (\x+0.6,1.15) {\lab\ ($\n$)};
+  \node[draw=zline,rounded corners=2pt,minimum width=1.2cm,minimum height=0.6cm] at (0.6,0.4) {$\varnothing$};
+  \foreach \i/\s in {0/{\{f\}},1/{\{m\}},2/{\{c\}}}
+    \node[draw=zline,rounded corners=2pt,minimum width=1.1cm,minimum height=0.6cm] at (2.6+0.6+\i*1.25-1.25,0.4) {$\s$};
+  \foreach \i/\s in {0/{\{f,m\}},1/{\{f,c\}},2/{\{m,c\}}}
+    \node[draw=zline,rounded corners=2pt,minimum width=1.25cm,minimum height=0.6cm] at (6.6+0.6+\i*1.4-1.4,0.4) {$\s$};
+  \node[draw=zaccent,rounded corners=2pt,minimum width=1.5cm,minimum height=0.6cm] at (11.2,0.4) {$\{f,m,c\}$};
+\end{tikzpicture}
+\end{figura}
+En total $1+3+3+1=8$. Otra forma de verlo: cada topping \emph{entra o no entra}, dos opciones por elemento,
+y $2\cdot2\cdot2=2^3=8$.
+\end{ejemplo}
+\begin{clavebox}[CUÁNTOS SUBCONJUNTOS HAY]
+$\displaystyle n(A)=k\quad\Longrightarrow\quad n\big(P(A)\big)=2^{k}$
+\end{clavebox}
+
+%=====================================================================
+\nivel{1-3}{Operaciones entre conjuntos}
+
+\begin{minipage}[c]{0.5\linewidth}
+En un \clave{diagrama de Venn} el rectángulo es el \clave{universo} $U$ (todo lo que se estudia) y cada
+conjunto es un círculo. Lo común va en el cruce y lo que no está en ningún conjunto queda fuera de los
+círculos, pero dentro de $U$.
+
+\smallskip
+\textbf{Ejemplo del video.} Siete amigos en el patio:
+$A$ = los que juegan fútbol, $B$ = los que tocan un instrumento.
+\[ A=\{\text{Ana},\text{Beto},\text{Caro},\text{Dani}\},\qquad B=\{\text{Caro},\text{Dani},\text{Eva}\}. \]
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}[scale=1.15,font=\footnotesize]
+  \draw[universo] (-2.4,-1.45) rectangle (2.4,1.45);
+  \node[etq,anchor=north west] at (-2.4,1.45) {$U$};
+  \draw[conj,fill=zsun!25] (-0.6,0) circle (1.1);
+  \draw[conj,fill=zsky!25,fill opacity=.8] (0.6,0) circle (1.1);
+  \node[etq] at (-1.55,1.05) {$A$}; \node[etq] at (1.55,1.05) {$B$};
+  \node at (-1.05,0.3) {Ana}; \node at (-1.05,-0.3) {Beto};
+  \node at (0,0.3) {Caro}; \node at (0,-0.3) {Dani};
+  \node at (1.05,0) {Eva};
+  \node at (1.95,-1.1) {Gabi}; \node at (-1.95,-1.1) {Fede};
+\end{tikzpicture}
+\end{minipage}
+
+\subsection{Las cinco operaciones}
+\begin{figura}
+\begin{tabular}{@{}ccccc@{}}
+\begin{tikzpicture}[scale=0.62]\pintaAnoB\pintaBnoA\pintaAyB\vennbase\end{tikzpicture} &
+\begin{tikzpicture}[scale=0.62]\pintaAyB\vennbase\end{tikzpicture} &
+\begin{tikzpicture}[scale=0.62]\pintaAnoB\vennbase\end{tikzpicture} &
+\begin{tikzpicture}[scale=0.62]\fill[zaccent!45,even odd rule] (-2.1,-1.35) rectangle (2.1,1.35) (-0.55,0) circle (1);\vennbase\end{tikzpicture} &
+\begin{tikzpicture}[scale=0.62]\pintaAnoB\pintaBnoA\vennbase\end{tikzpicture}\\
+$A\cup B$ & $A\cap B$ & $A-B$ & $A^{c}$ & $A\,\triangle\,B$
+\end{tabular}
+\end{figura}
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l l L l@{}}
+\toprule
+Operación & Se lee & Definición & Con los amigos\\ \midrule
+$A\cup B$ & unión & $\{x\tq x\in A \text{ \emph{o} } x\in B\}$ & $\{\text{Ana, Beto, Caro, Dani, Eva}\}$\\
+$A\cap B$ & intersección & $\{x\tq x\in A \text{ \emph{y} } x\in B\}$ & $\{\text{Caro, Dani}\}$\\
+$A-B$ & diferencia & $\{x\tq x\in A \text{ y } x\notin B\}$ & $\{\text{Ana, Beto}\}$\\
+$A^{c}$ & complemento & $\{x\in U\tq x\notin A\}$ & $\{\text{Eva, Fede, Gabi}\}$\\
+$A\,\triangle\,B$ & diferencia simétrica & $(A-B)\cup(B-A)$: en uno solo & $\{\text{Ana, Beto, Eva}\}$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\begin{ojo}[«o» junta, «y» filtra]
+La unión crece (junta lo de los dos); la intersección se achica (solo lo común). Además $A\cap B\subseteq A\subseteq A\cup B$.
+\end{ojo}
+
+\subsection{Contar la unión}
+Si se suman $n(A)=4$ y $n(B)=3$ se obtiene $7$, pero en la unión solo hay $5$ amigos: Caro y Dani se contaron dos veces.
+\begin{clavebox}[PRINCIPIO DE INCLUSIÓN Y EXCLUSIÓN]
+$\displaystyle n(A\cup B)=n(A)+n(B)-n(A\cap B)\qquad\text{así}\qquad 4+3-2=5$
+\end{clavebox}
+
+\subsection{Tres conjuntos}
+\begin{minipage}[c]{0.55\linewidth}
+Tres círculos dividen el universo en $8$ zonas. Para una expresión con paréntesis se resuelve primero el
+paréntesis. En $(A\cup B)\cap C$ se toma lo que está en $A$ o en $B$ y, de eso, solo lo que también está en $C$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=0.85]
+  \draw[universo] (-2.2,-2.1) rectangle (2.2,1.75);
+  \begin{scope}\clip (0,-0.75) circle (1);\fill[zaccent!45] (-0.5,0.1) circle (1) (0.5,0.1) circle (1);\end{scope}
+  \draw[conj] (-0.5,0.1) circle (1); \draw[conj] (0.5,0.1) circle (1); \draw[conj] (0,-0.75) circle (1);
+  \node[etq] at (-1.45,1.15) {$A$}; \node[etq] at (1.45,1.15) {$B$}; \node[etq] at (1.2,-1.65) {$C$};
+  \node[font=\footnotesize,text=zmute] at (0,-2.4) {$(A\cup B)\cap C$};
+\end{tikzpicture}
+\end{minipage}
+
+%=====================================================================
+\repaso
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}>{\centering\arraybackslash}p{16mm} l L@{}}
+\toprule
+Símbolo & Se lee & Ejemplo\\ \midrule
+$\in,\ \notin$ & pertenece, no pertenece & $\text{rojo}\in S$, $\text{azul}\notin S$\\
+$\{x\tq \dots\}$ & el conjunto de las $x$ tal que & $\{x\tq x\text{ es una vocal}\}$\\
+$n(A)$ & cardinal de $A$ & $n(\{P,A,Y\})=3$\\
+$\varnothing$ & conjunto vacío & los meses de 32 días\\
+$\subseteq,\ \not\subseteq$ & es subconjunto, no lo es & $V\subseteq X$, $\{a,7\}\not\subseteq X$\\
+$P(A)$ & conjunto de partes & $n(P(T))=2^3=8$\\
+$\cup,\ \cap$ & unión, intersección & lo de los dos, lo común\\
+$-,\ ^{c},\ \triangle$ & diferencia, complemento, dif.\ simétrica & pero no, no está, en uno solo\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Confundir $\in$ con $\subseteq$, o creer que $\{\varnothing\}$ está vacío.
+\item Repetir elementos o pensar que el orden cambia el conjunto.
+\item Olvidar la zona de afuera del diagrama, que también es parte de $U$.
+\item Sumar $n(A)+n(B)$ para contar la unión sin restar lo común.
+\item Olvidar $\varnothing$ o el conjunto completo al listar todos los subconjuntos.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Decide si cada colección es un conjunto bien definido. Justifica.
+  \begin{ejercicios}
+  \item Los planetas del sistema solar.
+  \item Las canciones más pegajosas del año.
+  \item Los números de dos cifras que terminan en 0.
+  \end{ejercicios}
+\item Escribe por extensión: $D=\{x\tq x\text{ es un día de la semana cuyo nombre tiene la letra }r\}$.
+\item Escribe por comprensión el conjunto $M=\{\text{marzo},\ \text{mayo}\}$.
+\item Sea $C$ el conjunto de las letras de la palabra CARRETERA. Escríbelo por extensión y halla $n(C)$.
+\item Sea $A=\{1,\{2\},3\}$. Indica si cada afirmación es verdadera o falsa:
+  \begin{ejercicios}
+  \item $2\in A$ \quad (b) $\{2\}\in A$ \quad (c) $\{1,3\}\subseteq A$ \quad (d) $\{2\}\subseteq A$ \quad (e) $\varnothing\subseteq A$
+  \end{ejercicios}
+\item Escribe todos los elementos de $P(\{\triangle,\square\})$ y verifica la fórmula $2^{k}$.
+\item Un conjunto tiene $64$ subconjuntos. ¿Cuántos elementos tiene? ¿Cuántos de esos subconjuntos son unitarios?
+\item Sean $U=\{1,2,3,4,5,6,7,8,9\}$, $A=\{1,2,3,4,5\}$ y $B=\{4,5,6,7\}$. Halla
+  \begin{ejercicios}
+  \item $A\cup B$ \quad (b) $A\cap B$ \quad (c) $B-A$ \quad (d) $(A\cup B)^{c}$ \quad (e) $A\,\triangle\,B$
+  \end{ejercicios}
+\item Dibuja tres diagramas de Venn de dos conjuntos y sombrea: (a) $A^{c}\cap B$; (b) $(A\cap B)^{c}$; (c) $A^{c}\cup B$.
+\item En un colegio, $40$ estudiantes practican natación, $35$ practican atletismo y $12$ practican ambos deportes.
+  Además, $15$ estudiantes no practican ninguno de los dos.
+  \begin{ejercicios}
+  \item ¿Cuántos practican al menos uno de los dos deportes?
+  \item ¿Cuántos practican solo natación?
+  \item ¿Cuántos estudiantes tiene el colegio?
+  \end{ejercicios}
+\end{ejercicios}
+
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) Sí. (b) No: depende del gusto de cada quien. (c) Sí: $\{10,20,\dots,90\}$.
+\item $D=\{\text{martes},\ \text{miércoles},\ \text{viernes}\}$.
+\item $M=\{x\tq x\text{ es un mes cuyo nombre empieza por }m\}$.
+\item $C=\{C,A,R,E,T\}$; $n(C)=5$.
+\item (a) F \ (b) V \ (c) V \ (d) F \ (e) V.
+\item $\varnothing,\ \{\triangle\},\ \{\square\},\ \{\triangle,\square\}$: son $4=2^2$.
+\item $2^{k}=64\Rightarrow k=6$ elementos; hay $6$ subconjuntos unitarios.
+\item (a) $\{1,\dots,7\}$ (b) $\{4,5\}$ (c) $\{6,7\}$ (d) $\{8,9\}$ (e) $\{1,2,3,6,7\}$.
+\item (a) la luna de $B$; (b) todo menos el cruce; (c) $B$ más todo lo de afuera de $A$.
+\item (a) $40+35-12=63$ \ (b) $40-12=28$ \ (c) $63+15=78$.
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

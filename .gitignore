@@ -184,3 +184,6 @@ video/distancias-radar/fonts/*.ttf
 video/distancias-radar/events.json
 video/distancias-radar/build_log.txt
 video/distancias-radar/distancias.mp4
+
+# Archivos intermedios de LaTeX de los resúmenes
+docs/resumenes/tex/salida/

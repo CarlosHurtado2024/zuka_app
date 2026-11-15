@@ -1,0 +1,407 @@
+% Resumen del mundo «Taller de los Bloques» (Álgebra, mundo 6: polinomios, productos notables y factorización).
+% Lecciones alg-23a, alg-3, alg-24c, alg-24b. Usa los ejemplos de los videos (video/valle-zoom/films: polinomios,
+% notables, binomio, factorizacion); el taller trae ejercicios nuevos (no repite los de la app, el jefe ni la evaluación).
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{algebra}
+\zukamundo{6}{Taller de los Bloques}{Polinomios: productos notables y factorización}
+
+% Bloques algebraicos: \X es el lado x del cuadrado grande y \U el lado 1 del cuadrito (en cm).
+\def\X{1.7}\def\U{0.34}
+\tikzset{
+  bloque/.style={draw=zink,line width=0.6pt},
+  cuadrado/.style={bloque,fill=zsky!35},
+  barra/.style={bloque,fill=zmint!40},
+  cuadrito/.style={bloque,fill=zsun!55},
+}
+% \rectbloques{a}{b}: rectángulo de lados (x + a) de ancho y (x + b) de alto, con a, b >= 1.
+\newcommand{\rectbloques}[2]{%
+  \draw[cuadrado] (0,0) rectangle (\X,\X);
+  \node[font=\small] at (\X/2,\X/2) {$x^2$};
+  \foreach \i in {1,...,#1} \draw[barra] ({\X+(\i-1)*\U},0) rectangle ({\X+\i*\U},\X);
+  \foreach \j in {1,...,#2} \draw[barra] (0,{\X+(\j-1)*\U}) rectangle (\X,{\X+\j*\U});
+  \foreach \i in {1,...,#1} \foreach \j in {1,...,#2}
+    \draw[cuadrito] ({\X+(\i-1)*\U},{\X+(\j-1)*\U}) rectangle ({\X+\i*\U},{\X+\j*\U});
+  \draw[decorate,decoration={brace,mirror,amplitude=4pt},zmute] (0,-0.1) -- (\X,-0.1) node[midway,below=4pt,font=\small,text=zink]{$x$};
+  \draw[decorate,decoration={brace,mirror,amplitude=4pt},zmute] (\X,-0.1) -- ({\X+#1*\U},-0.1) node[midway,below=4pt,font=\small,text=zink]{$#1$};
+  \draw[decorate,decoration={brace,amplitude=4pt},zmute] (-0.1,0) -- (-0.1,\X) node[midway,left=4pt,font=\small,text=zink]{$x$};
+  \draw[decorate,decoration={brace,amplitude=4pt},zmute] (-0.1,\X) -- (-0.1,{\X+#2*\U}) node[midway,left=4pt,font=\small,text=zink]{$#2$};}
+
+\begin{document}
+
+\portada{%
+Un \clave{polinomio} es una suma de términos de la forma $a\,x^{n}$. Con bloques se ve muy bien: un cuadrado de lado
+$x$ es $x^2$, una barra de $x$ por $1$ es $x$ y un cuadrito de $1$ por $1$ es $1$. En este mundo aprendiste a anotar
+y operar polinomios, a multiplicar rápido con los productos notables y el binomio de Newton, y a hacer el camino de
+vuelta: factorizar, que es armar un rectángulo y leer sus lados.}{%
+\item \textbf{Nivel 6-1.} Polinomios: grado, coeficientes, valor numérico, suma, resta y producto.
+\item \textbf{Nivel 6-2.} Productos notables: cuadrado y cubo de un binomio, suma por diferencia, $(x+a)(x+b)$.
+\item \textbf{Nivel 6-3.} Binomio de Newton: triángulo de Pascal y números combinatorios.
+\item \textbf{Nivel 6-4.} Factorización: factor común, diferencias de cuadrados y de cubos, trinomios y completar el cuadrado.}
+
+\begin{clavebox}[LAS IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\qquad}c@{\qquad}c@{}}
+$\displaystyle (a+b)^2=a^2+2ab+b^2$ & $\displaystyle (a+b)^n=\sum_{k=0}^{n}\binom{n}{k}a^{n-k}b^{k}$ & $\displaystyle x^2+sx+p=(x+m)(x+q)$\\[2pt]
+\small falta el doble producto & \small Pascal cuenta las maneras & \small $m+q=s$,\ \ $m\,q=p$
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{6-1}{Grado y operaciones}
+
+\begin{minipage}[c]{0.52\linewidth}
+Caro tiene una caja de bloques: dos cuadrados, tres barras y cuatro cuadritos. Para anotarla sin dibujarla se
+escribe
+\[ 2x^2+3x+4 . \]
+La letra $x$ es la \clave{variable} y el número que la multiplica es el \clave{coeficiente}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\begin{tikzpicture}
+  \draw[cuadrado] (0,0) rectangle (\X,\X); \node[font=\small] at (\X/2,\X/2) {$x^2$};
+  \draw[cuadrado] (\X+0.2,0) rectangle (2*\X+0.2,\X); \node[font=\small] at (1.5*\X+0.2,\X/2) {$x^2$};
+  \foreach \i in {0,1,2} \draw[barra] ({2*\X+0.5+\i*(\U+0.15)},0) rectangle ({2*\X+0.5+\i*(\U+0.15)+\U},\X);
+  \foreach \i/\j in {0/0,1/0,0/1,1/1} \draw[cuadrito] ({2*\X+2.05+\i*(\U+0.1)},{\j*(\U+0.1)}) rectangle ({2*\X+2.05+\i*(\U+0.1)+\U},{\j*(\U+0.1)+\U});
+  \node[font=\footnotesize,text=zmute] at (\X+0.1,-0.35) {$2x^2$};
+  \node[font=\footnotesize,text=zmute] at ({2*\X+0.95},-0.35) {$3x$};
+  \node[font=\footnotesize,text=zmute] at ({2*\X+2.44},-0.35) {$4$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{definicion}[Polinomio]
+Un \clave{polinomio} en la variable $x$ es una expresión
+\[ P(x)=a_nx^{n}+a_{n-1}x^{n-1}+\cdots+a_1x+a_0,\qquad a_0,\dots,a_n\in\R,\ \ n\in\N\cup\{0\}. \]
+Si $a_n\neq0$, el \clave{grado} es $\operatorname{gr}P=n$ (el mayor exponente), $a_n$ es el \clave{coeficiente principal}
+y $a_0$ es el \clave{término independiente}. Un número solo, distinto de cero, tiene grado $0$; el polinomio nulo no
+tiene grado.
+\end{definicion}
+\begin{ejemplo}[El grado no es el primer exponente]
+En $P(x)=4x-6+2x^{3}$ el mayor exponente es $3$: $\operatorname{gr}P=3$, aunque ese término no esté de primero.
+Ordenado, $P(x)=2x^{3}+4x-6$: coeficiente principal $2$, término independiente $-6$. Además de áreas hay volúmenes:
+un cubo de lado $x$ es $x^3$.
+\end{ejemplo}
+
+\subsection{Valor numérico}
+Evaluar $P$ en un número $c$ es reemplazar $x$ por $c$. La sorpresa de la caja de Caro, con $x=10$:
+\[ P(10)=2\cdot10^{2}+3\cdot10+4=200+30+4=234 : \]
+las cifras de $234$ son justo sus coeficientes. Es el sistema decimal: un número escrito en base $10$ es un polinomio
+evaluado en $x=10$.
+
+\subsection{Suma y resta: términos semejantes}
+Los \clave{términos semejantes} tienen la misma parte literal ($x^2$ con $x^2$, $x$ con $x$); solo esos se juntan,
+sumando sus coeficientes. Un cuadrado y una barra no se juntan: son piezas distintas.
+\begin{ejemplo}[Juntar dos cajas]
+Las barras rojas son negativas, y una barra con una roja se anulan:
+\[ (2x^2+3x+4)+(x^2-5x+1)=(2+1)x^2+(3-5)x+(4+1)=3x^2-2x+5 . \]
+Para restar se suma el opuesto: el signo cambia a \emph{todos} los términos del paréntesis,
+\[ (2x^2+3x+4)-(x^2-5x+1)=2x^2+3x+4-x^2+5x-1=x^2+8x+3 . \]
+\end{ejemplo}
+
+\subsection{Producto: un rectángulo}
+\begin{minipage}[c]{0.6\linewidth}
+Multiplicar es armar un rectángulo cuyos lados son los factores. Con lados $x+4$ y $x+1$ lo llenan un cuadrado,
+cinco barras y cuatro cuadritos:
+\[ (x+4)(x+1)=x^2+x+4x+4=x^2+5x+4 . \]
+En general, cada término de un factor multiplica a cada término del otro (propiedad distributiva), y al multiplicar
+potencias de $x$ los exponentes se suman.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}\rectbloques{4}{1}\end{tikzpicture}
+\end{minipage}
+
+\begin{propiedad}[Grado de la suma y del producto]
+Si $P$ y $Q$ no son nulos,
+\[ \operatorname{gr}(P\cdot Q)=\operatorname{gr}P+\operatorname{gr}Q,\qquad \operatorname{gr}(P\pm Q)\le\max\{\operatorname{gr}P,\operatorname{gr}Q\}. \]
+\end{propiedad}
+\begin{ojo}[Errores al operar]
+$3x^2+2x$ no es $5x^3$ (no son semejantes). Y en $-(x^2-5x+1)$ el signo cambia a los tres términos, no solo al primero.
+\end{ojo}
+
+%=====================================================================
+\nivel{6-2}{Productos notables}
+
+\begin{minipage}[c]{0.56\linewidth}
+Beto tiene una mesa cuadrada de lado $x$ y la agranda $4$ por cada lado. Calcula $x^2+16$\dots\ pero al armarla le
+faltan dos tablas: dos rectángulos de $4$ por $x$. El área nueva es
+\[ (x+4)^2=x^2+8x+16 . \]
+Al elevar una suma al cuadrado aparece el \clave{doble producto}: la mesa no creció $16$, creció $8x+16$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=0.85]
+  \def\x{2.2}\def\c{1.0}
+  \draw[cuadrado] (0,0) rectangle (\x,\x); \node at (\x/2,\x/2) {$x^2$};
+  \fill[zcoral!35] (\x,0) rectangle (\x+\c,\x); \fill[zcoral!35] (0,\x) rectangle (\x,\x+\c);
+  \draw[bloque] (\x,0) rectangle (\x+\c,\x); \draw[bloque] (0,\x) rectangle (\x,\x+\c);
+  \draw[cuadrito] (\x,\x) rectangle (\x+\c,\x+\c);
+  \node[font=\small] at (\x+\c/2,\x/2) {$4x$}; \node[font=\small] at (\x/2,\x+\c/2) {$4x$};
+  \node[font=\small] at (\x+\c/2,\x+\c/2) {$16$};
+  \node[font=\footnotesize,text=zmute] at (\x/2,-0.3) {$x$}; \node[font=\footnotesize,text=zmute] at (\x+\c/2,-0.3) {$4$};
+  \node[font=\footnotesize,text=zmute] at (-0.3,\x/2) {$x$}; \node[font=\footnotesize,text=zmute] at (-0.3,\x+\c/2) {$4$};
+\end{tikzpicture}
+
+{\footnotesize\color{zmute}Las dos tablas que faltaban, en coral.}
+\end{minipage}
+
+\begin{propiedad}[Productos notables]
+\vspace{-6pt}
+\begin{align*}
+(a+b)^2&=a^2+2ab+b^2 & (a-b)^2&=a^2-2ab+b^2\\
+(a+b)(a-b)&=a^2-b^2 & (x+a)(x+b)&=x^2+(a+b)\,x+ab\\
+(a+b)^3&=a^3+3a^2b+3ab^2+b^3 & (a-b)^3&=a^3-3a^2b+3ab^2-b^3
+\end{align*}
+\end{propiedad}
+
+\begin{ejemplo}[Cálculo mental con productos notables]
+\begin{itemize}
+\item $99^2=(100-1)^2=10\,000-200+1=9801$. Al cuadrado de $100$ se le quitan dos tiras de $100$, pero la esquina se
+  quitó dos veces: hay que devolverle $1$.
+\item $21\cdot19=(20+1)(20-1)=20^2-1^2=400-1=399$.
+\item $(x+6)(x+2)=x^2+8x+12$: un cuadrado, ocho barras y doce cuadritos. Ocho es $6+2$; doce, $6\cdot2$.
+\item $11^3=(10+1)^3=1000+300+30+1=1331$: los coeficientes $1,3,3,1$ del cubo.
+\end{itemize}
+\end{ejemplo}
+
+\begin{figura}[Suma por diferencia: se quita la esquina $b\times b$ y la tira de la derecha se pasa abajo.]
+\begin{tikzpicture}[scale=0.8]
+  \def\a{3}\def\b{1}
+  \fill[zsky!30] (0,0) rectangle (\a-\b,\a); \fill[zmint!40] (\a-\b,0) rectangle (\a,\a-\b);
+  \draw[bloque] (0,0) rectangle (\a,\a); \draw[bloque] (\a-\b,0) -- (\a-\b,\a-\b) -- (\a,\a-\b);
+  \fill[white] (\a-\b,\a-\b) rectangle (\a,\a); \draw[bloque,dashed,draw=zbad] (\a-\b,\a-\b) rectangle (\a,\a);
+  \draw[bloque] (0,0) -- (0,\a) -- (\a-\b,\a) -- (\a-\b,\a-\b) -- (\a,\a-\b) -- (\a,0) -- cycle;
+  \node at ({(\a-\b)/2},\a/2) {$a^2-b^2$};
+  \node[font=\footnotesize,text=zbad] at (\a-\b/2,\a-\b/2) {$b^2$};
+  \node[font=\small] at (\a/2,-0.35) {$a$}; \node[font=\small] at (-0.35,\a/2) {$a$};
+  \draw[->,zaccent,line width=1pt] (\a+0.4,0.5) -- (\a+1.3,0.5);
+  \begin{scope}[xshift=5.2cm]
+    \fill[zsky!30] (0,\b) rectangle (\a-\b,\a+\b); \fill[zmint!40] (0,0) rectangle (\a-\b,\b);
+    \draw[bloque] (0,0) rectangle (\a-\b,\a+\b); \draw[bloque] (0,\b) -- (\a-\b,\b);
+    \node at ({(\a-\b)/2},{(\a+\b)/2+0.3}) {$(a+b)$};
+    \node at ({(\a-\b)/2},{(\a+\b)/2-0.3}) {$\cdot\,(a-b)$};
+    \node[font=\small] at ({(\a-\b)/2},-0.35) {$a-b$}; \node[font=\small,anchor=east] at (-0.1,{(\a+\b)/2}) {$a+b$};
+  \end{scope}
+\end{tikzpicture}
+\end{figura}
+
+\begin{ojo}[El error más común]
+$(a+b)^2\neq a^2+b^2$. Por ejemplo, $(3+4)^2=49$, pero $3^2+4^2=25$: faltan los dos rectángulos, $2\cdot3\cdot4=24$.
+\end{ojo}
+
+%=====================================================================
+\nivel{6-3}{Binomio de Newton}
+
+Ana debe desarrollar $(a+b)^4$. Son cuatro paréntesis y de cada uno se escoge una letra: hay $2^4=16$ productos.
+¿Hay un atajo? Los coeficientes de las potencias pequeñas ya los conocemos: $1,2,1$ al cuadrado y $1,3,3,1$ al cubo.
+
+\begin{minipage}[c]{0.5\linewidth}
+\begin{definicion}[Triángulo de Pascal]
+Arriba está la fila $0$. Cada fila empieza y termina en $1$, y cada número de adentro es la \emph{suma de los dos
+que tiene encima}. La fila $n$ da los coeficientes de $(a+b)^n$.
+\end{definicion}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}[x=0.62cm,y=0.55cm]
+  \foreach \n/\row in {0/{1},1/{1,1},2/{1,2,1},3/{1,3,3,1},4/{1,4,6,4,1},5/{1,5,10,10,5,1}} {
+    \node[font=\footnotesize,text=zmute,anchor=east] at (-3.6,-\n) {fila $\n$};
+    \foreach \v [count=\k from 0] in \row {
+      \ifnum\n=4
+        \node[circle,fill=zaccent!18,inner sep=1.5pt,minimum size=15pt,font=\small] at ({\k-\n/2},-\n) {$\v$};
+      \else
+        \node[inner sep=1.5pt,minimum size=15pt,font=\small] at ({\k-\n/2},-\n) {$\v$};
+      \fi}}
+  \draw[zcoral,line width=0.8pt] (-0.5,-3) circle (6.5pt) (0.5,-3) circle (6.5pt) (0,-4) circle (7.5pt);
+  \node[font=\scriptsize,text=zcoral] at (0,-3) {$+$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{definicion}[Número combinatorio]
+Para $0\le k\le n$, $\displaystyle\binom{n}{k}=\frac{n!}{k!\,(n-k)!}$ cuenta las maneras de elegir $k$ objetos entre $n$.
+Es el número $k$ (contando desde $0$) de la fila $n$ de Pascal, y cumple
+$\displaystyle\binom{n}{k}=\binom{n-1}{k-1}+\binom{n-1}{k}$ y $\displaystyle\binom{n}{k}=\binom{n}{n-k}$.
+\end{definicion}
+
+\begin{propiedad}[Binomio de Newton]
+\[ (a+b)^n=\sum_{k=0}^{n}\binom{n}{k}a^{\,n-k}b^{\,k}=a^n+\binom{n}{1}a^{n-1}b+\binom{n}{2}a^{n-2}b^2+\cdots+b^n . \]
+Hay $n+1$ términos; los exponentes de $a$ bajan de $n$ a $0$, los de $b$ suben de $0$ a $n$, y en cada término suman
+$n$. El término que ocupa el lugar $k+1$ es $T_{k+1}=\binom{n}{k}a^{n-k}b^{k}$.
+\end{propiedad}
+
+\begin{ejemplo}[Los dieciséis productos de Ana]
+\[ (a+b)^4=a^4+4a^3b+6a^2b^2+4ab^3+b^4 . \]
+¿Por qué el del medio lleva un $6$? Para obtener $a^2b^2$, dos de los cuatro paréntesis deben dar $b$: hay
+$\binom42=6$ maneras de elegirlos. Y $1+4+6+4+1=16$: los dieciséis productos no desaparecieron, se agruparon en cinco
+términos.
+\end{ejemplo}
+\begin{ejemplo}[Con números: $(x+2)^4$]
+Con $a=x$ y $b=2$, cada término lleva también una potencia de $2$:
+\[ (x+2)^4=x^4+4\cdot x^3\cdot2+6\cdot x^2\cdot2^2+4\cdot x\cdot2^3+2^4=x^4+8x^3+24x^2+32x+16 . \]
+\end{ejemplo}
+\begin{ojo}[Dos descuidos]
+Olvidar elevar el segundo término ($6x^2\cdot2^2=24x^2$, no $6x^2\cdot2$). Y con una resta, $(a-b)^n$, los signos se
+alternan: $+,-,+,-,\dots$
+\end{ojo}
+
+%=====================================================================
+\clearpage
+\nivel{6-4}{Factorización}
+
+\begin{definicion}[Factorizar]
+\clave{Factorizar} un polinomio es escribirlo como un producto de polinomios de menor grado. Con bloques: dado un
+montón de piezas, armar con todas un rectángulo y leer sus lados.
+\end{definicion}
+
+\begin{minipage}[c]{0.6\linewidth}
+\textbf{El montón de Caro:} un cuadrado, cinco barras y seis cuadritos. El cuadrado va en la esquina, tres barras a
+un lado y dos al otro, y los seis cuadritos llenan el hueco:
+\[ x^2+5x+6=(x+3)(x+2),\qquad 3+2=5,\quad 3\cdot2=6 . \]
+La sorpresa: con \emph{siete} cuadritos, $x^2+5x+7$, uno sobra. Ningún reparto de las cinco barras ($1+4$ o $2+3$)
+deja un hueco de $7$: ese montón no se arma con enteros.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}\rectbloques{3}{2}\end{tikzpicture}
+\end{minipage}
+
+\subsection{Los casos que hay que reconocer}
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l L l@{}}
+\toprule
+Caso & Forma & Ejemplo\\ \midrule
+Factor común & $ab+ac=a(b+c)$ & $3x+6=3(x+2)$\\
+Diferencia de cuadrados & $a^2-b^2=(a+b)(a-b)$ & $x^2-16=(x+4)(x-4)$\\
+Trinomio cuadrado perfecto & $a^2\pm2ab+b^2=(a\pm b)^2$ & $x^2-10x+25=(x-5)^2$\\
+Trinomio $x^2+sx+p$ & $(x+m)(x+q)$ con $m+q=s$, $mq=p$ & $x^2+5x+6=(x+2)(x+3)$\\
+Trinomio $ax^2+bx+c$ & dos números de suma $b$ y producto $ac$ & $2x^2+7x+3=(2x+1)(x+3)$\\
+Suma de cubos & $a^3+b^3=(a+b)(a^2-ab+b^2)$ & $x^3+64=(x+4)(x^2-4x+16)$\\
+Diferencia de cubos & $a^3-b^3=(a-b)(a^2+ab+b^2)$ & $y^3-125=(y-5)(y^2+5y+25)$\\
+Agrupación & sacar un factor común por partes & $x^3+x^2+2x+2=(x+1)(x^2+2)$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ejemplo}[El trinomio con coeficiente principal]
+Con dos cuadrados: $2x^2+7x+3$. Se buscan dos números de producto $2\cdot3=6$ y suma $7$: son $6$ y $1$. Se parte el
+término del medio y se agrupa:
+\[ 2x^2+7x+3=2x^2+6x+x+3=2x(x+3)+(x+3)=(2x+1)(x+3). \]
+\end{ejemplo}
+
+\subsection{Cuando no forma un rectángulo: completar el cuadrado}
+Con $x^2+8x+20$ las ocho barras se reparten cuatro y cuatro alrededor del cuadrado; la esquina pide $4^2=16$
+cuadritos y, de los $20$, sobran $4$:
+\[ x^2+8x+20=(x^2+8x+16)+4=(x+4)^2+4 . \]
+Es un cuadrado más algo, no un producto: no se factoriza con números reales.
+\begin{clavebox}[COMPLETAR EL CUADRADO]
+$\displaystyle x^2+bx+c=\left(x+\frac b2\right)^{2}+\left(c-\frac{b^2}{4}\right)$
+\end{clavebox}
+\begin{ojo}[Errores al factorizar]
+\begin{itemize}
+\item $x^2+16$ \emph{no} es $(x+4)^2$ ni $(x+4)(x-4)$: una suma de cuadrados no se factoriza en $\R$.
+\item En los cubos, el signo del medio del segundo factor es el \emph{contrario}: $a^3+b^3=(a+b)(a^2-ab+b^2)$.
+\item Factorizar \emph{por completo}: en $2x^3-18x=2x(x^2-9)$ todavía falta $x^2-9=(x-3)(x+3)$.
+\item Siempre se puede comprobar multiplicando los factores.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\repaso
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+Concepto & Fórmula o regla\\ \midrule
+Grado & mayor exponente; $\operatorname{gr}(PQ)=\operatorname{gr}P+\operatorname{gr}Q$\\
+Semejantes & solo se juntan términos con la misma potencia de $x$\\
+Cuadrado de un binomio & $(a\pm b)^2=a^2\pm2ab+b^2$\\
+Suma por diferencia & $(a+b)(a-b)=a^2-b^2$\\
+Producto con término común & $(x+a)(x+b)=x^2+(a+b)x+ab$\\
+Cubo de un binomio & $(a\pm b)^3=a^3\pm3a^2b+3ab^2\pm b^3$\\
+Número combinatorio & $\binom nk=\frac{n!}{k!(n-k)!}$;\ \ $\binom nk=\binom{n-1}{k-1}+\binom{n-1}{k}$\\
+Binomio de Newton & $(a+b)^n=\sum_{k=0}^{n}\binom nk a^{n-k}b^k$;\ \ coeficientes suman $2^n$\\
+Suma y diferencia de cubos & $a^3\pm b^3=(a\pm b)(a^2\mp ab+b^2)$\\
+Completar el cuadrado & $x^2+bx+c=\left(x+\frac b2\right)^2+c-\frac{b^2}{4}$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Tomar como grado el exponente del primer término o el coeficiente más grande.
+\item Escribir $(a+b)^2=a^2+b^2$ u olvidar el signo del doble producto en $(a-b)^2$.
+\item Al restar polinomios, cambiar el signo solo al primer término del paréntesis.
+\item En el binomio, no elevar el segundo término o no alternar los signos con una resta.
+\item Intentar factorizar $x^2+a^2$ en los reales, o dejar una factorización a medias.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Sea $P(x)=4-x^{3}+5x^{2}-2x^{4}$.
+  \begin{ejercicios}
+  \item Ordénalo de mayor a menor exponente.
+  \item Indica su grado, su coeficiente principal y su término independiente.
+  \item Calcula $P(-1)$ y $P(2)$.
+  \end{ejercicios}
+\item Sean $P(x)=3x^2-x+2$ y $Q(x)=x^3-2x^2+4$. Calcula $P+Q$, $Q-2P$ y $(x-1)\,P$. ¿Cuál es el grado de $P\cdot Q$?
+  (Respóndelo sin multiplicar.)
+\item De una lámina cuadrada de $\SI{20}{\centi\metre}$ de lado se recortan cuadrados de lado $x$ en las cuatro esquinas y se
+  doblan los bordes para formar una caja sin tapa.
+  \begin{ejercicios}
+  \item Escribe el volumen $V(x)$ como un polinomio ordenado. ¿De qué grado es?
+  \item Calcula $V(3)$. ¿Para qué valores de $x$ tiene sentido el problema?
+  \end{ejercicios}
+\item Desarrolla con productos notables:
+  (a) $(2x+5)^2$ \quad (b) $(3a-2b)^2$ \quad (c) $(x^2+3)(x^2-3)$\newline (d) $(x-2)^3$ \quad (e) $(x+7)(x-3)$.
+\item Calcula de cabeza, explicando qué producto notable usas: (a) $51^2$ \quad (b) $48\cdot52$ \quad (c) $998^2$.
+\item Un terreno cuadrado de $x$ metros de lado se modifica: se alarga $3$ metros en una dirección y se acorta $3$
+  metros en la otra.
+  \begin{ejercicios}
+  \item ¿El terreno gana o pierde área? ¿Cuánto? ¿Depende de $x$?
+  \item Una foto cuadrada de lado $x$ centímetros se rodea con un marco de $\SI{2}{\centi\metre}$ de ancho. Escribe el
+    área del marco como polinomio y evalúala para $x=10$.
+  \end{ejercicios}
+\item Triángulo de Pascal.
+  \begin{ejercicios}
+  \item Escribe la fila $6$ del triángulo.
+  \item Desarrolla $(x-2)^5$.
+  \item Sin desarrollar, ¿cuánto suman los coeficientes de $(x-2)^5$? (Sugerencia: evalúa en $x=1$.)
+  \end{ejercicios}
+\item Usa el término general del binomio.
+  \begin{ejercicios}
+  \item Halla el coeficiente de $x^{6}$ en $(x^{2}+2)^{5}$.
+  \item Halla el término independiente de $\left(x-\dfrac{3}{x}\right)^{4}$.
+  \end{ejercicios}
+\item Factoriza por completo:
+  (a) $6x^3-15x^2$ \quad (b) $x^2-11x+30$ \quad (c) $4x^2-25$ \quad (d) $2x^2+x-6$\newline (e) $8x^3-1$ \quad
+  (f) $x^3-2x^2-9x+18$ \quad (g) $x^4-13x^2+36$.
+\item Bloques y rectángulos.
+  \begin{ejercicios}
+  \item La figura muestra un rectángulo armado con bloques. Escribe su área como polinomio y como producto.
+
+    \smallskip
+    \begin{tikzpicture}[baseline=(current bounding box.center)]
+      \draw[cuadrado] (0,0) rectangle (\X,\X);
+      \foreach \i in {1,...,4} \draw[barra] ({\X+(\i-1)*\U},0) rectangle ({\X+\i*\U},\X);
+      \foreach \j in {1,...,3} \draw[barra] (0,{\X+(\j-1)*\U}) rectangle (\X,{\X+\j*\U});
+      \foreach \i in {1,...,4} \foreach \j in {1,...,3}
+        \draw[cuadrito] ({\X+(\i-1)*\U},{\X+(\j-1)*\U}) rectangle ({\X+\i*\U},{\X+\j*\U});
+    \end{tikzpicture}
+  \item Dibuja con bloques el rectángulo de $2x^2+5x+2$ y lee sus lados.
+  \item Explica, intentando repartir las barras, por qué $x^2+4x+5$ no forma un rectángulo. Completa el cuadrado y
+    justifica que $x^2+4x+5$ nunca vale $0$ para ningún número real $x$.
+  \end{ejercicios}
+\end{ejercicios}
+
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) $-2x^4-x^3+5x^2+4$. (b) Grado $4$, coeficiente principal $-2$, independiente $4$. (c) $P(-1)=-2+1+5+4=8$; $P(2)=-32-8+20+4=-16$.
+\item $P+Q=x^3+x^2-x+6$; $Q-2P=x^3-8x^2+2x$; $(x-1)P=3x^3-4x^2+3x-2$; $\operatorname{gr}(PQ)=2+3=5$.
+\item (a) $V(x)=x(20-2x)^2=4x^3-80x^2+400x$, grado $3$. (b) $V(3)=3\cdot14^2=\SI{588}{\centi\metre\cubed}$; tiene sentido para $0<x<10$.
+\item (a) $4x^2+20x+25$ (b) $9a^2-12ab+4b^2$ (c) $x^4-9$ (d) $x^3-6x^2+12x-8$ (e) $x^2+4x-21$.
+\item (a) $(50+1)^2=2601$ (b) $(50-2)(50+2)=2500-4=2496$ (c) $(1000-2)^2=996\,004$.
+\item (a) $(x+3)(x-3)=x^2-9$: pierde $\SI{9}{\metre\squared}$, sea cual sea $x$. (b) $(x+4)^2-x^2=8x+16$; con $x=10$, $\SI{96}{\centi\metre\squared}$.
+\item (a) $1,6,15,20,15,6,1$. (b) $x^5-10x^4+40x^3-80x^2+80x-32$. (c) $(1-2)^5=-1$.
+\item (a) $T_{k+1}=\binom5k(x^2)^{5-k}2^k$; $x^{10-2k}=x^6$ si $k=2$: $\binom52\cdot4=40$. (b) $x^{4-2k}$ con $k=2$: $\binom42(-3)^2=54$.
+\item (a) $3x^2(2x-5)$ (b) $(x-5)(x-6)$ (c) $(2x-5)(2x+5)$ (d) $(2x-3)(x+2)$ (e) $(2x-1)(4x^2+2x+1)$ (f) $x^2(x-2)-9(x-2)=(x-2)(x-3)(x+3)$ (g) $(x^2-4)(x^2-9)=(x-2)(x+2)(x-3)(x+3)$.
+\item (a) $x^2+7x+12=(x+4)(x+3)$. (b) $2x^2+5x+2=(2x+1)(x+2)$: dos cuadrados en fila; encima, dos filas de dos barras; al lado, una barra; en la esquina, dos cuadritos. (c) Con $1+3$ el hueco pide $3$ y con $2+2$ pide $4$, nunca $5$. $x^2+4x+5=(x+2)^2+1\ge1>0$.
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

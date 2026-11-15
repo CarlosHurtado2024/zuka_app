@@ -1,0 +1,374 @@
+% Resumen del mundo «Cordillera Cúbica» (Álgebra, mundo 8: polinomios de grado superior).
+% Lecciones alg-23b, alg-92, alg-93. Ejemplos de los videos (la cordillera de Ana, la apuesta de Beto, la de Caro);
+% el taller trae ejercicios nuevos (no repite los de la app, del jefe ni de la evaluación).
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{algebra}
+\zukamundo{8}{Cordillera Cúbica}{Polinomios de grado superior}
+
+\newcommand{\gr}{\operatorname{gr}}
+% fila de una división larga sin la barra vertical
+\newcommand{\nb}{\multicolumn{1}{r@{\;}}{}}
+
+\begin{document}
+
+\portada{%
+Un polinomio de grado tres dibuja una \clave{cordillera}: sube, baja y cruza la vía del tren (el eje $x$) en sus
+\clave{ceros}. En este mundo aprendiste a dividir polinomios, a calcular residuos sin dividir y a encontrar todos
+los ceros de un polinomio, incluso los que no se ven en el dibujo. Este resumen reúne las definiciones, los teoremas
+y los ejemplos de los videos, y termina con un taller de práctica.}{%
+\item \textbf{Nivel 8-1.} División e igualdad de polinomios: dividendo, divisor, cociente y residuo; comparar coeficientes.
+\item \textbf{Nivel 8-2.} Teorema del residuo, teorema del factor y división sintética.
+\item \textbf{Nivel 8-3.} Ceros de un polinomio: teorema fundamental, multiplicidad, ceros racionales, regla de Descartes y ceros complejos.}
+
+\begin{clavebox}[LAS TRES IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\qquad}c@{\qquad}c@{}}
+$P=D\cdot Q+R$ & $R=P(c)$ al dividir entre $x-c$ & $P(c)=0\iff (x-c)\mid P$\\[2pt]
+\small toda división & \small el residuo es una altura & \small cada cero aporta un factor
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{8-1}{División e igualdad de polinomios}
+
+Ana dibuja el perfil de una cordillera con el polinomio
+\[ P(x)=x^3-2x^2-5x+6 . \]
+La vía del tren va a altura cero y uno de sus cruces es $x=1$. Ana quiere «quitar» ese cruce del polinomio:
+¿qué queda si divide entre $x-1$? Se divide igual que con números.
+
+\begin{minipage}[c]{0.5\linewidth}
+\textbf{Con números.} $47$ caramelos en bolsas de $5$ dan $9$ bolsas y sobran $2$:
+\[ 47 = 5\cdot 9 + 2,\qquad 0\le 2<5 . \]
+Lo que sobra siempre es \emph{menor} que una bolsa; si fuera mayor, cabría otra bolsa.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}[x=0.5cm,y=0.5cm]
+  \foreach \b in {0,...,8} {
+    \draw[zmute,rounded corners=1.5pt,fill=zsky!12] (\b*1.15-0.1,-0.1) rectangle (\b*1.15+0.9,4.9);
+    \foreach \k in {0,...,4} \fill[zsky] (\b*1.15+0.4,\k*0.95+0.38) circle (0.27);}
+  \fill[zcoral] (11.4,0.38) circle (0.27); \fill[zcoral] (11.4,1.33) circle (0.27);
+  \node[font=\footnotesize,text=zmute] at (4.6,-0.85) {$9$ bolsas de $5$};
+  \node[font=\footnotesize,text=zcoral] at (11.4,-0.85) {sobran $2$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{definicion}[Algoritmo de la división]
+Si $P(x)$ y $D(x)$ son polinomios y $D\neq 0$, existen polinomios únicos $Q(x)$ (\clave{cociente}) y $R(x)$
+(\clave{residuo}) tales que
+\[ P(x)=D(x)\cdot Q(x)+R(x),\qquad R=0\ \text{ o }\ \gr R<\gr D . \]
+$P$ es el \clave{dividendo} y $D$ el \clave{divisor}. Si $R=0$, la división es \clave{exacta} y $D$ es un
+\clave{factor} de $P$. Además, $\gr Q=\gr P-\gr D$.
+\end{definicion}
+
+\begin{ejemplo}[La cordillera de Ana entre $x-1$]
+En cada paso se divide el término principal que queda entre $x$, se multiplica por el divisor y se resta:
+\[
+\renewcommand{\arraystretch}{1.15}
+\begin{array}{r@{\;}|rrrr}
+\nb & & x^2 & -x & -6\\ \cline{2-5}
+x-1 & x^3 & -2x^2 & -5x & +6\\
+\nb & -x^3 & +x^2 & & \\ \cline{2-3}
+\nb & & -x^2 & -5x & \\
+\nb & & +x^2 & -x & \\ \cline{3-4}
+\nb & & & -6x & +6\\
+\nb & & & +6x & -6\\ \cline{4-5}
+\nb & & & & 0
+\end{array}
+\qquad
+\begin{aligned}
+&\tfrac{x^3}{x}=x^2\\[2pt]
+&\tfrac{-x^2}{x}=-x\\[2pt]
+&\tfrac{-6x}{x}=-6\\[2pt]
+&\text{residuo } 0
+\end{aligned}
+\]
+El residuo es $0$: $x-1$ cabe justo, es un factor, y
+\[ x^3-2x^2-5x+6=(x-1)\left(x^2-x-6\right)=(x-1)(x-3)(x+2). \]
+La parábola que queda corta la vía en $-2$ y en $3$: son los otros dos cruces de la cordillera.
+\end{ejemplo}
+
+\begin{ojo}[Ordena y completa]
+Antes de dividir, ordena los dos polinomios de mayor a menor grado y escribe con coeficiente $0$ los términos que
+faltan: $x^3-7x+6$ se divide como $x^3+0x^2-7x+6$. Si no dejas el hueco, las columnas se corren.
+\end{ojo}
+
+\subsection{Igualdad de polinomios}
+\begin{propiedad}[Dos polinomios son iguales si y solo si tienen los mismos coeficientes]
+\[ a_nx^n+\dots+a_1x+a_0=b_nx^n+\dots+b_1x+b_0\ \text{ para todo }x \iff a_k=b_k\ \text{ para cada }k . \]
+\end{propiedad}
+Esto da un camino para dividir \emph{sin dividir}: se escribe la forma del resultado con letras y se comparan coeficientes.
+\begin{ejemplo}[El mismo cociente, comparando coeficientes]
+Como $\gr Q=3-1=2$ y el residuo es una constante, se busca $P(x)=(x-1)\left(x^2+ax+b\right)+r$. Al multiplicar:
+\[ (x-1)\left(x^2+ax+b\right)+r=x^3+(a-1)x^2+(b-a)x+(r-b). \]
+Comparando con $x^3-2x^2-5x+6$:
+\[ a-1=-2\Rightarrow a=-1,\qquad b-a=-5\Rightarrow b=-6,\qquad r-b=6\Rightarrow r=0 . \]
+Mismo cociente $x^2-x-6$ y mismo residuo $0$.
+\end{ejemplo}
+
+%=====================================================================
+\nivel{8-2}{Residuo, factor y división sintética}
+
+Beto ve la cordillera de Ana entre la niebla y apuesta: «la vía también cruza en $x=2$». Para saberlo habría que
+dividir entre $x-2$\dots\ pero el residuo guarda un secreto.
+
+\begin{propiedad}[Teorema del residuo]
+El residuo de dividir $P(x)$ entre $x-c$ es $P(c)$.
+\end{propiedad}
+\textbf{Por qué.} Toda división se escribe $P(x)=(x-c)\,Q(x)+R$, con $R$ constante. Al poner $x=c$ el primer
+pedazo vale $0\cdot Q(c)=0$, y queda $P(c)=R$. El residuo es la \clave{altura} del terreno en $x=c$.
+
+\begin{minipage}[c]{0.47\linewidth}
+\begin{ejemplo}[La apuesta de Beto]
+\begin{align*}
+P(2)&=8-8-10+6=-4,\\
+P(3)&=27-18-15+6=0 .
+\end{align*}
+En $x=2$ el terreno está $4$ unidades por debajo de la vía: Beto pierde. En $x=3$ la altura es $0$: ahí sí cruza.
+\end{ejemplo}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=7.4cm,height=5.6cm,xmin=-3,xmax=4,ymin=-9,ymax=10,
+  xtick={-1,2},ytick={-8,-4,4,8},xlabel={$x$},ylabel={$y$},
+  xlabel style={at={(ticklabel* cs:1)},anchor=north west},ylabel style={at={(ticklabel* cs:1)},anchor=south west}]
+  \addplot[zaccent,domain=-2.55:3.65,samples=120] {x^3-2*x^2-5*x+6};
+  \addplot[zcoral,dashed,line width=0.9pt] coordinates {(2,0) (2,-4)};
+  \addplot[only marks,mark=*,mark size=2.2pt,zink] coordinates {(-2,0) (1,0) (3,0)};
+  \addplot[only marks,mark=*,mark size=2.2pt,zcoral] coordinates {(2,-4)};
+  \node[font=\footnotesize,text=zcoral,anchor=west] at (axis cs:2.1,-5.4) {$P(2)=-4$};
+  \node[font=\footnotesize,text=zaccent,anchor=west] at (axis cs:0.35,8.2) {$y=P(x)$};
+\end{axis}
+\end{tikzpicture}
+
+{\small\color{zmute}Los cruces $-2$, $1$ y $3$ y la altura en $x=2$.}
+\end{minipage}
+
+\begin{propiedad}[Teorema del factor]
+\[ P(c)=0 \iff (x-c)\ \text{es un factor de } P(x). \]
+Cada cruce $c$ con la vía da un factor $x-c$, y cada factor $x-c$ da un cruce en $c$.
+\end{propiedad}
+
+\subsection{División sintética}
+Para dividir entre $x-c$ hay una tabla que divide \emph{sin escribir las $x$}. Se ponen los coeficientes en fila
+(con ceros donde falte un término) y $c$ a la izquierda. Se baja el primero; luego, en cada columna, se
+\emph{multiplica} lo último de abajo por $c$, se escribe arriba y se \emph{suma}.
+
+\begin{ejemplo}[$P(x)=x^3-2x^2-5x+6$ entre $x-3$]
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{c|rrrr}
+3 & 1 & -2 & -5 & 6\\
+  &   & 3 & 3 & -6\\ \hline
+  & 1 & 1 & -2 & \fbox{$0$}
+\end{array}
+\qquad\Longrightarrow\qquad
+Q(x)=x^2+x-2,\quad R=0 .
+\]
+La última casilla es el residuo y las demás son los coeficientes del cociente, que tiene un grado menos. Como
+$x^2+x-2=(x+2)(x-1)$, otra vez $P(x)=(x-3)(x+2)(x-1)$.
+\end{ejemplo}
+
+\begin{ojo}[El signo de $c$]
+Para dividir entre $x+2$ se escribe $c=-2$, porque $x+2=x-(-2)$. Y la división sintética solo sirve con divisores
+de la forma $x-c$; para $2x-1$ se usa $c=\tfrac12$ y luego se divide el cociente entre $2$.
+\end{ojo}
+
+%=====================================================================
+\nivel{8-3}{Ceros de un polinomio}
+
+La cordillera de Caro también es de grado tres, pero cruza la vía una sola vez, en $x=1$:
+\[ Q(x)=x^3-3x^2+4x-2 . \]
+Y un teorema promete tres ceros. ¿Dónde están los otros dos?
+
+\begin{propiedad}[Teorema fundamental del álgebra]
+Todo polinomio de grado $n\ge 1$ tiene exactamente $n$ ceros complejos, si cada uno se cuenta tantas veces como
+su multiplicidad. Es decir, se factoriza como
+\[ P(x)=a_n\,(x-r_1)(x-r_2)\cdots(x-r_n),\qquad r_k\in\C . \]
+\end{propiedad}
+
+\subsection{Multiplicidad: cruzar o rebotar}
+\begin{minipage}[c]{0.5\linewidth}
+\begin{definicion}[Multiplicidad]
+Si $(x-r)^m$ es factor de $P$ pero $(x-r)^{m+1}$ no lo es, $r$ es un cero de \clave{multiplicidad} $m$.
+\end{definicion}
+En $y=(x+1)(x-2)^2$ el cero $-1$ es simple y el $2$ es \emph{doble}: cuenta dos veces, y $1+2=3$ es el grado.
+\begin{itemize}
+\item Multiplicidad \textbf{impar}: la gráfica \clave{cruza} el eje.
+\item Multiplicidad \textbf{par}: lo \clave{toca y rebota}.
+\end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,clip=false,width=7cm,height=5.4cm,xmin=-2.3,xmax=3.6,ymin=-6,ymax=7,
+  xtick={1,3},ytick={-4,4},xlabel={$x$},ylabel={$y$},
+  xlabel style={at={(ticklabel* cs:1)},anchor=north west},ylabel style={at={(ticklabel* cs:1)},anchor=south west}]
+  \addplot[zaccent,domain=-1.45:3.25,samples=120] {(x+1)*(x-2)^2};
+  \addplot[only marks,mark=*,mark size=2.2pt,zink] coordinates {(-1,0) (2,0)};
+  \node[font=\footnotesize,text=zink,anchor=south] at (axis cs:-1.5,0.9) {cruza en $-1$};
+  \node[font=\footnotesize,text=zink,anchor=north] at (axis cs:2,-0.9) {rebota en $2$};
+\end{axis}
+\end{tikzpicture}
+
+{\small\color{zmute}$y=(x+1)(x-2)^2$: cero simple y cero doble.}
+\end{minipage}
+
+\subsection{Cómo buscar los ceros}
+\begin{propiedad}[Ceros racionales]
+Si $P(x)=a_nx^n+\dots+a_1x+a_0$ tiene coeficientes enteros y $\tfrac{p}{q}$ (fracción irreducible) es un cero de
+$P$, entonces $p$ divide a $a_0$ y $q$ divide a $a_n$.
+\end{propiedad}
+\begin{propiedad}[Regla de los signos de Descartes]
+El número de ceros reales \emph{positivos} de $P$ es igual al número de cambios de signo entre coeficientes
+consecutivos (sin contar los ceros), o es menor que ese número en una cantidad par. Para los ceros
+\emph{negativos} se cuentan los cambios de signo de $P(-x)$.
+\end{propiedad}
+\begin{propiedad}[Ceros conjugados]
+Si $P$ tiene coeficientes reales y $a+bi$ es un cero, también lo es $a-bi$: los ceros complejos llegan en pareja.
+\end{propiedad}
+
+\begin{ejemplo}[Los ceros perdidos de Caro]
+\textbf{Candidatos.} Con $a_0=-2$ y $a_n=1$, los ceros racionales posibles son $\pm1,\ \pm2$.\par
+\textbf{Descartes.} Los signos de $Q$ son $+,-,+,-$: tres cambios, así que hay $3$ o $1$ ceros positivos.
+En $Q(-x)=-x^3-3x^2-4x-2$ no hay cambios de signo: ningún cero negativo.\par
+\textbf{Probar.} $Q(1)=1-3+4-2=0$, pero $Q(2)=8-12+8-2=2\neq0$.\par\smallskip
+\begin{minipage}[c]{0.6\linewidth}
+\textbf{Dividir entre $x-1$.}
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{c|rrrr}
+1 & 1 & -3 & 4 & -2\\
+  &   & 1 & -2 & 2\\ \hline
+  & 1 & -2 & 2 & \fbox{$0$}
+\end{array}
+\]
+La parábola $x^2-2x+2$ tiene discriminante $(-2)^2-4\cdot2=-4<0$, así que
+\[ x=\frac{2\pm\sqrt{-4}}{2}=1\pm i . \]
+Los tres ceros son $1$, $1+i$ y $1-i$:
+\[ Q(x)=(x-1)\left(x^2-2x+2\right). \]
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=1.1]
+  \draw[zline,line width=0.4pt] (-0.8,-1.6) grid (2.3,1.6);
+  \draw[->,zink,line width=0.8pt] (-0.9,0) -- (2.5,0) node[right,font=\small] {Re};
+  \draw[->,zink,line width=0.8pt] (0,-1.7) -- (0,1.8) node[above,font=\small] {Im};
+  \node[font=\footnotesize,text=zmute,below right] at (1,0) {$1$};
+  \node[font=\footnotesize,text=zmute,below] at (2,0) {$2$};
+  \node[font=\footnotesize,text=zmute,left] at (0,1) {$i$};
+  \node[font=\footnotesize,text=zmute,left] at (0,-1) {$-i$};
+  \draw[zcoral,dashed,line width=0.8pt] (1,1) -- (1,-1);
+  \fill[zink] (1,0) circle (2.4pt);
+  \fill[zcoral] (1,1) circle (2.4pt) node[right,font=\small,text=zink] {$1+i$};
+  \fill[zcoral] (1,-1) circle (2.4pt) node[right,font=\small,text=zink] {$1-i$};
+\end{tikzpicture}
+
+{\small\color{zmute}Los ceros complejos son espejo uno del otro respecto al eje real.}
+\end{minipage}
+\end{ejemplo}
+
+\begin{ojo}[Lo que dicen y lo que no dicen los teoremas]
+Los candidatos racionales son \emph{posibles} ceros: hay que probarlos. Descartes da un máximo que baja de dos en
+dos, no un número seguro. Y que la gráfica cruce una sola vez no quiere decir que haya un solo cero: los demás
+pueden ser complejos o estar repetidos.
+\end{ojo}
+
+%=====================================================================
+\clearpage
+\repaso
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+Resultado & Qué dice\\ \midrule
+Algoritmo de la división & $P=D\cdot Q+R$, con $R=0$ o $\gr R<\gr D$; además $\gr Q=\gr P-\gr D$\\
+Igualdad de polinomios & iguales para todo $x$ $\iff$ mismos coeficientes, uno a uno\\
+Teorema del residuo & el residuo de $P\div(x-c)$ es $P(c)$\\
+Teorema del factor & $P(c)=0\iff(x-c)$ es factor de $P$\\
+División sintética & baja, multiplica por $c$, suma; la última casilla es el residuo\\
+Teorema fundamental & grado $n\ge1$ $\Rightarrow$ $n$ ceros complejos contados con multiplicidad\\
+Multiplicidad & exponente del factor; impar cruza, par rebota\\
+Ceros racionales & $\tfrac{p}{q}$ con $p\mid a_0$ y $q\mid a_n$\\
+Descartes & ceros positivos: cambios de signo de $P(x)$, o menos en un par; negativos: los de $P(-x)$\\
+Conjugados & coeficientes reales: si $a+bi$ es cero, también $a-bi$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item No escribir los coeficientes $0$ de los términos que faltan, en la división larga o en la sintética.
+\item Usar $c=2$ para dividir entre $x+2$ (es $c=-2$).
+\item Restar mal en la división larga: se cambia el signo de \emph{toda} la fila antes de sumar.
+\item Dar un residuo de grado mayor o igual que el divisor: todavía se puede seguir dividiendo.
+\item Tomar los candidatos racionales como ceros seguros, o leer Descartes como un número exacto.
+\item Olvidar los ceros complejos o la multiplicidad al contar los $n$ ceros.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Divide $\left(2x^3+3x^2-4x+5\right)\div(x+2)$ con división larga y escribe el resultado en la forma
+  $P=D\cdot Q+R$.
+\item Halla el cociente y el residuo de $\left(x^4-3x^2+2x-1\right)\div\left(x^2+x-1\right)$. Comprueba que
+  $\gr R<\gr D$.
+\item Halla $a$, $b$ y $c$ tales que $3x^2-5x+1=a(x-1)^2+b(x-1)+c$ para todo $x$.
+\item Sin hacer la división, halla el residuo:
+  \begin{ejercicios}
+  \item de $x^5-3x^3+x-4$ entre $x+1$;
+  \item de $4x^3-6x^2+3$ entre $2x-1$. (Sugerencia: $2x-1$ se anula en $x=\tfrac12$.)
+  \end{ejercicios}
+\item Determina $k$ para que $x+2$ sea factor de $x^3+kx^2-x-2$ y, con ese valor, factoriza el polinomio por
+  completo.
+\item Usa división sintética para dividir $x^4-5x^3+5x^2+5x-6$ entre $x-3$. Luego factoriza el polinomio en
+  factores lineales.
+\item Sea $P(x)=2x^3-x^2-13x-6$.
+  \begin{ejercicios}
+  \item Usa la regla de Descartes para decir cuántos ceros positivos y cuántos negativos puede tener.
+  \item Lista los candidatos a ceros racionales y halla todos los ceros. ¿Concuerda con lo que dijo Descartes?
+  \end{ejercicios}
+\item Un polinomio $P$ de grado $5$ con coeficientes reales tiene los ceros $2$ (doble), $-1$ y $3i$.
+  \begin{ejercicios}
+  \item ¿Cuál es el quinto cero? Justifica.
+  \item Escribe $P$ factorizado si su coeficiente principal es $1$, y di en qué ceros reales la gráfica cruza el eje y en cuáles rebota.
+  \end{ejercicios}
+\item La figura muestra la gráfica de un polinomio $f$ de grado $4$ que pasa por el punto $(0,6)$.
+  \begin{center}
+  \begin{tikzpicture}
+  \begin{axis}[zplot,width=8cm,height=5.6cm,xmin=-3.2,xmax=3.8,ymin=-10,ymax=13,
+    xtick={-3,-2,-1,1,2,3},ytick={-8,-4,4,8,12},xlabel={$x$},ylabel={$y$},
+    xlabel style={at={(ticklabel* cs:1)},anchor=north west},ylabel style={at={(ticklabel* cs:1)},anchor=south west}]
+    \addplot[zaccent,domain=-2.85:3.38,samples=140] {0.5*(x+2)^2*(x-1)*(x-3)};
+    \addplot[only marks,mark=*,mark size=2pt,zink] coordinates {(0,6)};
+  \end{axis}
+  \end{tikzpicture}
+  \end{center}
+  \begin{ejercicios}
+  \item Lee los ceros de $f$ y la multiplicidad de cada uno (piensa en cuáles cruza y en cuáles rebota).
+  \item Escribe una fórmula para $f$ y usa el punto $(0,6)$ para hallar su coeficiente principal.
+  \end{ejercicios}
+\item Con una lámina de cartón de $\SI{20}{cm}\times\SI{12}{cm}$ se arma una caja sin tapa: en cada esquina se
+  corta un cuadrado de lado $x$ y se doblan los bordes.
+  \begin{ejercicios}
+  \item Muestra que el volumen es $V(x)=x(20-2x)(12-2x)$ y di para qué valores de $x$ tiene sentido.
+  \item ¿Para qué valores de $x$ el volumen es de $\SI{256}{cm^3}$? (Sugerencia: prueba $x=2$ y divide.)
+  \end{ejercicios}
+\end{ejercicios}
+
+\clearpage
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item $2x^3+3x^2-4x+5=(x+2)\left(2x^2-x-2\right)+9$.
+\item $Q=x^2-x-1$, $R=2x-2$; $\gr R=1<2$.
+\item $a=3$, $b=1$, $c=-1$ (el coeficiente de $x$ da $-2a+b=-5$).
+\item (a) $P(-1)=-1+3-1-4=-3$. (b) $P\!\left(\tfrac12\right)=\tfrac12-\tfrac32+3=2$.
+\item $P(-2)=4k-8=0\Rightarrow k=2$; $x^3+2x^2-x-2=(x+2)(x-1)(x+1)$.
+\item Fila: $1,\,-2,\,-1,\,2,\,\fbox{$0$}$, así que $Q=x^3-2x^2-x+2=(x-2)(x-1)(x+1)$; el polinomio es $(x-3)(x-2)(x-1)(x+1)$.
+\item (a) $P$: $+,-,-,-$, un cambio: exactamente $1$ positivo. $P(-x)$: $-,-,+,-$, dos cambios: $2$ o $0$ negativos.
+  (b) Candidatos $\pm1,\pm2,\pm3,\pm6,\pm\tfrac12,\pm\tfrac32$. $P(3)=0$ y $P=(x-3)(2x+1)(x+2)$: ceros $3,\,-\tfrac12,\,-2$. Sí concuerda.
+\item (a) $-3i$, porque con coeficientes reales los complejos vienen en pareja conjugada. (b) $P(x)=(x-2)^2(x+1)\left(x^2+9\right)$; cruza en $-1$ y rebota en $2$.
+\item (a) $-2$ doble (rebota), $1$ y $3$ simples (cruza). (b) $f(x)=a(x+2)^2(x-1)(x-3)$ con $f(0)=12a=6$: $a=\tfrac12$.
+\item (a) $0<x<6$. (b) $4x(10-x)(6-x)=256\iff x^3-16x^2+60x-64=0$; con $x=2$ queda $x^2-14x+32=0$, $x=7\pm\sqrt{17}$. Sirven $x=\SI{2}{cm}$ y $x=7-\sqrt{17}\approx\SI{2.88}{cm}$ ($7+\sqrt{17}>6$ no sirve).
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

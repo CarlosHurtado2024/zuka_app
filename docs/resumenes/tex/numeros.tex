@@ -1,0 +1,484 @@
+% Resumen del mundo «Valle de los Números» (Álgebra, mundo 2: sistemas numéricos y axiomas).
+% Lecciones alg-11, alg-11b, alg-11c, alg-12b, alg-12c, alg-12d. Ejemplos de los videos; el taller es nuevo.
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{algebra}
+\zukamundo{2}{Valle de los Números}{Sistemas numéricos y axiomas}
+
+% Recta numérica con marcas enteras de #1 a #2 (escala x en cm).
+\newcommand{\recta}[2]{%
+  \draw[zink,line width=0.8pt,{Stealth[length=2mm]}-{Stealth[length=2mm]}] (#1-0.6,0) -- (#2+0.6,0);
+  \foreach \k in {#1,...,#2} {\draw[zink] (\k,0.09) -- (\k,-0.09); \node[font=\footnotesize,text=zmute,below] at (\k,-0.08) {$\k$};}}
+\newcommand{\per}[1]{\overline{#1}}
+% Que un título de nivel no quede solo al pie de una página.
+\usepackage{needspace}
+\let\nivelzuka\nivel
+\renewcommand{\nivel}[2]{\Needspace{5\baselineskip}\nivelzuka{#1}{#2}}
+
+\begin{document}
+
+\portada{%
+Los números no nacieron todos juntos: cada familia apareció cuando la anterior no alcanzaba. Los naturales cuentan,
+los enteros permiten restar, los racionales permiten repartir y los irracionales miden diagonales y curvas. En este
+mundo armaste los \clave{números reales} y las reglas (\clave{axiomas}) con las que se opera y se ordena con ellos.
+Este resumen reúne las definiciones, las propiedades y los ejemplos de los videos, y termina con un taller.}{%
+\item \textbf{Nivel 2-1.} Los números naturales y los enteros: contar, restar y el opuesto.
+\item \textbf{Nivel 2-2.} Los números racionales: fracciones, fracciones equivalentes y decimales.
+\item \textbf{Nivel 2-3.} Los irracionales y los números reales: $\sqrt2$, $\pi$ y la recta real.
+\item \textbf{Nivel 2-4.} Axiomas de campo: las reglas de la suma y el producto.
+\item \textbf{Nivel 2-5.} Consecuencias de los axiomas: restar, dividir, los signos y la ley cancelativa.
+\item \textbf{Nivel 2-6.} Axiomas de orden, desigualdades y valor absoluto.}
+
+\begin{clavebox}[LAS IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\qquad}c@{\qquad}c@{}}
+$\N\subseteq\Z\subseteq\Q\subseteq\R=\Q\cup\I$ & $a-b=a+(-b),\ \ a\div b=a\cdot\tfrac1b$ & $a<b\iff b-a>0$\\[2pt]
+\small familias anidadas & \small restar y dividir salen de $+$ y $\cdot$ & \small el orden se decide restando
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{2-1}{Los números naturales y los enteros}
+
+\begin{definicion}[Números naturales]
+Los \clave{naturales} son los números que sirven para contar: \ $\N=\{1,2,3,4,\dots\}$.
+La lista no termina: después de cada natural $n$ viene otro, $n+1$. En este curso el $0$ no es natural, porque no cuenta objetos.
+$\N$ es \clave{cerrado} para la suma y el producto: si $m,n\in\N$, entonces $m+n\in\N$ y $m\cdot n\in\N$. La resta, en
+cambio, \emph{no} siempre da un natural: $2-5\notin\N$.
+\end{definicion}
+
+\begin{ejemplo}[El termómetro]
+Un termómetro marca $\SI{2}{\celsius}$ y la temperatura baja $\SI{5}{\celsius}$. Pasa por el cero y sigue bajando hasta
+$\SI{-3}{\celsius}$: \ $2-5=-3$. El número $-3$ no cuenta objetos, así que no es natural. Para que \emph{toda} resta tenga
+respuesta se agregan el cero y los negativos.
+\end{ejemplo}
+
+\begin{definicion}[Números enteros y opuesto]
+Los \clave{enteros} son los naturales, el cero y los negativos: \ $\Z=\{\dots,-3,-2,-1,0,1,2,3,\dots\}$.
+El \clave{opuesto} de $a$ es el número $-a$ que está a la misma distancia del cero, al otro lado. Cumple
+\ $a+(-a)=0$ \ y \ $-(-a)=a$.
+\end{definicion}
+
+\begin{figura}[El cero hace de espejo: $4$ y $-4$ están a cuatro pasos del cero, uno a cada lado.]
+\begin{tikzpicture}[x=0.9cm]
+  \recta{-6}{6}
+  \fill[zcoral!20] (-4,-0.03) rectangle (0,0.03);
+  \fill[zsky!25] (0,-0.03) rectangle (4,0.03);
+  \node[punto,fill=zcoral,minimum size=6pt] at (-4,0) {};
+  \node[punto,fill=zsky,minimum size=6pt] at (4,0) {};
+  \draw[zmute,dashed] (0,-0.25) -- (0,1.25);
+  \draw[->,zmute,line width=0.7pt] (3.9,0.25) to[out=140,in=40] node[above,font=\footnotesize,text=zink] {opuesto} (-3.9,0.25);
+  \node[font=\footnotesize,text=zcoral,below] at (-2,-0.4) {4 pasos};
+  \node[font=\footnotesize,text=zsky,below] at (2,-0.4) {4 pasos};
+\end{tikzpicture}
+\end{figura}
+
+Los negativos miden lo que queda por debajo de una referencia: los metros bajo el nivel del mar o una deuda. Todo
+natural es entero, así que $\N\subseteq\Z$; lo que sobra al quitar los naturales es
+\[ \Z-\N=\{\dots,-3,-2,-1,0\}. \]
+\begin{ojo}[El signo menos delante]
+«$-a$» no significa «número negativo»: significa «el opuesto de $a$». Si $a=-7$, entonces $-a=-(-7)=7$, que es positivo.
+\end{ojo}
+
+%=====================================================================
+\nivel{2-2}{Los números racionales: fracciones y decimales}
+
+Con los enteros se suma, se resta y se multiplica, pero la división se escapa. Si se reparten $3$ panes entre $4$
+amigos, a nadie le toca un pan entero: se parte cada pan en cuatro y a cada amigo le tocan tres cuartos.
+\begin{figura}[$3\div4$: doce cuartos repartidos entre cuatro amigos; a cada uno le tocan $\tfrac34$ de pan.]
+\begin{tikzpicture}[x=0.75cm,y=0.75cm]
+  \foreach \p in {0,1,2} {
+    \foreach \q/\col in {0/zsun,1/zcoral,2/zmint,3/zsky}
+      \fill[\col!45] (\p*5+\q,0) rectangle (\p*5+\q+1,1);
+    \draw[zink,line width=0.8pt,rounded corners=2pt] (\p*5,0) rectangle (\p*5+4,1);
+    \foreach \q in {1,2,3} \draw[zink] (\p*5+\q,0) -- (\p*5+\q,1);
+    \node[font=\footnotesize,text=zmute] at (\p*5+2,-0.45) {pan \the\numexpr\p+1\relax};}
+  \foreach \c/\n/\x/\y in {zsun/Ana/15.2/0.55,zcoral/Beto/15.2/-0.25,zmint/Caro/18.2/0.55,zsky/Dani/18.2/-0.25} {
+    \fill[\c!45] (\x,\y) rectangle ++(0.45,0.45); \node[font=\footnotesize,anchor=west] at (\x+0.55,\y+0.22) {\n: $\tfrac34$};}
+\end{tikzpicture}
+\end{figura}
+
+\begin{definicion}[Números racionales]
+Un número es \clave{racional} si se puede escribir como cociente de dos enteros con denominador distinto de cero:
+\[ \Q=\left\{\frac{p}{q}\tq p,q\in\Z,\ q\neq0\right\}. \]
+El denominador $q$ dice en cuántas partes iguales se divide la unidad y el numerador $p$, cuántas se toman.
+Repartir entre cero amigos no tiene sentido: por eso $q\neq0$.
+\end{definicion}
+
+\begin{minipage}[c]{0.56\linewidth}
+\textbf{\color{zaccent}Fracciones equivalentes.} Multiplicar o dividir numerador y denominador por el mismo número
+$k\neq0$ no cambia la fracción:
+\[ \frac{p}{q}=\frac{k\,p}{k\,q}. \]
+Así, $\tfrac12=\tfrac24=\tfrac36$: pintan exactamente lo mismo. Todo entero es racional, pues $-3=\tfrac{-3}{1}$.
+Las familias quedan anidadas: $\N\subseteq\Z\subseteq\Q$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[x=0.9cm,y=0.45cm]
+  \foreach \n/\y/\t in {2/0/{\tfrac12},4/-1.6/{\tfrac24},6/-3.2/{\tfrac36}} {
+    \fill[zaccent!30] (0,\y) rectangle (3,\y+1);
+    \draw[zink,line width=0.8pt] (0,\y) rectangle (6,\y+1);
+    \foreach \i in {1,...,\n} \draw[zink] ({6*\i/\n},\y) -- ({6*\i/\n},\y+1);
+    \node[anchor=west] at (6.2,\y+0.5) {$\t$};}
+  \draw[zaccent,dashed,line width=0.8pt] (3,-3.6) -- (3,1.4);
+\end{tikzpicture}
+
+{\small\color{zmute}Tres nombres del mismo número.}
+\end{minipage}
+
+\subsection{Del decimal a la fracción y de vuelta}
+Para pasar de fracción a decimal se divide el numerador entre el denominador:
+\[ \frac34=0.75\ \ \text{(termina)},\qquad \frac{2}{11}=0.181818\ldots=0.\per{18}\ \ \text{(se repite)}. \]
+La rayita marca el \clave{período}: el bloque que se repite para siempre.
+\begin{propiedad}[El decimal de un racional]
+El desarrollo decimal de un número racional siempre \emph{termina} o \emph{es periódico}. Una fracción irreducible da un
+decimal que termina exactamente cuando su denominador no tiene factores primos distintos de $2$ y $5$.
+\end{propiedad}
+\begin{ejemplo}[Un periódico convertido en fracción]
+Sea $x=0.\per{7}=0.777\ldots$ \ El período tiene una cifra, así que se multiplica por $10$ y se resta para cancelar las colas:
+\[ \begin{array}{r@{\;=\;}l} 10x & 7.777\ldots\\ x & 0.777\ldots\\ \hline 9x & 7 \end{array}
+\qquad\Longrightarrow\qquad x=\frac79. \]
+Si el período tuviera dos cifras se multiplicaría por $100$; con tres, por $1000$.
+\end{ejemplo}
+%=====================================================================
+\nivel{2-3}{Los irracionales y los números reales}
+
+\begin{minipage}[c]{0.5\linewidth}
+\textbf{El experimento del video.} Dos cuadritos de área $1$ se cortan por su diagonal y con las cuatro mitades se
+arma un solo cuadrado, de área $2$. ¿Cuánto mide su lado? Un número que, multiplicado por sí mismo, dé $2$:
+\begin{align*}
+1.4^2=1.96&<2<2.25=1.5^2,\\
+1.41^2=1.9881&<2<2.0164=1.42^2.
+\end{align*}
+Cada cifra nueva acorrala mejor el lado, pero ninguna fracción lo alcanza: es un número nuevo, $\sqrt2=1.41421356\ldots$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}[scale=1.15]
+  \fill[zsun!40] (0,0) -- (1,0) -- (1,1) -- cycle; \fill[zcoral!40] (0,0) -- (0,1) -- (1,1) -- cycle;
+  \fill[zmint!40] (1.3,0) -- (2.3,0) -- (2.3,1) -- cycle; \fill[zsky!40] (1.3,0) -- (1.3,1) -- (2.3,1) -- cycle;
+  \draw[zink,line width=0.8pt] (0,0) rectangle (1,1) (1.3,0) rectangle (2.3,1);
+  \draw[zink,dashed] (0,0) -- (1,1) (1.3,0) -- (2.3,1);
+  \node[font=\footnotesize,text=zmute] at (1.15,-0.3) {área $1+1$};
+  \draw[->,zmute,line width=0.8pt] (2.5,0.5) -- (3.1,0.5);
+  \begin{scope}[shift={(4.3,0.5)}]
+    \fill[zsun!40] (0,0) -- (1,0) -- (0,1) -- cycle; \fill[zcoral!40] (0,0) -- (0,1) -- (-1,0) -- cycle;
+    \fill[zmint!40] (0,0) -- (-1,0) -- (0,-1) -- cycle; \fill[zsky!40] (0,0) -- (0,-1) -- (1,0) -- cycle;
+    \draw[zink,dashed] (-1,0) -- (1,0) (0,-1) -- (0,1);
+    \draw[zink,line width=0.9pt] (1,0) -- (0,1) -- (-1,0) -- (0,-1) -- cycle;
+    \node[font=\footnotesize,anchor=south west,inner sep=1pt] at (0.5,0.5) {$\sqrt2$};
+    \node[font=\footnotesize,text=zmute] at (0,-1.3) {área $2$};
+  \end{scope}
+\end{tikzpicture}
+\end{minipage}
+
+\begin{propiedad}[$\sqrt2$ no es racional]
+Si fuera $\sqrt2=\tfrac{p}{q}$ con la fracción irreducible, entonces $p^2=2q^2$: $p^2$ es par, luego $p$ es par,
+$p=2r$. Así $4r^2=2q^2$, es decir $q^2=2r^2$, y $q$ también es par. Pero $p$ y $q$ no podían ser ambos pares: contradicción.
+\end{propiedad}
+
+\begin{definicion}[Irracionales y reales]
+Un número es \clave{irracional} si no se puede escribir como fracción de enteros; su decimal nunca termina y nunca se
+repite. Se denota $\I$. Ejemplos: $\sqrt2$, $\sqrt3$, $\pi$. Los \clave{números reales} son todos juntos:
+\[ \R=\Q\cup\I,\qquad \Q\cap\I=\varnothing. \]
+\end{definicion}
+
+\textbf{La rueda y el número $\pi$.} Una rueda de $\SI{1}{m}$ de diámetro da una vuelta completa y avanza su perímetro:
+un poco más de tres metros, $\pi\approx3.14159\ldots$ \ $\pi$ tampoco es una fracción. Los irracionales aparecen en
+diagonales y en curvas.
+
+\begin{figura}[El mapa de los números: cada familia vive dentro de la siguiente; $\Q$ e $\I$ no comparten nada.]
+\begin{tikzpicture}[font=\small]
+  \draw[universo,fill=zsoft] (0,0) rectangle (12,4.1);
+  \node[anchor=north west,font=\bfseries] at (0.1,4.05) {$\R$};
+  \draw[conj,fill=zsky!12,rounded corners=10pt] (0.5,0.35) rectangle (7.9,3.6);
+  \draw[conj,fill=zsky!25,rounded corners=8pt] (0.85,0.6) rectangle (5.4,2.95);
+  \draw[conj,fill=zsky!45,rounded corners=6pt] (1.2,0.85) rectangle (3.2,2.3);
+  \node at (0.95,3.3) {$\Q$}; \node at (1.25,2.65) {$\Z$}; \node at (1.55,2.0) {$\N$};
+  \node at (2.2,1.35) {$8$}; \node at (4.3,1.6) {$-6$}; \node at (4.3,1.0) {$0$};
+  \node at (6.65,2.3) {$-\tfrac37$}; \node at (6.65,1.25) {$0.\per{18}$};
+  \draw[conj,fill=zcoral!18,rounded corners=10pt] (8.3,0.35) rectangle (11.6,3.6);
+  \node at (8.65,3.3) {$\I$};
+  \node at (9.3,2.4) {$\sqrt2$}; \node at (10.7,2.4) {$\pi$}; \node at (9.95,1.3) {$-\sqrt3$};
+\end{tikzpicture}
+\end{figura}
+
+\begin{propiedad}[La recta real y la densidad]
+A cada punto de la recta le corresponde exactamente un número real, y a cada real, un punto. Entre dos reales
+distintos $a<b$ siempre hay otro, por ejemplo el punto medio: $a<\tfrac{a+b}{2}<b$. Por eso nunca hay un «siguiente» real.
+\end{propiedad}
+\begin{ojo}[Aproximaciones racionales]
+$3.14$ y $\tfrac{22}{7}$ son racionales: solo \emph{aproximan} a $\pi$; del mismo modo $0.3\neq0.\per3=\tfrac13$. Y no toda raíz es irracional: $\sqrt9=3$ y $\sqrt{0.04}=0.2$ son racionales.
+\end{ojo}
+
+%=====================================================================
+\nivel{2-4}{Axiomas de campo}
+
+Un \clave{axioma} es una regla que se acepta sin demostrarla, como que el alfil del ajedrez se mueve en diagonal.
+Se escriben con letras porque valen para \emph{todos} los números: el símbolo $\forall$ se lee «para todo».
+
+\textbf{Conmutativa.} Dos dulces y luego cinco, o cinco y luego dos: $2+5=5+2=7$. Tres filas de cuatro puntos son
+doce; si se gira la figura quedan cuatro filas de tres: $3\cdot4=4\cdot3=12$.
+\textbf{Asociativa.} Los paréntesis dicen qué va primero; agrupar lo que da redondo facilita la cuenta:
+$17+(25+75)=17+100=117$.
+
+\begin{ojo}[La resta y la división no conmutan]
+$5-2=3$ pero $2-5=-3$; \ $8\div2=4$ pero $2\div8=0.25$. Por eso los axiomas solo hablan de sumar y multiplicar.
+\end{ojo}
+\begin{center}\small\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}l >{\centering\arraybackslash}X >{\centering\arraybackslash}X@{}}
+\toprule
+Axioma ($\forall\, a,b,c\in\R$) & Suma & Producto\\ \midrule
+Clausura & $a+b\in\R$ & $a\cdot b\in\R$\\
+Conmutativa & $a+b=b+a$ & $a\cdot b=b\cdot a$\\
+Asociativa & $(a+b)+c=a+(b+c)$ & $(a\cdot b)\cdot c=a\cdot(b\cdot c)$\\
+Neutro & $a+0=a$ & $a\cdot1=a$\\
+Inverso & $a+(-a)=0$ & $a\cdot\tfrac1a=1\quad(a\neq0)$\\
+Distributiva & \multicolumn{2}{c}{$a\cdot(b+c)=a\cdot b+a\cdot c$}\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Neutros e inversos.} Sumar $0$ o multiplicar por $1$ no cambia nada. Cada número tiene un \clave{opuesto} que lo
+devuelve al $0$ y cada número distinto de cero tiene un \clave{recíproco} que lo devuelve al $1$: $7\cdot\tfrac17=1$.
+El $0$ no tiene recíproco: $0\cdot x=0$ para todo $x$, nunca $1$.
+
+\subsection{La distributiva: el jardín}
+\begin{minipage}[c]{0.5\linewidth}
+Un jardín de $\SI{3}{m}$ por $\SI{6}{m}$ tiene área $3\cdot6=\SI{18}{m^2}$. Si se parte el largo en $4+2$:
+\[ 3\cdot(4+2)=3\cdot4+3\cdot2=12+6=18. \]
+El factor de afuera multiplica a \emph{cada} sumando. Sirve para calcular de cabeza,
+$6\cdot102=6\cdot100+6\cdot2=612$, y al revés para sacar factor común: $5x+5y=5(x+y)$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}[scale=0.62]
+  \fill[zmint!35] (0,0) rectangle (4,3); \fill[zsun!40] (4,0) rectangle (6,3);
+  \draw[zink,line width=0.9pt] (0,0) rectangle (6,3); \draw[zink,dashed] (4,0) -- (4,3);
+  \node at (2,1.5) {$3\cdot4=12$}; \node at (5,1.5) {$6$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.15) -- node[below=4pt,font=\footnotesize]{$4$} (4,-0.15);
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (4,-0.15) -- node[below=4pt,font=\footnotesize]{$2$} (6,-0.15);
+  \draw[decorate,decoration={brace,amplitude=4pt}] (-0.15,0) -- node[left=4pt,font=\footnotesize]{$3$} (-0.15,3);
+\end{tikzpicture}
+\end{minipage}
+
+Con estos axiomas se dice que $(\R,+,\cdot)$ es un \clave{campo}: una pareja de reglas para la suma, otra para el
+producto, y la distributiva que las une.
+
+%=====================================================================
+\nivel{2-5}{Consecuencias de los axiomas: restar, dividir y los signos}
+
+\begin{definicion}[Resta y división]
+\[ a-b=a+(-b),\qquad\qquad a\div b=\frac{a}{b}=a\cdot\frac1b\quad(b\neq0). \]
+Restar es sumar el opuesto; dividir es multiplicar por el recíproco. Como $0$ no tiene recíproco, \clave{no se divide entre cero}.
+\end{definicion}
+
+\begin{ejemplo}[Restar y dividir con lo conocido]
+\begin{tabularx}{\linewidth}{@{}>{$}l<{$} L >{$}l<{$} L@{}}
+9-4=9+(-4)=5 & desde el $9$, cuatro pasos a la izquierda &
+12\div3=12\cdot\tfrac13=4 & tomar uno de tres grupos iguales\\[3pt]
+3-(-6)=3+6=9 & quitar seis pisos de sótano es subir seis &
+\tfrac23\div\tfrac54=\tfrac23\cdot\tfrac45=\tfrac{8}{15} & se voltea la segunda fracción
+\end{tabularx}
+\end{ejemplo}
+
+\begin{propiedad}[Multiplicar por cero]
+Para todo $a\in\R$, $a\cdot0=0$. \emph{Prueba:} $a\cdot0=a\cdot(0+0)=a\cdot0+a\cdot0$; sumando el opuesto de $a\cdot0$ a los dos
+lados queda $0=a\cdot0$. Cinco cajas con cero dulces cada una tienen cero dulces.
+\end{propiedad}
+
+\subsection{La ley de los signos}
+\begin{minipage}[c]{0.52\linewidth}
+La tabla del $-3$ explica por qué «menos por menos da más». Cuando el segundo factor baja de uno en uno, el
+producto \emph{sube} de tres en tres; al pasar el cero, los productos siguen subiendo y se vuelven positivos.
+Multiplicar por $-1$ es reflejar en el cero, y dos reflejos devuelven al principio:
+\[ (-1)\cdot a=-a,\qquad (-a)(-b)=ab. \]
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}rcl@{}}
+\toprule
+$(-3)\cdot2$ & $=$ & $-6$\\
+$(-3)\cdot1$ & $=$ & $-3$\\
+$(-3)\cdot0$ & $=$ & $0$\\
+$(-3)\cdot(-1)$ & $=$ & $\textcolor{zok}{3}$\\
+$(-3)\cdot(-2)$ & $=$ & $\textcolor{zok}{6}$\\
+\bottomrule
+\end{tabular}
+
+{\footnotesize\color{zmute} cada fila sube $3$}
+\end{minipage}
+
+\textbf{\color{zaccent}Signo de un producto.} Se cuentan los factores negativos: si son una cantidad \emph{par}, el
+producto es positivo; si es \emph{impar}, negativo. Así, $(-1)(-2)(-3)=-6$ tiene tres factores negativos.
+
+\subsection{Ley cancelativa y producto cero}
+\begin{minipage}[c]{0.58\linewidth}
+\textbf{\color{zaccent}Ley cancelativa.}
+\[ a+c=b+c\Rightarrow a=b;\qquad ac=bc,\ c\neq0\Rightarrow a=b. \]
+Una igualdad es una balanza en equilibrio: si $x+7=2+7$, se quita el $7$ de los dos platillos y $x=2$. Si
+$4x=4\cdot9$, el $4$ se cancela y $x=9$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.38\linewidth}\centering
+\begin{tikzpicture}[scale=0.8]
+  \fill[zink] (-0.25,0) -- (0.25,0) -- (0,0.5) -- cycle;
+  \draw[zink,line width=1.2pt] (0,0.5) -- (0,2) (-2.1,2) -- (2.1,2);
+  \foreach \s in {-1,1} {\draw[zink] (\s*1.8,2) -- (\s*1.3,1.3) (\s*1.8,2) -- (\s*2.3,1.3);
+    \draw[zink,line width=1pt] (\s*1.15,1.3) -- (\s*2.45,1.3);}
+  \node[draw=zink,fill=zaccent!25,minimum width=0.55cm,minimum height=0.45cm,font=\footnotesize] at (-2.1,1.58) {$x$};
+  \node[draw=zink,fill=zsun!45,minimum width=0.55cm,minimum height=0.45cm,font=\footnotesize] at (-1.5,1.58) {$7$};
+  \node[draw=zink,fill=zmint!35,minimum width=0.55cm,minimum height=0.45cm,font=\footnotesize] at (1.5,1.58) {$2$};
+  \node[draw=zink,fill=zsun!45,minimum width=0.55cm,minimum height=0.45cm,font=\footnotesize] at (2.1,1.58) {$7$};
+  \node[font=\footnotesize,text=zmute] at (0,-0.35) {$x+7=2+7$};
+\end{tikzpicture}
+\end{minipage}
+\begin{ojo}[No se cancela un factor cero]
+$0\cdot2=0\cdot5$ y, sin embargo, $2\neq5$. Por eso la ley cancelativa del producto exige $c\neq0$.
+De ahí sale también: \ si $a\cdot b=0$, entonces $a=0$ o $b=0$.
+\end{ojo}
+
+%=====================================================================
+\nivel{2-6}{Axiomas de orden y valor absoluto}
+
+\begin{definicion}[Positivos, tricotomía y orden]
+Hay un conjunto de reales \clave{positivos} (los que están a la derecha del cero) tal que la suma y el producto de
+positivos son positivos, y todo real cumple \emph{exactamente una} de estas: es positivo, es cero o es negativo
+(\clave{tricotomía}). Con eso se define el orden:
+\[ a<b\iff b-a \text{ es positivo}. \]
+\end{definicion}
+Por ejemplo, $-5<-2$ porque $-2-(-5)=3>0$: en la recta, $-2$ está más a la derecha. Hay cuatro signos, $<$, $>$, $\le$ y
+$\ge$; la punta señala al menor y la rayita se lee «o igual». El orden es \clave{transitivo}: si Ana es más baja que Beto
+y Beto más bajo que Caro, Ana es más baja que Caro ($a<b$ y $b<c\Rightarrow a<c$).
+
+\begin{propiedad}[Operar con desigualdades]
+Si $a<b$:\quad $a+c<b+c$ para todo $c$;\quad $a\,c<b\,c$ si $c>0$;\quad $a\,c>b\,c$ si $c<0$ (\emph{se voltea}).
+\end{propiedad}
+\begin{figura}[De $1<4$: sumar $2$ y multiplicar por $3$ conservan el orden; multiplicar por $-1$ refleja y lo voltea.]
+\begin{tikzpicture}[x=0.62cm,y=0.8cm]
+  \recta{-5}{12}
+  \foreach \a/\b/\c/\y/\t in {1/4/zsky/0.4/{1<4},3/6/zmint/0.8/{3<6\quad(+2)},3/12/zsun/1.2/{3<12\quad(\cdot3)}} {
+    \draw[\c,line width=1.6pt] (\a,\y) -- (\b,\y);
+    \node[punto,fill=\c] at (\a,\y) {}; \node[punto,fill=\c] at (\b,\y) {};
+    \node[font=\footnotesize,anchor=west] at (\b+0.25,\y) {$\t$};}
+  \draw[zcoral,line width=1.6pt] (-4,0.8) -- (-1,0.8);
+  \node[punto,fill=zcoral] at (-4,0.8) {}; \node[punto,fill=zcoral] at (-1,0.8) {};
+  \node[font=\footnotesize,anchor=east] at (-4.25,0.8) {$(\cdot(-1))\quad -1>-4$};
+\end{tikzpicture}
+\end{figura}
+
+\begin{definicion}[Valor absoluto]
+El \clave{valor absoluto} de $x$ es su distancia al cero:
+\[ \abs{x}=\begin{cases} x, & x\ge0,\\ -x, & x<0. \end{cases} \]
+Nunca es negativo. La \clave{distancia} entre $a$ y $b$ es $\abs{b-a}$.
+\end{definicion}
+\begin{minipage}[c]{0.52\linewidth}
+$\abs{-6}=-(-6)=6$: seis pasos a la izquierda siguen siendo seis. Entre $-4$ y $3$ hay $\abs{3-(-4)}=7$ unidades.
+Los números que están a lo sumo a dos pasos del $1$ cumplen
+\[ \abs{x-1}\le2\iff -1\le x\le3, \]
+es decir, forman el \clave{intervalo} cerrado $[-1,3]$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\begin{tikzpicture}[x=0.68cm]
+  \recta{-3}{5}
+  \draw[zaccent,line width=3pt] (-1,0) -- (3,0);
+  \node[circle,fill=zaccent,inner sep=2.2pt] at (-1,0) {}; \node[circle,fill=zaccent,inner sep=2.2pt] at (3,0) {};
+  \draw[<->,zmute] (1,0.35) -- node[above,font=\footnotesize]{$2$} (3,0.35);
+  \draw[<->,zmute] (-1,0.35) -- node[above,font=\footnotesize]{$2$} (1,0.35);
+\end{tikzpicture}
+
+{\footnotesize\color{zmute}$\abs{x-1}\le2$: puntos a distancia $2$ o menos del $1$.}
+\end{minipage}
+
+%=====================================================================
+\repaso
+\begin{center}\small
+\begin{tabularx}{\linewidth}{@{}>{\centering\arraybackslash}p{42mm} L >{\raggedright\arraybackslash}p{40mm}@{}}
+\toprule
+Símbolo o regla & Qué dice & Ejemplo\\ \midrule
+$\N,\ \Z$ & naturales; enteros (con el cero y los negativos) & $2-5=-3\in\Z$, \ $-3\notin\N$\\
+$\Q=\{p/q\tq q\neq0\}$ & racionales: decimal que termina o se repite & $\tfrac{2}{11}=0.\per{18}$\\
+$\I$, \ $\R=\Q\cup\I$ & irracionales; reales & $\sqrt2,\ \pi\in\I$\\
+$a\div b=a\cdot\frac1b$ & dividir es multiplicar por el recíproco & $\tfrac23\div\tfrac54=\tfrac{8}{15}$\\
+$a<b\iff b-a>0$ & definición del orden & $-5<-2$\\
+$c<0:\ a<b\Rightarrow ac>bc$ & por un negativo se voltea & $1<4\Rightarrow -1>-4$\\
+$\abs{x},\ \abs{b-a}$ & distancia al cero; distancia entre dos & $\abs{3-(-4)}=7$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Creer que $-a$ siempre es negativo, que $0.3=0.\per3$ o que toda raíz es irracional ($\sqrt{16}=4$).
+\item Conmutar la resta o la división, «dividir entre cero» o distribuir solo al primer sumando.
+\item No voltear la desigualdad al multiplicar por un negativo ($-2x<6\iff x>-3$); creer que $\abs{a+b}=\abs a+\abs b$.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Indica a cuáles de los conjuntos $\N$, $\Z$, $\Q$, $\I$ y $\R$ pertenece cada número.
+  \begin{ejercicios}
+  \item $-(-8)$ \quad (b) $0$ \quad (c) $-\dfrac{14}{7}$ \quad (d) $0.\per{36}$ \quad (e) $\sqrt{50}$ \quad (f) $\sqrt{\dfrac{25}{16}}$ \quad (g) $\pi-1$
+  \end{ejercicios}
+\item Escribe cada fracción como decimal e indica si el decimal termina o es periódico. Explica la respuesta de (d)
+  sin hacer la división.
+  \begin{ejercicios}
+  \item $\dfrac78$ \quad (b) $\dfrac{5}{12}$ \quad (c) $-\dfrac{4}{33}$ \quad (d) $\dfrac{13}{40}$
+  \end{ejercicios}
+\item Escribe cada decimal como fracción irreducible.
+  \begin{ejercicios}
+  \item $0.\per4$ \quad (b) $2.\per{15}$ \quad (c) $0.1\per3$ \quad (d) $0.\per9$
+  \end{ejercicios}
+\item Sin calculadora, acorrala $\sqrt7$ entre dos decimales de una cifra y luego entre dos decimales de dos cifras.
+  ¿Por qué el proceso nunca termina?
+\item Halla un número racional y un número irracional que estén entre $\dfrac13$ y $\dfrac12$. Justifica.
+\item Escribe el axioma de campo que justifica cada igualdad y, en (f), úsalo para calcular de cabeza.
+  \begin{ejercicios}
+  \item $(-3)+3=0$ \quad (b) $x\cdot(y\cdot z)=(x\cdot y)\cdot z$ \quad (c) $5(a+2)=5a+10$
+  \item $1\cdot(-\sqrt3)=-\sqrt3$ \quad (e) $4+x=x+4$ \quad (f) $9\cdot(1000-2)=9\cdot1000-9\cdot2$
+  \end{ejercicios}
+\item Calcula.
+  \begin{ejercicios}
+  \item Un congelador está a $\SI{-18}{\celsius}$. Se va la luz y la temperatura sube $\SI{23}{\celsius}$; luego,
+        al volver la luz, baja $\SI{9}{\celsius}$. ¿A qué temperatura queda? Escribe la cuenta como sumas de opuestos.
+  \item $-8-(-13)$ \quad (c) $(-3)(-2)(-5)(-1)$ \quad (d) $\dfrac34\div\left(-\dfrac98\right)$
+  \end{ejercicios}
+\item Resuelve $2x+3=11$ y escribe, al lado de cada paso, el axioma o la propiedad que lo justifica.
+\item Orden y valor absoluto.
+  \begin{ejercicios}
+  \item Ordena de menor a mayor: \ $-\sqrt3,\ -\dfrac74,\ -1.7,\ 0.\per3,\ 0.33$.
+  \item Si $a<b$, ¿qué relación hay entre $-3a$ y $-3b$? Justifica con un axioma de orden.
+  \item Escribe sin valor absoluto: $\abs{\pi-4}$.
+  \item Halla la distancia entre $-2.5$ y $4.75$.
+  \end{ejercicios}
+\item Una máquina corta varillas que deben medir $\SI{50}{cm}$, con un error de a lo sumo $\SI{0.2}{cm}$.
+  \begin{ejercicios}
+  \item Escribe con valor absoluto la condición que cumple la longitud $L$ de una varilla aceptada y exprésala como intervalo.
+  \item Dibuja en la recta real el conjunto $\{x\in\R\tq\abs{x+1}<3\}$ y escríbelo como intervalo. ¿Los extremos se incluyen?
+  \end{ejercicios}
+\end{ejercicios}
+
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) $8$: $\N,\Z,\Q,\R$. (b) $\Z,\Q,\R$. (c) $-2$: $\Z,\Q,\R$. (d) $\tfrac{4}{11}$: $\Q,\R$. (e) $5\sqrt2$: $\I,\R$.
+      (f) $\tfrac54$: $\Q,\R$. (g) $\I,\R$.
+\item (a) $0.875$, termina. (b) $0.41\per6$, periódico. (c) $-0.\per{12}$, periódico. (d) $0.325$, termina: $40=2^3\cdot5$
+      solo tiene los primos $2$ y $5$.
+\item (a) $\tfrac49$ (b) $2+\tfrac{15}{99}=\tfrac{71}{33}$ (c) $100x-10x=13.\per3-1.\per3=12$, $x=\tfrac{12}{90}=\tfrac{2}{15}$
+      (d) $10x-x=9$, $x=1$.
+\item $2.6^2=6.76<7<7.29=2.7^2$; \ $2.64^2=6.9696<7<7.0225=2.65^2$. No termina porque $\sqrt7$ es irracional: ningún
+      decimal finito al cuadrado da $7$.
+\item Por ejemplo, el punto medio $\tfrac{5}{12}$ (racional) y $\tfrac{\sqrt2}{3}\approx0.471$ (irracional), pues
+      $0.333<0.471<0.5$.
+\item (a) inverso aditivo (b) asociativa del producto (c) distributiva (d) neutro multiplicativo (e) conmutativa de la suma
+      (f) distributiva: $9000-18=8982$.
+\item (a) $-18+23+(-9)=-4$: queda a $\SI{-4}{\celsius}$. (b) $-8+13=5$. (c) cuatro negativos: $30$.
+      (d) $\tfrac34\cdot\left(-\tfrac89\right)=-\tfrac23$.
+\item Sumar $-3$ a los dos lados: $(2x+3)+(-3)=11+(-3)$; asociativa, inverso y neutro: $2x=8$; multiplicar por $\tfrac12$:
+      $\tfrac12(2x)=\tfrac12\cdot8$; asociativa, inverso y neutro: $x=4$.
+\item (a) $-\tfrac74<-\sqrt3<-1.7<0.33<0.\per3$. (b) $-3a>-3b$: por un negativo el orden se voltea. (c) $4-\pi$.
+      (d) $\abs{4.75-(-2.5)}=7.25$.
+\item (a) $\abs{L-50}\le0.2$, \ $L\in[49.8,\,50.2]$. (b) $-3<x+1<3\iff-4<x<2$: el intervalo abierto $(-4,2)$, sin los
+      extremos (puntos vacíos en $-4$ y en $2$).
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

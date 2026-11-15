@@ -1,0 +1,376 @@
+% Resumen del mundo «Selva Exponencial» (Álgebra, mundo 10: funciones exponenciales y logarítmicas).
+% Lecciones alg-71, alg-13b, alg-72, alg-73. Ejemplos de los videos (los lirios de Caro y los ahorros de Beto);
+% el taller trae ejercicios nuevos (no repite los de la app, del jefe ni de la evaluación).
+\documentclass[11pt,a4paper]{article}
+\usepackage{zuka-resumen}
+\zukacurso{algebra}
+\zukamundo{10}{Selva Exponencial}{Funciones exponenciales y logarítmicas}
+
+\newcommand{\Dom}{\operatorname{Dom}}
+\newcommand{\Ran}{\operatorname{Ran}}
+
+\begin{document}
+
+\portada{%
+En la selva todo crece \clave{multiplicándose}: los lirios de una laguna se duplican cada día y los ahorros de un
+banco ganan intereses sobre los intereses. En este mundo aprendiste a describir ese crecimiento con la
+\clave{función exponencial}, a usarla en el interés compuesto y a responder la pregunta al revés, «¿cuánto tiempo?»,
+con el \clave{logaritmo}. Este resumen reúne las definiciones, las propiedades y los ejemplos de los videos, y termina
+con un taller de práctica.}{%
+\item \textbf{Nivel 10-1.} Función exponencial: definición, gráfica, dominio, rango, asíntota y el número $e$.
+\item \textbf{Nivel 10-2.} Interés simple y compuesto: monto, valor presente y tasas periódicas.
+\item \textbf{Nivel 10-3.} Logaritmos: definición, gráfica, propiedades y cambio de base.
+\item \textbf{Nivel 10-4.} Ecuaciones exponenciales y logarítmicas, y soluciones extrañas.}
+
+\begin{clavebox}[LAS TRES IDEAS QUE SOSTIENEN TODO EL MUNDO]
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{@{}c@{\qquad}c@{\qquad}c@{}}
+$f(x+1)=b\cdot f(x)$ & $\log_b a=c\iff b^{c}=a$ & $\log_b(MN)=\log_b M+\log_b N$\\[2pt]
+\small cada paso multiplica por $b$ & \small el logaritmo es un exponente & \small multiplicar es sumar exponentes
+\end{tabular}
+\end{clavebox}
+
+%=====================================================================
+\nivel{10-1}{Función exponencial}
+
+En la laguna de Caro flota un lirio y cada día los lirios se \clave{duplican}: $1, 2, 4, 8, 16,\dots$ El día $10$
+cubren toda la laguna. ¿Qué día estaba medio llena?
+
+\begin{definicion}[Función exponencial]
+Si $b>0$ y $b\neq1$, la \clave{función exponencial de base $b$} es
+\[ f(x)=b^{x},\qquad x\in\R . \]
+Al avanzar una unidad en $x$, el valor se multiplica por $b$: $f(x+1)=b\cdot f(x)$.
+\end{definicion}
+Con los lirios, el día $x$ hay $y=2^x$. Cada paso a la derecha, el doble; cada paso hacia atrás, la mitad:
+$2^{-1}=\tfrac12$, $2^{-2}=\tfrac14$\dots\ La curva se acerca a cero y nunca llega.
+
+\begin{minipage}[c]{0.5\linewidth}
+{\sffamily\bfseries\small\color{zaccent}GRÁFICA DE $y=b^{x}$}
+\begin{itemize}
+\item $\Dom=\R$ y $\Ran=(0,\infty)$: $b^x$ siempre es positiva.
+\item Pasa por $(0,1)$, porque $b^{0}=1$, y por $(1,b)$.
+\item El eje $x$ ($y=0$) es \clave{asíntota horizontal}.
+\item Si $b>1$ es creciente; si $0<b<1$ es decreciente.
+\item $y=\left(\tfrac1b\right)^{x}=b^{-x}$ es el reflejo de $y=b^x$ en el eje $y$.
+\end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=7cm,height=6cm,xmin=-3.3,xmax=3.3,ymin=-0.8,ymax=8.6,
+  xtick={-3,-2,-1,1,2,3},ytick={1,2,4,8},xlabel={$x$},ylabel={$y$},
+  xlabel style={at={(ticklabel* cs:1)},anchor=north west},ylabel style={at={(ticklabel* cs:1)},anchor=south west}]
+  \addplot[zaccent,domain=-3.2:3.05,samples=100] {2^x};
+  \addplot[zcoral,domain=-3.05:3.2,samples=100] {0.5^x};
+  \addplot[only marks,mark=*,mark size=2.2pt,zink] coordinates {(0,1)};
+  \node[font=\footnotesize,text=zaccent,anchor=west] at (axis cs:1.6,6.6) {$y=2^{x}$};
+  \node[font=\footnotesize,text=zcoral,anchor=west] at (axis cs:-2.6,7.9) {$y=\left(\tfrac12\right)^{x}$};
+  \node[font=\footnotesize,text=zink,anchor=south west] at (axis cs:0.1,1.1) {$(0,1)$};
+\end{axis}
+\end{tikzpicture}
+
+{\small\color{zmute}Crece con base $2$ y decrece con base $\tfrac12$; las dos se pegan al eje $x$ sin tocarlo.}
+\end{minipage}
+
+\begin{propiedad}[La exponencial es inyectiva]
+Si $b>0$ y $b\neq1$: \quad $b^{u}=b^{v}\iff u=v$. Por eso, con la misma base a los dos lados, se igualan los exponentes.
+\end{propiedad}
+
+\begin{ejemplo}[¿Qué día estaba medio llena la laguna?]
+El día $10$ hay $2^{10}=1024$ lirios. Medio llena son $512$ lirios, y $512=2^{9}$:
+\[ 2^{x}=512=2^{9}\quad\Longrightarrow\quad x=9 . \]
+Fue el \textbf{día 9}, no el 5: un día antes de llenarse. Así de engañoso es lo exponencial: la mitad del trabajo
+se hace en el último paso.
+\end{ejemplo}
+
+\subsection{El número $e$}
+Hay una base muy especial. Si un capital de $1$ gana el $100\%$ al año repartido en $n$ pagos, al final del año se
+tiene $\left(1+\tfrac1n\right)^{n}$:
+\begin{center}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+$n$ & $1$ & $10$ & $100$ & $1000$ & $10\,000$\\ \midrule
+$\left(1+\tfrac1n\right)^{n}$ & $2$ & $2.5937$ & $2.7048$ & $2.7169$ & $2.7181$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Los valores se acercan a $e\approx2.71828$. La función $y=e^{x}$ describe el \clave{crecimiento continuo}.
+
+\begin{ojo}[No confundas]
+$2^{x}$ (la variable en el exponente) no es $x^{2}$ (la variable en la base): en $x=10$, $2^{10}=1024$ y $10^2=100$.
+Y la base no puede ser negativa: $(-2)^{1/2}$ no es un número real.
+\end{ojo}
+
+%=====================================================================
+\nivel{10-2}{Interés simple y compuesto}
+
+Beto tiene $\$2\,000\,000$ y quiere duplicarlos. Dos bancos le ofrecen el $6\%$ anual: uno con interés
+\clave{simple} y otro \clave{compuesto}. El primer año los dos pagan igual: $2\,000\,000\cdot0.06=\$120\,000$.
+¿Da lo mismo?
+
+\begin{definicion}[Interés simple y compuesto]
+Con capital inicial $C$, tasa $i$ por periodo (en decimal) y $n$ periodos:
+\[
+\text{Simple: } I=C\,i\,n,\quad M=C(1+i\,n).
+\qquad\qquad
+\text{Compuesto: } M=C(1+i)^{n}.
+\]
+En el simple el interés se calcula siempre sobre el capital inicial. En el compuesto, el interés se suma al capital y
+el periodo siguiente también gana interés.
+\end{definicion}
+
+\begin{ejemplo}[La carrera de los dos bancos]
+\textbf{Simple:} cada año suma los mismos $\$120\,000$; el monto $M=2\,000\,000+120\,000\,n$ es una recta. Faltan
+$\$2\,000\,000$ y $2\,000\,000\div120\,000\approx16.7$: pasa los $4$ millones en el \textbf{año 17}.\par
+\textbf{Compuesto:} el segundo año paga $6\%$ de $\$2\,120\,000$, es decir, $\$127\,200$: $\$7\,200$ más. Cada año se
+multiplica por $1.06$:
+\[ M(n)=2\,000\,000\,(1.06)^{n},\qquad M(11)\approx3\,796\,597,\qquad M(12)\approx4\,024\,393 . \]
+Pasa los $4$ millones en el \textbf{año 12}: cinco años antes.
+\end{ejemplo}
+
+\begin{figura}[Montos de Beto en millones de pesos: el simple es una recta y el compuesto, una exponencial.]
+\begin{tikzpicture}
+\begin{axis}[zplot,width=11cm,height=6cm,xmin=0,xmax=21,ymin=0,ymax=6.6,
+  xtick={0,4,8,12,17},ytick={2,4,6},xlabel={años},ylabel={millones},
+  xlabel style={at={(axis description cs:1,0)},anchor=west},ylabel style={at={(ticklabel* cs:1)},anchor=south west}]
+  \addplot[zmute,dashed,line width=0.8pt] coordinates {(0,4) (21,4)};
+  \addplot[zsky,domain=0:20.5] {2+0.12*x};
+  \addplot[zcoral,domain=0:20.5,samples=80] {2*1.06^x};
+  \addplot[only marks,mark=*,mark size=2.2pt,zink] coordinates {(12,4.0244) (17,4.04)};
+  \node[font=\footnotesize,text=zcoral,anchor=east] at (axis cs:16,5.75) {compuesto: $2(1.06)^{n}$};
+  \node[font=\footnotesize,text=zsky,anchor=north] at (axis cs:19.4,3.8) {simple};
+  \node[font=\footnotesize,text=zmute,anchor=south west] at (axis cs:0.3,4.05) {meta: $4$ millones};
+\end{axis}
+\end{tikzpicture}
+\end{figura}
+
+\begin{propiedad}[Valor presente]
+Para tener un monto $M$ dentro de $n$ periodos, hoy hay que depositar
+\[ C=\frac{M}{(1+i)^{n}} . \]
+Para que Beto tenga $\$4\,000\,000$ en $12$ años al $6\%$: $C=4\,000\,000\div1.06^{12}\approx\$1\,987\,877$.
+\end{propiedad}
+
+\begin{ojo}[La tasa y los periodos deben hablar el mismo idioma]
+Si la tasa es mensual, $n$ cuenta meses: $2\%$ mensual durante $3$ años es $i=0.02$ y $n=36$. Una tasa del
+$12\%$ anual que se capitaliza cada mes da $i=\tfrac{0.12}{12}=0.01$ por mes. Y escribe la tasa en decimal:
+$6\%=0.06$, no $6$.
+\end{ojo}
+
+%=====================================================================
+\nivel{10-3}{Logaritmos y sus propiedades}
+
+Caro recibe un pedido de mil lirios. ¿Qué día tendrá la laguna mil? Hay que resolver $2^{x}=1000$: como
+$2^{9}=512$ es poco y $2^{10}=1024$ se pasa, el día está entre $9$ y $10$. La pregunta va \emph{al revés}: se
+conoce el resultado y se busca el exponente.
+
+\begin{definicion}[Logaritmo]
+Si $b>0$, $b\neq1$ y $a>0$, el \clave{logaritmo en base $b$} de $a$ es el exponente al que hay que elevar $b$ para obtener $a$:
+\[ \log_b a=c\iff b^{c}=a . \]
+Se escribe $\log a=\log_{10}a$ (logaritmo común) y $\ln a=\log_e a$ (logaritmo natural).
+\end{definicion}
+Por ejemplo, $\log_2 32=5$ porque $2^{5}=32$; $\log 1000=3$ porque $10^{3}=1000$; $\log_3\tfrac19=-2$ porque $3^{-2}=\tfrac19$.
+
+\begin{minipage}[c]{0.5\linewidth}
+\begin{propiedad}[La función logarítmica]
+$y=\log_b x$ es la \clave{inversa} de $y=b^{x}$: su gráfica es el reflejo de la exponencial en la recta $y=x$.
+\begin{itemize}
+\item $\Dom=(0,\infty)$: solo hay logaritmo de números positivos.
+\item $\Ran=\R$, y el eje $y$ es asíntota vertical.
+\item $\log_b1=0$ y $\log_b b=1$.
+\item $\log_b\left(b^{x}\right)=x$ y $b^{\log_b x}=x$ para $x>0$.
+\end{itemize}
+\end{propiedad}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[zplot,width=6.6cm,height=6.6cm,xmin=-3,xmax=8.5,ymin=-3,ymax=8.5,
+  xtick={1,2,4,8},ytick={1,2,4,8},xlabel={$x$},ylabel={$y$},
+  xlabel style={at={(ticklabel* cs:1)},anchor=north west},ylabel style={at={(ticklabel* cs:1)},anchor=south west}]
+  \addplot[zmute,dashed,line width=0.8pt,domain=-3:8.5] {x};
+  \addplot[zaccent,domain=-3:3.05,samples=100] {2^x};
+  \addplot[zcoral,domain=0.125:8.3,samples=150] {ln(x)/ln(2)};
+  \addplot[only marks,mark=*,mark size=1.8pt,zaccent] coordinates {(0,1) (1,2) (2,4)};
+  \addplot[only marks,mark=*,mark size=1.8pt,zcoral] coordinates {(1,0) (2,1) (4,2)};
+  \addplot[zline,line width=0.6pt] coordinates {(2,4) (4,2)};
+  \node[font=\footnotesize,text=zaccent,anchor=east] at (axis cs:2.3,7.7) {$y=2^{x}$};
+  \node[font=\footnotesize,text=zcoral,anchor=north] at (axis cs:6.6,2.5) {$y=\log_2x$};
+  \node[font=\footnotesize,text=zmute,anchor=north east] at (axis cs:8.4,7.0) {$y=x$};
+\end{axis}
+\end{tikzpicture}
+
+{\small\color{zmute}$(2,4)$ en la exponencial es $(4,2)$ en el logaritmo.}
+\end{minipage}
+
+\subsection{Propiedades: multiplicar es sumar exponentes}
+Como $4\cdot16=64$ es $2^{2}\cdot2^{4}=2^{2+4}=2^{6}$, en exponentes un producto se vuelve una \emph{suma}. Esa es la
+idea de la regla de cálculo: en una regla donde cada número está a la distancia de su logaritmo, multiplicar es poner
+una distancia a continuación de otra.
+
+\begin{figura}[Regla de cálculo en base $2$: $\log_2 4+\log_2 16=2+4=6=\log_2 64$.]
+\begin{tikzpicture}[x=1.45cm,y=1cm]
+  \draw[zink,line width=0.9pt,fill=zsoft] (0,0) rectangle (7.6,0.7);
+  \foreach \k/\v in {0/1,1/2,2/4,3/8,4/16,5/32,6/64,7/128} {
+    \draw[zink] (\k,0.7) -- (\k,0.45); \node[font=\footnotesize,anchor=north] at (\k,0.42) {$\v$};}
+  \draw[zaccent,line width=0.9pt,fill=zaccent!10] (2,0.85) rectangle (7.6,1.55);
+  \foreach \k/\v in {0/1,1/2,2/4,3/8,4/16,5/32} {
+    \draw[zaccent] (\k+2,0.85) -- (\k+2,1.1); \node[font=\footnotesize,anchor=south,text=zaccent] at (\k+2,1.12) {$\v$};}
+  \draw[zcoral,line width=1.6pt] (6,0.47) -- (6,1.08);
+  \node[font=\footnotesize\bfseries,anchor=north,text=zcoral,fill=zsoft,inner sep=1pt] at (6,0.42) {$64$};
+  \node[font=\footnotesize\bfseries,anchor=south,text=zcoral,fill=zaccent!10,inner sep=1pt] at (6,1.12) {$16$};
+  \draw[decorate,decoration={brace,amplitude=5pt,mirror},zmute] (0,-0.3) -- (2,-0.3) node[midway,below=5pt,font=\footnotesize,text=zink] {$\log_2 4=2$};
+  \draw[decorate,decoration={brace,amplitude=5pt,mirror},zmute] (2,-0.3) -- (6,-0.3) node[midway,below=5pt,font=\footnotesize,text=zink] {$\log_2 16=4$};
+  \node[font=\footnotesize,text=zcoral,anchor=south] at (6,1.7) {$4\cdot16=64$};
+\end{tikzpicture}
+\end{figura}
+
+\begin{propiedad}[Propiedades de los logaritmos]
+Para $M,N>0$, $b>0$, $b\neq1$ y $r\in\R$:
+\[
+\log_b(MN)=\log_b M+\log_b N,\qquad
+\log_b\!\left(\frac{M}{N}\right)=\log_b M-\log_b N,\qquad
+\log_b\!\left(M^{r}\right)=r\log_b M .
+\]
+\textbf{Cambio de base:} para cualquier base $k$ válida, \quad $\log_b a=\dfrac{\log_k a}{\log_k b}=\dfrac{\log a}{\log b}=\dfrac{\ln a}{\ln b}$.
+\end{propiedad}
+
+\begin{ejemplo}[El pedido de mil lirios]
+Con la calculadora (que trae $\log$ y $\ln$) se cambia de base:
+\[ x=\log_2 1000=\frac{\log 1000}{\log 2}=\frac{3}{0.30103}\approx9.97 . \]
+Comprobación: $2^{9.97}\approx1000$. El pedido estará listo casi al final del día $9$, no a la mitad: entre el
+día $9$ y el $10$ los lirios pasan de $512$ a $1024$.
+\end{ejemplo}
+
+\begin{ojo}[Lo que los logaritmos no hacen]
+$\log(M+N)\neq\log M+\log N$: el logaritmo de una suma no se parte. Tampoco $\dfrac{\log M}{\log N}=\log\dfrac MN$,
+ni $(\log M)^{r}=r\log M$. Y $\log_b 0$ y $\log_b(-5)$ no existen.
+\end{ojo}
+
+%=====================================================================
+\nivel{10-4}{Ecuaciones exponenciales y logarítmicas}
+
+Beto ahora quiere \clave{triplicar} sus $2$ millones al $6\%$ anual compuesto. Necesita
+$2\,000\,000\,(1.06)^{t}=6\,000\,000$, es decir, $1.06^{t}=3$: la incógnita quedó arriba, en el exponente.
+
+\begin{clavebox}[ESTRATEGIA]
+\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{@{}l L@{}}
+\textbf{Misma base posible} & se escriben los dos lados con la misma base y se igualan los exponentes\\
+\textbf{Bases distintas} & se toma logaritmo a los dos lados y el exponente baja como factor\\
+\textbf{Con logaritmos} & se juntan en uno solo, se pasa a potencia y se revisa el dominio
+\end{tabularx}
+\end{clavebox}
+
+\begin{ejemplo}[Misma base: $8^{x}=4^{x+1}$]
+$8=2^{3}$ y $4=2^{2}$, así que
+\[ 2^{3x}=2^{2(x+1)}\ \Longrightarrow\ 3x=2x+2\ \Longrightarrow\ x=2 . \]
+Comprobación: $8^{2}=64=4^{3}$.
+\end{ejemplo}
+
+\begin{ejemplo}[Bases distintas: ¿cuándo triplica Beto?]
+$1.06$ y $3$ no se dejan escribir con la misma base. Se toma $\ln$ a los dos lados:
+\[ \ln\left(1.06^{t}\right)=\ln 3\ \Longrightarrow\ t\,\ln1.06=\ln3\ \Longrightarrow\ t=\frac{\ln3}{\ln1.06}\approx\frac{1.0986}{0.0583}\approx18.85 . \]
+Beto triplica su dinero durante el año $19$ ($1.06^{18}\approx2.85$ y $1.06^{19}\approx3.03$).
+\end{ejemplo}
+
+\begin{ejemplo}[Con logaritmos: $\log_2 x+\log_2(x-2)=3$]
+Se juntan los logaritmos y se pasa a potencia:
+\[ \log_2\big(x(x-2)\big)=3\ \Longrightarrow\ x(x-2)=2^{3}=8\ \Longrightarrow\ x^2-2x-8=0\ \Longrightarrow\ (x-4)(x+2)=0 . \]
+Salen $x=4$ y $x=-2$. Pero $\log_2(-2)$ no existe: $x=-2$ es una \clave{solución extraña}. La única solución es $x=4$
+(comprobación: $\log_24+\log_22=2+1=3$).
+\end{ejemplo}
+
+\begin{ojo}[Revisa el dominio al final]
+Al juntar $\log_b M+\log_b N=\log_b(MN)$ el dominio se agranda: $MN$ puede ser positivo aunque $M$ y $N$ sean
+negativos. Por eso cada candidato se reemplaza en la ecuación \emph{original}: todo lo que va dentro de un logaritmo
+tiene que ser positivo.
+\end{ojo}
+
+%=====================================================================
+\clearpage
+\repaso
+\begin{center}\renewcommand{\arraystretch}{1.45}
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+Idea & Fórmula o regla\\ \midrule
+Función exponencial & $f(x)=b^{x}$, $b>0$, $b\neq1$; $\Dom=\R$, $\Ran=(0,\infty)$, asíntota $y=0$, pasa por $(0,1)$\\
+Crece o decrece & $b>1$ crece; $0<b<1$ decrece\\
+Número $e$ & $\left(1+\frac1n\right)^{n}\to e\approx2.71828$\\
+Interés simple & $I=C\,i\,n$, \quad $M=C(1+i\,n)$\\
+Interés compuesto & $M=C(1+i)^{n}$, \quad valor presente $C=\dfrac{M}{(1+i)^{n}}$\\
+Logaritmo & $\log_b a=c\iff b^{c}=a$ \ ($a>0$); \ $\log_b1=0$, \ $\log_b b=1$\\
+Propiedades & $\log_b(MN)=\log_bM+\log_bN$, \ $\log_b\frac MN=\log_bM-\log_bN$, \ $\log_bM^{r}=r\log_bM$\\
+Cambio de base & $\log_b a=\dfrac{\log a}{\log b}=\dfrac{\ln a}{\ln b}$\\
+Ecuaciones & misma base: igualar exponentes; si no, tomar logaritmos; revisar el dominio\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{ojo}[Errores frecuentes]
+\begin{itemize}
+\item Confundir $2^{x}$ con $x^{2}$, o pensar que lo que se duplica cada día está a la mitad en la mitad del tiempo.
+\item En interés compuesto, usar la tasa anual con $n$ en meses, o escribir $6$ en lugar de $0.06$.
+\item Partir el logaritmo de una suma: $\log(M+N)\neq\log M+\log N$.
+\item Simplificar $\dfrac{\log 20}{\log 5}$ como $\log 4$.
+\item Olvidar revisar que lo de dentro de cada logaritmo sea positivo: aparecen soluciones extrañas.
+\end{itemize}
+\end{ojo}
+
+%=====================================================================
+\taller
+\begin{ejercicios}
+\item Calcula sin calculadora:
+  \begin{ejercicios}
+  \item $\log_3 81$ \qquad (b) $\log_5\tfrac{1}{125}$ \qquad (c) $\log_{1/2}8$ \qquad (d) $\ln e^{-2}$ \qquad (e) $10^{\log 7}$
+  \end{ejercicios}
+\item En un mismo plano, dibuja $f(x)=3^{x}$ y $g(x)=3^{x-1}+2$. Para $g$, indica dominio, rango, asíntota y dos
+  puntos exactos de la gráfica. ¿Qué movimientos convierten la gráfica de $f$ en la de $g$?
+\item Resuelve igualando bases:
+  \begin{ejercicios}
+  \item $27^{x}=9^{x+2}$ \qquad (b) $\left(\tfrac14\right)^{x}=32$ \qquad (c) $5^{x^2-3x}=\tfrac1{25}$
+  \end{ejercicios}
+\item Propiedades de los logaritmos.
+  \begin{ejercicios}
+  \item Expande: $\log_2\dfrac{8x^{3}}{\sqrt y}$, \ con $x,y>0$.
+  \item Escribe como un solo logaritmo y simplifica: $2\ln x+\ln(x+1)-\ln\left(x^2-1\right)$, \ con $x>1$.
+  \end{ejercicios}
+\item Usa $\log2\approx0.301$ y $\log3\approx0.477$ para calcular: (a) $\log12$; (b) $\log1.5$; (c) $\log\sqrt{18}$.
+\item Resuelve $3^{x+1}=7^{x}$. Da la respuesta exacta con logaritmos y una aproximación con dos decimales.
+\item Resuelve y descarta las soluciones extrañas:
+  \begin{ejercicios}
+  \item $\log_3(x+1)+\log_3(x-1)=1$ \qquad (b) $\log_2(x+1)-\log_2(x-1)=1$
+  \end{ejercicios}
+\item Se toma un préstamo de $\$5\,000\,000$ al $1.5\%$ mensual.
+  \begin{ejercicios}
+  \item ¿Cuánto se debe al cabo de $12$ meses con interés simple? ¿Y con interés compuesto?
+  \item Con interés compuesto, ¿en cuántos meses la deuda se duplica?
+  \end{ejercicios}
+\item Tasa y valor presente.
+  \begin{ejercicios}
+  \item ¿Qué tasa anual compuesta convierte $\$1\,000\,000$ en $\$1\,500\,000$ en $5$ años?
+  \item ¿Cuánto hay que depositar hoy al $9\%$ anual compuesto para tener $\$10\,000\,000$ dentro de $3$ años?
+  \end{ejercicios}
+\item El carbono-14 se reduce a la mitad cada $5730$ años: de una cantidad inicial $A_0$ quedan
+  $A(t)=A_0\left(\tfrac12\right)^{t/5730}$ después de $t$ años.
+  \begin{ejercicios}
+  \item Un hueso conserva el $30\%$ de su carbono-14 original. ¿Qué edad tiene?
+  \item En la escala de Richter, la magnitud es $R=\log\dfrac{A}{A_0}$. ¿Cuántas veces mayor es la amplitud $A$ de un
+    sismo de magnitud $7$ que la de uno de magnitud $5$?
+  \end{ejercicios}
+\end{ejercicios}
+
+\clearpage
+\respuestas
+\begin{respuestascortas}
+\begin{soluciones}
+\item (a) $4$ \ (b) $-3$ \ (c) $-3$ \ (d) $-2$ \ (e) $7$.
+\item $g$: $\Dom=\R$, $\Ran=(2,\infty)$, asíntota $y=2$; pasa por $(1,3)$ y $\left(0,\tfrac73\right)$. Es $f$ corrida $1$ a la derecha y $2$ hacia arriba.
+\item (a) $3^{3x}=3^{2x+4}\Rightarrow x=4$. (b) $2^{-2x}=2^{5}\Rightarrow x=-\tfrac52$. (c) $x^2-3x=-2\Rightarrow x=1$ o $x=2$.
+\item (a) $3+3\log_2x-\tfrac12\log_2y$. (b) $\ln\dfrac{x^2(x+1)}{(x-1)(x+1)}=\ln\dfrac{x^2}{x-1}$.
+\item (a) $2(0.301)+0.477=1.079$. (b) $0.477-0.301=0.176$. (c) $\tfrac12(0.301+2\cdot0.477)\approx0.628$.
+\item $(x+1)\ln3=x\ln7\Rightarrow x=\dfrac{\ln3}{\ln7-\ln3}=\dfrac{\ln3}{\ln(7/3)}\approx1.30$.
+\item (a) $x^2-1=3\Rightarrow x=\pm2$; solo sirve $x=2$. (b) $\dfrac{x+1}{x-1}=2\Rightarrow x=3$ (sirve).
+\item (a) Simple: $5\,000\,000(1+0.015\cdot12)=\$5\,900\,000$. Compuesto: $5\,000\,000(1.015)^{12}\approx\$5\,978\,091$.
+  (b) $1.015^{n}=2\Rightarrow n=\dfrac{\ln2}{\ln1.015}\approx46.6$: en el mes $47$.
+\item (a) $(1+i)^5=1.5\Rightarrow i=1.5^{1/5}-1\approx0.0845$, es decir, $8.45\%$. (b) $10\,000\,000\div1.09^{3}\approx\$7\,721\,835$.
+\item (a) $\left(\tfrac12\right)^{t/5730}=0.3\Rightarrow t=5730\,\dfrac{\ln0.3}{\ln0.5}\approx9953$ años. (b) $\dfrac{A_7}{A_5}=10^{7-5}=100$ veces.
+\end{soluciones}
+\end{respuestascortas}
+
+\end{document}

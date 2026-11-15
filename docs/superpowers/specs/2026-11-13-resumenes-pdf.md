@@ -1,30 +1,32 @@
 # Resúmenes en PDF por mundo
 
-**Fecha:** 2026-11-13 · **Primero:** Pradera de Venn (Álgebra, unidad 0, conjuntos)
+**Fecha:** 2026-11-13 · **Versión 2 (2026-11-15):** todos los mundos, en LaTeX, fondo blanco y con taller.
 
 ## Qué es
 
-Un PDF descargable por mundo con lo visto en sus niveles, para que el estudiante lo guarde o lo imprima. Lleva el
-estilo de la app y de los juegos: papel crema y azul noche, letra Jost para títulos y Plus Jakarta Sans para el texto,
-fichas con relieve, rótulos con barrita, tarjetas «físicas», estrellas suaves de fondo y el arte del mundo en la portada.
+Un PDF descargable por cada mundo de cada curso (31 hoy) con lo visto en sus niveles, para guardarlo o imprimirlo.
+Aspecto de apuntes universitarios: fondo blanco, Palatino (newpx), fórmulas en LaTeX, diagramas y gráficas con
+TikZ / pgfplots, y el color del curso solo como acento (portada, fichas de nivel, títulos y cajas).
 
-## Contenido (Pradera de Venn, 5 páginas A4)
+## Estructura de cada resumen
 
-1. **Portada:** arte del mundo, los tres niveles y «Las 5 ideas que no se te pueden olvidar».
-2. **Nivel 1-1:** conjunto bien definido (semáforo frente a «colores bonitos»), ∈ / ∉, anatomía de la notación,
-   extensión y comprensión, sin orden ni repetidos (PAPAYA) y cardinal.
-3. **Nivel 1-2:** vacío, unitario y la trampa de {∅}; subconjunto (vocales dentro de las letras, el intruso 7);
-   iguales, disjuntos y que se cruzan; conjunto de partes con los toppings (1 + 3 + 3 + 1 = 2³).
-4. **Nivel 1-3:** el patio de los siete amigos en un Venn, las cinco operaciones con su zona pintada y su palabra clave,
-   cómo contar la unión y un ejemplo con tres conjuntos.
-5. **Repaso:** tabla de símbolos, errores frecuentes y la ruta para un problema de encuesta.
-
-Usa solo los ejemplos de los videos; no trae respuestas de los ejercicios ni de la evaluación.
+1. **Portada:** franja con el curso, el número y el nombre del mundo; párrafo de entrada; lista de niveles; caja con las
+   ideas que sostienen el mundo.
+2. **Un apartado por nivel** (`\nivel{X-Y}{…}`), en el orden de la app: definiciones y propiedades con notación precisa,
+   intuición breve, ejemplos resueltos (preferiblemente los del video), errores frecuentes y figuras.
+3. **Repaso:** tabla de fórmulas o símbolos y errores frecuentes.
+4. **Taller de práctica:** exactamente 10 ejercicios nuevos (no repiten los de la app, la evaluación ni el jefe), de fácil a
+   difícil, con aplicaciones y al menos uno de gráficas; **respuestas** cortas al final.
 
 ## Cómo se hace
 
-- Fuente: `docs/resumenes/<nombre>.html` (página A4 con los diagramas en SVG generados por un script pequeño).
-- PDF: `sh docs/resumenes/build.sh [nombre]` → `media/resumenes/<nombre>.pdf` (Chrome sin ventana).
-- En la app: la unidad lleva `summary: 'media/resumenes/<nombre>.pdf'` y `renderWorld` muestra la tarjeta
-  «Resumen del mundo» bajo el camino (enlace con `download`). El PDF no va en `SHELL` (se baja con conexión).
-- Pruebas: `tests/resumenes.test.js`.
+- Plantilla común `docs/resumenes/tex/zuka-resumen.sty` (cajas `definicion`, `propiedad`, `ejemplo`, `ojo`, `clavebox`,
+  `\portada`, `\nivel`, `\repaso`, `\taller`, `ejercicios`, `\respuestas`, estilos TikZ y pgfplots, color por curso con
+  `\zukacurso{…}`). Modelo: `conjuntos.tex`.
+- Fuente: `docs/resumenes/tex/<mundo>.tex` (el nombre es el id del mundo, `u.world`).
+- PDF: `sh docs/resumenes/build.sh [mundo …]` → `media/resumenes/<mundo>.pdf` (pdflatex dos pasadas; intermedios en
+  `docs/resumenes/tex/salida/`, fuera de git).
+- En la app: `summaryOf(u)` (en `js/worlds.js`) da la ruta y `renderWorld` muestra la tarjeta «Resumen del mundo» al final
+  del camino, después de la evaluación (enlace con `download`). Los PDF no van en `SHELL` (se bajan con conexión).
+- Pruebas: `tests/resumenes.test.js` (todos los mundos con fuente y PDF, plantilla, número de mundo, un `\nivel` por
+  lección, 10 ejercicios en el taller, respuestas, y el enlace en la vista del mundo).
