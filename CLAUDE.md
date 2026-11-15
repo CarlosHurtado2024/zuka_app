@@ -441,6 +441,15 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   (`alg-15`), Clase 8 potencias (`alg-21a`), Clase 9 leyes de exponentes (`alg-21b`, parte 2 en `more`
   con `after: 6`), Clase 10 raíces (`alg-22a`), Clase 11 radicales (`alg-22b`), Clase 12 polinomio cuadrático
   (`alg-4a`, `video/clase_cuadratico`), Clase 13 ecuaciones exp./log. (`alg-73`, `video/clase_ecuaciones_exp_log`).
+- **Trigonometría completa en zoom** (estilo Scale Zoom Explainer, proyecto `video/trig-zoom`, motor de `valle-zoom` + `trig.js`;
+  Noto Sans solo para θ α β ω y superíndices; spec `2026-11-15-trig-zoom`, tratamiento `video/trig-zoom/TREATMENT.md`,
+  pruebas `tests/trig-zoom.test.js`). Un video por lección (130 s, sin nombres de personas: rueda, reloj, cometa, faros,
+  noria, nave…): `grados` `arco` `soh` `notables` `seis` `unitaria` `signos` `amplitud` `periodo` (Mar de las Ondas),
+  `inversas` `identidades` `demostrar` `suma` `doble` `ecuaciones` `senos` `cosenos` (Faro de los Ángulos), `polar`
+  `demoivre` `raices` (Galaxia Polar; `raices` va en `more: [{ after: 3, … }]` de `trig-152`). `sh video/trig-zoom/build.sh
+  [nombre …]` (unos 3 min cada uno; **no correr capturas de navegador a la vez**: se cuelga), `check.sh` (ritmo y lectura)
+  y `sheet.sh` (hoja de contacto). Entregados en `Downloads/Zuka_Trig_zoom`; esperan su ID de Bunny: al recibirlo, poner
+  `clip.bunny` + `duration` y cambiar las escenas de respaldo por los ejemplos del video. Reemplazan a T1–T20 (manimgl).
 - Trigonometría unidad 1: T1–T9 (`trig-41a`, `trig-41b`, `trig-1`, `trig-2`, `trig-42c`, `trig-3`,
   `trig-43b`, `trig-44a`, `trig-44b`).
 - Trigonometría unidad 2: T10–T17 (`trig-45`, `trig-4`, `trig-47b`, `trig-48a`, `trig-48b`, `trig-49`,
