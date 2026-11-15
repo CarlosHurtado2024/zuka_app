@@ -4,7 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { loadScripts, get, loadGame } = require('./load');
 
-const unit = get(loadScripts(['js/content.js', 'js/courses/trig.js']), 'COURSE_TRIG').units[2];
+const unit = get(loadScripts(['js/content.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js']), 'COURSE_TRIG').units[2];
 const lessons = unit.lessons;
 const G = name => loadGame(`js/games/${name}.js`)[name];
 const plays = lessons.flatMap(l => l.ex.filter(e => e.type === 'play').map(e => ({ id: l.id, ...e })));

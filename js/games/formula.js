@@ -16,7 +16,7 @@ const TEX_SYM = {
   leftarrow: ['←', 'rel'], iff: ['⟺', 'rel'], in: ['∈', 'rel'], notin: ['∉', 'rel'], subseteq: ['⊆', 'rel'], subset: ['⊂', 'rel'], equiv: ['≡', 'rel'], perp: ['⟂', 'rel'], parallel: ['∥', 'rel'],
   pi: ['π', 'var'], theta: ['θ', 'var'], alpha: ['α', 'var'], beta: ['β', 'var'], gamma: ['γ', 'var'], delta: ['δ', 'var'], lambda: ['λ', 'var'], mu: ['μ', 'var'], phi: ['φ', 'var'], varphi: ['φ', 'var'], rho: ['ρ', 'var'], omega: ['ω', 'var'], epsilon: ['ε', 'var'], sigma: ['σ', 'var'],
   Delta: ['Δ', 'ord'], Sigma: ['Σ', 'ord'], sum: ['Σ', 'ord'], prod: ['Π', 'ord'], infty: ['∞', 'ord'], emptyset: ['∅', 'ord'], varnothing: ['∅', 'ord'], angle: ['∠', 'ord'], degree: ['°', 'ord'], ldots: ['…', 'ord'], dots: ['…', 'ord'], cdots: ['⋯', 'ord'],
-  wedge: ['∧', 'ord'], forall: ['∀', 'ord'], exists: ['∃', 'ord'], partial: ['∂', 'ord'], nabla: ['∇', 'ord'], vert: ['|', 'ord'], Vert: ['‖', 'ord'], lVert: ['‖', 'open'], rVert: ['‖', 'close'], langle: ['⟨', 'open'], rangle: ['⟩', 'close'],
+  square: ['□', 'ord'], Box: ['□', 'ord'], wedge: ['∧', 'ord'], forall: ['∀', 'ord'], exists: ['∃', 'ord'], partial: ['∂', 'ord'], nabla: ['∇', 'ord'], vert: ['|', 'ord'], Vert: ['‖', 'ord'], lVert: ['‖', 'open'], rVert: ['‖', 'close'], langle: ['⟨', 'open'], rangle: ['⟩', 'close'],
   sin: ['sin', 'fn'], sen: ['sen', 'fn'], cos: ['cos', 'fn'], tan: ['tan', 'fn'], cot: ['cot', 'fn'], sec: ['sec', 'fn'], csc: ['csc', 'fn'], log: ['log', 'fn'], ln: ['ln', 'fn'], det: ['det', 'fn'], lim: ['lím', 'fn'], max: ['máx', 'fn'], min: ['mín', 'fn'],
 };
 const TEX_SPACE = { ',': 0.17, ':': 0.22, ';': 0.28, '!': 0, ' ': 0.3, quad: 1, qquad: 2 };

@@ -354,11 +354,32 @@ const GUIDE_ARCADE = new Set(['lluvia-elementos', 'revienta-globos', 'luciernaga
   'rompe-cambios', 'traza-progresion', 'encesta-suma', 'dobla-fichas', 'rana-zenon', 'maquina-sigma', 'torre-pisos', 'escala-leyes',
   'siembra-raices', 'muro-radicales', 'jefe-venn', 'jefe-ruta',
   'torre-grados', 'arma-la-mesa', 'camino-pascal', 'reparte-barras', 'gira-complejos', 'balanza-cajas', 'apunta-chorro', 'donde-cae', 'empaca-filas', 'sondea-niebla',
-  'cruza-o-rebota', 'rio-o-hueco', 'llena-estanque', 'bote-corriente', 'cruce-curvas', 'lirios-laguna', 'dos-bancos', 'regla-de-calculo', 'piedras-selva']);
+  'cruza-o-rebota', 'rio-o-hueco', 'llena-estanque', 'bote-corriente', 'cruce-curvas', 'lirios-laguna', 'dos-bancos', 'regla-de-calculo', 'piedras-selva',
+  'quita-vueltas', 'rueda-rodante', 'toca-lados', 'figuras-notables', 'multiplica-razon', 'proyecta-punto', 'espejo-cuadrantes', 'ola-entre-lineas', 'crestas-faroles', 'ventana-inversa',
+  'escala-triangulo', 'todo-en-senos', 'rectangulo-suma', 'tira-doble', 'red-periodica', 'pareja-opuesta', 'bisagra-area', 'parientes-polares', 'hermanas-raiz']);
 
 // Los pasos propios de cada juego: [escena, texto, opciones]. El ejemplo de la escena es pequeño y distinto de los
 // ejercicios: enseña el gesto, no la respuesta.
 const GUIDES = {
+  'quita-vueltas': [['tap', 'Quita o pon vueltas completas hasta dejar el ángulo en el intervalo y toca «Listo».', { items: ['− 1 vuelta', '+ 1 vuelta', 'Listo'], pick: [0, 0, 2] }]],
+  'rueda-rodante': [['step', 'Elige con − / + el ángulo que gira la rueda y toca «Rodar»: avanza lo que mide el arco.', { from: 1, to: 3, label: 'ángulo' }]],
+  'toca-lados': [['tap', 'Toca dos lados: primero el que va arriba de la fracción y luego el que va abajo.', { items: ['opuesto', 'adyacente', 'hipotenusa'], pick: [0, 2] }]],
+  'figuras-notables': [['tap', 'Busca el ángulo en una figura y toca dos lados: el de arriba de la fracción y el de abajo.', { items: ['1', '√3', '2'], pick: [1, 2] }]],
+  'multiplica-razon': [['tap', 'Toca la razón que multiplica al lado conocido para dar el buscado: el juego calcula.', { items: ['sen', 'cos', 'tan'], pick: [2] }]],
+  'proyecta-punto': [['step', 'Pon el coseno y el seno del punto con − / +, cada uno con su signo, y toca «Proyectar».', { from: 0, to: 2, label: 'seno' }]],
+  'espejo-cuadrantes': [['tap', 'Cada espejo refleja el punto en un eje. Llévalo al cuadrante pedido; «↶» deshace.', { items: ['Espejo ↕', 'Espejo ↔', '↶'], pick: [1, 0] }]],
+  'ola-entre-lineas': [['step', 'Elige amplitud y línea media con − / + y toca «Lanzar ola»: debe tocar techo y piso.', { from: 1, to: 3, label: 'amplitud' }]],
+  'crestas-faroles': [['step', 'Elige cuántas ondas caben y cuánto se corre la ola: cada cresta debe caer en un farol.', { from: 1, to: 2, label: 'ondas' }]],
+  'ventana-inversa': [['step', 'Mueve dónde empieza la ventana y su ancho, y toca «Probar»: no puede repetir alturas.', { from: 4, to: 2, label: 'ancho' }]],
+  'escala-triangulo': [['tap', 'Divide el triángulo entre cos θ o sen θ y toca el lado que quedó valiendo lo pedido.', { items: ['÷ cos θ', '÷ sen θ', '↶'], pick: [0] }]],
+  'todo-en-senos': [['tap', 'Toca cada ficha de color para escribirla con senos y cosenos.', { items: ['tan x', 'cos x'], pick: [0] }], ['tap', 'Toca una ficha de arriba y una igual de abajo: se cancelan. Al terminar, «Listo».', { items: ['cos x', 'cos x', 'Listo'], pick: [0, 1, 2] }]],
+  'rectangulo-suma': [['tap', 'Toca en el borde del rectángulo los dos tramos que forman el lado marcado con «?».', { items: ['tramo 1', 'tramo 2', 'tramo 3'], pick: [0, 1] }]],
+  'tira-doble': [['step', 'Mueve el corte de la tira con − / + y toca «Restar»: azul menos rojo debe dar lo pedido.', { from: 4, to: 6, label: 'corte' }]],
+  'red-periodica': [['tap', 'Toca el primer pez de la red; los anzuelos aparecen cada salto.', { items: ['🐟', '🐟', '🐟'], pick: [0] }], ['step', 'Cambia el salto con − / + hasta que cada anzuelo tenga pez, y toca «Lanzar».', { from: 2, to: 1, label: 'salto' }]],
+  'pareja-opuesta': [['tap', 'Toca, en orden, lo que ya se puede calcular hasta llegar a lo que se pide.', { items: ['C = ?', 'c = ?'], pick: [0, 1] }]],
+  'bisagra-area': [['step', 'Gira el lado con − / + hasta la línea punteada y toca «Marcar». Si otro ángulo sirve, márcalo.', { from: 90, to: 60, label: 'ángulo C' }]],
+  'parientes-polares': [['step', 'Mueve el punto w con las perillas de módulo y de ángulo, y toca «Fijar».', { from: 45, to: 90, label: 'ángulo' }]],
+  'hermanas-raiz': [['tap', 'Toca en la circunferencia dónde están las otras raíces: quedan igual de separadas.', { items: ['•', '•', '•', '•'], pick: [1, 3] }]],
   'acorrala-raiz': [['tap', 'Toca el tramo donde vive la raíz: está donde las marcas cambian de color.', { items: ['1.3', '1.4', '1.5'], pick: [1] }], ['tap', 'Cada toque abre una lupa: repite con las cifras que siguen.', { items: ['1.41', '1.42'], pick: [0] }]],
   'afina-sistema': [['step', 'Mueve un coeficiente con − / + y mira cómo gira o se desliza su recta.', { from: 1, to: 3, label: 'coeficiente' }]],
   'ajusta-capital': [['slide', 'Arrastra la pila de billetes para fijar el capital; el monto final se calcula solo.', { vert: true }]],

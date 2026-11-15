@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { loadScripts, get, ROOT } = require('./load');
 
-const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/calculo.js',
+const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js', 'js/courses/calculo.js',
   'js/courses/geometria.js', 'js/data.js', 'js/worlds.js']);
 const COURSES = get(ctx, 'COURSES'), WORLDS = get(ctx, 'WORLDS'), worldTrail = get(ctx, 'worldTrail');
 

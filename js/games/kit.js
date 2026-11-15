@@ -664,3 +664,41 @@ function questGame(def) {
 }
 // Botón de un juego (ficha con texto); `on`: resaltado.
 function drawBtn(p, C, b, txt, on, col) { drawTile(p, C, b, txt, { fill: col ?? (on ? C.mint : C.sky), size: 14, r: 12 }); }
+
+// ---------- Ayudas de los juegos de Trigonometría (spec 2026-11-22-trigonometria-juegos) ----------
+// Ángulos, fracciones de π en TeX, valores notables, circunferencia, filas de botones, toques de − / + y lados de triángulos.
+const TK = (() => {
+  const gcd = (a, b) => (b ? gcd(b, a % b) : Math.abs(a));
+  const rad = d => d * Math.PI / 180, mod = (a, n) => ((a % n) + n) % n;
+  // k·π/d en TeX, sin los signos de dólar: piTex(3, 2) → \tfrac{3\pi}{2}.
+  const piTex = (k, d = 1) => {
+    const g = gcd(k, d) || 1; k /= g; d /= g;
+    if (!k) return '0';
+    const top = `${Math.abs(k) === 1 ? '' : Math.abs(k)}\\pi`;
+    return `${k < 0 ? '-' : ''}${d === 1 ? top : `\\tfrac{${top}}{${d}}`}`;
+  };
+  const FN = { sen: '\\operatorname{sen}', cos: '\\cos', tan: '\\tan', csc: '\\csc', sec: '\\sec', cot: '\\cot' };
+  const F = { sen: Math.sin, cos: Math.cos, tan: Math.tan, csc: x => 1 / Math.sin(x), sec: x => 1 / Math.cos(x), cot: x => 1 / Math.tan(x) };
+  // Valores notables de seno y coseno, de −1 a 1.
+  const VAL = [-1, -Math.sqrt(3) / 2, -Math.SQRT1_2, -0.5, 0, 0.5, Math.SQRT1_2, Math.sqrt(3) / 2, 1];
+  const VTEX = ['-1', '-\\tfrac{\\sqrt3}{2}', '-\\tfrac{\\sqrt2}{2}', '-\\tfrac12', '0', '\\tfrac12', '\\tfrac{\\sqrt2}{2}', '\\tfrac{\\sqrt3}{2}', '1'];
+  const at = (cx, cy, R, deg) => [cx + R * Math.cos(rad(deg)), cy - R * Math.sin(rad(deg))];
+  function ring(p, C, cx, cy, R) {
+    p.stroke(C.line); p.strokeWeight(1.5); p.line(cx - R - 10, cy, cx + R + 10, cy); p.line(cx, cy - R - 10, cx, cy + R + 10);
+    p.noFill(); p.stroke(C.mute); p.strokeWeight(2); p.circle(cx, cy, 2 * R);
+  }
+  // n botones en fila, pegados abajo.
+  const row = (G, n, h = 38, gap = 8, y = G.bottom - h - 6) => { const w = (G.W - 24 - (n - 1) * gap) / n; return Array.from({ length: n }, (_, i) => ({ x: 12 + i * (w + gap), y, w, h })); };
+  const minus = b => ({ x: b.x, y: b.y, w: 40, h: b.h }), plus = b => ({ x: b.x + b.w - 40, y: b.y, w: 40, h: b.h });
+  // Los toques de − / + que llevan un control de `from` a `to` (para el robot).
+  const steps = (b, from, to) => Array(Math.abs(to - from)).fill(to > from ? plus(b) : minus(b));
+  const segDist = (x, y, a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], t = Math.max(0, Math.min(1, ((x - a[0]) * dx + (y - a[1]) * dy) / (dx * dx + dy * dy))); return Math.hypot(x - a[0] - t * dx, y - a[1] - t * dy); };
+  const mid = (a, b, s = 14) => ({ x: (a[0] + b[0]) / 2 - s / 2, y: (a[1] + b[1]) / 2 - s / 2, w: s, h: s });
+  function label(p, C, txt, x, y, col, size = 13, w = 110) { p.noStroke(); p.fill(col); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, String(txt), x, y, w, size); }
+  // Lado más cercano al toque (índice en `segs`), o −1.
+  const hitSeg = (segs, x, y, r = 22) => { let best = -1, bd = r; segs.forEach(([a, b], i) => { const d = segDist(x, y, a, b); if (d < bd) { bd = d; best = i; } }); return best; };
+  // Rótulo de un lado, corrido hacia afuera del triángulo.
+  function sideLabel(p, C, txt, a, b, c, col, size = 14) { const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, d = Math.hypot(mx - c[0], my - c[1]) || 1; label(p, C, txt, mx + (mx - c[0]) / d * 17, my + (my - c[1]) / d * 15, col, size, 70); }
+  const minusTxt = v => String(v).replace('-', '−');
+  return { gcd, rad, mod, piTex, FN, F, VAL, VTEX, at, ring, row, minus, plus, steps, segDist, mid, label, hitSeg, sideLabel, minusTxt };
+})();

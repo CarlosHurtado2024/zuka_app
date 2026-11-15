@@ -8,7 +8,7 @@ const { loadScripts, get, ROOT } = require('./load');
 
 const NEW = ['laberinto-valor', 'domino-equivalencias', 'piramide-numerica', 'detective-pasos'];
 const ctx = loadScripts(['js/content.js', 'js/games/kit.js', ...NEW.map(g => `js/games/${g}.js`),
-  'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/calculo.js', 'js/courses/geometria.js', 'js/exam.js']);
+  'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js', 'js/courses/calculo.js', 'js/courses/geometria.js', 'js/exam.js']);
 const GAMES = get(ctx, 'GAMES'), ALG = get(ctx, 'COURSE_ALGEBRA');
 const examReport = get(ctx, 'examReport'), fmtClock = get(ctx, 'fmtClock');
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');

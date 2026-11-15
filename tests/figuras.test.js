@@ -3,7 +3,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { loadScripts, get } = require('./load');
 
-const ctx = loadScripts(['js/art.js', 'js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/calculo.js', 'js/courses/geometria.js', 'js/data.js']);
+const ctx = loadScripts(['js/art.js', 'js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js', 'js/courses/calculo.js', 'js/courses/geometria.js', 'js/data.js']);
 const ART = get(ctx, 'COURSE_ART'), C = get(ctx, 'ART_C');
 
 test('cada curso tiene su figura, distinta de las demás', () => {

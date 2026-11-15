@@ -4,7 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { loadScripts, get, loadGame } = require('./load');
 
-const unit = get(loadScripts(['js/content.js', 'js/courses/trig.js']), 'COURSE_TRIG').units[1];
+const unit = get(loadScripts(['js/content.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js']), 'COURSE_TRIG').units[1];
 const lessons = unit.lessons;
 const G = name => loadGame(`js/games/${name}.js`)[name];
 const NEW = ['canon-inverso', 'tanque-pitagorico', 'detector-identidades', 'encadena-angulos', 'corredores-dobles', 'pesca-raices', 'compas-ambiguo', 'brazo-robot'];
