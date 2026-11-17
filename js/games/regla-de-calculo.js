@@ -46,7 +46,7 @@ GAMES['regla-de-calculo'] = (() => {
         p.noStroke(); p.fill(C.cream); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, String(it.base ** k), x, y0 - 26, st - 4, 15);
       }
       drawBtn(p, C, G.btn[0], '◀', false, C.cream); drawBtn(p, C, G.btn[1], '▶', false, C.cream);
-      p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textAlign(p.LEFT, p.CENTER); fitText(p, 'Corre la regla y toca el resultado abajo', 172, G.btn[0].y + 18, W - 184, 11);
+      p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textAlign(p.LEFT, p.TOP); p.textSize(11); p.text('Corre la regla y toca el resultado abajo', 172, G.btn[0].y + 4, W - 180, 30);   // en caja: en celular angosto va en dos renglones, sin pisar el botón
     },
     press(G, x, y) {
       const s = G.s, i = G.btn.findIndex(b => hitBox(b, x, y));

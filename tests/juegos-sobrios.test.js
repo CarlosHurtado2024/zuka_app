@@ -6,7 +6,7 @@ const path = require('path');
 const { loadScripts, get, ROOT } = require('./load');
 
 const ctx = loadScripts(['js/games/kit.js']);
-const PALETTES = get(ctx, 'PALETTES'), backdropGrid = get(ctx, 'backdropGrid');
+const PALETTES = get(ctx, 'PALETTES');
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
 
@@ -17,13 +17,13 @@ test('la paleta es de tinta azul, no morada, y la ficha neutra es fría', () => 
   for (const t of ['dark', 'light']) { const [cr, , cb] = rgb(PALETTES[t].cream); assert.ok(cb >= cr, `${t}: ficha neutra fría`); }
 });
 
-test('el fondo es papel milimetrado determinista, sin estrellas que titilan', () => {
-  const a = backdropGrid(328, 410), b = backdropGrid(328, 410);
-  assert.equal(JSON.stringify(a), JSON.stringify(b));
-  assert.ok(a.minor.length >= 30 && a.major.length >= 6);
-  for (const l of [...a.minor, ...a.major]) assert.ok(l.x1 >= 0 && l.x2 <= 328 && l.y1 >= 0 && l.y2 <= 410);
+test('el fondo de los juegos es liso: sin cuadrícula, sin estrellas y sin nada que se mueva', () => {
   const kit = read('js/games/kit.js'), fn = kit.slice(kit.indexOf('function drawBackdrop'), kit.indexOf('function drawRipples'));
+  assert.ok(!/backdropGrid/.test(kit), 'la cuadrícula se quitó');
+  assert.ok(!/lineTo|moveTo|stroke\(/.test(fn), 'el fondo no traza líneas');
   assert.ok(!/performance\.now|Math\.sin/.test(fn), 'el fondo no se mueve');
+  assert.match(fn, /createRadialGradient/, 'un brillo suave del color del curso');
+  assert.match(fn, /C\.brand/);
 });
 
 test('fichas con relieve fino, carteles con borde fino y vidas pequeñas', () => {

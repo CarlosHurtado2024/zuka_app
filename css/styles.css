@@ -648,7 +648,7 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 }
 /* pan-y: sobre el juego se puede desplazar la lección con el dedo; cuando el juego agarra una pieza
    cancela el toque (js/games/kit.js) y la página no se mueve. */
-.play canvas { display: block; }   /* la entrada la anima anime.js (mountSketch) */
+.play canvas { display: block; margin: 0 auto; }   /* la entrada la anima anime.js (mountSketch) */
 /* Celebración al acertar (playFx en js/games/kit.js): aro y confeti de formas planas. */
 .play-fx { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .play-fx i { position: absolute; left: 50%; top: 46%; display: block; }

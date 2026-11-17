@@ -8,7 +8,7 @@ const GAMES = {};
 // Estilo «estudio» (spec 2026-11-25-juegos-sobrios): tinta azul profunda o papel azul muy claro, con los papeles
 // de los videos (sol, coral, menta, cielo, violeta) menos saturados y bien separados; la ficha neutra es blanco frío. En el tema claro el papel es frío (azul muy claro, no crema: sobre crema las piezas amarillas
 // se perdían; spec 2026-11-16-guia-y-colores) y los mismos tonos van más oscuros para leerse.
-// sun, coral, mint, sky, cream, night: rellenos (fichas, confeti); star: líneas mayores del papel milimetrado; halo: superficie tenue.
+// sun, coral, mint, sky, cream, night: rellenos (fichas, confeti); star: líneas tenues; halo: superficie tenue.
 const PALETTES = {
   dark: {
     N: '#F7C85A', Z: '#6CC6FF', Q: '#5EE0C1', I: '#FF7A7A', R: '#B79CFF',
@@ -150,29 +150,19 @@ function fxTween(target, props, opts = {}) {
   return anime({ targets: target, duration: 420, easing: 'easeOutCubic', ...props, ...opts });
 }
 
-// Papel milimetrado del fondo: líneas finas cada 16 px y marcadas cada 64 px (siempre las mismas para un tamaño).
-function backdropGrid(w, h) {
-  const minor = [], major = [];
-  for (let x = 16; x < w; x += 16) (x % 64 ? minor : major).push({ x1: x, y1: 0, x2: x, y2: h });
-  for (let y = 16; y < h; y += 16) (y % 64 ? minor : major).push({ x1: 0, y1: y, x2: w, y2: y });
-  return { minor, major };
-}
-// Fondo del estudio: el color del tema, un brillo suave arriba y el papel milimetrado. No se mueve.
-const BACKDROPS = new WeakMap();
+// Fondo de los juegos: liso, del color del tema y del curso, con un brillo suave del color del curso arriba y un poco
+// más de fondo abajo. Sin cuadrícula (el usuario la quitó el 2026-11-27) y sin nada que se mueva.
 function drawBackdrop(p) {
   const ctx = p.drawingContext, W = p.width, H = p.height, C = PALETTE;
-  if (!ctx?.save) return;
-  let b = BACKDROPS.get(p);
-  if (!b || b.w !== W || b.h !== H) BACKDROPS.set(p, b = { w: W, h: H, grid: backdropGrid(W, H) });
+  if (!ctx?.save || !ctx.createRadialGradient) return;
   const d = typeof p.pixelDensity === 'function' ? p.pixelDensity() : 1;
   ctx.save(); ctx.setTransform(d, 0, 0, d, 0, 0);
-  if (ctx.createRadialGradient) {
-    const g = ctx.createRadialGradient(W / 2, -H * 0.15, 10, W / 2, -H * 0.15, H * 0.95);
-    g.addColorStop(0, C.brand); g.addColorStop(1, C.bg);
-    ctx.globalAlpha = 0.12; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-  }
-  const lines = (list, col, a) => { ctx.globalAlpha = a; ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.beginPath(); for (const l of list) { ctx.moveTo(l.x1 + 0.5, l.y1 + 0.5); ctx.lineTo(l.x2 + 0.5, l.y2 + 0.5); } ctx.stroke(); };
-  lines(b.grid.minor, C.line, 0.28); lines(b.grid.major, C.star, 0.75);
+  const g = ctx.createRadialGradient(W / 2, -H * 0.1, 10, W / 2, -H * 0.1, H * 0.9);
+  g.addColorStop(0, C.brand); g.addColorStop(1, C.bg);
+  ctx.globalAlpha = 0.16; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  const v = ctx.createLinearGradient(0, H * 0.55, 0, H);
+  v.addColorStop(0, C.bg); v.addColorStop(1, C.halo);
+  ctx.globalAlpha = 0.5; ctx.fillStyle = v; ctx.fillRect(0, H * 0.55, W, H * 0.45);
   ctx.restore();
 }
 
@@ -236,15 +226,32 @@ function loadP5() {
 
 // Monta un sketch en `host` con lienzo al ancho del contenedor y alto = ancho × aspect
 // (4:5 por defecto). sketch(p, size) recibe la instancia y { w, h }. Devuelve { ready: Promise, remove() }.
-// El lienzo nunca se escala con CSS (p5 no corrige esa escala al leer el dedo): si el contenedor
-// cambia de ancho, se redimensiona y se llama p.onResize() para que el juego reacomode todo.
+// Si el contenedor cambia de ancho, el lienzo se redimensiona y se llama p.onResize() para que el juego reacomode todo.
+// **El ejercicio cabe en una pantalla**: si el enunciado, la pista y el juego no caben en el alto de la lección, el
+// lienzo se muestra más chico (fitScale: hasta FIT_MIN de su tamaño) cambiando su ancho y alto de CSS, nunca con
+// `transform` (p5 corrige la lectura del dedo con el tamaño de CSS, no con una transformación). El juego sigue
+// dibujando en su tamaño de diseño.
 // Los juegos se diseñaron para un lienzo de unos 328 px de ancho (celular de 375) y colocan muchas
 // piezas con medidas fijas: en un celular más angosto el lienzo conserva el alto de ese diseño
 // (heightFor), así lo que va apilado no se encima ni se sale por abajo.
 const DESIGN_W = 328;
 const heightFor = (w, aspect) => Math.round(Math.max(w, DESIGN_W) * aspect);
+// Cuánto se achica el lienzo (de alto h) para caber en `room` px: 1 si cabe; nunca menos de FIT_MIN (ahí ya se desliza).
+const FIT_MIN = 0.66;
+const fitScale = (h, room) => (room > 0 && h > 0 ? Math.max(FIT_MIN, Math.min(1, room / h)) : 1);
 function mountSketch(host, sketch, aspect = 1.25) {
   let inst = null, removed = false, ro = null, grabbed = false;
+  // Alto libre para el lienzo dentro de la lección: el del cuerpo menos lo demás del ejercicio (enunciado, pista, márgenes).
+  const fit = size => {
+    const cv = inst?.canvas, body = host.closest?.('.lesson-body'), ex = body?.firstElementChild;
+    if (!cv?.style) return;
+    let k = 1;
+    if (body && ex && typeof getComputedStyle === 'function') {
+      const cs = getComputedStyle(body), pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+      k = fitScale(size.h, body.clientHeight - pad - (ex.offsetHeight - cv.offsetHeight) - 2);
+    }
+    cv.style.width = `${Math.round(size.w * k)}px`; cv.style.height = `${Math.round(size.h * k)}px`;
+  };
   const ripples = [];
   const widthOf = () => Math.max(240, Math.floor(host.clientWidth || 320));
   const ready = loadP5().then(P5 => {
@@ -286,12 +293,19 @@ function mountSketch(host, sketch, aspect = 1.25) {
     }, host);
     ro = new ResizeObserver(() => {
       const w = widthOf();
-      if (!inst || w === size.w) return;
-      size.w = w; size.h = heightFor(w, aspect);
-      inst.resizeCanvas(size.w, size.h);
-      inst.onResize?.();
+      if (!inst) return;
+      if (w !== size.w) {
+        size.w = w; size.h = heightFor(w, aspect);
+        inst.resizeCanvas(size.w, size.h);
+        inst.onResize?.();
+      }
+      fit(size);
     });
     ro.observe(host);
+    // También cuando cambia el alto disponible (gira el celular) o lo demás del ejercicio (se abre la pista).
+    const body = host.closest?.('.lesson-body');
+    if (body) { ro.observe(body); if (body.firstElementChild) ro.observe(body.firstElementChild); }
+    fit(size);
     // El lienzo entra subiendo (solo se traslada: escalarlo con CSS descuadraría la lectura del dedo).
     if (typeof anime === 'function' && !reducedMotion() && inst?.canvas) anime({ targets: inst.canvas, translateY: [16, 0], opacity: [0, 1], duration: 520, easing: 'easeOutCubic' });
     // Si Jost aún no había cargado, el juego arrancó con la letra del sistema: al llegar, se cambia.
@@ -329,6 +343,10 @@ function spanShift(start, len, lo, hi) {
   if (start + len > hi) return hi - (start + len);
   return 0;
 }
+// Alto que puede ocupar una fórmula de un renglón centrada en `y`: las pestañas de rondas llegan hasta TABS_BOTTOM
+// (roundTabs: de 8 a 38), así que un rótulo que va debajo de ellas no pasa de ahí; arriba y abajo, el borde del lienzo.
+const TABS_BOTTOM = 40;
+const formulaRoom = (y, H) => 2 * Math.max(6, Math.min(y > TABS_BOTTOM && y < 90 ? y - TABS_BOTTOM : y - 1, H - 1 - y));
 // p.text de todos los juegos pasa por aquí (lo enlaza mountSketch). Un texto suelto más ancho que el
 // lienzo se encoge (hasta 9 px) y, si se sale por un borde, se corre hacia adentro. Un texto en caja
 // (x, y, ancho, alto) que no cabe en su alto, o cuya caja se sale por abajo, se encoge y se dibuja
@@ -342,7 +360,9 @@ function safeText(p, raw, str, x, y, bw, bh) {
   const measure = t => p.textWidth(t);
   if (bw == null) {
     // Un renglón con matemática (x², 3/4, √12, o TeX entre $…$), centrado en vertical: va como fórmula (formula.js).
-    if (base === 'center' && typeof drawFormula === 'function' && !s.includes('\n') && formulaWanted(s)) { drawFormula(p, s, x, y, W - 8, size0); return; }
+    // Una fracción apilada es más alta que su renglón: el rótulo que va justo debajo de las pestañas (y entre 40 y 90)
+    // se encoge lo necesario para no meterse en ellas (formulaRoom), y ninguna fórmula se sale del lienzo.
+    if (base === 'center' && typeof drawFormula === 'function' && !s.includes('\n') && formulaWanted(s)) { drawFormula(p, s, x, y, W - 8, size0, formulaRoom(y, H)); return; }
     const lines = s.split('\n'), width = () => Math.max(...lines.map(measure));
     let size = size0, tw = width();
     while (tw > W - 8 && size > 9) { size -= 0.5; p.textSize(size); tw = width(); }
@@ -661,7 +681,7 @@ function roundsGame(def) {
         if (typeof formulaWanted === 'function' && formulaWanted(pr)) fitText(p, pr, 12, 63, G.W - 24, 15, 34); else p.text(pr, 12, 46, G.W - 24, 36);
         def.draw(G);
         const good = def.ok(G.s, G.r, params), pend = R.findIndex((_, i) => !answered(i) && i !== G.cur);
-        const foot = G.locked ? (good ? '¡Bien!' : def.solution(G.r, params)) : answered(G.cur) && pend >= 0 ? `Sigue con la pestaña ${pend + 1}` : def.foot?.(G.r, G.s, G) ?? '';
+        const foot = G.locked ? (good ? '¡Bien!' : 'La respuesta correcta quedó marcada') : answered(G.cur) && pend >= 0 ? `Sigue con la pestaña ${pend + 1}` : def.foot?.(G.r, G.s, G) ?? '';
         p.noStroke(); p.fill(G.locked ? (good ? C.ok : C.bad) : C.mute); p.textStyle(G.locked ? p.BOLD : p.NORMAL); p.textAlign(p.CENTER, p.CENTER); fitText(p, foot, G.W / 2, G.H - 14, G.W - 20, 11);
       };
       p.mousePressed = () => {

@@ -8,7 +8,7 @@ const { loadScripts, get, ROOT } = require('./load');
 
 const ctx = loadScripts(['js/games/kit.js']);
 const PALETTES = get(ctx, 'PALETTES'), PALETTE = get(ctx, 'PALETTE');
-const inkOn = get(ctx, 'inkOn'), backdropGrid = get(ctx, 'backdropGrid'), fxTween = get(ctx, 'fxTween');
+const inkOn = get(ctx, 'inkOn'), fitScale = get(ctx, 'fitScale'), FIT_MIN = get(ctx, 'FIT_MIN'), fxTween = get(ctx, 'fxTween');
 const confettiBits = get(ctx, 'confettiBits'), drawTabs = get(ctx, 'drawTabs'), roundTabs = get(ctx, 'roundTabs');
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 
@@ -28,12 +28,19 @@ test('inkOn elige tinta oscura sobre colores claros y blanca sobre oscuros', () 
   assert.equal(inkOn(undefined, '#123456'), '#123456', 'si no es un color hex, la tinta de respaldo');
 });
 
-test('el papel milimetrado del fondo es determinista, cabe en el lienzo y crece con el área (spec 2026-11-25-juegos-sobrios)', () => {
-  const a = backdropGrid(328, 410), b = backdropGrid(328, 410);
-  assert.equal(JSON.stringify(a), JSON.stringify(b));
-  for (const l of [...a.minor, ...a.major]) assert.ok(l.x1 >= 0 && l.x2 <= 328 && l.y1 >= 0 && l.y2 <= 410);
-  const n = g => g.minor.length + g.major.length;
-  assert.ok(n(backdropGrid(480, 600)) > n(a));
+test('el ejercicio cabe en una pantalla: el lienzo se achica lo justo, nunca por debajo de FIT_MIN ni con transform', () => {
+  assert.equal(fitScale(410, 500), 1, 'si cabe, tamaño completo');
+  assert.equal(fitScale(410, 410), 1);
+  assert.equal(Math.round(fitScale(410, 328) * 100), 80);
+  assert.equal(fitScale(410, 100), FIT_MIN, 'con muy poco alto ya se desliza');
+  assert.equal(fitScale(410, -20), 1, 'sin medida, no se toca');
+  assert.ok(FIT_MIN >= 0.6 && FIT_MIN < 0.8);
+  const kit = require('fs').readFileSync(require('path').join(__dirname, '..', 'js', 'games', 'kit.js'), 'utf8');
+  const fit = kit.slice(kit.indexOf('const fit = size =>'), kit.indexOf('const ripples'));
+  assert.match(fit, /cv\.style\.width = /);
+  assert.match(fit, /cv\.style\.height = /);
+  assert.doesNotMatch(fit, /transform/, 'p5 solo corrige el dedo con el tamaño de CSS');
+  assert.match(kit, /ro\.observe\(body\)/, 'se vuelve a ajustar si cambia el alto o se abre la pista');
 });
 
 test('fxTween sin anime.js deja el valor final de una vez y avisa al terminar', () => {

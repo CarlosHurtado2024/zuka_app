@@ -64,13 +64,26 @@ GAMES['escala-solucion'] = (() => {
           // Un paso largo se parte en dos renglones.
           const txt = r.levels[l][opt], tx = stepTex(txt); p.textSize(13);
           const parts = typeof stepLines === 'function' ? stepLines(txt) : [txt];
-          if (parts.length === 2 && typeof drawFormulaCtx === 'function') parts.forEach((q, j) => { const f = stepTex(q); if (f !== q) drawFormulaCtx(p.drawingContext, f, b.x + b.w / 2, b.y + b.h / 2 + (j ? 9 : -8), { size: 13, maxW: b.w - 10, maxH: b.h / 2 - 2, weight: 700 }); else fitText(p, q, b.x + b.w / 2, b.y + b.h / 2 + (j ? 9 : -8), b.w - 8, 12); });
+          if (parts.length === 2 && typeof drawFormulaCtx === 'function') parts.forEach((q, j) => { const f = stepTex(q); if (f !== q) drawFormulaCtx(p.drawingContext, f, b.x + b.w / 2, b.y + b.h / 2 + (j ? 9 : -8), { size: 13, maxW: b.w - 10, maxH: b.h / 2 - 2, weight: 700 }); else {
+            // Frase corrida que no cabe en un renglón de la ficha: va en dos renglones más chicos (antes se salía y pisaba la ficha vecina).
+            p.textSize(12);
+            if (p.textWidth(q) <= b.w - 8 || j) fitText(p, q, b.x + b.w / 2, b.y + b.h / 2 + (j ? 9 : -8), b.w - 8, 12);
+            else {
+              let size = 10.5, lines;
+              do { p.textSize(size); lines = wrapWords(q, b.w - 10, t => p.textWidth(t)); } while ((lines.length > 2 || lines.some(t => p.textWidth(t) > b.w - 8)) && (size -= 0.5) > 6);
+              lines.slice(0, 2).forEach((t, i) => p.text(t, b.x + b.w / 2, b.y + b.h / 2 - (lines.length > 1 ? 15 - i * (size + 1) : 8)));
+            }
+          } });
           else if (tx !== txt) drawFormulaCtx(p.drawingContext, tx, b.x + b.w / 2, b.y + b.h / 2 + 1, { size: 15, maxW: b.w - 10, maxH: b.h - 6, weight: 700 });
-          else if (p.textWidth(txt) > b.w - 10 && txt.includes(' ')) {
-            const words = txt.split(' '); let cut = 1, best = 1e9;
-            for (let c = 1; c < words.length; c++) { const d = Math.abs(p.textWidth(words.slice(0, c).join(' ')) - p.textWidth(words.slice(c).join(' '))); if (d < best) { best = d; cut = c; } }
-            fitText(p, words.slice(0, cut).join(' '), b.x + b.w / 2, b.y + b.h / 2 - 8, b.w - 8, 12); fitText(p, words.slice(cut).join(' '), b.x + b.w / 2, b.y + b.h / 2 + 8, b.w - 8, 12);
-          } else fitText(p, txt, b.x + b.w / 2, b.y + b.h / 2 + 1, b.w - 8, 13);
+          else {
+            // Texto corrido: se parte en los renglones que hagan falta y se encoge hasta caber en la ficha, a lo ancho y
+            // a lo alto (antes una frase larga se salía de su ficha y pisaba la de al lado en celulares angostos).
+            let size = 13, lines;
+            do { p.textSize(size); lines = wrapWords(txt, b.w - 12, t => p.textWidth(t)); }
+            while ((lines.length * size * 1.15 > b.h - 6 || lines.some(t => p.textWidth(t) > b.w - 8)) && --size > 7);
+            const lh = size * 1.15, y0 = b.y + b.h / 2 - ((lines.length - 1) * lh) / 2 + 1;
+            lines.forEach((t, j) => p.text(t, b.x + b.w / 2, y0 + j * lh));
+          }
         });
       }
     },
