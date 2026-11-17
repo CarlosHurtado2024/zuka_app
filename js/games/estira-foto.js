@@ -13,20 +13,17 @@ GAMES['estira-foto'] = (() => {
     return { ok, solution };
   }
 
-  // El dibujo en las unidades de la foto original (w0 × h0): cielo, colina, sol y la cara del zorrito.
+  // El dibujo en las unidades de la foto original (w0 × h0): cielo, colina, sol y una composición de círculo, cuadrado y
+  // triángulo (si la foto se deforma, el círculo deja de ser redondo).
   function picture(p, C, w0, h0) {
     const k = Math.min(w0, h0);
     p.noStroke(); p.fill(C.Z); p.rect(0, 0, w0, h0);
     p.fill(C.Q); p.rect(0, h0 * 0.8, w0, h0 * 0.2);
     p.fill(C.N); p.circle(w0 * 0.84, h0 * 0.16, k * 0.22);
     const cx = w0 / 2, cy = h0 * 0.52, r = k * 0.3;
-    p.fill('#f08a3c');
-    p.triangle(cx - r * 0.95, cy - r * 0.35, cx - r * 0.75, cy - r * 1.45, cx - r * 0.15, cy - r * 0.85);
-    p.triangle(cx + r * 0.95, cy - r * 0.35, cx + r * 0.75, cy - r * 1.45, cx + r * 0.15, cy - r * 0.85);
-    p.circle(cx, cy, 2 * r);
-    p.fill('#fff3e6'); p.ellipse(cx, cy + r * 0.38, r * 1.1, r * 0.8);
-    p.fill('#1b1b2b'); p.circle(cx - r * 0.38, cy - r * 0.12, r * 0.26); p.circle(cx + r * 0.38, cy - r * 0.12, r * 0.26);
-    p.circle(cx, cy + r * 0.2, r * 0.22);
+    p.fill(C.coral); p.circle(cx, cy, 2 * r);
+    p.fill(C.cream); p.rect(cx - r * 0.5, cy - r * 0.5, r, r);
+    p.fill(C.R); p.triangle(cx - r * 0.35, cy + r * 0.3, cx + r * 0.35, cy + r * 0.3, cx, cy - r * 0.32);
   }
 
   function create(host, params, api) {

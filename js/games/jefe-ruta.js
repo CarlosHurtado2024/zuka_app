@@ -43,12 +43,13 @@ GAMES['jefe-ruta'] = (() => {
 
       function boss(x, y) {
         const col = C[params.color] || C.coral, sx = shake > 0 ? Math.sin(shake * 40) * 6 * shake : 0, alive = done < A.length;
-        p.noStroke(); p.fill(shade(col, 0.74)); p.circle(x + sx, y + 4, 56);
-        p.fill(hurt > 0 ? C.cream : col); p.circle(x + sx, y, 56);
-        p.fill(C.sun); p.triangle(x + sx - 20, y - 22, x + sx - 12, y - 40, x + sx - 4, y - 24); p.triangle(x + sx - 8, y - 26, x + sx, y - 46, x + sx + 8, y - 26); p.triangle(x + sx + 4, y - 24, x + sx + 12, y - 40, x + sx + 20, y - 22);
-        p.fill(C.night); p.circle(x + sx - 10, y - 2, alive ? 9 : 4); p.circle(x + sx + 10, y - 2, alive ? 9 : 4);
-        p.stroke(C.night); p.strokeWeight(3); p.noFill();
-        if (alive) p.arc(x + sx, y + 16, 22, 12, Math.PI, 2 * Math.PI); else p.arc(x + sx, y + 10, 22, 12, 0, Math.PI);
+        // Un núcleo con dos anillos que giran; al recibir un golpe se apaga un instante y, vencido, queda gris.
+        const t = performance.now() / 1000, on = alive ? col : C.mute;
+        p.stroke(C.line); p.strokeWeight(1); p.fill(C.card); p.circle(x + sx, y, 52);
+        p.noFill(); p.strokeWeight(1.6);
+        for (let i = 0; i < 2; i++) { p.stroke(i ? C.sky : on); p.push(); p.translate(x + sx, y); p.rotate((alive ? t : 0) * (0.6 + i * 0.3) * (i ? -1 : 1) + i); p.ellipse(0, 0, 74 - i * 10, 20 + i * 8); p.pop(); }
+        const glow = p.color(on); glow.setAlpha(hurt > 0 ? 25 : 80); p.noStroke(); p.fill(glow); p.circle(x + sx, y, 30 + (alive ? Math.sin(t * 3) * 3 : 0));
+        p.fill(hurt > 0 ? C.mute : on); p.circle(x + sx, y, 13);
       }
 
       p.draw = () => {

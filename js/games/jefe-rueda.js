@@ -12,21 +12,25 @@ GAMES['jefe-rueda'] = (() => {
 
   // El jefe: tres figuras hechas con formas, que se mueven solas y tiemblan al recibir un golpe.
   function drawBoss(G, x, y) {
-    const { p, C } = G, t = G.t, hit = G.solved, dx = hit ? Math.sin(t * 55) * 3 : 0, kind = G.params.kind, eye = (ex, ey, r = 5) => { p.noStroke(); p.fill('#FFFFFF'); p.circle(ex, ey, r * 2.2); p.fill('#1B1F3B'); p.circle(ex + Math.sin(t * 1.3) * 1.5, ey + (hit ? -1 : 1), r); };
+    const { p, C } = G, t = G.t, hit = G.solved, dx = hit ? Math.sin(t * 55) * 3 : 0, kind = G.params.kind, core = (cx, cy, r, col) => { const g = p.color(col); g.setAlpha(80); p.noStroke(); p.fill(g); p.circle(cx, cy, r * 3.2 + Math.sin(t * 3) * 2); p.fill(col); p.circle(cx, cy, r * 1.4); };
     x += dx;
     if (kind === 'kraken') {
-      p.noFill(); p.stroke(C.coral); p.strokeWeight(5);
-      for (let i = 0; i < 6; i++) { p.beginShape(); for (let k = 0; k <= 8; k++) p.vertex(x + (i - 2.5) * 13 + Math.sin(t * 2.4 + i + k * 0.7) * (3 + k * 0.7), y + 6 + k * 3.6); p.endShape(); }
-      p.noStroke(); p.fill(C.coral); p.ellipse(x, y - 2, 78, 50); eye(x - 14, y - 4); eye(x + 14, y - 4);
+      p.noFill();
+      for (let k = 0; k < 3; k++) {
+        p.stroke(k === 1 ? C.sky : C.coral); p.strokeWeight(1.6 - k * 0.3); p.beginShape();
+        for (let i = 0; i <= 40; i++) { const u = -1 + i / 20, amp = (8 - k * 2) * (1 - u * u); p.vertex(x + u * (48 - k * 2), y - 2 + Math.sin(u * 7 + t * (1.6 + k * 0.4) + k * 2) * amp + (k - 1) * 9); }
+        p.endShape();
+      }
+      p.stroke(C.coral); p.strokeWeight(1.5); p.fill(C.card); p.circle(x, y - 2, 30); core(x, y - 2, 5, C.coral);
     } else if (kind === 'faro') {
       const beam = p.color(C.sun); beam.setAlpha(70); const a = t * 1.1;
       p.noStroke(); p.fill(beam); p.triangle(x, y - 18, x + Math.cos(a) * 120, y - 18 + Math.sin(a) * 26 - 14, x + Math.cos(a) * 120, y - 18 + Math.sin(a) * 26 + 14);
       p.fill(C.sky); p.quad(x - 13, y - 8, x + 13, y - 8, x + 19, y + 32, x - 19, y + 32); p.fill(C.cream); p.rect(x - 15, y + 6, 30, 8); p.rect(x - 17, y + 20, 34, 7);
-      p.fill(C.sun); p.rect(x - 16, y - 30, 32, 22, 6); eye(x - 7, y - 19, 4); eye(x + 7, y - 19, 4);
+      p.fill(C.card); p.stroke(C.sun); p.strokeWeight(1.5); p.rect(x - 16, y - 30, 32, 22, 6); core(x, y - 19, 4, C.sun);
     } else {
       p.noFill(); p.strokeWeight(3);
       for (let k = 0; k < 3; k++) { p.stroke([C.sky, C.mint, C.coral][k]); p.push(); p.translate(x, y); p.rotate(t * (0.5 + k * 0.25) + k); p.ellipse(0, 0, 96 - k * 14, 30 + k * 8); p.pop(); }
-      p.noStroke(); p.fill('#1B1F3B'); p.circle(x, y, 44); p.stroke(C.sky); p.strokeWeight(2); p.noFill(); p.circle(x, y, 44); eye(x, y, 7);
+      p.noStroke(); p.fill(C.card); p.circle(x, y, 44); p.stroke(C.sky); p.strokeWeight(1.5); p.noFill(); p.circle(x, y, 44); core(x, y, 6, C.sky);
     }
   }
 

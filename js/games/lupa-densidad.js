@@ -93,7 +93,7 @@ GAMES['lupa-densidad'] = (() => {
         } else { p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.CENTER, p.CENTER); p.text('Toca la recta para poner tu punto', W / 2, zout.y - 38); }
         if (locked && !good) { p.fill(C.ok); p.textStyle(p.BOLD); p.textSize(13); p.text(`Por ejemplo: ${between(r)}`, W / 2, zout.y - 14); }
         // Botones de la lupa
-        [[zout, '🔍 −  alejar'], [zin, '🔍 +  acercar']].forEach(([b, t]) => {
+        [[zout, '−  alejar'], [zin, '+  acercar']].forEach(([b, t]) => {
           drawTile(p, C, b, t, { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, size: 14 });
         });
       };

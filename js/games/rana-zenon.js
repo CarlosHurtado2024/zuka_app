@@ -89,12 +89,11 @@ GAMES['rana-zenon'] = (() => {
             p.stroke(C.ink); p.strokeWeight(2); p.line(x, lineY, x, top);
             drawPill(p, C, it.flags[k], x + 20 > W - 26 ? x - 20 : x + 20, top + 2, col, 13);
           });
-          // Los saltos ya dados (arcos) y la rana.
+          // Los saltos ya dados (arcos) y el marcador que salta.
           p.noFill(); p.stroke(C.mint); p.strokeWeight(2);
           for (let k = 0; k < jumps - (hop > 0 ? 1 : 0); k++) { const x0 = X(partial(it, k)), x1 = X(partial(it, k + 1)); p.arc((x0 + x1) / 2, lineY, x1 - x0, Math.min(40, (x1 - x0) * 0.8), Math.PI, 0); }
-          p.noStroke(); p.fill(shade(C.mint, 0.76)); p.ellipse(fx, lineY - 8 - up + 3, 24, 17);
-          p.fill(C.mint); p.ellipse(fx, lineY - 8 - up, 24, 17);
-          p.fill(C.cream); p.circle(fx + 5, lineY - 15 - up, 7); p.fill(C.night); p.circle(fx + 6, lineY - 15 - up, 3.5);
+          const sh = p.color(C.mint); sh.setAlpha(60); p.noStroke(); p.fill(sh); p.ellipse(fx, lineY - 1, 18 - up * 0.2, 5);
+          drawDot(p, C, fx, lineY - 9 - up, 13, C.mint);
         }
 
         arcadeToast(p, C, a, W / 2, H - 17, locked);
@@ -107,7 +106,7 @@ GAMES['rana-zenon'] = (() => {
         }
         if (!a.toast || locked || a.phase === 'idle' || a.phase === 'all') {
           p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
-          p.text(locked || a.phase === 'all' ? '¡La rana se salvó! Ya puedes comprobar' : 'Estanque: saltar · bandera: responder', W / 2, H - 16);
+          p.text(locked || a.phase === 'all' ? '¡Suma completa! Ya puedes comprobar' : 'Estanque: saltar · bandera: responder', W / 2, H - 16);
         }
         arcadeStop(p, a, locked);
       };

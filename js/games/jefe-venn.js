@@ -108,20 +108,19 @@ GAMES['jefe-venn'] = (() => {
         }
       }
 
-      // El Guardián: una mole con corona que respira, se enoja al golpear y se encoge de dolor al recibir.
+      // El Guardián: un monolito con tres anillos (A, B y el universo) que giran y un núcleo que late; tiembla al golpear y
+      // se apaga un instante al recibir.
       function drawBoss(x, y) {
         const k = 1 + Math.sin(t * 2.2) * 0.03 - hurt * 0.12, sx = rage > 0 ? Math.sin(rage * 50) * 6 * rage : hurt > 0 ? Math.sin(hurt * 40) * 4 * hurt : 0;
-        const body = hurt > 0.5 ? C.cream : [C.coral, C.Q, C.I][a.cur % 3], w = 92 * k, h = 70 * k;
+        const body = hurt > 0.5 ? C.mute : [C.coral, C.Q, C.I][a.cur % 3], w = 92 * k, h = 70 * k;
         p.push(); p.translate(x + sx, y);
         p.noStroke(); const sh = p.color(C.night); sh.setAlpha(70); p.fill(sh); p.ellipse(0, 40, 84, 12);
-        p.fill(shade(body, 0.72)); p.rect(-w / 2, -h / 2 + 5, w, h, 26);
-        p.fill(body); p.rect(-w / 2, -h / 2, w, h, 26);
-        p.fill(C.sun); p.beginShape(); [[-26, -h / 2 + 2], [-30, -h / 2 - 20], [-14, -h / 2 - 8], [0, -h / 2 - 24], [14, -h / 2 - 8], [30, -h / 2 - 20], [26, -h / 2 + 2]].forEach(q => p.vertex(q[0], q[1])); p.endShape(p.CLOSE);
-        const eyeY = -6, blink = Math.sin(t * 0.9) > 0.985 ? 1 : 9;
-        p.fill(C.cream); p.ellipse(-18, eyeY, 20, hurt > 0.3 ? 4 : blink * 2); p.ellipse(18, eyeY, 20, hurt > 0.3 ? 4 : blink * 2);
-        if (hurt <= 0.3 && blink > 1) { p.fill(C.night); p.circle(-18, eyeY + 1, 8); p.circle(18, eyeY + 1, 8); }
-        p.stroke(C.night); p.strokeWeight(3); p.line(-30, eyeY - 14, -10, eyeY - 9 - rage * 4); p.line(30, eyeY - 14, 10, eyeY - 9 - rage * 4);
-        p.noFill(); if (hurt > 0.3) p.arc(0, 20, 22, 14, Math.PI, 0); else p.line(-10, 17, 10, 17);
+        p.fill(shade(C.card, 0.85)); p.quad(-w * 0.32, h / 2 + 4, w * 0.32, h / 2 + 4, w * 0.2, -h / 2, -w * 0.2, -h / 2);
+        p.stroke(body); p.strokeWeight(1.5); p.fill(C.card); p.quad(-w * 0.32, h / 2, w * 0.32, h / 2, w * 0.2, -h / 2 - 4, -w * 0.2, -h / 2 - 4);
+        p.noFill(); p.strokeWeight(2);
+        for (let i = 0; i < 3; i++) { p.stroke([C.sky, C.coral, C.mint][i]); p.push(); p.rotate(t * (0.4 + i * 0.2) * (i % 2 ? -1 : 1) + i); p.ellipse(0, 0, w * 1.15 - i * 10, 22 + i * 7); p.pop(); }
+        const glow = p.color(body); glow.setAlpha(hurt > 0.3 ? 30 : 90); p.noStroke(); p.fill(glow); p.circle(0, -2, 30 + Math.sin(t * 3) * 3);
+        p.fill(hurt > 0.3 ? C.mute : body); p.circle(0, -2, 14);
         p.pop();
       }
 

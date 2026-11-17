@@ -92,11 +92,11 @@ GAMES['serpiente-orden'] = (() => {
           if (eaten.includes(i)) return;
           drawTile(p, C, { x: g.x0 + s.c * g.cell + 2, y: g.y0 + s.r * g.cell + 2, w: g.cell - 4, h: g.cell - 6 }, items[i].label, { size: Math.min(15, g.cell * 0.4), r: 7, lift: 2 });
         });
-        // La serpiente: cuerpo menta y cabeza con ojos.
+        // La serpiente: cuerpo menta y cabeza con una flecha que marca hacia dónde va.
         if (a.phase !== 'idle') snake.forEach((s, i) => {
           const c = px(s), d = g.cell * (i === 0 ? 0.86 : 0.7);
           p.noStroke(); p.fill(i === 0 ? C.mint : shade(C.mint, i % 2 ? 0.86 : 0.94)); p.rect(c.x - d / 2, c.y - d / 2, d, d, d * 0.32);
-          if (i === 0) { const ex = dir.x * d * 0.18, ey = dir.y * d * 0.18, sx = dir.y * d * 0.2, sy = dir.x * d * 0.2; p.fill(C.night); p.circle(c.x + ex + sx, c.y + ey + sy, d * 0.18); p.circle(c.x + ex - sx, c.y + ey - sy, d * 0.18); }
+          if (i === 0) { const ux = dir.x * d * 0.28, uy = dir.y * d * 0.28, vx = dir.y * d * 0.2, vy = dir.x * d * 0.2; p.fill(inkOn(C.mint, C.ink)); p.triangle(c.x + ux, c.y + uy, c.x - ux * 0.4 + vx, c.y - uy * 0.4 + vy, c.x - ux * 0.4 - vx, c.y - uy * 0.4 - vy); }
         });
 
         // Encabezado: ronda, vidas y qué se lleva comido, en orden.

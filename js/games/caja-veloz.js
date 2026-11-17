@@ -55,7 +55,7 @@ GAMES['caja-veloz'] = (() => {
           return;
         }
         left -= dt;
-        if (left <= 0) { result = 'gone'; pause = 1; a.say('El cliente se cansó: vuelve a la fila', C.sun); }
+        if (left <= 0) { result = 'gone'; pause = 1; a.say('Se acabó la paciencia: esa cuenta vuelve a la fila', C.sun); }
       }
 
       p.draw = () => {
@@ -69,11 +69,11 @@ GAMES['caja-veloz'] = (() => {
         p.text(`${r.title} · ${Math.min(st.done[a.cur], r.items.length)} de ${r.items.length}`, W / 2, 40);
 
         if (a.phase !== 'idle' && !(locked || a.phase === 'all')) {
-          // El cliente (una carita) con su cuenta y la barra de paciencia.
-          const cy = 78, face = result === 'ok' ? C.ok : result === 'bad' ? C.bad : C.sun;
-          p.noStroke(); p.fill(face); p.circle(34, cy, 34);
-          p.fill(C.night); p.circle(28, cy - 4, 4); p.circle(40, cy - 4, 4);
-          p.noFill(); p.stroke(C.night); p.strokeWeight(2); p.arc(34, cy + 4, 14, result === 'bad' || result === 'gone' ? -8 : 8, 0, Math.PI);
+          // El pedido: un indicador de estado (anillo de color) con la cuenta y la barra de paciencia.
+          const cy = 78, face = result === 'ok' ? C.ok : result === 'bad' || result === 'gone' ? C.coral : C.sun;
+          p.noFill(); p.stroke(C.line); p.strokeWeight(3); p.circle(34, cy, 30);
+          p.stroke(face); p.arc(34, cy, 30, 30, -Math.PI / 2, Math.PI * 1.5);
+          p.noStroke(); p.fill(face); p.circle(34, cy, 10);
           p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.LEFT, p.CENTER);
           p.textSize(20); while (p.textWidth(it.ask) > W - 76 && p.textSize() > 12) p.textSize(p.textSize() - 1);
           p.text(it.ask, 60, cy - 6);

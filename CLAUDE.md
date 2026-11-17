@@ -77,6 +77,7 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
 - `const C = api.palette` y **leer los colores al dibujar** (`C.bg, C.card, C.line, C.ink, C.mute, C.brand,
   C.ok, C.bad`, familias `C.N, C.Z, C.Q, C.I, C.R`). Así se repintan solos al cambiar de tema. Nada de
   colores fijos para texto o fondo.
+- **Estilo «estudio»** (spec `2026-11-25-juegos-sobrios`, pruebas `tests/juegos-sobrios.test.js`): tinta azul profunda o papel azul muy claro con papel milimetrado quieto (`backdropGrid`), fichas con radio 8 y labio de 2 px, carteles con borde fino y barra de color, corazones pequeños, confeti fino, sin caras de caricatura ni emojis (los elementos de los conjuntos son letras, números o griegas). Los botones de la app tienen sombra de 2 px. Reemplaza lo que sigue sobre el fondo con estrellas y la paleta «azul noche».
 - **Estilo de los videos** (spec `2026-11-13-juegos-estilo-video`, pruebas `tests/estilo-video.test.js`): el kit pone a
   todos los juegos la paleta de los videos zoom (azul noche en tema oscuro; en tema claro un papel azul muy claro, no crema:
   sobre crema las piezas amarillas se perdían), fondo con estrellas al limpiar con

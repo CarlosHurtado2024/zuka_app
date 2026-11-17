@@ -98,23 +98,23 @@ const COURSE_ALGEBRA = {
             }, 'Las tres notas de $B$ están en $A$: $B \\subseteq A$ y su círculo va adentro. Las vocales de PERA son justo $e$ y $a$: $A = B$, los círculos se enciman. Agua y montañas no comparten nada: son **disjuntos**. Y los colores comparten solo el azul: los círculos se cruzan.',
               { hint: 'Busca elementos que estén en los dos conjuntos. Si todos los de B están en A, B va adentro; si no comparten ninguno, sepáralos; si comparten algunos, crúzalos; si tienen exactamente los mismos, enciméralos.' }),
             play('fabrica-subconjuntos', 'Llena las cajas con **todos** los subconjuntos, sin repetir ninguno', {
-              rounds: [{ elements: ['🍕', '🍔'] }, { elements: ['🎸', '🥁', '🎹'] }],
-            }, 'Cada elemento entra o no entra en la caja. Con dos hay 4 subconjuntos: $\\varnothing$, uno solo de cada uno y los dos juntos. Con tres instrumentos hay 8: la caja vacía, tres de uno, tres de dos y la banda completa. El vacío y el conjunto completo también cuentan.',
+              rounds: [{ elements: ['x', 'y'] }, { elements: ['1', '2', '3'] }],
+            }, 'Cada elemento entra o no entra en la caja. Con dos hay 4 subconjuntos: $\\varnothing$, uno solo de cada uno y los dos juntos. Con tres hay 8: la caja vacía, tres de uno, tres de dos y el conjunto completo. El vacío y el conjunto completo también cuentan.',
               { hint: 'Organízate por tamaños: primero la caja vacía, luego las de un elemento, luego las de dos… y al final todos juntos. Si una caja se pone roja, está repetida.' }),
             num('En un pasillo hay 4 bombillos, y cada uno puede estar prendido o apagado. ¿De cuántas formas distintas se puede ver el pasillo, contando todos apagados?', 16,
               'Cada forma es el conjunto de bombillos prendidos: un subconjunto de los 4. Por tamaños: ninguno prendido (1), uno (4), dos (6), tres (4) y los cuatro (1): $1 + 4 + 6 + 4 + 1 = 16$. Es lo mismo que duplicar con cada bombillo nuevo: $2 \\cdot 2 \\cdot 2 \\cdot 2 = 16$.',
               { hint: 'Cuenta por tamaños, como en el video: ¿cuántas formas hay con ningún bombillo prendido?, ¿con uno?, ¿con dos?… Y suma todo.' }),
             // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-pradera): relaciones entre conjuntos a contrarreloj.
-            play('revienta-globos', 'Revienta solo los globos que cumplen la misión de cada ronda', {
+            play('revienta-globos', 'Revienta solo las burbujas que cumplen la misión de cada ronda', {
               goal: 4,
               rounds: [
-                { kind: 'sub', A: ['🐶', '🐱', '🐰', '🐸'], sets: [['🐶', '🐱'], ['🐸'], [], ['🐱', '🐰', '🐸'], ['🐶', '🦊'], ['🦁'], ['🐰', '🐷'], ['🐸', '🐶', '🐔']] },
-                { kind: 'igual', A: ['🎸', '🥁', '🎹'], sets: [['🥁', '🎹', '🎸'], ['🎹', '🎸', '🥁'], ['🥁', '🎸', '🎹'], ['🎸', '🎹', '🥁', '🎸'], ['🎸', '🥁'], ['🎸', '🥁', '🎺'], ['🎻', '🎺', '🎷'], ['🎹']] },
-                { kind: 'disj', A: ['🍕', '🍔', '🌮'], sets: [['🍦', '🍩'], ['🍪'], ['🍫', '🍭', '🍩'], [], ['🍕', '🍦'], ['🌮'], ['🍔', '🍟'], ['🍩', '🍕', '🍪']] },
-                { kind: 'unit', sets: [['🌙'], ['☀️'], ['🌈'], ['⭐', '⭐'], ['⭐', '🌙'], [], ['🌧️', '⛈️', '🌈'], ['☀️', '🌙']] },
+                { kind: 'sub', A: ['a', 'b', 'c', 'd'], sets: [['a', 'b'], ['d'], [], ['b', 'c', 'd'], ['a', 'e'], ['f'], ['c', 'g'], ['d', 'a', 'h']] },
+                { kind: 'igual', A: ['1', '2', '3'], sets: [['2', '3', '1'], ['3', '1', '2'], ['2', '1', '3'], ['1', '3', '2', '1'], ['1', '2'], ['1', '2', '4'], ['5', '4', '6'], ['3']] },
+                { kind: 'disj', A: ['x', 'y', 'z'], sets: [['p', 'q'], ['r'], ['s', 't', 'q'], [], ['x', 'p'], ['z'], ['y', 'u'], ['q', 'x', 'r']] },
+                { kind: 'unit', sets: [['α'], ['β'], ['γ'], ['δ', 'δ'], ['δ', 'α'], [], ['ε', 'ζ', 'γ'], ['β', 'α']] },
               ],
-            }, 'Subconjunto de $A$: todos sus elementos están en $A$ (el vacío siempre lo es). Iguales: tienen los mismos elementos, sin importar el orden ni si alguno se escribió dos veces. Disjuntos: no comparten ningún elemento, y el vacío no comparte nada con nadie. Unitario: tiene un solo elemento distinto, así que {⭐, ⭐} también lo es.',
-              { hint: 'Antes de tocar un globo, revisa sus elementos uno por uno contra el conjunto A. Para «subconjunto» basta un intruso para descartarlo; para «disjuntos» basta uno compartido. Dejar pasar un globo no quita vidas.' }),
+            }, 'Subconjunto de $A$: todos sus elementos están en $A$ (el vacío siempre lo es). Iguales: tienen los mismos elementos, sin importar el orden ni si alguno se escribió dos veces. Disjuntos: no comparten ningún elemento, y el vacío no comparte nada con nadie. Unitario: tiene un solo elemento distinto, así que $\\{\\delta, \\delta\\}$ también lo es.',
+              { hint: 'Antes de tocar una burbuja, revisa sus elementos uno por uno contra el conjunto A. Para «subconjunto» basta un intruso para descartarlo; para «disjuntos» basta uno compartido. Dejar pasar una burbuja no quita vidas.' }),
           ],
         },
         {
@@ -236,7 +236,7 @@ const COURSE_ALGEBRA = {
             }, 'Restar dos naturales no siempre da un natural: si al primero le quitas uno más grande, el resultado es negativo. Por ejemplo, $2 - 11 = -9$ y $1 - 8 = -7$. Por eso hacían falta los enteros.',
               { hint: 'Con la resta, ¿qué pasa si al número de la izquierda le quitas uno más grande? Prueba las fichas en ese orden.' }),
             // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-valle).
-            play('buzo-enteros', 'Lleva al buzo a la altura del resultado antes de que lleguen las perlas', {
+            play('buzo-enteros', 'Lleva la sonda a la altura del resultado antes de que lleguen las perlas', {
               min: -6, max: 6,
               rounds: [
                 { title: 'Sube y baja', items: [
@@ -645,7 +645,7 @@ const COURSE_ALGEBRA = {
               step: 0.5, max: 12,
               rounds: [{ w0: 4, h0: 5, w: 8, h: 10 }, { w0: 6, h0: 4, w: 9, h: 6 }, { w0: 2, h0: 5, w: 3, h: 7.5 }],
             }, 'La foto no se deforma si ancho : alto sigue siendo la misma razón: $4 : 5 = 8 : 10$ (los dos por 2), $6 : 4 = 9 : 6$ (los dos por 1.5) y $2 : 5 = 3 : 7.5$ (los dos por 1.5). Sumarle al alto lo mismo que al ancho (de 4 a 8 y de 5 a 9) deja la foto alargada.',
-              { hint: 'No mires cuánto le sumaron al ancho sino **por cuánto se multiplicó**. El alto se multiplica por ese mismo número; mira si el zorrito queda redondo.' }),
+              { hint: 'No mires cuánto le sumaron al ancho sino **por cuánto se multiplicó**. El alto se multiplica por ese mismo número; mira si el círculo sigue redondo.' }),
             num('En un mapa a escala $1 : 200\\,000$ dos pueblos están a 7 cm. ¿A cuántos kilómetros están en la realidad?', 14,
               '$1 : 200\\,000$ quiere decir que 1 cm del mapa son $200\\,000$ cm reales, es decir $2\\,000$ m o 2 km. Entonces 7 cm del mapa son $7 \\cdot 2 = 14$ km.',
               { suffix: 'km', hint: 'Averigua cuántos kilómetros reales representa 1 cm del mapa (1 m tiene 100 cm y 1 km tiene 1000 m). Luego multiplica por la distancia medida en el mapa.' }),
@@ -798,7 +798,7 @@ const COURSE_ALGEBRA = {
               'Los 40 g de alcohol son el $20\\%$ de la mezcla, así que la mezcla pesa $C = \\dfrac{100 \\cdot 40}{20} = 200$ g; el agua es lo que falta: $200 - 40 = 160$ g.',
               { hint: 'El alcohol no cambia: solo agregas agua. Pregúntate de qué peso total son 40 g el 20 % (la quinta parte), y el agua es lo que falta para llegar.' }),
             // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-razones).
-            play('caja-veloz', 'Atiende la caja: escribe el resultado de cada cuenta antes de que el cliente se canse', {
+            play('caja-veloz', 'Atiende la caja: escribe el resultado de cada cuenta antes de que se acabe la paciencia', {
               rounds: [
                 { title: 'Porcentajes fáciles', items: [{ ask: '50 % de 60', answer: 30 }, { ask: '10 % de 90', answer: 9 }, { ask: '25 % de 80', answer: 20 }, { ask: '20 % de 45', answer: 9 }] },
                 { title: 'Un poco más', items: [{ ask: '30 % de 50', answer: 15 }, { ask: '75 % de 40', answer: 30 }, { ask: '5 % de 200', answer: 10 }, { ask: '60 % de 25', answer: 15 }] },
@@ -1241,7 +1241,7 @@ const COURSE_ALGEBRA = {
             num('Una pelota cae desde 6 m y cada rebote sube la mitad del anterior. Si rebotara para siempre, ¿cuántos metros recorrería en total, subiendo y bajando?', 18,
               'Baja 6 m y luego cada rebote sube y baja: $2(3 + 1.5 + 0.75 + \\dots) = 2 \\cdot \\dfrac{3}{1 - \\frac12} = 12$. En total $6 + 12 = 18$ m: una distancia finita aunque los rebotes no terminen.',
               { hint: 'Separa la primera caída de los rebotes. Cada rebote se recorre dos veces (subida y bajada), y sus alturas forman una geométrica de razón un medio.' }),
-            play('rana-zenon', 'Cada salto de la rana es el anterior multiplicado por una misma razón. Toca el estanque para saltar y luego la **bandera** de la respuesta', {
+            play('rana-zenon', 'Cada salto del marcador es el anterior multiplicado por una misma razón. Toca el estanque para saltar y luego la **bandera** de la respuesta', {
               rounds: [
                 { title: 'Sumas cortas', items: [
                   { a1: 8, r: [1, 2], n: 3, flags: ['14', '15', '16'], answer: 0, max: 18 },
@@ -1260,7 +1260,7 @@ const COURSE_ALGEBRA = {
                 ] },
               ],
             }, 'Con una cantidad fija de saltos se suman esos términos y ya. Sin parar, si la razón está entre $-1$ y $1$, la suma se acerca a $S = \\dfrac{a_1}{1 - r}$ y nunca lo pasa: cada salto cubre solo una parte de lo que falta.',
-              { hint: 'Fíjate en cuánto le falta a la rana para cada bandera después de cada salto: a una se le acerca cada vez más sin tocarla.' }),
+              { hint: 'Fíjate en cuánto le falta al marcador para cada bandera después de cada salto: a una se le acerca cada vez más sin tocarla.' }),
           ],
         },
         {

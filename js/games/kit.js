@@ -5,24 +5,24 @@
 const GAMES = {};
 
 // Colores de los juegos en cada tema: un tono por familia de números y los del lienzo.
-// Son los de los videos zoom de las lecciones (video/*-zoom/flat.js): azul noche, crema, sol, coral,
-// menta y azul. En el tema claro el papel es frío (azul muy claro, no crema: sobre crema las piezas amarillas
+// Estilo «estudio» (spec 2026-11-25-juegos-sobrios): tinta azul profunda o papel azul muy claro, con los papeles
+// de los videos (sol, coral, menta, cielo, violeta) menos saturados y bien separados; la ficha neutra es blanco frío. En el tema claro el papel es frío (azul muy claro, no crema: sobre crema las piezas amarillas
 // se perdían; spec 2026-11-16-guia-y-colores) y los mismos tonos van más oscuros para leerse.
-// sun, coral, mint, sky, cream, night: rellenos de adorno (fichas, confeti); star y halo: el fondo.
+// sun, coral, mint, sky, cream, night: rellenos (fichas, confeti); star: líneas mayores del papel milimetrado; halo: superficie tenue.
 const PALETTES = {
   dark: {
-    N: '#FFC84A', Z: '#56CCF2', Q: '#3FD8AE', I: '#FF6B5E', R: '#C3A6FF',
-    brand: '#5B8CFF', bg: '#1D2052', card: '#272C68', line: '#444B96',
-    ink: '#FFF4E2', mute: '#A7ACE0', ok: '#2FE08F', bad: '#FF5A74',
-    sun: '#FFC84A', coral: '#FF6B5E', mint: '#3FD8AE', sky: '#4D7CFE', cream: '#FFF4E2', creamD: '#E6CFA8', night: '#1D2052',
-    star: '#9298D4', halo: '#252A63',
+    N: '#F7C85A', Z: '#6CC6FF', Q: '#5EE0C1', I: '#FF7A7A', R: '#B79CFF',
+    brand: '#6C8CFF', bg: '#121633', card: '#1C2249', line: '#3B4480',
+    ink: '#EEF1FF', mute: '#9AA2D0', ok: '#4ADE9B', bad: '#FF6B81',
+    sun: '#F7C85A', coral: '#FF6B6B', mint: '#5EE0C1', sky: '#6C9CFF', cream: '#E9ECF8', creamD: '#AEB5D3', night: '#121633',
+    star: '#2E3668', halo: '#20264F',
   },
   light: {
-    N: '#A86F00', Z: '#1479C9', Q: '#0B8A61', I: '#E0453A', R: '#6A4BE6',
-    brand: '#3A5FD9', bg: '#EEF1FB', card: '#FFFFFF', line: '#C6CFEA',
-    ink: '#1D2052', mute: '#5B6090', ok: '#0F9A5C', bad: '#D8314F',
-    sun: '#FFB627', coral: '#FF6B5E', mint: '#22B38C', sky: '#4D7CFE', cream: '#FFFFFF', creamD: '#CFD6EC', night: '#1D2052',
-    star: '#AFBCE8', halo: '#DEE5F8',
+    N: '#9A6400', Z: '#1466B8', Q: '#0B7D5C', I: '#C9403A', R: '#5B44D2',
+    brand: '#3C5BD8', bg: '#F2F4F9', card: '#FFFFFF', line: '#D2D8EA',
+    ink: '#141833', mute: '#59608A', ok: '#0F9A5C', bad: '#D23A55',
+    sun: '#F2BC3B', coral: '#EC5F68', mint: '#2BB894', sky: '#4C7FF0', cream: '#FFFFFF', creamD: '#CBD2E6', night: '#141833',
+    star: '#D9DFEE', halo: '#E6EAF4',
   },
 };
 // `api.palette` de todos los juegos: el mismo objeto cambia de valores con el tema, y como los
@@ -46,7 +46,7 @@ const reducedMotion = () => typeof matchMedia === 'function' && matchMedia('(pre
 function inkOn(hex, fallback = '#FFFFFF') {
   if (typeof hex !== 'string' || !/^#[0-9a-f]{6}$/i.test(hex)) return fallback;
   const v = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(c => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
-  return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2] > 0.215 ? '#1D2052' : '#FFFFFF';   // 0.215: donde el azul noche empieza a contrastar más que el blanco
+  return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2] > 0.215 ? '#141833' : '#FFFFFF';   // 0.215: donde el azul noche empieza a contrastar más que el blanco
 }
 
 // Anima los valores de un objeto con anime.js (js/vendor/anime.min.js). Sin anime (pruebas) o con
@@ -56,28 +56,29 @@ function fxTween(target, props, opts = {}) {
   return anime({ targets: target, duration: 420, easing: 'easeOutCubic', ...props, ...opts });
 }
 
-// Estrellas del fondo: puntos fijos (siempre los mismos para un tamaño de lienzo), con su fase de titileo.
-function backdropDots(w, h) {
-  let s = 20261113;
-  const rnd = () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; };
-  const n = Math.round(w * h / 5200);
-  return Array.from({ length: n }, () => ({ x: +(rnd() * w).toFixed(1), y: +(rnd() * h).toFixed(1), r: +(0.7 + rnd() * 1.5).toFixed(2), ph: +(rnd() * 6.28).toFixed(2) }));
+// Papel milimetrado del fondo: líneas finas cada 16 px y marcadas cada 64 px (siempre las mismas para un tamaño).
+function backdropGrid(w, h) {
+  const minor = [], major = [];
+  for (let x = 16; x < w; x += 16) (x % 64 ? minor : major).push({ x1: x, y1: 0, x2: x, y2: h });
+  for (let y = 16; y < h; y += 16) (y % 64 ? minor : major).push({ x1: 0, y1: y, x2: w, y2: y });
+  return { minor, major };
 }
-// Fondo de los videos: color del tema, dos halos de círculos en las esquinas y estrellas que titilan.
+// Fondo del estudio: el color del tema, un brillo suave arriba y el papel milimetrado. No se mueve.
 const BACKDROPS = new WeakMap();
 function drawBackdrop(p) {
   const ctx = p.drawingContext, W = p.width, H = p.height, C = PALETTE;
   if (!ctx?.save) return;
   let b = BACKDROPS.get(p);
-  if (!b || b.w !== W || b.h !== H) BACKDROPS.set(p, b = { w: W, h: H, dots: backdropDots(W, H), still: reducedMotion() });
-  const d = typeof p.pixelDensity === 'function' ? p.pixelDensity() : 1, t = b.still ? 0 : performance.now() / 1000;
-  const disc = (x, y, r) => { ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill(); };
+  if (!b || b.w !== W || b.h !== H) BACKDROPS.set(p, b = { w: W, h: H, grid: backdropGrid(W, H) });
+  const d = typeof p.pixelDensity === 'function' ? p.pixelDensity() : 1;
   ctx.save(); ctx.setTransform(d, 0, 0, d, 0, 0);
-  ctx.fillStyle = C.halo;
-  ctx.globalAlpha = 0.55; disc(W + 6, H * 0.2, 116); disc(-10, H + 6, 96);
-  ctx.globalAlpha = 0.5; disc(W + 6, H * 0.2, 72); disc(-10, H + 6, 56);
-  ctx.fillStyle = C.star;
-  for (const o of b.dots) { ctx.globalAlpha = b.still ? 0.45 : 0.3 + 0.3 * (1 + Math.sin(t * 1.4 + o.ph)) / 2 + 0.1; disc(o.x, o.y, o.r); }
+  if (ctx.createRadialGradient) {
+    const g = ctx.createRadialGradient(W / 2, -H * 0.15, 10, W / 2, -H * 0.15, H * 0.95);
+    g.addColorStop(0, C.brand); g.addColorStop(1, C.bg);
+    ctx.globalAlpha = 0.12; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  }
+  const lines = (list, col, a) => { ctx.globalAlpha = a; ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.beginPath(); for (const l of list) { ctx.moveTo(l.x1 + 0.5, l.y1 + 0.5); ctx.lineTo(l.x2 + 0.5, l.y2 + 0.5); } ctx.stroke(); };
+  lines(b.grid.minor, C.line, 0.28); lines(b.grid.major, C.star, 0.75);
   ctx.restore();
 }
 
@@ -85,7 +86,7 @@ function drawBackdrop(p) {
 function drawRipples(p, list) {
   if (!list.length) return;
   const ctx = p.drawingContext, d = typeof p.pixelDensity === 'function' ? p.pixelDensity() : 1;
-  ctx.save(); ctx.setTransform(d, 0, 0, d, 0, 0); ctx.strokeStyle = inkOn(PALETTE.bg) === '#FFFFFF' ? PALETTE.sun : PALETTE.coral; ctx.lineWidth = 2.5;   // sol sobre la noche, coral sobre el crema
+  ctx.save(); ctx.setTransform(d, 0, 0, d, 0, 0); ctx.strokeStyle = PALETTE.brand; ctx.lineWidth = 1.5;
   for (const r of list) { ctx.globalAlpha = Math.max(0, r.a); ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, 6.2832); ctx.stroke(); }
   ctx.restore();
 }
@@ -96,7 +97,7 @@ function confettiBits(n) {
   const colors = ['sun', 'coral', 'mint', 'sky'], shapes = ['dot', 'sq', 'tri'];
   return Array.from({ length: n }, (_, i) => {
     const a = (i / n) * 2 * Math.PI + (Math.random() - 0.5) * 0.5, d = 60 + Math.random() * 120;
-    return { dx: Math.round(Math.cos(a) * d), dy: Math.round(Math.sin(a) * d * 0.85 - 10), rot: Math.round((Math.random() - 0.5) * 540), size: 7 + Math.round(Math.random() * 7), color: colors[i % colors.length], shape: shapes[(i * 7 + (i >> 2)) % shapes.length] };
+    return { dx: Math.round(Math.cos(a) * d), dy: Math.round(Math.sin(a) * d * 0.85 - 10), rot: Math.round((Math.random() - 0.5) * 540), size: 4 + Math.round(Math.random() * 4), color: colors[i % colors.length], shape: shapes[(i * 7 + (i >> 2)) % shapes.length] };
   });
 }
 // Celebración sobre el recuadro del juego al acertar: un aro que crece y confeti que sale del centro.
@@ -105,7 +106,7 @@ function playFx(box, ok) {
   const layer = document.createElement('div');
   layer.className = 'play-fx';
   const ring = document.createElement('i'); ring.className = 'fx-ring'; layer.appendChild(ring);
-  const bits = confettiBits(20).map(b => {
+  const bits = confettiBits(14).map(b => {
     const el = document.createElement('i');
     el.className = `fx-bit ${b.shape}`;
     el.style.width = el.style.height = b.size + 'px';
@@ -359,9 +360,9 @@ function drawTabs(p, C, tabs, cur, colorOf) {
   tabs.forEach((tb, i) => {
     const col = colorOf(i), on = i === cur, plain = col === C.line, k = on ? fx.k : 1;
     const w = tb.w * k, h = tb.h * k, x = tb.x + (tb.w - w) / 2, y = tb.y + (tb.h - h) / 2;
-    if (on) { p.noFill(); p.stroke(C.sun); p.strokeWeight(2.5); p.rect(x - 3, y - 3, w + 6, h + 6, 11); }
-    if (plain) { p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); } else { p.noStroke(); p.fill(col); }
-    p.rect(x, y, w, h, 8);
+    if (on) { p.noFill(); p.stroke(C.brand); p.strokeWeight(1.5); p.rect(x - 3, y - 3, w + 6, h + 6, 9); }
+    if (plain) { p.stroke(C.line); p.strokeWeight(1); p.fill(C.card); } else { p.noStroke(); p.fill(col); }
+    p.rect(x, y, w, h, 7);
     p.noStroke(); p.fill(plain ? C.mute : inkOn(col, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(14); p.text(i + 1, tb.x + tb.w / 2, tb.y + tb.h / 2);
   });
 }
@@ -390,12 +391,14 @@ function shade(hex, k) {
 }
 // Ficha: bloque relleno con un labio más oscuro abajo (relieve plano) y el texto encima, con la tinta
 // que se lee sobre el relleno. o = { fill, ink, r, lift, size, ring (aro de selección), k (escala) }.
+let HILITE = null;   // filo de luz de las fichas (blanco translúcido), creado una sola vez
 function drawTile(p, C, b, txt, o = {}) {
-  const fill = o.fill ?? C.cream, r = o.r ?? 10, lift = o.lift ?? 3, k = o.k ?? 1;
+  const fill = o.fill ?? C.cream, r = o.r ?? 8, lift = o.lift ?? 2, k = o.k ?? 1;
   const w = b.w * k, h = b.h * k, x = b.x + (b.w - w) / 2, y = b.y + (b.h - h) / 2;
   if (o.ring) { p.noFill(); p.stroke(o.ring); p.strokeWeight(2.5); p.rect(x - 3, y - 3, w + 6, h + 6 + lift, r + 3); }
   p.noStroke(); p.fill(o.lip ?? (fill === C.cream ? C.creamD : shade(fill, 0.74))); p.rect(x, y + lift, w, h, r);
-  p.fill(fill); p.rect(x, y, w, h, r);
+  p.fill(fill); if (fill === C.cream) { p.stroke(C.creamD); p.strokeWeight(1); } p.rect(x, y, w, h, r); p.noStroke();
+  if (h > 14 && w > r * 2 + 4 && fill !== C.cream && typeof p.color === 'function') { HILITE ||= p.color(255, 255, 255, 46); p.fill(HILITE); p.rect(x + r * 0.6, y + 1.5, w - r * 1.2, Math.min(4, h / 6), 2); }
   if (txt != null && txt !== '') {
     p.fill(o.ink ?? inkOn(fill, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
     fitText(p, String(txt), b.x + b.w / 2, b.y + b.h / 2 + 1, w - 8, o.size ?? 17, h - 6);   // una fracción no se sale de la ficha
@@ -453,21 +456,26 @@ function drawNumLine(p, C, L, o = {}) {
 function drawHearts(p, C, x, y, left, max = 3) {
   p.noStroke();
   for (let i = 0; i < max; i++) {
-    const cx = x - 9 - (max - 1 - i) * 21;
-    p.fill(i < left ? C.coral : C.line);
-    p.circle(cx - 4, y - 2, 9.5); p.circle(cx + 4, y - 2, 9.5); p.triangle(cx - 8.6, y + 0.4, cx + 8.6, y + 0.4, cx, y + 9.5);
-    // La vida perdida va además tachada: no depende solo del color.
-    if (i >= left) { p.stroke(C.mute); p.strokeWeight(2); p.line(cx - 8, y + 8, cx + 8, y - 6); p.noStroke(); }
+    const cx = x - 7 - (max - 1 - i) * 17, s = 0.78, on = i < left;
+    // Corazón con dos arcos y una punta; la vida perdida queda hueca y tachada: no depende solo del color.
+    if (on) { p.noStroke(); p.fill(C.coral); } else { p.noFill(); p.stroke(C.mute); p.strokeWeight(1.3); }
+    p.beginShape(); p.vertex(cx, y + 9 * s);
+    p.bezierVertex(cx - 11 * s, y + 1 * s, cx - 9 * s, y - 9 * s, cx, y - 4 * s); p.bezierVertex(cx + 9 * s, y - 9 * s, cx + 11 * s, y + 1 * s, cx, y + 9 * s);
+    p.endShape(p.CLOSE);
+    if (!on) { p.stroke(C.mute); p.strokeWeight(1.3); p.line(cx - 6, y + 6, cx + 6, y - 6); }
+    p.noStroke();
   }
 }
-// Cartel centrado sobre el juego («Toca para empezar», «¡Ronda lista!», «Otra vez»): tarjeta con borde de color.
+// Cartel centrado sobre el juego («Toca para empezar», «¡Ronda lista!», «Otra vez»): tarjeta con borde fino y una
+// barra de color a la izquierda, como los rótulos de los videos.
 function drawBanner(p, C, title, sub, cy, col) {
-  const w = Math.min(p.width - 36, 270), h = sub ? 78 : 54, x = (p.width - w) / 2, y = cy - h / 2;
-  p.noStroke(); p.fill(shade(C.card, 0.8)); p.rect(x, y + 4, w, h, 16);
-  p.stroke(col ?? C.sun); p.strokeWeight(3); p.fill(C.card); p.rect(x, y, w, h, 16);
-  p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
-  fitText(p, title, p.width / 2, sub ? cy - 13 : cy, w - 24, 18);
-  if (sub) { p.fill(C.mute); p.textStyle(p.NORMAL); fitText(p, sub, p.width / 2, cy + 15, w - 24, 12); }
+  const w = Math.min(p.width - 36, 270), h = sub ? 74 : 52, x = (p.width - w) / 2, y = cy - h / 2;
+  const sh = p.color('#000000'); sh.setAlpha(60); p.noStroke(); p.fill(sh); p.rect(x + 2, y + 6, w - 4, h, 14);
+  p.stroke(C.line); p.strokeWeight(1); p.fill(C.card); p.rect(x, y, w, h, 14);
+  p.noStroke(); p.fill(col ?? C.brand); p.rect(x + 12, y + 14, 3, h - 28, 2);
+  p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
+  fitText(p, title, p.width / 2 + 4, sub ? cy - 12 : cy, w - 44, 17);
+  if (sub) { p.fill(C.mute); p.textStyle(p.NORMAL); fitText(p, sub, p.width / 2 + 4, cy + 14, w - 44, 12); }
 }
 
 // Base de un juego dinámico por rondas (spec 2026-11-13-juegos-dinamicos-valle). Lleva la fase («idle» espera el
@@ -523,8 +531,8 @@ const negTxt = v => String(v).replace('-', '−');
 const sup = n => String(n).replace(/-/g, '⁻').replace(/\d/g, d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]);
 // Control «− valor +» dentro de la caja b: la dibuja (con un rótulo pequeño encima) y dice qué botón se tocó.
 function drawStepper(p, C, b, value, label, col) {
-  drawTile(p, C, { x: b.x, y: b.y, w: 40, h: b.h }, '−', { fill: C.cream, size: 20, r: 9, lift: 2 });
-  drawTile(p, C, { x: b.x + b.w - 40, y: b.y, w: 40, h: b.h }, '+', { fill: C.cream, size: 20, r: 9, lift: 2 });
+  drawTile(p, C, { x: b.x, y: b.y, w: 40, h: b.h }, '−', { fill: C.cream, size: 20, r: 8, lift: 2 });
+  drawTile(p, C, { x: b.x + b.w - 40, y: b.y, w: 40, h: b.h }, '+', { fill: C.cream, size: 20, r: 8, lift: 2 });
   p.noStroke(); p.fill(col ?? C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, String(value), b.x + b.w / 2, b.y + b.h / 2 + 1, b.w - 92, 20);
   if (label) { p.fill(C.mute); p.textStyle(p.BOLD); fitText(p, label, b.x + b.w / 2, b.y - 10, b.w, 11); }
 }
@@ -668,7 +676,7 @@ function questGame(def) {
   return { grade, create, ok: def.ok, answer: def.answer, init: def.init };
 }
 // Botón de un juego (ficha con texto); `on`: resaltado.
-function drawBtn(p, C, b, txt, on, col) { drawTile(p, C, b, txt, { fill: col ?? (on ? C.mint : C.sky), size: 14, r: 12 }); }
+function drawBtn(p, C, b, txt, on, col) { drawTile(p, C, b, txt, { fill: col ?? (on ? C.mint : C.sky), size: 14, r: 10 }); }
 
 // ---------- Ayudas de los juegos de Trigonometría (spec 2026-11-22-trigonometria-juegos) ----------
 // Ángulos, fracciones de π en TeX, valores notables, circunferencia, filas de botones, toques de − / + y lados de triángulos.

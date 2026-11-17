@@ -69,10 +69,10 @@ GAMES['buzo-enteros'] = (() => {
 
       function drawDiver() {
         const x = diver.x, y = diver.y;
-        p.noStroke(); p.fill(C.coral); p.ellipse(x - 6, y + 2, 26, 15);                 // cuerpo
-        p.fill(shade(C.coral, 0.74)); p.triangle(x - 19, y + 2, x - 28, y - 6, x - 28, y + 10);   // aletas
-        p.fill(C.cream); p.circle(x + 7, y, 15);                                          // cabeza
-        p.fill(C.sky); p.circle(x + 10, y - 1, 8);                                        // visor
+        // La sonda: cápsula con borde fino, una franja de color y su luz al frente; una línea marca su altura.
+        p.stroke(C.coral); p.strokeWeight(1.5); p.fill(C.card); p.rect(x - 20, y - 8, 34, 16, 8);
+        p.noStroke(); p.fill(C.coral); p.rect(x - 14, y - 2, 14, 4, 2);
+        const lamp = p.color(C.sky); lamp.setAlpha(90); p.fill(lamp); p.circle(x + 12, y, 13); p.fill(C.sky); p.circle(x + 12, y, 6);
       }
 
       p.draw = () => {
@@ -114,7 +114,7 @@ GAMES['buzo-enteros'] = (() => {
         arcadeToast(p, C, a, W / 2, H - 17, locked);
         const mid = (top + bottom) / 2;
         if (locked || a.phase === 'all') drawArcadeSummary(p, C, R.map((rr, i) => ({ ok: st.done[i] >= rr.items.length, text: `${rr.title}: ${Math.min(st.done[i], rr.items.length)} de ${rr.items.length}` })), mid);
-        else drawArcadeBanner(p, C, a, mid, { idle: 'Sube o baja al buzo con el dedo', lost: 'Demasiadas perlas equivocadas' });
+        else drawArcadeBanner(p, C, a, mid, { idle: 'Sube o baja la sonda con el dedo', lost: 'Demasiadas perlas equivocadas' });
         if (!a.toast || locked || a.phase === 'idle' || a.phase === 'all') {
           p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
           p.text(locked || a.phase === 'all' ? '¡Perlas recogidas! Ya puedes comprobar' : 'Ponte a la altura del resultado', W / 2, H - 16);

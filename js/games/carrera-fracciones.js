@@ -147,7 +147,7 @@ GAMES['carrera-fracciones'] = (() => {
         }
         bits.forEach(b => { const c = p.color(b.col); c.setAlpha(255 * Math.min(1, b.t * 1.5)); p.noStroke(); p.fill(c); p.rect(b.x - b.s / 2, b.y - b.s / 2, b.s, b.s, 2); });
 
-        // El corredor: cuadradito color sol con ojos y piernas; con racha deja estela.
+        // El corredor: un bloque color sol con piernas; con racha deja estela.
         const moving = a.phase === 'play' && !(row && row.state === 'waiting'), bob = moving ? Math.abs(Math.sin(run)) * 3 : 0, x = runX, y = runY - bob;
         if (moving && streak >= 2) for (let k = 1; k <= 3; k++) { const c = p.color(k % 2 ? C.sun : C.coral); c.setAlpha(110 - k * 28); p.noStroke(); p.fill(c); p.rect(x - 11 + k, y + 14 + k * 11, 22 - k * 2, 8, 4); }
         const g = p.color(C.night); g.setAlpha(60); p.noStroke(); p.fill(g); p.ellipse(x, runY + 21, 30 - bob * 2, 7);
@@ -155,7 +155,7 @@ GAMES['carrera-fracciones'] = (() => {
         p.fill(shade(C.sun, 0.6)); p.rect(x - 10, y + 12, 7, 8 + leg, 3); p.rect(x + 3, y + 12, 7, 8 - leg, 3);
         p.fill(shade(C.sun, 0.74)); p.rect(x - 15, y - 11, 30, 28, 9);
         p.fill(C.sun); p.rect(x - 15, y - 15, 30, 28, 9);
-        p.fill(C.night); p.circle(x - 5, y - 4, 5); p.circle(x + 5, y - 4, 5);
+        p.fill(shade(C.sun, 0.74)); p.rect(x - 9, y - 6, 18, 3, 2);
         if (a.phase === 'play' && streak >= 2) drawPill(p, C, `×${streak}`, x + (lane === 2 ? -30 : 30), y - 2, C.coral, 11);   // al lado: no tapa la puerta que llega
         p.pop();
 

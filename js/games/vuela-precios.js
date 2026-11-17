@@ -73,12 +73,11 @@ GAMES['vuela-precios'] = (() => {
           p.noFill(); p.stroke(c); p.strokeWeight(6); p.ellipse(col.x, cy, 30, RING * 2 - 6);
           drawPill(p, C, opt, col.x + 42 > W - 30 ? col.x : col.x + 42, cy, c, 14);
         });
-        // El pajarito: cuerpo color sol, ala que sube al aletear, ojo y pico.
+        // El planeador: cuerpo color sol, ala que sube al aletear y nariz.
         const y = bird.y, flap = bird.vy < -60;
         p.noStroke(); p.fill(shade(C.sun, 0.74)); p.ellipse(BX, y + 3, 30, 24);
         p.fill(C.sun); p.ellipse(BX, y, 30, 24);
         p.fill(shade(C.sun, 0.84)); p.ellipse(BX - 6, y + (flap ? -7 : 5), 16, 10);
-        p.fill(C.night); p.circle(BX + 7, y - 4, 5);
         p.fill(C.coral); p.triangle(BX + 13, y - 1, BX + 22, y + 2, BX + 13, y + 5);
 
         // Encabezado: ronda, vidas y la cuenta.

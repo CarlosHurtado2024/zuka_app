@@ -91,8 +91,7 @@ GAMES['salta-signos'] = (() => {
         p.noStroke(); p.fill(C.line); p.ellipse(RX, ground + 3, 26 - hgt * 0.12, 6);
         p.fill(shade(C.coral, 0.74)); p.rect(RX - 14, y - 11 - bob, 28, 30, 9);
         p.fill(C.coral); p.rect(RX - 14, y - 15 - bob, 28, 30, 9);
-        p.fill(C.cream); p.circle(RX + 2, y - 4 - bob, 6); p.circle(RX + 10, y - 4 - bob, 6);
-        p.fill(C.night); p.circle(RX + 3, y - 4 - bob, 3); p.circle(RX + 11, y - 4 - bob, 3);
+        p.fill(shade(C.coral, 0.74)); p.rect(RX - 8, y - 6 - bob, 16, 3, 2);
 
         // Encabezado: ronda, vidas y la misión.
         drawArcadeHead(p, C, a, R.length);

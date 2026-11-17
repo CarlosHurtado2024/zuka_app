@@ -28,11 +28,11 @@ function gText(ctx, txt, x, y, size, col, maxW = 280, weight = 700) {
 }
 // Ficha centrada en (x, y) con labio; sin relleno propio usa la tarjeta del tema con borde.
 function gTile(ctx, C, x, y, w, h, txt, fill, o = {}) {
-  const f = fill || C.card, r = o.r ?? 10;
-  if (o.ring) { ctx.strokeStyle = o.ring; ctx.lineWidth = 2.5; gBox(ctx, x - w / 2 - 3, y - h / 2 - 3, w + 6, h + 9, r + 3); ctx.stroke(); }
-  ctx.fillStyle = fill ? shade(f, 0.74) : C.line; gBox(ctx, x - w / 2, y - h / 2 + 3, w, h, r); ctx.fill();
+  const f = fill || C.card, r = o.r ?? 8;
+  if (o.ring) { ctx.strokeStyle = o.ring; ctx.lineWidth = 1.5; gBox(ctx, x - w / 2 - 3, y - h / 2 - 3, w + 6, h + 8, r + 3); ctx.stroke(); }
+  ctx.fillStyle = fill ? shade(f, 0.74) : C.line; gBox(ctx, x - w / 2, y - h / 2 + 2, w, h, r); ctx.fill();
   ctx.fillStyle = f; gBox(ctx, x - w / 2, y - h / 2, w, h, r); ctx.fill();
-  if (!fill) { ctx.strokeStyle = C.line; ctx.lineWidth = 1.5; gBox(ctx, x - w / 2, y - h / 2, w, h, r); ctx.stroke(); }
+  if (!fill) { ctx.strokeStyle = C.line; ctx.lineWidth = 1; gBox(ctx, x - w / 2, y - h / 2, w, h, r); ctx.stroke(); }
   if (txt != null && txt !== '') gText(ctx, txt, x, y, o.size ?? 16, fill ? inkOn(f, C.ink) : C.ink, w - 8);
 }
 function gPill(ctx, C, txt, x, y, col, size = 12) {
@@ -430,7 +430,7 @@ const GUIDES = {
   'bodegas': [['slide', 'Arrastra el divisor para repartir los sacos; al soltar, una parte viaja de A a B.', {}]],
   'bolsa-razon': [['step', 'Pon o quita bolas de cada color con − / + hasta que la bolsa cumpla la razón.', { from: 2, to: 3, label: 'rojas' }]],
   'brazo-robot': [['drag', 'Arrastra la pinza para doblar el codo (o ajusta con − / +) hasta la gema.', { dot: true }]],
-  'buzo-enteros': [['slide', 'Arrastra al buzo arriba o abajo y espera, a la altura del resultado, a que llegue su perla.', { vert: true }]],
+  'buzo-enteros': [['slide', 'Arrastra la sonda arriba o abajo y espera, a la altura del resultado, a que llegue su perla.', { vert: true }]],
   'cadena-cambios': [['tap', 'Toca dos sellos de la bandeja: la etiqueta muestra el precio después de cada uno.', { items: ['+10 %', '−50 %', '+20 %'], pick: [0, 1] }]],
   'cadena-razones': [['tap', 'Toca una tarjeta para voltear su fracción; el resultado se recalcula solo.', { items: ['9/7', '3/4'], pick: [0] }]],
   'caja-veloz': [['keys', 'Escribe el resultado en el teclado y toca OK.', { text: '20' }]],
@@ -534,7 +534,7 @@ const GUIDES = {
   'porcentaje-cambio': [['step', 'Con −10, −1, +1 y +10 fija cuánto cambió, medido sobre el valor de antes.', { from: 9, to: 12, label: '%' }]],
   'proyector-sombras': [['slide', 'Arrastra los corchetes del riel: marcan la sombra de la gráfica sobre cada eje.', {}], ['tap', 'Toca un corchete para cambiarlo entre extremo lleno y vacío.', { items: ['[', '('], pick: [1] }]],
   'raices-imanes': [['slide', 'Desliza los imanes por el eje x hasta las raíces; dos juntos hacen una raíz doble.', {}]],
-  'rana-zenon': [['touch', 'Cada toque en el estanque es un salto: mira la suma que lleva la rana.', { label: 'salto' }], ['tap', 'Toca la bandera donde cae (o a la que se acerca sin llegar nunca).', { items: ['⚑', '⚑', '⚑'], pick: [1] }]],
+  'rana-zenon': [['touch', 'Cada toque en el estanque es un salto: mira la suma que lleva el marcador.', { label: 'salto' }], ['tap', 'Toca la bandera donde cae (o a la que se acerca sin llegar nunca).', { items: ['⚑', '⚑', '⚑'], pick: [1] }]],
   'rebota-pelota': [['slide', 'Arrastra cada pelota (o usa − / +) hasta la altura de su rebote.', { vert: true }]],
   'rebote': [['slide', 'Arrastra el «% de subida» hasta volver al precio original.', { label: '%' }]],
   'recta-espejo': [['slide', 'Toca o arrastra sobre la recta para poner el punto; su reflejo sale al otro lado del 0.', {}]],
@@ -545,7 +545,7 @@ const GUIDES = {
   'reparto': [['slide', 'Arrastra los dos separadores: la barra se parte en tres montos.', {}]],
   'resortera-tres': [['fling', 'Arrastra hacia atrás para estirar (se ve el número) y suelta.', { back: true }]],
   'resta-corrida': [['tap', 'Toca las columnas que tienen dos números iguales para tacharlos.', { items: ['6', '18', '54'], pick: [0, 1] }]],
-  'revienta-globos': [['tap', 'Toca los globos cuyo conjunto cumple la misión de la ronda.', { items: ['{a}', '{a, b}', '∅'], pick: [0] }]],
+  'revienta-globos': [['tap', 'Toca las burbujas cuyo conjunto cumple la misión de la ronda.', { items: ['{a}', '{a, b}', '∅'], pick: [0] }]],
   'rieles-paralelos': [['turn', 'Gira el riel con su manija (o con ◀ ▶) hasta dejarlo como pide la ronda.', {}]],
   'rompe-cambios': [['slide', 'Mueve la paleta con el dedo; al soltar, la pelota sale hacia arriba.', { label: 'paleta' }]],
   'rueda-angulo': [['turn', 'Gira el lado terminal arrastrando su punta; los botones ajustan de a un paso.', {}]],

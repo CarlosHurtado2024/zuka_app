@@ -93,11 +93,11 @@ GAMES['revienta-globos'] = (() => {
           for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4; p.circle(x + Math.cos(a) * b.w * (0.4 + q * 0.5), y + Math.sin(a) * b.w * (0.4 + q * 0.5), 6 * (1 - q)); }
           return;
         }
-        p.stroke(C.mute); p.strokeWeight(1.5); p.noFill(); p.bezier(x, y + b.h / 2 + 6, x - 6, y + b.h / 2 + 18, x + 6, y + b.h / 2 + 28, x, y + b.h / 2 + 40);
-        p.noStroke(); p.fill(shade(col, 0.8)); p.triangle(x - 6, y + b.h / 2 + 7, x + 6, y + b.h / 2 + 7, x, y + b.h / 2 - 3);
-        p.fill(col); p.ellipse(x, y, b.w, b.h);
-        p.fill(255, 255, 255, 70); p.ellipse(x - b.w * 0.2, y - b.h * 0.24, b.w * 0.2, b.h * 0.16);
-        p.fill(b.state === 'no' ? C.mute : inkOn(col, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
+        // Cápsula: cuerpo translúcido del color de la ronda, aro fino y el conjunto escrito con la tinta del tema.
+        const body = p.color(col); body.setAlpha(b.state === 'no' ? 40 : 70);
+        p.noStroke(); p.fill(body); p.ellipse(x, y, b.w, b.h * 0.86);
+        p.noFill(); p.stroke(col); p.strokeWeight(1.6); p.ellipse(x, y, b.w, b.h * 0.86);
+        p.noStroke(); p.fill(b.state === 'no' ? C.mute : C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
         fitText(p, setText(b.set), x, y + 1, b.w - 12, 15);
       }
 
@@ -124,12 +124,12 @@ GAMES['revienta-globos'] = (() => {
         if (locked || phase === 'all') {
           p.noStroke(); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
           R.forEach((rr, i) => { p.fill(st.pops[i] >= GOAL ? C.ok : C.mute); fitText(p, `${KIND[rr.kind].short}: ${Math.min(st.pops[i], GOAL)} de ${GOAL}`, W / 2, mid - (R.length - 1) * 13 + i * 26, W - 28, 14); });
-        } else if (phase === 'idle') drawBanner(p, C, 'Toca para empezar', 'Toca solo los globos que cumplen la misión', mid);
-        else if (phase === 'lost') drawBanner(p, C, 'Demasiados globos equivocados', 'Toca para intentar otra vez', mid, C.coral);
+        } else if (phase === 'idle') drawBanner(p, C, 'Toca para empezar', 'Toca solo las burbujas que cumplen la misión', mid);
+        else if (phase === 'lost') drawBanner(p, C, 'Demasiadas burbujas equivocadas', 'Toca para intentar otra vez', mid, C.coral);
         else if (phase === 'won') drawBanner(p, C, '¡Ronda lista!', null, mid, C.ok);
 
         p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
-        if (locked || phase === 'all') p.text('¡Todos reventados! Ya puedes comprobar', W / 2, H - 14);
+        if (locked || phase === 'all') p.text('¡Todas reventadas! Ya puedes comprobar', W / 2, H - 14);
         // Terminado o calificado: se deja de dibujar (no gasta batería); queda el último cuadro.
         if ((locked || phase === 'all') && !stopped) { stopped = true; p.noLoop(); }
       };

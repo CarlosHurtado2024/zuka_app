@@ -8,7 +8,7 @@ const { loadScripts, get, ROOT } = require('./load');
 
 const ctx = loadScripts(['js/games/kit.js']);
 const PALETTES = get(ctx, 'PALETTES'), PALETTE = get(ctx, 'PALETTE');
-const inkOn = get(ctx, 'inkOn'), backdropDots = get(ctx, 'backdropDots'), fxTween = get(ctx, 'fxTween');
+const inkOn = get(ctx, 'inkOn'), backdropGrid = get(ctx, 'backdropGrid'), fxTween = get(ctx, 'fxTween');
 const confettiBits = get(ctx, 'confettiBits'), drawTabs = get(ctx, 'drawTabs'), roundTabs = get(ctx, 'roundTabs');
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 
@@ -16,24 +16,24 @@ test('la paleta trae los colores de los videos en los dos temas', () => {
   for (const theme of ['dark', 'light']) for (const k of ['sun', 'coral', 'mint', 'sky', 'cream', 'night', 'star', 'halo']) {
     assert.match(PALETTES[theme][k], /^#[0-9A-Fa-f]{6}$/, `${theme}.${k}`);
   }
-  assert.equal(PALETTES.dark.bg.toUpperCase(), '#1D2052', 'azul noche de los videos');
-  assert.equal(PALETTES.dark.I.toUpperCase(), '#FF6B5E', 'coral de los videos');
+  assert.equal(PALETTES.dark.bg.toUpperCase(), '#121633', 'tinta azul del estudio (spec 2026-11-25-juegos-sobrios)');
+  assert.equal(PALETTES.dark.I.toUpperCase(), '#FF7A7A', 'coral');
 });
 
 test('inkOn elige tinta oscura sobre colores claros y blanca sobre oscuros', () => {
-  assert.equal(inkOn('#FFC84A'), '#1D2052');
-  assert.equal(inkOn('#FFF4E2'), '#1D2052');
+  assert.equal(inkOn('#FFC84A'), '#141833');
+  assert.equal(inkOn('#FFF4E2'), '#141833');
   assert.equal(inkOn('#3A5FD9'), '#FFFFFF');
   assert.equal(inkOn('#1D2052'), '#FFFFFF');
   assert.equal(inkOn(undefined, '#123456'), '#123456', 'si no es un color hex, la tinta de respaldo');
 });
 
-test('las estrellas del fondo son deterministas, caben en el lienzo y crecen con el área', () => {
-  const a = backdropDots(328, 410), b = backdropDots(328, 410);
+test('el papel milimetrado del fondo es determinista, cabe en el lienzo y crece con el área (spec 2026-11-25-juegos-sobrios)', () => {
+  const a = backdropGrid(328, 410), b = backdropGrid(328, 410);
   assert.equal(JSON.stringify(a), JSON.stringify(b));
-  assert.ok(a.length >= 16 && a.length <= 40, String(a.length));
-  for (const d of a) assert.ok(d.x >= 0 && d.x <= 328 && d.y >= 0 && d.y <= 410 && d.r > 0 && d.r <= 2.4);
-  assert.ok(backdropDots(480, 600).length > a.length);
+  for (const l of [...a.minor, ...a.major]) assert.ok(l.x1 >= 0 && l.x2 <= 328 && l.y1 >= 0 && l.y2 <= 410);
+  const n = g => g.minor.length + g.major.length;
+  assert.ok(n(backdropGrid(480, 600)) > n(a));
 });
 
 test('fxTween sin anime.js deja el valor final de una vez y avisa al terminar', () => {
@@ -96,8 +96,8 @@ test('la paleta activa sigue siendo la oscura por defecto', () => {
 });
 
 test('inkOn: sobre el rojo de «mal» y el azul de marca del tema oscuro va azul noche (se lee mejor que blanco)', () => {
-  assert.equal(inkOn(PALETTES.dark.bad), '#1D2052');
-  assert.equal(inkOn(PALETTES.dark.brand), '#1D2052');
+  assert.equal(inkOn(PALETTES.dark.bad), '#141833');
+  assert.equal(inkOn(PALETTES.dark.brand), '#141833');
   assert.equal(inkOn(PALETTES.light.brand), '#FFFFFF');
 });
 

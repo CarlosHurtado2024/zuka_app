@@ -22,8 +22,8 @@ GAMES['limonada'] = (() => {
       jars = { model: { x: w * 0.22 - jw / 2, y, w: jw, h: jh }, big: { x: w * 0.68 - jw * 0.6, y: y - 20, w: jw * 1.2, h: jh + 20 } };
       const bw2 = (w - 36) / 4, by = h * 0.82;
       buttons = [
-        { k: 'lemons', d: -1, x: 12, y: by, w: bw2, h: 36, t: '− 🍋' }, { k: 'lemons', d: 1, x: 16 + bw2, y: by, w: bw2, h: 36, t: '+ 🍋' },
-        { k: 'water', d: -1, x: 20 + 2 * bw2, y: by, w: bw2, h: 36, t: '− 💧' }, { k: 'water', d: 1, x: 24 + 3 * bw2, y: by, w: bw2, h: 36, t: '+ 💧' },
+        { k: 'lemons', d: -1, x: 12, y: by, w: bw2, h: 36, t: '− limón' }, { k: 'lemons', d: 1, x: 16 + bw2, y: by, w: bw2, h: 36, t: '+ limón' },
+        { k: 'water', d: -1, x: 20 + 2 * bw2, y: by, w: bw2, h: 36, t: '− agua' }, { k: 'water', d: 1, x: 24 + 3 * bw2, y: by, w: bw2, h: 36, t: '+ agua' },
       ];
     }
     const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
@@ -44,7 +44,7 @@ GAMES['limonada'] = (() => {
         p.line(j.x + j.w, j.y + 10, j.x + j.w + 10, j.y + 18); p.line(j.x + j.w + 10, j.y + 18, j.x + j.w, j.y + j.h - 18);
         p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(12);
         p.text(label, j.x + j.w / 2, j.y + j.h + 6);
-        p.fill(C.ink); p.textSize(16); p.text(`${l} 🍋 : ${w} 💧`, j.x + j.w / 2, j.y + j.h + 22);
+        p.fill(C.ink); p.textSize(16); p.text(`${l} limón : ${w} agua`, j.x + j.w / 2, j.y + j.h + 22);
       }
 
       p.draw = () => {
