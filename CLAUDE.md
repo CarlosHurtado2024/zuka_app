@@ -361,6 +361,15 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   conjunto; Costa repetida no alarga la lista; n(M) = 4). Canvas 2D propio (`film.js`) sobre las herramientas de render y sonido de
   lemo-opuscar; tiempos y textos en `data.js`; rótulos fijos arriba a la izquierda. Entregado en `Downloads/Zuka_Conjuntos_estudio`;
   espera su ID de Bunny: al recibirlo, cambiar `clip.bunny` + `duration` de `alg-0a` y sus `scenes` de respaldo a los ejemplos de la playlist.
+- **Video de `alg-0a` en «modelo lámina»** (`video/conjunto-lamina`, 308 s, 30 fps, sin voz; `sh video/conjunto-lamina/build.sh`, unos
+  12 min; pruebas `tests/conjunto-lamina.test.js`; diseño en su `TREATMENT.md`). Lo pidió el usuario después de la versión estudio: videos
+  **consecuentes con la lámina del mundo** (`plate` de `js/worlds.js`: tinta teñida con el color del mundo, retícula, trazo blanco, un
+  solo acento, cursiva de libro con borde), **rigor matemático**, animación sencilla, lenguaje llano con intuición, y **cada concepto y
+  cada notación explicados aunque dure 4 o 5 minutos**. Pantalla en tres franjas: rótulo arriba, diagrama en el centro (el mismo V de las
+  vocales casi todo el video), escritura formal abajo. 13 escenas con tiempos relativos en `data.js`. Entregado en
+  `Downloads/Zuka_Conjuntos_lamina`; **el usuario lo está revisando para decidir si es el modelo de los demás videos** (la otra opción es
+  la versión estudio). Si lo aprueba: otro mundo = su color de acento y su diagrama; al recibir el ID de Bunny, cambiar `clip.bunny` +
+  `duration` de `alg-0a` y sus `scenes` de respaldo (vocales, «salsa»).
 - Álgebra unidad 1, **un video por lección** (nuevos, fondo `fondo_algebra_vivo.png`, zoom y 3D; carpetas
   `video/clase_alg_u1_*`, plantilla `video/mk_alg_class.py` + `video/alg_u1_fx.py`; borrador escena por escena con
   `bash video/render_each.sh carpeta archivo.py Escenas…`): A5 `alg-13b` (A3 y A4 quedaron reemplazados por R1–R3 y C1–C3) (A3 quedó reemplazado por R1–R3). Mientras llegan los ID, las lecciones siguen con sus videos viejos; al recibirlos, poner

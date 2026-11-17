@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<title>¿Qué es un conjunto? · lámina</title>
+<style>
+@font-face{font-family:Jost;src:url(fonts/Jost.ttf) format('truetype');font-weight:100 900;}
+html,body{margin:0;background:#0B0E24;overflow:hidden}
+canvas{position:absolute;left:0;top:0;display:block}
+</style></head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="data.js"></script>
+<script src="film.js"></script>
+<script>
+X = document.getElementById('c').getContext('2d');
+window.render = t => film(Math.max(0, Math.min(D.DUR, t)));
+Promise.all(['500 40px Jost', '600 40px Jost', '400 40px Jost', 'italic 400 40px Jost', '400 40px Georgia', 'italic 400 40px Georgia', "400 40px 'Cambria Math'"].map(f => document.fonts.load(f, 'Áx∈∉{}ε⇒≠…'))).then(() => document.fonts.ready).then(() => {
+  window.DUR = D.DUR;
+  window.EV = D.EV.concat([{ t: 0, type: 'narr', lines: D.NARR }]).sort((a, b) => a.t - b.t);
+  window.TEXTS = t => { REC = []; window.render(t); const r = REC; REC = null; return r; };
+  window.render(+(new URLSearchParams(location.search).get('t') || 0));
+  window.READY = true;
+});
+</script>
+</body></html>

@@ -1,0 +1,7 @@
+«¿Qué es un conjunto?» · modelo lámina (Zuka, lección alg-0a)
+
+Imagen: dibujada en código (canvas 2D). Mismo estilo que las láminas de los mundos (js/worlds.js).
+Herramientas de render y de sonido: Lemo-Opuscar (github.com/lemomo-ai/lemo-opuscar).
+Letra: Jost (Indestructible Type, SIL Open Font License 1.1). Fórmulas: Georgia y Cambria Math (letras del sistema Windows; no se redistribuyen).
+Sonido: muestras de instrumentos CC0 (VSCO-2 CE y VCSL), mezcladas por mix.py; efectos sintetizados.
+Contenido: Manual de Álgebra y Trigonometría, Universidad de Antioquia (Zarrazola, 2024), §1.1.

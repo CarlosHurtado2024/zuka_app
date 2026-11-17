@@ -193,3 +193,7 @@ video/conjunto-estudio/out/
 video/conjunto-estudio/fonts/*.ttf
 video/conjunto-estudio/conjunto-estudio.mp4
 video/conjunto-estudio/events.json
+video/conjunto-lamina/out/
+video/conjunto-lamina/fonts/*.ttf
+video/conjunto-lamina/conjunto-lamina.mp4
+video/conjunto-lamina/events.json
