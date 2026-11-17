@@ -429,7 +429,13 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   5191; `FILM.preload` en `index.html`; `tests/intro-algebra.test.js`): recorrido, diez mundos, un mundo con PDF, jefe y
   evaluación, video y juegos de una lección, pista, Clips y progreso. Entregado en `Downloads/Zuka_Bienvenida_algebra`;
   aún no está en la app (espera su ID de Bunny y un lugar donde mostrarlo, p. ej. al abrir el curso por primera vez).
-  Si cambia la interfaz, volver a capturar.
+  Si cambia la interfaz, volver a capturar. **Versión video-shotcraft** (la que pidió el usuario, más creativa; Remotion en
+  `video/bienvenida`, `npm install` una vez, diseño en `video/bienvenida/DISENO.md`): nueve tomas de las fichas de shotcraft
+  adaptadas a vertical (máquina de escribir, foco sobre el recorrido, carrusel 3D de los 10 mundos, grúa por la Pradera,
+  escaneo del PDF, pila de pantallas, escaneo del ejercicio con el acierto real, celular de Clips, foto de grupo), 60 s, música
+  «House Vibez» (Mixkit). Capturas: `node video/bienvenida/tools/capture.mjs` y `capture-juego.mjs` (app en el puerto 5191);
+  render: `node video/bienvenida/tools/render.mjs` (por tramos; el CLI de Remotion se traba cargando la letra). Sin efectos
+  de sonido: Freesound no estuvo disponible sin red. Entregado en `Downloads/Zuka_Bienvenida_algebra` (`…_shotcraft.mp4`).
 - **Valle de los Números en lápiz** (estilo Tablet Sketch Explainer, lemo-opuscar; `video/valle-sketch`, un solo motor
   `kit.js` + `films/v1.js … v6.js` para `alg-11`, `alg-11b`, `alg-11c`, `alg-12b`, `alg-12c`, `alg-12d`; 177–246 s, sin voz;
   `sh video/valle-sketch/build.sh [vN …]`, unos 40 min por video con 2 trabajadores; deja `out/vN/vN.mp4`, `vN.srt` y

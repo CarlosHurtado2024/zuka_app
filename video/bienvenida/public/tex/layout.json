@@ -1,0 +1,145 @@
+{
+ "tour-1": {
+  "tip": {
+   "x": 25,
+   "y": 253,
+   "w": 340,
+   "h": 338.09375
+  }
+ },
+ "tour-3": {
+  "tip": {
+   "x": 25,
+   "y": 505.53125,
+   "w": 340,
+   "h": 226.796875
+  },
+  "hole": {
+   "x": 125,
+   "y": 351.53125,
+   "w": 140,
+   "h": 140
+  }
+ },
+ "worlds": [
+  {
+   "name": "Pradera de Venn",
+   "sub": "Mundo 1 · 0/3"
+  },
+  {
+   "name": "Valle de los Números",
+   "sub": "Mundo 2 · 0/6"
+  },
+  {
+   "name": "Mercado de las Razones",
+   "sub": "Mundo 3 · 0/6"
+  },
+  {
+   "name": "Torres de Potencias",
+   "sub": "Mundo 4 · 0/4"
+  },
+  {
+   "name": "Escalera de Sigma",
+   "sub": "Mundo 5 · 0/5"
+  },
+  {
+   "name": "Taller de los Bloques",
+   "sub": "Mundo 6 · 0/4"
+  },
+  {
+   "name": "Fuente de la Parábola",
+   "sub": "Mundo 7 · 0/4"
+  },
+  {
+   "name": "Cordillera Cúbica",
+   "sub": "Mundo 8 · 0/3"
+  },
+  {
+   "name": "Río de las Asíntotas",
+   "sub": "Mundo 9 · 0/4"
+  },
+  {
+   "name": "Selva Exponencial",
+   "sub": "Mundo 10 · 0/4"
+  }
+ ],
+ "world-page": {
+  "h": 1750,
+  "card": {
+   "x": 16,
+   "y": 129,
+   "w": 358,
+   "h": 265.84375
+  },
+  "boss": {
+   "x": 201,
+   "y": 1038.84375,
+   "w": 92,
+   "h": 84
+  },
+  "exam": {
+   "x": 153,
+   "y": 1234.84375,
+   "w": 84,
+   "h": 76
+  },
+  "summary": {
+   "x": 16,
+   "y": 1448.84375,
+   "w": 358,
+   "h": 97
+  },
+  "first": {
+   "x": 158,
+   "y": 450.84375,
+   "w": 74,
+   "h": 68
+  },
+  "nodes": [
+   {
+    "x": 158,
+    "y": 450.84375,
+    "w": 74,
+    "h": 68
+   },
+   {
+    "x": 210,
+    "y": 646.84375,
+    "w": 74,
+    "h": 68
+   },
+   {
+    "x": 236,
+    "y": 842.84375,
+    "w": 74,
+    "h": 68
+   },
+   {
+    "x": 201,
+    "y": 1038.84375,
+    "w": 92,
+    "h": 84
+   },
+   {
+    "x": 153,
+    "y": 1234.84375,
+    "w": 84,
+    "h": 76
+   }
+  ]
+ },
+ "pista": {
+  "hint": {
+   "x": 20,
+   "y": 213.78125,
+   "w": 350,
+   "h": 93.25
+  },
+  "canvas": {
+   "x": 22,
+   "y": 327.03125,
+   "w": 346,
+   "h": 415
+  }
+ }
+}
