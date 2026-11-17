@@ -370,6 +370,19 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   `Downloads/Zuka_Conjuntos_lamina`; **el usuario eligió este modelo para los videos de sus cursos** (2026-11-17; descartó la
   versión estudio). Aún no ha pedido rehacer las demás lecciones: esperar a que lo diga. Al hacerlas: otro mundo = su color de acento y su diagrama; al recibir el ID de Bunny, cambiar `clip.bunny` +
   `duration` de `alg-0a` y sus `scenes` de respaldo (vocales, «salsa»).
+- **Serie lámina de Álgebra (en curso, pedida por el usuario el 2026-11-17): un video por lección de todos los mundos, ~5 min,**
+  en el modelo lámina que el usuario eligió. Motor común `video/lamina/` (`kit.js` dibujo y mini-TeX propio: `\frac`, `\sqrt`, `^{}`,
+  `_{}`, `\bar`, `\op{Σ}{…}{…}`, `\hl` acento, `\no` negación, `\s{n}` aparición, `\id{…}` cajas; `timeline.js` pone portada desde la
+  lámina del mundo y resumen; `plates.js` copia las láminas con `node video/lamina/tools/plates.js`; `films/<nombre>.js` = `FILM` con
+  escenas `{ id, name, dur, caps, narr, ev, draw(t) }`). Fórmulas y rótulos con barras SIEMPRE en `R\`…\`` (una barra en '…' se
+  come la letra: `python video/lamina/tools/rawify.py` lo arregla). Antes de renderizar: `node video/lamina/tools/check.js <película>`
+  (ritmo ≤ 3.25 palabras/s, rótulos ≤ 31 letras y legibles) y `node --test tests/lamina.test.js` (lección, mundo, número, siguiente,
+  ejemplos que no salen en los ejercicios: `node video/lamina/tools/lesson.js <id>` los muestra). Render: `sh video/lamina/build.sh
+  <películas…>` (copia congelada, 3 reintentos, ~11 min por video; deja `out/<nombre>/`); no correr capturas pesadas a la vez.
+  Escritas: tipos, operaciones (Conjuntos 2–3); naturales, racionales, reales, campo, consecuencias, orden (Recta Real); razones,
+  proporciones, reglatres, porcentajes, aumentos, sucesivos (Escalas y Proporciones). Renderizada y revisada: tipos. Faltan los
+  mundos Exponentes y Radicales en adelante. Entrega en `Downloads/Zuka_Lamina_<mundo>`; al recibir los ID de Bunny, poner
+  `clip.bunny` + `duration` y cambiar las `scenes` de respaldo a los ejemplos del video.
 - Álgebra unidad 1, **un video por lección** (nuevos, fondo `fondo_algebra_vivo.png`, zoom y 3D; carpetas
   `video/clase_alg_u1_*`, plantilla `video/mk_alg_class.py` + `video/alg_u1_fx.py`; borrador escena por escena con
   `bash video/render_each.sh carpeta archivo.py Escenas…`): A5 `alg-13b` (A3 y A4 quedaron reemplazados por R1–R3 y C1–C3) (A3 quedó reemplazado por R1–R3). Mientras llegan los ID, las lecciones siguen con sus videos viejos; al recibirlos, poner

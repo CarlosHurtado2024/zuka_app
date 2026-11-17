@@ -197,3 +197,5 @@ video/conjunto-lamina/out/
 video/conjunto-lamina/fonts/*.ttf
 video/conjunto-lamina/conjunto-lamina.mp4
 video/conjunto-lamina/events.json
+video/lamina/out/
+video/lamina/fonts/*.ttf
