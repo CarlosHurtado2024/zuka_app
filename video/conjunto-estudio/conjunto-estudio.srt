@@ -1,0 +1,76 @@
+1
+00:00:00,800 --> 00:00:06,000
+Sofía tiene un viaje largo por delante y quiere una playlist: las mejores canciones.
+
+2
+00:00:06,600 --> 00:00:13,200
+Pero «las mejores» cambian según quién opine: Sofía elige unas, Leo otras y Dani otras.
+
+3
+00:00:13,800 --> 00:00:18,400
+Así nadie puede decidir qué canción entra. Eso no es un conjunto.
+
+4
+00:00:19,200 --> 00:00:24,800
+Cambia la búsqueda: las canciones del álbum Marea baja. Ahora cada canción está o no está.
+
+5
+00:00:25,200 --> 00:00:29,600
+Eso sí es un conjunto: está bien definido. Y guarda una sorpresa: el aleatorio.
+
+6
+00:00:33,000 --> 00:00:37,800
+Cada canción del conjunto es un elemento. Este tiene cuatro.
+
+7
+00:00:38,600 --> 00:00:44,800
+Para escribirlo se le da un nombre en mayúscula, M, y los elementos van entre llaves, separados por comas.
+
+8
+00:00:45,400 --> 00:00:51,200
+Neón pertenece a M. Este símbolo se lee «pertenece a».
+
+9
+00:00:51,800 --> 00:00:58,400
+Eco es de otro álbum y la llave no la deja entrar. Eco no pertenece a M.
+
+10
+00:01:02,200 --> 00:01:07,000
+Hay dos maneras de escribir un conjunto. Por extensión, se nombran todos los elementos.
+
+11
+00:01:07,600 --> 00:01:13,400
+Por comprensión, se da la condición que cumplen. Las que no la cumplen se quedan afuera.
+
+12
+00:01:14,000 --> 00:01:19,800
+Los dos puntos se leen «tal que»: las x tal que x es canción de Marea baja.
+
+13
+00:01:20,400 --> 00:01:24,400
+Y ahora sí, la sorpresa: el modo aleatorio.
+
+14
+00:01:27,600 --> 00:01:32,400
+En aleatorio las canciones cambian de lugar.
+
+15
+00:01:33,000 --> 00:01:38,400
+Pero es otro orden y el mismo conjunto: el orden no importa.
+
+16
+00:01:39,000 --> 00:01:44,400
+Sofía agrega Costa otra vez y la lista no crece. Cada elemento se escribe una sola vez.
+
+17
+00:01:45,000 --> 00:01:50,800
+Al contar los elementos sale el cardinal: n de M es cuatro.
+
+18
+00:01:54,800 --> 00:02:00,600
+Un conjunto es una colección bien definida, escrita entre llaves, sin orden ni repetidos.
+
+19
+00:02:01,200 --> 00:02:05,600
+La playlist de Sofía es un conjunto.
+

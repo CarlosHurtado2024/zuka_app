@@ -1,0 +1,19 @@
+[   0.8 s] Sofía tiene un viaje largo por delante y quiere una playlist: las mejores canciones.
+[   6.6 s] Pero «las mejores» cambian según quién opine: Sofía elige unas, Leo otras y Dani otras.
+[  13.8 s] Así nadie puede decidir qué canción entra. Eso no es un conjunto.
+[  19.2 s] Cambia la búsqueda: las canciones del álbum Marea baja. Ahora cada canción está o no está.
+[  25.2 s] Eso sí es un conjunto: está bien definido. Y guarda una sorpresa: el aleatorio.
+[  33.0 s] Cada canción del conjunto es un elemento. Este tiene cuatro.
+[  38.6 s] Para escribirlo se le da un nombre en mayúscula, M, y los elementos van entre llaves, separados por comas.
+[  45.4 s] Neón pertenece a M. Este símbolo se lee «pertenece a».
+[  51.8 s] Eco es de otro álbum y la llave no la deja entrar. Eco no pertenece a M.
+[  62.2 s] Hay dos maneras de escribir un conjunto. Por extensión, se nombran todos los elementos.
+[  67.6 s] Por comprensión, se da la condición que cumplen. Las que no la cumplen se quedan afuera.
+[  74.0 s] Los dos puntos se leen «tal que»: las x tal que x es canción de Marea baja.
+[  80.4 s] Y ahora sí, la sorpresa: el modo aleatorio.
+[  87.6 s] En aleatorio las canciones cambian de lugar.
+[  93.0 s] Pero es otro orden y el mismo conjunto: el orden no importa.
+[  99.0 s] Sofía agrega Costa otra vez y la lista no crece. Cada elemento se escribe una sola vez.
+[ 105.0 s] Al contar los elementos sale el cardinal: n de M es cuatro.
+[ 114.8 s] Un conjunto es una colección bien definida, escrita entre llaves, sin orden ni repetidos.
+[ 121.2 s] La playlist de Sofía es un conjunto.

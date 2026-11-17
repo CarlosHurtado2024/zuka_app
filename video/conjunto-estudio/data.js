@@ -1,0 +1,88 @@
+// «¿Qué es un conjunto?» · versión estudio (lección alg-0a de Zuka). Datos puros: tiempos, textos y sonidos.
+// La película (film.js) solo dibuja lo que dice este archivo; tests/conjunto-estudio.test.js lo comprueba en Node.
+const D = {
+  DUR: 126,
+  K: 16,                                           // cuánto se amplía cada zambullida
+  // zoom global u: 0 biblioteca · 1 la lista (elementos y notación) · 2 dos maneras · 3 aleatorio, repetidos y cardinal
+  U: [[0, 0], [30.0, 0], [32.2, 1], [59.4, 1], [61.6, 2], [84.8, 2], [87.0, 3], [111.4, 3], [114.2, 0], [126, 0]],
+  SONGS: [
+    { n: 'Ámbar', al: 'Marea baja', k: 'marea', c: ['#F2A541', '#9E4424', '#FFE2A8'], d: [0.68, 0.34], m: 1 },
+    { n: 'Ruido', al: 'Insomnio', k: 'insomnio', c: ['#30345A', '#14172B', '#9C8CFF'], d: [0.3, 0.3] },
+    { n: 'Costa', al: 'Marea baja', k: 'marea', c: ['#2FA79A', '#123A52', '#E9F5DB'], d: [0.3, 0.3], m: 1 },
+    { n: 'Vértigo', al: 'Kilómetro cero', k: 'km0', c: ['#40282D', '#181214', '#D96C5F'], d: [0.5, 0.5] },
+    { n: 'Neón', al: 'Marea baja', k: 'marea', c: ['#C2408F', '#32194F', '#FFD1F0'], d: [0.5, 0.26], m: 1 },
+    { n: 'Humo', al: 'Insomnio', k: 'insomnio', c: ['#2A3050', '#121526', '#8FA3FF'], d: [0.7, 0.62] },
+    { n: 'Faro', al: 'Kilómetro cero', k: 'km0', c: ['#3A2E26', '#171311', '#D9A45F'], d: [0.5, 0.5] },
+    { n: 'Brisa', al: 'Marea baja', k: 'marea', c: ['#6FA8DC', '#22406B', '#F1F7FF'], d: [0.74, 0.3], m: 1 },
+    { n: 'Eco', al: 'Insomnio', k: 'insomnio', c: ['#2E2C55', '#141328', '#B49CFF'], d: [0.5, 0.5] },
+  ],
+  M: [0, 2, 4, 7],                                 // el conjunto M: las canciones del álbum «Marea baja»
+  SHUFFLED: [2, 3, 0, 1],                          // posiciones dentro de M tras el aleatorio: Neón, Brisa, Ámbar, Costa
+  Q1: 'las mejores canciones',
+  Q2: 'canciones del álbum Marea baja',
+  VOTERS: [['Sofía', 6.6, [0, 3, 4, 6]], ['Leo', 8.5, [1, 4, 8]], ['Dani', 10.4, [2, 3, 5, 7]]],
+  // rótulos en pantalla: [entra, sale, rótulo, renglón 1, renglón 2]
+  CAPS: [
+    [1.0, 6.2, 'LA BÚSQUEDA', 'Sofía quiere una playlist', 'para el viaje.'],
+    [6.6, 13.4, 'EL PROBLEMA', '«Las mejores» cambian', 'según quién opine.'],
+    [13.8, 18.6, 'NO ES UN CONJUNTO', 'Nadie puede decidir', 'qué canción entra.'],
+    [20.6, 25.0, 'SÍ ES UN CONJUNTO', 'Bien definida: de cada canción', 'se sabe si está o no está.'],
+    [25.4, 29.8, 'ATENCIÓN', 'Guarda una sorpresa:', 'el modo aleatorio.'],
+    [33.0, 38.0, 'ELEMENTOS', 'Cada canción del conjunto', 'es un elemento.'],
+    [38.6, 45.0, 'NOTACIÓN', 'Un nombre en mayúscula,', 'llaves y comas.'],
+    [45.4, 51.4, 'PERTENECE', '∈ se lee', '«pertenece a».'],
+    [51.8, 58.6, 'NO PERTENECE', '∉ se lee', '«no pertenece a».'],
+    [62.2, 67.2, 'POR EXTENSIÓN', 'Se nombran todos', 'los elementos.'],
+    [67.6, 73.6, 'POR COMPRENSIÓN', 'Se da la condición', 'que cumplen.'],
+    [74.0, 80.0, 'CÓMO SE LEE', 'Los dos puntos se leen', '«tal que».'],
+    [80.4, 84.6, 'LA SORPRESA', 'Ahora sí:', 'el modo aleatorio.'],
+    [87.6, 92.6, 'MODO ALEATORIO', 'Las canciones cambian', 'de lugar.'],
+    [93.0, 98.6, 'SIN ORDEN', 'Otro orden,', 'el mismo conjunto.'],
+    [99.0, 104.6, 'SIN REPETIDOS', 'Cada elemento se escribe', 'una sola vez.'],
+    [105.0, 111.0, 'CARDINAL', 'n(M) cuenta', 'cuántos elementos hay.'],
+  ],
+  SUM: [[115.2, 'Colección bien definida'], [116.3, 'Llaves, ∈ y ∉'], [117.4, 'Extensión o comprensión'], [118.5, 'Sin orden ni repetidos'], [119.6, 'n(M): cuántos elementos']],
+  END: [121.2, 'La playlist de Sofía', 'es un conjunto.'],
+  // narración (el video no lleva voz; mix.py la escribe como .srt y .txt)
+  NARR: [
+    [0.8, 6.0, 'Sofía tiene un viaje largo por delante y quiere una playlist: las mejores canciones.'],
+    [6.6, 13.2, 'Pero «las mejores» cambian según quién opine: Sofía elige unas, Leo otras y Dani otras.'],
+    [13.8, 18.4, 'Así nadie puede decidir qué canción entra. Eso no es un conjunto.'],
+    [19.2, 24.8, 'Cambia la búsqueda: las canciones del álbum Marea baja. Ahora cada canción está o no está.'],
+    [25.2, 29.6, 'Eso sí es un conjunto: está bien definido. Y guarda una sorpresa: el aleatorio.'],
+    [33.0, 37.8, 'Cada canción del conjunto es un elemento. Este tiene cuatro.'],
+    [38.6, 44.8, 'Para escribirlo se le da un nombre en mayúscula, M, y los elementos van entre llaves, separados por comas.'],
+    [45.4, 51.2, 'Neón pertenece a M. Este símbolo se lee «pertenece a».'],
+    [51.8, 58.4, 'Eco es de otro álbum y la llave no la deja entrar. Eco no pertenece a M.'],
+    [62.2, 67.0, 'Hay dos maneras de escribir un conjunto. Por extensión, se nombran todos los elementos.'],
+    [67.6, 73.4, 'Por comprensión, se da la condición que cumplen. Las que no la cumplen se quedan afuera.'],
+    [74.0, 79.8, 'Los dos puntos se leen «tal que»: las x tal que x es canción de Marea baja.'],
+    [80.4, 84.4, 'Y ahora sí, la sorpresa: el modo aleatorio.'],
+    [87.6, 92.4, 'En aleatorio las canciones cambian de lugar.'],
+    [93.0, 98.4, 'Pero es otro orden y el mismo conjunto: el orden no importa.'],
+    [99.0, 104.4, 'Sofía agrega Costa otra vez y la lista no crece. Cada elemento se escribe una sola vez.'],
+    [105.0, 110.8, 'Al contar los elementos sale el cardinal: n de M es cuatro.'],
+    [114.8, 120.6, 'Un conjunto es una colección bien definida, escrita entre llaves, sin orden ni repetidos.'],
+    [121.2, 125.6, 'La playlist de Sofía es un conjunto.'],
+  ],
+  // sonidos
+  EV: [
+    { t: 0.4, type: 'rise' }, { t: 0.9, type: 'keys', d: 1.7, n: 21 }, { t: 2.7, type: 'tiles', n: 9 },
+    { t: 6.6, type: 'vote', i: 0 }, { t: 8.5, type: 'vote', i: 1 }, { t: 10.4, type: 'vote', i: 2 }, { t: 12.4, type: 'doubt' },
+    { t: 18.4, type: 'cut' }, { t: 18.9, type: 'keys', d: 1.7, n: 30 }, { t: 20.8, type: 'scan', d: 1.8 },
+    { t: 21.15, type: 'lock', i: 0 }, { t: 21.75, type: 'lock', i: 1 }, { t: 21.75, type: 'lock', i: 2 }, { t: 22.3, type: 'lock', i: 3 },
+    { t: 23.0, type: 'fly', d: 1.3 }, { t: 24.2, type: 'ring', d: 1.0 }, { t: 25.6, type: 'glint' },
+    { t: 30.0, type: 'dive', d: 2.2, i: 0 }, { t: 32.2, type: 'arrive', i: 0 }, { t: 32.4, type: 'tiles', n: 4 },
+    { t: 38.4, type: 'fly', d: 1.3 }, { t: 39.8, type: 'brace' }, { t: 45.8, type: 'yes' },
+    { t: 51.8, type: 'slide', d: 1.0 }, { t: 52.8, type: 'hit' }, { t: 53.4, type: 'no' }, { t: 58.4, type: 'ring', d: 0.8 },
+    { t: 59.4, type: 'dive', d: 2.2, i: 1 }, { t: 61.6, type: 'arrive', i: 1 }, { t: 62.0, type: 'rise' }, { t: 67.6, type: 'rise' },
+    { t: 69.9, type: 'pass', i: 0 }, { t: 70.8, type: 'stop', i: 0 }, { t: 71.7, type: 'pass', i: 1 }, { t: 72.6, type: 'stop', i: 1 }, { t: 73.5, type: 'pass', i: 2 }, { t: 74.4, type: 'pass', i: 3 },
+    { t: 74.0, type: 'yes' }, { t: 80.4, type: 'glint' }, { t: 80.9, type: 'ring', d: 0.8 },
+    { t: 84.8, type: 'dive', d: 2.2, i: 2 }, { t: 87.0, type: 'arrive', i: 2 }, { t: 87.2, type: 'tiles', n: 4 },
+    { t: 88.4, type: 'shuffle', d: 1.4 }, { t: 92.8, type: 'rise' }, { t: 99.0, type: 'slide', d: 1.2 }, { t: 100.2, type: 'merge' }, { t: 100.0, type: 'toast' },
+    { t: 105.2, type: 'count', i: 0 }, { t: 105.6, type: 'count', i: 1 }, { t: 106.0, type: 'count', i: 2 }, { t: 106.4, type: 'count', i: 3 }, { t: 106.8, type: 'card' },
+    { t: 111.4, type: 'pull', d: 2.8 }, { t: 114.2, type: 'arrive', i: 3 },
+    { t: 115.2, type: 'sum', i: 0 }, { t: 116.3, type: 'sum', i: 1 }, { t: 117.4, type: 'sum', i: 2 }, { t: 118.5, type: 'sum', i: 3 }, { t: 119.6, type: 'sum', i: 4 }, { t: 121.2, type: 'end' },
+  ],
+};
+if (typeof module !== 'undefined') module.exports = D;

@@ -189,3 +189,7 @@ video/trig-zoom/fonts/*.ttf
 
 # Archivos intermedios de LaTeX de los resúmenes
 docs/resumenes/tex/salida/
+video/conjunto-estudio/out/
+video/conjunto-estudio/fonts/*.ttf
+video/conjunto-estudio/conjunto-estudio.mp4
+video/conjunto-estudio/events.json
