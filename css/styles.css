@@ -108,8 +108,11 @@ body[data-tab=clips] #tabbar button.on .i { color: #fff; background: rgba(255, 2
    sobre su relleno (la de marca, o azul noche si el color viene de un curso). */
 .btn {
   --glow-c: color-mix(in srgb, var(--c, var(--brand)) var(--halo), transparent);
+  --fill: var(--c, var(--brand));
   display: block; width: 100%; padding: 14px 18px; border-radius: 12px;
-  background: var(--c, var(--brand)); color: var(--c-on); font-weight: 700; font-size: 16px;
+  /* Degradado sobrio del propio color: un poco más claro arriba a la izquierda, un poco más hondo abajo a la derecha. */
+  background: linear-gradient(145deg, color-mix(in srgb, var(--fill) 84%, #fff), var(--fill) 48%, color-mix(in srgb, var(--fill) 84%, #1b1140));
+  color: var(--c-on); font-weight: 700; font-size: 16px;
   box-shadow: 0 8px 22px -10px var(--glow-c); transition: transform .12s cubic-bezier(.2,.8,.2,1), box-shadow .15s, filter .15s;
 }
 .btn:hover:not(:disabled) { filter: brightness(1.07); }
@@ -184,6 +187,15 @@ body[data-tab=clips] #tabbar button.on .i { color: #fff; background: rgba(255, 2
 /* Mapa de mundos: cada unidad es un mundo con ilustración (js/worlds.js), sus lecciones son niveles. */
 .world { margin-top: 30px; }
 .world-card { border-radius: var(--r); overflow: hidden; background: var(--card); border: 1px solid color-mix(in srgb, var(--c) 32%, var(--line)); }
+/* Láminas de los mundos (js/worlds.js): neón con el color del curso como acento y un toque de ese color en el fondo.
+   En tema claro la lámina es de papel: fondo claro, tinta oscura, acento del curso oscurecido y sin halo. */
+.world-art, .wnode-art {
+  --plate-ac: var(--c); --plate-bg0: color-mix(in srgb, var(--c) 16%, #10142a); --plate-bg1: #07080f; --plate-ink: #e6ecff;
+}
+:root[data-theme="light"] .world-art, :root[data-theme="light"] .wnode-art {
+  --plate-ac: color-mix(in srgb, var(--c) 58%, #0a1230); --plate-bg0: #ffffff; --plate-bg1: color-mix(in srgb, var(--c) 12%, #eef1f8); --plate-ink: #0a1230;
+}
+:root[data-theme="light"] svg[data-style="neon"] > g { filter: none; }
 .world-art { position: relative; aspect-ratio: 2 / 1; width: 100%; }
 .world-art > svg { display: block; width: 100%; height: 100%; }
 .world-tag, .world-prog {

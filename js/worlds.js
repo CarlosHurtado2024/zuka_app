@@ -9,7 +9,12 @@ const WORLDS = (() => {
   const INK = '#E6ECFF', TEAL = '#6FD3FF', AMBER = '#6FD3FF', ROSE = '#6FD3FF', VIOLET = '#6FD3FF', SKY = '#6FD3FF', CORAL = '#6FD3FF', LIME = '#6FD3FF';
   const r2 = n => Math.round(n * 100) / 100;
   // `ac` ya no tiñe el fondo: todas las láminas comparten degradado. El diagrama lleva un halo suave (filtro glow).
-  const plate = (id, ac, body) => `<svg viewBox="0 0 160 80" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" data-style="neon">
+  // Los cuatro colores salen como variables CSS con su valor por defecto: la app (css/styles.css, .world-art y .wnode-art)
+  // pone en --plate-ac el color del curso y, en tema claro, cambia fondo y tinta. Sin esas variables se ve en neón hielo.
+  const VARS = { '#141A33': '--plate-bg0', '#07080F': '--plate-bg1', '#E6ECFF': '--plate-ink', '#6FD3FF': '--plate-ac' };
+  const themed = svg => svg.replace(/#141A33|#07080F|#E6ECFF|#6FD3FF/g, h => `var(${VARS[h]}, ${h})`);
+  const plate = (id, ac, body) => themed(plateRaw(id, ac, body));
+  const plateRaw = (id, ac, body) => `<svg viewBox="0 0 160 80" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" data-style="neon">
   <defs><radialGradient id="bg-${id}" cx=".5" cy=".45" r=".8"><stop offset="0" stop-color="#141A33"/><stop offset="1" stop-color="#07080F"/></radialGradient>
   <filter id="glow-${id}" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.1" result="b"/><feColorMatrix in="b" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .7 0" result="h"/><feMerge><feMergeNode in="h"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
   <rect width="160" height="80" fill="url(#bg-${id})"/>

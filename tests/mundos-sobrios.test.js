@@ -28,7 +28,10 @@ test('cada mundo es una lámina técnica: fondo de tinta, retícula y diagrama; 
     assert.match(w.art, new RegExp(`id="bg-${k}"`), `${k}: fondo propio`);
     assert.match(w.art, new RegExp(`filter="url\\(#glow-${k}\\)"`), `${k}: el diagrama brilla`);
     assert.ok(!/<pattern|id="grid-/.test(w.art), `${k}: sin cuadrícula`);
-    assert.equal((w.art.match(/<radialGradient[\s\S]*?<\/radialGradient>/) || [''])[0].replace(/bg-[\w-]+/, ''), '<radialGradient id="" cx=".5" cy=".45" r=".8"><stop offset="0" stop-color="#141A33"/><stop offset="1" stop-color="#07080F"/></radialGradient>', `${k}: mismo degradado`);
+    assert.equal((w.art.match(/<radialGradient[\s\S]*?<\/radialGradient>/) || [''])[0].replace(/bg-[\w-]+/, ''), '<radialGradient id="" cx=".5" cy=".45" r=".8"><stop offset="0" stop-color="var(--plate-bg0, #141A33)"/><stop offset="1" stop-color="var(--plate-bg1, #07080F)"/></radialGradient>', `${k}: mismo degradado`);
+    // Cada color es una variable con su valor por defecto: la app pone el acento del curso y el tema claro.
+    assert.ok(!/(?<!, )#[0-9A-Fa-f]{6}/.test(w.art), `${k}: color fijo sin variable`);
+    assert.match(w.art, /var\(--plate-ac, #6FD3FF\)/, `${k}: acento del curso`);
     const colors = new Set((w.art.match(/#[0-9A-Fa-f]{6}/g) || []).map(c => c.toUpperCase()));
     for (const c of colors) assert.ok(['#141A33', '#07080F', '#E6ECFF', '#6FD3FF'].includes(c), `${k}: color fuera de la paleta ${c}`);
     assert.ok(!/#ffd451|#fff1c9|#3fae72|#58c98a/i.test(w.art), `${k}: sin colores de paisaje pastel`);
