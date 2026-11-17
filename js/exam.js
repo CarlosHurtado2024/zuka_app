@@ -59,6 +59,7 @@ function openExamSheet(c, u) {
 
 function startExam(c, u) {
   const E = u.exam, n = E.items.length, back = tab;
+  setGameCourse(c.id);   // paleta del curso en los juegos de la evaluación
   cleanup?.(); cleanup = null;
   const results = E.items.map(() => ({ ok: false, hint: false, blank: true }));
   const queue = E.items.map((_, i) => i), skipped = new Set();

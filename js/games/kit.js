@@ -28,7 +28,34 @@ const PALETTES = {
 // `api.palette` de todos los juegos: el mismo objeto cambia de valores con el tema, y como los
 // juegos leen sus colores al dibujar cada cuadro, uno abierto se repinta solo al cambiar de tema.
 const PALETTE = { ...PALETTES.dark };
-function setGameTheme(theme) { Object.assign(PALETTE, PALETTES[theme] || PALETTES.dark); }
+// Paleta del curso: lo que cambia sobre la del tema cuando se juega una lección de ese curso (setGameCourse, que llaman
+// startLesson y startExam). Álgebra es morado: fondo y tarjetas teñidos de morado y, en vez de menta y azul cielo,
+// orquídea, rosa e índigo; el dorado se queda porque es el complemento del morado, y el verde y el rojo de acertar y
+// fallar no cambian. Un curso sin paleta propia usa la del tema.
+const COURSE_PALETTES = {
+  algebra: {
+    dark: {
+      N: '#F7C85A', Z: '#7FB2FF', Q: '#FF8FD0', I: '#FF8466', R: '#B79CFF',
+      brand: '#8B7BFF', bg: '#14122E', card: '#1F1B45', line: '#40397F', ink: '#F0EEFF', mute: '#A29DD0',
+      coral: '#FF7A8A', mint: '#E08BFF', sky: '#7C8CFF', cream: '#ECEAF8', creamD: '#B3AED6', night: '#14122E',
+      star: '#322B66', halo: '#221E4D',
+    },
+    light: {
+      N: '#9A6400', Z: '#2B5FC4', Q: '#B0338A', I: '#C9403A', R: '#5B44D2',
+      brand: '#5B44D2', bg: '#F4F2FB', card: '#FFFFFF', line: '#D6D0EC', ink: '#17143A', mute: '#5E5A8C',
+      coral: '#EC5F7A', mint: '#B565E0', sky: '#6A6FF0', creamD: '#CFC9E8', night: '#17143A',
+      star: '#DDD8F0', halo: '#E9E5F6',
+    },
+  },
+};
+let gameTheme = 'dark', gameCourse = null;
+function paintGamePalette() {
+  Object.assign(PALETTE, PALETTES[gameTheme], COURSE_PALETTES[gameCourse]?.[gameTheme]);
+  // El marco del juego (.play, la guía) usa el mismo fondo: css/styles.css trae el del tema y aquí se pone el del curso.
+  if (typeof document !== 'undefined') document.documentElement?.style?.setProperty?.('--play-bg', PALETTE.bg);
+}
+function setGameTheme(theme) { gameTheme = PALETTES[theme] ? theme : 'dark'; paintGamePalette(); }
+function setGameCourse(id) { gameCourse = id || null; paintGamePalette(); }
 setGameTheme(typeof document !== 'undefined' ? document.documentElement?.dataset?.theme : 'dark');
 
 // ---------- Estilo «video» (spec 2026-11-13-juegos-estilo-video) ----------

@@ -548,7 +548,7 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .rev-nav button:active { background: var(--line); }
 .rev-nav .rev-pos { min-width: 34px; text-align: center; font-size: 12px; color: var(--mute); font-variant-numeric: tabular-nums; }
 .pbar { flex: 1; height: 8px; border-radius: 8px; background: var(--card2); overflow: hidden; }
-.pbar i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--ok); box-shadow: none; transition: width .4s cubic-bezier(.2,.8,.2,1); }
+.pbar i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--c, var(--ok)); box-shadow: none; transition: width .4s cubic-bezier(.2,.8,.2,1); }
 .lesson-body { flex: 1; min-height: 0; overflow: auto; padding: 8px 20px 24px; }
 .lesson-body.is-clip { display: flex; justify-content: center; padding: 4px 16px 12px; overflow: hidden; }
 .lesson-body.is-clip .clip { height: 100%; width: 100%; max-width: calc((100dvh - var(--tabbar-h, 0px) - 170px) * 9 / 16); border-radius: 20px; }
@@ -578,9 +578,9 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .ex { padding-top: 10px; animation: rise .35s cubic-bezier(.2,.8,.2,1); }
 .ex-kind { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c-ink); }
 .ex-q { font-size: 20px; font-weight: 700; line-height: 1.32; letter-spacing: -.005em; margin: 6px 0 22px; }
-/* Rótulo como el de los videos: barra color sol a la izquierda del tipo de ejercicio y del enunciado. */
+/* Rótulo como el de los videos: barra del color del curso a la izquierda del tipo de ejercicio y del enunciado. */
 .ex-head { position: relative; padding-left: 14px; margin-bottom: 22px; }
-.ex-head::before { content: ''; position: absolute; left: 0; top: 3px; bottom: 3px; width: 3px; border-radius: 3px; background: var(--gold); }
+.ex-head::before { content: ''; position: absolute; left: 0; top: 3px; bottom: 3px; width: 3px; border-radius: 3px; background: var(--c, var(--gold)); }
 .ex-head .ex-q { margin-bottom: 0; }
 .opts { display: grid; gap: 10px; }
 .opt {

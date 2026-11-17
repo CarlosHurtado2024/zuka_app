@@ -467,6 +467,7 @@ const PRAISE = ['¡Correcto!', '¡Excelente!', '¡Muy bien!', '¡Así se hace!',
 
 function startLesson(c, l) {
   if (planMotivo(l.id)) return openBloqueo(l.id);   // candado por plan: también si se llega por otro camino
+  setGameCourse(c.id);   // los juegos toman la paleta del curso (COURSE_PALETTES, js/games/kit.js)
   syncHearts();
   if (S.hearts <= 0 && !S.unlockAll) return toast(`Sin vidas. Recuperas una en ${minsToHeart()} min.`);
   const back = tab;
