@@ -30,16 +30,16 @@ GAMES['arma-conjunto'] = (() => {
     const C = api.palette, R = params.rounds, pool = params.pool, sets = params.sets || {};
     const st = { picks: R.map(() => []) };
     const touched = R.map(() => false);
-    let locked = false, W = 0, H = 0, cur = 0, tabs = [], tray = [], bag = null, clear = null;
+    let locked = false, W = 0, H = 0, cur = 0, tabs = [], tray = [], bag = null, clear = null, pop = { i: -1, t: 0 };
 
     function layout(w, h) {
       W = w; H = h;
       tabs = roundTabs(R.length, w);
       const setLines = Object.keys(sets).length;
-      bag = { x: 14, y: 100 + setLines * 20, w: w - 28, h: 78 };
-      clear = { x: w - 14 - 96, y: bag.y + bag.h + 8, w: 96, h: 30 };
-      const cols = 3, tw = (w - 28 - 2 * 8) / cols, rows = Math.ceil(pool.length / cols), y0 = clear.y + 42;
-      tray = pool.map((_, i) => ({ x: 14 + (i % cols) * (tw + 8), y: y0 + Math.floor(i / cols) * 44, w: tw, h: 36 }));
+      bag = { x: 12, y: 104 + setLines * 20, w: w - 24, h: 78 };
+      clear = { x: w - 12 - 98, y: bag.y + bag.h + 9, w: 98, h: 30 };
+      const cols = 3, tw = (w - 24 - 2 * 7) / cols, y0 = clear.y + 44;
+      tray = pool.map((_, i) => ({ x: 12 + (i % cols) * (tw + 7), y: y0 + Math.floor(i / cols) * 43, w: tw, h: 34 }));
     }
     const ready = () => api.ready(touched.every(Boolean));
 
@@ -49,30 +49,29 @@ GAMES['arma-conjunto'] = (() => {
 
       p.draw = () => {
         p.background(C.bg);
-        const r = R[cur], pk = st.picks[cur], ok = check(pk, r.rule);
+        const r = R[cur], pk = st.picks[cur], ok = check(pk, r.rule), S = SK.sets(C);
         drawTabs(p, C, tabs, cur, i => (locked ? (check(st.picks[i], R[i].rule) ? C.ok : C.bad) : i === cur ? C.brand : touched[i] ? C.Z : C.line));
         p.noStroke(); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD);
-        const cols = [C.Z, C.I, C.N];
-        Object.entries(sets).forEach(([k, v], j) => { p.fill(cols[j % 3]); fitText(p, `${k} = ${listText(v)}`, 14, 56 + j * 20, W - 28, 13); });
-        p.fill(C.ink); p.textSize(14); p.textAlign(p.CENTER, p.CENTER);
-        fitText(p, r.text, W / 2, bag.y - 16, W - 28, 14);
-        // Caja con llaves
-        p.fill(C.card); p.stroke(locked ? (ok ? C.ok : C.bad) : C.R); p.strokeWeight(2.5); p.rect(bag.x, bag.y, bag.w, bag.h, 16);
-        p.noStroke(); p.fill(C.R); p.textSize(36); p.textStyle(p.NORMAL); p.text('{', bag.x + 14, bag.y + bag.h / 2 - 2); p.text('}', bag.x + bag.w - 14, bag.y + bag.h / 2 - 2);
+        Object.entries(sets).forEach(([k, v], j) => { p.fill(S[j % 3].ink); fitText(p, `${k} = ${listText(v)}`, 14, 56 + j * 20, W - 28, 13); });
+        p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER);
+        fitText(p, r.text, W / 2, bag.y - 17, W - 28, 14);
+        // Las llaves: el conjunto que se está armando.
+        const col = locked ? (ok ? C.ok : C.bad) : S[2].line, ink = locked ? col : S[2].ink;
+        SK.panel(p, C, bag, { col: locked ? col : null });
+        SK.serif(p, '{', bag.x + 18, bag.y + bag.h / 2 - 4, 42, ink); SK.serif(p, '}', bag.x + bag.w - 18, bag.y + bag.h / 2 - 4, 42, ink);
         const inside = pool.filter(x => pk.includes(x));
-        p.fill(inside.length ? C.ink : C.mute); p.textStyle(p.BOLD);
-        fitText(p, inside.length ? inside.join(', ') : (touched[cur] ? '∅' : 'vacía'), W / 2, bag.y + bag.h / 2, bag.w - 60, 18);
-        // Vaciar
-        drawTile(p, C, clear, '∅ Vaciar', { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, r: 8, lift: 2, size: 13 });
-        p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.LEFT, p.CENTER);
-        p.text(`n = ${inside.length}`, 14, clear.y + clear.h / 2);
-        // Fichas
+        p.fill(inside.length ? C.ink : C.mute); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+        fitText(p, inside.length ? inside.join(', ') : (touched[cur] ? '∅' : 'vacía'), W / 2, bag.y + bag.h / 2, bag.w - 76, 18);
+        // Vaciar, y el cardinal de lo armado
+        SK.chip(p, C, clear, '∅ Vaciar', { size: 13, r: 10 });
+        SK.serif(p, `n = ${inside.length}`, 36, clear.y + clear.h / 2, 14, C.mute);
+        // Elementos disponibles
+        pop.t = Math.max(0, pop.t - 0.08);
         tray.forEach((b, i) => {
           const on = pk.includes(pool[i]);
-          // Ficha crema; la que ya entró a las llaves queda color sol y hundida.
-          drawTile(p, C, b, pool[i], on ? { fill: C.sun, r: 9, lift: 1, size: 14, ring: locked ? null : C.sun } : { r: 9, lift: 2, size: 14 });
+          SK.chip(p, C, b, pool[i], { state: on ? (locked ? (ok ? 'ok' : 'bad') : 'on') : 'idle', col: S[2].line, size: 14, k: pop.i === i ? 1 + 0.12 * pop.t : 1 });
         });
-        if (locked && !ok) { p.noStroke(); p.fill(C.ok); p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.CENTER, p.CENTER); fitText(p, `Por ejemplo: ${listText(r.example || [])}`, W / 2, H - 12, W - 24, 12); }
+        if (locked && !ok) { p.noStroke(); p.fill(C.ok); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, `Por ejemplo: ${listText(r.example || [])}`, W / 2, H - 12, W - 24, 12); }
       };
 
       p.mousePressed = () => {
@@ -84,10 +83,10 @@ GAMES['arma-conjunto'] = (() => {
         if (i >= 0) {
           const pk = st.picks[cur], k = pk.indexOf(pool[i]);
           if (k >= 0) pk.splice(k, 1); else pk.push(pool[i]);
-          touched[cur] = true; ready(); api.sfx?.tap?.(); return false;
+          touched[cur] = true; pop = { i, t: 1 }; ready(); api.sfx?.tap?.(); return false;
         }
       };
-    }, 1.45);
+    }, 1.22);
 
     return {
       loaded: m.ready,

@@ -55,15 +55,20 @@ const COURSE_ALGEBRA = {
             num('¿Cuántos elementos tiene el conjunto de las letras de la palabra CARACOL?', 5,
               'Las letras distintas de CARACOL son $C, A, R, O, L$: el conjunto es $\\{C, A, R, O, L\\}$ y su cardinal es $5$, aunque la palabra tenga 7 letras.',
               { hint: 'Escribe las letras una por una y no repitas las que ya escribiste. Luego cuenta.' }),
-            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-pradera): pertenencia en tiempo real.
-            play('lluvia-elementos', 'Mueve la canasta y atrapa solo lo que **pertenece** a cada conjunto', {
+            // Juego final de la lección (spec 2026-11-26-conjuntos-lamina): de la condición a los elementos, con un lazo.
+            play('lazo-conjunto', 'Encierra con el dedo (o toca) los elementos que **pertenecen** a cada conjunto', {
               rounds: [
-                { name: 'F', rule: 'x : x es una fruta', members: ['mango', 'pera', 'uva', 'piña', 'mora'], others: ['papa', 'queso', 'arroz', 'pan', 'sal'] },
-                { name: 'D', rule: 'x : x es un día de la semana que empieza por M', members: ['martes', 'miércoles'], others: ['lunes', 'mayo', 'marzo', 'jueves', 'mesa'] },
-                { name: 'A', rule: 'x : x es un animal que vuela', members: ['águila', 'colibrí', 'murciélago', 'abeja'], others: ['pingüino', 'gato', 'delfín', 'avestruz'] },
+                { title: 'Ronda 1 · De la condición a los elementos', items: [
+                  { name: 'F', rule: 'x es una fruta', members: ['mango', 'pera', 'uva', 'piña'], others: ['papa', 'queso', 'arroz', 'pan', 'sal'] },
+                  { name: 'D', rule: 'x es un día que empieza por M', members: ['martes', 'miércoles'], others: ['lunes', 'mayo', 'marzo', 'jueves', 'mesa'] },
+                ] },
+                { title: 'Ronda 2 · La condición entera', items: [
+                  { name: 'A', rule: 'x es un animal que vuela', members: ['águila', 'colibrí', 'murciélago', 'abeja'], others: ['pingüino', 'gato', 'delfín', 'avestruz'] },
+                  { name: 'T', rule: 'x es una letra de TORO', members: ['t', 'o', 'r'], others: ['a', 'e', 's', 'u', 'd'] },
+                ] },
               ],
-            }, 'Un elemento pertenece al conjunto solo si cumple la condición entera. $F = \\{\\text{mango}, \\text{pera}, \\text{uva}, \\text{piña}, \\text{mora}\\}$. En $D$ solo entran martes y miércoles: mayo y marzo empiezan por M, pero son meses. Y en $A$ no entran el pingüino ni el avestruz: son aves, pero no vuelan.',
-              { hint: 'Lee la condición antes de empezar y pruébala con cada palabra que cae: tiene que cumplirla entera. Si dudas, déjala caer: dejar pasar una palabra no quita vidas.' }),
+            }, 'Un elemento pertenece al conjunto solo si cumple la condición entera. $F = \\{\\text{mango}, \\text{pera}, \\text{uva}, \\text{piña}\\}$. En $D$ solo entran martes y miércoles: mayo y marzo empiezan por M, pero son meses. En $A$ no entran el pingüino ni el avestruz: son aves, pero no vuelan. Y las letras de TORO son $\\{t, o, r\\}$: la $o$ se cuenta una sola vez, así que $n(T) = 3$.',
+              { hint: 'Lee la condición completa y pruébala con cada palabra antes de encerrarla: tiene que cumplirla entera. Mira abajo cómo va quedando escrito el conjunto; si algo no debería estar, tócalo adentro para sacarlo.' }),
           ],
         },
         {
@@ -98,24 +103,30 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Las tres notas de $B$ están en $A$: $B \\subseteq A$ y su círculo va adentro. Las vocales de PERA son justo $e$ y $a$: $A = B$, los círculos se enciman. Agua y montañas no comparten nada: son **disjuntos**. Y los colores comparten solo el azul: los círculos se cruzan.',
               { hint: 'Busca elementos que estén en los dos conjuntos. Si todos los de B están en A, B va adentro; si no comparten ninguno, sepáralos; si comparten algunos, crúzalos; si tienen exactamente los mismos, enciméralos.' }),
-            play('fabrica-subconjuntos', 'Llena las cajas con **todos** los subconjuntos, sin repetir ninguno', {
-              rounds: [{ elements: ['x', 'y'] }, { elements: ['1', '2', '3'] }],
-            }, 'Cada elemento entra o no entra en la caja. Con dos hay 4 subconjuntos: $\\varnothing$, uno solo de cada uno y los dos juntos. Con tres hay 8: la caja vacía, tres de uno, tres de dos y el conjunto completo. El vacío y el conjunto completo también cuentan.',
-              { hint: 'Organízate por tamaños: primero la caja vacía, luego las de un elemento, luego las de dos… y al final todos juntos. Si una caja se pone roja, está repetida.' }),
+            play('cubo-partes', 'Arma cada subconjunto con los interruptores y enciéndelo: **todos**, sin repetir ninguno', {
+              rounds: [
+                { title: 'Ronda 1 · Dos elementos', items: [{ name: 'A', elements: ['x', 'y'] }] },
+                { title: 'Ronda 2 · Tres elementos', items: [{ name: 'B', elements: ['1', '2', '3'] }, { name: 'C', elements: ['a', 'b', 'c'], start: 7 }] },
+              ],
+            }, 'Cada elemento entra o no entra en un subconjunto. Con dos elementos hay 4 subconjuntos: $\\varnothing$, uno solo de cada uno y los dos juntos. Con tres hay 8: el vacío, tres de un elemento, tres de dos y el conjunto completo. En el retículo, dos subconjuntos están unidos cuando se diferencian en un solo elemento: por eso el «?» unido a $\\{1\\}$ y a $\\{3\\}$ es $\\{1, 3\\}$. El vacío y el conjunto completo también cuentan.',
+              { hint: 'Organízate por tamaños: primero el vacío, luego los de un elemento, luego los de dos… Los niveles del retículo van por tamaño, así que los «?» te dicen cuántos faltan de cada uno. Antes de encender, revisa que ese subconjunto no esté ya prendido.' }),
             num('En un pasillo hay 4 bombillos, y cada uno puede estar prendido o apagado. ¿De cuántas formas distintas se puede ver el pasillo, contando todos apagados?', 16,
               'Cada forma es el conjunto de bombillos prendidos: un subconjunto de los 4. Por tamaños: ninguno prendido (1), uno (4), dos (6), tres (4) y los cuatro (1): $1 + 4 + 6 + 4 + 1 = 16$. Es lo mismo que duplicar con cada bombillo nuevo: $2 \\cdot 2 \\cdot 2 \\cdot 2 = 16$.',
               { hint: 'Cuenta por tamaños, como en el video: ¿cuántas formas hay con ningún bombillo prendido?, ¿con uno?, ¿con dos?… Y suma todo.' }),
-            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-pradera): relaciones entre conjuntos a contrarreloj.
-            play('revienta-globos', 'Revienta solo las burbujas que cumplen la misión de cada ronda', {
-              goal: 4,
+            // Juego final de la lección (spec 2026-11-26-conjuntos-lamina): relaciones entre conjuntos, sin reloj.
+            play('orbita-conjuntos', 'Marca **todos** los conjuntos que cumplen la relación de cada reto', {
               rounds: [
-                { kind: 'sub', A: ['a', 'b', 'c', 'd'], sets: [['a', 'b'], ['d'], [], ['b', 'c', 'd'], ['a', 'e'], ['f'], ['c', 'g'], ['d', 'a', 'h']] },
-                { kind: 'igual', A: ['1', '2', '3'], sets: [['2', '3', '1'], ['3', '1', '2'], ['2', '1', '3'], ['1', '3', '2', '1'], ['1', '2'], ['1', '2', '4'], ['5', '4', '6'], ['3']] },
-                { kind: 'disj', A: ['x', 'y', 'z'], sets: [['p', 'q'], ['r'], ['s', 't', 'q'], [], ['x', 'p'], ['z'], ['y', 'u'], ['q', 'x', 'r']] },
-                { kind: 'unit', sets: [['α'], ['β'], ['γ'], ['δ', 'δ'], ['δ', 'α'], [], ['ε', 'ζ', 'γ'], ['β', 'α']] },
+                { title: 'Ronda 1 · Subconjuntos e iguales', items: [
+                  { kind: 'sub', A: ['a', 'b', 'c', 'd'], sets: [['a', 'b'], ['a', 'e'], [], ['b', 'c', 'd'], ['c', 'g'], ['d']] },
+                  { kind: 'igual', A: ['1', '2', '3'], sets: [['2', '3', '1'], ['1', '2'], ['1', '3', '2', '1'], ['1', '2', '4'], ['3', '1', '2'], ['3']] },
+                ] },
+                { title: 'Ronda 2 · Disjuntos y unitarios', items: [
+                  { kind: 'disj', A: ['x', 'y', 'z'], sets: [['p', 'q'], ['x', 'p'], [], ['z'], ['s', 't', 'q'], ['q', 'x', 'r']] },
+                  { kind: 'unit', sets: [['α'], ['δ', 'α'], ['δ', 'δ'], [], ['ε', 'ζ', 'γ'], ['β']] },
+                ] },
               ],
             }, 'Subconjunto de $A$: todos sus elementos están en $A$ (el vacío siempre lo es). Iguales: tienen los mismos elementos, sin importar el orden ni si alguno se escribió dos veces. Disjuntos: no comparten ningún elemento, y el vacío no comparte nada con nadie. Unitario: tiene un solo elemento distinto, así que $\\{\\delta, \\delta\\}$ también lo es.',
-              { hint: 'Antes de tocar una burbuja, revisa sus elementos uno por uno contra el conjunto A. Para «subconjunto» basta un intruso para descartarlo; para «disjuntos» basta uno compartido. Dejar pasar una burbuja no quita vidas.' }),
+              { hint: 'Revisa cada conjunto elemento por elemento contra $A$. Para «subconjunto» basta un intruso para descartarlo; para «disjuntos» basta uno compartido. No olvides mirar el vacío: ¿cumple la relación?' }),
           ],
         },
         {
@@ -170,12 +181,14 @@ const COURSE_ALGEBRA = {
               ],
             }, 'Se empieza por el centro: los que están en los dos. Solo perro: $18 - 5 = 13$; solo gato: $12 - 5 = 7$; así van $13 + 5 + 7 = 25$ y quedan $30 - 25 = 5$ sin ninguna mascota. En el curso: 15 solo leen, 7 hacen las dos, 11 solo dibujan y 7 ninguna.',
               { hint: 'Llena primero la zona del centro. Después, a cada grupo réstale esa cantidad para saber cuántos están solo en él. Lo que falte para el total no está en ninguno.' }),
-            // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-pradera): las operaciones como zonas del diagrama.
-            play('luciernagas-venn', 'Atrapa cada luciérnaga cuando esté en la zona de la operación', {
-              goal: 4,
-              rounds: [{ op: 'inter' }, { op: 'diffAB' }, { op: 'comp' }, { op: 'sim' }],
-            }, '$A \\cap B$ es la zona donde se cruzan los dos círculos. $A - B$ es la parte de $A$ que queda fuera de $B$. $(A \\cup B)^c$ es todo lo que está fuera de los dos círculos. Y $A \\,\\triangle\\, B$ son las dos partes que están en un solo círculo.',
-              { hint: 'Antes de empezar, ubica con el dedo la zona de la operación en el diagrama. Después ten paciencia: toca la luciérnaga solo cuando haya entrado a esa zona.' }),
+            // Juego final de la lección (spec 2026-11-26-conjuntos-lamina): leer una zona del diagrama como operación.
+            play('descifra-zona', 'Arma la operación que pinta **justo** la zona rayada', {
+              rounds: [
+                { title: 'Ronda 1 · Una operación', items: [{ zones: [3] }, { zones: [1] }, { zones: [1, 2] }] },
+                { title: 'Ronda 2 · Con complementos', items: [{ zones: [0] }, { zones: [0, 1, 3] }, { zones: [0, 1, 2] }] },
+              ],
+            }, 'Donde se cruzan los círculos es $A \\cap B$. La luna de $A$ es $A - B$, y las dos lunas juntas son $A \\,\\triangle\\, B$. Lo de afuera de los dos círculos es $A^c \\cap B^c$, que es lo mismo que $(A \\cup B)^c$. Todo menos la luna de $B$ es $A \\cup B^c$. Y todo menos el centro es $A^c \\cup B^c$, lo mismo que $(A \\cap B)^c$.',
+              { hint: 'Mira la zona rayada por partes: ¿incluye la luna de $A$?, ¿la de $B$?, ¿el centro?, ¿lo de afuera? Si incluye lo de afuera, vas a necesitar algún complemento. Cambia una rueda a la vez y fíjate qué se pinta.' }),
           ],
         },
       ],

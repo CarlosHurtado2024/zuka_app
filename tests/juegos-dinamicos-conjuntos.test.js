@@ -101,53 +101,9 @@ test('luciernagas-venn: en el diagrama que se dibuja, toda zona pedida existe y 
   }
 });
 
-// ---------- contenido de las lecciones ----------
-const DYN = { 'alg-0a': 'lluvia-elementos', 'alg-0b': 'revienta-globos', 'alg-0c': 'luciernagas-venn' };
-
-test('cada lección de Conjuntos termina con su juego dinámico, con pista y explicación', () => {
-  for (const [id, name] of Object.entries(DYN)) {
-    const ex = lesson(id).ex, last = ex[ex.length - 1];
-    assert.equal(last.type, 'play', id);
-    assert.equal(last.game, name, `${id} termina con ${name}`);
-    assert.ok(GAMES[name], `${name} cargado`);
-    assert.ok(last.hint.length > 40 && last.explain.length > 40, `${id}: pista y explicación`);
-  }
-  assert.equal(new Set(Object.values(DYN)).size, 3, 'tres mecánicas distintas');
-});
-
-test('lluvia-elementos (alg-0a): cada ronda tiene buenos y trampas distintos y se puede ganar', () => {
-  const ex = lesson('alg-0a').ex.find(e => e.game === 'lluvia-elementos'), P = ex.params;
-  assert.ok(P.rounds.length >= 3);
-  for (const r of P.rounds) {
-    assert.ok(r.members.length >= 2 && r.others.length >= 3, r.name);
-    assert.equal(new Set([...r.members, ...r.others]).size, r.members.length + r.others.length, `${r.name}: sin repetidos`);
-    for (const w of [...r.members, ...r.others]) assert.ok(w.length <= 11, `«${w}» no cabe en una ficha que cae`);
-  }
-  assert.equal(GAMES['lluvia-elementos'].grade({ caught: P.rounds.map(r => [...r.members]) }, P).ok, true);
-  assert.equal(GAMES['lluvia-elementos'].grade({ caught: P.rounds.map(() => []) }, P).ok, false);
-});
-
-test('revienta-globos (alg-0b): cada ronda trae globos buenos y trampas suficientes', () => {
-  const ex = lesson('alg-0b').ex.find(e => e.game === 'revienta-globos'), P = ex.params, g = GAMES['revienta-globos'];
-  assert.ok(P.rounds.length >= 3);
-  assert.ok(new Set(P.rounds.map(r => r.kind)).size >= 3, 'relaciones distintas');
-  for (const r of P.rounds) {
-    const good = r.sets.filter(s => g.fits(s, r.A || [], r.kind)).length;
-    assert.ok(good >= 3, `${r.kind}: ${good} globos buenos`);
-    assert.ok(r.sets.length - good >= 3, `${r.kind}: ${r.sets.length - good} trampas`);
-    for (const s of r.sets) assert.ok(s.length <= 4, `${g.setText(s)} no cabe en un globo`);
-  }
-  assert.equal(g.grade({ pops: P.rounds.map(() => P.goal ?? 4) }, P).ok, true);
-  assert.equal(g.grade({ pops: P.rounds.map(() => 0) }, P).ok, false);
-});
-
-test('luciernagas-venn (alg-0c): operaciones distintas y conocidas', () => {
-  const ex = lesson('alg-0c').ex.find(e => e.game === 'luciernagas-venn'), P = ex.params, g = GAMES['luciernagas-venn'];
-  assert.ok(P.rounds.length >= 3);
-  assert.equal(new Set(P.rounds.map(r => r.op)).size, P.rounds.length, 'sin repetir operación');
-  for (const r of P.rounds) assert.ok(g.OPS[r.op], r.op);
-  assert.equal(g.grade({ catches: P.rounds.map(() => P.goal ?? 4) }, P).ok, true);
-});
+// El contenido de las lecciones ya no usa estos tres juegos (spec 2026-11-26-conjuntos-lamina: los reemplazan
+// lazo-conjunto, orbita-conjuntos y descifra-zona, sin reloj); sus pruebas de contenido están en conjuntos-lamina.test.js.
+// Aquí queda la lógica pura de los juegos, que siguen en el repositorio.
 
 test('luciernagas-venn: encima del borde no cuenta, y un toque corrido prefiere la que sí está en la zona', () => {
   const g = G('luciernagas-venn'), geo = { ca: { x: 100, y: 100 }, cb: { x: 160, y: 100 }, r: 50 };

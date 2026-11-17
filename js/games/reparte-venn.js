@@ -22,76 +22,70 @@ GAMES['reparte-venn'] = (() => {
   function create(host, params, api) {
     const C = api.palette, R = params.rounds;
     const st = { zones: R.map(r => r.U.map(() => null)) };
-    let locked = false, W = 0, H = 0, cur = 0, tabs = [], venn = null, sel = -1, tray = [];
+    let locked = false, W = 0, H = 0, cur = 0, tabs = [], venn = null, sel = -1, tray = [], pos = [];
 
     function layout(w, h) {
       W = w; H = h;
       tabs = roundTabs(R.length);
-      const top = 100, vh = h * 0.42;
-      const rr = Math.min((w - 40) / 3.3, vh / 2.3);
-      venn = { box: { x: 14, y: top, w: w - 28, h: vh }, r: rr, ca: { x: w / 2 - rr * 0.62, y: top + vh / 2 + 4 }, cb: { x: w / 2 + rr * 0.62, y: top + vh / 2 + 4 } };
-      const n = R[cur].U.length, cols = Math.min(6, n), tw = (w - 28 - (cols - 1) * 8) / cols, rows = Math.ceil(n / cols);
-      const y0 = h - rows * 42 - 24;
-      tray = R[cur].U.map((_, i) => ({ x: 14 + (i % cols) * (tw + 8), y: y0 + Math.floor(i / cols) * 42, w: tw, h: 34 }));
+      const n = R[cur].U.length, cols = Math.min(4, n), tw = (w - 24 - (cols - 1) * 7) / cols, rows = Math.ceil(n / cols);
+      const y0 = h - rows * 40 - 26, top = 100, box = { x: 12, y: top, w: w - 24, h: y0 - 12 - top };
+      const [ca, cb] = SK.venn2(box, 0.62, 6);
+      venn = { box, r: ca.r, ca, cb };
+      tray = R[cur].U.map((_, i) => ({ x: 12 + (i % cols) * (tw + 7), y: y0 + Math.floor(i / cols) * 40, w: tw, h: 32 }));
+      pos = R[cur].U.map((_, i) => ({ ...boxOf(i) }));
     }
     const zoneAt = (x, y) => {
       if (!hitBox(venn.box, x, y)) return -1;
       const a = Math.hypot(x - venn.ca.x, y - venn.ca.y) < venn.r, b = Math.hypot(x - venn.cb.x, y - venn.cb.y) < venn.r;
       return a && b ? 1 : a ? 0 : b ? 2 : 3;
     };
-    // Dónde se dibujan los elementos de cada zona (en fila dentro de la zona).
+    // Dónde va cada elemento de una zona (en columna dentro de la zona; los de afuera, en las esquinas de U).
     function slotPoint(zone, k, total) {
       const { ca, cb, r, box } = venn, mid = (ca.x + cb.x) / 2;
-      const centers = [{ x: ca.x - r * 0.48, y: ca.y }, { x: mid, y: ca.y }, { x: cb.x + r * 0.48, y: cb.y }, null];
       if (zone === 3) {
-        const spots = [[box.x + 22, box.y + 34], [box.x + box.w - 22, box.y + 34], [box.x + 22, box.y + box.h - 18], [box.x + box.w - 22, box.y + box.h - 18], [mid, box.y + 14], [mid, box.y + box.h - 12]];
+        const spots = [[box.x + 34, box.y + box.h - 18], [box.x + box.w - 34, box.y + box.h - 18], [box.x + box.w - 34, box.y + 18], [mid, box.y + box.h - 14], [mid, box.y + 14], [box.x + 60, box.y + 18]];
         const s = spots[k % spots.length]; return { x: s[0], y: s[1] };
       }
-      const c = centers[zone], step = Math.min(24, (r * 1.3) / Math.max(1, total));
+      const c = [{ x: ca.x - r * 0.5, y: ca.y }, { x: mid, y: ca.y }, { x: cb.x + r * 0.5, y: cb.y }][zone], step = Math.min(26, (r * 1.4) / Math.max(1, total));
       return { x: c.x, y: c.y + (k - (total - 1) / 2) * step };
+    }
+    // Caja de un elemento: en la bandeja o en su zona.
+    function boxOf(i) {
+      const z = st.zones[cur], zone = z[i];
+      if (zone == null) return tray[i];
+      const idx = z.map((v, k) => (v === zone ? k : -1)).filter(k => k >= 0), pt = slotPoint(zone, idx.indexOf(i), idx.length), w = Math.min(60, venn.r * 0.72);
+      return { x: pt.x - w / 2, y: pt.y - 11, w, h: 22 };
     }
     const ready = () => api.ready(st.zones.every(z => z.every(v => v != null)));
 
     const m = mountSketch(host, (p, size) => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
       p.onResize = () => layout(size.w, size.h);
-      const tint = (col, a) => { const c = p.color(col); c.setAlpha(a); return c; };
 
       p.draw = () => {
         p.background(C.bg);
-        const r = R[cur], z = st.zones[cur], target = zonesOf(r);
+        const r = R[cur], z = st.zones[cur], target = zonesOf(r), dt = frameDt(p), [A, B] = SK.sets(C);
         drawTabs(p, C, tabs, cur, i => (locked ? (good(st.zones[i], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : st.zones[i].some(v => v != null) ? C.Z : C.line));
         p.noStroke(); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-        p.fill(C.Z); fitText(p, `A = {${r.A.join(', ')}}`, W / 2, 54, W - 28, 14);
-        p.fill(C.I); fitText(p, `B = {${r.B.join(', ')}}`, W / 2, 76, W - 28, 14);
+        p.fill(A.ink); fitText(p, `A = {${r.A.join(', ')}}`, W / 2, 56, W - 28, 14);
+        p.fill(B.ink); fitText(p, `B = {${r.B.join(', ')}}`, W / 2, 78, W - 28, 14);
         const { box, ca, cb } = venn;
-        p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(box.x, box.y, box.w, box.h, 12);
-        p.noStroke(); p.fill(C.mute); p.textSize(12); p.textAlign(p.LEFT, p.TOP); p.text('U', box.x + 8, box.y + 6);
-        p.stroke(C.sky); p.strokeWeight(3); p.fill(tint(C.sky, 95)); p.circle(ca.x, ca.y, 2 * venn.r);
-        p.stroke(C.coral); p.fill(tint(C.coral, 95)); p.circle(cb.x, cb.y, 2 * venn.r);
-        p.noStroke(); p.textStyle(p.BOLD); p.textSize(15);
-        // Letras sueltas (no píldoras): ahí mismo caen los elementos que van fuera de los dos conjuntos.
-        p.fill(C.Z); p.text('A', ca.x - venn.r * 0.75, ca.y - venn.r * 0.95);
-        p.fill(C.I); p.text('B', cb.x + venn.r * 0.6, cb.y - venn.r * 0.95);
-        // Elementos puestos
-        for (let zone = 0; zone < 4; zone++) {
-          const idx = r.U.map((_, i) => i).filter(i => z[i] === zone);
-          idx.forEach((i, k) => {
-            const pt = slotPoint(zone, k, idx.length), bad = locked && target[i] !== zone;
-            p.noStroke(); p.fill(bad ? C.bad : C.ink); p.textStyle(p.BOLD); p.textSize(15); p.textAlign(p.CENTER, p.CENTER);
-            if (bad) drawPill(p, C, r.U[i], pt.x, pt.y, C.bad, 13);   // el que quedó mal, en píldora roja: sobre el círculo coral el rojo solo no se ve
-            else p.text(r.U[i], pt.x, pt.y);
-          });
-        }
-        // Bandeja
-        tray.forEach((b, i) => {
-          const placed = z[i] != null;
-          if (placed) { drawSlot(p, C, b, 8); return; }
-          drawTile(p, C, b, r.U[i], { fill: sel === i ? C.sun : C.cream, r: 8, lift: 2, size: 15, ring: sel === i ? C.sun : null });
+        SK.panel(p, C, box, { u: true });
+        // Con un elemento elegido, la zona bajo el dedo no se resalta sola: se elige tocándola.
+        SK.membrane(p, C, ca.x, ca.y, venn.r, venn.r, A.line, { fill: sel >= 0 ? 52 : 34 });
+        SK.membrane(p, C, cb.x, cb.y, venn.r, venn.r, B.line, { fill: sel >= 0 ? 52 : 34 });
+        SK.tag(p, C, 'A', ca.x - venn.r * 0.72, ca.y - venn.r * 0.76, A);
+        SK.tag(p, C, 'B', cb.x + venn.r * 0.72, cb.y - venn.r * 0.76, B);
+        // Huecos de la bandeja y píldoras (se deslizan a su zona).
+        r.U.forEach((_, i) => { if (z[i] != null) SK.chip(p, C, tray[i], '', { state: 'ghost' }); });
+        r.U.forEach((lab, i) => {
+          const t = boxOf(i), b = pos[i], placed = z[i] != null, bad = locked && target[i] !== z[i];
+          for (const k of ['x', 'y', 'w', 'h']) SK.ease(b, k, t[k], dt);
+          SK.chip(p, C, b, lab, { state: bad ? 'bad' : locked && placed ? 'ok' : placed ? 'on' : 'idle', col: z[i] === 2 ? B.line : z[i] === 3 ? C.sky : A.line, sel: sel === i, size: placed ? 12 : 14 });
         });
-        p.noStroke(); p.textSize(11); p.textStyle(p.NORMAL); p.fill(C.mute);
+        p.noStroke(); p.textSize(11); p.textStyle(p.NORMAL); p.fill(C.mute); p.textAlign(p.CENTER, p.CENTER);
         const msg = sel >= 0 ? `Ahora toca la zona donde va ${r.U[sel]}` : 'Toca un elemento y luego su zona';
-        p.text(locked ? (good(z, r) ? '' : 'En rojo, los que estaban en otra zona') : msg, W / 2, H - 10);
+        p.text(locked ? (good(z, r) ? '' : 'En rojo, los que estaban en otra zona') : msg, W / 2, H - 11);
       };
 
       p.mousePressed = () => {
@@ -102,17 +96,14 @@ GAMES['reparte-venn'] = (() => {
         const i = tray.findIndex((b, i) => z[i] == null && hitBox(b, p.mouseX, p.mouseY));
         if (i >= 0) { sel = sel === i ? -1 : i; api.sfx?.tap?.(); return false; }
         // ¿Tocó un elemento ya puesto? Vuelve a la bandeja.
-        for (let zone = 0; zone < 4; zone++) {
-          const idx = r.U.map((_, k) => k).filter(k => z[k] === zone);
-          for (let k = 0; k < idx.length; k++) {
-            const pt = slotPoint(zone, k, idx.length);
-            if (sel < 0 && Math.hypot(p.mouseX - pt.x, p.mouseY - pt.y) < 13) { z[idx[k]] = null; ready(); api.sfx?.tap?.(); return false; }
-          }
+        if (sel < 0) {
+          const k = r.U.findIndex((_, k) => z[k] != null && hitBox(boxOf(k), p.mouseX, p.mouseY));
+          if (k >= 0) { z[k] = null; ready(); api.sfx?.tap?.(); return false; }
         }
         const zone = zoneAt(p.mouseX, p.mouseY);
         if (zone >= 0 && sel >= 0) { z[sel] = zone; sel = -1; ready(); api.sfx?.tap?.(); return false; }
       };
-    }, 1.35);
+    }, 1.4);
 
     return {
       loaded: m.ready,

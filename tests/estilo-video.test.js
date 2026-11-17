@@ -145,8 +145,8 @@ test('los juegos de razones y porcentajes (Álgebra U2) dibujan con las piezas d
 });
 
 test('los juegos de Conjuntos (Álgebra U0) dibujan con las piezas de los videos', () => {
-  const U0 = 'arma-notacion cumple-notacion tacha-repetidos arma-conjunto mueve-circulos fabrica-subconjuntos reparte-venn pinta-venn encuesta-venn'.split(' ');
-  for (const g of U0) assert.match(read(`js/games/${g}.js`), /draw(Tile|Pill|Kicker|Dot|Slot)\(/, g);
+  const U0 = 'arma-notacion cumple-notacion tacha-repetidos arma-conjunto mueve-circulos reparte-venn pinta-venn encuesta-venn'.split(' ');
+  for (const g of U0) assert.match(read(`js/games/${g}.js`), /draw(Tile|Pill|Kicker|Dot|Slot)\(|SK\.(chip|panel|membrane)\(/, g);   // desde 2026-11-26 también con las piezas de la lámina (SK)
 });
 
 test('los juegos de Progresiones y sumatoria dibujan con las piezas de los videos', () => {

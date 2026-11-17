@@ -20,13 +20,12 @@ GAMES['pinta-venn'] = (() => {
     const C = api.palette, R = params.rounds;
     const st = { masks: R.map(() => []) };
     const touched = R.map(() => false);
-    let locked = false, W = 0, H = 0, cur = 0, tabs = [], box = null, circles = [], buf = null, bufKey = '';
-    const CELL = 3;
+    let locked = false, W = 0, H = 0, cur = 0, tabs = [], box = null, circles = [];
 
     function layout(w, h) {
       W = w; H = h;
       tabs = roundTabs(R.length);
-      box = { x: 14, y: 96, w: w - 28, h: h - 96 - 34 };
+      box = { x: 12, y: 102, w: w - 24, h: h - 102 - 34 };
       placeCircles();
     }
     function placeCircles() {
@@ -38,9 +37,8 @@ GAMES['pinta-venn'] = (() => {
         const r = Math.min(box.w / 3.3, box.h / 3.3);
         circles = [{ x: cx - r * 0.58, y: cy - r * 0.4, r }, { x: cx + r * 0.58, y: cy - r * 0.4, r }, { x: cx, y: cy + r * 0.6, r }];
       }
-      bufKey = '';
     }
-    const maskAt = (x, y) => circles.reduce((m, c, k) => m | (Math.hypot(x - c.x, y - c.y) < c.r ? 1 << k : 0), 0);
+    const maskAt = (x, y) => SK.maskAt(circles, x, y);
     const toggle = m => {
       const ms = st.masks[cur], i = ms.indexOf(m);
       if (i >= 0) ms.splice(i, 1); else ms.push(m);
@@ -51,47 +49,28 @@ GAMES['pinta-venn'] = (() => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
       p.onResize = () => layout(size.w, size.h);
 
-      // Las zonas pintadas se dibujan en una capa aparte (celdas de 3 px), que solo se rehace al cambiar algo.
-      function paintLayer(fillCol, badCol) {
-        const key = `${cur}|${st.masks[cur].slice().sort().join(',')}|${fillCol}|${badCol}|${locked}|${W}`;
-        if (key === bufKey && buf) return buf;
-        bufKey = key;
-        buf?.remove?.();
-        buf = p.createGraphics(Math.ceil(box.w), Math.ceil(box.h));
-        buf.pixelDensity(1); buf.noStroke(); buf.clear();
-        const tgt = targetMasks(R[cur]), ms = st.masks[cur];
-        const cf = p.color(fillCol); cf.setAlpha(150);
-        const cbd = p.color(badCol); cbd.setAlpha(150);
-        const cmiss = p.color(fillCol); cmiss.setAlpha(55);
-        for (let y = 0; y < box.h; y += CELL) for (let x = 0; x < box.w; x += CELL) {
-          const mk = maskAt(box.x + x + CELL / 2, box.y + y + CELL / 2), on = ms.includes(mk);
-          if (locked && on !== tgt.includes(mk)) { buf.fill(on ? cbd : cmiss); buf.rect(x, y, CELL, CELL); continue; }
-          if (on) { buf.fill(cf); buf.rect(x, y, CELL, CELL); }
-        }
-        return buf;
-      }
-
       p.draw = () => {
         p.background(C.bg);
-        const r = R[cur];
+        const r = R[cur], ms = st.masks[cur], tgt = targetMasks(r), S = SK.sets(C), fine = good(ms, r);
         drawTabs(p, C, tabs, cur, i => (locked ? (good(st.masks[i], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : touched[i] ? C.Z : C.line));
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
-        drawKicker(p, C, 'Pinta las zonas de', 14, 54);
-        p.noStroke();
+        SK.kicker(p, C, 'Pinta las zonas de', 14, 56);
         p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-        fitText(p, r.text, W / 2, 78, W - 28, 22);
-        p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(box.x, box.y, box.w, box.h, 12);
-        p.image(paintLayer(locked ? C.ok : C.sun, C.bad), box.x, box.y);
-        const cols = [C.sky, C.coral, C.mint];
-        circles.forEach((c, k) => { p.noFill(); p.stroke(cols[k]); p.strokeWeight(3); p.circle(c.x, c.y, 2 * c.r); });
-        p.noStroke(); p.textStyle(p.BOLD); p.textSize(16);
-        const lab = [[-0.82, -0.82], [0.82, -0.82], [0, 1.12]];
-        circles.forEach((c, k) => drawPill(p, C, NAMES[k], c.x + lab[k][0] * c.r, Math.min(box.y + box.h - 14, c.y + lab[k][1] * c.r), cols[k], 13));
-        p.noStroke(); p.textStyle(p.BOLD);
-        p.fill(C.mute); p.textSize(12); p.textAlign(p.LEFT, p.TOP); p.text('U', box.x + 8, box.y + 6);
+        fitText(p, r.text, W / 2, 82, W - 28, 23);
+        SK.panel(p, C, box, { u: true });
+        // Zonas pintadas, con su borde exacto. Al calificar: verde lo bien pintado, rojo lo que sobraba y rayado lo que faltaba.
+        const fill = (masks, col, a) => SK.zones(p, box, circles, masks, { col, alpha: a });
+        if (!locked) fill(ms, C.brand, 120);
+        else {
+          fill(ms.filter(k => tgt.includes(k)), C.ok, 130); fill(ms.filter(k => !tgt.includes(k)), C.bad, 130);
+          SK.zones(p, box, circles, tgt.filter(k => !ms.includes(k)), { col: C.ok, hatch: true });
+        }
+        circles.forEach((c, k) => { p.noFill(); p.stroke(SK.al(p, S[k].line, 40)); p.strokeWeight(8); p.circle(c.x, c.y, 2 * c.r); p.stroke(S[k].line); p.strokeWeight(2.2); p.circle(c.x, c.y, 2 * c.r); });
+        p.noStroke();
+        const lab = [[-0.8, -0.8], [0.8, -0.8], [0, 1.1]];
+        circles.forEach((c, k) => SK.tag(p, C, NAMES[k], c.x + lab[k][0] * c.r, Math.min(box.y + box.h - 16, c.y + lab[k][1] * c.r), S[k]));
         p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.NORMAL); p.textSize(11);
-        p.fill(locked && !good(st.masks[cur], r) ? C.ok : C.mute);
-        p.text(locked ? (good(st.masks[cur], r) ? '' : 'Verde claro: faltaba pintar · rojo: sobraba') : 'Toca una zona para pintarla o despintarla', W / 2, H - 14);
+        p.fill(locked && !fine ? C.ok : C.mute);
+        p.text(locked ? (fine ? '' : 'Rayado: faltaba pintar · rojo: sobraba') : 'Toca una zona para pintarla o despintarla', W / 2, H - 15);
       };
 
       p.mousePressed = () => {
@@ -105,8 +84,8 @@ GAMES['pinta-venn'] = (() => {
     return {
       loaded: m.ready,
       getState: () => ({ masks: st.masks.map(x => [...x]) }),
-      lock() { locked = true; bufKey = ''; },
-      destroy: () => { buf?.remove?.(); m.remove(); },
+      lock() { locked = true; },
+      destroy: () => m.remove(),
     };
   }
 

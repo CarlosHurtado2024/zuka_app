@@ -24,12 +24,15 @@ GAMES['mueve-circulos'] = (() => {
   function create(host, params, api) {
     const C = api.palette, R = params.rounds;
     const st = { pos: R.map(() => null) };
-    let locked = false, W = 0, H = 0, cur = 0, tabs = [], box = null, rA = 0, drag = false;
+    let locked = false, W = 0, H = 0, cur = 0, tabs = [], box = null, fb = null, rA = 0, drag = false;
+    const TEX = { sub: '$B \\subseteq A$', equal: '$A = B$', disjoint: '$A \\cap B = \\varnothing$', overlap: '$A \\cap B ≠ \\varnothing$' };
+    const SAY = { sub: 'B dentro de A', equal: 'Iguales', disjoint: 'Disjuntos', overlap: 'Se cruzan' };
 
     function layout(w, h) {
       W = w; H = h;
       tabs = roundTabs(R.length);
-      box = { x: 14, y: 112, w: w - 28, h: h - 112 - 50 };
+      fb = { x: 12, y: h - 62, w: w - 24, h: 50 };
+      box = { x: 12, y: 104, w: w - 24, h: fb.y - 10 - 104 };
       rA = Math.min(box.w, box.h) * 0.27;
     }
     const center = () => ({ x: box.x + box.w * 0.38, y: box.y + box.h / 2 });
@@ -48,28 +51,26 @@ GAMES['mueve-circulos'] = (() => {
     const m = mountSketch(host, (p, size) => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
       p.onResize = () => layout(size.w, size.h);
-      const tint = (col, a) => { const c = p.color(col); c.setAlpha(a); return c; };
 
       p.draw = () => {
         p.background(C.bg);
-        const r = R[cur], ps = posOf(cur), c = center(), rel = relationOf(Math.hypot(ps[0], ps[1]), r.rB);
+        const r = R[cur], ps = posOf(cur), c = center(), rel = relationOf(Math.hypot(ps[0], ps[1]), r.rB), [A, B] = SK.sets(C);
+        const okB = good(st.pos[cur], r), Bc = locked ? (okB ? { line: C.ok, ink: C.ok } : { line: C.bad, ink: C.bad }) : B;
         drawTabs(p, C, tabs, cur, i => (locked ? (good(st.pos[i], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : st.pos[i] ? C.Z : C.line));
         p.noStroke(); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-        p.fill(C.Z); fitText(p, `A = ${r.A}`, W / 2, 56, W - 28, 15);
-        p.fill(C.I); fitText(p, `B = ${r.B}`, W / 2, 82, W - 28, 15);
-        // Universo y círculos
-        p.stroke(C.line); p.strokeWeight(1.5); p.fill(C.card); p.rect(box.x, box.y, box.w, box.h, 12);
-        p.noStroke(); p.fill(C.mute); p.textSize(12); p.textAlign(p.LEFT, p.TOP); p.text('U', box.x + 8, box.y + 6);
-        p.stroke(C.sky); p.strokeWeight(3); p.fill(tint(C.sky, 110)); p.circle(c.x, c.y, 2 * rA);
+        p.fill(A.ink); fitText(p, `A = ${r.A}`, W / 2, 58, W - 28, 15);
+        p.fill(B.ink); fitText(p, `B = ${r.B}`, W / 2, 82, W - 28, 15);
+        // Universo y membranas: A quieta, B se arrastra.
+        SK.panel(p, C, box, { u: true });
+        SK.membrane(p, C, c.x, c.y, rA, rA, A.line);
         const bx = c.x + ps[0] * rA, by = c.y + ps[1] * rA, rb = r.rB * rA;
-        p.stroke(locked ? (good(st.pos[cur], r) ? C.ok : C.bad) : C.coral); p.strokeWeight(3); p.fill(tint(C.coral, 120)); p.circle(bx, by, 2 * rb);
-        p.noStroke(); p.textStyle(p.BOLD); p.textSize(18); p.textAlign(p.CENTER, p.CENTER);
-        drawPill(p, C, 'A', c.x - rA * 0.7, c.y - rA * 0.7, C.sky, 14);
-        drawPill(p, C, 'B', bx + rb * 0.55, by - rb * 0.55, C.coral, 14);
+        SK.membrane(p, C, bx, by, rb, rb, Bc.line, { fill: drag ? 60 : 40, w: drag ? 2.6 : 2 });
+        SK.tag(p, C, 'A', c.x - rA * 0.72, c.y - rA * 0.72, A);
+        SK.tag(p, C, 'B', bx + rb * 0.72, by - rb * 0.72, Bc);
+        if (!st.pos[cur] && !locked) { p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER); p.text('arrastra', bx, by); }
         // La notación de lo dibujado
-        p.fill(C.ink); p.textSize(14);
-        fitText(p, st.pos[cur] ? `Dibujaste: ${TXT[rel]}` : 'Arrastra el círculo B', W / 2, H - 30, W - 28, 14);
-        if (locked && !good(st.pos[cur], r)) { p.fill(C.ok); p.textSize(12); fitText(p, `Era: ${TXT[r.rel]}`, W / 2, H - 10, W - 28, 12); }
+        SK.formal(p, C, fb, st.pos[cur] ? TEX[rel] : '$A \\ \\ ? \\ \\ B$', { kicker: st.pos[cur] ? `Dibujaste: ${SAY[rel]}` : 'Arrastra el círculo B', col: Bc.line });
+        if (locked && !okB) { p.fill(C.ok); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, `Era: ${TXT[r.rel]}`, W / 2, H - 6, W - 28, 11); }
       };
 
       p.mousePressed = () => {
@@ -80,7 +81,7 @@ GAMES['mueve-circulos'] = (() => {
       };
       p.mouseDragged = () => { if (drag && !locked) { setFrom(p.mouseX, p.mouseY); return false; } };
       p.mouseReleased = () => { drag = false; };
-    }, 1.2);
+    }, 1.25);
 
     return {
       loaded: m.ready,

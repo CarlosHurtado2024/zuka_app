@@ -349,7 +349,7 @@ const GUIDE_SCENES = {
 };
 
 // Juegos de acción (cartel de inicio y vidas): la guía les añade esos dos pasos.
-const GUIDE_ARCADE = new Set(['lluvia-elementos', 'revienta-globos', 'luciernagas-venn', 'buzo-enteros', 'carrera-fracciones', 'frena-aguja',
+const GUIDE_ARCADE = new Set(['lazo-conjunto', 'cubo-partes', 'orbita-conjuntos', 'descifra-zona', 'lluvia-elementos', 'revienta-globos', 'luciernagas-venn', 'buzo-enteros', 'carrera-fracciones', 'frena-aguja',
   'dispara-inverso', 'salta-signos', 'serpiente-orden', 'sirve-la-razon', 'corta-proporciones', 'resortera-tres', 'caja-veloz', 'vuela-precios',
   'rompe-cambios', 'traza-progresion', 'encesta-suma', 'dobla-fichas', 'rana-zenon', 'maquina-sigma', 'torre-pisos', 'escala-leyes',
   'siembra-raices', 'muro-radicales', 'jefe-venn', 'jefe-ruta', 'jefe-rueda',
@@ -491,6 +491,10 @@ const GUIDES = {
   'estira-barra': [['slide', 'Estira o encoge la barra con el tirador (o − / +) hasta el porcentaje pedido.', { label: '%' }]],
   'estira-foto': [['slide', 'Arrastra el borde de abajo para fijar el alto sin deformar la foto.', { vert: true }]],
   'etiqueta-rebaja': [['drag', 'Arrastra a cada etiqueta el sticker con su precio final.', { tile: '$ 80', slot: 'etiqueta −20 %' }]],
+  'lazo-conjunto': [['trace', 'Rodea con el dedo los elementos que pertenecen (o tócalos) y entran al conjunto.', { labels: ['pera', 'uva', 'mango'], trap: 'papa' }], ['tap', 'Cuando adentro estén justo los que cumplen la condición, toca «Listo».', { items: ['pera', 'papa', 'Listo'], pick: [0, 2] }]],
+  'cubo-partes': [['tap', 'Arma un subconjunto con los interruptores y toca «Encender». Enciéndelos todos sin repetir.', { items: ['x', 'y', 'Encender'], pick: [0, 2] }]],
+  'orbita-conjuntos': [['tap', 'Marca todos los conjuntos que cumplen la relación con A y toca «Listo».', { items: ['{a}', '{a, e}', 'Listo'], pick: [0, 2] }]],
+  'descifra-zona': [['tap', 'Cambia las ruedas hasta que lo pintado coincida con la zona rayada y toca «Listo».', { items: ['A', '∩', 'B'], pick: [1, 2] }]],
   'fabrica-subconjuntos': [['tap', 'En cada caja toca los elementos para encenderlos o apagarlos: todas deben ser distintas.', { items: ['a', 'b', 'c'], pick: [0, 2] }]],
   'fila-a-fila': [['tap', 'Toca la fila que cambia (y la otra, si hace falta) y elige la operación.', { items: ['F1', 'F2', 'F3'], pick: [1, 0] }], ['step', 'Elige k con las perillas y aplica. Se puede deshacer.', { from: 1, to: 2, label: 'k' }]],
   'flecha-vector': [['drag', 'Arrastra la punta de la flecha sobre la cuadrícula para construir el vector.', { dot: true }]],

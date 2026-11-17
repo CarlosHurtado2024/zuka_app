@@ -21,21 +21,21 @@ GAMES['atrapa-elementos'] = (() => {
     // Con palabras largas van 3 por fila: la altura crece para que la bandeja no tape las llaves (ancho mínimo 256 px).
     const colsOf = pool => (pool.some(x => x.length > 5) ? 3 : pool.length > 12 ? 6 : 5);
     const rowsMax = Math.max(...R.map(r => Math.ceil(r.pool.length / colsOf(r.pool))));
-    const aspect = Math.max(1.4, (248 + rowsMax * 46) / 256);
+    const aspect = Math.max(1.1, (262 + rowsMax * 43) / 328);
     const st = { picks: R.map(() => []) };
-    let locked = false, W = 0, H = 0, cur = 0, tabs = [], tray = [], bag = null, pop = 0;
+    let locked = false, W = 0, H = 0, cur = 0, tabs = [], tray = [], bag = null, pop = { i: -1, t: 0 };
 
     function layout(w, h) {
       W = w; H = h;
       tabs = roundTabs(R.length, w);
-      bag = { x: 14, y: 116, w: w - 28, h: 96 };
+      bag = { x: 12, y: 118, w: w - 24, h: 96 };
       placeTray();
     }
     function placeTray() {
-      const pool = R[cur].pool, long = pool.some(x => x.length > 5), cols = long ? 3 : pool.length > 12 ? 6 : 5, gap = 8;
-      const tw = (W - 28 - (cols - 1) * gap) / cols, th = 38, rows = Math.ceil(pool.length / cols);
-      const y0 = H - rows * (th + gap) - 22;
-      tray = pool.map((_, i) => ({ x: 14 + (i % cols) * (tw + gap), y: y0 + Math.floor(i / cols) * (th + gap), w: tw, h: th }));
+      const pool = R[cur].pool, cols = colsOf(pool), gap = 7;
+      const tw = (W - 24 - (cols - 1) * gap) / cols, th = 34, rows = Math.ceil(pool.length / cols);
+      const y0 = bag.y + bag.h + 16;
+      tray = pool.map((_, i) => ({ x: 12 + (i % cols) * (tw + gap), y: y0 + Math.floor(i / cols) * (th + gap + 2), w: tw, h: th }));
     }
     const ready = () => api.ready(st.picks.every(pk => pk.length > 0));
 
@@ -45,42 +45,41 @@ GAMES['atrapa-elementos'] = (() => {
 
       p.draw = () => {
         p.background(C.bg);
-        const r = R[cur], pk = st.picks[cur], good = same(pk, r);
+        const r = R[cur], pk = st.picks[cur], good = same(pk, r), S = SK.sets(C);
         drawTabs(p, C, tabs, cur, i => (locked ? (same(st.picks[i], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : st.picks[i].length ? C.Z : C.line));
-        // La regla (comprensión)
-        if (!r.given) drawKicker(p, C, 'Por comprensión', 14, 54);
-        p.noStroke();
-        p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+        // Lo que se da: la condición (comprensión) o los conjuntos de la operación.
+        p.noStroke(); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
         if (r.given) {
-          const cols = [C.Z, C.I, C.N];
-          r.given.forEach((g, j) => { p.fill(cols[j % 3]); fitText(p, g, W / 2, 52 + j * 20, W - 28, 14); });
-          p.fill(C.ink); fitText(p, `Escribe ${r.expr}`, W / 2, 52 + r.given.length * 20 + 2, W - 28, 15);
-        } else fitText(p, `${r.name || 'A'} = {${r.rule}}`, W / 2, 80, W - 28, 16);
-        // Las llaves (extensión en vivo)
-        const col = locked ? (good ? C.ok : C.bad) : C.R;
-        p.fill(C.card); p.stroke(col); p.strokeWeight(2.5); p.rect(bag.x, bag.y, bag.w, bag.h, 16);
-        p.noStroke(); p.fill(col); p.textSize(40); p.textStyle(p.NORMAL);
-        p.text('{', bag.x + 14, bag.y + bag.h / 2 - 2); p.text('}', bag.x + bag.w - 14, bag.y + bag.h / 2 - 2);
+          r.given.forEach((g, j) => { p.fill(/^U/.test(g) ? C.mute : S[j % 3].ink); fitText(p, g, W / 2, 52 + j * 20, W - 28, 14); });
+          p.fill(C.ink); fitText(p, `Escribe ${r.expr}`, W / 2, 52 + r.given.length * 20 + 4, W - 28, 16);
+        } else {
+          drawKicker(p, C, 'Por comprensión', 14, 56, { bar: C.mint, col: C.Q }); p.noStroke();
+          p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+          fitText(p, `${r.name || 'A'} = {${r.rule}}`, W / 2, 84, W - 28, 16);
+        }
+        // Las llaves: el conjunto por extensión, en vivo.
+        const col = locked ? (good ? C.ok : C.bad) : S[0].line, ink = locked ? col : S[0].ink;
+        SK.panel(p, C, bag, { col: locked ? col : null });
+        SK.serif(p, '{', bag.x + 18, bag.y + bag.h / 2 - 6, 46, ink); SK.serif(p, '}', bag.x + bag.w - 18, bag.y + bag.h / 2 - 6, 46, ink);
         const inside = ordered(pk, r);
-        p.fill(C.ink); p.textStyle(p.BOLD);
-        pop = Math.max(0, pop - 0.06);
+        p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
         // Si la lista no cabe en una línea, se parte en dos.
         const txt = inside.length ? inside.join(', ') : ' ';
         p.textSize(15);
-        if (inside.length > 1 && p.textWidth(txt) > bag.w - 60) {
+        if (inside.length > 1 && p.textWidth(txt) > bag.w - 76) {
           const h = Math.ceil(inside.length / 2);
-          fitText(p, inside.slice(0, h).join(', ') + ',', W / 2, bag.y + bag.h / 2 - 20, bag.w - 60, 15);
-          fitText(p, inside.slice(h).join(', '), W / 2, bag.y + bag.h / 2 + 2, bag.w - 60, 15);
-        } else fitText(p, txt, W / 2, bag.y + bag.h / 2 - 8, bag.w - 60, 22 + 4 * pop);
-        p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12);
-        p.text(inside.length ? `n(${r.expr || r.name || 'A'}) = ${inside.length}` : 'Toca las fichas que pertenecen', W / 2, bag.y + bag.h - 16);
-        // Fichas
+          fitText(p, inside.slice(0, h).join(', ') + ',', W / 2, bag.y + bag.h / 2 - 22, bag.w - 76, 15);
+          fitText(p, inside.slice(h).join(', '), W / 2, bag.y + bag.h / 2, bag.w - 76, 15);
+        } else fitText(p, txt, W / 2, bag.y + bag.h / 2 - 10, bag.w - 76, 21);
+        if (inside.length) SK.serif(p, `n(${r.expr || r.name || 'A'}) = ${inside.length}`, W / 2, bag.y + bag.h - 15, 13, ink, bag.w - 80);
+        else { p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.text('Toca los elementos que pertenecen', W / 2, bag.y + bag.h / 2); }
+        // Elementos disponibles: el que ya entró a las llaves queda encendido.
+        pop.t = Math.max(0, pop.t - 0.08);
         tray.forEach((b, i) => {
           const lab = r.pool[i], on = pk.includes(lab);
-          // Ficha crema; la que ya entró a las llaves queda color sol y hundida.
-          drawTile(p, C, b, lab, on ? { fill: C.sun, lift: 1, ring: locked ? null : C.sun } : { fill: C.cream });
+          SK.chip(p, C, b, lab, { state: !on ? 'idle' : locked ? (r.members.includes(lab) ? 'ok' : 'bad') : 'on', size: 14, k: pop.i === i ? 1 + 0.12 * pop.t : 1 });
         });
-        p.textSize(11); p.textStyle(p.BOLD);
+        p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
         if (locked && !good) { p.fill(C.ok); fitText(p, `Era ${listText(r.members)}`, W / 2, H - 10, W - 24, 12); }
       };
 
@@ -92,7 +91,7 @@ GAMES['atrapa-elementos'] = (() => {
         if (i >= 0) {
           const lab = R[cur].pool[i], pk = st.picks[cur], k = pk.indexOf(lab);
           if (k >= 0) pk.splice(k, 1); else pk.push(lab);
-          pop = 1; api.sfx?.tap?.(); ready(); return false;
+          pop = { i, t: 1 }; api.sfx?.tap?.(); ready(); return false;
         }
       };
     }, aspect);

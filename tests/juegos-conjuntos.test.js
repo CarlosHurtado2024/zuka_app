@@ -118,7 +118,7 @@ test('unidad 0: tres lecciones, cada una con su video de respaldo y sus juegos',
   assert.equal(unit.lessons.map(l => l.id).join(' '), 'alg-0a alg-0b alg-0c');
   const need = {
     'alg-0a': ['arma-notacion', 'cumple-notacion', 'atrapa-elementos', 'tacha-repetidos'],
-    'alg-0b': ['arma-conjunto', 'mueve-circulos', 'fabrica-subconjuntos'],
+    'alg-0b': ['arma-conjunto', 'mueve-circulos', 'cubo-partes'],
     'alg-0c': ['reparte-venn', 'atrapa-elementos', 'pinta-venn', 'encuesta-venn'],
   };
   for (const [id, games] of Object.entries(need)) {

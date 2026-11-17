@@ -34,22 +34,22 @@ GAMES['arma-notacion'] = (() => {
   function create(host, params, api) {
     const C = api.palette, R = params.rounds;
     const st = { seqs: R.map(() => []) };
-    let locked = false, W = 0, H = 0, cur = 0, tabs = [], board = null, chipBoxes = [], back = null, flash = 0;
+    let locked = false, W = 0, H = 0, cur = 0, tabs = [], board = null, chipBoxes = [], back = null, pop = { i: -1, t: 0 };
 
     function layout(w, h) {
       W = w; H = h;
       tabs = roundTabs(R.length, w);
-      board = { x: 14, y: 96, w: w - 28, h: 72 };
-      back = { x: w - 14 - 54, y: board.y + board.h + 8, w: 54, h: 30 };
+      board = { x: 12, y: 100, w: w - 24, h: 74 };
+      back = { x: w - 12 - 56, y: board.y + board.h + 9, w: 56, h: 30 };
       placeChips();
     }
     function placeChips() {
-      const chips = R[cur].chips, gap = 6, rowH = 36;
-      let x = 14, y = back.y + 42;
+      const chips = R[cur].chips, gap = 7, rowH = 34;
+      let x = 12, y = back.y + 44;
       chipBoxes = chips.map(label => {
         const short = SYMS.includes(label) || label.length <= 1;
-        const w = short ? 36 : Math.min(W - 28, 22 + label.length * 9);
-        if (x + w > W - 14) { x = 14; y += rowH + gap; }
+        const w = short ? 38 : Math.min(W - 24, 26 + label.length * 9);
+        if (x + w > W - 12) { x = 12; y += rowH + gap; }
         const b = { x, y, w, h: rowH }; x += w + gap; return b;
       });
     }
@@ -61,29 +61,29 @@ GAMES['arma-notacion'] = (() => {
 
       p.draw = () => {
         p.background(C.bg);
-        const r = R[cur], seq = st.seqs[cur], ok = good(seq, r), labels = labelsOf(seq, r);
+        const r = R[cur], seq = st.seqs[cur], ok = good(seq, r), labels = labelsOf(seq, r), A = SK.sets(C)[0];
         drawTabs(p, C, tabs, cur, i => (locked ? (good(st.seqs[i], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : st.seqs[i].length ? C.Z : C.line));
-        p.noStroke(); p.fill(C.ink); p.textStyle(p.NORMAL); p.textSize(13); p.textAlign(p.LEFT, p.TOP);
-        p.text(r.prompt, 14, 46, W - 28, 54);
-        // Pizarra
-        const col = locked ? (ok ? C.ok : C.bad) : C.line;
-        p.stroke(col); p.strokeWeight(2); p.fill(C.card); p.rect(board.x, board.y, board.w, board.h, 12);
-        p.noStroke(); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+        SK.kicker(p, C, 'Escribe por extensión', 14, 56);
+        p.fill(C.ink); p.textStyle(p.BOLD); p.textSize(14); p.textAlign(p.LEFT, p.TOP);
+        p.text(r.prompt, 14, 64, W - 28, 36);
+        // La pizarra: lo que se va escribiendo, en la franja formal.
         const text = labels.length ? labels.map(l => (l === ',' ? ',' : ` ${l}`)).join('').replace(/\{ /g, '{').replace(/ \}/g, '}').trim() : '';
-        flash = Math.max(0, flash - 0.05);
-        p.fill(labels.length ? C.ink : C.mute);
-        fitText(p, text || 'Toca las fichas en orden', W / 2, board.y + board.h / 2, board.w - 20, labels.length ? 22 : 13);
-        // Borrar
-        drawTile(p, C, back, '⌫', { fill: locked ? C.card : C.sky, ink: locked ? C.mute : undefined, r: 8, lift: 2, size: 15 });
-        p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.LEFT, p.CENTER);
-        fitText(p, 'Las fichas se pueden usar varias veces', 14, back.y + back.h / 2, back.x - 24, 11);
-        // Fichas
+        SK.panel(p, C, board, { col: locked ? (ok ? C.ok : C.bad) : null });
+        p.noStroke(); p.fill(locked ? (ok ? C.ok : C.bad) : A.line); p.rect(board.x + 1, board.y + 10, 3, board.h - 20, 2);
+        p.fill(labels.length ? C.ink : C.mute); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+        fitText(p, text || 'Toca las fichas en orden', W / 2, board.y + board.h / 2, board.w - 28, labels.length ? 23 : 13, board.h - 14);
+        // Borrar la última ficha
+        SK.chip(p, C, back, '⌫', { size: 15, r: 10 });
+        p.fill(C.mute); p.textStyle(p.NORMAL); p.textAlign(p.LEFT, p.CENTER);
+        fitText(p, 'Las fichas se pueden usar varias veces', 14, back.y + back.h / 2, back.x - 26, 11);
+        // Fichas: los signos de la notación, en el color del mundo; los elementos, en píldoras.
+        pop.t = Math.max(0, pop.t - 0.08);
         chipBoxes.forEach((b, i) => {
-          const lab = r.chips[i], sym = SYMS.includes(lab);
-          // Fichas crema; los signos de la notación ({ } , …), color sol.
-          drawTile(p, C, b, lab, { fill: sym ? C.sun : C.cream, r: 9, lift: 2, size: sym ? 20 : 15 });
+          const lab = r.chips[i], k = pop.i === i ? 1 + 0.12 * pop.t : 1;
+          if (SYMS.includes(lab)) drawTile(p, C, b, lab, { fill: C.mint, r: 9, lift: 2, size: 20, k });
+          else SK.chip(p, C, b, lab, { size: 14, k });
         });
-        p.textStyle(p.BOLD); p.textSize(12); p.textAlign(p.CENTER, p.CENTER);
+        p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
         if (locked && !ok) { p.fill(C.ok); fitText(p, `Así: ${setText(r)}`, W / 2, H - 12, W - 24, 12); }
       };
 
@@ -93,9 +93,9 @@ GAMES['arma-notacion'] = (() => {
         if (locked) return;
         if (hitBox(back, p.mouseX, p.mouseY)) { st.seqs[cur].pop(); ready(); api.sfx?.tap?.(); return false; }
         const i = chipBoxes.findIndex(b => hitBox(b, p.mouseX, p.mouseY));
-        if (i >= 0 && st.seqs[cur].length < 30) { st.seqs[cur].push(i); flash = 1; ready(); api.sfx?.tap?.(); return false; }
+        if (i >= 0 && st.seqs[cur].length < 30) { st.seqs[cur].push(i); pop = { i, t: 1 }; ready(); api.sfx?.tap?.(); return false; }
       };
-    }, 1.7);
+    }, 1.32);
 
     return {
       loaded: m.ready,

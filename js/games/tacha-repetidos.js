@@ -33,7 +33,7 @@ GAMES['tacha-repetidos'] = (() => {
       const n = R[cur].word.length, per = n > 7 ? Math.ceil(n / 2) : n, cw = Math.min(46, (W - 28 - (per - 1) * 6) / per);
       cells = [...R[cur].word].map((_, i) => {
         const row = Math.floor(i / per), inRow = row ? n - per : per, total = inRow * cw + (inRow - 1) * 6;
-        return { x: W / 2 - total / 2 + (i % per) * (cw + 6), y: 86 + row * (cw * 1.25 + 8), w: cw, h: cw * 1.25 };
+        return { x: W / 2 - total / 2 + (i % per) * (cw + 6), y: 100 + row * (cw * 1.2 + 9), w: cw, h: cw * 1.2 };
       });
     }
 
@@ -43,31 +43,28 @@ GAMES['tacha-repetidos'] = (() => {
 
       p.draw = () => {
         p.background(C.bg);
-        const r = R[cur], cr = st.crossed[cur], ok = good(cr, r), name = r.name || 'L';
+        const r = R[cur], cr = st.crossed[cur], ok = good(cr, r), name = r.name || 'L', A = SK.sets(C)[0];
         drawTabs(p, C, tabs, cur, i => (locked ? (good(st.crossed[i], R[i]) ? C.ok : C.bad) : i === cur ? C.brand : touched[i] ? C.Z : C.line));
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
-        fitText(p, `${name} = {x : x es una letra de la palabra ${r.word}}`, 14, 60, W - 28, 12);
-        // La palabra, letra por letra
+        SK.kicker(p, C, 'En un conjunto nada se repite', 14, 56);
+        p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
+        fitText(p, `${name} = {x : x es una letra de ${r.word}}`, W / 2, 80, W - 28, 14);
+        // La palabra, letra por letra: en ámbar, la que todavía está repetida; tachada, queda el hueco.
         cells.forEach((b, i) => {
-          const off = cr.includes(i), ch = r.word[i], dupLeft = !off && [...r.word].some((c, j) => j !== i && c === ch && !cr.includes(j));
-          // Letra en ficha crema; color sol si todavía está repetida; tachada, queda la casilla punteada.
-          if (off) drawSlot(p, C, b, 8); else drawTile(p, C, b, '', { fill: dupLeft && !locked ? C.sun : C.cream, r: 8, lift: 2 });
-          p.noStroke(); p.fill(off ? C.mute : inkOn(C.cream, C.ink)); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); p.textSize(Math.min(24, b.w * 0.6));
-          p.text(ch, b.x + b.w / 2, b.y + b.h / 2 + 1);
-          if (off) { p.stroke(C.bad); p.strokeWeight(3); p.line(b.x + 6, b.y + b.h - 6, b.x + b.w - 6, b.y + 6); }
+          const off = cr.includes(i), ch = r.word[i], dup = !off && [...r.word].some((c, j) => j !== i && c === ch && !cr.includes(j));
+          SK.chip(p, C, b, '', { state: off ? 'ghost' : dup && !locked ? 'on' : 'idle', col: C.sun, r: 9 });
+          SK.serif(p, ch, b.x + b.w / 2, b.y + b.h / 2 + 1, Math.min(25, b.w * 0.62), off ? C.mute : C.ink);
+          if (off) { p.stroke(C.coral); p.strokeWeight(2); p.line(b.x + 7, b.y + b.h - 7, b.x + b.w - 7, b.y + 7); p.noStroke(); }
         });
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
         const last = cells[cells.length - 1];
-        p.text('Resaltada: esa letra todavía está repetida', W / 2, last.y + last.h + 14);
-        // El conjunto que queda
-        const left = [...r.word].filter((_, i) => !cr.includes(i));
-        const by = last.y + last.h + 32, bh = 70;
-        p.stroke(locked ? (ok ? C.ok : C.bad) : C.line); p.strokeWeight(2); p.fill(C.card); p.rect(14, by, W - 28, bh, 12);
-        p.noStroke(); p.fill(C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-        fitText(p, `${name} = {${left.join(', ')}}`, W / 2, by + 26, W - 48, 20);
-        p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(13); p.text(touched[cur] ? `n(${name}) = ${new Set(left).size} letras distintas` : `n(${name}) = ?`, W / 2, by + 52);
-        if (locked && !ok) { p.fill(C.ok); p.textStyle(p.BOLD); p.textSize(12); fitText(p, `${name} = {${distinct(r.word).join(', ')}}`, W / 2, H - 14, W - 24, 12); }
-        else { p.fill(C.mute); p.textSize(11); p.text('Toca una letra para tacharla o recuperarla', W / 2, H - 14); }
+        p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
+        p.text('Resaltada: esa letra todavía está repetida', W / 2, last.y + last.h + 16);
+        // El conjunto que queda, en la franja formal.
+        const left = [...r.word].filter((_, i) => !cr.includes(i)), col = locked ? (ok ? C.ok : C.bad) : A.line;
+        SK.formal(p, C, { x: 12, y: last.y + last.h + 34, w: W - 24, h: 78 },
+          `$${name} = \\{${left.join(', ')}\\} \\quad n(${name}) = ${touched[cur] ? new Set(left).size : '?'}$`, { kicker: 'Lo que queda', col, size: 20 });
+        p.textAlign(p.CENTER, p.CENTER);
+        if (locked && !ok) { p.fill(C.ok); p.textStyle(p.BOLD); fitText(p, `${name} = {${distinct(r.word).join(', ')}}`, W / 2, H - 14, W - 24, 12); }
+        else { p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.text('Toca una letra para tacharla o recuperarla', W / 2, H - 14); }
       };
 
       p.mousePressed = () => {
