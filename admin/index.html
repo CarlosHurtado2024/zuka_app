@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0c0f1f">
+  <title>Zuka · Administración</title>
+  <link rel="icon" href="../icons/favicon-48.png" type="image/png">
+  <script>
+    // /admin sin barra final rompería las rutas relativas (admin.js, admin.css): se corrige la dirección.
+    if (!/\/$|\.html$/.test(location.pathname)) location.replace(location.pathname + '/' + location.search + location.hash);
+    (function () {
+      var t = 'system';
+      try { t = (JSON.parse(localStorage.getItem('zuka-v1')) || {}).theme || 'system'; } catch (e) {}
+      if (t === 'system') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="admin.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script defer src="../js/acceso.js"></script>
+  <script defer src="admin.js"></script>
+</head>
+<body class="admin">
+  <header class="ad-top">
+    <a class="ad-brand" href="../" aria-label="Volver a Zuka">
+      <img class="logo logo-light" src="../brand/logo-light.png" alt="Zuka" width="93" height="32">
+      <img class="logo logo-dark" src="../brand/logo-dark.png" alt="Zuka" width="93" height="32">
+      <span>Administración</span>
+    </a>
+    <div class="ad-user" hidden><span class="ad-mail"></span><button class="link-btn" type="button" data-salir>Salir</button></div>
+  </header>
+  <nav class="ad-nav" aria-label="Secciones" hidden>
+    <a href="#resumen">Resumen</a><a href="#usuarios">Usuarios</a><a href="#codigos">Códigos</a><a href="#planes">Planes</a>
+  </nav>
+  <main id="ad-view" class="ad-view" aria-live="polite"><p class="ad-state">Cargando…</p></main>
+  <div id="ad-toast" class="ad-toast" role="status" hidden></div>
+</body>
+</html>

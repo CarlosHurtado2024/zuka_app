@@ -13,6 +13,8 @@ const DEFAULTS = () => ({
   tourDone: false,   // recorrido guiado de bienvenida (js/tour.js): ya visto o saltado
   guides: {}, guideAuto: true,   // guías «Cómo se juega» ya vistas, por juego o tipo de ejercicio (js/guia.js)
   tutorias: [],      // asesorías separadas en la pestaña Tutorías (js/tutorias.js)
+  cuenta: null,      // última copia de la cuenta y su plan (js/cuenta.js), para abrir sin conexión
+  secs: {},          // segundos vistos del video de cada lección
 });
 
 let S = (() => {
@@ -197,7 +199,9 @@ function openStreakSheet() {
 }
 
 function openLessonSheet(c, l) {
+  if (planMotivo(l.id)) return openBloqueo(l.id);   // candado por plan (js/cuenta.js)
   const locked = !isUnlocked(c, l);
+  clipsOf(l).forEach(k => k.bunny && cuentaVideoBase(k.bunny).catch(() => {}));   // adelanta el enlace del video
   openSheet(`<div class="ls" style="--c:${c.color}">
     <p class="eyebrow">${esc(c.name)}</p><h3>${esc(l.title)}</h3>
     <p class="ls-meta"><span>${ICON.clips} ${clipSecs(l) >= 90 ? `Video de ${Math.round(clipSecs(l) / 60)} min` : `Clip de ${clipSecs(l)} s`}</span><span>${ICON.target} ${l.ex.length} ejercicios</span></p>
@@ -210,6 +214,7 @@ function openLessonSheet(c, l) {
 // Jefe final de un mundo (unit.boss): una batalla que usa todo lo del mundo. Se abre al terminar sus lecciones.
 const bossUnlocked = u => S.unlockAll || u.lessons.every(isDone);
 function openBossSheet(c, u) {
+  if (planMotivo(u.boss.id)) return openBloqueo(u.boss.id);
   const b = u.boss, open = bossUnlocked(u);
   openSheet(`<div class="ls" style="--c:${c.color}">
     <p class="eyebrow">Jefe final · ${esc((WORLDS[u.world] || {}).name || u.title)}</p><h3>${esc(b.title)}</h3>
@@ -307,33 +312,36 @@ function renderWorld(c, ui) {
         <svg class="trail" width="1" height="1" overflow="visible" aria-hidden="true"><path d="${worldTrail(xs, PATH_STEP)}"/></svg>
         ${u.lessons.map((l, li) => {
         // 'open': desbloqueada pero no es la siguiente (en modo revisión, todas las demás).
-        const st = isDone(l) ? 'done' : l === cur ? 'current' : isUnlocked(c, l) ? 'open' : 'locked';
-        const icon = st === 'done' ? ICON.check : st === 'locked' ? ICON.lock : `<b class="node-n">${li + 1}</b>`;
+        const st = planMotivo(l.id) ? 'locked plan' : isDone(l) ? 'done' : l === cur ? 'current' : isUnlocked(c, l) ? 'open' : 'locked';
+        const icon = st === 'done' ? ICON.check : st.startsWith('locked') ? ICON.lock : `<b class="node-n">${li + 1}</b>`;
         return `<div class="node-wrap" style="--x:${xs[li]}px">
           ${st === 'current' ? '<span class="start-bubble">EMPIEZA</span>' : ''}
           <button class="node ${st}" data-id="${l.id}" aria-label="Nivel ${ui + 1}-${li + 1}: ${esc(l.title)}">${icon}</button>
           <span class="node-label"><small>Nivel ${ui + 1}-${li + 1}</small>${esc(l.title)}</span></div>`;
       }).join('')}
         ${u.boss ? (() => {
-          const st = isDone(u.boss) ? 'done' : bossUnlocked(u) ? 'open' : 'locked';
+          const st = planMotivo(u.boss.id) ? 'locked' : isDone(u.boss) ? 'done' : bossUnlocked(u) ? 'open' : 'locked';
           return `<div class="node-wrap" style="--x:${xs[u.lessons.length]}px">
           ${st === 'open' && u.lessons.every(isDone) ? '<span class="start-bubble">JEFE FINAL</span>' : ''}
           <button class="node boss ${st}" data-boss aria-label="Jefe final del mundo ${ui + 1}: ${esc(u.boss.title)}">${st === 'locked' ? ICON.lock : ICON.crown}</button>
           <span class="node-label"><small>Jefe final</small>${esc(u.boss.title)}</span></div>`;
         })() : ''}
         ${u.exam ? (() => {
-          const best = S.exams[u.exam.id]?.best, st = best != null ? 'done' : examUnlocked(u) ? 'open' : 'locked';
+          const best = S.exams[u.exam.id]?.best, st = planMotivo(u.exam.id) ? 'locked' : best != null ? 'done' : examUnlocked(u) ? 'open' : 'locked';
           return `<div class="node-wrap" style="--x:${xs[xs.length - 1]}px">
           ${st === 'open' && u.lessons.every(isDone) ? '<span class="start-bubble">EVALÚATE</span>' : ''}
           <button class="node exam ${st}" data-exam aria-label="Evaluación del mundo ${ui + 1}${best != null ? `, mejor resultado ${best}%` : ''}">${st === 'locked' ? ICON.lock : ICON.trophy}</button>
           <span class="node-label"><small>Evaluación · ${u.exam.minutes} min</small>${best != null ? `Mejor resultado: ${best}%` : 'Pon a prueba el mundo'}</span></div>`;
         })() : ''}</div></section>
-    ${summaryOf(u) ? `<a class="world-summary" href="${summaryOf(u)}" download="Zuka - ${esc(w.name)} (resumen).pdf" target="_blank" rel="noopener">
+    ${summaryOf(u) && planMotivo(`resumen-${u.world}`) ? `<button class="world-summary locked" data-summary-lock type="button">
+      <span class="ws-icon">${ICON.lock}</span><span class="ws-text"><b>Resumen del mundo</b><small>PDF con la teoría, gráficas y un taller de 10 ejercicios · plan ${NIVEL_NOMBRE[nivelDe(`resumen-${u.world}`)]}</small></span></button>`
+    : summaryOf(u) ? `<a class="world-summary" href="${summaryOf(u)}" download="Zuka - ${esc(w.name)} (resumen).pdf" target="_blank" rel="noopener">
       <span class="ws-icon">${ICON.doc}</span><span class="ws-text"><b>Resumen del mundo</b><small>PDF con la teoría, gráficas y un taller de 10 ejercicios · se descarga con conexión</small></span>${ICON.download}</a>` : ''}
     ${ui + 1 < c.units.length ? `<button class="world-next" data-next>Siguiente: Mundo ${ui + 2} · ${esc((WORLDS[c.units[ui + 1].world] || c.units[ui + 1]).name || c.units[ui + 1].title)} ${ICON.right}</button>` : ''}
   </div>`;
   view.querySelectorAll('.node[data-id]').forEach(b => b.onclick = () => openLessonSheet(c, findLesson(b.dataset.id).l));
-  $('[data-exam]', view)?.addEventListener('click', () => openExamSheet(c, u));
+  $('[data-exam]', view)?.addEventListener('click', () => (planMotivo(u.exam.id) ? openBloqueo(u.exam.id) : openExamSheet(c, u)));
+  $('[data-summary-lock]', view)?.addEventListener('click', () => openBloqueo(`resumen-${u.world}`));
   $('[data-boss]', view)?.addEventListener('click', () => openBossSheet(c, u));
   $('[data-back]', view).onclick = () => {
     openWorld = null; renderLearn();
@@ -424,6 +432,7 @@ function watched(l) {
 const PRAISE = ['¡Correcto!', '¡Excelente!', '¡Muy bien!', '¡Así se hace!', '¡Perfecto!'];
 
 function startLesson(c, l) {
+  if (planMotivo(l.id)) return openBloqueo(l.id);   // candado por plan: también si se llega por otro camino
   syncHearts();
   if (S.hearts <= 0 && !S.unlockAll) return toast(`Sin vidas. Recuperas una en ${minsToHeart()} min.`);
   const back = tab;
@@ -620,6 +629,7 @@ function startLesson(c, l) {
     const first = !isDone(l), perfect = mistakes === 0;
     const xp = (first ? 10 : 5) + (perfect ? 5 : 0);
     S.done[l.id] = true; addXP(xp);
+    cuentaProgreso(l.id, { completada: true });   // avance en la nube (js/cuenta.js)
     const newStreak = markStreak();
     const exN = l.ex.length, acc = Math.round((100 * exN) / (exN + mistakes));
     const secs = Math.round((Date.now() - t0) / 1000);
@@ -689,6 +699,7 @@ function renderProfile() {
         <p class="muted">Fundamentos de ingeniería</p>
       </div>
     </section>
+    ${cuentaCard()}
     <section class="stats">
       <div class="stat fire">${ICON.flame}<b>${streakNow()}</b><small>Días de racha</small></div>
       <div class="stat gold">${ICON.bolt}<b>${S.xp}</b><small>XP total</small></div>
@@ -735,6 +746,7 @@ function renderProfile() {
   </div>`;
   const nameInp = $('.name-input', view);
   nameInp.onchange = () => { S.name = nameInp.value.trim(); save(); renderProfile(); };
+  cuentaBind(view);
   view.querySelectorAll('[data-goal]').forEach(b => b.onclick = () => { S.goal = +b.dataset.goal; save(); renderProfile(); });
   view.querySelectorAll('[data-course]').forEach(b => b.onclick = () => { S.course = b.dataset.course; openWorld = null; save(); go('learn'); });
   view.querySelectorAll('[data-lesson]').forEach(b => b.onclick = () => {
@@ -748,7 +760,7 @@ function renderProfile() {
   $('[data-tour]', view).onclick = startTour;
   $('[data-reset]', view).onclick = () => {
     ask({ title: '¿Borrar todo tu progreso?', text: 'Se borran tu XP, tu racha y las lecciones completadas. Tus asesorías separadas se conservan. No se puede deshacer.', ok: 'Borrar todo', cancel: 'Cancelar', danger: true })
-      .then(yes => { if (yes) { S = Object.assign(DEFAULTS(), { tourDone: S.tourDone, tutorias: S.tutorias }); openWorld = null; save(); applyTheme(); go('learn'); } });
+      .then(yes => { if (yes) { S = Object.assign(DEFAULTS(), { tourDone: S.tourDone, tutorias: S.tutorias, cuenta: S.cuenta }); openWorld = null; save(); applyTheme(); go('learn'); } });
   };
 }
 

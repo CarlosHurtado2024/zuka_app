@@ -1006,3 +1006,48 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .ag a.btn { text-align: center; text-decoration: none; }
 /* Celular muy angosto: el XP total sale de la barra de arriba (sigue en Perfil y en la meta diaria) para que quepa el nombre del curso. */
 @media (max-width: 359px) { #topbar .tb-stat.xp { display: none; } }
+
+/* ---------- cuenta, planes y candados por plan (js/cuenta.js) ---------- */
+.pill { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; background: var(--card2); color: var(--mute); white-space: nowrap; }
+.pill.ok { background: color-mix(in srgb, var(--ok) 18%, transparent); color: var(--ok); }
+.pill.bad { background: color-mix(in srgb, var(--bad) 18%, transparent); color: var(--bad); }
+.pill.warn { background: color-mix(in srgb, var(--gold) 20%, transparent); color: var(--gold); }
+.link-btn { color: var(--brand); font-weight: 700; font-size: 14px; padding: 8px 4px; text-align: left; }
+.acct-card .muted { font-size: 14px; line-height: 1.45; }
+.acct-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.acct-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.acct-actions .btn, .acct-card a.btn { padding: 12px 10px; font-size: 14.5px; text-align: center; text-decoration: none; }
+.acct-foot { display: flex; justify-content: space-between; gap: 10px; }
+.plan-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.plan-facts div { padding: 10px 12px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--line); min-width: 0; }
+.plan-facts dt { font-size: 11.5px; font-weight: 700; color: var(--mute); }
+.plan-facts dd { font-size: 15px; font-weight: 800; margin-top: 2px; }
+.plan-facts dd.warn { color: var(--fire); }
+.acct-form { display: grid; gap: 12px; padding-bottom: 4px; }
+.acct-form .sheet-title { margin-bottom: 0; }
+.acct-form .muted { font-size: 14px; line-height: 1.45; }
+.fld { display: grid; gap: 5px; font-size: 13px; font-weight: 700; color: var(--mute); }
+.fld input { width: 100%; padding: 13px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font: inherit; font-size: 16px; font-weight: 600; }
+.fld input:focus-visible { outline: 3px solid var(--brand); outline-offset: 1px; }
+.fld input[name="codigo"] { text-transform: uppercase; letter-spacing: .12em; font-family: ui-monospace, 'SF Mono', Consolas, monospace; }
+.form-msg { font-size: 14px; font-weight: 600; line-height: 1.4; padding: 10px 12px; border-radius: 12px; }
+.form-msg.bad { background: var(--fb-bad); color: var(--bad); }
+.form-links { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; }
+.form-links button { color: var(--brand); font-weight: 700; font-size: 14px; padding: 8px 2px; }
+.acct-form .btn.main, .acct-form .btn.brand { --c: var(--brand); color: #fff; }
+.lock-sheet, .canje-ok { text-align: center; justify-items: center; }
+.lock-sheet .btn, .canje-ok .btn { width: 100%; }
+.lock-ico, .canje-check { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 18px; background: var(--card2); color: var(--mute); }
+.canje-check { background: color-mix(in srgb, var(--ok) 18%, transparent); color: var(--ok); }
+.lock-ico .i, .canje-check .i { width: 28px; height: 28px; }
+.planes { display: grid; gap: 10px; }
+.plan { display: grid; gap: 8px; padding: 14px; border-radius: 16px; border: 1px solid var(--line); background: var(--card); }
+.plan.mio { border-color: var(--ok); }
+.plan header { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 17px; }
+.plan dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.plan dl div { padding: 8px 6px; border-radius: 10px; background: var(--bg2); text-align: center; min-width: 0; }
+.plan dt { font-size: 11px; font-weight: 700; color: var(--mute); }
+.plan dd { font-size: 14px; font-weight: 800; margin-top: 2px; white-space: nowrap; }
+.plan-how { text-align: center; }
+.world-summary.locked { width: 100%; text-align: left; }
+.world-summary.locked .ws-icon { background: var(--card2); color: var(--locked); }

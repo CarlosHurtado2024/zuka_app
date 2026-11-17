@@ -268,7 +268,7 @@ class VideoClip {
     // y no una imagen fija que luego salta al video. En el feed de Clips la miniatura sí ayuda a hojear.
     el.className = 'clip paused is-video' + (opts.feed ? ' in-feed' : ' loading');
     el.style.setProperty('--c', course.color);
-    el.innerHTML = `<video playsinline preload="metadata"${opts.feed && base ? ` poster="${esc(base)}/thumbnail.jpg"` : ''}></video>
+    el.innerHTML = `<video playsinline preload="metadata"></video>
       <div class="clip-loading" role="status" aria-label="Cargando video"><i></i></div>
       <div class="clip-play">${ICON.play}</div>${VIDEO_UI}${MUTE_BTN}${SPEED_UI}`;
     host.appendChild(el);
@@ -308,7 +308,24 @@ class VideoClip {
       save();
     });
     el.addEventListener('click', () => this.toggle());
-    if (/\.m3u8($|\?)/.test(src)) this.attachHls(src); else this.v.src = src;
+    // Avance: segundos vistos del video de la lección (no en el feed de Clips).
+    if (!opts.feed && lesson.id && typeof cuentaProgreso === 'function') {
+      this.v.addEventListener('timeupdate', () => { if (this.v.currentTime > (S.secs?.[lesson.id] || 0) + 5) cuentaProgreso(lesson.id, { segundos: this.v.currentTime }); });
+    }
+    if (!clip.bunny) { this.v.src = src; return; }
+    // Bunny: la dirección la entrega el servidor, firmada y solo si la cuenta puede ver el video (js/cuenta.js).
+    // Mientras llega, play() solo deja anotado que se quiere reproducir (this.pending).
+    const attach = b => {
+      if (this.dead) return;
+      this.pending = false;
+      if (opts.feed) this.v.poster = `${b}/thumbnail.jpg`;
+      this.attachHls(`${b}/playlist.m3u8`);
+    };
+    if (typeof cuentaVideoBase !== 'function') return attach(base);
+    const ya = cuentaVideoBaseYa(clip.bunny);
+    if (ya) return attach(ya);   // ya se pidió al abrir la hoja de la lección: arranca en el mismo toque
+    this.pending = true;
+    cuentaVideoBase(clip.bunny).then(attach, () => { if (!this.dead) { this.pending = false; this.stall(); opts.onFail?.(); } });
   }
 
   // hls.js se carga con la app (index.html), así el video arranca en el mismo toque que abre
@@ -392,6 +409,7 @@ class VideoClip {
     this.v.autoplay = true;
     this.el.classList.remove('paused');
     if (!this.opts.feed && (this.v.paused || this.v.readyState < 3)) this.el.classList.add('loading');
+    if (this.pending) return;   // aún sin dirección del video: setupHls llama a play() cuando llegue
     this.v.play().catch(e => {
       // Si el navegador bloquea el sonido, arranca en silencio y ofrece activarlo.
       // Si ni en silencio deja arrancar, se quita la rueda y queda el botón de reproducir.

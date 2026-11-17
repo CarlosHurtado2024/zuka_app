@@ -170,6 +170,7 @@ function renderTutorias() {
 
 // Hoja para separar: temas → día → hora → nota → confirmar. Al confirmar, la misma hoja dice qué quedó.
 function openBooking(c) {
+  if (typeof planMotivo === 'function' && planMotivo('tutorias')) return openBloqueo('tutorias');   // tutorías: plan Pro
   const now = Date.now(), days = tutoriaDays(now, S.tutorias);
   let date = days.find(d => d.slots.some(s => s.free))?.date || null, time = null, topics = [];
   // Arranca en la unidad donde va el estudiante (la de su primera lección sin terminar).

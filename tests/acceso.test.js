@@ -1,0 +1,146 @@
+// Planes, candados y códigos: lógica pura de js/acceso.js y su conexión con la app.
+// Spec: docs/superpowers/specs/2026-11-17-usuarios-planes-admin.md
+const test = require('node:test');
+const assert = require('node:assert');
+const fs = require('fs');
+const path = require('path');
+const { loadScripts, get, ROOT } = require('./load');
+
+const ctx = loadScripts(['js/ui.js', 'js/worlds.js', 'js/content.js', 'js/curiosidades.js', 'js/acceso.js',
+  'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js', 'js/courses/calculo.js',
+  'js/courses/geometria.js', 'js/data.js']);
+const f = name => get(ctx, name);
+const read = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
+
+const NOW = Date.parse('2026-11-17T12:00:00Z');
+const dias = n => new Date(NOW + n * 86400000).toISOString();
+const perfil = (nivel, hasta, rol = 'estudiante') => ({ rol, nivel, duracion: 'mensual', acceso_desde: dias(-1), acceso_hasta: hasta });
+
+test('estadoPlan: activo con días restantes, vencido y sin plan', () => {
+  const estadoPlan = f('estadoPlan');
+  assert.strictEqual(estadoPlan(null, NOW).estado, 'sin_plan');
+  assert.strictEqual(estadoPlan({ rol: 'estudiante', nivel: null, acceso_hasta: null }, NOW).estado, 'sin_plan');
+  assert.strictEqual(estadoPlan(perfil('basico', dias(-0.01)), NOW).estado, 'vencido');
+  const a = estadoPlan(perfil('basico', dias(29.2)), NOW);
+  assert.strictEqual(a.estado, 'activo');
+  assert.strictEqual(a.dias, 30);   // lo que falta, redondeado hacia arriba: nunca «0 días» con plan vigente
+  assert.strictEqual(estadoPlan(perfil('pro', dias(0.01)), NOW).dias, 1);
+});
+
+test('motivoBloqueo: gratis abre a todos; lo demás pide sesión, plan vigente y nivel suficiente', () => {
+  const m = f('motivoBloqueo');
+  assert.strictEqual(m(null, 'gratis', NOW), null);
+  assert.strictEqual(m(null, 'basico', NOW), 'sesion');
+  assert.strictEqual(m({ rol: 'estudiante', nivel: null, acceso_hasta: null }, 'basico', NOW), 'sin_plan');
+  assert.strictEqual(m(perfil('pro', dias(-1)), 'basico', NOW), 'vencido');
+  assert.strictEqual(m(perfil('basico', dias(5)), 'basico', NOW), null);
+  assert.strictEqual(m(perfil('basico', dias(5)), 'medio', NOW), 'nivel');
+  assert.strictEqual(m(perfil('medio', dias(5)), 'pro', NOW), 'nivel');
+  assert.strictEqual(m(perfil('pro', dias(5)), 'medio', NOW), null);
+  assert.strictEqual(m({ rol: 'admin', nivel: null, acceso_hasta: null }, 'pro', NOW), null, 'el admin abre todo');
+});
+
+test('cada motivo de bloqueo tiene su texto, con el nombre del plan que hace falta', () => {
+  const t = f('textoBloqueo');
+  for (const motivo of ['sesion', 'sin_plan', 'vencido', 'nivel']) {
+    const x = t(motivo, 'medio');
+    assert.ok(x && x.title && x.text, motivo);
+    assert.match(x.title + x.text, /Medio|venció/);
+  }
+  assert.strictEqual(t(null, 'medio'), null);
+});
+
+test('códigos: se limpian espacios, guiones y minúsculas; sin I, O, 0 ni 1', () => {
+  const limpia = f('limpiaCodigo'), valido = f('codigoValido');
+  assert.strictEqual(limpia(' abcde-fgh23 '), 'ABCDEFGH23');
+  assert.ok(valido('ABCDEFGH23'));
+  for (const malo of ['ABCDEFGH2', 'ABCDEFGH234', 'ABCDEFGHI2', 'ABCDEFGHO2', 'ABCDEFGH20', 'ABCDEFGH21']) assert.ok(!valido(malo), malo);
+  assert.strictEqual(f('muestraCodigo')('ABCDEFGH23'), 'ABCDE-FGH23');
+});
+
+test('cada error del canje tiene un mensaje claro', () => {
+  const e = f('canjeError'), E = f('CANJE_ERRORES');
+  for (const k of ['formato', 'no_existe', 'ya_usado', 'demasiados_intentos', 'sin_sesion', 'red']) assert.ok(E[k].length > 20, k);
+  assert.match(e('ya_usado'), /una sola vez/);
+  assert.match(e('demasiados_intentos'), /15 minutos/);
+  assert.ok(e('otra_cosa').length > 10);
+});
+
+test('precios en pesos y fechas cortas', () => {
+  assert.strictEqual(f('cop')(20000), '$ 20.000');
+  assert.strictEqual(f('cop')(299000), '$ 299.000');
+  assert.strictEqual(f('fechaCorta')('2026-12-17T15:00:00Z'), '17 dic 2026');
+  assert.strictEqual(f('fechaCorta')(null), '—');
+  assert.strictEqual(f('diasTexto')(1), '1 día');
+});
+
+test('catálogo: cada lección una vez, la primera de cada curso gratis, y cada tipo con su nivel', () => {
+  const rows = f('catalogo(COURSES, CURIOS, summaryOf)');
+  const ids = rows.map(r => r.id);
+  assert.strictEqual(new Set(ids).size, ids.length, 'ids repetidos');
+  const COURSES = f('COURSES');
+  for (const c of COURSES) {
+    const ls = rows.filter(r => r.curso === c.id && r.tipo === 'leccion');
+    assert.strictEqual(ls.length, c.units.flatMap(u => u.lessons).length, c.id);
+    assert.strictEqual(ls.filter(r => r.nivel_minimo === 'gratis').length, 1, `${c.id}: una sola gratis`);
+    assert.strictEqual(ls[0].nivel_minimo, 'gratis');
+  }
+  const nivel = tipo => [...new Set(rows.filter(r => r.tipo === tipo).map(r => r.nivel_minimo))].join();
+  assert.strictEqual(nivel('jefe'), 'basico');
+  assert.strictEqual(nivel('evaluacion'), 'medio');
+  assert.strictEqual(nivel('resumen'), 'medio');
+  assert.strictEqual(nivel('clip'), 'gratis');
+  assert.strictEqual(rows.find(r => r.id === 'tutorias').nivel_minimo, 'pro');
+  // Los videos de Bunny de las lecciones quedan en el catálogo: el servidor solo firma los que conoce.
+  const alg0b = rows.find(r => r.id === 'alg-0b');
+  assert.ok(alg0b.videos.length && alg0b.videos.every(v => /^[0-9a-f-]{36}$/.test(v)));
+});
+
+test('la app carga acceso.js y cuenta.js antes de app.js, y el service worker los guarda', () => {
+  const html = read('index.html'), sw = read('sw.js');
+  const at = s => html.indexOf(s);
+  assert.ok(at('js/acceso.js') > 0 && at('js/acceso.js') < at('js/cuenta.js') && at('js/cuenta.js') < at('js/app.js'));
+  assert.ok(at('js/data.js') < at('js/cuenta.js'), 'cuenta.js necesita los cursos ya cargados');
+  assert.ok(sw.includes("'js/acceso.js'") && sw.includes("'js/cuenta.js'"));
+  assert.match(sw, /supabase\\\.co/, 'las respuestas de Supabase no se guardan en la caché');
+});
+
+test('los candados por plan están en la hoja de lección, al empezarla, en jefes, evaluaciones, resúmenes y tutorías', () => {
+  const app = read('js/app.js');
+  assert.match(app, /function openLessonSheet\(c, l\) \{\s+if \(planMotivo\(l\.id\)\) return openBloqueo\(l\.id\)/);
+  assert.match(app, /function startLesson\(c, l\) \{\s+if \(planMotivo\(l\.id\)\) return openBloqueo\(l\.id\)/);
+  assert.match(app, /function openBossSheet\(c, u\) \{\s+if \(planMotivo\(u\.boss\.id\)\)/);
+  assert.match(app, /planMotivo\(u\.exam\.id\) \? openBloqueo\(u\.exam\.id\)/);
+  assert.match(app, /data-summary-lock/);
+  assert.match(read('js/tutorias.js'), /planMotivo\('tutorias'\)/);
+  assert.match(app, /cuentaProgreso\(l\.id, \{ completada: true \}\)/, 'al terminar una lección se guarda el avance');
+});
+
+test('el video de Bunny se pide al servidor (enlace firmado) y no se arma en el navegador', () => {
+  const player = read('js/player.js');
+  assert.match(player, /cuentaVideoBase\(clip\.bunny\)/);
+  assert.match(player, /if \(this\.pending\) return;/, 'play() no toca un video sin fuente (arrancaría en silencio)');
+  assert.ok(!/poster="\$\{esc\(base\)\}/.test(player), 'la miniatura también sale del enlace firmado');
+  const fn = read('supabase/functions/video-url/index.ts');
+  assert.match(fn, /rpc\("acceso_video"/, 'el servidor pregunta a la base si la cuenta puede ver el video');
+  assert.match(fn, /BUNNY_TOKEN_KEY/);
+  assert.ok(!/BUNNY_TOKEN_KEY\s*=\s*["']/.test(fn), 'la llave de Bunny no va en el código');
+});
+
+test('seguridad de la base: RLS en todas las tablas, columnas del plan sin permiso de edición y funciones con search_path', () => {
+  const sql = read('supabase/migrations/20261117000001_usuarios_planes.sql') + read('supabase/migrations/20261117000002_funciones_privadas.sql');
+  for (const t of ['planes', 'perfiles', 'codigos', 'progreso', 'intentos_canje', 'lecciones', 'admin_pendiente']) {
+    assert.match(sql, new RegExp(`alter table public\\.${t} enable row level security`), t);
+  }
+  assert.match(sql, /grant update \(nombre, telefono\) on public\.perfiles to authenticated/);
+  assert.ok(!/grant (all|update) on public\.perfiles/.test(sql), 'nadie recibe permiso de editar rol, nivel ni fechas');
+  assert.ok(!/grant[^;]*on public\.codigos to anon/.test(sql));
+  const canje = read('supabase/migrations/20261117000003_canje_confirmar.sql');
+  assert.match(canje, /'error', 'reemplaza'/, 'un código de otro nivel no reemplaza un plan vigente sin confirmar');
+  assert.match(read('js/cuenta.js'), /p_confirmar: confirmado === c/);
+  assert.match(read('js/cuenta.js'), /\(S\.cuenta \|\| \{\}\)\.uid !== Cuenta\.user\.id\) return;/, 'el avance de otra cuenta no sube a esta');
+  const fns = (sql + canje).match(/create function[\s\S]*?as \$\$/g);
+  assert.ok(fns.length >= 20);
+  for (const fn of fns) assert.match(fn, /set search_path = ''/, fn.slice(0, 60));
+  assert.ok(!/sb_secret|service_role key|eyJhbGciOi/.test(read('js/acceso.js')), 'en el navegador solo va la llave pública');
+});

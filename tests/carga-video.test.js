@@ -11,7 +11,7 @@ const player = read('js/player.js'), css = read('css/styles.css');
 const videoClip = player.slice(player.indexOf('class VideoClip'), player.indexOf('class YouTubeClip') > 0 ? player.indexOf('class YouTubeClip') : undefined);
 
 test('la miniatura (poster) solo se usa en el feed, no en la lección', () => {
-  assert.match(videoClip, /opts\.feed\s*&&\s*base/, 'el poster depende de opts.feed');
+  assert.match(videoClip, /if \(opts\.feed\) this\.v\.poster = /, 'el poster depende de opts.feed');
 });
 
 test('el reproductor de video tiene una rueda de carga', () => {
