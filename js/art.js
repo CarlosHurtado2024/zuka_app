@@ -1,12 +1,24 @@
-// Ilustraciones de los cursos: formas planas con volumen, en azules de la marca y acento amarillo.
+// Ilustraciones de los cursos: formas planas con volumen. Cada figura se dibuja con la paleta base ART_C y al final
+// se pinta con la del curso (ART_PAL): cuatro tonos de su color (el `color` del curso en js/courses y js/data.js) y un
+// acento que combina con él.
 
 const ART_C = { blue: '#2f5bff', deep: '#1c3dc4', soft: '#6f8fff', pale: '#8aa6ff', sun: '#ffc531', sunDeep: '#d99a00' };
+const ART_PAL = {
+  algebra: { blue: '#7c6cf5', deep: '#4b3bb8', soft: '#a99cff', pale: '#cfc8ff', sun: '#ff8fc7', sunDeep: '#d0599b' },   // morado + rosa
+  trig:    { blue: '#1bb6dc', deep: '#0c7c9e', soft: '#67e0f5', pale: '#b3f0fb', sun: '#5b8cff', sunDeep: '#3560d8' },   // cian + azul
+  calc:    { blue: '#ee5fa7', deep: '#b3387a', soft: '#f99bcb', pale: '#fdc9e2', sun: '#a78bfa', sunDeep: '#7a5ee0' },   // rosa + violeta
+  geo:     { blue: '#4f93f0', deep: '#2a62bd', soft: '#8dbdfc', pale: '#c5dcfd', sun: '#5eead4', sunDeep: '#2bb39c' },   // azul + turquesa
+  fis:     { blue: '#f2b705', deep: '#b48200', soft: '#fbd94a', pale: '#fde99a', sun: '#fb7a3c', sunDeep: '#cf541c' },   // amarillo + naranja
+  int:     { blue: '#22c087', deep: '#11845a', soft: '#6ee7b7', pale: '#b6f3da', sun: '#d9f25e', sunDeep: '#a4bd2c' },   // verde + lima
+  lin:     { blue: '#f5822a', deep: '#b9580f', soft: '#fdb070', pale: '#fed3ab', sun: '#ff5d7a', sunDeep: '#d23a58' },   // naranja + rojo rosado
+};
+const artTint = (svg, pal) => (pal ? svg.replace(/#[0-9a-f]{6}/g, h => { const k = Object.keys(ART_C).find(n => ART_C[n] === h); return k ? pal[k] : h; }) : svg);
 const artSvg = body => `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
 const ART_AXES = `<path d="M9 6v49h50" fill="none" stroke="${ART_C.blue}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M5 11l4-5 4 5M54 51l5 4-5 4" fill="none" stroke="${ART_C.blue}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
 const ART_GRID = `<path d="M21 6v49M33 6v49M45 6v49M9 19h50M9 31h50M9 43h50" stroke="${ART_C.pale}" stroke-width="1.2" opacity=".35"/>`;
 
-const COURSE_ART = {
+const COURSE_ART_BASE = {
   // Álgebra: modelo de área de (x + 1)² con fichas.
   algebra: artSvg(`
     <rect x="9" y="15" width="28" height="28" rx="3" fill="${ART_C.deep}"/>
@@ -83,5 +95,6 @@ const COURSE_ART = {
     <path d="M56 40l-6.8 6.6-2.1-9.8z" fill="${ART_C.sun}" stroke="${ART_C.sun}" stroke-width="2" stroke-linejoin="round"/>
     <circle cx="10" cy="50" r="4" fill="${ART_C.deep}"/>`),
 };
+const COURSE_ART = Object.fromEntries(Object.entries(COURSE_ART_BASE).map(([id, svg]) => [id, artTint(svg, ART_PAL[id])]));
 
 const courseArt = (c, size = '') => `<span class="cart ${size}" aria-hidden="true">${COURSE_ART[c.id] || ''}</span>`;
