@@ -14,15 +14,16 @@ const COURSE_ALGEBRA = {
       lessons: [
         {
           id: 'alg-0a', title: '¿Qué es un conjunto? Notación y pertenencia',
-          // Video lámina (video/conjunto-lamina, corte corto con audio) en Bunny desde el 2026-11-17; antes el zoom
-          // (video/conjunto-zoom, 382cb7b6-…). Las escenas son el respaldo, con los ejemplos del video (vocales, «salsa»).
-          // Spec 2026-11-11-conjuntos-desde-cero: sin números ni desigualdades; ejemplos de la vida diaria.
-          clip: { bunny: '2c656c56-44bc-4925-97f2-df27f61c74da', duration: 249.4, scenes: [
-            sc(6, 'Un **conjunto** es una colección **bien definida** de objetos: de cada objeto se puede decidir si está o no está, sin que dependa de quién opine. Los objetos se llaman **elementos**.', { title: '$V$: las vocales', steps: ['La e es vocal: está', 'La t no es vocal: no está'] }),
-            sc(6, '$\\in$ se lee «pertenece a» o «es elemento de»; $\\notin$, «no pertenece a». En un **diagrama de Venn** los elementos van dentro de la curva.', { title: '$a \\in V \\qquad t \\notin V$' }),
-            sc(6, 'Por **extensión** se nombran todos los elementos; por **comprensión**, la condición que cumplen. «:» se lee «tal que».', { title: '$V = \\{a, e, i, o, u\\} = \\{x : x \\text{ es una vocal}\\}$' }),
-            sc(6, 'El orden no importa y no hay repetidos. El **cardinal** $n(A)$ cuenta los elementos distintos.', { steps: ['$\\{u, o, i, e, a\\} = V$', 'Letras de «salsa»: $\\{s, a, l\\}$, cardinal $3$', '$n(V) = 5$'] }),
-            sc(5, 'Cuidado: $a$ es un elemento, pero $\\{a\\}$ es un conjunto con un solo elemento.', { title: '$a \\in V \\qquad \\{a\\} \\notin V$' }),
+          // Video «El día que Plutón cambió de conjunto» (video/conjunto-cosmos, corte con audio de 212.5 s) en Bunny desde
+          // el 2026-11-17; antes el lámina (video/conjunto-lamina, 2c656c56-…, 249.4 s) y el zoom (382cb7b6-…). Las escenas
+          // son el respaldo, con los ejemplos del video (planetas, Plutón, las bases del ADN).
+          // Spec 2026-11-11-conjuntos-desde-cero: sin desigualdades; ejemplos de la vida diaria.
+          clip: { bunny: '70757aa9-4d65-4414-963e-12045eb3675f', duration: 212.5, scenes: [
+            sc(7, 'Praga, 24 de agosto de 2006: los astrónomos votan y Plutón deja de ser planeta. Plutón no cambió: cambió la **regla** que decide quién entra. Un **conjunto** es una colección **bien definida** de objetos, y cada objeto que está en él es un **elemento**.', { title: '$P$: el conjunto de los planetas', steps: ['De cada objeto se puede decidir si está o no está', '«Los planetas más bonitos» depende de quién opine: no es un conjunto'] }),
+            sc(6, '$\\in$ se lee «pertenece a» o «es elemento de»; $\\notin$, el mismo símbolo tachado, «no pertenece a». Los conjuntos se nombran con mayúscula.', { title: '$\\text{Marte} \\in P \\qquad \\text{Plutón} \\notin P$' }),
+            sc(7, 'Por **extensión** se nombran todos los elementos, entre llaves y con comas; por **comprensión** se escribe la condición que cumplen. «:» se lee «tal que».', { title: '$P = \\{x : x \\text{ es un planeta}\\}$', steps: ['$P = \\{\\text{Mercurio}, \\text{Venus}, \\text{Tierra}, \\text{Marte}, \\text{Júpiter}, \\text{Saturno}, \\text{Urano}, \\text{Neptuno}\\}$', 'Las estrellas de la Vía Láctea no se pueden nombrar una por una: solo cabe la condición'] }),
+            sc(7, 'El ADN se escribe con cuatro bases: millones de letras, pero solo cuatro elementos. En un conjunto no hay repetidos y el orden no importa. El **cardinal** $n(A)$ es el número de elementos de $A$.', { steps: ['$\\{A, C, G, T\\} = \\{T, G, C, A\\}$', '$n(P) = 8$'] }),
+            sc(6, 'Un detalle fino: la Tierra es un elemento, pero $\\{\\text{Tierra}\\}$ es un conjunto con un solo elemento. Y Plutón no desapareció: salió de un conjunto y entró a otro, el de los planetas enanos.', { title: '$\\text{Tierra} \\in P \\qquad \\{\\text{Tierra}\\} \\notin P$' }),
           ] },
           ex: [
             play('arma-notacion', 'Toca las fichas en orden para escribir cada conjunto por **extensión**', {

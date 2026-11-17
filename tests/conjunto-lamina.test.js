@@ -59,11 +59,5 @@ test('la palabra del ejemplo tiene cinco letras y tres distintas; el final cierr
 
 test('los sonidos caben en la duración', () => { for (const e of D.EV) assert.ok(e.t >= 0 && e.t < D.DUR - 0.5, e.type); });
 
-test('la lección alg-0a usa este video desde Bunny y su respaldo trae los ejemplos del video', () => {
-  const { loadScripts, get } = require('./load');
-  const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js']);
-  const l = get(ctx, 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).find(x => x.id === 'alg-0a');
-  assert.strictEqual(l.clip.bunny, '2c656c56-44bc-4925-97f2-df27f61c74da');
-  const s = JSON.stringify(l.clip.scenes);
-  assert.ok(s.includes('salsa') && s.includes('vocal'), 'respaldo con vocales y «salsa»');
-});
+// Desde el 2026-11-17 la lección alg-0a usa el video de Plutón (tests/conjunto-cosmos.test.js); este quedó como
+// alternativa en Bunny (2c656c56-…, 249.4 s).

@@ -59,6 +59,20 @@ test('los ejemplos del video no salen en los ejercicios de la lección', () => {
   for (const w of ['plutón', 'planeta', 'marte', 'adn', 'estrella', 'eris']) assert.ok(!new RegExp(`(^|[^a-záéíóúñ])${w}([^a-záéíóúñ]|$)`).test(ex), w);
 });
 
+test('la lección alg-0a usa este video desde Bunny (corte con audio) y su respaldo trae los ejemplos del video', () => {
+  const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js']);
+  const l = get(ctx, 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).find(x => x.id === 'alg-0a');
+  assert.strictEqual(l.clip.bunny, '70757aa9-4d65-4414-963e-12045eb3675f');
+  assert.strictEqual(l.clip.duration, 212.5);
+  assert.ok(!l.more || !l.more.length, 'un solo video');
+  assert.strictEqual(get(ctx, "bunnyHost('70757aa9-4d65-4414-963e-12045eb3675f')"), 'vz-1a76d229-c83.b-cdn.net');
+  const s = JSON.stringify(l.clip.scenes);
+  for (const w of ['planeta', 'Plutón', 'Marte', 'Tierra', 'n(P) = 8', '\\\\in', '\\\\notin', 'extensión', 'comprensión', 'cardinal'])
+    assert.ok(s.includes(w), `respaldo sin ${w}`);
+  assert.ok(!/salsa|vocal/.test(s), 'ya no quedan los ejemplos del video anterior');
+  assert.ok(!/[¿?]/.test(l.clip.scenes.map(x => x.text).join(' ')), 'sin preguntas al espectador');
+});
+
 test('estilo: cada cuadro es función de t, varios colores neón, letra de libro y HUD con reloj y avance', () => {
   assert.doesNotMatch(film, /Date\.now|performance\.now|Math\.random\(/, 'nada depende del reloj ni del azar sin semilla');
   for (const c of ['cyan', 'mag', 'amber', 'violet', 'green']) assert.match(film, new RegExp(`${c}: '#[0-9a-f]{6}'`));
