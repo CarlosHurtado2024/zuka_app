@@ -23,7 +23,12 @@ window.render = function (t) {
 };
 const sc = document.createElement('script'); sc.src = 'films/' + F + '.js';
 const loaded = new Promise((ok, ko) => { sc.onload = ok; sc.onerror = ko; }); document.body.appendChild(sc);
-loaded.then(() => document.fonts.load('700 100px Jost')).then(() => document.fonts.ready).then(() => {
+// FILM.preload: imágenes (capturas) que se cargan como data URI y se decodifican antes de empezar, para que cada cuadro las pinte ya listas
+window.IMG = {};
+const preload = () => Promise.all((typeof FILM !== 'undefined' && FILM.preload || []).map(u => fetch(u).then(r => r.blob()).then(b => new Promise(ok => {
+  const fr = new FileReader(); fr.onload = () => { IMG[u] = fr.result; const im = new Image(); im.src = fr.result; im.decode().then(ok, ok); }; fr.readAsDataURL(b);
+}))));
+loaded.then(preload).then(() => document.fonts.load('700 100px Jost')).then(() => document.fonts.ready).then(() => {
   window.DUR = FILM.DUR;
   window.EV = filmEvents();
   window.TEXTS = t => {

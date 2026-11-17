@@ -147,3 +147,17 @@ fuera de los ejercicios (`tests/exponencial-zoom.test.js`).
 | `interes` | `alg-13b` | dos bancos al 6 %: el primer año pagan igual y el segundo solo difieren 7 200 pesos → el compuesto duplica en el año 12 y el simple en el 17 → cinco años antes |
 | `logaritmos` | `alg-72` | ¿qué día habrá mil lirios? Entre 9 y 10; ¿a la mitad, 9.5? → log₂ 1000 = 3 ÷ 0.301 ≈ 9.97: casi al final del día |
 | `ecuaciones` | `alg-73` | ¿cuándo se triplican los ahorros? 1.06ᵗ = 3 → igualar bases o tomar ln; la trampa del dominio (x = −2) → t ≈ 18.85: en el año 19 |
+
+# Bienvenido a Álgebra · video de presentación del curso
+
+`films/intro.js` (108 s): capturas reales de la app (`tools/capture-intro.mjs` con el servidor en el puerto 5191 →
+`shots/intro/`, celular 390 × 844, tema oscuro, estudiante nuevo y, aparte, con algunos días de racha) dentro de un celular
+dibujado; `index.html` carga `FILM.preload` como data URI antes de empezar. Fotogramas del video zoom de `alg-0a` como «el
+video de la lección» y páginas del resumen en PDF de la Pradera (`pdftoppm`). Pruebas `tests/intro-algebra.test.js`.
+
+| Parada | Qué se ve |
+|---|---|
+| tu ruta | inicio, recorrido guiado (pasos 1, 3 y 4) y el camino de los diez mundos hasta la Selva Exponencial |
+| un mundo | la Pradera de Venn: camino de niveles, resumen en PDF (dos hojas), jefe final y evaluación |
+| una lección | el video (intuición primero), ocho juegos en carrusel, y la pista |
+| y más | Clips (dos curiosidades), racha, XP y meta diaria, y el primer paso: Mundo 1 |
