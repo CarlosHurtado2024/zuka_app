@@ -10,7 +10,7 @@ const FILM = {
   title: 'Ceros de un polinomio',
   next: 'Dominio y simplificación',
   intro: 'Un polinomio de grado tres siempre tiene tres ceros, aunque la gráfica cruce el eje una sola vez. Vamos a buscarlos todos.',
-  examples: ['(x + 1)²(x − 3)', '2x³ − 5x² − 4x + 3', 'x³ − x² + x − 1', '±3/2'],
+  examples: ['(x + 1)²(x − 3)', '2x³ − 5x² − 4x + 3', 'x³ − x² + x − 1'],
   scenes: [
     { id: 'fundamental', name: 'Tantos ceros como el grado', dur: 32,
       caps: [[0.5, 9.0, 'EL TEOREMA FUNDAMENTAL', 'Un polinomio de grado $n$', 'tiene $n$ ceros.'], [9.4, 19.0, 'CONTANDO BIEN', 'Algunos complejos y algunos', 'repetidos.'],
