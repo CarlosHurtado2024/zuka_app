@@ -386,7 +386,8 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   <películas…>` (copia congelada, 3 reintentos, ~11 min por video; deja `out/<nombre>/`); no correr capturas pesadas a la vez.
   Escritas: tipos, operaciones (Conjuntos 2–3); naturales, racionales, reales, campo, consecuencias, orden (Recta Real); razones,
   proporciones, reglatres, porcentajes, aumentos, sucesivos (Escalas y Proporciones); potencias, leyes, raices, radicales
-  (Exponentes y Radicales). Renderizada y revisada: tipos. Faltan los mundos Sucesiones y Series en adelante. Entrega en `Downloads/Zuka_Lamina_<mundo>`; al recibir los ID de Bunny, poner
+  (Exponentes y Radicales); aritmeticas, sumaarit, geometricas, sumageo, sumatoria (Sucesiones y Series). Renderizadas: tipos,
+  operaciones. Faltan los mundos Álgebra de Polinomios en adelante. Entrega en `Downloads/Zuka_Lamina_<mundo>`; al recibir los ID de Bunny, poner
   `clip.bunny` + `duration` y cambiar las `scenes` de respaldo a los ejemplos del video.
 - Álgebra unidad 1, **un video por lección** (nuevos, fondo `fondo_algebra_vivo.png`, zoom y 3D; carpetas
   `video/clase_alg_u1_*`, plantilla `video/mk_alg_class.py` + `video/alg_u1_fx.py`; borrador escena por escena con
