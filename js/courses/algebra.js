@@ -14,14 +14,15 @@ const COURSE_ALGEBRA = {
       lessons: [
         {
           id: 'alg-0a', title: '¿Qué es un conjunto? Notación y pertenencia',
-          // Video zoom (video/conjunto-zoom, 116.5 s) en Bunny desde el 2026-11-13 (antes a82a88d9-…); reemplaza al V1 de manimgl
-          // (video/clase_alg_u0_v1_que_es, id 4b5c2610-…). Las escenas son el respaldo.
+          // Video lámina (video/conjunto-lamina, corte corto con audio) en Bunny desde el 2026-11-17; antes el zoom
+          // (video/conjunto-zoom, 382cb7b6-…). Las escenas son el respaldo, con los ejemplos del video (vocales, «salsa»).
           // Spec 2026-11-11-conjuntos-desde-cero: sin números ni desigualdades; ejemplos de la vida diaria.
-          clip: { bunny: '382cb7b6-2d30-4fc9-b930-0fec2b276522', duration: 116.5, scenes: [
-            sc(6, 'Un **conjunto** es una colección de objetos **bien definida**: cualquiera puede decidir, sin dudar, si un objeto está o no está. Los objetos se llaman **elementos**.', { title: '$S = \\{\\text{rojo},\\ \\text{amarillo},\\ \\text{verde}\\}$', steps: ['Nombre en mayúscula, elementos entre llaves y separados por comas'] }),
-            sc(6, '$\\in$ se lee «pertenece a» y $\\notin$ «no pertenece a».', { title: '$\\text{rojo} \\in S \\qquad \\text{azul} \\notin S$' }),
-            sc(6, 'Por **extensión** se escriben todos los elementos; por **comprensión**, la condición que cumplen. «:» se lee «tal que».', { title: '$V = \\{a, e, i, o, u\\} = \\{x : x \\text{ es una vocal}\\}$' }),
-            sc(6, 'El orden no importa y no se repite ningún elemento. El **cardinal** $n(A)$ cuenta los elementos distintos.', { steps: ['Letras de PAPAYA: $\\{P, A, Y\\}$', '$n = 3$'] }),
+          clip: { bunny: '2c656c56-44bc-4925-97f2-df27f61c74da', duration: 249.4, scenes: [
+            sc(6, 'Un **conjunto** es una colección **bien definida** de objetos: de cada objeto se puede decidir si está o no está, sin que dependa de quién opine. Los objetos se llaman **elementos**.', { title: '$V$: las vocales', steps: ['La e es vocal: está', 'La t no es vocal: no está'] }),
+            sc(6, '$\\in$ se lee «pertenece a» o «es elemento de»; $\\notin$, «no pertenece a». En un **diagrama de Venn** los elementos van dentro de la curva.', { title: '$a \\in V \\qquad t \\notin V$' }),
+            sc(6, 'Por **extensión** se nombran todos los elementos; por **comprensión**, la condición que cumplen. «:» se lee «tal que».', { title: '$V = \\{a, e, i, o, u\\} = \\{x : x \\text{ es una vocal}\\}$' }),
+            sc(6, 'El orden no importa y no hay repetidos. El **cardinal** $n(A)$ cuenta los elementos distintos.', { steps: ['$\\{u, o, i, e, a\\} = V$', 'Letras de «salsa»: $\\{s, a, l\\}$, cardinal $3$', '$n(V) = 5$'] }),
+            sc(5, 'Cuidado: $a$ es un elemento, pero $\\{a\\}$ es un conjunto con un solo elemento.', { title: '$a \\in V \\qquad \\{a\\} \\notin V$' }),
           ] },
           ex: [
             play('arma-notacion', 'Toca las fichas en orden para escribir cada conjunto por **extensión**', {

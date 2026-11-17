@@ -372,7 +372,7 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   solo acento, cursiva de libro con borde), **rigor matemático**, animación sencilla, lenguaje llano con intuición, y **cada concepto y
   cada notación explicados aunque dure 4 o 5 minutos**. Pantalla en tres franjas: rótulo arriba, diagrama en el centro (el mismo V de las
   vocales casi todo el video), escritura formal abajo. 13 escenas con tiempos relativos en `data.js`. Entregado en
-  `Downloads/Zuka_Conjuntos_lamina`; **el usuario eligió este modelo para los videos de sus cursos** (2026-11-17; descartó la
+  `Downloads/Zuka_Conjuntos_lamina`. **Ya está en Bunny y en `alg-0a`** (`2c656c56-…`, corte corto con audio de 249.4 s; respaldo con vocales y «salsa»). **El usuario eligió este modelo para los videos de sus cursos** (2026-11-17; descartó la
   versión estudio). Aún no ha pedido rehacer las demás lecciones: esperar a que lo diga. Al hacerlas: otro mundo = su color de acento y su diagrama; al recibir el ID de Bunny, cambiar `clip.bunny` +
   `duration` de `alg-0a` y sus `scenes` de respaldo (vocales, «salsa»).
 - **Serie lámina de Álgebra (en curso, pedida por el usuario el 2026-11-17): un video por lección de todos los mundos, ~5 min,**
