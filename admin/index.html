@@ -21,24 +21,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
   <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="admin.css?v=2">
+  <link rel="stylesheet" href="admin.css?v=3">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
   <script defer src="../js/acceso.js"></script>
-  <script defer src="admin.js?v=2"></script>
+  <script defer src="admin.js?v=3"></script>
 </head>
 <body class="admin">
-  <header class="ad-top">
-    <a class="ad-brand" href="../" aria-label="Volver a Zuka">
+  <header class="pn-top">
+    <a class="pn-brand" href="../" aria-label="Volver a Zuka">
       <img class="logo logo-light" src="../brand/logo-light.png" alt="Zuka" width="93" height="32">
       <img class="logo logo-dark" src="../brand/logo-dark.png" alt="Zuka" width="93" height="32">
       <span>Administración</span>
     </a>
-    <div class="ad-user" hidden><span class="ad-mail"></span><button class="link-btn" type="button" data-salir>Salir</button></div>
+    <div class="pn-user" hidden><span class="pn-mail"></span><button class="link-btn" type="button" data-salir>Salir</button></div>
   </header>
-  <nav class="ad-nav" aria-label="Secciones" hidden>
+  <nav class="pn-nav" aria-label="Secciones" hidden>
     <a href="#resumen">Resumen</a><a href="#usuarios">Usuarios</a><a href="#codigos">Códigos</a><a href="#planes">Planes</a>
   </nav>
-  <main id="ad-view" class="ad-view" aria-live="polite"><p class="ad-state">Cargando…</p></main>
-  <div id="ad-toast" class="ad-toast" role="status" hidden></div>
+  <main id="pn-view" class="pn-view" aria-live="polite"><p class="pn-state">Cargando…</p></main>
+  <div id="pn-toast" class="pn-toast" role="status" hidden></div>
 </body>
 </html>

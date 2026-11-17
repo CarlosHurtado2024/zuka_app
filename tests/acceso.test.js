@@ -133,6 +133,12 @@ test('sin sesión la app abre en la pantalla de entrada, que deja seguir sin cue
   assert.match(read('css/styles.css'), /#auth \{[^}]*z-index: 35/, 'encima de la app y debajo de las hojas');
 });
 
+test('el panel no usa clases «ad-…»: los bloqueadores de anuncios las esconden', () => {
+  for (const f of ['admin/admin.js', 'admin/admin.css', 'admin/index.html']) {
+    assert.ok(!/(^|[^A-Za-z0-9])ad-[a-z]/.test(read(f)), f);
+  }
+});
+
 test('el video de Bunny se pide al servidor (enlace firmado) y no se arma en el navegador', () => {
   const player = read('js/player.js');
   assert.match(player, /cuentaVideoBase\(clip\.bunny\)/);
