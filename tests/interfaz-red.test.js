@@ -108,29 +108,54 @@ test('brainSVG, brainTile y logoHTML: malla, caras encendidas y nombre accesible
   assert.match(logoHTML(), /role="img" aria-label="Zuka"/);
 });
 
-test('animación de entrada: el cerebro se arma por turnos, luego ZUKA y el eslogan, sin retrasar el arranque', () => {
-  const ctx = loadScripts(['js/marca.js']), html = get(ctx, 'introHTML')();
-  assert.equal(get(ctx, 'SLOGAN'), 'Potencia tu mente');
-  assert.match(html, /^<div class="intro" role="img" aria-label="Zuka\. Potencia tu mente">/);
+test('animación de entrada: vive en la portada, con el cerebro quieto desde el primer cuadro', () => {
+  // El bloque de index.html es el que genera tools/marca.js y va dentro de #boot: se ve sin esperar a ningún script.
+  assert.equal(index, built.withIntro(index), 'correr: node tools/marca.js');
+  const boot = index.slice(index.indexOf('<div id="boot"'), index.indexOf('<div id="app"'));
+  assert.ok(boot.includes(built.intro), 'la animación va dentro de la portada');
+  const html = built.intro, g = built.geo.full;
   assert.match(html, /<p class="intro-slogan">Potencia tu mente<\/p>/);
-  assert.equal((html.match(/<path pathLength="1" style="--k/g) || []).length, 7, 'ZUKA se escribe trazo a trazo (Z, U, tres de la K y dos de la A)');
-  const g = built.geo.full, ds = [...html.matchAll(/style="--d:([\d.]+)"/g)].map(m => Number(m[1]));
-  assert.equal(ds.length, g.edges.length + g.nodes.length + g.tris.length, 'cada arista, nodo y cara con su turno');
-  assert.ok(ds.every(d => d >= 0 && d <= 1) && Math.max(...ds) === 1 && Math.min(...ds) < .2, 'turnos de 0 a 1, desde el tallo');
-  assert.equal((html.match(/<path pathLength="1" style="--d/g) || []).length, g.edges.length, 'aristas que se dibujan');
-  // El CSS: nada se ve hasta .play; el orden es malla, caras, palabra, eslogan.
-  const delay = sel => Number((css.match(new RegExp(sel.replace(/[.]/g, '\\.') + ' \\{ animation: [^;]*? (?:calc\\()?([\\d.]+)s(?: \\+ var\\(--[dk]\\) \\* [\\d.]+s\\))? forwards')) || [])[1]);
-  assert.match(css, /\.intro \.bi-stem, \.intro \.bi-nodes circle, \.intro \.bi-faces polygon, \.intro-slogan \{ opacity: 0; \}/);
-  assert.ok(delay('.intro.play .bi-edges path') < delay('.intro.play .bi-faces polygon'));
-  assert.ok(delay('.intro.play .bi-faces polygon') < delay('.intro.play .wordmark path'));
-  assert.ok(delay('.intro.play .wordmark path') < delay('.intro.play .intro-slogan'));
-  // La app: una vez por sesión, se salta con un toque, no sale con «reducir movimiento» y empieza al quitar la portada.
-  assert.match(app, /prefers-reduced-motion: reduce\)'\)\.matches \|\| sessionStorage\.getItem\('zuka-intro'\)/);
-  assert.match(app, /el\.addEventListener\('click', end\)/);
-  assert.match(app.slice(app.indexOf('function hideBoot('), app.indexOf('const INTRO_MS')), /playIntro\(\);/);
+  // El cerebro de malla (el mismo del icono) no lleva animación; las caras van en franjas y ZUKA en cuatro letras, cada una en su capa.
+  assert.equal((html.match(/<svg class="bi-wire"/g) || []).length, 1);
+  const bands = [...html.matchAll(/<svg class="bi-band" style="--k:(\d+)"[^>]*>([\s\S]*?)<\/svg>/g)];
+  assert.equal(bands.map(m => m[1]).join(), '0,1,2,3,4,5');
+  assert.equal(bands.reduce((n, m) => n + (m[2].match(/<polygon/g) || []).length, 0), g.tris.length, 'cada cara en una franja');
+  for (const m of bands) assert.ok(/<polygon/.test(m[2]), `franja ${m[1]} vacía`);
+  assert.equal((html.match(/<div class="intro-word">([\s\S]*?)<\/div>/)[1].match(/<svg style="--k:\d"/g) || []).length, 4, 'Z, U, K, A');
+  // Estable: en los estilos de la entrada solo se anima la opacidad; nada de mover, escalar ni dibujar trazos.
+  const intro = css.slice(css.indexOf('/* Animación de entrada'), css.indexOf('@keyframes intro-in'));
+  assert.doesNotMatch(intro, /(?<!text-)transform|translate|scale\(|stroke-dash|@keyframes/);
+  assert.match(css, /@keyframes intro-in \{ to \{ opacity: 1; \} \}/);
+  assert.doesNotMatch(block('.intro-brain .bi-wire'), /animation|opacity/, 'el cerebro de malla se ve desde el primer cuadro');
+  assert.match(css, /\.intro \.bi-band, \.intro-word svg, \.intro-slogan \{ opacity: 0; will-change: opacity; animation: intro-in/);
+  // Centrado en la pantalla, como el icono con que el celular abre la app.
+  assert.match(block('.intro-brain'), /left: calc\(50% - var\(--bw\) \/ 2\); top: calc\(50% - var\(--bw\) \/ 2\)/);
+  // El orden: caras, palabra, eslogan; y la app espera a que termine.
+  const delay = sel => Number((rules.find(r => r.sel === sel && /animation-delay/.test(r.body))?.body.match(/animation-delay: (?:calc\()?([\d.]+)s/) || [])[1]);
+  assert.ok(delay('.intro .bi-band') < delay('.intro-word svg') && delay('.intro-word svg') < delay('.intro-slogan'));
   const ms = Number((app.match(/const INTRO_MS = (\d+)/) || [])[1]);
-  assert.ok(ms >= 3000 && ms <= 4000, `dura ${ms} ms`);
-  assert.ok(Number((css.match(/\.intro \{[^}]*z-index: (\d+)/) || [])[1]) < 1000, 'debajo de la portada #boot');
+  assert.ok(ms >= (delay('.intro-slogan') + .6) * 1000 && ms <= 3500, `la portada espera ${ms} ms`);
+});
+
+test('la entrada no deja bordes claros: documento, portada y barra del celular oscuros mientras dura', () => {
+  const inline = (index.match(/<style>([^<]*)<\/style>/) || [])[1] || '';
+  assert.ok(inline.includes('html[data-intro],html[data-intro] body,html[data-intro] #boot{background:#07080f}'));
+  assert.ok(inline.indexOf('html[data-intro]') > inline.indexOf('html[data-theme="light"] #boot'), 'gana al tema claro');
+  assert.ok(inline.includes('html:not([data-intro]) .intro{display:none}'), 'sin entrada, la portada va vacía');
+  // Una vez por sesión y no con «reducir movimiento»; lo decide el script del <head>, antes de pintar.
+  const head = index.slice(0, index.indexOf('<style>'));
+  assert.match(head, /!sessionStorage\.getItem\('zuka-intro'\) && !matchMedia\('\(prefers-reduced-motion: reduce\)'\)\.matches/);
+  assert.match(head, /document\.documentElement\.dataset\.intro = '1'/);
+  // La barra del celular (theme-color) sigue oscura durante la entrada y vuelve al tema al quitar la portada.
+  assert.match(app, /content = document\.documentElement\.dataset\.intro \? '#07080f' : t === 'dark'/);
+  const hide = app.slice(app.indexOf('function hideBoot('), app.indexOf('const INTRO_MS'));
+  assert.match(hide, /delete document\.documentElement\.dataset\.intro; applyTheme\(\);/);
+  // Sin entrada no se espera nada; con entrada, un toque la salta; y el respaldo en línea también limpia data-intro.
+  const wait = app.slice(app.indexOf('function introWait('), app.indexOf('const fontsReady'));
+  assert.match(wait, /if \(!document\.documentElement\.dataset\.intro \|\| !b\) return Promise\.resolve\(\);/);
+  assert.match(wait, /b\.addEventListener\('click'/);
+  assert.match(index, /setTimeout\(function \(\) \{[^}]*removeAttribute\('data-intro'\)/);
+  assert.doesNotMatch(read('js/marca.js'), /intro/i, 'la entrada ya no viaja en js/marca.js');
 });
 
 test('la mascota y los logos viejos ya no se usan', () => {

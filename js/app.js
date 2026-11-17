@@ -33,7 +33,8 @@ const darkQuery = matchMedia('(prefers-color-scheme: dark)');
 function applyTheme() {
   const t = S.theme === 'system' ? (darkQuery.matches ? 'dark' : 'light') : S.theme;
   document.documentElement.dataset.theme = t;
-  $('meta[name="theme-color"]').content = t === 'dark' ? '#07080f' : '#f4f6fb';
+  // Mientras se ve la animación de entrada (data-intro), la barra del celular sigue oscura como la portada.
+  $('meta[name="theme-color"]').content = document.documentElement.dataset.intro ? '#07080f' : t === 'dark' ? '#07080f' : '#f4f6fb';
   setGameTheme(t);   // los minijuegos abiertos se repintan con la paleta del tema
 }
 darkQuery.addEventListener('change', () => S.theme === 'system' && applyTheme());
@@ -856,36 +857,27 @@ function hideBoot() {
   const b = $('#boot');
   if (!b || b.classList.contains('out')) return;
   b.classList.add('out');
-  setTimeout(() => b.remove(), 200);
-  playIntro();
+  setTimeout(() => b.remove(), 400);
+  // Se acabó la entrada: el documento y la barra del celular vuelven al color del tema.
+  if (document.documentElement.dataset.intro) { delete document.documentElement.dataset.intro; applyTheme(); }
 }
-// Animación de entrada (introHTML, js/marca.js): el cerebro se arma, se dibuja ZUKA y sale el eslogan. Va encima de la
-// app ya lista, una vez por sesión del navegador; un toque la salta y con «reducir movimiento» no sale. No retrasa el
-// arranque: la app carga debajo mientras tanto. INTRO_MS = lo que dura la animación del CSS (.intro) más una pausa.
-const INTRO_MS = 3300;
-let introEl = null;
-function setupIntro() {
-  try {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches || sessionStorage.getItem('zuka-intro')) return;
-    sessionStorage.setItem('zuka-intro', '1');
-  } catch (e) { return; }
-  document.body.insertAdjacentHTML('beforeend', introHTML());
-  introEl = document.body.lastElementChild;
+// Animación de entrada: vive en la portada misma (bloque .intro de index.html, estilos en css/styles.css), así se ve
+// desde el primer cuadro, mientras la app carga, sin esperar a este archivo. El script del <head> pone data-intro la
+// primera vez de cada sesión (y no con «reducir movimiento»). Aquí solo se espera a que termine antes de quitar la
+// portada: INTRO_MS desde que empezó a verse (zukaIntroT0); un toque la salta. Sin data-intro no se espera nada.
+const INTRO_MS = 3100;
+function introWait() {
+  const b = $('#boot');
+  if (!document.documentElement.dataset.intro || !b) return Promise.resolve();
+  return new Promise(done => {
+    const t = setTimeout(done, Math.max(0, INTRO_MS - (performance.now() - (window.zukaIntroT0 ?? performance.now()))));
+    b.addEventListener('click', () => { clearTimeout(t); done(); }, { once: true });
+  });
 }
-function playIntro() {
-  const el = introEl;
-  if (!el) return;
-  introEl = null;
-  const end = () => { el.classList.add('out'); setTimeout(() => el.remove(), 450); };
-  el.classList.add('play');
-  el.addEventListener('click', end);
-  setTimeout(end, INTRO_MS);
-}
-setupIntro();
 const fontsReady = document.fonts?.load
   ? Promise.all(['400', '600', '700'].map(w => document.fonts.load(`${w} 1em "Plus Jakarta Sans"`))).catch(() => {})
   : null;
-Promise.race([fontsReady, new Promise(r => setTimeout(r, 300))])
+Promise.all([Promise.race([fontsReady, new Promise(r => setTimeout(r, 300))]), introWait()])
   .then(() => requestAnimationFrame(() => requestAnimationFrame(hideBoot)));
 applyTheme();
 cuentaInit();   // cuenta guardada y modo revisión solo para el administrador (js/cuenta.js), antes de pintar

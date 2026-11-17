@@ -818,30 +818,25 @@ img.logo { display: block; width: auto; }   /* panel de administración: brand/l
 /* Fin de lección: el cerebro con las caras encendidas, como al final del video de la marca. */
 .done-brain { width: 132px; margin-bottom: 10px; border-color: transparent; animation: pop .6s cubic-bezier(.2,.8,.2,1); }
 .done-brain .brain { filter: drop-shadow(0 0 12px rgba(143, 220, 255, .32)); }
-/* Animación de entrada (introHTML en js/marca.js, playIntro en js/app.js), como el video de la marca: sale el tallo, la
-   malla crece desde él (cada pieza espera su turno --d, de 0 a 1), las caras se encienden, se dibuja ZUKA y aparece el
-   eslogan. Siempre oscura, como el icono. Dura unos 3 s (INTRO_MS en js/app.js). */
-.intro {
-  position: fixed; inset: 0; z-index: 950; display: grid; place-content: center; justify-items: center; gap: 22px;
-  background: radial-gradient(circle at 50% 42%, #10142a 0, #07080f 60%); color: #e6ecff; --brain-stem: #8fdcff;
-  cursor: pointer; transition: opacity .4s ease-out;
-}
-.intro.out { opacity: 0; pointer-events: none; }
-.intro .brain { width: min(58vw, 240px); height: auto; aspect-ratio: 1; filter: drop-shadow(0 0 6px rgba(150, 205, 255, .45)); }
-.intro .wordmark { height: 30px; width: auto; }
-.intro-slogan { font-family: var(--display); font-size: 13px; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: #8fdcff; margin-top: -6px; padding-left: .34em; }
-.intro .bi-stem, .intro .bi-nodes circle, .intro .bi-faces polygon, .intro-slogan { opacity: 0; }
-.intro .bi-edges path, .intro .wordmark path { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.intro.play .bi-stem { animation: intro-in .35s ease-out forwards; }
-.intro.play .bi-edges path { animation: intro-draw .45s cubic-bezier(.2,.8,.2,1) calc(.15s + var(--d) * 1s) forwards; }
-.intro.play .bi-nodes circle { animation: intro-in .3s ease-out calc(.3s + var(--d) * 1s) forwards; }
-.intro.play .bi-faces polygon { animation: intro-in .5s ease-out calc(1.15s + var(--d) * .9s) forwards; }
-.intro.play .bi-edges { animation: intro-dim .8s ease-out 1.5s forwards; }
-.intro.play .wordmark path { animation: intro-draw .3s cubic-bezier(.4,0,.2,1) calc(1.7s + var(--k) * .09s) forwards; }
-.intro.play .intro-slogan { animation: intro-in .6s ease-out 2.4s forwards; }
+/* Animación de entrada (bloque .intro de la portada #boot, generado por tools/marca.js; js/app.js espera a que termine).
+   El cerebro en malla está quieto en el centro desde el primer cuadro, igual al icono con que el celular abre la app:
+   nada se mueve ni cambia de tamaño. Solo cambia la opacidad de capas enteras (cada franja de caras y cada letra es su
+   propio svg con su turno --k), que el celular anima sin tirones aunque esté cargando la app. Dura unos 3 s
+   (INTRO_MS en js/app.js). Siempre oscura, como el icono: data-intro oscurece también el documento. */
+html[data-intro] #boot { display: block; cursor: pointer; transition: opacity .35s ease-out; }
+.intro { position: absolute; inset: 0; --bw: min(56vw, 210px); }
+.intro-brain { position: absolute; left: calc(50% - var(--bw) / 2); top: calc(50% - var(--bw) / 2); width: var(--bw); height: var(--bw); }
+.intro-brain svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.intro-brain .bi-wire { filter: drop-shadow(0 0 5px rgba(150, 205, 255, .45)); }
+.intro-text { position: absolute; left: 0; right: 0; top: calc(50% + var(--bw) / 2 + 14px); display: grid; justify-items: center; gap: 14px; }
+.intro-word { display: flex; gap: 7px; height: 28px; }
+.intro-word svg { height: 100%; width: auto; }
+.intro-slogan { font-family: var(--display); font-size: 13px; font-weight: 500; letter-spacing: .34em; padding-left: .34em; text-transform: uppercase; color: #8fdcff; }
+.intro .bi-band, .intro-word svg, .intro-slogan { opacity: 0; will-change: opacity; animation: intro-in .5s ease-out forwards; }
+.intro .bi-band { animation-delay: calc(.35s + var(--k) * .22s); }
+.intro-word svg { animation-duration: .4s; animation-delay: calc(1.7s + var(--k) * .12s); }
+.intro-slogan { animation-duration: .6s; animation-delay: 2.3s; }
 @keyframes intro-in { to { opacity: 1; } }
-@keyframes intro-draw { to { stroke-dashoffset: 0; } }
-@keyframes intro-dim { to { opacity: .35; } }
 
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
 @keyframes drop { from { opacity: 0; transform: translate(-50%, -12px); } }

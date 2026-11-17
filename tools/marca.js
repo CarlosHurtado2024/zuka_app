@@ -115,29 +115,35 @@ const WORD_D = 'M1 1H15L1 21H15M24 1V13.5a7 7 0 0 0 14 0V1M47 1V21M61 1L47 12.5M
 const wordmark = (ink = 'currentColor') => `<svg class="wordmark" viewBox="-1 -1 89 24" aria-hidden="true" focusable="false">`
   + `<path d="${WORD_D}" pathLength="1" fill="none" stroke="${ink}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-// El cerebro que se arma (animación de entrada, como el video de la marca): cada arista, nodo y cara va suelta y lleva
-// en --d (de 0 a 1) su turno, según qué tan lejos queda del tallo: la malla crece desde abajo y luego se llenan las
-// caras. Los tiempos los pone css/styles.css (.intro).
-function introBrain() {
-  const g = mesh('full'), dist = p => Math.hypot(p[0] - g.root[0], p[1] - g.root[1]);
-  const far = Math.max(...g.nodes.map(dist)), d = v => Math.round((v / far) * 100) / 100;
-  const mid = (...ps) => [0, 1].map(k => ps.reduce((s, p) => s + p[k], 0) / ps.length);
-  const edges = g.edges.map(([a, b]) => `<path pathLength="1" style="--d:${d(dist(mid(g.nodes[a], g.nodes[b])))}" d="M${pt(g.nodes[a])}L${pt(g.nodes[b])}"/>`).join('');
-  const nodes = g.nodes.map(p => `<circle style="--d:${d(dist(p))}" cx="${p[0]}" cy="${p[1]}" r="1.5"/>`).join('');
-  const faces = g.tris.map((t, i) => `<polygon style="--d:${d(dist(mid(...t.map(k => g.nodes[k]))))}" points="${t.map(k => pt(g.nodes[k])).join(' ')}" fill="${FACES[(i * 5 + t[0]) % FACES.length]}"/>`).join('');
-  return `<svg class="brain brain-intro" viewBox="0 0 100 100" aria-hidden="true" focusable="false">`
-    + `<g class="bi-faces" stroke="#07080f" stroke-width=".5" stroke-linejoin="round">${faces}</g>`
-    + `<g class="bi-stem"><polygon points="${g.stem.map(pt).join(' ')}" fill="var(--brain-stem, #8fdcff)"/>`
-    + `<path d="M${pt(g.stem[0])}L${pt(g.fold[1])}L${pt(g.stem[2])}" fill="#07080f" fill-opacity=".22"/>`
-    + `<path d="M${pt(g.root)}L${pt(g.stem[1])}" fill="none" stroke="currentColor" stroke-width="1"/></g>`
-    + `<g class="bi-edges" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">${edges}</g>`
-    + `<g class="bi-nodes" fill="currentColor">${nodes}</g></svg>`;
-}
+// Animación de entrada (va dentro de la portada #boot de index.html, entre las marcas <!-- intro -->): el cerebro en
+// malla está quieto desde el primer cuadro, igual al icono con que Android abre la app, y sus caras se encienden por
+// franjas desde el tallo; luego aparecen las letras de ZUKA y el eslogan. Nada se mueve ni cambia de tamaño: solo
+// cambia la opacidad de capas enteras (cada franja y cada letra es su propio <svg>), que el celular anima aunque esté
+// ocupado cargando la app. Los tiempos los pone css/styles.css (.intro), con el turno --k de cada capa.
 const SLOGAN = 'Potencia tu mente';
-// ZUKA para la animación: un trazo por tramo, cada uno con su turno --k (0, 1, 2…), para que se escriba letra a letra.
-const introWord = () => `<svg class="wordmark" viewBox="-1 -1 89 24" aria-hidden="true" focusable="false">`
-  + `<g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">`
-  + WORD_D.split('M').filter(Boolean).map((s, k) => `<path pathLength="1" style="--k:${k}" d="M${s}"/>`).join('') + `</g></svg>`;
+const INTRO_BANDS = 6;
+const INTRO_LETTERS = [['M1 1H15L1 21H15', 1, 15], ['M24 1V13.5a7 7 0 0 0 14 0V1', 24, 38], ['M47 1V21M61 1L47 12.5M52.6 8L61.5 21', 47, 61.5], ['M70 21L78 1L86 21M73 14H83', 70, 86]];
+function introBlock() {
+  const g = mesh('full'), INK = '#e6ecff', dist = p => Math.hypot(p[0] - g.root[0], p[1] - g.root[1]);
+  const mid = t => [0, 1].map(k => (g.nodes[t[0]][k] + g.nodes[t[1]][k] + g.nodes[t[2]][k]) / 3);
+  const far = Math.max(...g.tris.map(t => dist(mid(t)))) + 1e-9;
+  const svg = (cls, k, body) => `<svg class="${cls}"${k === null ? '' : ` style="--k:${k}"`} viewBox="0 0 100 100" focusable="false">${body}</svg>`;
+  const bands = Array.from({ length: INTRO_BANDS }, (_, b) => svg('bi-band', b,
+    `<g stroke="#07080f" stroke-width=".5" stroke-linejoin="round">${g.tris.map((t, i) => (Math.floor((dist(mid(t)) / far) * INTRO_BANDS) === b
+      ? `<polygon points="${t.map(k => pt(g.nodes[k])).join(' ')}" fill="${FACES[(i * 5 + t[0]) % FACES.length]}"/>` : '')).join('')}</g>`)).join('');
+  const wire = svg('bi-wire', null, inner(brain('full', { ink: INK, stem: '#8fdcff', cls: false })));
+  const word = INTRO_LETTERS.map(([d, x0, x1], k) => `<svg style="--k:${k}" viewBox="${x0 - 1.5} -0.5 ${x1 - x0 + 3} 23" focusable="false">`
+    + `<path d="${d}" fill="none" stroke="${INK}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`).join('');
+  return `<div class="intro"><div class="intro-brain">${bands}${wire}</div>`
+    + `<div class="intro-text"><div class="intro-word">${word}</div><p class="intro-slogan">${SLOGAN}</p></div></div>`;
+}
+const INTRO_MARKS = ['<!-- intro: generado por tools/marca.js, no editar -->', '<!-- /intro -->'];
+// Pone el bloque de la animación en index.html, entre sus marcas.
+function withIntro(index) {
+  const a = index.indexOf(INTRO_MARKS[0]), b = index.indexOf(INTRO_MARKS[1]);
+  if (a < 0 || b < a) throw new Error('index.html: faltan las marcas de la animación de entrada');
+  return index.slice(0, a + INTRO_MARKS[0].length) + introBlock() + index.slice(b);
+}
 
 // Archivos sueltos (panel de administración, documentos): colores fijos.
 const XMLNS = 'xmlns="http://www.w3.org/2000/svg"';
@@ -158,19 +164,15 @@ const BRAIN = {
   simple: '${brain('simple')}',
   full: '${brain('full')}',
   lit: '${brain('lit')}',
-  intro: '${introBrain()}',
 };
-const SLOGAN = '${SLOGAN}';
-const INTRO_WORD = '${introWord()}';
 const brainSVG = (kind = 'simple') => BRAIN[kind] || BRAIN.simple;
 const brainTile = (kind = 'simple', cls = '') => \`<span class="brain-tile\${cls ? ' ' + cls : ''}">\${brainSVG(kind)}</span>\`;
 const WORDMARK = '${wordmark()}';
 const logoHTML = () => \`<span class="logo" role="img" aria-label="Zuka">\${brainSVG('simple')}\${WORDMARK}</span>\`;
-// Animación de entrada: el cerebro se arma, se dibuja ZUKA y aparece el eslogan. La muestra playIntro (js/app.js).
-const introHTML = () => \`<div class="intro" role="img" aria-label="Zuka. \${SLOGAN}">\${BRAIN.intro}\${INTRO_WORD}<p class="intro-slogan">\${SLOGAN}</p></div>\`;
 `;
   return {
     geo: { full: mesh('full'), simple: mesh('simple') },
+    intro: introBlock(), withIntro,
     files: {
       'js/marca.js': js,
       'brand/logo-dark.svg': lockup('#edf1ff', '#6fd3ff'),    // para fondo oscuro
@@ -217,6 +219,9 @@ async function pngs() {
 if (require.main === module) {
   const { files } = build();
   for (const [f, text] of Object.entries(files)) { fs.writeFileSync(path.join(ROOT, f), text); console.log('  ' + f); }
+  const index = path.join(ROOT, 'index.html');
+  fs.writeFileSync(index, withIntro(fs.readFileSync(index, 'utf8')));
+  console.log('  index.html (animación de entrada)');
   if (process.argv.includes('--png')) pngs().catch(e => { console.error(e); process.exit(1); });
 }
 
