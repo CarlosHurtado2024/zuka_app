@@ -857,7 +857,31 @@ function hideBoot() {
   if (!b || b.classList.contains('out')) return;
   b.classList.add('out');
   setTimeout(() => b.remove(), 200);
+  playIntro();
 }
+// Animación de entrada (introHTML, js/marca.js): el cerebro se arma, se dibuja ZUKA y sale el eslogan. Va encima de la
+// app ya lista, una vez por sesión del navegador; un toque la salta y con «reducir movimiento» no sale. No retrasa el
+// arranque: la app carga debajo mientras tanto. INTRO_MS = lo que dura la animación del CSS (.intro) más una pausa.
+const INTRO_MS = 3300;
+let introEl = null;
+function setupIntro() {
+  try {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || sessionStorage.getItem('zuka-intro')) return;
+    sessionStorage.setItem('zuka-intro', '1');
+  } catch (e) { return; }
+  document.body.insertAdjacentHTML('beforeend', introHTML());
+  introEl = document.body.lastElementChild;
+}
+function playIntro() {
+  const el = introEl;
+  if (!el) return;
+  introEl = null;
+  const end = () => { el.classList.add('out'); setTimeout(() => el.remove(), 450); };
+  el.classList.add('play');
+  el.addEventListener('click', end);
+  setTimeout(end, INTRO_MS);
+}
+setupIntro();
 const fontsReady = document.fonts?.load
   ? Promise.all(['400', '600', '700'].map(w => document.fonts.load(`${w} 1em "Plus Jakarta Sans"`))).catch(() => {})
   : null;

@@ -108,6 +108,31 @@ test('brainSVG, brainTile y logoHTML: malla, caras encendidas y nombre accesible
   assert.match(logoHTML(), /role="img" aria-label="Zuka"/);
 });
 
+test('animación de entrada: el cerebro se arma por turnos, luego ZUKA y el eslogan, sin retrasar el arranque', () => {
+  const ctx = loadScripts(['js/marca.js']), html = get(ctx, 'introHTML')();
+  assert.equal(get(ctx, 'SLOGAN'), 'Potencia tu mente');
+  assert.match(html, /^<div class="intro" role="img" aria-label="Zuka\. Potencia tu mente">/);
+  assert.match(html, /<p class="intro-slogan">Potencia tu mente<\/p>/);
+  assert.equal((html.match(/<path pathLength="1" style="--k/g) || []).length, 7, 'ZUKA se escribe trazo a trazo (Z, U, tres de la K y dos de la A)');
+  const g = built.geo.full, ds = [...html.matchAll(/style="--d:([\d.]+)"/g)].map(m => Number(m[1]));
+  assert.equal(ds.length, g.edges.length + g.nodes.length + g.tris.length, 'cada arista, nodo y cara con su turno');
+  assert.ok(ds.every(d => d >= 0 && d <= 1) && Math.max(...ds) === 1 && Math.min(...ds) < .2, 'turnos de 0 a 1, desde el tallo');
+  assert.equal((html.match(/<path pathLength="1" style="--d/g) || []).length, g.edges.length, 'aristas que se dibujan');
+  // El CSS: nada se ve hasta .play; el orden es malla, caras, palabra, eslogan.
+  const delay = sel => Number((css.match(new RegExp(sel.replace(/[.]/g, '\\.') + ' \\{ animation: [^;]*? (?:calc\\()?([\\d.]+)s(?: \\+ var\\(--d\\) \\* [\\d.]+s\\))? forwards')) || [])[1]);
+  assert.match(css, /\.intro \.bi-stem, \.intro \.bi-nodes circle, \.intro \.bi-faces polygon, \.intro-slogan \{ opacity: 0; \}/);
+  assert.ok(delay('.intro.play .bi-edges path') < delay('.intro.play .bi-faces polygon'));
+  assert.ok(delay('.intro.play .bi-faces polygon') < delay('.intro.play .wordmark path'));
+  assert.ok(delay('.intro.play .wordmark path') < delay('.intro.play .intro-slogan'));
+  // La app: una vez por sesión, se salta con un toque, no sale con «reducir movimiento» y empieza al quitar la portada.
+  assert.match(app, /prefers-reduced-motion: reduce\)'\)\.matches \|\| sessionStorage\.getItem\('zuka-intro'\)/);
+  assert.match(app, /el\.addEventListener\('click', end\)/);
+  assert.match(app.slice(app.indexOf('function hideBoot('), app.indexOf('const INTRO_MS')), /playIntro\(\);/);
+  const ms = Number((app.match(/const INTRO_MS = (\d+)/) || [])[1]);
+  assert.ok(ms >= 3000 && ms <= 4000, `dura ${ms} ms`);
+  assert.ok(Number((css.match(/\.intro \{[^}]*z-index: (\d+)/) || [])[1]) < 1000, 'debajo de la portada #boot');
+});
+
 test('la mascota y los logos viejos ya no se usan', () => {
   const files = ['index.html', 'sw.js', 'js/app.js', 'js/ui.js', 'js/tour.js', 'js/cuenta.js', 'admin/index.html', 'css/styles.css'];
   for (const f of files) assert.doesNotMatch(read(f), /mascota\.png|logo-(light|dark)\.png/, f);

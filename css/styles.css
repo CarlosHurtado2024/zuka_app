@@ -818,6 +818,30 @@ img.logo { display: block; width: auto; }   /* panel de administración: brand/l
 /* Fin de lección: el cerebro con las caras encendidas, como al final del video de la marca. */
 .done-brain { width: 132px; margin-bottom: 10px; border-color: transparent; animation: pop .6s cubic-bezier(.2,.8,.2,1); }
 .done-brain .brain { filter: drop-shadow(0 0 12px rgba(143, 220, 255, .32)); }
+/* Animación de entrada (introHTML en js/marca.js, playIntro en js/app.js), como el video de la marca: sale el tallo, la
+   malla crece desde él (cada pieza espera su turno --d, de 0 a 1), las caras se encienden, se dibuja ZUKA y aparece el
+   eslogan. Siempre oscura, como el icono. Dura unos 3 s (INTRO_MS en js/app.js). */
+.intro {
+  position: fixed; inset: 0; z-index: 950; display: grid; place-content: center; justify-items: center; gap: 22px;
+  background: radial-gradient(circle at 50% 42%, #10142a 0, #07080f 60%); color: #e6ecff; --brain-stem: #8fdcff;
+  cursor: pointer; transition: opacity .4s ease-out;
+}
+.intro.out { opacity: 0; pointer-events: none; }
+.intro .brain { width: min(58vw, 240px); height: auto; aspect-ratio: 1; filter: drop-shadow(0 0 6px rgba(150, 205, 255, .45)); }
+.intro .wordmark { height: 30px; width: auto; }
+.intro-slogan { font-family: var(--display); font-size: 13px; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: #8fdcff; margin-top: -6px; padding-left: .34em; }
+.intro .bi-stem, .intro .bi-nodes circle, .intro .bi-faces polygon, .intro-slogan { opacity: 0; }
+.intro .bi-edges path, .intro .wordmark path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.intro.play .bi-stem { animation: intro-in .35s ease-out forwards; }
+.intro.play .bi-edges path { animation: intro-draw .45s cubic-bezier(.2,.8,.2,1) calc(.15s + var(--d) * 1s) forwards; }
+.intro.play .bi-nodes circle { animation: intro-in .3s ease-out calc(.3s + var(--d) * 1s) forwards; }
+.intro.play .bi-faces polygon { animation: intro-in .5s ease-out calc(1.15s + var(--d) * .9s) forwards; }
+.intro.play .bi-edges { animation: intro-dim .8s ease-out 1.5s forwards; }
+.intro.play .wordmark path { animation: intro-draw .3s cubic-bezier(.4,0,.2,1) calc(1.7s + var(--k) * .09s) forwards; }
+.intro.play .intro-slogan { animation: intro-in .6s ease-out 2.4s forwards; }
+@keyframes intro-in { to { opacity: 1; } }
+@keyframes intro-draw { to { stroke-dashoffset: 0; } }
+@keyframes intro-dim { to { opacity: .35; } }
 
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
 @keyframes drop { from { opacity: 0; transform: translate(-50%, -12px); } }
