@@ -18,7 +18,7 @@ GAMES['bisagra-area'] = (() => {
       G.u = Math.min((G.W - 44) / (it.a + it.b), (y - G.top - 56) / it.a); G.P = [22 + it.a * G.u + (G.W - 44 - (it.a + it.b) * G.u) / 2, y - 38];
     },
     draw(G) {
-      const { p, C, s, item: it, P, u } = G, Q = [P[0] + it.b * u, P[1]], tip = c => [P[0] + it.a * u * Math.cos(TK.rad(c)), P[1] - it.a * u * Math.sin(TK.rad(c))], T = tip(15 * s.c), hy = P[1] - 2 * it.area / it.b * u;
+      const { p, C, s, item: it, P, u } = G, Q = [P[0] + it.b * u, P[1]], tip = c => [P[0] + it.a * u * Math.cos(TK.rad(c)), P[1] - it.a * u * Math.sin(TK.rad(c))], T = tip(TK.glide(G, 'c', 15 * s.c)), hy = P[1] - 2 * it.area / it.b * u;
       p.stroke(C.line); p.strokeWeight(1.5); p.line(10, P[1], G.W - 10, P[1]);
       p.stroke(C.coral); p.strokeWeight(2.5); p.drawingContext.setLineDash([7, 5]); p.line(10, hy, G.W - 10, hy); p.drawingContext.setLineDash([]);
       drawPill(p, C, `línea punteada: altura para área ${at(it).replace(/\\sqrt(\d)/, '√$1')}`, G.W / 2, G.top + 12, C.coral, 11);

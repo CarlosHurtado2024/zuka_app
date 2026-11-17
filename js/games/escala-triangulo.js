@@ -11,7 +11,7 @@ GAMES['escala-triangulo'] = (() => {
     answer: it => ({ div: divOf(it.want), pick: LAB[divOf(it.want)].indexOf(it.want) }),
     solution: it => `$${tex(it.want)}$: dividir entre $${tex(divOf(it.want))}$; $${ID[divOf(it.want)]}$`,
     prompt: it => `Divide el triángulo y toca el lado que queda valiendo $${tex(it.want)}$`,
-    foot: (it, s) => (s.div ? `Todos los lados se dividieron entre $${tex(s.div)}$: el triángulo creció sin cambiar de forma` : 'Los lados miden $\\cos\\theta$, $\\operatorname{sen}\\theta$ y 1 (la hipotenusa)'),
+    foot: (it, s) => (s.div ? `Todo se dividió entre $${tex(s.div)}$: misma forma, más grande` : 'Los lados miden $\\cos\\theta$, $\\operatorname{sen}\\theta$ y 1 (la hipotenusa)'),
     no: () => 'Ese es otro lado: piensa qué da dividir cada uno',
     retry: G => { G.s.pick = null; },
     layout(G) {

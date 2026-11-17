@@ -20,7 +20,7 @@ GAMES['ventana-inversa'] = (() => {
       const { p, C, s, item: it, box } = G, yr = it.fn === 'tan' ? 3.2 : 1.5, f = TK.F[it.fn];
       const X = q => box.x + (q + 4) / 8 * box.w, Y = v => box.y + (box.h - 16) / 2 - v * (box.h - 16) / (2 * yr);
       p.noStroke(); p.fill(C.card); p.rect(box.x, box.y, box.w, box.h, 10);
-      const band = p.color(G.solved ? C.ok : C.sky); band.setAlpha(60); p.fill(band); p.rect(X(s.a), box.y, X(s.a + s.w) - X(s.a), box.h - 16);
+      const band = p.color(G.solved ? C.ok : C.sky); band.setAlpha(60); p.fill(band); const ga = TK.glide(G, 'a', s.a), gw = TK.glide(G, 'w', s.w); p.rect(X(ga), box.y, X(ga + gw) - X(ga), box.h - 16);
       p.stroke(C.line); p.strokeWeight(1.5); p.line(box.x, Y(0), box.x + box.w, Y(0)); p.line(X(0), box.y, X(0), box.y + box.h - 16);
       for (let q = -4; q <= 4; q += 2) TK.label(p, C, `$${TK.piTex(q, 2)}$`, Math.max(box.x + 14, Math.min(box.x + box.w - 14, X(q))), box.y + box.h - 8, C.mute, 11, 40);
       // La curva: gruesa dentro de la ventana, delgada afuera.

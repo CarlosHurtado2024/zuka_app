@@ -23,7 +23,7 @@ GAMES['espejo-cuadrantes'] = (() => {
       const h = y - G.top - 62; G.R = Math.min(G.W * 0.27, h / 2 - 2); G.cx = G.W / 2; G.cy = G.top + 10 + G.R;
     },
     draw(G) {
-      const { p, C, s, item: it, cx, cy, R } = G, d = run(it, s.ops), [x, y] = TK.at(cx, cy, R, d), [ox, oy] = TK.at(cx, cy, R, it.deg), r = TK.rad(d), ask = !it.cond && there(s, it);
+      const { p, C, s, item: it, cx, cy, R } = G, d = run(it, s.ops), [tx, ty] = TK.at(cx, cy, R, d), x = TK.glide(G, 'x', tx), y = TK.glide(G, 'y', ty), [ox, oy] = TK.at(cx, cy, R, it.deg), r = TK.rad(d), ask = !it.cond && there(s, it);
       TK.ring(p, C, cx, cy, R);
       p.stroke(C.mute); p.strokeWeight(1.5); p.line(cx, cy, ox, oy); p.noStroke(); p.fill(C.mute); p.circle(ox, oy, 8);
       TK.label(p, C, `${it.deg}°`, ox + (ox >= cx ? 22 : -22), oy + (oy <= cy ? -11 : 13), C.mute, 12, 50);

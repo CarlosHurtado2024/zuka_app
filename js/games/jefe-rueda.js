@@ -1,0 +1,95 @@
+// Jefe de la rueda (Trigonometría; spec 2026-11-23-trig-jefes-y-movimiento): batalla por turnos, sin reloj, contra el jefe
+// de un mundo. Cada ataque es un reto cuya respuesta son uno o varios nudos de una rueda de ángulos (y de anillos, en la
+// Galaxia Polar). Se marcan las runas y se toca «¡Atacar!»: si están todas y solo ellas, salen rayos y el jefe pierde vida.
+// params = { name, kind: 'kraken'|'faro'|'nebulosa', rounds: [{ title, items: [{ say, targets: [[deg, anillo?]], rings?, step?, rad?, why }] }] }
+// Juego con `questGame` y las ayudas `TK` del kit.   state = { done: [n] }
+GAMES['jefe-rueda'] = (() => {
+  const key = t => `${TK.mod(t[0], 360)}:${t[1] ?? 0}`;
+  const want = it => it.targets.map(key).sort().join('|');
+  const nRings = it => (it.rings ? it.rings.length : 1), stepOf = it => it.step || (nRings(it) > 1 ? 30 : 15);
+  const total = P => P.rounds.reduce((n, r) => n + r.items.length, 0);
+  const hits = G => G.params.rounds.slice(0, G.a.cur).reduce((n, r) => n + r.items.length, 0) + G.round.items.indexOf(G.item) + (G.solved ? 1 : 0);
+
+  // El jefe: tres figuras hechas con formas, que se mueven solas y tiemblan al recibir un golpe.
+  function drawBoss(G, x, y) {
+    const { p, C } = G, t = G.t, hit = G.solved, dx = hit ? Math.sin(t * 55) * 3 : 0, kind = G.params.kind, eye = (ex, ey, r = 5) => { p.noStroke(); p.fill('#FFFFFF'); p.circle(ex, ey, r * 2.2); p.fill('#1B1F3B'); p.circle(ex + Math.sin(t * 1.3) * 1.5, ey + (hit ? -1 : 1), r); };
+    x += dx;
+    if (kind === 'kraken') {
+      p.noFill(); p.stroke(C.coral); p.strokeWeight(5);
+      for (let i = 0; i < 6; i++) { p.beginShape(); for (let k = 0; k <= 8; k++) p.vertex(x + (i - 2.5) * 13 + Math.sin(t * 2.4 + i + k * 0.7) * (3 + k * 0.7), y + 6 + k * 3.6); p.endShape(); }
+      p.noStroke(); p.fill(C.coral); p.ellipse(x, y - 2, 78, 50); eye(x - 14, y - 4); eye(x + 14, y - 4);
+    } else if (kind === 'faro') {
+      const beam = p.color(C.sun); beam.setAlpha(70); const a = t * 1.1;
+      p.noStroke(); p.fill(beam); p.triangle(x, y - 18, x + Math.cos(a) * 120, y - 18 + Math.sin(a) * 26 - 14, x + Math.cos(a) * 120, y - 18 + Math.sin(a) * 26 + 14);
+      p.fill(C.sky); p.quad(x - 13, y - 8, x + 13, y - 8, x + 19, y + 32, x - 19, y + 32); p.fill(C.cream); p.rect(x - 15, y + 6, 30, 8); p.rect(x - 17, y + 20, 34, 7);
+      p.fill(C.sun); p.rect(x - 16, y - 30, 32, 22, 6); eye(x - 7, y - 19, 4); eye(x + 7, y - 19, 4);
+    } else {
+      p.noFill(); p.strokeWeight(3);
+      for (let k = 0; k < 3; k++) { p.stroke([C.sky, C.mint, C.coral][k]); p.push(); p.translate(x, y); p.rotate(t * (0.5 + k * 0.25) + k); p.ellipse(0, 0, 96 - k * 14, 30 + k * 8); p.pop(); }
+      p.noStroke(); p.fill('#1B1F3B'); p.circle(x, y, 44); p.stroke(C.sky); p.strokeWeight(2); p.noFill(); p.circle(x, y, 44); eye(x, y, 7);
+    }
+  }
+
+  return questGame({
+    aspect: 1.55,
+    idle: 'Sin reloj: piensa, marca las runas y ataca',
+    init: () => ({ marks: [] }),
+    ok: (s, it) => [...s.marks].sort().join('|') === want(it),
+    answer: it => ({ marks: it.targets.map(key) }),
+    solution: it => `${it.say}: ${it.targets.map(t => `${it.rings ? `${it.rings[t[1] ?? 0]} cis ` : ''}${TK.mod(t[0], 360)}°`).join(', ')}`,
+    prompt: it => it.say,
+    foot: (it, s) => `Runas marcadas: ${s.marks.length}. Tócalas otra vez para quitarlas`,
+    yes: it => it.why,
+    layout(G) {
+      const it = G.item, n = nRings(it);
+      G.go = { x: G.W / 2 - 80, y: G.bottom - 46, w: 160, h: 38 };
+      G.R = Math.min(G.W * 0.34, (G.go.y - G.top - 138) / 2); G.cx = G.W / 2; G.cy = G.top + 116 + G.R;
+      G.rad = j => G.R * (n === 1 ? 1 : 0.4 + 0.6 * j / (n - 1));
+      G.node = (deg, j = 0) => { const [x, y] = TK.at(G.cx, G.cy, G.rad(j), deg); return { x: x - 7, y: y - 7, w: 14, h: 14 }; };
+    },
+    draw(G) {
+      const { p, C, s, item: it, cx, cy, R } = G, n = nRings(it), step = stepOf(it), P = G.params, hp = total(P) - hits(G), by = G.top + 38;
+      // Jefe, nombre y vida.
+      drawBoss(G, cx, by);
+      const bw = Math.min(150, G.W - 60), bx = cx - bw / 2, byy = G.top + 82;
+      p.noStroke(); p.fill(C.line); p.rect(bx, byy, bw, 8, 4); p.fill(hp / total(P) > 0.34 ? C.coral : C.bad); p.rect(bx, byy, bw * TK.glide(G, 'hp', hp / total(P), 5), 8, 4);
+      TK.label(p, C, `${hp} de ${total(P)}`, bx + bw + 26, byy + 4, C.mute, 11, 50);
+      // Tablero: anillos, radios y nudos.
+      for (let j = 0; j < n; j++) { p.noFill(); p.stroke(j === n - 1 ? C.mute : C.line); p.strokeWeight(j === n - 1 ? 2 : 1.2); p.circle(cx, cy, 2 * G.rad(j)); }
+      for (let d = 0; d < 180; d += step) { const [x1, y1] = TK.at(cx, cy, R, d), [x2, y2] = TK.at(cx, cy, R, d + 180); p.stroke(C.line); p.strokeWeight(d % 90 ? 0.7 : 1.8); p.line(x1, y1, x2, y2); }
+      const ax = it.rad ? ['$0$', '$\\tfrac{\\pi}{2}$', '$\\pi$', '$\\tfrac{3\\pi}{2}$'] : ['0°', '90°', '180°', '270°'];
+      ax.forEach((txt, k) => { const [x, y] = TK.at(cx, cy, R + (k % 2 ? 11 : 17), 90 * k); TK.label(p, C, txt, x, y, C.mute, 11, 40); });
+      if (it.rings) it.rings.forEach((txt, j) => TK.label(p, C, txt, cx + G.rad(j) - 9, cy + 10, C.mute, 10, 24));
+      for (let j = 0; j < n; j++) for (let d = 0; d < 360; d += step) { const [x, y] = TK.at(cx, cy, G.rad(j), d); p.noStroke(); p.fill(C.mute); p.circle(x, y, 6); }
+      // Runas marcadas y, al acertar, los rayos que salen hacia el jefe.
+      const k = G.solved ? Math.min(1, (1.2 - G.wait) / 0.5) : 0;
+      for (const m of s.marks) {
+        const [d, j] = m.split(':').map(Number), [x, y] = TK.at(cx, cy, G.rad(j), d), col = G.solved ? C.ok : C.sky;
+        if (k > 0) { p.stroke(C.sun); p.strokeWeight(4); p.line(x, y, x + (cx - x) * k, y + (by - y) * k); }
+        drawDot(p, C, x, y, 13, col);
+      }
+      drawBtn(p, C, G.go, '¡Atacar!', G.solved, G.solved ? C.ok : C.coral);
+    },
+    press(G, x, y) {
+      const s = G.s, it = G.item;
+      if (hitBox(G.go, x, y)) {
+        if (!s.marks.length) { G.a.say('Marca al menos una runa en la rueda', G.C.N); return true; }
+        const tg = it.targets.map(key), extra = s.marks.some(m => !tg.includes(m)), miss = tg.some(m => !s.marks.includes(m));
+        G.submit(extra && miss ? 'Hay runas mal puestas' : extra ? 'Sobra alguna runa' : 'Faltan runas: hay más soluciones');
+        return true;
+      }
+      const step = stepOf(it), a = TK.mod(Math.atan2(G.cy - y, x - G.cx) * 180 / Math.PI, 360), d = TK.mod(Math.round(a / step) * step, 360);
+      let best = -1, bd = 16;
+      for (let j = 0; j < nRings(it); j++) { const [nx, ny] = TK.at(G.cx, G.cy, G.rad(j), d), q = Math.hypot(nx - x, ny - y); if (q < bd) { bd = q; best = j; } }
+      if (best < 0) return false;
+      const m = `${d}:${best}`, i = s.marks.indexOf(m);
+      if (i >= 0) s.marks.splice(i, 1); else s.marks.push(m);
+      G.api.sfx?.tap?.();
+      return true;
+    },
+    peek: G => {
+      const tg = G.item.targets.map(key), box = m => G.node(...m.split(':').map(Number)), off = G.s.marks.filter(m => !tg.includes(m)), on = tg.filter(m => !G.s.marks.includes(m));
+      return { solve: [...off.map(box), ...on.map(box), G.go], wrong: G.s.marks.length && (off.length || on.length) ? G.go : null };
+    },
+  });
+})();

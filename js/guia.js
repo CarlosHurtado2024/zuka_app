@@ -352,7 +352,7 @@ const GUIDE_SCENES = {
 const GUIDE_ARCADE = new Set(['lluvia-elementos', 'revienta-globos', 'luciernagas-venn', 'buzo-enteros', 'carrera-fracciones', 'frena-aguja',
   'dispara-inverso', 'salta-signos', 'serpiente-orden', 'sirve-la-razon', 'corta-proporciones', 'resortera-tres', 'caja-veloz', 'vuela-precios',
   'rompe-cambios', 'traza-progresion', 'encesta-suma', 'dobla-fichas', 'rana-zenon', 'maquina-sigma', 'torre-pisos', 'escala-leyes',
-  'siembra-raices', 'muro-radicales', 'jefe-venn', 'jefe-ruta',
+  'siembra-raices', 'muro-radicales', 'jefe-venn', 'jefe-ruta', 'jefe-rueda',
   'torre-grados', 'arma-la-mesa', 'camino-pascal', 'reparte-barras', 'gira-complejos', 'balanza-cajas', 'apunta-chorro', 'donde-cae', 'empaca-filas', 'sondea-niebla',
   'cruza-o-rebota', 'rio-o-hueco', 'llena-estanque', 'bote-corriente', 'cruce-curvas', 'lirios-laguna', 'dos-bancos', 'regla-de-calculo', 'piedras-selva',
   'quita-vueltas', 'rueda-rodante', 'toca-lados', 'figuras-notables', 'multiplica-razon', 'proyecta-punto', 'espejo-cuadrantes', 'ola-entre-lineas', 'crestas-faroles', 'ventana-inversa',
@@ -361,6 +361,7 @@ const GUIDE_ARCADE = new Set(['lluvia-elementos', 'revienta-globos', 'luciernaga
 // Los pasos propios de cada juego: [escena, texto, opciones]. El ejemplo de la escena es pequeño y distinto de los
 // ejercicios: enseña el gesto, no la respuesta.
 const GUIDES = {
+  'jefe-rueda': [['tap', 'Toca en la rueda los nudos que responden el reto: quedan marcados como runas.', { items: ['•', '•', '•', '•'], pick: [1, 3] }], ['tap', 'Con todas las runas puestas toca «¡Atacar!». Tocar una runa otra vez la quita.', { items: ['¡Atacar!'], pick: [0] }]],
   'quita-vueltas': [['tap', 'Quita o pon vueltas completas hasta dejar el ángulo en el intervalo y toca «Listo».', { items: ['− 1 vuelta', '+ 1 vuelta', 'Listo'], pick: [0, 0, 2] }]],
   'rueda-rodante': [['step', 'Elige con − / + el ángulo que gira la rueda y toca «Rodar»: avanza lo que mide el arco.', { from: 1, to: 3, label: 'ángulo' }]],
   'toca-lados': [['tap', 'Toca dos lados: primero el que va arriba de la fracción y luego el que va abajo.', { items: ['opuesto', 'adyacente', 'hipotenusa'], pick: [0, 2] }]],

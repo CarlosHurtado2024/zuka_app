@@ -24,7 +24,7 @@ GAMES['parientes-polares'] = (() => {
       G.R = Math.min(G.W * 0.3, (y - G.top - 40) / 2); G.cx = G.W / 2; G.cy = G.top + 10 + G.R;
     },
     draw(G) {
-      const { p, C, s, item: it, cx, cy, R } = G, u = R / 4, z = TK.at(cx, cy, RS[it.r] * u, it.deg), w = TK.at(cx, cy, RS[s.r] * u, 15 * s.d);
+      const { p, C, s, item: it, cx, cy, R } = G, u = R / 4, z = TK.at(cx, cy, RS[it.r] * u, it.deg), wt = TK.at(cx, cy, RS[s.r] * u, 15 * s.d), w = [TK.glide(G, 'wx', wt[0]), TK.glide(G, 'wy', wt[1])];
       for (let k = 1; k <= 4; k++) { p.noFill(); p.stroke(C.line); p.strokeWeight(1.2); p.circle(cx, cy, 2 * k * u); }
       for (let a = 0; a < 180; a += 30) { const [x1, y1] = TK.at(cx, cy, R, a), [x2, y2] = TK.at(cx, cy, R, a + 180); p.stroke(C.line); p.strokeWeight(a % 90 ? 0.8 : 1.8); p.line(x1, y1, x2, y2); }
       p.stroke(C.sky); p.strokeWeight(3); p.line(cx, cy, ...z); drawDot(p, C, z[0], z[1], 11, C.sky); TK.label(p, C, 'z', z[0] + (z[0] >= cx ? 13 : -13), z[1] - 12, C.sky, 15, 20);

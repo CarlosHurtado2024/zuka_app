@@ -216,7 +216,7 @@ const TRIG_EXTRA = (() => {
         rounds: [
           { title: 'Dos ángulos o uno', items: [{ a: 6, b: 10, area: 15 }, { a: 8, b: 8, area: 32 }] },
           { title: 'Con raíces', items: [{ a: 4, b: 6, area: 8.49, atex: '6\\sqrt2' }, { a: 10, b: 6, area: 25.98, atex: '15\\sqrt3' }] },
-          { title: 'Otra pareja', items: [{ a: 5, b: 8, area: 10 }, { a: 7, b: 4, area: 14 }] },
+          { title: 'Otra pareja', items: [{ a: 8, b: 5, area: 17.32, atex: '10\\sqrt3' }, { a: 6, b: 6, area: 12.73, atex: '9\\sqrt2' }] },
         ],
       }, 'Área $= \\tfrac12 ab\\operatorname{sen} C$, y $\\operatorname{sen} C = \\operatorname{sen}(180^\\circ - C)$: un ángulo agudo y su suplemento dejan la punta a la misma altura. $\\operatorname{sen} C = \\tfrac12$: $30^\\circ$ y $150^\\circ$; $\\operatorname{sen} C = \\tfrac{\\sqrt2}{2}$: $45^\\circ$ y $135^\\circ$; $\\operatorname{sen} C = \\tfrac{\\sqrt3}{2}$: $60^\\circ$ y $120^\\circ$. Cuando el área es la mayor posible, $\\tfrac12 ab$, solo sirve $90^\\circ$.',
         { hint: 'La punta sube mientras abres el ángulo hasta 90° y después vuelve a bajar: pasa dos veces por casi todas las alturas. Si ya encontraste un ángulo, busca su reflejo al otro lado de la vertical.' }),
@@ -255,3 +255,68 @@ const TRIG_EXTRA = (() => {
 })();
 
 for (const u of COURSE_TRIG.units) for (const l of u.lessons) l.ex.push(...(TRIG_EXTRA[l.id] || []));
+
+// ====================== Jefes finales (spec 2026-11-23-trig-jefes-y-movimiento) ======================
+// Un jefe por mundo, con el juego `jefe-rueda`: cada ataque se responde marcando nudos de la rueda de ángulos.
+// Ataque = [rótulo, nudos [[grados, anillo?]], por qué, opciones?].
+const TRIG_BOSS = {
+  ondas: { id: 'jefe-trig-ondas', title: 'El Kraken de las Olas', name: 'el Kraken de las Olas', kind: 'kraken',
+    intro: ['En el fondo del Mar de las Ondas duerme el **Kraken**. Cada tentáculo guarda un reto de ángulos, triángulos y ondas.', 'Marca en la rueda las **runas** que responden cada reto y ataca. No hay reloj: gana el que piensa.'],
+    phases: [
+      ['Fase 1 · Ángulos y arcos', [
+        ['Marca el ángulo $\\tfrac{5\\pi}{4}$', [[225]], '$\\tfrac{5\\pi}{4} = 5 \\cdot 45^\\circ = 225^\\circ$'],
+        ['Marca el coterminal de $-420^\\circ$', [[300]], '$-420^\\circ + 2 \\cdot 360^\\circ = 300^\\circ$'],
+        ['Arco $s = 4\\pi$ con radio 3: marca el ángulo', [[240]], '$\\theta = \\tfrac{s}{r} = \\tfrac{4\\pi}{3}$, que son 240°', { rad: true }]]],
+      ['Fase 2 · Triángulos y circunferencia', [
+        ['$\\operatorname{sen}\\theta = \\tfrac12$: marca los dos ángulos', [[30], [150]], 'El seno es la altura del punto: vale ½ en 30° y en 150°'],
+        ['$\\cos\\theta = -\\tfrac{\\sqrt2}{2}$: marca los dos ángulos', [[135], [225]], 'Coseno negativo: a la izquierda, con referencia 45°'],
+        ['$\\tan\\theta = \\sqrt3$ con $\\operatorname{sen}\\theta < 0$', [[240]], 'Referencia 60° y seno negativo: cuadrante III']]],
+      ['Fase 3 · Signos y ondas', [
+        ['Referencia $60^\\circ$ en el cuadrante IV', [[300]], '$360^\\circ - 60^\\circ = 300^\\circ$'],
+        ['$y = 3\\operatorname{sen} x$: marca dónde está su cresta', [[90]], 'La cresta del seno está en 90°; el 3 solo la hace más alta'],
+        ['$y = \\cos 2x$ vale 1: marca todos los $x$', [[0], [180]], 'Su periodo es $\\pi$: se repite cada 180°'],
+        ['$\\tan x$ no existe: marca dónde', [[90], [270]], 'Donde el coseno vale 0 están las asíntotas']]],
+    ] },
+  inversas: { id: 'jefe-trig-inversas', title: 'El Guardián del Faro', name: 'el Guardián del Faro', kind: 'faro',
+    intro: ['En lo alto del Faro de los Ángulos vigila su **Guardián**. Su luz esconde inversas, identidades, ecuaciones y triángulos.', 'Marca en la rueda todos los ángulos que responden cada reto, y solo esos. Luego ataca.'],
+    phases: [
+      ['Fase 1 · Inversas e identidades', [
+        ['Valor principal de $\\operatorname{sen}^{-1}\\left(-\\tfrac{\\sqrt3}{2}\\right)$', [[300]], 'Es $-60^\\circ$, el mismo lado que 300°: el rango va de −90° a 90°'],
+        ['Valor de $\\cos^{-1}\\left(-\\tfrac12\\right)$', [[120]], 'El coseno inverso responde entre 0° y 180°: 120°'],
+        ['$\\operatorname{sen}^2\\theta = \\tfrac34$: marca los cuatro ángulos', [[60], [120], [240], [300]], 'El seno vale más o menos $\\tfrac{\\sqrt3}{2}$: referencia 60° en los cuatro cuadrantes']]],
+      ['Fase 2 · Suma, doble y ecuaciones', [
+        ['$\\operatorname{sen} 2\\theta = -1$: marca los $\\theta$ de una vuelta', [[135], [315]], '$2\\theta$ es 270° o 630°: la mitad da 135° y 315°'],
+        ['$2\\cos^2\\theta - \\cos\\theta - 1 = 0$', [[0], [120], [240]], 'Se factoriza: $(2\\cos\\theta + 1)(\\cos\\theta - 1) = 0$'],
+        ['$\\operatorname{sen}(\\theta + 30^\\circ) = 1$', [[60]], 'El seno vale 1 en 90°: $\\theta + 30^\\circ = 90^\\circ$']]],
+      ['Fase 3 · Triángulos sin ángulo recto', [
+        ['En un triángulo, $\\operatorname{sen} B = \\tfrac{\\sqrt3}{2}$: marca los $B$ posibles', [[60], [120]], 'El caso ambiguo: un ángulo y su suplemento'],
+        ['En un triángulo, $\\cos C = -\\tfrac12$: marca $C$', [[120]], 'Un ángulo de triángulo no pasa de 180°: solo 120°'],
+        ['Área $\\tfrac12 \\cdot 4 \\cdot 6 \\operatorname{sen} C = 6$: marca los $C$', [[30], [150]], 'El seno de C vale ½: 30° y 150° dan la misma altura']]],
+    ] },
+  polar: { id: 'jefe-trig-polar', title: 'La Nebulosa Polar', name: 'la Nebulosa Polar', kind: 'nebulosa', rings: ['1', '2', '4', '8'],
+    intro: ['En el centro de la Galaxia Polar gira la **Nebulosa**. Solo la detienen los complejos puestos en su lugar exacto.', 'Cada anillo es un módulo (1, 2, 4 y 8) y cada radio, un ángulo. Marca los puntos pedidos y ataca.'],
+    phases: [
+      ['Fase 1 · Forma polar', [
+        ['Marca $z = 2i$', [[90, 1]], 'Módulo 2 sobre el eje imaginario: ángulo de 90°'],
+        ['Marca $z = -1 - \\sqrt3\\,i$', [[240, 1]], 'Módulo 2 y tercer cuadrante: 180° + 60°'],
+        ['Marca el conjugado de $4\\,\\mathrm{cis}\\,330^\\circ$', [[30, 2]], 'El conjugado cambia el signo del ángulo: −330° es 30°']]],
+      ['Fase 2 · Producto, cociente y potencia', [
+        ['$(2\\,\\mathrm{cis}\\,60^\\circ)(4\\,\\mathrm{cis}\\,90^\\circ)$', [[150, 3]], 'Los módulos se multiplican (8) y los ángulos se suman (150°)'],
+        ['$\\tfrac{8\\,\\mathrm{cis}\\,30^\\circ}{2\\,\\mathrm{cis}\\,120^\\circ}$', [[270, 2]], 'Módulos: 8 ÷ 2 = 4. Ángulos: 30° − 120° = −90°, que es 270°'],
+        ['$(2\\,\\mathrm{cis}\\,150^\\circ)^3$', [[90, 3]], 'Módulo 2³ = 8 y ángulo 3 · 150° = 450°, que es 90°']]],
+      ['Fase 3 · Raíces', [
+        ['Raíces cuadradas de $4\\,\\mathrm{cis}\\,120^\\circ$', [[60, 1], [240, 1]], 'Módulo 2; ángulos 60° y media vuelta más'],
+        ['Raíces cúbicas de $-8$', [[60, 1], [180, 1], [300, 1]], '−8 está en 180°: módulo 2 y una raíz cada 120°'],
+        ['Raíces cuartas de $16$', [[0, 1], [90, 1], [180, 1], [270, 1]], 'Módulo 2 y una cada 90°: 2, 2i, −2 y −2i']]],
+    ] },
+};
+for (const u of COURSE_TRIG.units) {
+  const b = TRIG_BOSS[u.world];
+  if (!b) continue;
+  u.boss = { id: b.id, title: b.title,
+    clip: { scenes: [sc(5, b.intro[0], { title: 'Jefe final' }), sc(5, b.intro[1], { steps: b.phases.map(f => f[0]) })] },
+    ex: [play('jefe-rueda', `Vence ${('a ' + b.name).replace(/^a el /, 'al ')}: marca en la rueda las **runas** que responden cada reto y toca «¡Atacar!»`,
+      { name: b.name, kind: b.kind, rounds: b.phases.map(([title, attacks]) => ({ title, items: attacks.map(([say, targets, why, o]) => ({ say, targets, why, ...(b.rings ? { rings: b.rings } : {}), ...o })) })) },
+      'Cada reto del jefe se responde con ángulos de la rueda. Algunos tienen una sola respuesta y otros varias: hay que marcarlas todas y solo esas.',
+      { hint: 'Resuelve el reto antes de tocar: decide cuántas respuestas tiene y en qué cuadrantes caen. Los nudos van de 15° en 15° (o de 30° en 30° cuando hay anillos); una runa mal puesta se quita tocándola otra vez.' })] };
+}

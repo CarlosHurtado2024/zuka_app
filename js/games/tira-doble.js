@@ -13,7 +13,7 @@ GAMES['tira-doble'] = (() => {
     foot: () => '$\\cos 2\\theta = \\cos^2\\theta - \\operatorname{sen}^2\\theta$, y las dos partes suman 1',
     layout(G) { const y = G.bottom - 46; G.st = { x: 12, y, w: G.W * 0.56, h: 38 }; G.go = { x: G.st.x + G.st.w + 10, y, w: G.W - 34 - G.st.w, h: 38 }; G.x0 = 24; G.w = G.W - 48; G.y1 = G.top + 34; },
     draw(G) {
-      const { p, C, s, x0, w, y1 } = G, cut = x0 + w * s.k / 8;
+      const { p, C, s, x0, w, y1 } = G, cut = x0 + w * TK.glide(G, 'k', s.k) / 8;
       // La tira: cos² a la izquierda, sen² a la derecha.
       p.noStroke(); p.fill(C.sky); p.rect(x0, y1, cut - x0, 40, 8, 0, 0, 8); p.fill(C.coral); p.rect(cut, y1, x0 + w - cut, 40, 0, 8, 8, 0);
       for (let i = 1; i < 8; i++) { p.stroke(C.bg); p.strokeWeight(1.5); p.line(x0 + w * i / 8, y1, x0 + w * i / 8, y1 + 40); }

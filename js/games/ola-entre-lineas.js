@@ -22,7 +22,7 @@ GAMES['ola-entre-lineas'] = (() => {
       dash(it.hi, C.coral, `techo ${TK.minusTxt(it.hi)}`); dash(it.lo, C.sky, `piso ${TK.minusTxt(it.lo)}`);
       p.stroke(C.mute); p.strokeWeight(1); p.drawingContext.setLineDash([2, 4]); p.line(box.x, Y(s.sd / 2), box.x + box.w, Y(s.sd / 2)); p.drawingContext.setLineDash([]);
       p.noFill(); p.stroke(G.solved ? C.ok : C.mint); p.strokeWeight(3.5); p.beginShape();
-      for (let i = 0; i <= 120; i++) { const t = i / 120 * 4 * Math.PI; p.vertex(X(t), Y(Math.max(-5.4, Math.min(5.4, s.sa / 2 * Math.sin(t) + s.sd / 2)))); }
+      for (let i = 0, kk = Math.round(120 * TK.prog(G, 0.8)); i <= kk; i++) { const t = i / 120 * 4 * Math.PI; p.vertex(X(t), Y(Math.max(-5.4, Math.min(5.4, s.sa / 2 * Math.sin(t) + s.sd / 2)))); }
       p.endShape();
       drawStepper(p, C, G.ba, half(s.a), 'amplitud (a)'); drawStepper(p, C, G.bd, half(s.d), 'línea media (d)');
       drawBtn(p, C, G.go, 'Lanzar ola', G.solved, G.solved ? C.ok : C.coral);
@@ -31,7 +31,7 @@ GAMES['ola-entre-lineas'] = (() => {
       const s = G.s, it = G.item, da = stepHit(G.ba, x, y), dd = stepHit(G.bd, x, y);
       if (da || dd) { if (da) s.a = Math.max(1, Math.min(8, s.a + da)); else s.d = Math.max(-6, Math.min(6, s.d + dd)); G.api.sfx?.tap?.(); return true; }
       if (!hitBox(G.go, x, y)) return false;
-      s.sa = s.a; s.sd = s.d;
+      s.sa = s.a; s.sd = s.d; TK.fire(G);
       const top = (s.d + s.a) / 2;
       G.submit(top < it.hi ? 'La cresta no llega al techo' : top > it.hi ? 'La cresta se pasa del techo' : 'El valle no toca el piso');
       return true;

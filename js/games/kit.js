@@ -606,10 +606,13 @@ function questGame(def) {
       get round() { return R[a.cur]; },
       get item() { const r = R[a.cur]; return r.items[Math.min(st.done[a.cur], r.items.length - 1)]; },
       get locked() { return locked; },
-      good(text) { if (G.wait > 0) return; a.hit(); a.say(text || '¡Bien!', C.ok); G.wait = 1.2; G.solved = true; },
+      good(text) { if (G.wait > 0) return; a.hit(); a.say(text || '¡Bien!', C.ok); G.wait = 1.2; G.solved = true; burst(); },
       bad(text) { a.say(text || 'Piénsalo otra vez', C.bad); const lost = a.miss(); if (!lost) def.retry?.(G); return lost; },
       submit(text) { if (def.ok(G.s, G.item, G.round)) { G.good(def.yes?.(G.item, G.s)); return true; } G.bad(text ?? def.no?.(G.item, G.s)); return false; },
     };
+    // Chispas de colores al acertar un reto (no salen con «reducir movimiento»).
+    const bits = [];
+    const burst = () => { if (reducedMotion() || !G.dt) return; const cols = [C.sun, C.coral, C.mint, C.sky]; for (let i = 0; i < 18; i++) { const an = Math.random() * Math.PI * 2, v = 90 + Math.random() * 170; bits.push({ x: G.W / 2, y: (G.top + G.bottom) / 2, vx: Math.cos(an) * v, vy: Math.sin(an) * v - 120, col: cols[i % 4], t: 0 }); } };
     function fresh() { G.solved = false; G.wait = 0; G.s = def.init(G.item, G.round, G); def.layout?.(G); }
     const m = mountSketch(host, (p, size) => {
       G.p = p; p5 = p;
@@ -632,6 +635,8 @@ function questGame(def) {
         else {
           p.noStroke(); p.fill(C.N); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, def.prompt(G.item, G.round, G), G.W / 2, 68, G.W - 20, 16, 36);
           def.draw(G);
+          for (const b of bits) { b.t += G.dt; b.vy += 520 * G.dt; b.x += b.vx * G.dt; b.y += b.vy * G.dt; p.noStroke(); p.fill(b.col); p.rect(b.x, b.y, 6, 6, 2); }
+          while (bits.length && bits[0].t > 1) bits.shift();
           drawArcadeBanner(p, C, a, mid, { idle: def.idle || 'Sin prisa: piensa y luego toca', lost: def.lost });
         }
         p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
@@ -701,5 +706,10 @@ const TK = (() => {
   // Rótulo de un lado, corrido hacia afuera del triángulo.
   function sideLabel(p, C, txt, a, b, c, col, size = 14) { const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, d = Math.hypot(mx - c[0], my - c[1]) || 1; label(p, C, txt, mx + (mx - c[0]) / d * 17, my + (my - c[1]) / d * 15, col, size, 70); }
   const minusTxt = v => String(v).replace('-', '−');
-  return { gcd, rad, mod, piTex, FN, F, VAL, VTEX, at, ring, row, minus, plus, steps, segDist, mid, label, hitSeg, sideLabel, minusTxt };
+  // Movimiento: `glide` acerca poco a poco un valor dibujado a su destino; `fire` marca el inicio de una animación y
+  // `prog` dice cuánto va (0 a 1). Sin cuadros (Node) o con «reducir movimiento», todo salta al final.
+  const glide = (G, key, target, rate = 9) => { const m = (G._gl ||= {}); if (m[key] == null || !G.dt || reducedMotion()) m[key] = target; else { m[key] += (target - m[key]) * Math.min(1, G.dt * rate); if (Math.abs(m[key] - target) < 1e-3) m[key] = target; } return m[key]; };
+  const fire = G => { G._shot = G.t; };
+  const prog = (G, dur) => (G._shot == null || !G.dt || reducedMotion() ? 1 : Math.max(0, Math.min(1, (G.t - G._shot) / dur)));
+  return { gcd, rad, mod, piTex, FN, F, VAL, VTEX, at, ring, row, minus, plus, steps, segDist, mid, label, hitSeg, sideLabel, minusTxt, glide, fire, prog };
 })();
