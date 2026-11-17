@@ -95,6 +95,7 @@ function mParse(src) {
         else if (name === 't') items.push({ k: 'a', s: raw(), f: 't' });
         else if (name === 'bar') items.push({ k: 'bar', a: arg() });
         else if (name === 'op') { const o = raw(), hi = arg(), lo = arg(); items.push({ k: 'op', o, hi, lo }); }
+        else if (name === 'log' || name === 'ln') items.push({ k: 'a', s: name, f: 'r', pr: .12 });
         else if (name === 'quad') items.push({ k: 'sp', w: 1 });
         else if (name === 'qquad') items.push({ k: 'sp', w: 2 });
         else if (name === 'left' || name === 'right') continue;
@@ -120,7 +121,7 @@ function lay(n, s) {
       it.forEach((m, j) => {
         let pl = 0, pr = 0;
         if (isOp(m)) { const pv = it[j - 1]; const unary = '−+±'.includes(m.s) && (!pv || isOp(pv) || pv.open || (pv.k === 'a' && pv.pr)); if (!unary) pl = pr = (m.s === ':' || m.s === '|') ? .2 * s : .24 * s; }
-        if (m.pr) pr = m.pr * s;
+        if (m.pr || m.base?.pr) pr = (m.pr || m.base.pr) * s;
         const L = lay(m, s); x += pl; for (const p of L.P) P_.push(shift(p, x, 0)); x += L.w + pr; a = Math.max(a, L.a); d = Math.max(d, L.d);
       });
       return { w: x, a, d, P: P_ };
@@ -323,12 +324,15 @@ function capLine(str, x, y, s) {
   parts.forEach((q, i) => { if (i % 2) M(q, cx, y, s * 1.02, { a: 'l', nr: true }); else if (q) T(q, cx, y, { s, nr: true }); cx += ws[i]; });
   X.restore(); recBox(null, plain(str), x, y - s * .8, x + tot * k, y + s * .25);
 }
+// alto de un renglón de rótulo: lo que sube (a) y lo que baja (d) de la línea base, con fracciones o raíces
+function capH(str, s) { let a = .8 * s, d = .25 * s; if (str) str.split('$').forEach((q, i) => { if (i % 2 && q) { const L = mLayout(q, s * 1.02); a = Math.max(a, L.a); d = Math.max(d, L.d); } }); return { a, d }; }
 function caption(t) {
   for (const c of TL.CAPS) {
     if (t < c.a || t > c.b) continue;
     const out = 1 - seg(t, c.b - .25, c.b), neg = c.k.startsWith('!'), kc = neg ? P.no : P.ac, kt = neg ? c.k.slice(1) : c.k;
     fade(A(t, c.a, .4) * out, () => { X.fillStyle = kc; X.fillRect(90, 180, 40 * eo(seg(t, c.a, c.a + .5)), 4); T(kt, 146, 196, { s: 28, w: 600, ls: 5, c: kc, halo: false }); });
-    [c.l1, c.l2].forEach((l, i) => { if (!l) return; const k2 = A(t, c.a + .1 + i * .12, .45); fade(k2 * out, () => capLine(l, 90, 286 + i * 78, 60), (1 - k2) * 20); });
+    const h1 = capH(c.l1, 60), h2 = capH(c.l2, 60), y1 = 286 + Math.max(0, h1.a - 62), ys = [y1, y1 + Math.max(78, h1.d + h2.a + 14)];
+    [c.l1, c.l2].forEach((l, i) => { if (!l) return; const k2 = A(t, c.a + .1 + i * .12, .45); fade(k2 * out, () => capLine(l, 90, ys[i], 60), (1 - k2) * 20); });
   }
 }
 function progress(t, i) {

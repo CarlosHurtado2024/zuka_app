@@ -20,8 +20,14 @@ const words = s => plain(s).split(/\s+/).filter(Boolean).length;
 
 test('hay películas', () => assert.ok(FILMS.length > 0));
 
+test('toda lección de Álgebra tiene su película lámina (alg-0a la tiene en video/conjunto-lamina)', () => {
+  const have = new Set(FILMS.map(n => filmOf(n).lesson));
+  const faltan = LESSONS.map(x => x.l.id).filter(id => id !== 'alg-0a' && !have.has(id));
+  assert.strictEqual(faltan.join(', '), '');
+});
+
 test('las fórmulas solo usan comandos que el motor sabe dibujar', () => {
-  const ok = new Set(['frac', 'sqrt', 'hl', 'no', 'mu', 'ink', 's', 'id', 't', 'bar', 'op', 'quad', 'qquad', 'left', 'right']);
+  const ok = new Set(['frac', 'sqrt', 'hl', 'no', 'mu', 'ink', 's', 'id', 't', 'bar', 'op', 'quad', 'qquad', 'left', 'right', 'log', 'ln']);
   for (const name of FILMS) {
     const src = fs.readFileSync(path.join(DIR, 'films', name + '.js'), 'utf8');
     for (const m of src.matchAll(/R`([^`]*)`/g)) for (const c of m[1].matchAll(/\\([a-zA-Z]+)/g)) assert.ok(ok.has(c[1]), `${name}: \\${c[1]} no existe en el motor`);
