@@ -281,14 +281,17 @@ function cuentaVideoBaseYa(id) {
   return hit && hit.hasta > Date.now() ? hit.base : null;
 }
 function cuentaVideoBase(id, reintento = false) {
-  const libre = `https://${BUNNY_CDN}/${id}`;
+  const libre = `https://${bunnyHost(id)}/${id}`;
+  // Biblioteca nueva (sin token): el servidor solo dice si la cuenta puede verlo; la dirección es la libre.
+  const vieja = BUNNY_VIEJOS.has(id);
   const ya = cuentaVideoBaseYa(id);
   if (ya) return Promise.resolve(ya);
   if (!Cuenta.sb) return Promise.resolve(libre);
   return Cuenta.sb.functions.invoke('video-url', { body: { video: id } }).then(({ data, error }) => {
     if (data && data.ok && data.base) {
-      Cuenta.bases.set(id, { base: data.base, hasta: data.expira ? data.expira * 1000 - 600000 : Date.now() + 3600000 });
-      return data.base;
+      const base = vieja ? data.base : libre;
+      Cuenta.bases.set(id, { base, hasta: vieja && data.expira ? data.expira * 1000 - 600000 : Date.now() + 3600000 });
+      return base;
     }
     const status = error && error.context && error.context.status;
     // 401: la sesión venció mientras la app estaba en segundo plano. Se renueva y se pide otra vez.

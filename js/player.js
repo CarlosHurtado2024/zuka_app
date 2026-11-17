@@ -261,7 +261,7 @@ class VideoClip {
     this.opts = opts;
     this.wantPlay = false;
     const clip = opts.clip || lesson.clip;
-    const base = clip.bunny ? `https://${BUNNY_CDN}/${clip.bunny}` : '';
+    const base = clip.bunny ? `https://${bunnyHost(clip.bunny)}/${clip.bunny}` : '';
     const src = clip.bunny ? `${base}/playlist.m3u8` : clip.video;
     const el = (this.el = document.createElement('div'));
     // En la lección no hay miniatura: mientras carga se ve la rueda (.clip-loading) sobre fondo liso,

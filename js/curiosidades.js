@@ -15,7 +15,7 @@ const CURIOS = [
     title: 'El origen de los números',
     fact: 'Contamos con rayitas durante miles de años. El cero, el signo para «nada», llegó mucho después.',
     clip: {
-      bunny: 'ed3c4328-c24d-4baf-b802-c1338587e1bf', duration: 80,
+      bunny: '3917ea63-91c2-4aa6-9e72-be7955884a79', duration: 80,
       scenes: [
         sc(6, 'Hace unos 20 000 años ya se contaba con muescas en un hueso.', { title: '||||' }),
         sc(7, 'En Babilonia contaban de 60 en 60: por eso una hora tiene 60 minutos.', { title: '$1\\text{ h} = 60\\text{ min}$' }),
@@ -30,7 +30,7 @@ const CURIOS = [
     title: 'Matemáticas de abeja',
     fact: 'Una abeja baila un ángulo y una distancia para decir dónde hay flores: son coordenadas polares.',
     clip: {
-      bunny: '22dee0b2-14ba-4b3a-ad2e-fe2b793794a6', duration: 76,
+      bunny: '0610dca4-c394-4ee1-9e56-b2f6470375f7', duration: 76,
       scenes: [
         sc(6, 'Una abeja encontró flores. Adentro de la colmena está oscuro: no lo dice, lo baila.', { title: 'El baile del ocho' }),
         sc(7, 'El tramo recto es una flecha. Hacia arriba significa hacia el sol.', { title: '$30^\\circ$' }),
@@ -45,7 +45,7 @@ const CURIOS = [
     title: 'La razón que no cambia',
     fact: 'De Euclides a un hospital: si 80 mg vienen en 2 mL, para 20 mg se cargan 0.5 mL.',
     clip: {
-      bunny: '688591e8-3c66-4151-a1b8-f26ef0623bb9', duration: 90,
+      bunny: '656c797f-bea0-4e6b-8f65-cddce2eaad40', duration: 90,
       scenes: [
         sc(7, 'Hacia el 300 a. C., Euclides buscó el corte perfecto de una línea: la razón áurea.', { title: '$(a+b) : a = a : b$' }),
         sc(6, 'En 1509, Luca Pacioli la llamó «la divina proporción»; Leonardo dibujó las figuras.', { title: '$1.618\\ldots$' }),
@@ -60,7 +60,7 @@ const CURIOS = [
     title: 'La cuerda del escriba',
     fact: 'En Egipto, se cree que una cuerda con nudos tensada en 3, 4 y 5 tramos daba un ángulo recto.',
     clip: {
-      bunny: '1f59075f-c1ec-411d-907e-750671cccce2', duration: 109.5,
+      bunny: '74c5bf6a-e8b5-48d3-9366-00d2ead0b131', duration: 109.5,
       scenes: [
         sc(6, 'Cada verano, el Nilo crecía y borraba los linderos de los campos.', { title: 'La cuerda del escriba' }),
         sc(7, 'Se cree que una cuerda de 12 nudos, tensada en 3, 4 y 5 tramos, formaba el ángulo recto.', { title: '$3^2 + 4^2 = 5^2$' }),
@@ -76,7 +76,7 @@ const CURIOS = [
     title: 'El arroz del rey',
     fact: 'Un grano que se duplica en las 64 casillas del ajedrez suma más de 18 trillones de granos.',
     clip: {
-      bunny: 'f68c6ba7-c0a4-45a7-b265-b8931c49ea4e', duration: 72.5,
+      bunny: 'f4111e60-5657-43e3-9d1c-5a22e98b7c6a', duration: 72.5,
       scenes: [
         sc(6, 'Un inventor pidió un grano de arroz en la primera casilla y el doble en cada una de las siguientes.', { title: '$1,\\ 2,\\ 4,\\ 8,\\ \\ldots$' }),
         sc(6, 'En la casilla 10 ya hay 512 granos: el montón no cabe en su casilla.', { title: '$2^{9} = 512$' }),
@@ -92,7 +92,7 @@ const CURIOS = [
     title: 'La curva más corta',
     fact: 'Sobre la Tierra, lo más corto entre dos ciudades es un arco de círculo máximo, no la recta del mapa.',
     clip: {
-      bunny: 'b0f02e88-4969-4e34-807a-f33f1c92121e', duration: 82.5,
+      bunny: '6d4a960b-de76-4273-b4e4-082c14670b97', duration: 82.5,
       scenes: [
         sc(6, 'Un avión de Nueva York a Tokio sube hasta Alaska. En el mapa parece un rodeo.', { title: 'Nueva York → Tokio' }),
         sc(7, 'Un mapa plano no puede guardar las distancias de una esfera: la línea recta del mapa no es la más corta.', { title: 'Mapa ≠ esfera' }),
@@ -108,7 +108,7 @@ const CURIOS = [
     title: 'La IA está hecha de álgebra',
     fact: 'Una red neuronal multiplica, suma y aprende bajando la montaña de su error con derivadas.',
     clip: {
-      bunny: 'cf9e8c95-4327-41f0-ae17-fa5f5ef4f45a', duration: 90,
+      bunny: 'b85ffd25-b3ac-44dc-89aa-17caaa9ad935', duration: 90,
       scenes: [
         sc(6, 'Para una IA, la foto de un gato es una tabla de números: el brillo de cada píxel.', { title: '$0 \\le \\text{píxel} \\le 255$' }),
         sc(7, 'Cada neurona multiplica sus datos por unos pesos y suma un sesgo.', { title: '$z = 2(0.4) + 3(-0.2) + 0.1 = 0.3$' }),
@@ -124,7 +124,7 @@ const CURIOS = [
     title: '¿Por qué el 14 de marzo?',
     fact: 'En EE. UU. el 14 de marzo se escribe 3/14, como pi. La UNESCO lo eligió en 2019 para celebrar las matemáticas.',
     clip: {
-      bunny: '62d296c8-f672-4858-b5ce-990f1c69d0a1', duration: 77,
+      bunny: '1a7bc452-ebca-43b1-96e4-c595768e5dfd', duration: 77,
       scenes: [
         sc(6, 'En Colombia el 14 de marzo se escribe 14/3: primero el día y después el mes.', { title: '14/3' }),
         sc(6, 'En Estados Unidos va primero el mes: 3/14, los primeros dígitos de pi.', { title: '$3/14 \\to 3.14$' }),

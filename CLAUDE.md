@@ -69,6 +69,12 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
 - `scenes` son el respaldo si el video no carga. Al recibir un ID de Bunny: poner `bunny` y la
   `duration` **que reporta Bunny** (medir con `video.duration` en el navegador; puede diferir de la local).
 - Al cambiar contenido o juegos: subir `VERSION` en `sw.js` (`zuka-vNN`).
+- **Dos bibliotecas de Bunny** (desde el 2026-11-17): los videos nuevos se suben a la biblioteca **811556**
+  (`BUNNY_CDN = vz-1a76d229-c83.b-cdn.net`, sin token; pide `Referer`). Los que ya estaban en la vieja
+  (`vz-2449e89f-b51`, con token que firma la función `video-url`) están listados en `BUNNY_VIEJOS` de `js/content.js` y
+  `bunnyHost(id)` elige el servidor. **Un ID nuevo no se añade a esa lista.** Duración de un video nuevo: sumar los
+  `#EXTINF` de `https://vz-1a76d229-c83.b-cdn.net/<id>/720p/video.m3u8` con `Referer: http://localhost:5173/`. La llave
+  de la API de Bunny nunca va al repositorio. Al poner un ID: actualizar su fila en la tabla `lecciones` de Supabase.
 
 ## Juegos (p5.js)
 

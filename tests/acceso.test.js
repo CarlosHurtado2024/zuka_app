@@ -195,3 +195,16 @@ test('seguridad de la base: RLS en todas las tablas, columnas del plan sin permi
   for (const fn of fns) assert.match(fn, /set search_path = ''/, fn.slice(0, 60));
   assert.ok(!/sb_secret|service_role key|eyJhbGciOi/.test(read('js/acceso.js')), 'en el navegador solo va la llave pública');
 });
+
+test('Bunny: lo nuevo sale de la biblioteca nueva y lo de la vieja sigue con su servidor y su firma', () => {
+  const { loadScripts, get } = require('./load');
+  const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js', 'js/curiosidades.js']);
+  const host = get(ctx, 'bunnyHost'), viejos = get(ctx, 'BUNNY_VIEJOS');
+  assert.equal(host('2c656c56-44bc-4925-97f2-df27f61c74da'), 'vz-1a76d229-c83.b-cdn.net');
+  assert.equal(host('a05c46b4-a0b6-4ee8-8103-b775378e43c4'), 'vz-2449e89f-b51.b-cdn.net');
+  // Los clips ya viven en la biblioteca nueva.
+  for (const c of get(ctx, 'CURIOS')) if (c.clip.bunny) assert.ok(!viejos.has(c.clip.bunny), `${c.id} sigue en la vieja`);
+  const fs = require('fs');
+  assert.match(fs.readFileSync('js/player.js', 'utf8'), /bunnyHost\(clip\.bunny\)/);
+  assert.match(fs.readFileSync('js/cuenta.js', 'utf8'), /bunnyHost\(id\)/);
+});

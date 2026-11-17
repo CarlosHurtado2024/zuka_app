@@ -98,7 +98,7 @@ test('«La razón que no cambia» (Art Deco) está en Clips con su video y escen
   const q = CURIOS.find(c => c.id === 'cur-razon-deco');
   assert.ok(q, 'falta cur-razon-deco');
   assert.equal(q.topic, 'mate');
-  assert.equal(q.clip.bunny, '688591e8-3c66-4151-a1b8-f26ef0623bb9');
+  assert.equal(q.clip.bunny, '656c797f-bea0-4e6b-8f65-cddce2eaad40');
   assert.equal(q.clip.duration, 90);
   assert.ok(q.clip.scenes.length >= 4);
   assert.match(q.fact, /0\.5 mL/);
@@ -108,7 +108,7 @@ test('«La cuerda del escriba» (acuarela, Egipto) está en Clips con su video y
   const q = CURIOS.find(c => c.id === 'cur-egipto');
   assert.ok(q, 'falta cur-egipto');
   assert.equal(q.topic, 'mate');
-  assert.equal(q.clip.bunny, '1f59075f-c1ec-411d-907e-750671cccce2');
+  assert.equal(q.clip.bunny, '74c5bf6a-e8b5-48d3-9366-00d2ead0b131');
   assert.equal(q.clip.duration, 109.5);
   assert.ok(q.clip.scenes.length >= 5);
   assert.match(q.fact, /3, 4 y 5/);
@@ -118,7 +118,7 @@ test('«El arroz del rey» (Data Physicalization, ajedrez) está en Clips con su
   const q = CURIOS.find(c => c.id === 'cur-arroz');
   assert.ok(q, 'falta cur-arroz');
   assert.equal(q.topic, 'mate');
-  assert.equal(q.clip.bunny, 'f68c6ba7-c0a4-45a7-b265-b8931c49ea4e');
+  assert.equal(q.clip.bunny, 'f4111e60-5657-43e3-9d1c-5a22e98b7c6a');
   if (q.clip.video) assert.ok(fs.existsSync(path.join(ROOT, q.clip.video)), 'falta el mp4');
   assert.equal(q.clip.duration, 72.5);
   assert.ok(q.clip.scenes.length >= 5);
@@ -129,7 +129,7 @@ test('«La curva más corta» (3D Map Explainer, rutas de avión) está en Clips
   const q = CURIOS.find(c => c.id === 'cur-curva');
   assert.ok(q, 'falta cur-curva');
   assert.equal(q.topic, 'mate');
-  assert.equal(q.clip.bunny, 'b0f02e88-4969-4e34-807a-f33f1c92121e');
+  assert.equal(q.clip.bunny, '6d4a960b-de76-4273-b4e4-082c14670b97');
   if (q.clip.video) assert.ok(fs.existsSync(path.join(ROOT, q.clip.video)), 'falta el mp4');
   assert.equal(q.clip.duration, 82.5);
   assert.ok(q.clip.scenes.length >= 5);
@@ -141,7 +141,7 @@ test('«La IA está hecha de álgebra» (Sci-fi Hologram HUD, red neuronal) est�
   const q = CURIOS.find(c => c.id === 'cur-ia');
   assert.ok(q, 'falta cur-ia');
   assert.equal(q.topic, 'mate');
-  assert.equal(q.clip.bunny, 'cf9e8c95-4327-41f0-ae17-fa5f5ef4f45a');
+  assert.equal(q.clip.bunny, 'b85ffd25-b3ac-44dc-89aa-17caaa9ad935');
   assert.equal(q.clip.duration, 90);
   assert.ok(q.clip.scenes.length >= 5);
   assert.ok(q.fact.length <= 110);
@@ -152,7 +152,7 @@ test('«¿Por qué el 14 de marzo?» (Caption News, Día de Pi) está en Clips c
   const q = CURIOS.find(c => c.id === 'cur-pi');
   assert.ok(q, 'falta cur-pi');
   assert.equal(q.topic, 'mate');
-  assert.equal(q.clip.bunny, '62d296c8-f672-4858-b5ce-990f1c69d0a1');
+  assert.equal(q.clip.bunny, '1a7bc452-ebca-43b1-96e4-c595768e5dfd');
   assert.equal(q.clip.duration, 77);
   assert.ok(q.clip.scenes.length >= 5);
   assert.ok(q.fact.length <= 110);
