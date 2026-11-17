@@ -228,7 +228,7 @@ async function cuentaSyncProgreso(uidPrevio) {
   const { data, error } = await Cuenta.sb.from('progreso').select('leccion,completada,segundos_vistos').eq('usuario', Cuenta.user.id);
   if (error || !data) return;
   const otro = uidPrevio && uidPrevio !== Cuenta.user.id;
-  if (otro) { S.done = {}; S.secs = {}; }
+  if (otro) { S.done = {}; S.secs = {}; S.days = {}; }   // tampoco el calendario de actividad de la cuenta anterior
   S.secs = S.secs || {};
   const nube = new Map(data.map(r => [r.leccion, r]));
   data.forEach(r => {

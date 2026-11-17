@@ -3,35 +3,11 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
 const path = require('path');
-const { loadScripts, get, ROOT } = require('./load');
+const { ROOT } = require('./load');
 
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 const app = read('js/app.js'), css = read('css/styles.css');
-const streakWeek = get(loadScripts(['js/ui.js']), 'streakWeek');
 const rule = sel => (css.match(new RegExp(sel.replace(/[.#[\]=]/g, '\\$&') + '\\s*\\{([^}]*)\\}')) || [])[1] || '';
-
-test('streakWeek: siete días de lunes a domingo, con hoy marcado', () => {
-  const w = streakWeek(null, 0, new Date(2026, 10, 13));   // viernes 13 de noviembre de 2026
-  assert.equal(w.map(d => d.label).join(''), 'LMXJVSD');
-  assert.equal(w.findIndex(d => d.today), 4);
-  assert.equal(w.filter(d => d.lit).length, 0);
-});
-
-test('streakWeek: enciende los días de la racha y no pasa de hoy', () => {
-  const fri = new Date(2026, 10, 13);
-  const lit = (last, n) => streakWeek(last, n, fri).map(d => (d.lit ? '1' : '0')).join('');
-  assert.equal(lit('2026-11-13', 1), '0000100');
-  assert.equal(lit('2026-11-13', 3), '0011100');
-  assert.equal(lit('2026-11-12', 2), '0011000', 'racha viva de ayer: hoy aún apagado');
-  assert.equal(lit('2026-11-13', 30), '1111100', 'una racha larga llena la semana hasta hoy');
-  assert.equal(lit('2026-11-10', 5), '0000000', 'racha rota (último día hace más de un día): nada encendido');
-});
-
-test('streakWeek: en domingo la semana sigue empezando el lunes', () => {
-  const w = streakWeek('2026-11-15', 2, new Date(2026, 10, 15));
-  assert.equal(w.findIndex(d => d.today), 6);
-  assert.equal(w.map(d => (d.lit ? '1' : '0')).join(''), '0000011');
-});
 
 test('la racha de arriba es un botón que abre la hoja de racha', () => {
   assert.match(app, /<button class="tb-stat streak[^>]*data-streak/);

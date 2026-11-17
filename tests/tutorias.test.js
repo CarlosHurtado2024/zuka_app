@@ -192,7 +192,7 @@ test('Tutorías está en el menú, en index.html, en el service worker y en el r
   assert.match(sw, /'js\/tutorias\.js'/);
   assert.match(app, /tutorias: renderTutorias/);
   assert.match(app, /tutorias: \[\]/);
-  assert.match(app, /tutorias: S\.tutorias/, 'reiniciar el progreso no borra las citas');
+  assert.match(app, /const RESET_KEEP = \[[^\]]*'tutorias'/, 'reiniciar el progreso no borra las citas');
   const step = get(loadScripts(['js/tour.js']), 'TOUR_STEPS').find(s => s.id === 'tutorias');
   assert.match(step.target.join(), /data-tab="tutorias"/);
   assert.match(step.text, /materia/);

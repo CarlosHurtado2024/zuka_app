@@ -140,7 +140,7 @@ test('la app lo arranca al inicio, lo recuerda y deja repetirlo desde Perfil', (
   assert.match(app, /data-tour/);
   assert.match(app, /Ver el recorrido otra vez/);
   // Reiniciar el progreso no vuelve a lanzar el recorrido.
-  assert.match(app, /S = Object\.assign\(DEFAULTS\(\), \{ tourDone: S\.tourDone, /);
+  assert.match(app, /const RESET_KEEP = \['tourDone', /);
 });
 
 test('la capa usa los colores del tema, queda bajo los diálogos y sobre hojas y avisos', () => {

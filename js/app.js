@@ -83,7 +83,7 @@ function showUpdateBar(apply, dismiss) {
 }
 
 // ---- fechas, XP, racha y vidas ----
-const dayStr = d => d.toLocaleDateString('en-CA');
+const dayStr = d => dayKey(d);   // 'AAAA-MM-DD' local, igual que el calendario de actividad (js/ui.js)
 const today = () => dayStr(new Date());
 const yesterday = () => { const d = new Date(); d.setDate(d.getDate() - 1); return dayStr(d); };
 const streakNow = () => (S.lastDay === today() || S.lastDay === yesterday() ? S.streak : 0);
@@ -158,7 +158,7 @@ function renderTop() {
     <button class="tb-course" style="--c:${c.color}" aria-label="Cambiar de curso">
       ${courseArt(c, 'sm')}<span class="tb-name">${esc(c.name)}</span>${ICON.down}</button>
     <div class="tb-stats">
-      <button class="tb-stat streak${S.lastDay === today() ? ' lit' : ''}" data-streak aria-label="Racha: ${streakNow()} ${streakNow() === 1 ? 'día' : 'días'}. Ver tu semana">${ICON.flame}<b>${streakNow()}</b></button>
+      <button class="tb-stat streak${S.lastDay === today() ? ' lit' : ''}" data-streak aria-label="Racha: ${streakNow()} ${streakNow() === 1 ? 'día' : 'días'}. Ver tu actividad">${ICON.flame}<b>${streakNow()}</b></button>
       <span class="tb-stat xp" title="Experiencia: ${S.xp} XP">${ICON.bolt}<b>${shortNum(S.xp)}</b></span>
       <button class="tb-stat hearts" title="Vidas">${ICON.heart}<b>${S.hearts}</b></button>
     </div>`;
@@ -202,7 +202,7 @@ function openStreakSheet() {
     const d = new Date(now.getFullYear(), now.getMonth() + off, 1);
     return `<div class="act-nav">
         <button class="icon-btn" data-month="-1" aria-label="Mes anterior"${off > -11 ? '' : ' disabled'}>${ICON.back}</button>
-        <b aria-live="polite">${d.toLocaleDateString('es', { month: 'long', year: 'numeric' })}</b>
+        <b>${d.toLocaleDateString('es', { month: 'long', year: 'numeric' })}</b>
         <button class="icon-btn" data-month="1" aria-label="Mes siguiente"${off ? '' : ' disabled'}>${ICON.right}</button></div>
       <ol class="act-grid" aria-label="Días con actividad">${[...'LMXJVSD'].map(l => `<li class="act-dow" aria-hidden="true">${l}</li>`).join('')}${
         monthGrid(d.getFullYear(), d.getMonth(), active, now).map(c =>
@@ -224,7 +224,7 @@ function openStreakSheet() {
       if (!b || b.disabled) return;
       off = Math.max(-11, Math.min(0, off + +b.dataset.month));
       box.innerHTML = cal();
-      $(`[data-month="${b.dataset.month}"]:not(:disabled)`, box)?.focus();
+      ($(`[data-month="${b.dataset.month}"]:not(:disabled)`, box) || $('[data-month]:not(:disabled)', box))?.focus();   // en el tope, a la otra flecha
     };
   });
 }
@@ -715,6 +715,8 @@ function startLesson(c, l) {
 }
 
 // ---- pestaña Perfil ----
+// Lo que «Reiniciar progreso» no toca.
+const RESET_KEEP = ['tourDone', 'tutorias', 'cuenta', 'guest', 'unlockAll', 'theme', 'name', 'goal', 'voice', 'sfx', 'videoQuality', 'videoMuted', 'videoSpeed', 'hideInstall', 'guides'];
 let profileSub = null;   // 'settings': pantalla de Ajustes dentro de la pestaña Perfil (null = el perfil)
 function renderProfile() {
   if (profileSub === 'settings') return renderSettings();
@@ -755,7 +757,7 @@ function renderProfile() {
       `<button class="saved-row" data-${l.fact ? 'curio' : 'lesson'}="${l.id}" style="--c:${c.color}">${ICON.bookmark}<span><b>${esc(l.title)}</b><small>${esc(c.name)}</small></span></button>`).join('')}</section>` : ''}
   </div>`;
   const nameInp = $('.name-input', view);
-  nameInp.onchange = () => { S.name = nameInp.value.trim(); save(); renderProfile(); };
+  nameInp.onchange = () => { S.name = nameInp.value = nameInp.value.trim(); save(); $('.avatar', view).textContent = (S.name || 'Z')[0].toUpperCase(); };
   cuentaBind(view);
   $('[data-settings]', view).onclick = () => { profileSub = 'settings'; renderProfile(); view.scrollTop = 0; $('[data-back]', view).focus({ preventScroll: true }); };
   view.querySelectorAll('[data-course]').forEach(b => b.onclick = () => { S.course = b.dataset.course; openWorld = null; save(); go('learn'); });
@@ -772,6 +774,7 @@ function renderSettings() {
   const themes = [['system', 'Según el sistema', 'auto'], ['light', 'Claro', 'sun'], ['dark', 'Oscuro', 'moon']];
   const row = (icon, title, sub, end = '') => `<span class="set-ico">${ICON[icon]}</span><span class="set-body"><b>${title}</b>${sub ? `<small>${sub}</small>` : ''}</span>${end}`;
   const toggle = k => `<span class="toggle${S[k] ? ' on' : ''}"></span>`;
+  const conCuenta = typeof Cuenta !== 'undefined' && !!Cuenta.user;   // con sesión, las lecciones hechas viven en la nube y vuelven
   view.innerHTML = `<div class="settings">
     <header class="set-head"><button class="icon-btn" data-back aria-label="Volver al perfil">${ICON.back}</button><h2>Ajustes</h2></header>
     <section class="set-group">
@@ -801,19 +804,29 @@ function renderSettings() {
       <button class="set-row" data-tour>${row('play', 'Ver el recorrido otra vez', 'Un paseo corto por la app', ICON.right)}</button>
     </section>
     <section class="set-group">
-      <button class="set-row danger" data-reset>${row('trash', 'Reiniciar progreso', 'Borra tu XP, tu racha y las lecciones completadas')}</button>
+      <button class="set-row danger" data-reset>${row('trash', 'Reiniciar progreso', conCuenta ? 'Borra tu XP y tu racha en este celular. Las lecciones guardadas en tu cuenta se conservan' : 'Borra tu XP, tu racha y las lecciones completadas')}</button>
     </section>
   </div>`;
-  const repaint = () => { const y = view.scrollTop; renderSettings(); view.scrollTop = y; };
+  // Tras un cambio se repinta: se conservan el desplazamiento y el foco (mismo control, por su atributo data-).
+  const repaint = b => {
+    const y = view.scrollTop, k = ['goal', 'themeOpt', 'set'].find(n => n in b.dataset);
+    const sel = `[data-${k === 'themeOpt' ? 'theme-opt' : k}="${b.dataset[k]}"]`;
+    renderSettings(); view.scrollTop = y; $(sel, view)?.focus({ preventScroll: true });
+  };
   $('[data-back]', view).onclick = () => { profileSub = null; renderProfile(); view.scrollTop = 0; $('[data-settings]', view).focus({ preventScroll: true }); };
-  view.querySelectorAll('[data-goal]').forEach(b => b.onclick = () => { S.goal = +b.dataset.goal; save(); repaint(); });
-  view.querySelectorAll('[data-theme-opt]').forEach(b => b.onclick = () => { S.theme = b.dataset.themeOpt; save(); applyTheme(); repaint(); });
-  view.querySelectorAll('[data-set]').forEach(b => b.onclick = () => { S[b.dataset.set] = !S[b.dataset.set]; save(); repaint(); });
+  view.querySelectorAll('[data-goal]').forEach(b => b.onclick = () => { S.goal = +b.dataset.goal; save(); repaint(b); });
+  view.querySelectorAll('[data-theme-opt]').forEach(b => b.onclick = () => { S.theme = b.dataset.themeOpt; save(); applyTheme(); repaint(b); });
+  view.querySelectorAll('[data-set]').forEach(b => b.onclick = () => { S[b.dataset.set] = !S[b.dataset.set]; save(); repaint(b); });
   $('[data-install]', view)?.addEventListener('click', promptInstall);
   $('[data-tour]', view).onclick = () => { profileSub = null; startTour(); };
   $('[data-reset]', view).onclick = () => {
-    ask({ title: '¿Borrar todo tu progreso?', text: 'Se borran tu XP, tu racha y las lecciones completadas. Tus asesorías separadas se conservan. No se puede deshacer.', ok: 'Borrar todo', cancel: 'Cancelar', danger: true })
-      .then(yes => { if (yes) { usoEnvia(); uso.ans = 0; uso.ok = 0; S = Object.assign(DEFAULTS(), { tourDone: S.tourDone, tutorias: S.tutorias, cuenta: S.cuenta, guest: S.guest, unlockAll: S.unlockAll }); openWorld = null; profileSub = null; save(); applyTheme(); go('learn'); } });
+    ask({ title: '¿Borrar todo tu progreso?', text: `${conCuenta ? 'Se borran tu XP, tu racha y tu actividad en este celular; las lecciones guardadas en tu cuenta se conservan.' : 'Se borran tu XP, tu racha y las lecciones completadas.'} Tus ajustes y tus asesorías separadas se conservan. No se puede deshacer.`, ok: 'Borrar todo', cancel: 'Cancelar', danger: true })
+      .then(yes => {
+        if (!yes) return;
+        // Se conserva lo que no es progreso: cuenta, asesorías y preferencias (tema, nombre, meta, sonido, video, guías vistas).
+        const keep = Object.fromEntries(RESET_KEEP.filter(k => k in S).map(k => [k, S[k]]));
+        S = Object.assign(DEFAULTS(), keep); openWorld = null; profileSub = null; save(); applyTheme(); go('learn');
+      });
   };
 }
 

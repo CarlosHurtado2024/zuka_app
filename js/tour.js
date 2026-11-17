@@ -25,7 +25,7 @@ const TOUR_STEPS = [
   { id: 'tutorias', view: 'world', target: ['#tabbar [data-tab="tutorias"]'], title: 'Tutorías: ayuda en vivo',
     text: '¿Te trabaste? Separa una asesoría virtual: eliges la materia, los temas que quieres reforzar, el día y la hora.' },
   { id: 'perfil', view: 'world', target: ['#tabbar [data-tab="profile"]'], title: 'Tu perfil',
-    text: 'Aquí pones tu nombre, tu meta diaria y el tema claro u oscuro. También puedes repetir este recorrido cuando quieras.' },
+    text: 'Aquí ves tu avance y pones tu nombre. En el piñón de arriba están los ajustes: meta diaria, tema claro u oscuro y repetir este recorrido.' },
   { id: 'fin', view: 'world', target: ['.path .node.current', '.path .node'], art: 'mascot', title: '¡Todo listo!',
     text: 'Toca este nivel para empezar la lección y avanza a tu ritmo. ¡Mucho éxito!' },
 ];
