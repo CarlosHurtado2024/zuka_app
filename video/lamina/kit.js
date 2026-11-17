@@ -5,6 +5,10 @@
 // Las películas (films/<nombre>.js) definen FILM y dibujan con las funciones globales de este archivo.
 const W = 1080, H = 1920, CX = 540, CY = 1100;
 let X, TL, PLATE_IMG = null;
+// estilo «neón» (?s=neon): negro, trazos finos que brillan, marco de instrumento con reloj y cuadro; mismo contenido
+let NEON = false;
+const MONO = s => `${s}px Consolas, 'Courier New', monospace`;
+function setNeon() { NEON = true; Object.assign(P, { ink: '#E9EEF8', mute: '#A9B3C9', dim: '#6B758C', bg: '#05070D' }); }
 const P = { ink: '#E8ECFF', ac: '#5EE0C1', no: '#FF8A7A', mute: '#C2C9E6', dim: '#7F89B5', bg: '#0B0E24' };
 
 // ---------- suavizados ----------
@@ -168,7 +172,7 @@ function M(src, x, y, s, o = {}) {
   for (const pass of [0, 1]) for (const p of L.P) {
     const a = al(p); if (a <= .003) continue; X.globalAlpha = ga * a;
     const col = (o.col && o.col(p)) || CM[p.col] || o.c || P.ink;
-    if (p.t === 'g') { X.font = p.f; if (!pass) { X.strokeStyle = hexA(P.bg, .85); X.lineWidth = p.sz * .15; X.lineJoin = 'round'; X.strokeText(p.s, x0 + p.x, y + p.y); } else { X.fillStyle = col; X.fillText(p.s, x0 + p.x, y + p.y); } }
+    if (p.t === 'g') { X.font = p.f; if (!pass) { X.strokeStyle = hexA(P.bg, .85); X.lineWidth = p.sz * .15; X.lineJoin = 'round'; X.strokeText(p.s, x0 + p.x, y + p.y); } else { X.fillStyle = col; if (NEON && col !== P.ink && col !== (o.c || P.ink)) { X.shadowColor = col; X.shadowBlur = p.sz * .35; } X.fillText(p.s, x0 + p.x, y + p.y); X.shadowBlur = 0; } }
     else { X.beginPath(); if (p.t === 'l') { X.moveTo(x0 + p.x1, y + p.y1); X.lineTo(x0 + p.x2, y + p.y2); } else p.pts.forEach(([px, py], j) => (j ? X.lineTo(x0 + px, y + py) : X.moveTo(x0 + px, y + py))); X.lineCap = 'round'; X.lineJoin = 'round'; X.strokeStyle = pass ? col : hexA(P.bg, .85); X.lineWidth = pass ? p.lw : p.lw + s * .12; X.stroke(); }
   }
   X.globalAlpha = ga;
@@ -185,7 +189,9 @@ function M(src, x, y, s, o = {}) {
 const mWidth = (src, s) => mLayout(src, s).w;
 
 // ---------- trazos de la lámina ----------
-function stroke(c, lw, path, o = {}) { X.save(); X.strokeStyle = c; X.lineWidth = lw; X.lineCap = 'round'; X.lineJoin = 'round'; if (o.dash) X.setLineDash(o.dash); if (o.glow) { X.shadowColor = c; X.shadowBlur = o.glow; } X.beginPath(); path(); X.stroke(); X.restore(); }
+function stroke(c, lw, path, o = {}) {
+  if (NEON) { X.save(); X.strokeStyle = c; X.lineWidth = Math.max(2, lw * .62); X.lineCap = 'round'; X.lineJoin = 'round'; if (o.dash) X.setLineDash(o.dash); X.shadowColor = c; X.shadowBlur = o.glow || Math.max(10, lw * 2.6); X.beginPath(); path(); X.stroke(); X.shadowBlur = 0; X.globalAlpha *= .85; X.strokeStyle = mixHex(c, .45, [255, 255, 255]); X.lineWidth = Math.max(1, lw * .22); X.stroke(); X.restore(); return; }
+  X.save(); X.strokeStyle = c; X.lineWidth = lw; X.lineCap = 'round'; X.lineJoin = 'round'; if (o.dash) X.setLineDash(o.dash); if (o.glow) { X.shadowColor = c; X.shadowBlur = o.glow; } X.beginPath(); path(); X.stroke(); X.restore(); }
 function fillP(c, a, path, rule) { X.save(); X.fillStyle = hexA(c, a); X.beginPath(); path(); X.fill(rule || 'nonzero'); X.restore(); }
 function line(x1, y1, x2, y2, o = {}) { const k = o.k ?? 1; if (k <= 0) return; stroke(o.c || P.ink, o.w || 7, () => { X.moveTo(x1, y1); X.lineTo(lerp(x1, x2, k), lerp(y1, y2, k)); }, o); }
 function arrow(x1, y1, x2, y2, o = {}) {
@@ -299,6 +305,7 @@ function note(x, y, w, h, k, fn, o = {}) { if (k <= 0) return; fade(k, () => { f
 // ---------- fondo, rótulos, transiciones ----------
 let NOISE = null, BGC = null;
 function backdrop(t, sweep) {
+  if (NEON) return neonBackdrop(t, sweep);
   if (!BGC) { BGC = document.createElement('canvas'); BGC.width = W; BGC.height = H; const c = BGC.getContext('2d');
     const g = c.createRadialGradient(CX, 900, 0, CX, 900, 1450); g.addColorStop(0, mixHex(P.ac, .3)); g.addColorStop(.72, mixHex(P.ac, .07)); g.addColorStop(1, P.bg); c.fillStyle = g; c.fillRect(0, 0, W, H);
     c.strokeStyle = hexA(P.ink, .085); c.lineWidth = 1.5; c.beginPath(); for (let x = 0; x <= W; x += 54) { c.moveTo(x + .5, 0); c.lineTo(x + .5, H); } for (let y = 30; y <= H; y += 54) { c.moveTo(0, y + .5); c.lineTo(W, y + .5); } c.stroke();
@@ -310,6 +317,35 @@ function backdrop(t, sweep) {
     X.strokeStyle = hexA(P.ac, .35 * a); X.lineWidth = 2; X.beginPath(); for (let gy = 30; gy <= H; gy += 54) { const d = Math.abs(gy - y); if (d < 200 && gy < y + 10) { X.globalAlpha = (1 - d / 200); X.moveTo(0, gy + .5); X.lineTo(W, gy + .5); } } X.stroke(); X.globalAlpha = 1;
     stroke(P.ac, 3, () => { X.moveTo(0, y); X.lineTo(W, y); }, { glow: 24 }); X.restore();
   }
+}
+function neonBackdrop(t, sweep) {
+  if (!BGC) { BGC = document.createElement('canvas'); BGC.width = W; BGC.height = H; const c = BGC.getContext('2d');
+    c.fillStyle = P.bg; c.fillRect(0, 0, W, H);
+    const g = c.createRadialGradient(CX, 1000, 0, CX, 1000, 1100); g.addColorStop(0, hexA(P.ac, .07)); g.addColorStop(1, hexA(P.ac, 0)); c.fillStyle = g; c.fillRect(0, 0, W, H);
+    c.fillStyle = hexA(P.ink, .07); for (let x = 54; x < W; x += 108) for (let y = 84; y < H; y += 108) c.fillRect(x - 1, y - 1, 2, 2);
+    const v = c.createRadialGradient(CX, 960, 500, CX, 960, 1250); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.6)'); c.fillStyle = v; c.fillRect(0, 0, W, H); }
+  X.drawImage(BGC, 0, 0);
+  if (sweep > 0 && sweep < 1) { const y = lerp(380, 1840, eio(sweep)), a = Math.sin(Math.PI * sweep); X.save(); X.globalAlpha = a * .6; X.strokeStyle = P.ac; X.lineWidth = 1.5; X.shadowColor = P.ac; X.shadowBlur = 18; X.beginPath(); X.moveTo(40, y); X.lineTo(W - 40, y); X.stroke(); X.restore(); }
+}
+// marco de instrumento: escuadras, nombre, escena, reloj y número de cuadro (no cuenta para la lectura)
+function hud(t, i) {
+  const pl = PLATES[FILM.world], m = 36, L = 46;
+  X.save(); X.strokeStyle = hexA(P.ink, .4); X.lineWidth = 2; X.beginPath();
+  for (const [x, y, dx, dy] of [[m, m, 1, 1], [W - m, m, -1, 1], [m, H - m, 1, -1], [W - m, H - m, -1, -1]]) { X.moveTo(x, y + dy * L); X.lineTo(x, y); X.lineTo(x + dx * L, y); }
+  X.stroke(); X.restore();
+  T('ZUKA', 90, 100, { s: 26, w: 600, ls: 9, c: P.ink, halo: false, nr: true });
+  X.font = MONO(17); X.fillStyle = P.dim; X.letterSpacing = '3px'; X.fillText(('ÁLGEBRA · MUNDO ' + pl.n + ' · ' + pl.name).toUpperCase(), 90, 130); X.letterSpacing = '0px';
+  const n = TL.SC.length - 1, k = i <= 0 ? 0 : Math.min(i, n);
+  X.font = MONO(26); X.textAlign = 'right'; X.fillStyle = P.ink; X.fillText(String(k).padStart(2, '0') + ' / ' + String(n).padStart(2, '0'), 990, 100);
+  X.font = MONO(17); X.fillStyle = P.dim; X.letterSpacing = '3px'; X.fillText(i > 0 ? TL.SC[i].name.toUpperCase() : 'PORTADA', 990, 130); X.letterSpacing = '0px';
+  const pulse = .55 + .45 * Math.sin(t * 4); X.fillStyle = hexA(P.ac, pulse); X.shadowColor = P.ac; X.shadowBlur = 14; X.beginPath(); X.arc(990 - X.measureText('00 / 00').width - 150, 92, 8, 0, 7); X.fill(); X.shadowBlur = 0;
+  if (i > 0 && TL.scenes[i].id !== '_fin') { const sc = TL.SC[i], lt = t - sc.t0, cap = TL.CAPS.filter(c => c.a <= t).length, nc = TL.CAPS.length;
+    X.textAlign = 'left'; X.font = MONO(17); X.fillStyle = P.dim; X.letterSpacing = '2px';
+    X.fillText('ESCENA  ' + String(i).padStart(2, '0') + '   ' + (lt / (sc.t1 - sc.t0) * 100).toFixed(1).padStart(5, ' ') + ' %', 90, 1752);
+    X.fillText('IDEA    ' + String(cap).padStart(2, '0') + ' / ' + nc, 90, 1776); X.letterSpacing = '0px'; X.textAlign = 'right'; }
+  X.font = MONO(30); X.fillStyle = P.ink; X.fillText('t = ' + t.toFixed(2).padStart(5, '0') + ' s', 990, 1800);
+  X.font = MONO(15); X.fillStyle = P.dim; X.fillText('CUADRO ' + String(Math.round(t * 30)).padStart(4, '0') + ' · 1080×1920 · 30 FPS', 990, 1826);
+  X.textAlign = 'left';
 }
 function noise() {
   if (!NOISE) { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'), im = x.createImageData(256, 256), R = rng(7); for (let i = 0; i < im.data.length; i += 4) { const v = R() < .5 ? 0 : 255; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 8; } x.putImageData(im, 0, 0); NOISE = X.createPattern(c, 'repeat'); }
@@ -336,6 +372,12 @@ function caption(t) {
   }
 }
 function progress(t, i) {
+  if (NEON) {
+    X.fillStyle = hexA(P.ink, .16); X.fillRect(90, 1856, 900, 2); X.save(); X.shadowColor = P.ac; X.shadowBlur = 12; X.fillStyle = P.ac; X.fillRect(90, 1856, 900 * t / TL.DUR, 2); X.restore();
+    TL.SC.forEach(s => { if (!s.i) return; X.fillStyle = s.t0 <= t ? P.ac : hexA(P.ink, .3); X.fillRect(90 + 900 * s.t0 / TL.DUR - 1, 1846, 2, 22); });
+    X.font = MONO(20); X.fillStyle = P.mute; X.letterSpacing = '3px'; X.fillText(String(i).padStart(2, '0') + ' · ' + TL.SC[i].name.toUpperCase(), 90, 1826); X.letterSpacing = '0px';
+    return;
+  }
   X.fillStyle = hexA(P.ink, .14); X.fillRect(90, 1856, 900, 3); X.fillStyle = hexA(P.ac, .8); X.fillRect(90, 1856, 900 * t / TL.DUR, 3);
   TL.SC.forEach(s => { if (!s.i) return; X.fillStyle = s.t0 <= t ? P.ac : hexA(P.ink, .3); X.fillRect(90 + 900 * s.t0 / TL.DUR - 1, 1850, 2, 15); });
   T(String(i).padStart(2, '0') + ' · ' + TL.SC[i].name.toUpperCase(), 90, 1832, { s: 22, w: 600, ls: 3, c: P.mute, pass: true, halo: false });
@@ -345,17 +387,25 @@ function progress(t, i) {
 function plateCard(x, y, w, a = 1) {
   if (!PLATE_IMG) return; const h = w / 2;
   fade(a, () => { X.save(); X.shadowColor = 'rgba(0,0,0,.55)'; X.shadowBlur = 50; X.shadowOffsetY = 18; X.beginPath(); X.roundRect(x, y, w, h, w * .035); X.fillStyle = P.bg; X.fill(); X.restore();
-    X.save(); X.beginPath(); X.roundRect(x, y, w, h, w * .035); X.clip(); X.drawImage(PLATE_IMG, x, y, w, h); X.restore(); rect(x, y, w, h, { r: w * .035, w: 2, c: hexA(P.ink, .25) }); });
+    X.save(); X.beginPath(); X.roundRect(x, y, w, h, w * .035); X.clip(); X.drawImage(PLATE_IMG, x, y, w, h); X.restore(); rect(x, y, w, h, { r: w * .035, w: 2, c: NEON ? P.ac : hexA(P.ink, .25) }); });
+}
+function neonMark(t, D_) {
+  const cx = CX, cy = 1080, r = 250, k1 = draw(t, .5, 1.2), k2 = draw(t, 1.4, 2.2), ang = -Math.PI / 2 + 2 * Math.PI * k2;
+  line(cx - 420 * k1, cy, cx + 420 * k1, cy, { c: hexA(P.ink, .35), w: 3 }); line(cx, cy - 420 * k1, cx, cy + 420 * k1, { c: hexA(P.ink, .35), w: 3 });
+  if (k2 > 0) stroke(P.ac, 7, () => X.arc(cx, cy, r, -Math.PI / 2, ang));
+  fade(A(t, .3), () => dot(cx, cy, { r: 8, c: P.ink }));
+  if (k2 > 0 && k2 < 1) { const px = cx + r * Math.cos(ang), py = cy + r * Math.sin(ang); stroke(hexA(P.ink, .7), 3, () => { X.moveTo(cx, cy); X.lineTo(px, py); }); dot(px, py, { r: 9, c: '#FFFFFF' }); }
+  fade(A(t, 1.4) * (1 - seg(t, D_ - 1.6, D_ - 1.2)), () => { X.font = MONO(22); X.fillStyle = P.mute; X.fillText('θ = ' + (2 * Math.PI * k2).toFixed(3) + ' rad', cx - 330, cy + 360); X.fillText('lección ' + FILM.n[0] + ' / ' + FILM.n[1], cx - 330, cy + 392); });
 }
 function intro(t) {
   const pl = PLATES[FILM.world], D_ = TL.INTRO, z = 1 + 2.6 * ei3(seg(t, D_ - 1.6, D_)), out = 1 - seg(t, D_ - 1.0, D_ - .1);
   const ka = A(t, .3, .6);
   fade(out, () => {
-    at(CX, 1060, z, () => plateCard(80, 850, 920, A(t, .2, .8)));
+    at(CX, 1060, z, () => (NEON ? neonMark(t, D_) : plateCard(80, 850, 920, A(t, .2, .8))));
     fade(ka * (1 - seg(t, D_ - 1.7, D_ - 1.2)), () => {
       X.fillStyle = P.ac; X.fillRect(90, 380, 40, 4); T('MUNDO ' + pl.n + ' · ' + pl.name.toUpperCase(), 146, 396, { s: 30, w: 600, ls: 5, c: P.ac, halo: false });
       const lines = wrap(FILM.title, 900, 78, 600); lines.forEach((l, i) => T(l, 90, 520 + i * 92, { s: 78, w: 600, max: 900 }));
-      T('Lección ' + FILM.n[0] + ' de ' + FILM.n[1], 90, 1380, { s: 38, c: P.mute });
+      if (!NEON) T('Lección ' + FILM.n[0] + ' de ' + FILM.n[1], 90, 1380, { s: 38, c: P.mute });
     });
   });
 }
@@ -394,5 +444,6 @@ function renderFilm(t) {
   X.setLineDash([]); X.filter = 'none';
   caption(t);
   if (i > 0 && TL.scenes[i].id !== '_fin') progress(t, i);
+  if (NEON) hud(t, i);
   noise();
 }

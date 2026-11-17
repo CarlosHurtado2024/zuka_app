@@ -12,12 +12,13 @@ canvas{position:absolute;left:0;top:0;display:block}
 <script src="timeline.js"></script>
 <script src="kit.js"></script>
 <script>
-// ?f=<nombre> carga films/<nombre>.js; ?t=<segundos> muestra ese cuadro
+// ?f=<nombre> carga films/<nombre>.js; ?t=<segundos> muestra ese cuadro; ?s=neon, el estilo neón
 const Q = new URLSearchParams(location.search), NAME = Q.get('f') || 'tipos';
 X = document.getElementById('c').getContext('2d');
 const s = document.createElement('script'); s.src = 'films/' + NAME + '.js';
 s.onload = () => {
   P.ac = PLATES[FILM.world].ac; if (P.ac.toUpperCase() === '#FF8A7A') P.no = '#FFB86B';
+  if (Q.get('s') === 'neon') { setNeon(); document.body.style.background = P.bg; }
   TL = timeline(FILM);
   const img = new Image();
   img.onload = () => { PLATE_IMG = img; start(); };
