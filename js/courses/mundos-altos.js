@@ -98,8 +98,8 @@
       'La esquina necesita $(b/2)^2$ cuadritos: $x^2 + 6x + 13 = (x + 3)^2 + 4$, $x^2 + 4x + 1 = (x + 2)^2 - 3$ y $x^2 + 8x + 10 = (x + 4)^2 - 6$.',
       'La mitad de las barras va a cada lado del cuadrado; el hueco de la esquina mide esa mitad por esa mitad. Lo que sobre o falte queda afuera.'),
   ];
-  BOSS.polinomios = { id: 'jefe-alg-polinomios', name: 'el Maestro del Taller', color: 'sky', title: 'El Maestro del Taller',
-    intro: ['Al fondo del taller trabaja el **Maestro**. Solo deja salir a quien sepa armar y desarmar polinomios.', 'No gana el más rápido: arma la ruta de pasos, de abajo hacia arriba, y ataca. Un paso falso te cuesta un corazón.'],
+  BOSS.polinomios = { id: 'jefe-alg-polinomios', name: 'el Maestro de los Polinomios', color: 'sky', title: 'El Maestro de los Polinomios',
+    intro: ['Al cierre del mundo espera el **Maestro de los Polinomios**. Solo deja pasar a quien sepa armarlos y desarmarlos: productos notables, binomio y factorización.', 'No gana el más rápido: arma la ruta de pasos, de abajo hacia arriba, y ataca. Un paso falso te cuesta un corazón.'],
     phases: [
       ['Fase 1 · Productos notables', [
         ['(x + 3)(x − 3) − x²', [['x² − 9 − x²', 'x² + 9 − x²', 'x² − 6x + 9 − x²'], ['−9', '9', '−6x + 9']]],
@@ -194,8 +194,8 @@
       'Si el ancho es $x$, el largo es $x + 3$ y el área $x(x + 3) = 40$. La ecuación da $x = 5$ o $x = -8$; una medida no puede ser negativa.',
       'El área es ancho por largo, no la suma. Al final descarta la solución que no puede ser una medida.'),
   ];
-  BOSS.cuadraticas = { id: 'jefe-alg-cuadraticas', name: 'el Guardián de la Fuente', color: 'mint', title: 'El Guardián de la Fuente',
-    intro: ['En el centro de la fuente vive su **Guardián**. Para pasar hay que dominar los complejos, las rectas y las parábolas.', 'Arma cada respuesta paso a paso y ataca cuando la ruta esté completa. Aquí se piensa, no se corre.'],
+  BOSS.cuadraticas = { id: 'jefe-alg-cuadraticas', name: 'el Guardián de la Parábola', color: 'mint', title: 'El Guardián de la Parábola',
+    intro: ['Al cierre del mundo espera el **Guardián de la Parábola**. Para pasar hay que dominar los complejos, las rectas y las ecuaciones cuadráticas.', 'Arma cada respuesta paso a paso y ataca cuando la ruta esté completa. Aquí se piensa, no se corre.'],
     phases: [
       ['Fase 1 · Números complejos', [
         ['(1 + i)²', [['1 + 2i + i²', '1 + i²', '1 + 2i − i²'], ['2i', '0', '2 + 2i']]],
@@ -286,8 +286,8 @@
       'La multiplicidad es cuántas veces aparece el factor. Con multiplicidad par la gráfica toca el eje y rebota; con impar, lo cruza.',
       'El cero sale de igualar el factor a cero; la multiplicidad es el exponente que lleva ese factor.'),
   ];
-  BOSS['grado-superior'] = { id: 'jefe-alg-grado-superior', name: 'el Guardián de la Cordillera', color: 'coral', title: 'El Guardián de la Cordillera',
-    intro: ['En la cima de la cordillera espera su **Guardián**. Sus retos son de división, residuos y ceros.', 'Cada reto se responde con una ruta de pasos. Elige con calma: un paso que no se justifica cuesta un corazón.'],
+  BOSS['grado-superior'] = { id: 'jefe-alg-grado-superior', name: 'el Guardián de las Raíces', color: 'coral', title: 'El Guardián de las Raíces',
+    intro: ['Al cierre del mundo espera el **Guardián de las Raíces**. Sus retos son de división, residuos y ceros de polinomios.', 'Cada reto se responde con una ruta de pasos. Elige con calma: un paso que no se justifica cuesta un corazón.'],
     phases: [
       ['Fase 1 · División', [
         ['Residuo de x³ − 3x + 1 entre x − 2', [['Es P(2)', 'Es P(−2)'], ['8 − 6 + 1', '−8 + 6 + 1', '8 + 6 + 1'], ['3', '−1', '15']]],
@@ -404,8 +404,8 @@
       'De $x + y = 7$ sale $y = 7 - x$; al sustituir en $xy = 12$ queda $x^2 - 7x + 12 = 0 = (x - 3)(x - 4)$.',
       'Despeja una incógnita de la ecuación más sencilla y reemplázala en la otra: queda una cuadrática.'),
   ];
-  BOSS.racionales = { id: 'jefe-alg-racionales', name: 'el Guardián del Río', color: 'sky', title: 'El Guardián del Río',
-    intro: ['El río de asíntotas tiene un **Guardián** que no deja cruzar a quien divida entre cero.', 'Arma la ruta de cada respuesta, de abajo hacia arriba, y ataca. Tienes todo el tiempo para pensar.'],
+  BOSS.racionales = { id: 'jefe-alg-racionales', name: 'el Guardián de las Fracciones', color: 'sky', title: 'El Guardián de las Fracciones',
+    intro: ['Al cierre del mundo espera el **Guardián de las Fracciones**. No deja pasar a quien divida entre cero.', 'Arma la ruta de cada respuesta, de abajo hacia arriba, y ataca. Tienes todo el tiempo para pensar.'],
     phases: [
       ['Fase 1 · Simplificar y asíntotas', [
         ['(x² − 4) ÷ (x² − 2x)', [['(x − 2)(x + 2) sobre x(x − 2)', '(x − 2)² sobre x(x − 2)', 'Cancela x² arriba y abajo'], ['(x + 2) ÷ x', '(x − 2) ÷ x', '−4 ÷ (−2x)'], ['con x ≠ 0 y x ≠ 2', 'con x ≠ 0', 'con x ≠ 2']]],
@@ -479,8 +479,8 @@
       'El logaritmo de un producto es la suma de los logaritmos, y el exponente baja multiplicando: $2\\log x + \\log y = 7$.',
       'Un producto dentro del logaritmo se vuelve suma afuera; una potencia adentro baja como factor.'),
   ];
-  BOSS['exp-log'] = { id: 'jefe-alg-exp-log', name: 'el Guardián de la Selva', color: 'mint', title: 'El Guardián de la Selva',
-    intro: ['En lo más espeso de la selva está su **Guardián**: todo ahí crece multiplicándose.', 'Responde cada reto con una ruta de pasos y ataca. El logaritmo es tu machete: es el exponente que buscas.'],
+  BOSS['exp-log'] = { id: 'jefe-alg-exp-log', name: 'el Guardián del Crecimiento', color: 'mint', title: 'El Guardián del Crecimiento',
+    intro: ['Al cierre del mundo espera el **Guardián del Crecimiento**: todo lo que toca crece multiplicándose.', 'Responde cada reto con una ruta de pasos y ataca. El logaritmo es tu mejor arma: es el exponente que buscas.'],
     phases: [
       ['Fase 1 · Exponenciales', [
         ['Resuelve 4^x = 32', [['2^(2x) = 2⁵', '4^x = 4⁸', '2^(x + 2) = 2⁵'], ['2x = 5', 'x = 8', 'x + 2 = 5'], ['x = 5/2', 'x = 8', 'x = 3']]],
@@ -509,8 +509,8 @@
   ] };
 
   // ====================== Jefes de los mundos anteriores (spec 2026-11-20-jefes-valle-a-escalera) ======================
-  BOSS.numeros = { id: 'jefe-alg-numeros', name: 'el Guardián del Valle', color: 'mint', title: 'El Guardián del Valle',
-    intro: ['Al final del Valle de los Números espera su **Guardián**. Conoce todas las familias: enteros, racionales, irracionales.', 'Arma la ruta de pasos de cada reto, de abajo hacia arriba, y ataca. No hay prisa: aquí gana el que piensa.'],
+  BOSS.numeros = { id: 'jefe-alg-numeros', name: 'el Guardián de la Recta Real', color: 'mint', title: 'El Guardián de la Recta Real',
+    intro: ['Al cierre del mundo espera el **Guardián de la Recta Real**. Conoce todas las familias: enteros, racionales, irracionales.', 'Arma la ruta de pasos de cada reto, de abajo hacia arriba, y ataca. No hay prisa: aquí gana el que piensa.'],
     phases: [
       ['Fase 1 · Enteros y racionales', [
         ['3 − 8 + (−2)', [['3 − 8 = −5', '3 − 8 = 5'], ['−5 + (−2) = −7', '−5 + (−2) = −3'], ['−7', '−3', '7']]],
@@ -525,8 +525,8 @@
         ['Resuelve |x + 1| = 4', [['x está a 4 pasos del −1', 'x está a 4 pasos del 1', 'x está a 4 pasos del 0'], ['x = −1 + 4  o  x = −1 − 4', 'x = −1 + 4 solamente'], ['x = 3  o  x = −5', 'x = 3', 'x = 5  o  x = −3']]],
       ]],
     ] };
-  BOSS.razones = { id: 'jefe-alg-razones', name: 'el Guardián del Mercado', color: 'sky', title: 'El Guardián del Mercado',
-    intro: ['En la última esquina del mercado atiende su **Guardián**. Nadie le hace trampa con una razón ni con un porcentaje.', 'Responde cada reto con una ruta de pasos y ataca. Un paso que no se justifica cuesta un corazón.'],
+  BOSS.razones = { id: 'jefe-alg-razones', name: 'el Guardián de las Proporciones', color: 'sky', title: 'El Guardián de las Proporciones',
+    intro: ['Al cierre del mundo espera el **Guardián de las Proporciones**. Nadie le hace trampa con una razón ni con un porcentaje.', 'Responde cada reto con una ruta de pasos y ataca. Un paso que no se justifica cuesta un corazón.'],
     phases: [
       ['Fase 1 · Razones y proporciones', [
         ['Hay 10 rojas y 4 azules: razón de rojas a azules', [['10 : 4', '4 : 10', '10 : 14'], ['Divide los dos entre 2', 'Resta 2 a los dos'], ['5 : 2', '2 : 5', '8 : 2']]],
@@ -541,8 +541,8 @@
         ['Bajar 30 % y luego subir 30 %', [['Factores 0.7 y 1.3', 'Factores 0.3 y 1.3', 'Los cambios se cancelan'], ['0.7 · 1.3 = 0.91', '0.7 · 1.3 = 1', '0.7 · 1.3 = 1.09'], ['Queda 9 % por debajo', 'Queda igual', 'Queda 9 % por encima']]],
       ]],
     ] };
-  BOSS.potencias = { id: 'jefe-alg-potencias', name: 'el Guardián de las Torres', color: 'coral', title: 'El Guardián de las Torres',
-    intro: ['En el último piso de las Torres vive su **Guardián**: sube y baja exponentes sin equivocarse nunca.', 'Arma la ruta de cada reto y ataca. Lee con cuidado los paréntesis y los signos.'],
+  BOSS.potencias = { id: 'jefe-alg-potencias', name: 'el Guardián de los Exponentes', color: 'coral', title: 'El Guardián de los Exponentes',
+    intro: ['Al cierre del mundo espera el **Guardián de los Exponentes**: sube y baja exponentes sin equivocarse nunca.', 'Arma la ruta de cada reto y ataca. Lee con cuidado los paréntesis y los signos.'],
     phases: [
       ['Fase 1 · Potencias', [
         ['(−1)⁷ + (−2)²', [['(−1)⁷ = −1', '(−1)⁷ = 1', '(−1)⁷ = −7'], ['(−2)² = 4', '(−2)² = −4'], ['3', '5', '−5']]],
@@ -557,8 +557,8 @@
         ['Racionaliza 6 ÷ √3', [['Por √3 arriba y abajo', 'Por √3 solo abajo', 'Eleva todo al cuadrado'], ['6√3 ÷ 3', '6 ÷ 3'], ['2√3', '2', '6√3']]],
       ]],
     ] };
-  BOSS.progresiones = { id: 'jefe-alg-progresiones', name: 'el Guardián de la Escalera', color: 'mint', title: 'El Guardián de la Escalera',
-    intro: ['En el último peldaño de la Escalera de Sigma está su **Guardián**. Cuenta saltos, no términos.', 'Cada reto se responde con una ruta de pasos. Elige con calma y ataca cuando la ruta esté completa.'],
+  BOSS.progresiones = { id: 'jefe-alg-progresiones', name: 'el Guardián de las Series', color: 'mint', title: 'El Guardián de las Series',
+    intro: ['Al cierre del mundo espera el **Guardián de las Series**. Cuenta saltos, no términos.', 'Cada reto se responde con una ruta de pasos. Elige con calma y ataca cuando la ruta esté completa.'],
     phases: [
       ['Fase 1 · Progresiones aritméticas', [
         ['Término 10 de 3, 7, 11, …', [['d = 4', 'd = 3'], ['Del 1 al 10: 9 saltos', 'Del 1 al 10: 10 saltos'], ['a₁₀ = 3 + 9 · 4 = 39', 'a₁₀ = 3 + 10 · 4 = 43', 'a₁₀ = 3 + 9 · 3 = 30']]],

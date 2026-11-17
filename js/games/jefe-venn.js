@@ -180,7 +180,7 @@ GAMES['jefe-venn'] = (() => {
         else drawArcadeBanner(p, C, a, cy, { idle: 'Sin prisa: piensa cada ataque', lost: 'El Guardián resistió esta fase', won: '¡Fase superada!' });
         if (!a.toast && (over || a.phase === 'idle')) {
           p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
-          p.text(over ? 'La pradera es tuya. Ya puedes comprobar' : 'Arma el conjunto que pide el Guardián y ataca', W / 2, H - 13);
+          p.text(over ? 'El mundo es tuyo. Ya puedes comprobar' : 'Arma el conjunto que pide el Guardián y ataca', W / 2, H - 13);
         }
         arcadeStop(p, a, locked);
       };

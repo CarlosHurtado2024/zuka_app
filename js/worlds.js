@@ -1,279 +1,234 @@
-// Mundos del mapa de cada curso (spec 2026-11-11-mapa-de-mundos): cada unidad es un "mundo" con nombre
-// de lugar y una ilustración plana (SVG 160×80) que trae su propio cielo, así se ve igual en ambos temas.
+// Mundos del mapa de cada curso (spec 2026-11-11-mapa-de-mundos; estilo de la spec 2026-11-24-mundos-sobrios): cada unidad
+// es un «mundo» con nombre de capítulo y una lámina técnica (SVG 160×80): fondo de tinta teñido con el color del mundo,
+// retícula fina y el diagrama de su idea central a línea fina, con un solo color de acento. Trae su propio fondo, así se
+// ve igual en los dos temas. La idea va en el centro (x entre 44 y 116): en el mapa la lámina se recorta en un círculo.
 
-const wSvg = (id, top, bottom, body) => `<svg viewBox="0 0 160 80" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-  <defs><linearGradient id="sky-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${top}"/><stop offset="1" stop-color="${bottom}"/></linearGradient></defs>
-  <rect width="160" height="80" fill="url(#sky-${id})"/>${body}</svg>`;
-const wSun = (x, y, r, c = '#ffd451', halo = .25) => `<circle cx="${x}" cy="${y}" r="${r + 5}" fill="${c}" opacity="${halo}"/><circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`;
-const wCloud = (x, y, s = 1, o = .85) => `<g transform="translate(${x} ${y}) scale(${s})" fill="#fff" opacity="${o}"><ellipse cx="0" cy="0" rx="9" ry="4"/><ellipse cx="6" cy="-3" rx="6" ry="5"/><ellipse cx="-5" cy="-2" rx="5" ry="4"/></g>`;
-const wStars = (pts, c = '#fff') => pts.map(([x, y, r = .9]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`).join('');
-const wHill = (d, c) => `<path d="${d}" fill="${c}"/>`;
-const wArrow = (x1, y1, x2, y2, c, w = 3) => {
-  const a = Math.atan2(y2 - y1, x2 - x1), h = w * 2.4, s = w * 1.5;
-  const bx = x2 - h * Math.cos(a), by = y2 - h * Math.sin(a);
-  const r = n => Math.round(n * 10) / 10;
-  return `<path d="M${x1} ${y1}L${r(bx)} ${r(by)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>
-    <path d="M${x2} ${y2}L${r(bx - s * Math.sin(a))} ${r(by + s * Math.cos(a))}L${r(bx + s * Math.sin(a))} ${r(by - s * Math.cos(a))}z" fill="${c}"/>`;
-};
-const wFlag = (x, y, c = '#ff5a74') => `<path d="M${x} ${y}v-14" stroke="#3b2a1a" stroke-width="1.6"/><path d="M${x} ${y - 14}l9 3.5-9 3.5z" fill="${c}"/>`;
+const WORLDS = (() => {
+  const INK = '#E8ECFF', TEAL = '#5EE0C1', AMBER = '#F5B95A', ROSE = '#FF8FB8', VIOLET = '#B79CFF', SKY = '#6CC6FF', CORAL = '#FF8A7A', LIME = '#B6E36A';
+  const BASE = [11, 14, 36];
+  const r2 = n => Math.round(n * 100) / 100;
+  // Mezcla un color con la tinta del fondo (k = 0: fondo; k = 1: el color).
+  const mix = (hex, k) => '#' + [1, 3, 5].map((i, j) => Math.round(BASE[j] + (parseInt(hex.slice(i, i + 2), 16) - BASE[j]) * k).toString(16).padStart(2, '0')).join('');
+  const plate = (id, ac, body) => `<svg viewBox="0 0 160 80" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" data-style="lamina">
+  <defs><radialGradient id="bg-${id}" cx=".5" cy=".45" r=".8"><stop offset="0" stop-color="${mix(ac, .3)}"/><stop offset="1" stop-color="#0B0E24"/></radialGradient>
+  <pattern id="grid-${id}" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M8 0H0V8" fill="none" stroke="${INK}" stroke-width=".25" opacity=".14"/></pattern></defs>
+  <rect width="160" height="80" fill="url(#bg-${id})"/><rect width="160" height="80" fill="url(#grid-${id})"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">${body}</g></svg>`;
+  // Trazo, trazo punteado, relleno, círculo, punto, punto hueco, letra en cursiva de libro y flecha.
+  const L = (d, c = INK, w = 1.3) => `<path d="${d}" stroke="${c}" stroke-width="${w}"/>`;
+  const Ld = (d, c = INK, w = .9) => `<path d="${d}" stroke="${c}" stroke-width="${w}" stroke-dasharray="2.5 2.5" opacity=".75"/>`;
+  const F = (d, c, o = .28) => `<path d="${d}" fill="${c}" fill-opacity="${o}" stroke="none"/>`;
+  const C = (x, y, r, c = INK, w = 1.2, dash) => `<circle cx="${r2(x)}" cy="${r2(y)}" r="${r}" stroke="${c}" stroke-width="${w}"${dash ? ' stroke-dasharray="2.5 2.5" opacity=".75"' : ''}/>`;
+  const D = (x, y, r = 2, c = INK) => `<circle cx="${r2(x)}" cy="${r2(y)}" r="${r}" fill="${c}" stroke="none"/>`;
+  const H = (x, y, r = 2.2, c = INK) => `<circle cx="${r2(x)}" cy="${r2(y)}" r="${r}" fill="#0B0E24" stroke="${c}" stroke-width="1.2"/>`;
+  const T = (x, y, txt, c = INK, s = 7, a = 'middle') => `<text x="${r2(x)}" y="${r2(y)}" text-anchor="${a}" font-size="${s}" font-style="italic" font-family="Georgia,'Times New Roman',serif" fill="${c}" stroke="#0B0E24" stroke-width="2.2" stroke-opacity=".85" paint-order="stroke">${txt}</text>`;
+  const A = (x1, y1, x2, y2, c = INK, w = 1.2) => {
+    const a = Math.atan2(y2 - y1, x2 - x1), h = 3 + w, s = 1.5 + w * .6, bx = x2 - h * Math.cos(a), by = y2 - h * Math.sin(a);
+    return `<path d="M${r2(x1)} ${r2(y1)}L${r2(bx)} ${r2(by)}" stroke="${c}" stroke-width="${w}"/><path d="M${r2(x2)} ${r2(y2)}L${r2(bx - s * Math.sin(a))} ${r2(by + s * Math.cos(a))}L${r2(bx + s * Math.sin(a))} ${r2(by - s * Math.cos(a))}z" fill="${c}" stroke="none"/>`;
+  };
+  // Curva y = f(x) en coordenadas de la lámina, o una curva paramétrica t → [x, y].
+  const fn = (f, x0, x1, n = 48) => Array.from({ length: n + 1 }, (_, i) => { const x = x0 + (x1 - x0) * i / n; return `${i ? 'L' : 'M'}${r2(x)} ${r2(f(x))}`; }).join('');
+  const par = (g, t0, t1, n = 48) => Array.from({ length: n + 1 }, (_, i) => { const [x, y] = g(t0 + (t1 - t0) * i / n); return `${i ? 'L' : 'M'}${r2(x)} ${r2(y)}`; }).join('');
+  const axes = (ox, oy, x0, x1, y0, y1) => L(`M${x0} ${oy}H${x1}M${ox} ${y0}V${y1}`, INK, .7) ;
+  const rad = d => d * Math.PI / 180;
 
-const WORLDS = {
-  // ---------- Álgebra ----------
-  conjuntos: { name: 'Pradera de Venn', art: wSvg('conjuntos', '#8fd8ff', '#d9f7ec', `
-    ${wSun(136, 16, 8)}${wCloud(30, 16)}${wCloud(98, 12, .8)}
-    ${wHill('M0 62Q40 50 80 58T160 56V80H0z', '#58c98a')}${wHill('M0 70Q50 62 100 68T160 66V80H0z', '#3fae72')}
-    <circle cx="66" cy="38" r="17" fill="#ff7aa8" opacity=".55"/><circle cx="90" cy="38" r="17" fill="#ffd451" opacity=".55"/>
-    <circle cx="78" cy="56" r="17" fill="#6f8fff" opacity=".55"/>
-    <g fill="none" stroke="#fff" stroke-width="1.6" opacity=".9"><circle cx="66" cy="38" r="17"/><circle cx="90" cy="38" r="17"/><circle cx="78" cy="56" r="17"/></g>
-    ${wStars([[58, 32, 2], [94, 31, 2], [78, 44, 2.2], [72, 62, 2], [99, 46, 1.6], [56, 50, 1.6]], '#fff')}
-    <g fill="#fff"><circle cx="20" cy="70" r="2"/><circle cx="140" cy="72" r="2"/><circle cx="122" cy="66" r="1.6"/></g>
-    <g fill="#ffd451"><circle cx="20" cy="70" r=".9"/><circle cx="140" cy="72" r=".9"/><circle cx="122" cy="66" r=".8"/></g>`) },
+  return {
+    // ---------- Álgebra ----------
+    conjuntos: { name: 'Teoría de Conjuntos', art: plate('conjuntos', TEAL, `
+      ${F('M80 20.96A17 17 0 0 1 80 45.04A17 17 0 0 1 80 20.96Z', TEAL, .4)}
+      ${C(68, 33, 17)}${C(92, 33, 17)}${C(80, 53, 17, INK, .9, true)}
+      ${L('M80 20.96A17 17 0 0 1 80 45.04A17 17 0 0 1 80 20.96Z', TEAL, 1.4)}
+      ${D(80, 33, 1.8, TEAL)}${D(59, 29, 1.4)}${D(101, 28, 1.4)}${D(80, 60, 1.4)}
+      ${T(52, 18, 'A')}${T(108, 18, 'B')}${T(62, 70, 'C', INK, 6.5)}
+      ${T(24, 44, 'A ∩ B', TEAL, 6.5)}${T(137, 44, 'x ∈ A', INK, 6.5)}`) },
 
-  numeros: { name: 'Valle de los Números', art: wSvg('numeros', '#ffcfa8', '#e9d5ff', `
-    <circle cx="128" cy="20" r="11" fill="#ffd451"/><path d="M128 20V9A11 11 0 0 1 139 20z" fill="#ffefb0"/>
-    <path d="M128 20V9M128 20h11" stroke="#d99a00" stroke-width="1.2"/>
-    ${wHill('M0 56L26 30 46 48 70 24 98 52 120 36 160 58V80H0z', '#8b7bff')}${wHill('M0 60L20 46 40 58 60 42 84 60H0z', '#6d5ce8')}
-    ${wHill('M0 60H160V80H0z', '#4fbf86')}
-    <path d="M6 70H150" stroke="#f5f0ff" stroke-width="3.2" stroke-linecap="round"/><path d="M148 66l6 4-6 4" fill="none" stroke="#f5f0ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-    <g stroke="#f5f0ff" stroke-width="1.8">${[18, 38, 58, 78, 98, 118, 138].map(x => `<path d="M${x} 66v8"/>`).join('')}</g>
-    ${wFlag(86.3, 68, '#ffd451')}<circle cx="86.3" cy="70" r="2.4" fill="#ff5a74"/>`) },
+    numeros: { name: 'La Recta Real', art: plate('numeros', AMBER, `
+      ${L('M16 52H142')}${L('M139 49.5L143 52L139 54.5', INK, 1)}
+      ${[-2, -1, 0, 1, 2, 3, 4, 5].map(k => L(`M${56 + 16 * k} 49.5V54.5`, INK, .9) + T(56 + 16 * k, 62, k < 0 ? `−${-k}` : k, INK, 5.5)).join('')}
+      ${L('M56 52V36H72V52', INK, .8)}${L('M56 52L72 36', AMBER, 1.3)}
+      ${Ld('M72 36A22.63 22.63 0 0 1 78.63 52', AMBER)}${D(78.63, 52, 2.2, AMBER)}${T(84, 46, '√2', AMBER, 6.5)}
+      ${C(106.27, 44, 8, INK, .8, true)}${D(106.27, 52, 2.2, AMBER)}${T(106.27, 32, 'π', AMBER, 7)}
+      ${T(24, 30, 'ℚ ⊂ ℝ', INK, 6.5)}`) },
 
-  razones: { name: 'Mercado de las Razones', art: wSvg('razones', '#9fe3ff', '#fff1c9', `
-    ${wSun(24, 16, 7)}${wCloud(124, 12, .8)}
-    ${wHill('M0 66Q50 58 100 64T160 62V80H0z', '#58c98a')}${wHill('M0 72H160V80H0z', '#3fae72')}
-    <rect x="92" y="42" width="36" height="24" rx="2" fill="#f5e6c8"/><rect x="92" y="57" width="36" height="9" fill="#c98a4b"/>
-    ${[0, 1, 2, 3].map(i => `<path d="M${92 + i * 9} 32h9v8a4.5 4.5 0 0 1-9 0z" fill="${i % 2 ? '#fff' : '#ff5a74'}"/>`).join('')}
-    <g fill="#ffd451"><circle cx="98" cy="54" r="2.6"/><circle cx="103" cy="54" r="2.6"/><circle cx="100.5" cy="50" r="2.6"/></g>
-    <g fill="#ff8a3d"><circle cx="114" cy="54" r="2.6"/><circle cx="119" cy="54" r="2.6"/><circle cx="124" cy="54" r="2.6"/><circle cx="116.5" cy="50" r="2.6"/><circle cx="121.5" cy="50" r="2.6"/></g>
-    <path d="M64 66V30M56 66h16" stroke="#6d5ce8" stroke-width="3" stroke-linecap="round"/>
-    <path d="M47 30H81" stroke="#8b7bff" stroke-width="3" stroke-linecap="round"/><circle cx="64" cy="29" r="2.6" fill="#ffd451"/>
-    <path d="M48 30l-6 13h12zM80 30l-6 13h12z" fill="none" stroke="#8b7bff" stroke-width="1.3"/>
-    <path d="M41 43h14a7 3 0 0 1-14 0zM73 43h14a7 3 0 0 1-14 0z" fill="#8b7bff"/>
-    <g fill="#ff5a74"><circle cx="45.5" cy="40.6" r="2.3"/><circle cx="50.5" cy="40.6" r="2.3"/></g>
-    <g fill="#5aa9ff"><circle cx="75.5" cy="40.6" r="2.3"/><circle cx="80" cy="40.6" r="2.3"/><circle cx="84.5" cy="40.6" r="2.3"/></g>
-    <text x="64" y="22" text-anchor="middle" font-size="8" font-weight="800" fill="#4b2d8f" font-family="system-ui,sans-serif">2 : 3</text>`) },
+    razones: { name: 'Escalas y Proporciones', art: plate('razones', ROSE, `
+      ${F('M46 62L80 62L80 43Z', ROSE, .25)}
+      ${L('M46 62H114V24Z')}${L('M80 62V43', ROSE, 1.5)}
+      ${D(46, 62, 1.8)}${D(80, 43, 1.8, ROSE)}${D(114, 24, 1.8)}
+      ${T(63, 70, 'a', ROSE, 6.5)}${T(80, 77, '2a', INK, 6.5)}${T(85, 55, 'h', ROSE, 6.5)}${T(121, 45, '2h', INK, 6.5)}
+      ${T(26, 26, 'a : b', INK, 7)}${T(26, 36, '= c : d', INK, 7)}`) },
 
-  potencias: { name: 'Torres de Potencias', art: wSvg('potencias', '#4b2d8f', '#f59ac2', `
-    ${wStars([[18, 10], [40, 6], [70, 12], [150, 8], [104, 6]])}
-    ${wHill('M0 68H160V80H0z', '#2b1c55')}
-    ${[[20, 6, '#a78bfa'], [44, 12, '#8b7bff'], [72, 24, '#7c6cf0'], [108, 48, '#6d5ce8']].map(([x, h, c], i) =>
-      `<rect x="${x + 2}" y="${68 - h}" width="20" height="${h}" fill="#2b1c55"/><rect x="${x}" y="${68 - h - 1}" width="20" height="${h}" rx="1.5" fill="${c}"/>
-       ${Array.from({ length: Math.max(1, h / 6 | 0) }, (_, k) => `<rect x="${x + 7}" y="${66 - h + k * 6}" width="6" height="3" rx=".8" fill="#ffd451" opacity=".85"/>`).join('')}
-       <text x="${x + 10}" y="${64 - h}" text-anchor="middle" font-size="7" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">${2 ** i}</text>`).join('')}
-    <path d="M8 30l4-3 5 12 8-24h22" fill="none" stroke="#ffd451" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`) },
+    potencias: { name: 'Exponentes y Radicales', art: plate('potencias', VIOLET, `
+      ${[[48, .1], [24, .18], [12, .3], [6, .5]].map(([s, o]) => F(`M52 ${66 - s}h${s}v${s}h-${s}z`, VIOLET, o) + L(`M52 ${66 - s}h${s}v${s}h-${s}z`, s === 48 ? VIOLET : INK, s === 48 ? 1.3 : .8)).join('')}
+      ${[[6, '1'], [12, '2'], [24, '4'], [48, '8']].map(([s, t]) => T(52 + s, 73, t, INK, 5.5)).join('')}
+      ${T(128, 26, 'aⁿ', VIOLET, 11)}${L('M112 50l3-1.5l4 9l6-21h17', INK, 1.1)}${T(133, 52, 'x', INK, 7)}
+      ${T(28, 30, '2⁰ = 1', INK, 6)}`) },
 
-  progresiones: { name: 'Escalera de Sigma', art: wSvg('progresiones', '#7cc7ff', '#c8f3ff', `
-    ${wSun(26, 18, 7)}${wCloud(104, 14, .9)}
-    <path d="M80 8H64l9 10-9 10h16" fill="none" stroke="#ff5a74" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
-    
-    ${wHill('M0 70H160V80H0z', '#3fae72')}
-    ${[0, 1, 2, 3, 4, 5].map(i => `<rect x="${20 + i * 18}" y="${62 - i * 8}" width="18" height="${8 + i * 8}" fill="${i % 2 ? '#2ab3a6' : '#35c9bb'}"/><rect x="${20 + i * 18}" y="${62 - i * 8}" width="18" height="2.5" fill="#bff7ef"/>`).join('')}
-    ${wFlag(124, 22, '#ffd451')}<circle cx="31" cy="58" r="3.2" fill="#ffd451"/><circle cx="31" cy="53" r="2.4" fill="#ffe3c2"/>`) },
+    progresiones: { name: 'Sucesiones y Series', art: plate('progresiones', SKY, `
+      ${[['M56 16h24v48h-24z', .5], ['M80 16h24v24h-24z', .36], ['M80 40h12v24h-12z', .26], ['M92 40h12v12h-12z', .18], ['M92 52h6v12h-6z', .12], ['M98 52h6v6h-6z', .08]].map(([d, o]) => F(d, SKY, o) + L(d, INK, .8)).join('')}
+      ${L('M56 16h48v48h-48z', SKY, 1.3)}
+      ${T(68, 43, '½', INK, 8)}${T(92, 31, '¼', INK, 7)}${T(86, 55, '⅛', INK, 5.5)}
+      ${T(30, 48, 'Σ', INK, 20)}${T(128, 44, '= 1', SKY, 9)}`) },
 
-  polinomios: { name: 'Taller de los Bloques', art: wSvg('polinomios', '#ffb86b', '#ffe6c2', `
-    ${wCloud(126, 14)}${wCloud(24, 12, .7)}
-    ${wHill('M0 66H160V80H0z', '#9a6a3a')}
-    <rect x="47" y="23" width="34" height="34" rx="2" fill="#4b3bc4"/><rect x="44" y="20" width="34" height="34" rx="2" fill="#8b7bff"/>
-    <rect x="85" y="23" width="14" height="34" rx="2" fill="#4b3bc4"/><rect x="82" y="20" width="14" height="34" rx="2" fill="#b3a8ff"/>
-    <rect x="47" y="61" width="34" height="5" fill="#4b3bc4"/><rect x="44" y="57" width="34" height="9" rx="2" fill="#b3a8ff"/>
-    <rect x="82" y="57" width="14" height="9" rx="2" fill="#ffd451"/>
-    <text x="61" y="41" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">a²</text>
-    <path d="M124 66V22h-30" stroke="#ff8a3d" stroke-width="3" fill="none" stroke-linejoin="round"/><path d="M110 22v8" stroke="#3b2a1a" stroke-width="1.2"/>
-    <rect x="105" y="30" width="10" height="7" rx="1" fill="#ffd451"/><path d="M118 66l6-8 6 8z" fill="#ff8a3d"/>`) },
+    polinomios: { name: 'Álgebra de Polinomios', art: plate('polinomios', AMBER, `
+      ${F('M58 14h32v32h-32z', AMBER, .3)}${F('M90 14h20v32h-20zM58 46h32v20h-32z', AMBER, .12)}${F('M90 46h20v20h-20z', AMBER, .5)}
+      ${L('M58 14h52v52h-52z', AMBER, 1.3)}${L('M90 14V66M58 46H110', INK, .9)}
+      ${T(74, 33, 'a²', INK, 8)}${T(100, 59, 'b²', INK, 6.5)}${T(100, 33, 'ab', INK, 6)}${T(74, 59, 'ab', INK, 6)}
+      ${T(74, 10, 'a', INK, 6)}${T(100, 10, 'b', INK, 6)}${T(52, 33, 'a', INK, 6)}${T(52, 59, 'b', INK, 6)}
+      ${T(136, 44, '(a + b)²', AMBER, 7)}`) },
 
-  cuadraticas: { name: 'Fuente de la Parábola', art: wSvg('cuadraticas', '#1d2a6b', '#5b7bd6', `
-    ${wStars([[14, 12], [36, 22], [60, 8], [110, 14], [150, 24], [132, 6]])}
-    <path d="M140 10l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#ffd451"/><text x="140" y="35" text-anchor="middle" font-size="8" font-style="italic" font-weight="700" fill="#ffd451" font-family="Georgia,serif">i</text>
-    ${wHill('M0 64H160V80H0z', '#22346e')}<path d="M0 64H160" stroke="#8aa6ff" stroke-width="1.2"/>
-    <path d="M36 64Q80 -18 124 64" fill="none" stroke="#7fe3ff" stroke-width="5" stroke-linecap="round" opacity=".45"/>
-    <path d="M36 64Q80 -18 124 64" fill="none" stroke="#c9f5ff" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 4"/>
-    <rect x="70" y="58" width="20" height="10" rx="2" fill="#6f8fff"/><rect x="66" y="66" width="28" height="6" rx="2" fill="#4b5fc4"/>
-    <g fill="#7fe3ff"><circle cx="36" cy="63" r="3"/><circle cx="124" cy="63" r="3"/><circle cx="80" cy="23" r="2.5" fill="#ffd451"/></g>`) },
+    cuadraticas: { name: 'Parábolas y Complejos', art: plate('cuadraticas', TEAL, `
+      ${axes(40, 56, 26, 136, 8, 74)}
+      ${Ld('M84 14V66')}
+      ${L(fn(x => 56 - 38 * (1 - ((x - 84) / 24) ** 2), 56, 112), TEAL, 1.5)}
+      ${D(84, 18, 2.2, TEAL)}${D(60, 56, 2)}${D(108, 56, 2)}
+      ${T(93, 15, 'V', TEAL, 6.5)}${T(60, 65, 'x₁', INK, 5.5)}${T(108, 65, 'x₂', INK, 5.5)}
+      ${T(136, 22, 'i² = −1', INK, 6)}`) },
 
-  'grado-superior': { name: 'Cordillera Cúbica', art: wSvg('grado-superior', '#b8e1ff', '#eaf6ff', `
-    ${wSun(30, 16, 6)}${wCloud(120, 12, .9)}
-    <path d="M0 80V58H160V80z" fill="#3b8fd9"/><path d="M0 58H160" stroke="#d6efff" stroke-width="1.2"/>
-    <path d="M8 76C24 24 48 22 60 58S96 92 104 58S124 14 152 22V58H8z" fill="#5b6b8f"/>
-    <path d="M8 76C24 24 48 22 60 58S96 92 104 58S124 14 152 22" fill="none" stroke="#ffd451" stroke-width="2.6" stroke-linecap="round"/>
-    <path d="M30 34l5-6 5 6z" fill="#fff"/><path d="M142 20l5-3 5 3v4z" fill="#fff"/>
-    ${wFlag(14.6, 58, '#ff5a74')}${wFlag(60, 58, '#ff5a74')}${wFlag(104, 58, '#ff5a74')}`) },
+    'grado-superior': { name: 'Raíces de Polinomios', art: plate('grado-superior', CORAL, `
+      ${axes(80, 44, 24, 136, 8, 76)}
+      ${L(fn(x => 44 - .00266 * (x - 52) * (x - 80) * (x - 112), 48, 116), CORAL, 1.5)}
+      ${D(52, 44, 2.3, CORAL)}${D(80, 44, 2.3, CORAL)}${D(112, 44, 2.3, CORAL)}
+      ${T(124, 16, 'P(x)', CORAL, 6.5)}${T(30, 30, 'P(r) = 0', INK, 6)}`) },
 
-  racionales: { name: 'Río de las Asíntotas', art: wSvg('racionales', '#a7f0d0', '#e8fff6', `
-    ${wCloud(28, 14)}${wSun(140, 14, 6)}
-    ${wHill('M0 80V30Q60 34 70 80z', '#3fae72')}${wHill('M160 80V24Q100 26 90 80z', '#58c98a')}
-    <path d="M70 80Q62 40 0 34M90 80Q98 34 160 28" fill="none" stroke="#ffd451" stroke-width="2.4" stroke-linecap="round"/>
-    <rect x="72" y="0" width="16" height="80" fill="#4aa8ff" opacity=".85"/>
-    <path d="M80 0V80" stroke="#fff" stroke-width="2" stroke-dasharray="5 4"/>
-    <g fill="#d6f2ff" opacity=".9"><ellipse cx="80" cy="74" rx="11" ry="3"/></g>
-    <path d="M0 52H160" stroke="#fff" stroke-width="1.4" stroke-dasharray="3 3" opacity=".8"/>
-    <circle cx="36" cy="46" r="4" fill="#2f8a57"/><circle cx="128" cy="44" r="5" fill="#2f8a57"/>`) },
+    racionales: { name: 'Fracciones Algebraicas', art: plate('racionales', VIOLET, `
+      ${Ld('M80 6V74')}${Ld('M22 40H138')}
+      ${L(fn(x => 40 - 120 / (x - 80), 84.5, 138), VIOLET, 1.5)}${L(fn(x => 40 - 120 / (x - 80), 22, 75.5), VIOLET, 1.5)}
+      ${H(110, 36, 2.3, VIOLET)}
+      ${T(86, 10, 'x = a', INK, 5.5, 'start')}${T(140, 47, 'y = b', INK, 5.5)}${T(30, 20, 'P / Q', INK, 7)}`) },
 
-  'exp-log': { name: 'Selva Exponencial', art: wSvg('exp-log', '#c7f08a', '#fff6c2', `
-    ${wSun(30, 18, 7)}
-    ${wHill('M0 64Q30 54 60 62T120 58T160 60V80H0z', '#2f8a57')}${wHill('M0 72Q40 66 80 72T160 70V80H0z', '#1f6b42')}
-    <path d="M10 66C70 64 108 52 132 6" fill="none" stroke="#1f6b42" stroke-width="4" stroke-linecap="round"/>
-    <path d="M10 66C70 64 108 52 132 6" fill="none" stroke="#7bd88f" stroke-width="2" stroke-linecap="round"/>
-    ${[[60, 60, -20], [92, 52, -35], [114, 36, -55], [126, 20, -65]].map(([x, y, r]) => `<ellipse cx="${x}" cy="${y}" rx="6" ry="2.6" transform="rotate(${r} ${x} ${y})" fill="#58c98a"/>`).join('')}
-    <path d="M40 76C44 60 60 50 96 46" fill="none" stroke="#ff8a3d" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="1 4"/>
-    <circle cx="132" cy="6" r="3.5" fill="#ff5a74"/><circle cx="24" cy="60" r="5" fill="#3fae72"/><circle cx="150" cy="56" r="6" fill="#3fae72"/>`) },
+    'exp-log': { name: 'Crecimiento Exponencial', art: plate('exp-log', LIME, `
+      ${axes(60, 60, 30, 142, 6, 74)}
+      ${Ld('M44 76L112 8')}
+      ${L(par(u => [60 + 12 * u, 60 - 12 * Math.exp(u)], -2.5, 1.5), LIME, 1.5)}
+      ${L(par(u => [60 + 12 * Math.exp(u), 60 - 12 * u], -.9, 1.9), INK, 1.3)}
+      ${D(60, 48, 2, LIME)}${D(72, 60, 2)}
+      ${T(84, 12, 'eˣ', LIME, 7.5)}${T(130, 32, 'ln x', INK, 6.5)}${T(114, 18, 'y = x', INK, 5)}`) },
 
-  // ---------- Trigonometría ----------
-  ondas: { name: 'Mar de las Ondas', art: wSvg('ondas', '#ff9a8b', '#7fe3ff', `
-    <circle cx="44" cy="26" r="16" fill="#ffd451" opacity=".95"/><circle cx="44" cy="26" r="16" fill="none" stroke="#fff" stroke-width="1.4"/>
-    <path d="M44 26L55.3 14.7" stroke="#ff5a74" stroke-width="2.2" stroke-linecap="round"/><path d="M55.3 14.7V26" stroke="#22d3ee" stroke-width="2" stroke-dasharray="2 2"/>
-    <path d="M51 26a7 7 0 0 0-2-5" fill="none" stroke="#fff" stroke-width="1.4"/>
-    <path d="M0 52Q10 42 20 52T40 52T60 52T80 52T100 52T120 52T140 52T160 52V80H0z" fill="#22a6c7"/>
-    <path d="M0 60Q15 50 30 60T60 60T90 60T120 60T150 60T180 60V80H0z" fill="#168aa8"/>
-    <path d="M0 70Q20 62 40 70T80 70T120 70T160 70V80H0z" fill="#0e6d87"/>
-    <path d="M0 52Q10 42 20 52T40 52T60 52T80 52T100 52T120 52T140 52T160 52" fill="none" stroke="#e8fbff" stroke-width="1.4"/>
-    <path d="M118 40l8 4h-12z" fill="#fff"/><path d="M114 44h14l-2 3h-10z" fill="#ff5a74"/>`) },
+    // ---------- Trigonometría ----------
+    ondas: { name: 'Funciones Periódicas', art: plate('ondas', SKY, `
+      ${L('M38 40H146', INK, .7)}${L('M56 24V56', INK, .7)}
+      ${C(56, 40, 13)}${L('M56 40L64.36 30.04', INK, 1.1)}${L('M61 40A5 5 0 0 0 59.21 36.17', INK, .8)}
+      ${Ld('M64.36 30.04V40', SKY)}${Ld('M64.36 30.04H81.44', SKY)}
+      ${L(fn(x => 40 - 13 * Math.sin((x - 72) / 68 * 2 * Math.PI), 72, 140), SKY, 1.5)}
+      ${D(64.36, 30.04, 2, SKY)}${D(81.44, 30.04, 2, SKY)}
+      ${T(65, 39.5, 'θ', INK, 4.5)}${T(132, 70, 'T = 2π', INK, 5.5)}`) },
 
-  inversas: { name: 'Faro de los Ángulos', art: wSvg('inversas', '#0f1d4a', '#3a5bb8', `
-    ${wStars([[20, 10], [50, 6], [90, 14], [150, 10], [70, 22]])}
-    <path d="M118 16L30 40L118 30z" fill="#fff6b0" opacity=".25"/>
-    ${wHill('M100 80V56Q116 50 160 52V80z', '#2b3a6b')}<path d="M0 66H160V80H0z" fill="#1c4b8f"/>
-    <path d="M112 56l3-38h6l3 38z" fill="#f5f7ff"/><path d="M113.3 44h9.4l.5 6h-10.4zM114.3 30h7.4l.4 5h-8.2z" fill="#ff5a74"/>
-    <rect x="113" y="12" width="10" height="7" rx="1" fill="#ffd451"/><path d="M112 12l6-5 6 5z" fill="#ff5a74"/>
-    <path d="M36 64L118 64L118 16z" fill="none" stroke="#22d3ee" stroke-width="1.6" stroke-dasharray="3 2"/>
-    <path d="M52 64a16 16 0 0 0-1.6-7" fill="none" stroke="#ffd451" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M112 64v-5h6" fill="none" stroke="#fff" stroke-width="1.2"/>
-    <path d="M26 62h18l-3 5h-12z" fill="#ffd451"/><path d="M34 62V52l7 8z" fill="#fff"/>`) },
+    inversas: { name: 'Identidades y Triángulos', art: plate('inversas', AMBER, `
+      ${Ld('M90 14V74')}${L('M34 48H100', INK, .7)}
+      ${C(64, 48, 26)}${F('M64 48H85.3V33.09Z', AMBER, .2)}
+      ${L('M64 48L90 29.8', INK, 1.2)}${L('M85.3 48V33.09', AMBER, 1.6)}${L('M64 48H85.3', INK, 1.2)}${L('M90 48V29.8', INK, 1.6)}
+      ${L('M71 48A7 7 0 0 0 69.73 43.98', INK, .9)}${D(85.3, 33.09, 2, AMBER)}
+      ${T(76, 45.5, 'θ', INK, 5.5)}${T(74.6, 54.5, 'cos θ', INK, 5)}${T(96, 41, 'tan θ', INK, 5, 'start')}
+      ${T(128, 16, 'sen²θ + cos²θ = 1', AMBER, 5.5)}`) },
 
-  polar: { name: 'Galaxia Polar', art: wSvg('polar', '#0b0a26', '#2a1a5e', `
-    ${wStars([[10, 8], [24, 30], [16, 62], [146, 12], [150, 50], [132, 70], [40, 74], [118, 6], [6, 44]])}
-    <g fill="none" stroke="#5b6bd6" stroke-width=".8" opacity=".7"><circle cx="80" cy="40" r="12"/><circle cx="80" cy="40" r="24"/><circle cx="80" cy="40" r="36"/>
-      <path d="M44 40h72M80 4v72M55 15l50 50M105 15l-50 50"/></g>
-    <path d="${Array.from({ length: 73 }, (_, i) => { const t = i * Math.PI / 36, r = 34 * Math.abs(Math.cos(2 * t)); return `${i ? 'L' : 'M'}${(80 + r * Math.cos(t)).toFixed(1)} ${(40 - r * Math.sin(t)).toFixed(1)}`; }).join('')}z"
-      fill="#ff7aa8" fill-opacity=".3" stroke="#ff9ec2" stroke-width="1.8" stroke-linejoin="round"/>
-    ${wArrow(80, 40, 104, 26, '#22d3ee', 2.2)}<circle cx="80" cy="40" r="2.6" fill="#ffd451"/>`) },
+    polar: { name: 'El Plano Complejo', art: plate('polar', VIOLET, `
+      ${[13, 26, 39].map(r => C(80, 40, r, INK, .5)).join('')}
+      ${[0, 30, 60, 90, 120, 150].map(a => L(`M${r2(80 + 34 * Math.cos(rad(a)))} ${r2(40 - 34 * Math.sin(rad(a)))}L${r2(80 - 34 * Math.cos(rad(a)))} ${r2(40 + 34 * Math.sin(rad(a)))}`, INK, a % 90 ? .35 : .8)).join('')}
+      ${F(par(t => [80 + 26 * Math.cos(rad(t)), 40 - 26 * Math.sin(rad(t))], 0, 360, 6) + 'Z', VIOLET, .16)}
+      ${L(par(t => [80 + 26 * Math.cos(rad(t)), 40 - 26 * Math.sin(rad(t))], 0, 360, 6) + 'Z', VIOLET, 1.3)}
+      ${L(`M80 40L${r2(80 + 26 * Math.cos(rad(60)))} ${r2(40 - 26 * Math.sin(rad(60)))}`, INK, 1.1)}
+      ${[0, 60, 120, 180, 240, 300].map(a => D(80 + 26 * Math.cos(rad(a)), 40 - 26 * Math.sin(rad(a)), 2, VIOLET)).join('')}
+      ${T(118, 37, 'Re', INK, 5)}${T(84, 9, 'Im', INK, 5, 'start')}${T(136, 70, 'z⁶ = 1', VIOLET, 6.5)}`) },
 
-  // ---------- Cálculo diferencial ----------
-  intervalos: { name: 'Sendero de los Intervalos', art: wSvg('intervalos', '#ffd1e8', '#fff3f9', `
-    ${wSun(136, 16, 7)}${wCloud(36, 14, .9)}
-    ${wHill('M0 56Q40 48 80 54T160 52V80H0z', '#7bd88f')}
-    <path d="M8 68H152" stroke="#8a4a6a" stroke-width="3" stroke-linecap="round"/>
-    <path d="M44 68H116" stroke="#f472b6" stroke-width="6" stroke-linecap="round"/>
-    <path d="M48 60h-4v16h4M112 60h4v16h-4" fill="none" stroke="#c0267a" stroke-width="2.4" stroke-linejoin="round"/>
-    <path d="M80 68V40" stroke="#6b4423" stroke-width="3"/><circle cx="80" cy="40" r="2.4" fill="#6b4423"/>
-    <path d="M44 56A36 30 0 0 1 116 56" fill="none" stroke="#c0267a" stroke-width="1.4" stroke-dasharray="3 3"/>
-    <path d="M80 42Q92 50 101 58" fill="none" stroke="#c0267a" stroke-width="1.2"/>
-    <ellipse cx="104" cy="60" rx="6" ry="4" fill="#d9a066"/><circle cx="110" cy="56" r="3.4" fill="#d9a066"/><circle cx="111" cy="55" r=".8" fill="#3b2a1a"/>`) },
+    // ---------- Cálculo ----------
+    intervalos: { name: 'Intervalos y Distancias', art: plate('intervalos', SKY, `
+      ${L('M18 46H142')}${[32, 44, 56, 68, 80, 92, 104, 116, 128].map(x => L(`M${x} 44V48`, INK, .8)).join('')}
+      ${L('M56 46H104', SKY, 3)}${H(56, 46, 2.6, SKY)}${H(104, 46, 2.6, SKY)}
+      ${A(80, 33, 58, 33, INK, .9)}${A(80, 33, 102, 33, INK, .9)}${D(80, 46, 1.6)}
+      ${T(68, 29, 'r', INK, 6)}${T(92, 29, 'r', INK, 6)}${T(80, 57, 'c', INK, 6)}${T(80, 71, '|x − c| &lt; r', SKY, 7)}`) },
 
-  funciones: { name: 'Fábrica de Funciones', art: wSvg('funciones', '#ffc2dc', '#ffe9f3', `
-    ${wCloud(26, 12, .9)}${wCloud(136, 16, .7)}
-    ${wHill('M0 66H160V80H0z', '#a35a7f')}
-    <rect x="54" y="22" width="52" height="44" rx="5" fill="#c0267a"/><rect x="50" y="19" width="52" height="44" rx="5" fill="#f472b6"/>
-    <text x="76" y="48" text-anchor="middle" font-size="18" font-style="italic" font-weight="800" fill="#fff" font-family="Georgia,serif">f</text>
-    <rect x="60" y="10" width="7" height="10" fill="#8a3a63"/><g fill="#fff" opacity=".7"><circle cx="64" cy="6" r="3"/><circle cx="70" cy="3" r="2"/></g>
-    <path d="M24 30h20l-4 8h-12z" fill="#6f8fff"/><circle cx="34" cy="24" r="4" fill="#ffd451"/>
-    ${wArrow(34, 40, 48, 46, '#6f8fff', 2.4)}${wArrow(104, 46, 122, 46, '#22b07a', 2.4)}
-    <rect x="124" y="36" width="16" height="16" rx="3" fill="#22b07a"/><path d="M127 49q5-12 10-8" fill="none" stroke="#fff" stroke-width="1.6"/>`) },
+    funciones: { name: 'Lenguaje de Funciones', art: plate('funciones', ROSE, `
+      <ellipse cx="56" cy="42" rx="12" ry="24" stroke="${INK}" stroke-width="1.1"/><ellipse cx="104" cy="42" rx="12" ry="24" stroke="${INK}" stroke-width="1.1"/>
+      ${[[28, 26], [38, 42], [48, 42], [58, 58]].map(([y1, y2]) => A(59, y1, 99, y2, ROSE, .9) + D(56, y1, 1.8)).join('')}
+      ${[26, 42, 58].map(y => D(104, y, 1.8, ROSE)).join('')}${D(108, 50, 1.4)}
+      ${T(56, 14, 'A', INK, 6.5)}${T(104, 14, 'B', INK, 6.5)}${T(80, 20, 'f', ROSE, 9)}`) },
 
-  limites: { name: 'Puente del Límite', art: wSvg('limites', '#9fd9ff', '#e3f4ff', `
-    ${wSun(26, 16, 6)}${wCloud(120, 12)}
-    ${wHill('M0 80V56Q30 50 60 58V80z', '#7d6b5c')}${wHill('M160 80V54Q130 50 100 58V80z', '#7d6b5c')}<path d="M60 80V64H100V80z" fill="#3b8fd9"/>
-    <path d="M8 62C36 60 60 50 80 34S118 18 152 16" fill="none" stroke="#f472b6" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="80 0"/>
-    <circle cx="80" cy="34" r="4" fill="#e3f4ff" stroke="#f472b6" stroke-width="2.4"/><circle cx="80" cy="56" r="3.4" fill="#c0267a"/>
-    <path d="M80 38V52" stroke="#c0267a" stroke-width="1.2" stroke-dasharray="2 2"/>
-    ${wArrow(48, 46, 70, 38, '#ffd451', 2)}${wArrow(112, 24, 90, 31, '#ffd451', 2)}`) },
+    limites: { name: 'Aproximación y Límite', art: plate('limites', TEAL, `
+      ${axes(40, 66, 34, 142, 6, 70)}
+      ${L(fn(x => 66 - (8 + 44 / (1 + Math.exp(-(x - 80) / 12))), 42, 85.8), TEAL, 1.5)}${L(fn(x => 66 - (8 + 44 / (1 + Math.exp(-(x - 80) / 12))), 90.2, 140), TEAL, 1.5)}
+      ${Ld('M88 31V66')}${Ld('M40 28.92H85.8')}${H(88, 28.92, 2.3, TEAL)}
+      ${A(66, 73, 82, 73, TEAL, .9)}${A(110, 73, 94, 73, TEAL, .9)}
+      ${T(88, 77, 'a', INK, 5.5)}${T(34, 31, 'L', INK, 6.5)}${T(124, 30, 'x → a', INK, 6)}`) },
 
-  derivada: { name: 'Cumbre de la Tangente', art: wSvg('derivada', '#b8d7ff', '#f0f6ff', `
-    ${wSun(138, 14, 6)}${wCloud(34, 12, .8)}
-    <path d="M0 80V70C30 66 44 26 76 22S120 54 160 60V80z" fill="#6b7bb8"/>
-    <path d="M60 28C66 24 70 22 76 22S88 25 92 30L86 33 80 28 72 32 66 29z" fill="#fff"/>
-    <path d="M0 70C30 66 44 26 76 22S120 54 160 60" fill="none" stroke="#f472b6" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M14 66L74 30" stroke="#ffd451" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="44" cy="48" r="3.4" fill="#fff" stroke="#c0267a" stroke-width="2"/>
-    <path d="M30 57.6h12v-7.2" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="2 1.5"/>`) },
+    derivada: { name: 'Razón de Cambio', art: plate('derivada', AMBER, `
+      ${axes(36, 68, 30, 140, 6, 74)}
+      ${L(fn(x => 66 - .0055 * (x - 30) ** 2, 36, 128), INK, 1.4)}
+      ${L('M58 67.32L122 25.08', AMBER, 1.5)}${Ld('M90 46.2L118 23.41')}
+      ${L('M98 40.92H110V33', INK, .8)}${D(90, 46.2, 2.3, AMBER)}${D(118, 23.41, 1.8)}
+      ${T(104, 46, 'Δx', INK, 5)}${T(116, 38, 'Δy', INK, 5, 'start')}${T(136, 60, 'f′(x)', AMBER, 7)}`) },
 
-  aplicaciones: { name: 'Mirador del Máximo', art: wSvg('aplicaciones', '#ffb3c7', '#ffe9c7', `
-    ${wSun(26, 18, 8, '#fff2a8')}
-    ${wHill('M0 80V60C30 60 50 18 82 18S130 54 160 58V80z', '#c0267a')}${wHill('M0 80V70C40 66 60 50 90 56S140 72 160 70V80z', '#8a1a57')}
-    <path d="M60 18H104" stroke="#fff" stroke-width="1.6" stroke-dasharray="3 2"/>
-    ${wFlag(82, 18, '#ffd451')}<circle cx="82" cy="18" r="2.6" fill="#fff"/>
-    <rect x="124" y="30" width="18" height="12" rx="1.5" fill="#ffd451"/><path d="M124 30l6-6h18l-6 6zM142 30l6-6v12l-6 6z" fill="#d99a00"/>`) },
+    aplicaciones: { name: 'Optimización', art: plate('aplicaciones', CORAL, `
+      ${L('M30 66H140', INK, .7)}
+      ${L(fn(x => 64 - 42 * Math.exp(-(((x - 84) / 22) ** 2)), 34, 136), INK, 1.4)}
+      ${L('M64 22H104', CORAL, 1.5)}${Ld('M84 22V66')}${D(84, 22, 2.4, CORAL)}
+      ${T(84, 14, 'máx', CORAL, 6)}${T(128, 30, 'f′ = 0', INK, 6)}`) },
 
-  // ---------- Geometría vectorial y analítica ----------
-  sistemas: { name: 'Cruce de las Rectas', art: wSvg('sistemas', '#a9cdff', '#e8f2ff', `
-    ${wCloud(130, 12)}
-    <path d="M0 40H160V80H0z" fill="#d8e4f5"/><g stroke="#b3c6e6" stroke-width=".8">${[20, 40, 60, 80, 100, 120, 140].map(x => `<path d="M${x} 40V80"/>`).join('')}<path d="M0 50H160M0 60H160M0 70H160"/></g>
-    <path d="M10 76L150 44" stroke="#2f5bff" stroke-width="4" stroke-linecap="round"/><path d="M14 46L146 74" stroke="#ff8a3d" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="80" cy="60" r="5" fill="#ffd451" stroke="#fff" stroke-width="2"/>
-    <path d="M24 8h-6v26h6M58 8h6v26h-6" fill="none" stroke="#2f5bff" stroke-width="2.6" stroke-linejoin="round"/>
-    <g fill="#1c3dc4" font-size="8" font-weight="800" font-family="system-ui,sans-serif" text-anchor="middle"><text x="32" y="19">2</text><text x="48" y="19">1</text><text x="32" y="30">1</text><text x="48" y="30">3</text></g>`) },
+    // ---------- Geometría vectorial y analítica ----------
+    sistemas: { name: 'Álgebra Matricial', art: plate('sistemas', SKY, `
+      ${L('M30 60.5H140M61 6V74', INK, .5)}
+      ${L('M32 66L132 14', INK, 1.4)}${L('M36 18L128 64', SKY, 1.4)}
+      ${C(81.02, 40.51, 4.5, SKY, .8)}${D(81.02, 40.51, 2.2, SKY)}
+      ${T(8, 16, 'x − 2y = −2', INK, 5.5, 'start')}${T(8, 25, 'x + 2y = 6', SKY, 5.5, 'start')}`) },
 
-  determinantes: { name: 'Templo del Determinante', art: wSvg('determinantes', '#ffd9a8', '#fff5e6', `
-    ${wSun(136, 16, 7)}
-    ${wHill('M0 66H160V80H0z', '#c9a67a')}<rect x="30" y="60" width="100" height="6" fill="#e8d3b3"/>
-    ${[36, 120].map(x => `<rect x="${x}" y="22" width="8" height="38" fill="#f5e9d6"/><rect x="${x - 2}" y="20" width="12" height="3" fill="#e8d3b3"/>`).join('')}
-    <path d="M28 20L80 4 132 20z" fill="#e8d3b3"/>
-    <path d="M54 56L84 56 104 30 74 30z" fill="#60a5fa" fill-opacity=".45" stroke="#60a5fa" stroke-width="1.2"/>
-    ${wArrow(54, 56, 84, 56, '#2f5bff', 2.6)}${wArrow(54, 56, 74, 30, '#ff8a3d', 2.6)}<circle cx="54" cy="56" r="2.6" fill="#1c3dc4"/>`) },
+    determinantes: { name: 'Inversión y Determinante', art: plate('determinantes', VIOLET, `
+      ${Ld('M58 62H74V46H58Z')}
+      ${F('M58 62L94 54L108 20L72 28Z', VIOLET, .22)}${L('M94 54L108 20L72 28', VIOLET, 1.2)}
+      ${A(58, 62, 94, 54)}${A(58, 62, 72, 28)}
+      ${T(85, 44, 'det', VIOLET, 6.5)}${T(98, 62, 'u', INK, 6.5)}${T(66, 26, 'v', INK, 6.5)}`) },
 
-  vectores: { name: 'Archipiélago Vectorial', art: wSvg('vectores', '#8ad4ff', '#c9efff', `
-    ${wCloud(80, 10, .8)}${wSun(146, 12, 5)}
-    <path d="M0 44H160V80H0z" fill="#3b9be0"/><path d="M0 44H160" stroke="#d6efff" stroke-width="1.2"/>
-    ${[[24, 62, 14], [80, 52, 12], [134, 66, 13]].map(([x, y, r]) => `<ellipse cx="${x}" cy="${y + 2}" rx="${r}" ry="${r / 3}" fill="#2b7cc0"/><ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r / 3.2}" fill="#f2d48c"/><circle cx="${x - 2}" cy="${y - 4}" r="${r / 3.4}" fill="#3fae72"/>`).join('')}
-    <circle cx="80" cy="52" r="20" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="3 3"/>
-    ${wArrow(28, 56, 74, 44, '#ffd451', 2.6)}${wArrow(84, 46, 128, 60, '#ff5a74', 2.6)}`) },
+    vectores: { name: 'Geometría Vectorial', art: plate('vectores', TEAL, `
+      ${Ld('M46 62L68 34L108 18')}
+      ${A(46, 62, 86, 46)}${A(86, 46, 108, 18)}${A(46, 62, 108, 18, TEAL, 1.5)}
+      ${T(66, 61, 'u', INK, 6.5)}${T(102, 38, 'v', INK, 6.5)}${T(94, 13, 'u + v', TEAL, 6.5)}`) },
 
-  productos: { name: 'Forja del Producto', art: wSvg('productos', '#3a2a5e', '#c75a3a', `
-    ${wStars([[20, 10], [140, 8], [120, 22]], '#ffb36b')}
-    ${wHill('M0 66H160V80H0z', '#2b1f3a')}
-    <path d="M44 62L96 62 120 46 68 46z" fill="#ffb36b" fill-opacity=".35" stroke="#ffb36b" stroke-width="1"/>
-    ${wArrow(44, 62, 96, 62, '#60a5fa', 3)}${wArrow(44, 62, 68, 46, '#ffd451', 3)}${wArrow(44, 62, 44, 14, '#ff5a74', 3)}
-    <path d="M58 62a14 14 0 0 0-2.6-7.2" fill="none" stroke="#fff" stroke-width="1.4"/>
-    <path d="M44 56h4v6" fill="none" stroke="#fff" stroke-width="1"/>
-    <path d="M118 66v-8h20v8z" fill="#5b4a6b"/><path d="M114 58h28l-4-6h-20z" fill="#7a6a8a"/><g fill="#ffb36b"><circle cx="130" cy="46" r="1.6"/><circle cx="136" cy="42" r="1.2"/><circle cx="124" cy="44" r="1"/></g>`) },
+    productos: { name: 'Productos Vectoriales', art: plate('productos', ROSE, `
+      ${L('M72 52L52 66M72 52H130', INK, .6)}${Ld('M72 52V8')}
+      ${F('M72 52L100 58L118 44L90 38Z', ROSE, .2)}${L('M100 58L118 44L90 38', ROSE, .9)}
+      ${A(72, 52, 100, 58)}${A(72, 52, 90, 38)}${A(72, 52, 68, 16, ROSE, 1.5)}
+      ${T(102, 66, 'u', INK, 6.5)}${T(89, 34, 'v', INK, 6.5)}${T(54, 16, 'u × v', ROSE, 6.5)}`) },
 
-  mecanica: { name: 'Puerto de las Fuerzas', art: wSvg('mecanica', '#ffcf9e', '#bfe6ff', `
-    ${wSun(30, 16, 7)}${wCloud(120, 12, .8)}
-    <path d="M0 50H160V80H0z" fill="#2f8ad4"/><path d="M0 50Q20 47 40 50T80 50T120 50T160 50" fill="none" stroke="#d6efff" stroke-width="1.2"/>
-    <path d="M128 50V30h10v20z" fill="#7d6b5c"/><path d="M134 50V24h10v26z" fill="#6b5a4c"/>
-    <path d="M42 58h34l-6 8H48z" fill="#ff5a74"/><path d="M58 58V38l12 18z" fill="#fff"/>
-    ${wArrow(76, 58, 118, 40, '#ffd451', 2.2)}${wArrow(76, 58, 118, 72, '#ffd451', 2.2)}${wArrow(76, 58, 130, 56, '#fff', 3)}`) },
+    mecanica: { name: 'Fuerza, Trabajo y Momento', art: plate('mecanica', AMBER, `
+      ${A(80, 42, 80, 14)}${A(80, 42, 108, 56, AMBER, 1.4)}${A(80, 42, 52, 56, AMBER, 1.4)}${D(80, 42, 2.6)}
+      ${A(126, 64, 126, 51.4, INK, .8)}${A(126, 51.4, 138.6, 57.7, AMBER, .8)}${A(138.6, 57.7, 126, 64, AMBER, .8)}
+      ${T(86, 18, 'F₁', INK, 6, 'start')}${T(110, 65, 'F₂', AMBER, 6)}${T(50, 65, 'F₃', AMBER, 6)}${T(132, 43, 'ΣF = 0', INK, 5.5)}`) },
 
-  conicas: { name: 'Órbita de las Cónicas', art: wSvg('conicas', '#0a1030', '#24306e', `
-    ${wStars([[12, 10], [30, 68], [150, 12], [140, 70], [100, 6], [60, 74], [8, 40]])}
-    <ellipse cx="80" cy="40" rx="56" ry="24" fill="none" stroke="#60a5fa" stroke-width="1.6"/>
-    <path d="M150 4Q34 40 150 76" fill="none" stroke="#ffd451" stroke-width="1.4" stroke-dasharray="3 3"/>
-    ${wSun(58, 40, 9, '#ffb84d', .3)}<circle cx="136" cy="40" r="5" fill="#6f8fff"/><circle cx="134.6" cy="38.6" r="1.6" fill="#b8c8ff"/>
-    <circle cx="102" cy="40" r="1.6" fill="#fff"/>`) },
+    conicas: { name: 'Secciones Cónicas', art: plate('conicas', SKY, `
+      <ellipse cx="80" cy="40" rx="34" ry="22" stroke="${INK}" stroke-width="1.3"/>
+      ${Ld('M40 40H120')}${L('M54.08 40L97 20.95L105.92 40', SKY, 1.1)}
+      ${D(54.08, 40, 2.2, SKY)}${D(105.92, 40, 2.2, SKY)}${D(97, 20.95, 2)}
+      ${T(54, 49, 'F₁', INK, 5.5)}${T(106, 49, 'F₂', INK, 5.5)}${T(80, 74, 'd₁ + d₂ = 2a', SKY, 6)}`) },
 
-  // ---------- Física mecánica ----------
-  cinematica: { name: 'Pista de la Cinemática', art: wSvg('cinematica', '#ffe08a', '#fff7d6', `
-    ${wSun(140, 14, 6)}${wCloud(40, 12, .8)}
-    ${wHill('M0 58Q40 52 80 56T160 54V80H0z', '#7bd88f')}<path d="M0 64H160V76H0z" fill="#4a4a5a"/>
-    <path d="M6 70H154" stroke="#fff" stroke-width="1.6" stroke-dasharray="8 6"/>
-    <rect x="22" y="52" width="30" height="10" rx="3" fill="#ff5a74"/><path d="M28 52l4-6h12l4 6z" fill="#ff8a9c"/>
-    <circle cx="29" cy="63" r="3.6" fill="#222"/><circle cx="45" cy="63" r="3.6" fill="#222"/>
-    ${wArrow(54, 56, 80, 56, '#2f5bff', 2.6)}
-    <path d="M90 60Q114 6 140 60" fill="none" stroke="#ff8a3d" stroke-width="1.6" stroke-dasharray="2 3"/>
-    <circle cx="115" cy="33" r="3.4" fill="#ffd451" stroke="#d99a00" stroke-width="1"/>`) },
+    // ---------- Física ----------
+    cinematica: { name: 'Movimiento en el Plano', art: plate('cinematica', LIME, `
+      ${L('M30 62H130', INK, .7)}
+      ${Ld(fn(x => 62 - 40 * (1 - ((x - 80) / 40) ** 2), 40, 120))}
+      ${A(50, 44.5, 58, 32.5, LIME, 1.3)}${A(80, 22, 88, 22, LIME, 1.3)}${A(110, 44.5, 118, 56.5, LIME, 1.3)}
+      ${D(50, 44.5, 2)}${D(80, 22, 2)}${D(110, 44.5, 2)}
+      ${A(136, 22, 136, 38, INK, .9)}${T(141, 33, 'g', INK, 6, 'start')}${T(63, 32, 'v', LIME, 6.5)}`) },
 
-  dinamica: { name: 'Rampa de Newton', art: wSvg('dinamica', '#ffd56b', '#fff2c2', `
-    ${wCloud(126, 14)}
-    ${wHill('M0 70H160V80H0z', '#9a6a3a')}
-    <path d="M14 70H136V24z" fill="#d99a00"/><path d="M14 70H136" stroke="#8a5a1a" stroke-width="2"/>
-    <g transform="rotate(-20.65 80 47)"><rect x="70" y="35" width="20" height="13" rx="1.5" fill="#2f5bff"/></g>
-    ${wArrow(81, 46, 81, 72, '#ff5a74', 2.4)}${wArrow(79, 40, 72, 21, '#22b07a', 2.4)}${wArrow(76, 44, 54, 52, '#fff', 2.4)}
-    <path d="M38 70a24 24 0 0 0-1-6" fill="none" stroke="#fff" stroke-width="1.4"/>`) },
+    dinamica: { name: 'Leyes de Newton', art: plate('dinamica', CORAL, `
+      ${L('M34 66H126V22Z', INK, 1.1)}${L('M46 66A12 12 0 0 0 44.82 60.81', INK, .9)}
+      <g transform="translate(86 41.13) rotate(-25.6)"><rect x="-8" y="-16" width="16" height="16" fill="#0B0E24" stroke="${INK}" stroke-width="1.2"/></g>
+      ${A(82.54, 33.91, 82.54, 60, CORAL, 1.4)}${A(82.54, 33.91, 73.04, 14.07)}${A(82.54, 33.91, 96.97, 27, INK, .9)}
+      ${T(89, 61, 'mg', CORAL, 5.5, 'start')}${T(68, 12, 'N', INK, 6)}${T(101, 24, 'f', INK, 5.5)}${T(53, 63, 'α', INK, 5)}${T(138, 14, 'F = ma', CORAL, 6.5)}`) },
 
-  // ---------- Cálculo integral ----------
-  integral: { name: 'Campos del Área', art: wSvg('integral', '#a8f0d0', '#effff7', `
-    ${wSun(26, 16, 6)}${wCloud(120, 10, .8)}
-    ${wHill('M0 70H160V80H0z', '#7a5a3a')}
-    ${[0, 1, 2, 3, 4, 5].map(i => { const x = 30 + i * 18, y = 70 - (6 + 0.004 * (i * 18 + 9) ** 2); return `<rect x="${x}" y="${y.toFixed(1)}" width="18" height="${(70 - y).toFixed(1)}" fill="${i % 2 ? '#2fb37f' : '#34d399'}" stroke="#effff7" stroke-width=".8"/>`; }).join('')}
-    <path d="${Array.from({ length: 31 }, (_, i) => { const x = 24 + i * 4, u = x - 30; return `${i ? 'L' : 'M'}${x} ${(70 - 6 - 0.004 * u * u * (u > 0 ? 1 : 0)).toFixed(1)}`; }).join('')}" fill="none" stroke="#ff8a3d" stroke-width="2.6" stroke-linecap="round"/>
-    <path d="M30 76V30M138 76V8" stroke="#3b2a1a" stroke-width="1" stroke-dasharray="2 2"/>`) },
+    // ---------- Cálculo integral ----------
+    integral: { name: 'Acumulación y Área', art: plate('integral', TEAL, `
+      ${axes(44, 66, 36, 140, 8, 72)}
+      ${[48, 56, 64, 72, 80, 88, 96, 104].map(x => { const y = 66 - (14 + 30 * Math.sin((x + 4 - 44) / 72 * Math.PI)); return F(`M${x} 66V${r2(y)}H${x + 8}V66Z`, TEAL, .25) + L(`M${x} 66V${r2(y)}H${x + 8}V66`, TEAL, .7); }).join('')}
+      ${L(fn(x => 66 - (14 + 30 * Math.sin((x - 44) / 72 * Math.PI)), 44, 116), INK, 1.5)}
+      ${T(48, 74, 'a', INK, 5.5)}${T(112, 74, 'b', INK, 5.5)}${T(28, 40, '∫', INK, 18)}`) },
 
-  // ---------- Álgebra lineal ----------
-  lineal: { name: 'Plano Transformado', art: wSvg('lineal', '#ffc89a', '#fff0e2', `
-    ${wSun(140, 14, 6)}
-    <g stroke="#fb923c" stroke-width=".9" opacity=".6">${[-3, -2, -1, 0, 1, 2, 3].map(k => `<path d="M${38 + k * 16} 78L${78 + k * 16} 2"/>`).join('')}${[0, 1, 2, 3, 4].map(k => `<path d="M0 ${74 - k * 16}H160"/>`).join('')}</g>
-    <path d="M64.5 58H96.5L113.3 26H81.3z" fill="#fb923c" fill-opacity=".35"/>
-    ${wArrow(64.5, 58, 96.5, 58, '#2f5bff', 3)}${wArrow(64.5, 58, 81.3, 26, '#ffd451', 3)}<circle cx="64.5" cy="58" r="3" fill="#8a3a0a"/>`) },
-};
+    // ---------- Álgebra lineal ----------
+    lineal: { name: 'Transformaciones Lineales', art: plate('lineal', VIOLET, `
+      ${Ld('M30 42H130M80 6V76')}
+      ${[-3, -2, -1, 0, 1, 2, 3].map(a => L(`M${r2(80 + 16 * a - 16)} ${r2(42 - 4 * a + 32)}L${r2(80 + 16 * a + 16)} ${r2(42 - 4 * a - 32)}`, VIOLET, .55)).join('')}
+      ${[-2, -1, 0, 1, 2].map(b => L(`M${r2(80 - 48 + 8 * b)} ${r2(42 + 12 - 16 * b)}L${r2(80 + 48 + 8 * b)} ${r2(42 - 12 - 16 * b)}`, VIOLET, .55)).join('')}
+      ${F('M80 42L96 38L104 22L88 26Z', VIOLET, .28)}
+      ${A(80, 42, 96, 38, INK, 1.5)}${A(80, 42, 88, 26, VIOLET, 1.5)}
+      ${T(100, 46, 'T(e₁)', INK, 5.5, 'start')}${T(84, 20, 'T(e₂)', VIOLET, 5.5)}`) },
+  };
+})();
 
 // Trazo del sendero que une niveles o mundos: xs son los desplazamientos horizontales de cada botón
 // (centro = 0), step la altura de cada fila y cy el centro vertical del botón dentro de su fila.

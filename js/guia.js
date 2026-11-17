@@ -361,7 +361,7 @@ const GUIDE_ARCADE = new Set(['lluvia-elementos', 'revienta-globos', 'luciernaga
 // Los pasos propios de cada juego: [escena, texto, opciones]. El ejemplo de la escena es pequeño y distinto de los
 // ejercicios: enseña el gesto, no la respuesta.
 const GUIDES = {
-  'jefe-rueda': [['tap', 'Toca en la rueda los nudos que responden el reto: quedan marcados como runas.', { items: ['•', '•', '•', '•'], pick: [1, 3] }], ['tap', 'Con todas las runas puestas toca «¡Atacar!». Tocar una runa otra vez la quita.', { items: ['¡Atacar!'], pick: [0] }]],
+  'jefe-rueda': [['tap', 'Toca en la rueda los puntos que responden el reto: quedan marcados.', { items: ['•', '•', '•', '•'], pick: [1, 3] }], ['tap', 'Con todas las runas puestas toca «¡Atacar!». Tocar un punto otra vez lo quita.', { items: ['¡Atacar!'], pick: [0] }]],
   'quita-vueltas': [['tap', 'Quita o pon vueltas completas hasta dejar el ángulo en el intervalo y toca «Listo».', { items: ['− 1 vuelta', '+ 1 vuelta', 'Listo'], pick: [0, 0, 2] }]],
   'rueda-rodante': [['step', 'Elige con − / + el ángulo que gira la rueda y toca «Rodar»: avanza lo que mide el arco.', { from: 1, to: 3, label: 'ángulo' }]],
   'toca-lados': [['tap', 'Toca dos lados: primero el que va arriba de la fracción y luego el que va abajo.', { items: ['opuesto', 'adyacente', 'hipotenusa'], pick: [0, 2] }]],

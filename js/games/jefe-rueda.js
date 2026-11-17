@@ -32,13 +32,13 @@ GAMES['jefe-rueda'] = (() => {
 
   return questGame({
     aspect: 1.6,
-    idle: 'Sin reloj: piensa, marca las runas y ataca',
+    idle: 'Sin reloj: piensa, marca los puntos y ataca',
     init: () => ({ marks: [] }),
     ok: (s, it) => [...s.marks].sort().join('|') === want(it),
     answer: it => ({ marks: it.targets.map(key) }),
     solution: it => `${it.say}: ${it.targets.map(t => `${it.rings ? `${it.rings[t[1] ?? 0]} cis ` : ''}${TK.mod(t[0], 360)}°`).join(', ')}`,
     prompt: it => it.say,
-    foot: (it, s) => `Runas marcadas: ${s.marks.length}. Tócalas otra vez para quitarlas`,
+    foot: (it, s) => `Puntos marcados: ${s.marks.length}. Tócalos otra vez para quitarlos`,
     yes: it => it.why,
     layout(G) {
       const it = G.item, n = nRings(it);
@@ -74,9 +74,9 @@ GAMES['jefe-rueda'] = (() => {
     press(G, x, y) {
       const s = G.s, it = G.item;
       if (hitBox(G.go, x, y)) {
-        if (!s.marks.length) { G.a.say('Marca al menos una runa en la rueda', G.C.N); return true; }
+        if (!s.marks.length) { G.a.say('Marca al menos un punto en la rueda', G.C.N); return true; }
         const tg = it.targets.map(key), extra = s.marks.some(m => !tg.includes(m)), miss = tg.some(m => !s.marks.includes(m));
-        G.submit(extra && miss ? 'Hay runas mal puestas' : extra ? 'Sobra alguna runa' : 'Faltan runas: hay más soluciones');
+        G.submit(extra && miss ? 'Hay puntos mal puestos' : extra ? 'Sobra algún punto' : 'Faltan puntos: hay más soluciones');
         return true;
       }
       const step = stepOf(it), a = TK.mod(Math.atan2(G.cy - y, x - G.cx) * 180 / Math.PI, 360), d = TK.mod(Math.round(a / step) * step, 360);

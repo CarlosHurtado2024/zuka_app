@@ -242,8 +242,8 @@ for (const u of COURSE_TRIG.units) for (const l of u.lessons) l.ex.push(...(TRIG
 // Un jefe por mundo, con el juego `jefe-rueda`: cada ataque se responde marcando nudos de la rueda de ángulos.
 // Ataque = [rótulo, nudos [[grados, anillo?]], por qué, opciones?].
 const TRIG_BOSS = {
-  ondas: { id: 'jefe-trig-ondas', title: 'El Kraken de las Olas', name: 'el Kraken de las Olas', kind: 'kraken',
-    intro: ['En el fondo del Mar de las Ondas duerme el **Kraken**. Cada tentáculo guarda un reto de ángulos, triángulos y ondas.', 'Marca en la rueda las **runas** que responden cada reto y ataca. No hay reloj: gana el que piensa.'],
+  ondas: { id: 'jefe-trig-ondas', title: 'El Guardián de las Ondas', name: 'el Guardián de las Ondas', kind: 'kraken',
+    intro: ['Al cierre del mundo espera el **Guardián de las Ondas**. Cada ataque es un reto de ángulos, triángulos y ondas.', 'Marca en la rueda los ángulos que responden cada reto y ataca. No hay reloj: gana el que piensa.'],
     phases: [
       ['Fase 1 · Ángulos y arcos', [
         ['Marca el ángulo $\\tfrac{5\\pi}{4}$', [[225]], '$\\tfrac{5\\pi}{4} = 5 \\cdot 45^\\circ = 225^\\circ$'],
@@ -259,8 +259,8 @@ const TRIG_BOSS = {
         ['$y = \\cos 2x$ vale 1: marca todos los $x$', [[0], [180]], 'Su periodo es $\\pi$: se repite cada 180°'],
         ['$\\tan x$ no existe: marca dónde', [[90], [270]], 'Donde el coseno vale 0 están las asíntotas']]],
     ] },
-  inversas: { id: 'jefe-trig-inversas', title: 'El Guardián del Faro', name: 'el Guardián del Faro', kind: 'faro',
-    intro: ['En lo alto del Faro de los Ángulos vigila su **Guardián**. Su luz esconde inversas, identidades, ecuaciones y triángulos.', 'Marca en la rueda todos los ángulos que responden cada reto, y solo esos. Luego ataca.'],
+  inversas: { id: 'jefe-trig-inversas', title: 'El Vigía de los Ángulos', name: 'el Vigía de los Ángulos', kind: 'faro',
+    intro: ['Al cierre del mundo vigila el **Vigía de los Ángulos** desde su torre. Su luz esconde inversas, identidades, ecuaciones y triángulos.', 'Marca en la rueda todos los ángulos que responden cada reto, y solo esos. Luego ataca.'],
     phases: [
       ['Fase 1 · Inversas e identidades', [
         ['Marca el lado terminal de $\\operatorname{sen}^{-1}\\left(-\\tfrac{\\sqrt3}{2}\\right)$', [[300]], 'Su valor es −60° (el rango va de −90° a 90°): ese lado es el de 300°'],
@@ -276,7 +276,7 @@ const TRIG_BOSS = {
         ['Área $\\tfrac12 \\cdot 4 \\cdot 6 \\operatorname{sen} C = 6$: marca los $C$', [[30], [150]], 'El seno de C vale ½: 30° y 150° dan la misma altura']]],
     ] },
   polar: { id: 'jefe-trig-polar', title: 'La Nebulosa Polar', name: 'la Nebulosa Polar', kind: 'nebulosa', rings: ['1', '2', '4', '8'],
-    intro: ['En el centro de la Galaxia Polar gira la **Nebulosa**. Solo la detienen los complejos puestos en su lugar exacto.', 'Cada anillo es un módulo (1, 2, 4 y 8) y cada radio, un ángulo. Marca los puntos pedidos y ataca.'],
+    intro: ['Al cierre del mundo gira la **Nebulosa Polar**. Solo la detienen los complejos puestos en su lugar exacto del plano.', 'Cada anillo es un módulo (1, 2, 4 y 8) y cada radio, un ángulo. Marca los puntos pedidos y ataca.'],
     phases: [
       ['Fase 1 · Forma polar', [
         ['Marca $z = 2i$', [[90, 1]], 'Módulo 2 sobre el eje imaginario: ángulo de 90°'],
@@ -297,8 +297,8 @@ for (const u of COURSE_TRIG.units) {
   if (!b) continue;
   u.boss = { id: b.id, title: b.title,
     clip: { scenes: [sc(5, b.intro[0], { title: 'Jefe final' }), sc(5, b.intro[1], { steps: b.phases.map(f => f[0]) })] },
-    ex: [play('jefe-rueda', `Vence ${('a ' + b.name).replace(/^a el /, 'al ')}: marca en la rueda las **runas** que responden cada reto y toca «¡Atacar!»`,
+    ex: [play('jefe-rueda', `Vence ${('a ' + b.name).replace(/^a el /, 'al ')}: marca en la rueda los puntos que responden cada reto y toca «¡Atacar!»`,
       { name: b.name, kind: b.kind, rounds: b.phases.map(([title, attacks]) => ({ title, items: attacks.map(([say, targets, why, o]) => ({ say, targets, why, ...(b.rings ? { rings: b.rings } : {}), ...o })) })) },
       'Cada reto del jefe se responde con ángulos de la rueda. Algunos tienen una sola respuesta y otros varias: hay que marcarlas todas y solo esas.',
-      { hint: 'Resuelve el reto antes de tocar: decide cuántas respuestas tiene y en qué cuadrantes caen. Los nudos van de 15° en 15° (o de 30° en 30° cuando hay anillos); una runa mal puesta se quita tocándola otra vez.' })] };
+      { hint: 'Resuelve el reto antes de tocar: decide cuántas respuestas tiene y en qué cuadrantes caen. Los nudos van de 15° en 15° (o de 30° en 30° cuando hay anillos); una marca mal puesta se quita tocándola otra vez.' })] };
 }

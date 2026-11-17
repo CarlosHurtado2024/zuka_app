@@ -1748,9 +1748,9 @@ const COURSE_ALGEBRA = {
   // la evaluación. No es una lección (no cuenta en el avance del mundo): es una batalla por turnos, sin reloj, con lo
   // visto en alg-0a (pertenencia y notación), alg-0b (tipos y relaciones) y alg-0c (operaciones).
   unit('conjuntos').boss = {
-    id: 'jefe-alg-0', title: 'El Guardián de la Pradera',
+    id: 'jefe-alg-0', title: 'El Guardián de los Conjuntos',
     clip: { scenes: [
-      sc(5, 'Al final de la pradera vive el **Guardián**. Solo deja pasar a quien hable su idioma: el de los conjuntos.', { title: 'Jefe final' }),
+      sc(5, 'Al cierre del mundo espera el **Guardián de los Conjuntos**. Solo deja pasar a quien hable su idioma: pertenencia, relaciones y operaciones.', { title: 'Jefe final' }),
       sc(5, 'Aquí no gana el más rápido, sino el que **piensa**: arma el conjunto que pide y ataca. Tienes todo el tiempo. Los dos puntos se leen «tal que».', { steps: ['Fase 1: pertenencia', 'Fase 2: relaciones', 'Fase 3: operaciones'] }),
     ] },
     ex: [

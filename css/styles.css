@@ -182,7 +182,7 @@ body[data-tab=clips] #tabbar button.on .i { color: #fff; background: rgba(255, 2
 .world-prog { right: 10px; }
 .world-prog .i { width: 14px; height: 14px; }
 .world.complete .world-prog { background: var(--gold); color: #0b0d1a; }
-.world.closed .world-art > svg { filter: grayscale(.85) brightness(.8); }
+.world.closed .world-art > svg { filter: grayscale(1) brightness(.6); opacity: .55; }
 .world-body { padding: 10px 14px 12px; }
 .world-body h2 { font-size: 19px; font-weight: 800; line-height: 1.15; }
 .world-body p { margin-top: 2px; font-size: 12.5px; font-weight: 700; color: var(--mute); }
@@ -209,7 +209,7 @@ body[data-tab=clips] #tabbar button.on .i { color: #fff; background: rgba(255, 2
 }
 .wnode-badge .i { width: 18px; height: 18px; }
 .wnode-wrap.complete .wnode-badge { background: var(--gold); color: #0b0d1a; }
-.wnode-wrap.closed .wnode-art > svg { filter: grayscale(.85) brightness(.8); }
+.wnode-wrap.closed .wnode-art > svg { filter: grayscale(1) brightness(.6); opacity: .55; }
 .wnode-wrap .start-bubble { top: -42px; }
 .wnode-label {
   position: relative; margin-top: 12px; padding: 2px 10px; border-radius: 10px; background: var(--bg); max-width: 170px;
