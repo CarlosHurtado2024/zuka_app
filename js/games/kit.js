@@ -613,7 +613,7 @@ function questGame(def) {
     // Chispas de colores al acertar un reto (no salen con «reducir movimiento»).
     const bits = [];
     const burst = () => { if (reducedMotion() || !G.dt) return; const cols = [C.sun, C.coral, C.mint, C.sky]; for (let i = 0; i < 18; i++) { const an = Math.random() * Math.PI * 2, v = 90 + Math.random() * 170; bits.push({ x: G.W / 2, y: (G.top + G.bottom) / 2, vx: Math.cos(an) * v, vy: Math.sin(an) * v - 120, col: cols[i % 4], t: 0 }); } };
-    function fresh() { G.solved = false; G.wait = 0; G.s = def.init(G.item, G.round, G); def.layout?.(G); }
+    function fresh() { G._gl = null; G._shot = null; G.solved = false; G.wait = 0; G.s = def.init(G.item, G.round, G); def.layout?.(G); }
     const m = mountSketch(host, (p, size) => {
       G.p = p; p5 = p;
       const lay = () => { G.W = size.w; G.H = size.h; G.bottom = size.h - 34; def.layout?.(G); };

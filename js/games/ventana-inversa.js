@@ -9,7 +9,7 @@ GAMES['ventana-inversa'] = (() => {
     ok: (s, it) => valid(it.fn, s.a, s.w) && (!it.std || s.a === stdA(it.fn)),
     answer: it => ({ a: stdA(it.fn), w: 2 }),
     solution: it => `$${TK.FN[it.fn]}^{-1}$: $[${TK.piTex(stdA(it.fn), 2)},\\ ${TK.piTex(stdA(it.fn) + 2, 2)}]$`,
-    prompt: it => (it.std ? `La ventana oficial de $${TK.FN[it.fn]}^{-1}$: contiene los ángulos agudos` : `Deja un tramo de $y = ${TK.FN[it.fn]} x$ con todas las alturas, sin repetir`),
+    prompt: it => (it.std ? `Deja la ventana oficial de $${TK.FN[it.fn]}^{-1}$: tiene los ángulos agudos` : `Deja un tramo de $y = ${TK.FN[it.fn]} x$ con todas las alturas, sin repetir`),
     foot: (it, s) => `Ventana: de $${TK.piTex(s.a, 2)}$ a $${TK.piTex(s.a + s.w, 2)}$`,
     yes: (it, s) => (s.a === stdA(it.fn) ? '¡Es justo la ventana oficial!' : 'Sirve: tiene todas las alturas una sola vez'),
     layout(G) {

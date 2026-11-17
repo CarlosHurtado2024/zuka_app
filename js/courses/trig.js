@@ -31,7 +31,7 @@ const COURSE_TRIG = {
             }, '$405^\\circ$ es una vuelta completa y $45^\\circ$ más (coterminal con $45^\\circ$); $-210^\\circ$ gira hacia el reloj y queda donde $150^\\circ$; el suplemento de $35^\\circ$ completa media vuelta: $180^\\circ - 35^\\circ = 145^\\circ$.',
               { hint: 'Puedes dar más de una vuelta: la espiral cuenta las vueltas. Para un ángulo negativo, gira como las manecillas del reloj. Dos ángulos suplementarios suman 180°.' }),
             num('¿Cuántos grados mide, aproximadamente, un radián? (redondea a una décima)', 180 / PI, '$1 \\text{ rad} = \\tfrac{180^\\circ}{\\pi} \\approx 57.3^\\circ$: el ángulo cuyo arco mide lo mismo que el radio.',
-              { tol: 0.06, suffix: '°', answerText: '$\\approx 57.3^\\circ$', hint: 'Media vuelta son 180 grados y también π radianes: ¿cuántos grados le tocan a cada uno de esos radianes?' }),
+              { tol: 0.06, suffix: '°', answerText: '$\\approx 57.3^\\circ$', hint: 'Media vuelta se puede medir de dos maneras: en grados y en radianes. Compara las dos medidas para saber a cuánto equivale uno solo.' }),
           ],
         },
         {
@@ -73,8 +73,8 @@ const COURSE_TRIG = {
               rounds: [{ fn: 'sen', num: 4, den: 5 }, { fn: 'cos', num: 12, den: 13 }, { fn: 'tan', num: 5, den: 2 }],
             }, 'Con catetos $3$ (adyacente) y $4$ (opuesto) la hipotenusa es $5$: $\\operatorname{sen}\\theta = \\tfrac45$. Con $12$ y $5$ la hipotenusa es $13$: $\\cos\\theta = \\tfrac{12}{13}$. Y $\\tan\\theta = \\tfrac{\\text{op}}{\\text{ady}} = \\tfrac52$ con opuesto $5$ y adyacente $2$ (o $10$ y $4$).',
               { hint: 'SOH CAH TOA: el seno usa opuesto e hipotenusa, el coseno adyacente e hipotenusa, la tangente opuesto y adyacente. Mueve los catetos hasta que, con Pitágoras, la hipotenusa salga entera y la fracción coincida.' }),
-            num('Un triángulo rectángulo tiene catetos 6 y 8. ¿Cuánto mide la hipotenusa?', 10, 'Pitágoras: $\\sqrt{36 + 64} = \\sqrt{100} = 10$.',
-              { hint: 'Eleva cada cateto al cuadrado, súmalos y saca la raíz cuadrada del resultado.' }),
+            num('En un triángulo rectángulo, $\\operatorname{sen}\\theta = \\tfrac35$ y la hipotenusa mide 10. ¿Cuánto mide el lado opuesto a $\\theta$?', 6, 'El seno es opuesto entre hipotenusa: $\\text{op} = 10 \\cdot \\tfrac35 = 6$.',
+              { hint: 'El seno compara dos lados: ¿cuáles? Si conoces esa fracción y uno de los dos lados, el otro sale multiplicando.' }),
           ],
         },
         {
@@ -89,13 +89,13 @@ const COURSE_TRIG = {
           ex: [
             play('atrapa-punto', 'Atrapa en la circunferencia unitaria el punto que cumple cada pista', {
               rounds: [
-                { prompt: 'sen θ = √3/2, con θ agudo', angles: [60] },
-                { prompt: 'cos θ = √2/2, con θ agudo', angles: [45] },
-                { prompt: 'tan θ = √3/3, con θ agudo', angles: [30] },
+                { prompt: 'sen θ = cos θ, con θ agudo', angles: [45] },
+                { prompt: 'cos θ = sen 30°, con θ agudo', angles: [60] },
+                { prompt: 'tan θ · tan 60° = 1, con θ agudo', angles: [30] },
                 { prompt: 'cos θ = 0 y sen θ = 1', angles: [90] },
               ],
-            }, 'En la circunferencia unitaria el punto es $(\\cos\\theta, \\operatorname{sen}\\theta)$: $\\operatorname{sen} 60^\\circ = \\tfrac{\\sqrt3}{2}$, $\\cos 45^\\circ = \\tfrac{\\sqrt2}{2}$, $\\tan 30^\\circ = \\tfrac{1}{\\sqrt3} = \\tfrac{\\sqrt3}{3}$ y en $90^\\circ$ el punto es $(0, 1)$.',
-              { hint: 'Usa el truco de la tabla: el seno de 0°, 30°, 45°, 60° y 90° es √0/2, √1/2, √2/2, √3/2 y √4/2. El coseno es la misma fila al revés. La tangente es seno entre coseno.' }),
+            }, 'El seno y el coseno son iguales en $45^\\circ$: el medio cuadrado tiene los dos catetos iguales. $\\operatorname{sen} 30^\\circ = \\tfrac12 = \\cos 60^\\circ$: lo que es opuesto para un ángulo es adyacente para el otro. $\\tan 60^\\circ = \\sqrt3$ y su recíproco, $\\tfrac{\\sqrt3}{3}$, es $\\tan 30^\\circ$. En $90^\\circ$ el punto es $(0, 1)$.',
+              { hint: 'Piensa en los dos triángulos notables. ¿En cuál los catetos son iguales? En el otro, lo que queda al frente de 30° queda pegado a 60°: por eso sus razones se intercambian.' }),
             num('Una escalera de 10 m se apoya en una pared formando $60^\\circ$ con el suelo. ¿A qué altura toca la pared? (en metros, con dos decimales)', 5 * Math.sqrt(3), '$h = 10 \\operatorname{sen} 60^\\circ = 10 \\cdot \\tfrac{\\sqrt3}{2} = 5\\sqrt3 \\approx 8.66$ m.',
               { tol: 0.02, suffix: 'm', answerText: '$5\\sqrt3 \\approx 8.66$ m', hint: 'La escalera es la hipotenusa y la altura es el lado opuesto al ángulo de 60°. ¿Qué razón une opuesto e hipotenusa?' }),
           ],
@@ -169,11 +169,11 @@ const COURSE_TRIG = {
               { hint: 'Recuerda: I todas positivas, II solo el seno, III solo la tangente, IV solo el coseno. El ángulo de referencia es la distancia al eje x más cercano.' }),
             play('atrapa-punto', 'Atrapa el punto que cumple el valor y el signo', {
               rounds: [
-                { prompt: 'sen θ = −√2/2 y cos θ < 0', angles: [225] },
+                { prompt: 'cos θ = −√3/2 y sen θ < 0', angles: [210] },
                 { prompt: 'cos θ = √3/2 y sen θ < 0', angles: [330] },
                 { prompt: 'tan θ = −1 en el cuadrante II', angles: [135] },
               ],
-            }, 'El valor da el ángulo de referencia y el signo, el cuadrante: $225^\\circ$ (referencia $45^\\circ$, III), $330^\\circ$ (referencia $30^\\circ$, IV) y $135^\\circ$ (referencia $45^\\circ$, II).',
+            }, 'El valor da el ángulo de referencia y el signo, el cuadrante: $210^\\circ$ (referencia $30^\\circ$, III), $330^\\circ$ (referencia $30^\\circ$, IV) y $135^\\circ$ (referencia $45^\\circ$, II).',
               { hint: 'Primero busca el ángulo agudo que da ese valor (sin el signo). Luego decide el cuadrante con los signos y refleja el ángulo allí.' }),
             num('Ángulo de referencia de $\\tfrac{7\\pi}{4}$, en grados', 45, '$\\tfrac{7\\pi}{4} = 315^\\circ$, en el cuadrante IV: $360^\\circ - 315^\\circ = 45^\\circ$.',
               { suffix: '°', hint: 'Pasa a grados (π son 180°), mira en qué cuadrante queda y mide la distancia al eje x más cercano.' }),
@@ -219,8 +219,8 @@ const COURSE_TRIG = {
               ],
             }, 'Cuenta ondas completas en $[0, 2\\pi]$: $b$ ondas. El desfase es $\\tfrac{c}{b}$: $\\operatorname{sen}\\left(x - \\tfrac{\\pi}{4}\\right)$ se corre $\\tfrac{\\pi}{4}$; $\\cos\\left(2x - \\tfrac{\\pi}{2}\\right)$ se corre $\\tfrac{\\pi}{4}$ con periodo $\\pi$; y $y = 2\\operatorname{sen}\\tfrac{x}{2} + 1$ tiene periodo $4\\pi$.',
               { hint: 'b es cuántas ondas completas caben entre 0 y 2π (el periodo es 2π/b). Para el desfase, mira cuánto se corrió la onda fantasma a la derecha y multiplícalo por b para obtener c.' }),
-            num('Periodo de $y = 5\\operatorname{sen}\\left(\\tfrac{\\pi}{2}x\\right)$', 4, '$\\tfrac{2\\pi}{\\pi/2} = 4$: la amplitud 5 no cambia el periodo.',
-              { hint: 'El periodo solo depende del número que multiplica a x: una vuelta completa, 2π, dividida entre ese número.' }),
+            num('La tangente se repite cada $\\pi$. ¿Cada cuánto se repite $y = \\tan 4x$? (en decimal, con $\\pi \\approx 3.1416$)', Math.PI / 4, 'El periodo de $\\tan bx$ es $\\tfrac{\\pi}{b}$: $\\tfrac{\\pi}{4} \\approx 0.785$. Sus asíntotas también quedan separadas $\\tfrac{\\pi}{4}$.',
+              { tol: 0.005, answerText: '$\\tfrac{\\pi}{4} \\approx 0.785$', hint: 'El 4 comprime la gráfica: ahora cabe cuatro veces donde antes cabía una. Ojo: el periodo de la tangente no es el mismo del seno.' }),
           ],
         },
       ],
@@ -253,7 +253,7 @@ const COURSE_TRIG = {
                 { fn: 'asin', x: -0.6, label: '−0.6', snap: 1 },
               ],
             }, '$\\tan^{-1}\\tfrac{5}{12} \\approx 22.6^\\circ$, $\\cos^{-1} 0.8 \\approx 36.9^\\circ$ y $\\sen^{-1}(-0.6) \\approx -36.9^\\circ$: el seno negativo apunta hacia abajo, dentro de $[-90^\\circ, 90^\\circ]$.',
-              { hint: 'Fíjate en la lectura de abajo: mientras giras, el juego muestra el valor de la función en tu ángulo. Acércalo al número pedido y afina con − y +.' }),
+              { hint: 'Antes de girar, dibuja el triángulo con esos dos lados (por ejemplo, opuesto 5 y adyacente 12) y estima: ¿el ángulo es mayor o menor que 30°?, ¿que 45°? El signo decide si el cañón apunta arriba o abajo. Al final afina con − y +.' }),
             num('Calcula $\\cos^{-1}\\left(\\cos \\tfrac{7\\pi}{6}\\right)$, en grados', 150, '$\\cos\\tfrac{7\\pi}{6} = \\cos 210^\\circ = -\\tfrac{\\sqrt3}{2}$, y el ángulo de $[0^\\circ, 180^\\circ]$ con ese coseno es $150^\\circ$. No se cancela porque $210^\\circ$ está fuera del rango.',
               { suffix: '°', hint: 'Calcula primero el coseno de adentro. Después busca el ángulo entre 0° y 180° que tenga ese mismo coseno: no siempre es el ángulo con el que empezaste.' }),
             num('Una escalera de 6 m alcanza 5 m de altura en un muro. Ángulo con el piso, en grados', Math.asin(5 / 6) * 180 / PI, '$\\operatorname{sen}\\theta = \\tfrac56$, así que $\\theta = \\operatorname{sen}^{-1}\\tfrac56 \\approx 56.4^\\circ$.',
@@ -337,7 +337,7 @@ const COURSE_TRIG = {
             sc(5, '**Ángulo medio**: el signo depende del cuadrante de $\\tfrac{u}{2}$.', { title: '$\\sen\\dfrac{u}{2} = \\pm\\sqrt{\\dfrac{1 - \\cos u}{2}}$' }),
           ] },
           ex: [
-            play('corredores-dobles', 'El corredor rosa va siempre al doble. Mantén «Correr» y frena justo cuando se cumpla cada condición', {
+            play('corredores-dobles', 'El corredor rosa va siempre al doble. Mantén «Correr», suelta cerca y ajusta con − y + hasta que se cumpla cada condición', {
               rounds: [
                 { prompt: 'El rápido llega a (0, −1) y el lento está en el cuadrante II', fast: 270, q: 2 },
                 { prompt: 'cos 2θ = −1/2 con el lento en el cuadrante III', cos2: -0.5, q: 3 },
@@ -403,8 +403,8 @@ const COURSE_TRIG = {
               rounds: [{ A: 30, b: 10, a: 6 }, { A: 30, b: 10, a: 4 }, { A: 30, b: 10, a: 5 }, { A: 50, b: 8, a: 10 }],
             }, 'La altura desde $C$ es $h = b\\operatorname{sen} A = 5$ en las tres primeras. Con $a = 6 > h$ (y menor que $b$) hay dos triángulos; con $a = 4 < h$, ninguno; con $a = h = 5$, uno rectángulo. Con $a = 10 > b = 8$ solo un corte cae a la derecha de $A$: un triángulo.',
               { hint: 'Calcula la altura h = b · sen A desde C hasta la base. Si a es menor que h, el brazo no llega; si es igual, toca en un punto; si es mayor, puede cortar dos veces, pero solo valen los cortes del lado derecho de A.' }),
-            num('Si $a = 10$, $A = 30^\\circ$ y $B = 90^\\circ$, ¿cuánto mide $b$?', 20, '$b = \\dfrac{10 \\operatorname{sen} 90^\\circ}{\\operatorname{sen} 30^\\circ} = \\dfrac{10}{0.5} = 20$.',
-              { hint: 'Tienes la pareja a y A completa. Plantea a / sen A = b / sen B y despeja b.' }),
+            num('Si $a = 10$, $A = 30^\\circ$ y $B = 45^\\circ$, ¿cuánto mide $b$? (con dos decimales)', 10 * Math.SQRT2, '$b = \\dfrac{10 \\operatorname{sen} 45^\\circ}{\\operatorname{sen} 30^\\circ} = 10\\sqrt2 \\approx 14.14$.',
+              { tol: 0.02, answerText: '$10\\sqrt2 \\approx 14.14$', hint: 'Tienes la pareja a y A completa. Plantea a / sen A = b / sen B y despeja b.' }),
           ],
         },
         {
@@ -420,8 +420,8 @@ const COURSE_TRIG = {
               rounds: [{ a: 8, b: 15, c: 13, ring: true }, { a: 3, b: 5, c: 7 }, { a: 4, b: 7, c: 6 }, { a: 6, b: 9, c: 10 }],
             }, 'Despejando la ley de cosenos, $\\cos C = \\dfrac{a^2 + b^2 - c^2}{2ab}$: $\\tfrac{64 + 225 - 169}{240} = \\tfrac12$ da $60^\\circ$; $\\tfrac{9 + 25 - 49}{30} = -\\tfrac12$ da $120^\\circ$; $\\tfrac{16 + 49 - 36}{56} \\approx 0.518$ da $\\approx 58.8^\\circ$; $\\tfrac{36 + 81 - 100}{108} \\approx 0.157$ da $\\approx 81^\\circ$.',
               { hint: 'Despeja cos C de c² = a² + b² − 2ab cos C y usa la inversa del coseno. Si cos C sale negativo, el codo queda abierto: más de 90°.' }),
-            num('Halla $c$ si $a = 7$, $b = 9$ y $C = 60^\\circ$', Math.sqrt(67), '$c^2 = 49 + 81 - 2(7)(9)(0.5) = 67 \\Rightarrow c = \\sqrt{67} \\approx 8.19$.',
-              { tol: 0.02, answerText: '$\\sqrt{67} \\approx 8.19$', hint: 'Es el caso LAL: aplica c² = a² + b² − 2ab cos C con cos 60° = 0.5 y saca la raíz al final.' }),
+            num('Halla $c$ si $a = 5$, $b = 8$ y $C = 60^\\circ$', 7, '$c^2 = 25 + 64 - 2(5)(8)(0.5) = 49 \\Rightarrow c = 7$.',
+              { hint: 'Es el caso LAL: aplica c² = a² + b² − 2ab cos C con cos 60° = 0.5 y saca la raíz al final.' }),
           ],
         },
       ],
@@ -455,8 +455,8 @@ const COURSE_TRIG = {
               ],
             }, '$-3 + 3i$: $r = 3\\sqrt2$ y, aunque $\\tfrac{b}{a} = -1$, el punto está en el II: $135^\\circ$ (no $-45^\\circ$). $1 - \\sqrt3\\,i$: $r = 2$, cuarto cuadrante, $300^\\circ$. $-4$: $r = 4$ sobre el eje real negativo, $180^\\circ$.',
               { hint: 'Dos puntos opuestos tienen la misma tangente. Ubica primero el punto en el plano y decide el cuadrante; solo después calcula el ángulo.' }),
-            num('¿Cuál es el módulo de $z = 5 - 12i$?', 13, '$r = \\sqrt{25 + 144} = \\sqrt{169} = 13$.',
-              { hint: 'El módulo es la distancia del punto (5, −12) al origen: usa Pitágoras con los dos catetos.' }),
+            num('¿Cuál es el módulo de $z = -6 + 8i$?', 10, '$r = \\sqrt{36 + 64} = \\sqrt{100} = 10$.',
+              { hint: 'El módulo es la distancia del punto (−6, 8) al origen: los signos no importan, porque se elevan al cuadrado.' }),
             num('Argumento, en grados entre $0^\\circ$ y $360^\\circ$, de $z = -1 - i$', 225, 'El punto $(-1, -1)$ está en el tercer cuadrante; el ángulo de referencia es $45^\\circ$ porque $\\tfrac{1}{1} = \\tan 45^\\circ$: $\\theta = 180^\\circ + 45^\\circ = 225^\\circ$.',
               { suffix: '°', hint: 'Ubica el punto: a y b negativos. Halla el ángulo agudo con |b| / |a| y llévalo a ese cuadrante.' }),
           ],
@@ -474,9 +474,9 @@ const COURSE_TRIG = {
               rounds: [
                 { op: '×', z1: { r: 2, deg: 150 }, z2: { r: 3, deg: 300 } },
                 { op: '×', z1: { r: 4, deg: 60 }, z2: { r: 0.5, deg: 75 } },
-                { op: '×', z1: { r: 3, deg: 200 }, z2: { r: 2, deg: 250 } },
+                { op: '×', z1: { r: 3, deg: 200 }, z2: { r: 2, deg: 220 } },
               ],
-            }, 'Producto: se multiplican los módulos y se suman los ángulos. $2 \\cdot 3 = 6$ y $150^\\circ + 300^\\circ = 450^\\circ \\to 90^\\circ$; $4 \\cdot 0.5 = 2$ y $60^\\circ + 75^\\circ = 135^\\circ$; $3 \\cdot 2 = 6$ y $200^\\circ + 250^\\circ = 450^\\circ \\to 90^\\circ$.',
+            }, 'Producto: se multiplican los módulos y se suman los ángulos. $2 \\cdot 3 = 6$ y $150^\\circ + 300^\\circ = 450^\\circ \\to 90^\\circ$; $4 \\cdot 0.5 = 2$ y $60^\\circ + 75^\\circ = 135^\\circ$; $3 \\cdot 2 = 6$ y $200^\\circ + 220^\\circ = 420^\\circ \\to 60^\\circ$.',
               { hint: 'Los hilos son módulos y los rayos son ángulos. Al multiplicar, los módulos se multiplican (no se suman) y los ángulos se suman. Si el ángulo se pasa de 360°, réstale una vuelta.' }),
             play('telarana-polar', 'Ahora divide: lleva la araña al nudo del cociente', {
               rounds: [
@@ -533,7 +533,7 @@ const COURSE_TRIG = {
             }, 'Una raíz $n$-ésima de $z$ es un $w$ que, multiplicado $n$ veces por sí mismo, da $z$. $i$ llega a 1 en $n = 4$: es raíz cuarta de 1. $3\\,\\mathrm{cis}\\,60^\\circ$ llega a $9\\,\\mathrm{cis}\\,120^\\circ$ en $n = 2$: es una raíz cuadrada. $2\\,\\mathrm{cis}\\,40^\\circ$ llega a $8\\,\\mathrm{cis}\\,120^\\circ$ en $n = 3$.',
               { hint: 'Cada vez que multiplicas, el módulo se multiplica por el de w y el ángulo suma el de w. Busca el n que deja las dos cosas justo en la estrella.' }),
             num('Entre las raíces cúbicas de $8i$, ¿cuál es el argumento (en grados) de la de menor argumento positivo?', 30, '$8i = 8\\,\\mathrm{cis}\\,90^\\circ$: las raíces son $2\\,\\mathrm{cis}\\,30^\\circ$, $2\\,\\mathrm{cis}\\,150^\\circ$ y $2\\,\\mathrm{cis}\\,270^\\circ$.',
-              { suffix: '°', hint: 'Escribe 8i en forma polar. Divide su ángulo entre 3 y suma 120° para las otras dos raíces.' }),
+              { suffix: '°', hint: 'Escribe 8i en forma polar. Al elevar al cubo, el ángulo se multiplica por 3: aquí hay que deshacer eso. Las otras dos raíces quedan igual de separadas en la vuelta.' }),
           ],
         },
       ],

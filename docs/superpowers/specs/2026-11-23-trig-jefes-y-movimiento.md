@@ -45,3 +45,22 @@ de `quita-vueltas` se enrolla y desenrolla; giran suave la bisagra, el punto de 
 `tests/jefes-trig.test.js`: un jefe por mundo con tres fases; cada ataque con solución sobre nudos del tablero, sin
 empezar resuelto, con rótulo corto y explicación; casos para pensar; registro, guía y vidas; los juegos de cierre usan
 las ayudas de movimiento.
+
+## Ajustes tras la revisión fresca
+
+- **Jefe**: en la rueda con anillos el toque elige el anillo más cercano al dedo y el nudo más cercano en ángulo (ya no
+  hace falta puntería); rueda un poco más grande; el jefe cae y sale «¡Vencido!» con el último golpe; los retos dicen
+  qué hacer («Marca…», «Resuelve…»); el de la inversa pide «el lado terminal» de sen⁻¹ (su valor es −60°, lado de 300°).
+- **Movimiento**: al empezar un reto se limpian los valores animados (nada vuela desde el reto anterior) y las
+  animaciones de lanzamiento son más cortas, para que el aviso no salga antes de que terminen.
+- **Cada juego de cierre, solo en su lección**: se quitaron los préstamos de `multiplica-razon` (trig-1) y
+  `proyecta-punto` (trig-2).
+- **Ejercicios viejos**: trig-1 ya calcula con el seno (no Pitágoras); trig-2 pide condiciones nuevas (sen θ = cos θ,
+  cos θ = sen 30°, tan θ · tan 60° = 1); trig-43b y trig-46b no repiten el ejemplo de su video (210°; a = 5, b = 8,
+  C = 60° → c = 7); trig-44b tiene por fin la tangente (periodo de tan 4x); trig-46a usa un triángulo que no es
+  rectángulo; trig-151 cambia 5 − 12i por −6 + 8i; la telaraña de trig-152 ya no cae dos veces en el mismo nudo; en
+  trig-3 el estudiante arma r con la raíz. Pistas reescritas donde dictaban la cuenta (trig-41a, trig-45, trig-153) y
+  `corredores-dobles` ya no dice «frena justo».
+- `red-periodica` vuelve a esconder los peces al mover una perilla.
+- Sin hacer: retos repetidos entre lecciones (3-4-5, el faro de trig-42c), el rótulo «½» apretado en
+  `parientes-polares` y `multiplicador-oculto`, y los dos rótulos sobre líneas de `telarana-polar` y `espiral-potencias`.

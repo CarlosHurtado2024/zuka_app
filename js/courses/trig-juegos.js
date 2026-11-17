@@ -25,17 +25,6 @@ const TRIG_EXTRA = (() => {
         { hint: 'La distancia que rueda es igual al arco, y el arco es radio por ángulo (en radianes). Despeja el ángulo: divide la distancia entre el radio. Una rueda pequeña tiene que girar más para avanzar lo mismo.' }),
     ],
     'trig-1': [
-      play('multiplica-razon', 'En cada situación conoces un lado (azul) y buscas otro (rojo). Toca la razón que convierte el lado conocido en el buscado: el juego hace la cuenta', {
-        rounds: [
-          { title: 'Rampas y escaleras', items: [
-            { q: 'Rampa de 8 m inclinada 20°. ¿Qué razón da la altura que sube?', known: 'hip', want: 'op', val: 8, deg: 20, unit: 'm', fns: F3 },
-            { q: 'Escalera de 5 m a 70° del piso. ¿Qué razón da la distancia del pie a la pared?', known: 'hip', want: 'ady', val: 5, deg: 70, unit: 'm', fns: F3 }] },
-          { title: 'Sombras y cables', items: [
-            { q: 'Sombra de 6 m con el sol a 50°. ¿Qué razón da la altura del poste?', known: 'ady', want: 'op', val: 6, deg: 50, unit: 'm', fns: F3 },
-            { q: 'Cable de 12 m a 35° del suelo. ¿Qué razón da la altura del amarre?', known: 'hip', want: 'op', val: 12, deg: 35, unit: 'm', fns: F3 }] },
-        ],
-      }, 'La rampa y el cable son hipotenusas y la altura es el lado opuesto: seno ($8 \\operatorname{sen} 20^\\circ \\approx 2.7$ m y $12 \\operatorname{sen} 35^\\circ \\approx 6.9$ m). La distancia del pie de la escalera es el adyacente: coseno ($5\\cos 70^\\circ \\approx 1.7$ m). La sombra es el adyacente y el poste el opuesto: tangente ($6\\tan 50^\\circ \\approx 7.2$ m).',
-        { hint: 'Nombra los dos lados mirando desde el ángulo: ¿el conocido es la hipotenusa, el opuesto o el adyacente? ¿Y el buscado? Con esos dos nombres, SOH CAH TOA te dice la razón.' }),
       play('toca-lados', 'El triángulo sale girado o volteado. Mira desde θ y toca dos lados: primero el que va arriba de la fracción y luego el que va abajo', {
         rounds: [
           { title: 'Triángulo de pie', items: [{ fn: 'sen', t: 0, len: [3, 4, 5] }, { fn: 'cos', t: 1, len: [12, 5, 13] }] },
@@ -46,13 +35,6 @@ const TRIG_EXTRA = (() => {
         { hint: 'Primero ubica la hipotenusa: es el lado frente al cuadradito del ángulo recto. De los otros dos, el que no toca a θ es el opuesto. Luego recuerda SOH CAH TOA.' }),
     ],
     'trig-2': [
-      play('proyecta-punto', 'Cada punto de la circunferencia de radio 1 guarda un coseno (de lado) y un seno (hacia arriba). Elígelos con − y + y toca «Proyectar»', {
-        rounds: [
-          { title: 'Cerca del eje x', items: [{ deg: 30 }, { deg: 45 }] },
-          { title: 'Más arriba', items: [{ deg: 60 }, { deg: 90 }] },
-        ],
-      }, 'En el primer cuadrante todo es positivo: $30^\\circ \\to \\left(\\tfrac{\\sqrt3}{2}, \\tfrac12\\right)$, $45^\\circ \\to \\left(\\tfrac{\\sqrt2}{2}, \\tfrac{\\sqrt2}{2}\\right)$, $60^\\circ \\to \\left(\\tfrac12, \\tfrac{\\sqrt3}{2}\\right)$ y $90^\\circ \\to (0, 1)$. Al subir el ángulo, el seno crece y el coseno baja.',
-        { hint: 'Mira el punto: si está más acostado que parado, el coseno es el número grande y el seno el pequeño. Los valores posibles van en orden: 1/2 es el menor, luego √2/2 y luego √3/2.' }),
       play('figuras-notables', 'Las razones de 30°, 45° y 60° salen de dos figuras partidas por la mitad. Busca el ángulo y toca dos lados: el de arriba de la fracción y luego el de abajo', {
         rounds: [
           { title: 'Del medio equilátero', items: [{ fn: 'sen', deg: 30 }, { fn: 'cos', deg: 30 }] },
@@ -178,7 +160,7 @@ const TRIG_EXTRA = (() => {
     'trig-48b': [
       play('tira-doble', 'Una tira de largo 1 se parte en dos: lo azul es cos²θ y lo rojo es sen²θ. Mueve el corte con − y + para que azul menos rojo dé lo pedido, y toca «Restar»', {
         rounds: [
-          { title: 'Más azul que rojo', items: [{ t: 2 }, { t: 0 }] },
+          { title: 'Azul contra rojo', items: [{ t: 2 }, { t: 0 }] },
           { title: 'Más rojo que azul', items: [{ t: -2 }, { t: -4 }] },
           { title: 'Cortes finos', items: [{ t: 1 }, { t: -3 }] },
         ],
@@ -281,13 +263,13 @@ const TRIG_BOSS = {
     intro: ['En lo alto del Faro de los Ángulos vigila su **Guardián**. Su luz esconde inversas, identidades, ecuaciones y triángulos.', 'Marca en la rueda todos los ángulos que responden cada reto, y solo esos. Luego ataca.'],
     phases: [
       ['Fase 1 · Inversas e identidades', [
-        ['Valor principal de $\\operatorname{sen}^{-1}\\left(-\\tfrac{\\sqrt3}{2}\\right)$', [[300]], 'Es $-60^\\circ$, el mismo lado que 300°: el rango va de −90° a 90°'],
-        ['Valor de $\\cos^{-1}\\left(-\\tfrac12\\right)$', [[120]], 'El coseno inverso responde entre 0° y 180°: 120°'],
+        ['Marca el lado terminal de $\\operatorname{sen}^{-1}\\left(-\\tfrac{\\sqrt3}{2}\\right)$', [[300]], 'Su valor es −60° (el rango va de −90° a 90°): ese lado es el de 300°'],
+        ['Marca el valor de $\\cos^{-1}\\left(-\\tfrac12\\right)$', [[120]], 'El coseno inverso responde entre 0° y 180°: 120°'],
         ['$\\operatorname{sen}^2\\theta = \\tfrac34$: marca los cuatro ángulos', [[60], [120], [240], [300]], 'El seno vale más o menos $\\tfrac{\\sqrt3}{2}$: referencia 60° en los cuatro cuadrantes']]],
       ['Fase 2 · Suma, doble y ecuaciones', [
         ['$\\operatorname{sen} 2\\theta = -1$: marca los $\\theta$ de una vuelta', [[135], [315]], '$2\\theta$ es 270° o 630°: la mitad da 135° y 315°'],
-        ['$2\\cos^2\\theta - \\cos\\theta - 1 = 0$', [[0], [120], [240]], 'Se factoriza: $(2\\cos\\theta + 1)(\\cos\\theta - 1) = 0$'],
-        ['$\\operatorname{sen}(\\theta + 30^\\circ) = 1$', [[60]], 'El seno vale 1 en 90°: $\\theta + 30^\\circ = 90^\\circ$']]],
+        ['Resuelve $2\\cos^2\\theta - \\cos\\theta - 1 = 0$', [[0], [120], [240]], 'Se factoriza: $(2\\cos\\theta + 1)(\\cos\\theta - 1) = 0$'],
+        ['Marca $\\theta$ si $\\operatorname{sen}(\\theta + 30^\\circ) = 1$', [[60]], 'El seno vale 1 en 90°: $\\theta + 30^\\circ = 90^\\circ$']]],
       ['Fase 3 · Triángulos sin ángulo recto', [
         ['En un triángulo, $\\operatorname{sen} B = \\tfrac{\\sqrt3}{2}$: marca los $B$ posibles', [[60], [120]], 'El caso ambiguo: un ángulo y su suplemento'],
         ['En un triángulo, $\\cos C = -\\tfrac12$: marca $C$', [[120]], 'Un ángulo de triángulo no pasa de 180°: solo 120°'],
@@ -301,9 +283,9 @@ const TRIG_BOSS = {
         ['Marca $z = -1 - \\sqrt3\\,i$', [[240, 1]], 'Módulo 2 y tercer cuadrante: 180° + 60°'],
         ['Marca el conjugado de $4\\,\\mathrm{cis}\\,330^\\circ$', [[30, 2]], 'El conjugado cambia el signo del ángulo: −330° es 30°']]],
       ['Fase 2 · Producto, cociente y potencia', [
-        ['$(2\\,\\mathrm{cis}\\,60^\\circ)(4\\,\\mathrm{cis}\\,90^\\circ)$', [[150, 3]], 'Los módulos se multiplican (8) y los ángulos se suman (150°)'],
-        ['$\\tfrac{8\\,\\mathrm{cis}\\,30^\\circ}{2\\,\\mathrm{cis}\\,120^\\circ}$', [[270, 2]], 'Módulos: 8 ÷ 2 = 4. Ángulos: 30° − 120° = −90°, que es 270°'],
-        ['$(2\\,\\mathrm{cis}\\,150^\\circ)^3$', [[90, 3]], 'Módulo 2³ = 8 y ángulo 3 · 150° = 450°, que es 90°']]],
+        ['Marca el producto $(2\\,\\mathrm{cis}\\,60^\\circ)(4\\,\\mathrm{cis}\\,90^\\circ)$', [[150, 3]], 'Los módulos se multiplican (8) y los ángulos se suman (150°)'],
+        ['Marca el cociente $\\tfrac{8\\,\\mathrm{cis}\\,30^\\circ}{2\\,\\mathrm{cis}\\,120^\\circ}$', [[270, 2]], 'Módulos: 8 ÷ 2 = 4. Ángulos: 30° − 120° = −90°, que es 270°'],
+        ['Marca la potencia $(2\\,\\mathrm{cis}\\,150^\\circ)^3$', [[90, 3]], 'Módulo 2³ = 8 y ángulo 3 · 150° = 450°, que es 90°']]],
       ['Fase 3 · Raíces', [
         ['Raíces cuadradas de $4\\,\\mathrm{cis}\\,120^\\circ$', [[60, 1], [240, 1]], 'Módulo 2; ángulos 60° y media vuelta más'],
         ['Raíces cúbicas de $-8$', [[60, 1], [180, 1], [300, 1]], '−8 está en 180°: módulo 2 y una raíz cada 120°'],

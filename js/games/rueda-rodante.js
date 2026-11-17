@@ -13,7 +13,7 @@ GAMES['rueda-rodante'] = (() => {
     layout(G) { const y = G.bottom - 46; G.st = { x: 12, y, w: G.W * 0.56, h: 38 }; G.go = { x: G.st.x + G.st.w + 10, y, w: G.W - 34 - G.st.w, h: 38 }; G.gy = y - 46; },
     draw(G) {
       const { p, C, s, item: it, W, gy } = G, x0 = 60, span = W - 100, dist = n => it.r * n * Math.PI / 6;
-      const sc = Math.min(span * 0.74 / dist(it.n), 44 / it.r), rp = it.r * sc, th = (s.rolled ? s.n * Math.PI / 6 : 0) * TK.prog(G, 0.9);
+      const sc = Math.min(span * 0.74 / dist(it.n), 44 / it.r), rp = it.r * sc, th = (s.rolled ? s.n * Math.PI / 6 : 0) * TK.prog(G, 0.5);
       const wx = Math.min(W - rp - 4, x0 + it.r * th * sc), wy = gy - rp, fx = x0 + dist(it.n) * sc;
       p.stroke(C.line); p.strokeWeight(3); p.line(10, gy, W - 10, gy);
       p.stroke(C.coral); p.strokeWeight(5); p.line(x0, gy, wx, gy);

@@ -31,7 +31,7 @@ GAMES['jefe-rueda'] = (() => {
   }
 
   return questGame({
-    aspect: 1.55,
+    aspect: 1.6,
     idle: 'Sin reloj: piensa, marca las runas y ataca',
     init: () => ({ marks: [] }),
     ok: (s, it) => [...s.marks].sort().join('|') === want(it),
@@ -50,7 +50,8 @@ GAMES['jefe-rueda'] = (() => {
     draw(G) {
       const { p, C, s, item: it, cx, cy, R } = G, n = nRings(it), step = stepOf(it), P = G.params, hp = total(P) - hits(G), by = G.top + 38;
       // Jefe, nombre y vida.
-      drawBoss(G, cx, by);
+      const dead = hp <= 0;
+      if (dead) { p.push(); p.translate(cx, by + 10); p.rotate(0.55); drawBoss(G, 0, 0); p.pop(); TK.label(p, C, '¡Vencido!', cx, G.top + 6, C.ok, 15, 160); } else drawBoss(G, cx, by);
       const bw = Math.min(150, G.W - 60), bx = cx - bw / 2, byy = G.top + 82;
       p.noStroke(); p.fill(C.line); p.rect(bx, byy, bw, 8, 4); p.fill(hp / total(P) > 0.34 ? C.coral : C.bad); p.rect(bx, byy, bw * TK.glide(G, 'hp', hp / total(P), 5), 8, 4);
       TK.label(p, C, `${hp} de ${total(P)}`, bx + bw + 26, byy + 4, C.mute, 11, 50);
@@ -79,9 +80,10 @@ GAMES['jefe-rueda'] = (() => {
         return true;
       }
       const step = stepOf(it), a = TK.mod(Math.atan2(G.cy - y, x - G.cx) * 180 / Math.PI, 360), d = TK.mod(Math.round(a / step) * step, 360);
-      let best = -1, bd = 16;
-      for (let j = 0; j < nRings(it); j++) { const [nx, ny] = TK.at(G.cx, G.cy, G.rad(j), d), q = Math.hypot(nx - x, ny - y); if (q < bd) { bd = q; best = j; } }
-      if (best < 0) return false;
+      const rr = Math.hypot(x - G.cx, y - G.cy), n = nRings(it);
+      if (rr > G.R + 22 || rr < G.rad(0) - 16) return false;
+      let best = 0;
+      for (let j = 1; j < n; j++) if (Math.abs(rr - G.rad(j)) < Math.abs(rr - G.rad(best))) best = j;
       const m = `${d}:${best}`, i = s.marks.indexOf(m);
       if (i >= 0) s.marks.splice(i, 1); else s.marks.push(m);
       G.api.sfx?.tap?.();

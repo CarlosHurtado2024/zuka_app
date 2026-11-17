@@ -40,7 +40,7 @@ GAMES['red-periodica'] = (() => {
     },
     press(G, x, y) {
       const s = G.s, it = G.item, net = s.nets[s.cur], da = stepHit(G.ba, x, y), dj = stepHit(G.bj, x, y);
-      if (da || dj) { if (da) net.a = Math.max(0, Math.min(23, net.a + da)); else net.j = Math.max(0, Math.min(4, net.j + dj)); G.api.sfx?.tap?.(); return true; }
+      if (da || dj) { s.seen = false; if (da) net.a = Math.max(0, Math.min(23, net.a + da)); else net.j = Math.max(0, Math.min(4, net.j + dj)); G.api.sfx?.tap?.(); return true; }
       const t = G.tab.findIndex(b => hitBox(b, x, y));
       if (t >= 0) { s.cur = t; return true; }
       if (!hitBox(G.go, x, y)) return false;

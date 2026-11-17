@@ -41,7 +41,7 @@ test('no quedan tarjetas de unir parejas y todo ejercicio dice qué hacer y trae
 
 test('los juegos nuevos: dos rondas o más, cada reto con solución y sin resolver al empezar', () => {
   const uses = lessons.flatMap(l => l.ex.filter(e => NEW.includes(e.game)).map(e => ({ id: l.id, ex: e })));
-  assert.ok(uses.length >= 23, 'los 19 de cierre y los que se prestan a la lección vecina');
+  assert.ok(uses.length >= 21, 'los 19 de cierre y los que se prestan a la lección vecina');
   for (const { id, ex } of uses) {
     const g = GAMES[ex.game], R = ex.params.rounds;
     assert.ok(g && g.ok && g.answer && g.init, ex.game);

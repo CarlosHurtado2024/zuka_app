@@ -22,7 +22,7 @@ GAMES['crestas-faroles'] = (() => {
       // Faroles en las crestas pedidas.
       for (let q = TK.mod(it.h, per(it.b)); q <= 16; q += per(it.b)) { p.stroke(C.mute); p.strokeWeight(2); p.line(X(q), y0, X(q), y0 - amp - 22); drawDot(p, C, X(q), y0 - amp - 22, G.solved ? 13 : 9, C.sun); }
       p.noFill(); p.stroke(G.solved ? C.ok : C.mint); p.strokeWeight(3.5); p.beginShape();
-      for (let i = 0, kk = Math.round(200 * TK.prog(G, 0.8)); i <= kk; i++) { const q = i / 200 * 16; p.vertex(X(q), y0 - amp * Math.cos(BS[s.sb] * (q - s.sh) * Math.PI / 4)); }
+      for (let i = 0, kk = Math.round(200 * TK.prog(G, 0.45)); i <= kk; i++) { const q = i / 200 * 16; p.vertex(X(q), y0 - amp * Math.cos(BS[s.sb] * (q - s.sh) * Math.PI / 4)); }
       p.endShape();
       drawStepper(p, C, G.bb, BT[s.bi], 'ondas en 2π (b)'); drawStepper(p, C, G.bh, `$${TK.piTex(s.h, 4)}$`, 'corrida a la derecha');
       drawBtn(p, C, G.go, 'Soltar la ola', G.solved, G.solved ? C.ok : C.coral);

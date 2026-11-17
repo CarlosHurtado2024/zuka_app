@@ -10,7 +10,7 @@ GAMES['bisagra-area'] = (() => {
     ok: (s, it) => [...s.marks].sort((a, b) => a - b).join() === sols(it).join(),
     answer: it => ({ c: 1, marks: sols(it) }),
     solution: it => `$C = ${sols(it).map(c => `${c}^\\circ`).join('$ y $')}$`,
-    prompt: it => `Área pedida: $${at(it)}$. Gira el lado azul y marca todos los ángulos que sirven`,
+    prompt: it => `Área $${at(it)}$: gira el lado azul y marca cada ángulo que sirve`,
     foot: () => 'Área = ½ · base · altura, y la altura es $a\\,\\operatorname{sen} C$',
     layout(G) {
       const it = G.item, y = G.bottom - 46, w = (G.W - 24 - 16), sw = w * 0.5, bw = (w - sw) / 2;
