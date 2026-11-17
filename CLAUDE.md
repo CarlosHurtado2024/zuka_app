@@ -221,8 +221,13 @@ cualquier `L(x) = R(x)`). Reutilizables:
   (tema, título, dato) solo se ve en pausa. Si el video falla, el feed cambia a `clip.scenes`. En el video, lo que se
   lee debe quedar entre el 14 % y el 86 % del ancho y por encima del 85 % del alto.
 - **Inicio y barra de arriba** (spec `2026-11-15-interfaz-referencias`, pruebas `tests/interfaz.test.js`): racha, XP y vidas son
-  píldoras (`.tb-stat`); la racha abre `openStreakSheet` (semana con `streakWeek` de `js/ui.js`, `S.maxStreak`). El inicio abre
+  píldoras (`.tb-stat`); la racha abre `openStreakSheet` (`S.maxStreak`). El inicio abre
   arriba con la tarjeta «Sigue aquí» (`.next-card`), que lanza la lección que toca de un toque. Botones `.btn` sin mayúsculas.
+- **Perfil, Ajustes y Actividad** (spec `2026-11-17-perfil-ajustes-actividad`, pruebas `tests/perfil-ajustes.test.js`): el Perfil solo
+  tiene lo del estudiante (cuenta, datos, meta de hoy, progreso, guardados); el piñón abre **Ajustes** (`renderSettings`, subvista
+  `profileSub`; filas `.set-row` con icono: meta diaria, sonido, tema, modo revisión del administrador, instalar, recorrido, reiniciar).
+  Un ajuste nuevo va ahí, no en el Perfil. La racha abre **Actividad**: calendario del mes (`monthGrid`, `streakDays` en `js/ui.js`)
+  con `S.days` (XP por día, local, 400 días).
 - Durante una lección el menú inferior se esconde (`body.in-lesson`); en la pestaña Clips se esconde
   mientras el video se reproduce y vuelve al pausar.
 
@@ -380,8 +385,8 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   ejemplos que no salen en los ejercicios: `node video/lamina/tools/lesson.js <id>` los muestra). Render: `sh video/lamina/build.sh
   <películas…>` (copia congelada, 3 reintentos, ~11 min por video; deja `out/<nombre>/`); no correr capturas pesadas a la vez.
   Escritas: tipos, operaciones (Conjuntos 2–3); naturales, racionales, reales, campo, consecuencias, orden (Recta Real); razones,
-  proporciones, reglatres, porcentajes, aumentos, sucesivos (Escalas y Proporciones). Renderizada y revisada: tipos. Faltan los
-  mundos Exponentes y Radicales en adelante. Entrega en `Downloads/Zuka_Lamina_<mundo>`; al recibir los ID de Bunny, poner
+  proporciones, reglatres, porcentajes, aumentos, sucesivos (Escalas y Proporciones); potencias, leyes, raices, radicales
+  (Exponentes y Radicales). Renderizada y revisada: tipos. Faltan los mundos Sucesiones y Series en adelante. Entrega en `Downloads/Zuka_Lamina_<mundo>`; al recibir los ID de Bunny, poner
   `clip.bunny` + `duration` y cambiar las `scenes` de respaldo a los ejemplos del video.
 - Álgebra unidad 1, **un video por lección** (nuevos, fondo `fondo_algebra_vivo.png`, zoom y 3D; carpetas
   `video/clase_alg_u1_*`, plantilla `video/mk_alg_class.py` + `video/alg_u1_fx.py`; borrador escena por escena con

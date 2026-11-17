@@ -23,5 +23,5 @@ function timeline(F) {
   return { DUR: +t.toFixed(2), scenes, SC, CAPS, NARR, EV: EV.sort((a, b) => a.t - b.t), fin, INTRO, TR };
 }
 // texto sin marcas: lo que se lee (para medir tiempos de lectura y largos de renglón)
-const plain = s => String(s).replace(/\$/g, '').replace(/\\(frac|sqrt|hl|no|mu|ink|t|bar|id|s|op)\b/g, '').replace(/\\[,; ]/g, ' ').replace(/[{}\\^_]/g, '');
+const plain = s => String(s).replace(/\$/g, '').replace(/\\[a-zA-Z]+/g, '').replace(/\\[,; ]/g, ' ').replace(/[{}\\^_]/g, '');
 if (typeof module !== 'undefined') module.exports = { timeline, plain, finLayout, INTRO, TR };
