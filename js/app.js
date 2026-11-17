@@ -792,9 +792,12 @@ function renderSettings() {
       <div class="set-row">${row('moon', 'Tema', themes.find(t => t[0] === S.theme)?.[1] || 'Según el sistema',
         `<span class="theme-seg" role="group" aria-label="Tema">${themes.map(([v, l, ic]) => `<button data-theme-opt="${v}" aria-label="${l}" aria-pressed="${S.theme === v}">${ICON[ic]}</button>`).join('')}</span>`)}</div>
     </section>
-    ${cuentaEsAdmin() || SIN_CANDADOS ? `<section class="set-group">
+    ${SIN_CANDADOS ? `<section class="set-group">
       <h3 class="eyebrow">Administración</h3>
       <button class="set-row" data-set="unlockAll" role="switch" aria-checked="${!!S.unlockAll}">${row('lock', 'Modo revisión', 'Todas las lecciones abiertas y sin perder vidas', toggle('unlockAll'))}</button>
+    </section>` : cuentaEsAdmin() ? `<section class="set-group">
+      <h3 class="eyebrow">Administración</h3>
+      <div class="set-row">${row('lock', 'Acceso total', 'Cuenta administradora: todos los cursos, mundos y lecciones abiertos, sin perder vidas')}</div>
     </section>` : ''}
     <section class="set-group">
       <h3 class="eyebrow">App</h3>

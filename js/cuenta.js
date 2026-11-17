@@ -45,12 +45,13 @@ if (typeof COURSES !== 'undefined') {
 
 // ---------- quién ve todo abierto ----------
 const cuentaEsAdmin = () => !!(Cuenta.user && Cuenta.perfil && Cuenta.perfil.rol === 'admin');
-// El modo revisión (S.unlockAll: todo abierto, sin perder vidas) es solo del administrador. Para los
-// demás las lecciones y los mundos se abren uno tras otro, al completar el anterior. `entra`: acaba de
-// iniciar sesión. En el computador de desarrollo no se toca.
-function cuentaRol(entra) {
+// El administrador tiene siempre todo abierto (S.unlockAll: cursos, mundos, lecciones, jefes y
+// evaluaciones, sin perder vidas); no se puede apagar. A los demás las lecciones y los mundos se les
+// abren uno tras otro, al completar el anterior. En el computador de desarrollo no se toca (allí el
+// interruptor «Modo revisión» de Ajustes decide).
+function cuentaRol() {
   if (SIN_CANDADOS) return;
-  if (!cuentaEsAdmin()) S.unlockAll = false; else if (entra) S.unlockAll = true;
+  S.unlockAll = cuentaEsAdmin();
   save();
 }
 
@@ -164,7 +165,7 @@ function cuentaInit() {
   if (S.cuenta && S.cuenta.sesion && S.cuenta.perfil) {
     Cuenta.user = { id: S.cuenta.perfil.id, offline: true }; Cuenta.perfil = S.cuenta.perfil;
   }
-  cuentaRol(false);
+  cuentaRol();
   if (!window.supabase || !window.supabase.createClient) return;
   Cuenta.sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
   // Dentro del aviso de Supabase no se le puede volver a llamar: se sale primero con setTimeout.
@@ -191,7 +192,7 @@ async function cuentaSesion(ev, session) {
   if (!session) {
     if (ev === 'INITIAL_SESSION' && !navigator.onLine) return;   // sin red: vale lo guardado
     Cuenta.user = null; Cuenta.perfil = null; Cuenta.bases.clear(); cuentaCola.clear();
-    cuentaCache(); cuentaRol(false); cuentaRepinta();
+    cuentaCache(); cuentaRol(); cuentaRepinta();
     if (ev === 'SIGNED_OUT') authScreen('login');
     return;
   }
@@ -200,7 +201,7 @@ async function cuentaSesion(ev, session) {
   if (ev === 'PASSWORD_RECOVERY') openNuevaClave();
   if (antes === session.user.id && ev === 'TOKEN_REFRESHED') return;
   await cuentaPerfil();
-  cuentaRol(antes !== session.user.id);
+  cuentaRol();
   if (ev !== 'PASSWORD_RECOVERY' || !$('#sheet.open')) authCerrar(); else $('#auth')?.remove();
   // Supabase repite el aviso de sesión cada vez que se vuelve a la pestaña: solo se repinta si algo cambió.
   if (antes === session.user.id) { if (JSON.stringify(Cuenta.perfil) !== perfilPrevio) cuentaRepinta(); return; }
@@ -513,7 +514,7 @@ function cuentaBind(root) {
     salir: async () => {
       cuentaEnvia(); usoEnvia();
       if (Cuenta.sb) await Cuenta.sb.auth.signOut().catch(() => {});
-      Cuenta.user = null; Cuenta.perfil = null; cuentaCache(); cuentaRol(false); toast('Sesión cerrada.'); cuentaRepinta();
+      Cuenta.user = null; Cuenta.perfil = null; cuentaCache(); cuentaRol(); toast('Sesión cerrada.'); cuentaRepinta();
       authScreen('login');
     } };
   root.querySelectorAll('[data-acct]').forEach(b => b.onclick = () => acts[b.dataset.acct]());

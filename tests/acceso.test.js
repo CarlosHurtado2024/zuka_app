@@ -118,9 +118,10 @@ test('los candados por plan están en la hoja de lección, al empezarla, en jefe
 
 test('solo el administrador ve todo abierto; a los demás se les abre de a una lección', () => {
   const cuenta = read('js/cuenta.js'), app = read('js/app.js');
-  assert.match(cuenta, /if \(!cuentaEsAdmin\(\)\) S\.unlockAll = false; else if \(entra\) S\.unlockAll = true;/);
+  assert.match(cuenta, /function cuentaRol\(\) \{\s+if \(SIN_CANDADOS\) return;\s+S\.unlockAll = cuentaEsAdmin\(\);/, 'el admin siempre todo abierto; nadie más');
   assert.match(app, /cuentaInit\(\);[^\n]*\ngo\(tabFromURL/, 'el rol se aplica antes de pintar la primera pantalla');
-  assert.match(app, /cuentaEsAdmin\(\) \|\| SIN_CANDADOS \? `<section class="set-group">\s*<h3 class="eyebrow">Administración<\/h3>\s*<button class="set-row" data-set="unlockAll"/, 'el interruptor de modo revisión no se le muestra a un estudiante');
+  assert.match(app, /\$\{SIN_CANDADOS \? `<section class="set-group">\s*<h3 class="eyebrow">Administración<\/h3>\s*<button class="set-row" data-set="unlockAll"/, 'el interruptor solo existe en el computador de desarrollo');
+  assert.match(app, /: cuentaEsAdmin\(\) \? `<section class="set-group">[\s\S]{0,200}Acceso total/, 'el admin ve que tiene acceso total, sin interruptor para apagarlo');
   // Sin modo revisión, una lección se abre al completar la anterior, también entre un mundo y el siguiente.
   assert.match(app, /return i <= 0 \|\| isDone\(l\) \|\| isDone\(ls\[i - 1\]\);/);
 });
