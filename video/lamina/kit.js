@@ -229,6 +229,24 @@ function cells(x, y, cols, rows, size, n, o = {}) {
   for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) { const i = r * cols + c, on = i < n; fillP(on ? (o.c || P.ac) : P.ink, on ? (o.a ?? .7) : .06, () => X.roundRect(x + c * size + 2, y + r * size + 2, size - 4, size - 4, Math.min(6, size / 5))); }
   rect(x, y, cols * size, rows * size, { w: 3, c: hexA(P.ink, .6) });
 }
+// fichas algebraicas: 'xx' cuadrado de lado x, 'x' barra x por 1 acostada, 'xv' barra de pie, '1' cuadrito; neg = negativa
+const TX = 150, TU = 42;
+function atile(kind, x, y, o = {}) {
+  const [w, h] = kind === 'xx' ? [TX, TX] : kind === 'x' ? [TX, TU] : kind === 'xv' ? [TU, TX] : [TU, TU];
+  const c = o.neg ? P.no : (o.c || P.ac);
+  fade(o.a ?? 1, () => { fillP(c, o.fill ?? (kind === 'xx' ? .3 : kind === '1' ? .72 : .5), () => X.roundRect(x + 2, y + 2, w - 4, h - 4, 6)); rect(x + 2, y + 2, w - 4, h - 4, { r: 6, w: 3, c: hexA(P.ink, .85) });
+    if (o.label !== false && kind !== '1') M(kind === 'xx' ? 'x^{2}' : 'x', x + w / 2, y + h / 2 + (kind === 'xx' ? 16 : 11), kind === 'xx' ? 46 : 30, { pass: true }); });
+  return [w, h];
+}
+// modelo de área de (x + a)(x + b): cuadrado, b barras de pie a la derecha, a barras acostadas abajo, a·b cuadritos.
+// o.k(i, total) = opacidad de la pieza i (para que aparezcan una a una); o.sides = rótulos de los lados
+function areaModel(x0, y0, a, b, o = {}) {
+  const pcs = [['xx', x0, y0]]; for (let j = 0; j < b; j++) pcs.push(['xv', x0 + TX + j * TU, y0]); for (let i = 0; i < a; i++) pcs.push(['x', x0, y0 + TX + i * TU]);
+  for (let i = 0; i < a; i++) for (let j = 0; j < b; j++) pcs.push(['1', x0 + TX + j * TU, y0 + TX + i * TU]);
+  pcs.forEach(([k, x, y], i) => atile(k, x, y, { a: o.k ? o.k(i, pcs.length) : 1, label: k !== 'xv' || TU > 30 }));
+  if (o.sides !== false) fade(o.sa ?? 1, () => { M('x', x0 + TX / 2, y0 - 22, 40, { pass: true }); if (b) M(String(b), x0 + TX + b * TU / 2, y0 - 22, 40, { c: P.ac, pass: true }); M('x', x0 - 30, y0 + TX / 2 + 14, 40, { pass: true }); if (a) M(String(a), x0 - 30, y0 + TX + a * TU / 2 + 14, 40, { c: P.ac, pass: true }); });
+  return { w: TX + b * TU, h: TX + a * TU, n: pcs.length };
+}
 // visto bueno o cruz en un círculo
 function mark(x, y, r, ok, k = 1) {
   if (k <= 0) return; const c = ok ? P.ac : P.no;
