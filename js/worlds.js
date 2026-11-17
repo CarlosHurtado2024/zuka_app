@@ -1,27 +1,27 @@
-// Mundos del mapa de cada curso (spec 2026-11-11-mapa-de-mundos; estilo de la spec 2026-11-24-mundos-sobrios): cada unidad
-// es un «mundo» con nombre de capítulo y una lámina técnica (SVG 160×80): fondo de tinta teñido con el color del mundo,
-// retícula fina y el diagrama de su idea central a línea fina, con un solo color de acento. Trae su propio fondo, así se
-// ve igual en los dos temas. La idea va en el centro (x entre 44 y 116): en el mapa la lámina se recorta en un círculo.
+// Mundos del mapa de cada curso (spec 2026-11-11-mapa-de-mundos; nombres de la spec 2026-11-24-mundos-sobrios; estilo
+// «neón» de la interfaz red, 2026-11-27): cada unidad es un «mundo» con nombre de capítulo y una lámina (SVG 160×80):
+// el mismo fondo para todos (degradado negro azulado, sin cuadrícula ni color propio del mundo) y el diagrama de su idea
+// central a línea fina que brilla, en blanco con un solo acento azul hielo. Trae su propio fondo, así se ve igual en los
+// dos temas. La idea va en el centro (x entre 44 y 116): en el mapa la lámina se recorta en un círculo.
 
 const WORLDS = (() => {
-  const INK = '#E8ECFF', TEAL = '#5EE0C1', AMBER = '#F5B95A', ROSE = '#FF8FB8', VIOLET = '#B79CFF', SKY = '#6CC6FF', CORAL = '#FF8A7A', LIME = '#B6E36A';
-  const BASE = [11, 14, 36];
+  // Un solo acento para todos los mundos. Los nombres se conservan porque cada lámina los usa (y video/lamina/tools/plates.js los lee).
+  const INK = '#E6ECFF', TEAL = '#6FD3FF', AMBER = '#6FD3FF', ROSE = '#6FD3FF', VIOLET = '#6FD3FF', SKY = '#6FD3FF', CORAL = '#6FD3FF', LIME = '#6FD3FF';
   const r2 = n => Math.round(n * 100) / 100;
-  // Mezcla un color con la tinta del fondo (k = 0: fondo; k = 1: el color).
-  const mix = (hex, k) => '#' + [1, 3, 5].map((i, j) => Math.round(BASE[j] + (parseInt(hex.slice(i, i + 2), 16) - BASE[j]) * k).toString(16).padStart(2, '0')).join('');
-  const plate = (id, ac, body) => `<svg viewBox="0 0 160 80" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" data-style="lamina">
-  <defs><radialGradient id="bg-${id}" cx=".5" cy=".45" r=".8"><stop offset="0" stop-color="${mix(ac, .3)}"/><stop offset="1" stop-color="#0B0E24"/></radialGradient>
-  <pattern id="grid-${id}" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M8 0H0V8" fill="none" stroke="${INK}" stroke-width=".25" opacity=".14"/></pattern></defs>
-  <rect width="160" height="80" fill="url(#bg-${id})"/><rect width="160" height="80" fill="url(#grid-${id})"/>
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">${body}</g></svg>`;
+  // `ac` ya no tiñe el fondo: todas las láminas comparten degradado. El diagrama lleva un halo suave (filtro glow).
+  const plate = (id, ac, body) => `<svg viewBox="0 0 160 80" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" data-style="neon">
+  <defs><radialGradient id="bg-${id}" cx=".5" cy=".45" r=".8"><stop offset="0" stop-color="#141A33"/><stop offset="1" stop-color="#07080F"/></radialGradient>
+  <filter id="glow-${id}" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.1" result="b"/><feColorMatrix in="b" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .7 0" result="h"/><feMerge><feMergeNode in="h"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <rect width="160" height="80" fill="url(#bg-${id})"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-${id})">${body}</g></svg>`;
   // Trazo, trazo punteado, relleno, círculo, punto, punto hueco, letra en cursiva de libro y flecha.
   const L = (d, c = INK, w = 1.3) => `<path d="${d}" stroke="${c}" stroke-width="${w}"/>`;
   const Ld = (d, c = INK, w = .9) => `<path d="${d}" stroke="${c}" stroke-width="${w}" stroke-dasharray="2.5 2.5" opacity=".75"/>`;
   const F = (d, c, o = .28) => `<path d="${d}" fill="${c}" fill-opacity="${o}" stroke="none"/>`;
   const C = (x, y, r, c = INK, w = 1.2, dash) => `<circle cx="${r2(x)}" cy="${r2(y)}" r="${r}" stroke="${c}" stroke-width="${w}"${dash ? ' stroke-dasharray="2.5 2.5" opacity=".75"' : ''}/>`;
   const D = (x, y, r = 2, c = INK) => `<circle cx="${r2(x)}" cy="${r2(y)}" r="${r}" fill="${c}" stroke="none"/>`;
-  const H = (x, y, r = 2.2, c = INK) => `<circle cx="${r2(x)}" cy="${r2(y)}" r="${r}" fill="#0B0E24" stroke="${c}" stroke-width="1.2"/>`;
-  const T = (x, y, txt, c = INK, s = 7, a = 'middle') => `<text x="${r2(x)}" y="${r2(y)}" text-anchor="${a}" font-size="${s}" font-style="italic" font-family="Georgia,'Times New Roman',serif" fill="${c}" stroke="#0B0E24" stroke-width="2.2" stroke-opacity=".85" paint-order="stroke">${txt}</text>`;
+  const H = (x, y, r = 2.2, c = INK) => `<circle cx="${r2(x)}" cy="${r2(y)}" r="${r}" fill="#07080F" stroke="${c}" stroke-width="1.2"/>`;
+  const T = (x, y, txt, c = INK, s = 7, a = 'middle') => `<text x="${r2(x)}" y="${r2(y)}" text-anchor="${a}" font-size="${s}" font-style="italic" font-family="Georgia,'Times New Roman',serif" fill="${c}" stroke="#07080F" stroke-width="2.2" stroke-opacity=".85" paint-order="stroke">${txt}</text>`;
   const A = (x1, y1, x2, y2, c = INK, w = 1.2) => {
     const a = Math.atan2(y2 - y1, x2 - x1), h = 3 + w, s = 1.5 + w * .6, bx = x2 - h * Math.cos(a), by = y2 - h * Math.sin(a);
     return `<path d="M${r2(x1)} ${r2(y1)}L${r2(bx)} ${r2(by)}" stroke="${c}" stroke-width="${w}"/><path d="M${r2(x2)} ${r2(y2)}L${r2(bx - s * Math.sin(a))} ${r2(by + s * Math.cos(a))}L${r2(bx + s * Math.sin(a))} ${r2(by - s * Math.cos(a))}z" fill="${c}" stroke="none"/>`;
@@ -208,7 +208,7 @@ const WORLDS = (() => {
 
     dinamica: { name: 'Leyes de Newton', art: plate('dinamica', CORAL, `
       ${L('M34 66H126V22Z', INK, 1.1)}${L('M46 66A12 12 0 0 0 44.82 60.81', INK, .9)}
-      <g transform="translate(86 41.13) rotate(-25.6)"><rect x="-8" y="-16" width="16" height="16" fill="#0B0E24" stroke="${INK}" stroke-width="1.2"/></g>
+      <g transform="translate(86 41.13) rotate(-25.6)"><rect x="-8" y="-16" width="16" height="16" fill="#07080F" stroke="${INK}" stroke-width="1.2"/></g>
       ${A(82.54, 33.91, 82.54, 60, CORAL, 1.4)}${A(82.54, 33.91, 73.04, 14.07)}${A(82.54, 33.91, 96.97, 27, INK, .9)}
       ${T(89, 61, 'mg', CORAL, 5.5, 'start')}${T(68, 12, 'N', INK, 6)}${T(101, 24, 'f', INK, 5.5)}${T(53, 63, 'α', INK, 5)}${T(138, 14, 'F = ma', CORAL, 6.5)}`) },
 

@@ -23,9 +23,14 @@ test('los mundos tienen nombres de capítulo, sin lugares de cuento', () => {
 
 test('cada mundo es una lámina técnica: fondo de tinta, retícula y diagrama; sin sol, nubes ni banderas', () => {
   for (const [k, w] of Object.entries(WORLDS)) {
-    assert.match(w.art, /data-style="lamina"/, `${k}: estilo lámina`);
+    // Estilo neón (2026-11-27): el mismo fondo oscuro para todos, sin cuadrícula ni color propio del mundo, y un solo acento.
+    assert.match(w.art, /data-style="neon"/, `${k}: estilo neón`);
     assert.match(w.art, new RegExp(`id="bg-${k}"`), `${k}: fondo propio`);
-    assert.match(w.art, new RegExp(`id="grid-${k}"`), `${k}: retícula`);
+    assert.match(w.art, new RegExp(`filter="url\\(#glow-${k}\\)"`), `${k}: el diagrama brilla`);
+    assert.ok(!/<pattern|id="grid-/.test(w.art), `${k}: sin cuadrícula`);
+    assert.equal((w.art.match(/<radialGradient[\s\S]*?<\/radialGradient>/) || [''])[0].replace(/bg-[\w-]+/, ''), '<radialGradient id="" cx=".5" cy=".45" r=".8"><stop offset="0" stop-color="#141A33"/><stop offset="1" stop-color="#07080F"/></radialGradient>', `${k}: mismo degradado`);
+    const colors = new Set((w.art.match(/#[0-9A-Fa-f]{6}/g) || []).map(c => c.toUpperCase()));
+    for (const c of colors) assert.ok(['#141A33', '#07080F', '#E6ECFF', '#6FD3FF'].includes(c), `${k}: color fuera de la paleta ${c}`);
     assert.ok(!/#ffd451|#fff1c9|#3fae72|#58c98a/i.test(w.art), `${k}: sin colores de paisaje pastel`);
     assert.ok(!/ry="4"\/><ellipse/.test(w.art) && !/v-14" stroke="#3b2a1a"/.test(w.art), `${k}: sin nubes ni banderas`);
     assert.ok((w.art.match(/<path|<circle|<line|<rect|<polyline|<ellipse/g) || []).length >= 6, `${k}: diagrama con contenido`);
