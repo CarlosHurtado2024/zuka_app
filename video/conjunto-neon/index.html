@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<title>¿Qué es un conjunto? · neón</title>
+<style>
+@font-face{font-family:Jost;src:url(fonts/Jost.ttf) format('truetype');font-weight:100 900;}
+@font-face{font-family:KMain;src:url(fonts/KaTeX_Main-Regular.ttf) format('truetype');font-style:normal;}
+@font-face{font-family:KMain;src:url(fonts/KaTeX_Main-Italic.ttf) format('truetype');font-style:italic;}
+@font-face{font-family:KMath;src:url(fonts/KaTeX_Math-Italic.ttf) format('truetype');font-style:italic;}
+html,body{margin:0;background:#000;overflow:hidden}
+canvas{position:absolute;left:0;top:0;display:block}
+</style></head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="data.js"></script>
+<script src="film.js"></script>
+<script>
+X = document.getElementById('c').getContext('2d');
+const K = 0.965;   // 308 s del guion → 297 s: entre 4 y 5 minutos
+window.render = t => film(Math.max(0, Math.min(D.DUR, t / K)));
+Promise.all(['300 40px Jost', '340 40px Jost', '500 40px Jost', 'italic 300 40px Jost', '400 40px KMain', 'italic 400 40px KMain', 'italic 400 40px KMath', '400 40px Georgia', 'italic 400 40px Georgia', "400 40px 'Cambria Math'"].map(f => document.fonts.load(f, 'Áx∈∉{}ε⇒≠…'))).then(() => document.fonts.ready).then(() => {
+  window.DUR = +(D.DUR * K).toFixed(2);
+  const kt = v => +(v * K).toFixed(2);
+  window.EV = D.EV.map(e => ({ ...e, t: kt(e.t) })).concat([{ t: 0, type: 'narr', lines: D.NARR.map(([a, b, s]) => [kt(a), kt(b), s]) }]).sort((a, b) => a.t - b.t);
+  window.TEXTS = t => { REC = []; window.render(t); const r = REC; REC = null; return r; };
+  window.render(+(new URLSearchParams(location.search).get('t') || 0));
+  window.READY = true;
+});
+</script>
+</body></html>

@@ -1,0 +1,140 @@
+1
+00:00:00,580 --> 00:00:06,180
+Casi toda la matemática se escribe con una sola idea.
+
+2
+00:00:06,560 --> 00:00:13,900
+Juntar objetos y tratarlos como una sola cosa. Aquí juntamos las vocales.
+
+3
+00:00:14,960 --> 00:00:22,200
+Un conjunto es una colección bien definida de objetos. A este lo llamamos V: el conjunto de las vocales.
+
+4
+00:00:22,580 --> 00:00:29,530
+Cada objeto del conjunto se llama elemento. V tiene cinco elementos.
+
+5
+00:00:29,910 --> 00:00:37,060
+Por costumbre, los conjuntos se nombran con mayúscula y los elementos con minúscula.
+
+6
+00:00:38,120 --> 00:00:45,350
+Bien definida quiere decir que de cada objeto se puede decidir si está o no está. La e es vocal: está. La t no.
+
+7
+00:00:45,740 --> 00:00:53,460
+La respuesta no depende de quién opine. Por eso las vocales sí forman un conjunto.
+
+8
+00:00:53,850 --> 00:01:04,080
+En cambio, «las letras bonitas» no: cada persona elige letras distintas y la frontera nunca se cierra. No es un conjunto.
+
+9
+00:01:05,140 --> 00:01:12,380
+Este dibujo se llama diagrama de Venn: una curva cerrada, con los elementos adentro.
+
+10
+00:01:12,760 --> 00:01:20,480
+Todo lo que no es elemento del conjunto queda afuera de la curva.
+
+11
+00:01:21,540 --> 00:01:28,780
+Para decir que a es un elemento de V no se escribe la frase: se usa un símbolo.
+
+12
+00:01:29,170 --> 00:01:36,890
+Este símbolo se lee «pertenece a» o «es elemento de». Entonces: a pertenece a V.
+
+13
+00:01:37,270 --> 00:01:44,610
+El símbolo es una letra griega, épsilon. Lo empezó a usar el matemático Giuseppe Peano en 1889.
+
+14
+00:01:44,990 --> 00:01:52,330
+Y con una raya encima dice lo contrario: m no pertenece a V.
+
+15
+00:01:53,390 --> 00:02:01,590
+Hay dos formas de escribir un conjunto. La primera es por extensión: se nombran todos sus elementos.
+
+16
+00:02:01,980 --> 00:02:10,280
+Se escribe el nombre, el signo igual, y entre llaves los elementos separados por comas.
+
+17
+00:02:10,660 --> 00:02:18,380
+Tienen que ser llaves. Los paréntesis y los corchetes significan otra cosa en matemáticas.
+
+18
+00:02:19,440 --> 00:02:26,680
+La segunda forma es por comprensión: en vez de nombrar los elementos, se escribe la condición que cumplen.
+
+19
+00:02:27,070 --> 00:02:35,750
+Se lee así: V es el conjunto de las x tal que x es una vocal.
+
+20
+00:02:36,140 --> 00:02:42,890
+La letra x representa a un elemento cualquiera, todavía sin nombre.
+
+21
+00:02:43,280 --> 00:02:50,810
+Los dos puntos se leen «tal que». En algunos libros aparece una barra vertical: significa lo mismo.
+
+22
+00:02:51,190 --> 00:02:59,880
+Y lo que sigue es la condición. La a es una vocal, así que pertenece a V. La m no lo es: no pertenece.
+
+23
+00:03:00,940 --> 00:03:08,170
+Las dos escrituras nombran exactamente el mismo conjunto.
+
+24
+00:03:08,560 --> 00:03:19,180
+Cuál usar depende del caso. Para el conjunto de todas las letras, la condición es mucho más corta que la lista.
+
+25
+00:03:20,240 --> 00:03:27,960
+Dos conjuntos son iguales cuando tienen exactamente los mismos elementos, como V y W.
+
+26
+00:03:28,340 --> 00:03:37,510
+Por eso el orden no importa: W tiene las vocales al revés y sigue siendo igual a V.
+
+27
+00:03:38,570 --> 00:03:46,780
+Tampoco hay repetidos: cada elemento se escribe una sola vez. Un elemento está o no está, no puede estar dos veces.
+
+28
+00:03:47,160 --> 00:03:56,810
+La palabra salsa tiene cinco letras, pero el conjunto de sus letras tiene solo tres elementos: s, a y l.
+
+29
+00:03:57,870 --> 00:04:06,070
+El número de elementos de un conjunto se llama cardinal. V tiene uno, dos, tres, cuatro, cinco.
+
+30
+00:04:06,460 --> 00:04:15,150
+Se escribe n de V igual a cinco. Y el conjunto de las letras de salsa tiene cardinal tres.
+
+31
+00:04:16,210 --> 00:04:24,410
+Un detalle fino: la letra a es un elemento. Pero a entre llaves es un conjunto que tiene un solo elemento.
+
+32
+00:04:24,800 --> 00:04:33,480
+No son lo mismo. La a pertenece a V. El conjunto con la a adentro no es una vocal, así que no pertenece a V.
+
+33
+00:04:34,640 --> 00:04:44,680
+En resumen: un conjunto es una colección bien definida. Se escribe por extensión o por comprensión, y la pertenencia con este símbolo.
+
+34
+00:04:45,060 --> 00:04:50,460
+No tiene orden ni repetidos, y su cardinal cuenta los elementos.
+
+35
+00:04:50,850 --> 00:04:56,640
+Con esta idea se escribe todo lo que sigue.
+

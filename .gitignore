@@ -199,3 +199,9 @@ video/conjunto-lamina/conjunto-lamina.mp4
 video/conjunto-lamina/events.json
 video/lamina/out/
 video/lamina/fonts/*.ttf
+
+# Video de alg-0a en estilo neón (negro, morado, letra fina): lo que build.sh descarga o genera
+video/conjunto-neon/out/
+video/conjunto-neon/fonts/*.ttf
+video/conjunto-neon/conjunto-neon.mp4
+video/conjunto-neon/events.json
