@@ -152,13 +152,14 @@ const logoHTML = () => \`<span class="logo" role="img" aria-label="Zuka">\${brai
 }
 
 // ---- iconos PNG ----
-// `pad`: margen alrededor del cerebro, en fracción del lado (el enmascarable deja la zona segura del 20 %).
+// `pad`: margen alrededor del cerebro, en fracción del lado. El cerebro va casi hasta el borde; el enmascarable (el que
+// usa Android, que lo recorta en círculo u otra forma) lo lleva hasta el límite de la zona segura: un círculo del 80 %.
 const ICONS = [
-  { file: 'icons/icon-512.png', size: 512, pad: 0.13, kind: 'full' },
-  { file: 'icons/icon-192.png', size: 192, pad: 0.13, kind: 'full' },
-  { file: 'icons/icon-maskable-512.png', size: 512, pad: 0.22, kind: 'full' },
-  { file: 'icons/apple-touch-icon.png', size: 180, pad: 0.13, kind: 'full' },
-  { file: 'icons/favicon-48.png', size: 48, pad: 0.06, kind: 'simple', round: 0.22 },
+  { file: 'icons/icon-512.png', size: 512, pad: 0.03, kind: 'full' },
+  { file: 'icons/icon-192.png', size: 192, pad: 0.03, kind: 'full' },
+  { file: 'icons/icon-maskable-512.png', size: 512, pad: 0.1, kind: 'full' },
+  { file: 'icons/apple-touch-icon.png', size: 180, pad: 0.03, kind: 'full' },
+  { file: 'icons/favicon-48.png', size: 48, pad: 0.02, kind: 'simple', round: 0.22 },
 ];
 function iconPage({ size, pad, kind, round = 0 }) {
   const s = size * (1 - 2 * pad), glow = Math.max(1, size / 64);

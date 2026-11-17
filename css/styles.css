@@ -807,7 +807,7 @@ img.logo { display: block; width: auto; }   /* panel de administración: brand/l
   display: grid; place-items: center; aspect-ratio: 1; border-radius: 24%; background: #07080f; color: #e6ecff;
   border: 1px solid #262b44; --brain-stem: #8fdcff;
 }
-.brain-tile .brain { width: 78%; height: auto; aspect-ratio: 1; filter: drop-shadow(0 0 3px rgba(150, 205, 255, .5)); }
+.brain-tile .brain { width: 88%; height: auto; aspect-ratio: 1; filter: drop-shadow(0 0 3px rgba(150, 205, 255, .5)); }
 .install-banner {
   display: flex; align-items: center; gap: 12px; margin-top: 12px; padding: 10px 8px 10px 12px; border-radius: 16px;
   background: color-mix(in srgb, var(--brand) 12%, var(--card)); border: 1px solid color-mix(in srgb, var(--brand) 40%, var(--line));
