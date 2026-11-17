@@ -116,6 +116,23 @@ test('los candados por plan están en la hoja de lección, al empezarla, en jefe
   assert.match(app, /cuentaProgreso\(l\.id, \{ completada: true \}\)/, 'al terminar una lección se guarda el avance');
 });
 
+test('solo el administrador ve todo abierto; a los demás se les abre de a una lección', () => {
+  const cuenta = read('js/cuenta.js'), app = read('js/app.js');
+  assert.match(cuenta, /if \(!cuentaEsAdmin\(\)\) S\.unlockAll = false; else if \(entra\) S\.unlockAll = true;/);
+  assert.match(app, /cuentaInit\(\);[^\n]*\ngo\(tabFromURL/, 'el rol se aplica antes de pintar la primera pantalla');
+  assert.match(app, /cuentaEsAdmin\(\) \|\| SIN_CANDADOS \? `<button class="toggle-row" data-set="unlockAll"/, 'el interruptor de modo revisión no se le muestra a un estudiante');
+  // Sin modo revisión, una lección se abre al completar la anterior, también entre un mundo y el siguiente.
+  assert.match(app, /return i <= 0 \|\| isDone\(l\) \|\| isDone\(ls\[i - 1\]\);/);
+});
+
+test('sin sesión la app abre en la pantalla de entrada, que deja seguir sin cuenta', () => {
+  const cuenta = read('js/cuenta.js'), app = read('js/app.js');
+  assert.match(app, /if \(!cuentaPideEntrar\(\) && tourShouldStart\(S\)\) startTour\(\);/, 'el recorrido espera a la pantalla de entrada');
+  assert.match(cuenta, /if \(!Cuenta\.sb \|\| Cuenta\.user \|\| S\.guest\) return false;/, 'sin conexión, con sesión o como invitado no estorba');
+  for (const s of ['data-guest', 'data-olvide', 'signInWithPassword', 'signUp(']) assert.ok(cuenta.includes(s), s);
+  assert.match(read('css/styles.css'), /#auth \{[^}]*z-index: 35/, 'encima de la app y debajo de las hojas');
+});
+
 test('el video de Bunny se pide al servidor (enlace firmado) y no se arma en el navegador', () => {
   const player = read('js/player.js');
   assert.match(player, /cuentaVideoBase\(clip\.bunny\)/);

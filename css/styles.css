@@ -1051,3 +1051,17 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .plan-how { text-align: center; }
 .world-summary.locked { width: 100%; text-align: left; }
 .world-summary.locked .ws-icon { background: var(--card2); color: var(--locked); }
+
+/* ---------- pantalla de entrada (js/cuenta.js: authScreen) ---------- */
+#auth { position: fixed; inset: 0; z-index: 35; overflow-y: auto; background: var(--outer); }
+.auth-in { min-height: 100%; max-width: 480px; margin: 0 auto; padding: max(28px, env(safe-area-inset-top)) 22px max(24px, env(safe-area-inset-bottom)); background: var(--bg); display: flex; flex-direction: column; gap: 14px; }
+.auth-brand { padding: 4px 0 14px; }
+.auth-brand .logo { height: 36px; }
+.auth-in h1 { font-size: 26px; font-weight: 800; line-height: 1.15; }
+.auth-in > .muted { font-size: 15px; line-height: 1.45; margin-top: -6px; }
+.seg-2 { grid-template-columns: 1fr 1fr; }
+.auth-in .seg button { padding: 11px 0; font-size: 14px; }
+.auth-in .link-btn { align-self: flex-start; }
+.form-msg.ok { background: var(--fb-ok); color: var(--ok); }
+.auth-guest { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line); display: grid; gap: 8px; text-align: center; }
+.auth-guest .muted { font-size: 13px; line-height: 1.4; }

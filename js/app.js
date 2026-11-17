@@ -13,6 +13,7 @@ const DEFAULTS = () => ({
   tourDone: false,   // recorrido guiado de bienvenida (js/tour.js): ya visto o saltado
   guides: {}, guideAuto: true,   // guías «Cómo se juega» ya vistas, por juego o tipo de ejercicio (js/guia.js)
   tutorias: [],      // asesorías separadas en la pestaña Tutorías (js/tutorias.js)
+  guest: false,      // eligió «Explorar sin cuenta» en la pantalla de entrada (js/cuenta.js)
   cuenta: null,      // última copia de la cuenta y su plan (js/cuenta.js), para abrir sin conexión
   secs: {},          // segundos vistos del video de cada lección
 });
@@ -739,7 +740,7 @@ function renderProfile() {
       <h3>Ajustes</h3>
       <button class="toggle-row" data-set="voice"><span>Narración por voz en las lecciones sin video</span><span class="toggle${S.voice ? ' on' : ''}"></span></button>
       <button class="toggle-row" data-set="sfx"><span>Efectos de sonido</span><span class="toggle${S.sfx ? ' on' : ''}"></span></button>
-      <button class="toggle-row" data-set="unlockAll"><span>Modo revisión: todas las lecciones abiertas y sin perder vidas</span><span class="toggle${S.unlockAll ? ' on' : ''}"></span></button>
+      ${cuentaEsAdmin() || SIN_CANDADOS ? `<button class="toggle-row" data-set="unlockAll"><span>Modo revisión: todas las lecciones abiertas y sin perder vidas</span><span class="toggle${S.unlockAll ? ' on' : ''}"></span></button>` : ''}
       <button class="btn ghost tour-again" data-tour>Ver el recorrido otra vez</button>
       <button class="btn ghost danger" data-reset>Reiniciar progreso</button>
     </section>
@@ -760,7 +761,7 @@ function renderProfile() {
   $('[data-tour]', view).onclick = startTour;
   $('[data-reset]', view).onclick = () => {
     ask({ title: '¿Borrar todo tu progreso?', text: 'Se borran tu XP, tu racha y las lecciones completadas. Tus asesorías separadas se conservan. No se puede deshacer.', ok: 'Borrar todo', cancel: 'Cancelar', danger: true })
-      .then(yes => { if (yes) { S = Object.assign(DEFAULTS(), { tourDone: S.tourDone, tutorias: S.tutorias, cuenta: S.cuenta }); openWorld = null; save(); applyTheme(); go('learn'); } });
+      .then(yes => { if (yes) { S = Object.assign(DEFAULTS(), { tourDone: S.tourDone, tutorias: S.tutorias, cuenta: S.cuenta, guest: S.guest, unlockAll: S.unlockAll }); openWorld = null; save(); applyTheme(); go('learn'); } });
   };
 }
 
@@ -794,9 +795,11 @@ const fontsReady = document.fonts?.load
 Promise.race([fontsReady, new Promise(r => setTimeout(r, 300))])
   .then(() => requestAnimationFrame(() => requestAnimationFrame(hideBoot)));
 applyTheme();
+cuentaInit();   // cuenta guardada y modo revisión solo para el administrador (js/cuenta.js), antes de pintar
 go(tabFromURL(location.search));   // los atajos del icono instalado abren ?tab=clips, etc. (js/pwa.js)
 watchConnection(window, document.body, toast);
 if (isStandalone()) keepData(navigator);   // instalada: que el navegador no borre el progreso
 setupBack();   // botón «atrás» del celular (js/back.js)
 // Primera vez en la app: recorrido guiado (js/tour.js).
-if (tourShouldStart(S)) startTour();
+// Sin sesión sale primero la pantalla de entrada; el recorrido empieza al cerrarla.
+if (!cuentaPideEntrar() && tourShouldStart(S)) startTour();

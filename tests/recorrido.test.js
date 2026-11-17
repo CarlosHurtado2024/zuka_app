@@ -135,7 +135,8 @@ test('tour.js se carga antes de app.js y está en el SHELL', () => {
 test('la app lo arranca al inicio, lo recuerda y deja repetirlo desde Perfil', () => {
   assert.match(app, /tourDone: false/);
   const boot = app.slice(app.indexOf('// ---- arranque'));
-  assert.match(boot, /if \(tourShouldStart\(S\)\) startTour\(\)/);
+  // Sin sesión sale antes la pantalla de entrada (js/cuenta.js) y el recorrido empieza al cerrarla.
+  assert.match(boot, /tourShouldStart\(S\)\) startTour\(\)/);
   assert.match(app, /data-tour/);
   assert.match(app, /Ver el recorrido otra vez/);
   // Reiniciar el progreso no vuelve a lanzar el recorrido.

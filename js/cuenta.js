@@ -42,13 +42,88 @@ if (typeof COURSES !== 'undefined') {
   try { Object.assign(Cuenta.niveles, JSON.parse(localStorage.getItem('zuka-niveles')) || {}); } catch (e) { /* sin copia */ }
 }
 
+// ---------- quién ve todo abierto ----------
+const cuentaEsAdmin = () => !!(Cuenta.user && Cuenta.perfil && Cuenta.perfil.rol === 'admin');
+// El modo revisión (S.unlockAll: todo abierto, sin perder vidas) es solo del administrador. Para los
+// demás las lecciones y los mundos se abren uno tras otro, al completar el anterior. `entra`: acaba de
+// iniciar sesión. En el computador de desarrollo no se toca.
+function cuentaRol(entra) {
+  if (SIN_CANDADOS) return;
+  if (!cuentaEsAdmin()) S.unlockAll = false; else if (entra) S.unlockAll = true;
+  save();
+}
+
+// ---------- pantalla de entrada ----------
+// Sale al abrir la app sin sesión (y al cerrar sesión). Se puede seguir sin cuenta: queda lo gratis.
+function cuentaPideEntrar() {
+  if (!Cuenta.sb || Cuenta.user || S.guest) return false;
+  authScreen('login');
+  return true;
+}
+function authCerrar() {
+  const el = $('#auth');
+  if (!el) return;
+  el.remove();
+  if (typeof tourShouldStart === 'function' && tourShouldStart(S)) startTour();   // el recorrido de bienvenida esperaba
+}
+function authScreen(modo = 'login', aviso = '') {
+  let el = $('#auth');
+  if (!el) { el = document.createElement('div'); el.id = 'auth'; document.body.appendChild(el); }
+  const reg = modo === 'registro';
+  el.innerHTML = `<div class="auth-in">
+    <div class="auth-brand">
+      <img class="logo logo-light" src="brand/logo-light.png" alt="Zuka" width="128" height="44">
+      <img class="logo logo-dark" src="brand/logo-dark.png" alt="Zuka" width="128" height="44">
+    </div>
+    <h1>${reg ? 'Crea tu cuenta' : 'Entra a tu cuenta'}</h1>
+    <p class="muted">${reg ? 'Es gratis. Guarda tu avance y te deja activar tu plan con un código.' : 'Sigue donde ibas: tu avance y tu plan te esperan.'}</p>
+    <div class="seg seg-2" role="tablist"><button type="button" role="tab" data-m="login" aria-selected="${!reg}" class="${reg ? '' : 'on'}">Iniciar sesión</button><button type="button" role="tab" data-m="registro" aria-selected="${reg}" class="${reg ? 'on' : ''}">Crear cuenta</button></div>
+    <form class="acct-form" novalidate>
+      ${reg ? campo('nombre', 'Nombre', 'text', 'autocomplete="name" maxlength="80" required') + campo('telefono', 'Celular (opcional)', 'tel', 'autocomplete="tel" inputmode="tel" maxlength="30"') : ''}
+      ${campo('correo', 'Correo', 'email', 'autocomplete="email" inputmode="email" required')}
+      ${campo('clave', reg ? 'Contraseña (8 caracteres o más)' : 'Contraseña', 'password', `autocomplete="${reg ? 'new' : 'current'}-password" minlength="8" required`)}
+      <p class="form-msg${aviso ? ' ok' : ''}" role="alert"${aviso ? '' : ' hidden'}>${aviso}</p>
+      <button class="btn main" type="submit">${reg ? 'Crear mi cuenta' : 'Entrar'}</button>
+    </form>
+    ${reg ? '' : '<button class="link-btn" type="button" data-olvide>Olvidé mi contraseña</button>'}
+    <div class="auth-guest"><button class="btn ghost" type="button" data-guest>Explorar sin cuenta</button>
+      <p class="muted">Sin cuenta se abren la primera lección de cada curso y los clips.</p></div>
+  </div>`;
+  const f = $('form', el), msg = $('.form-msg', el), b = $('button[type=submit]', el);
+  el.querySelectorAll('[data-m]').forEach(x => x.onclick = () => { if (x.dataset.m !== modo) authScreen(x.dataset.m); });
+  $('[data-olvide]', el)?.addEventListener('click', openOlvide);
+  $('[data-guest]', el).onclick = () => { S.guest = true; save(); authCerrar(); };
+  const error = t => { msg.textContent = t; msg.className = 'form-msg bad'; msg.hidden = false; };
+  f.onsubmit = async e => {
+    e.preventDefault();
+    if (b.disabled) return;
+    const d = Object.fromEntries(new FormData(f)), correo = d.correo.trim();
+    if (reg && !d.nombre.trim()) return error('Escribe tu nombre.');
+    if (!/^\S+@\S+\.\S+$/.test(correo)) return error('Ese correo no parece válido.');
+    if (reg ? d.clave.length < 8 : !d.clave) return error(reg ? 'La contraseña debe tener 8 caracteres o más.' : 'Escribe tu contraseña.');
+    msg.hidden = true; b.disabled = true; const txt = b.textContent; b.textContent = 'Un momento…';
+    let r;
+    try {
+      r = reg
+        ? await Cuenta.sb.auth.signUp({ email: correo, password: d.clave,
+          options: { data: { nombre: d.nombre.trim(), telefono: d.telefono.trim() }, emailRedirectTo: location.origin + location.pathname } })
+        : await Cuenta.sb.auth.signInWithPassword({ email: correo, password: d.clave });
+    } catch (x) { r = { error: x }; }
+    b.disabled = false; b.textContent = txt;
+    if (r.error) return error(authError(r.error));
+    if (reg && !S.name) { S.name = d.nombre.trim().slice(0, 24); save(); }
+    // Con sesión, la pantalla la cierra cuentaSesion. Al registrarse puede faltar confirmar el correo.
+    if (!r.data.session) authScreen('login', `Te enviamos un enlace a ${esc(correo)}. Ábrelo para confirmar tu cuenta y luego inicia sesión aquí.`);
+  };
+}
+
 function cuentaInit() {
   if (typeof S === 'undefined') return;
   // Lo último que se supo de la cuenta: sirve para abrir sin conexión.
   if (S.cuenta && S.cuenta.sesion && S.cuenta.perfil) {
     Cuenta.user = { id: S.cuenta.perfil.id, offline: true }; Cuenta.perfil = S.cuenta.perfil;
-    cuentaRepinta();
   }
+  cuentaRol(false);
   if (!window.supabase || !window.supabase.createClient) return;
   Cuenta.sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
   // Dentro del aviso de Supabase no se le puede volver a llamar: se sale primero con setTimeout.
@@ -67,7 +142,8 @@ async function cuentaSesion(ev, session) {
   if (!session) {
     if (ev === 'INITIAL_SESSION' && !navigator.onLine) return;   // sin red: vale lo guardado
     Cuenta.user = null; Cuenta.perfil = null; Cuenta.bases.clear(); cuentaCola.clear();
-    cuentaCache(); cuentaRepinta();
+    cuentaCache(); cuentaRol(false); cuentaRepinta();
+    if (ev === 'SIGNED_OUT') authScreen('login');
     return;
   }
   const uidPrevio = (S.cuenta || {}).uid || null, perfilPrevio = JSON.stringify(Cuenta.perfil);
@@ -75,6 +151,8 @@ async function cuentaSesion(ev, session) {
   if (ev === 'PASSWORD_RECOVERY') openNuevaClave();
   if (antes === session.user.id && ev === 'TOKEN_REFRESHED') return;
   await cuentaPerfil();
+  cuentaRol(antes !== session.user.id);
+  if (ev !== 'PASSWORD_RECOVERY' || !$('#sheet.open')) authCerrar(); else $('#auth')?.remove();
   // Supabase repite el aviso de sesión cada vez que se vuelve a la pestaña: solo se repinta si algo cambió.
   if (antes === session.user.id) { if (JSON.stringify(Cuenta.perfil) !== perfilPrevio) cuentaRepinta(); return; }
   Cuenta.bases.clear(); cuentaCola.clear();   // nada pendiente de otra cuenta sube a esta
@@ -384,9 +462,9 @@ function cuentaBind(root) {
     salir: async () => {
       cuentaEnvia();
       if (Cuenta.sb) await Cuenta.sb.auth.signOut().catch(() => {});
-      Cuenta.user = null; Cuenta.perfil = null; cuentaCache(); toast('Sesión cerrada.'); cuentaRepinta();
+      Cuenta.user = null; Cuenta.perfil = null; cuentaCache(); cuentaRol(false); toast('Sesión cerrada.'); cuentaRepinta();
+      authScreen('login');
     } };
   root.querySelectorAll('[data-acct]').forEach(b => b.onclick = () => acts[b.dataset.acct]());
 }
 
-if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded', cuentaInit);
