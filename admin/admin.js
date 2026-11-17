@@ -142,8 +142,14 @@ async function vUsuarios() {
           <td class="num" data-l="Quedan">${u.e.estado === 'activo' ? diasTexto(u.e.dias) : '—'}</td></tr>`).join('')}</tbody></table>`;
     filasUsuario();
   };
-  $$('.ad-filters [name]', view).forEach(el => { el.oninput = () => { filtro[el.name] = el.value; pinta(); }; });
-  pinta();
+  // Si algo falla al pintar la lista, se dice en pantalla (y no queda un hueco en blanco).
+  const seguro = () => {
+    try { pinta(); } catch (e) {
+      $('.ad-list', view).innerHTML = `<p class="ad-state bad">No se pudo mostrar la lista: ${esc(e && e.message)}</p>`;
+    }
+  };
+  $$('.ad-filters [name]', view).forEach(el => { el.oninput = el.onchange = () => { filtro[el.name] = el.value; seguro(); }; });
+  seguro();
 }
 
 // ---------- 3. detalle de usuario ----------
