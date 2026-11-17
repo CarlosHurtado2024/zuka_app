@@ -29,9 +29,9 @@ const PALETTES = {
 // juegos leen sus colores al dibujar cada cuadro, uno abierto se repinta solo al cambiar de tema.
 const PALETTE = { ...PALETTES.dark };
 // Paleta del curso: lo que cambia sobre la del tema cuando se juega una lección de ese curso (setGameCourse, que llaman
-// startLesson y startExam). Álgebra es morado: fondo y tarjetas teñidos de morado y, en vez de menta y azul cielo,
+// startLesson y startExam), una por curso. Álgebra es morado: fondo y tarjetas teñidos de morado y, en vez de menta y azul cielo,
 // orquídea, rosa e índigo; el dorado se queda porque es el complemento del morado, y el verde y el rojo de acertar y
-// fallar no cambian. Un curso sin paleta propia usa la del tema.
+// fallar no cambian en ningún curso. Un curso sin paleta propia usa la del tema.
 const COURSE_PALETTES = {
   algebra: {
     dark: {
@@ -45,6 +45,73 @@ const COURSE_PALETTES = {
       brand: '#5B44D2', bg: '#F4F2FB', card: '#FFFFFF', line: '#D6D0EC', ink: '#17143A', mute: '#5E5A8C',
       coral: '#EC5F7A', mint: '#B565E0', sky: '#6A6FF0', creamD: '#CFC9E8', night: '#17143A',
       star: '#DDD8F0', halo: '#E9E5F6',
+    },
+  },
+  // Trigonometría: cian, con azul cielo y menta.
+  trig: {
+    dark: {
+      Z: '#5FB4FF', R: '#A9A4FF', brand: '#22D3EE', bg: '#0E1A2B', card: '#16273F', line: '#2F4A72', ink: '#EAF6FF', mute: '#93AECB',
+      sky: '#38BDF8', cream: '#E6F1F8', creamD: '#A9BFD3', night: '#0E1A2B', star: '#22385C', halo: '#182C48',
+    },
+    light: {
+      brand: '#0E7490', bg: '#F0F7FB', card: '#FFFFFF', line: '#CBDDEA', ink: '#0F2233', mute: '#4F6A80',
+      sky: '#0EA5C9', creamD: '#C5D6E3', night: '#0F2233', star: '#D5E4EE', halo: '#E3EEF5',
+    },
+  },
+  // Cálculo Diferencial: rosa, con violeta y dorado.
+  calc: {
+    dark: {
+      Z: '#8FB4FF', Q: '#C79BFF', I: '#FF8466', R: '#FF8FD0', brand: '#F472B6', bg: '#1F1028', card: '#2E1A3B', line: '#5A3570',
+      ink: '#FFEEF8', mute: '#C4A3C4', mint: '#F78BC8', sky: '#B79CFF', cream: '#F6EAF3', creamD: '#CDB3C9', night: '#1F1028',
+      star: '#472A59', halo: '#33203F',
+    },
+    light: {
+      Z: '#2B5FC4', Q: '#7A44C9', R: '#B0338A', brand: '#BE2A7C', bg: '#FBF2F7', card: '#FFFFFF', line: '#EBD3E2', ink: '#2A1230',
+      mute: '#7A5578', mint: '#E0559F', sky: '#8B63E0', creamD: '#E3CCDB', night: '#2A1230', star: '#F0DDE8', halo: '#F6E8F0',
+    },
+  },
+  // Geometría Vectorial: azul, con turquesa.
+  geo: {
+    dark: {
+      Q: '#5EEAD4', R: '#A99CFF', brand: '#60A5FA', bg: '#0F1730', card: '#192448', line: '#33467F', ink: '#EEF3FF', mute: '#98A8D0',
+      mint: '#5EEAD4', sky: '#60A5FA', cream: '#E8EEF9', creamD: '#ACB8D6', night: '#0F1730', star: '#293A6B', halo: '#1C2950',
+    },
+    light: {
+      Q: '#0B7D6C', brand: '#2563EB', bg: '#F1F5FC', card: '#FFFFFF', line: '#CFDAEE', ink: '#101C3A', mute: '#55648A',
+      mint: '#2BB8A8', sky: '#3B82F6', creamD: '#C7D3E8', night: '#101C3A', star: '#D8E1F0', halo: '#E5ECF6',
+    },
+  },
+  // Física Mecánica: ámbar sobre un fondo cálido, con naranja; el azul se queda de contraste.
+  fis: {
+    dark: {
+      I: '#FF7A5A', brand: '#FFB020', bg: '#1A1710', card: '#2A2518', line: '#5A4E2A', ink: '#FFF8E6', mute: '#C2B48E',
+      mint: '#FF9F5A', cream: '#F6F0DF', creamD: '#CFC4A3', night: '#1A1710', star: '#3D3520', halo: '#2A2416',
+    },
+    light: {
+      N: '#8A5A00', brand: '#A16207', bg: '#FBF8EE', card: '#FFFFFF', line: '#E8DFC3', ink: '#2A2208', mute: '#756A45',
+      mint: '#F08A3C', creamD: '#E0D6B8', night: '#2A2208', star: '#EFE8D2', halo: '#F5F0E0',
+    },
+  },
+  // Cálculo Integral: verde, con verde azulado.
+  int: {
+    dark: {
+      brand: '#34D399', bg: '#0D1F1C', card: '#16302B', line: '#2E5A50', ink: '#EAFBF5', mute: '#94BDB0',
+      mint: '#34D399', sky: '#5ED4E0', cream: '#E6F4EF', creamD: '#A9CABF', night: '#0D1F1C', star: '#234840', halo: '#17332D',
+    },
+    light: {
+      brand: '#0B7D5C', bg: '#F0F8F5', card: '#FFFFFF', line: '#CDE3DB', ink: '#0D2A22', mute: '#4C6F64',
+      sky: '#22A9B8', creamD: '#C4DCD3', night: '#0D2A22', star: '#D6E9E2', halo: '#E3F1EC',
+    },
+  },
+  // Álgebra Lineal: naranja sobre un fondo cálido; el azul se queda de contraste.
+  lin: {
+    dark: {
+      brand: '#FB923C', bg: '#1E130C', card: '#2E1F15', line: '#5E4029', ink: '#FFF3EA', mute: '#C9AD98',
+      mint: '#FF9F5A', cream: '#F8ECE2', creamD: '#D3BBA8', night: '#1E130C', star: '#45301F', halo: '#2E2016',
+    },
+    light: {
+      brand: '#C2540A', bg: '#FCF5EF', card: '#FFFFFF', line: '#EBD9C8', ink: '#2E1708', mute: '#7C5F49',
+      mint: '#F08A3C', creamD: '#E3D0BF', night: '#2E1708', star: '#F1E3D6', halo: '#F7ECE2',
     },
   },
 };

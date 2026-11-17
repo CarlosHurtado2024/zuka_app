@@ -88,3 +88,15 @@ test('la lección y la evaluación avisan el curso a los juegos, y el marco toma
   assert.match(read('js/exam.js'), /function startExam\(c, u\) \{[\s\S]{0,200}setGameCourse\(c\.id\)/);
   assert.match(read('js/games/kit.js'), /setProperty\?\.\('--play-bg', PALETTE\.bg\)/);
 });
+
+test('cada curso tiene su paleta y su color principal es el del curso, en los dos temas', () => {
+  const all = [...require('fs').readFileSync(require('path').join(__dirname, '..', 'index.html'), 'utf8').matchAll(/src="(js\/[^"]+)"/g)].map(m => m[1])
+    .filter(f => /content|games\/|courses\/|data\.js|worlds/.test(f));
+  const COURSES = get(loadScripts(all), 'COURSES');
+  assert.equal(Object.keys(COURSE_PALETTES).sort().join(), COURSES.map(c => c.id).sort().join());
+  for (const c of COURSES) for (const theme of ['dark', 'light']) {
+    const b = COURSE_PALETTES[c.id][theme].brand, dh = Math.abs(hue(b) - hue(c.color));
+    assert.ok(Math.min(dh, 360 - dh) <= 25, `${c.id} ${theme}: ${b} no es del color del curso ${c.color}`);
+  }
+  assert.equal(new Set(Object.values(COURSE_PALETTES).map(p => p.dark.bg)).size, COURSES.length, 'cada curso con su fondo');
+});
