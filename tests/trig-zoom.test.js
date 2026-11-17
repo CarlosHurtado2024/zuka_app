@@ -9,7 +9,7 @@ const FILMS = {
   grados: 'trig-41a', arco: 'trig-41b', soh: 'trig-1', notables: 'trig-2', seis: 'trig-42c', unitaria: 'trig-3',
   signos: 'trig-43b', amplitud: 'trig-44a', periodo: 'trig-44b', inversas: 'trig-45', identidades: 'trig-4',
   demostrar: 'trig-47b', suma: 'trig-48a', doble: 'trig-48b', ecuaciones: 'trig-49', senos: 'trig-46a', cosenos: 'trig-46b',
-  polar: 'trig-151', demoivre: 'trig-152', raices: 'trig-152',
+  polar: 'trig-151', demoivre: 'trig-152', raices: 'trig-153',
 };
 const DIR = path.join(__dirname, '..', 'video', 'trig-zoom', 'films');
 const src = f => fs.readFileSync(path.join(DIR, f + '.js'), 'utf8');
@@ -20,7 +20,7 @@ function exOf(id) {
   return trig.slice(j, k < 0 ? undefined : k);
 }
 
-test('hay un video por lección de Trigonometría (y dos para De Moivre)', () => {
+test('hay un video por lección de Trigonometría', () => {
   const ids = [...trig.matchAll(/id: '(trig-[0-9a-z]+)'/g)].map(m => m[1]);
   for (const id of ids) assert.ok(Object.values(FILMS).includes(id), `falta el video de ${id}`);
   for (const f of Object.keys(FILMS)) assert.ok(fs.existsSync(path.join(DIR, f + '.js')), f);
@@ -52,7 +52,7 @@ test('los ejemplos de cada video no salen en los ejercicios de su lección', () 
     inversas: ['{1}{12}', '120', 'rampa'], identidades: ['8}{17}', '17'], demostrar: ['\\tan x + \\cot x', 'cos(x + y)'],
     suma: ['75'], doble: ['alcance', 'sen 15'], ecuaciones: ['17', 'noria'], senos: ['75', '12.25', '40^'],
     cosenos: ['túnel', '17.32', '38.2'], polar: ['3 + 4i', '53.13', '233'], demoivre: ['(1 + i)^8', '6\\,\\mathrm{cis}\\,75', 'sonda'],
-    raices: ['x^3 = 1', '60^\\circ}{3}', 'hexágono'],
+    raices: ['x^3 = 1', '60^\\circ}{3}', 'hexágono', "zLabel: 'cis 120°'", '64, deg: 0'],
   };
   for (const [f, list] of Object.entries(EXAMPLES)) {
     const ex = exOf(FILMS[f]);

@@ -462,26 +462,30 @@ const COURSE_TRIG = {
           ],
         },
         {
-          id: 'trig-152', title: 'Producto, cociente y raíces: De Moivre',
-          // Clase T19 (video/clase_trig_t19) y, antes de los ejercicios de raíces, la Clase T20 (clase_trig_t20) en `more`.
+          id: 'trig-152', title: 'Producto, cociente y potencias: De Moivre',
+          // Video zoom `demoivre` (video/trig-zoom): escenas de respaldo hasta enlazar su ID de Bunny. Las raíces son la lección trig-153.
           clip: { scenes: [
             sc(6, 'En forma polar, **multiplicar** es multiplicar módulos y **sumar** argumentos; **dividir** es dividir módulos y **restar** argumentos.', { steps: ['$z_1 z_2 = r_1 r_2\\,[\\cos(\\theta_1 + \\theta_2) + i\\,\\sen(\\theta_1 + \\theta_2)]$', '$\\tfrac{z_1}{z_2} = \\tfrac{r_1}{r_2}\\,[\\cos(\\theta_1 - \\theta_2) + i\\,\\sen(\\theta_1 - \\theta_2)]$'] }),
             sc(5, 'Multiplicar por $i = \\mathrm{cis}\\,90^\\circ$ **gira** el punto un cuarto de vuelta sin cambiar su tamaño.', { steps: ['$i \\cdot (3 + 2i) = -2 + 3i$', '$i^2 = -1$: dos cuartos de vuelta'] }),
             sc(6, '**Teorema de De Moivre**: elevar a $n$ es elevar el módulo a $n$ y multiplicar el argumento por $n$.', { title: '$z^n = r^n(\\cos n\\theta + i\\,\\sen n\\theta)$', steps: ['$(-1 + \\sqrt3\\,i)^{12} = 2^{12}(\\cos 8\\pi + i\\,\\sen 8\\pi) = 2^{12}$'] }),
           ] },
-          more: [{ after: 3, scenes: [
-            sc(7, 'Todo complejo $z \\ne 0$ tiene exactamente $n$ **raíces $n$-ésimas**, repartidas en un círculo de radio $\\sqrt[n]{r}$ cada $\\tfrac{360^\\circ}{n}$.', { title: '$w_k = \\sqrt[n]{r}\\left[\\cos\\tfrac{\\theta + 360^\\circ k}{n} + i\\,\\sen\\tfrac{\\theta + 360^\\circ k}{n}\\right]$', steps: ['Raíces cuartas de $-16$ ($r = 16$, $\\theta = 180^\\circ$): $2\\,\\mathrm{cis}\\,45^\\circ, 135^\\circ, 225^\\circ, 315^\\circ$'] }),
-          ] }],
           ex: [
-            play('telarana-polar', 'Lleva la araña al nudo del producto o del cociente', {
+            play('telarana-polar', 'Lleva la araña al nudo del producto', {
               rounds: [
                 { op: '×', z1: { r: 2, deg: 150 }, z2: { r: 3, deg: 300 } },
-                { op: '÷', z1: { r: 6, deg: 45 }, z2: { r: 2, deg: 120 } },
                 { op: '×', z1: { r: 4, deg: 60 }, z2: { r: 0.5, deg: 75 } },
-                { op: '÷', z1: { r: 6, deg: 30 }, z2: { r: 3, deg: 210 } },
+                { op: '×', z1: { r: 3, deg: 200 }, z2: { r: 2, deg: 250 } },
               ],
-            }, 'Producto: se multiplican los módulos y se suman los ángulos ($2 \\cdot 3 = 6$, $150^\\circ + 300^\\circ = 450^\\circ \\to 90^\\circ$; $4 \\cdot 0.5 = 2$, $135^\\circ$). Cociente: se dividen y se restan ($6 / 2 = 3$, $45^\\circ - 120^\\circ = -75^\\circ \\to 285^\\circ$; $6 / 3 = 2$, $30^\\circ - 210^\\circ = -180^\\circ \\to 180^\\circ$).',
-              { hint: 'Los hilos son módulos y los rayos son ángulos. Al multiplicar, los módulos se multiplican (no se suman) y los ángulos se suman; al dividir, todo al revés. Si el ángulo se pasa de 360° o queda negativo, súmale o réstale una vuelta.' }),
+            }, 'Producto: se multiplican los módulos y se suman los ángulos. $2 \\cdot 3 = 6$ y $150^\\circ + 300^\\circ = 450^\\circ \\to 90^\\circ$; $4 \\cdot 0.5 = 2$ y $60^\\circ + 75^\\circ = 135^\\circ$; $3 \\cdot 2 = 6$ y $200^\\circ + 250^\\circ = 450^\\circ \\to 90^\\circ$.',
+              { hint: 'Los hilos son módulos y los rayos son ángulos. Al multiplicar, los módulos se multiplican (no se suman) y los ángulos se suman. Si el ángulo se pasa de 360°, réstale una vuelta.' }),
+            play('telarana-polar', 'Ahora divide: lleva la araña al nudo del cociente', {
+              rounds: [
+                { op: '÷', z1: { r: 6, deg: 45 }, z2: { r: 2, deg: 120 } },
+                { op: '÷', z1: { r: 6, deg: 30 }, z2: { r: 3, deg: 210 } },
+                { op: '÷', z1: { r: 8, deg: 90 }, z2: { r: 4, deg: 300 } },
+              ],
+            }, 'Cociente: se dividen los módulos y se restan los ángulos. $6 / 2 = 3$ y $45^\\circ - 120^\\circ = -75^\\circ \\to 285^\\circ$; $6 / 3 = 2$ y $30^\\circ - 210^\\circ = -180^\\circ \\to 180^\\circ$; $8 / 4 = 2$ y $90^\\circ - 300^\\circ = -210^\\circ \\to 150^\\circ$.',
+              { hint: 'Dividir deshace multiplicar: los módulos se dividen y los ángulos se restan (el de arriba menos el de abajo). Si el ángulo queda negativo, súmale una vuelta.' }),
             play('espiral-potencias', 'Multiplica por z hasta caer justo en la estrella', {
               rounds: [
                 { z: { r: Math.SQRT2, deg: 315 }, goal: { r: 8, deg: 90 }, zLabel: '1 − i', label: '8i' },
@@ -493,15 +497,41 @@ const COURSE_TRIG = {
               { hint: 'Cada multiplicación suma θ al ángulo y multiplica el módulo por r. Busca un n que dé el módulo de la estrella y, a la vez, un ángulo coterminal con el suyo.' }),
             num('Calcula $(-1 + i)^4$ (es un número real)', -4, '$-1 + i = \\sqrt2\\,\\mathrm{cis}\\,135^\\circ$, así que $(-1 + i)^4 = 4\\,\\mathrm{cis}\\,540^\\circ = 4\\,\\mathrm{cis}\\,180^\\circ = -4$.',
               { hint: 'Pasa −1 + i a forma polar, eleva el módulo a la cuarta y multiplica el ángulo por 4. Quita vueltas completas para ver dónde cae.' }),
+          ],
+        },
+        {
+          id: 'trig-153', title: 'Raíces n-ésimas de un complejo',
+          // Video zoom `raices` (video/trig-zoom): escenas de respaldo hasta enlazar su ID de Bunny. Libro UdeA §15.2 (raíces).
+          clip: { scenes: [
+            sc(6, '¿Qué número al cubo da 1? En la recta real solo el 1, pero una ecuación de grado 3 tiene **tres** raíces: las otras dos viven en el plano complejo.', { title: '$x^3 = 1$', steps: ['$1$', '$-\\tfrac12 + \\tfrac{\\sqrt3}{2}\\,i$', '$-\\tfrac12 - \\tfrac{\\sqrt3}{2}\\,i$'] }),
+            sc(7, 'Es De Moivre al revés: si $w^n = z$, el módulo de $w$ es $\\sqrt[n]{r}$ y su ángulo es $\\tfrac{\\theta}{n}$. Como $z$ también vive en $\\theta + 360^\\circ$, $\\theta + 720^\\circ$…, salen **$n$ raíces distintas**, una cada $\\tfrac{360^\\circ}{n}$.', { title: '$w_k = \\sqrt[n]{r}\\;\\mathrm{cis}\\,\\dfrac{\\theta + 360^\\circ k}{n}$', steps: ['Raíces cuartas de $-16$ ($r = 16$, $\\theta = 180^\\circ$): $2\\,\\mathrm{cis}\\,45^\\circ, 135^\\circ, 225^\\circ, 315^\\circ$'] }),
+            sc(5, 'Las $n$ raíces tienen el mismo módulo y reparten la vuelta en partes iguales: son los **vértices de un polígono regular**.', { steps: ['Raíces cúbicas: un triángulo equilátero', 'Raíces sextas de $64$: radio $2$, cada $60^\\circ$, un hexágono'] }),
+          ] },
+          ex: [
             play('flor-de-raices', 'Gira la flor y elige su radio para que cada pétalo sea una raíz', {
               rounds: [
                 { n: 4, r: 16, deg: 240, label: '−8 − 8√3 i' },
                 { n: 3, r: 27, deg: 180, label: '−27' },
+                { n: 3, r: 8, deg: 270, label: '−8i' },
+              ],
+            }, 'Radio $\\sqrt[n]{r}$ y un pétalo en $\\tfrac{\\theta}{n}$; los demás cada $\\tfrac{360^\\circ}{n}$. $-8 - 8\\sqrt3\\,i = 16\\,\\mathrm{cis}\\,240^\\circ$: radio 2 y pétalos en $60^\\circ, 150^\\circ, 240^\\circ, 330^\\circ$. $-27$: radio 3, en $60^\\circ, 180^\\circ, 300^\\circ$. $-8i = 8\\,\\mathrm{cis}\\,270^\\circ$: radio 2, en $90^\\circ, 210^\\circ, 330^\\circ$.',
+              { hint: 'El radio de la flor es la raíz n-ésima del módulo, no el módulo dividido entre n. Para girarla, divide el ángulo de z entre n: ahí va un pétalo, y los demás lo siguen solos.' }),
+            play('flor-de-raices', 'Más pétalos: cuadradas, quintas y sextas', {
+              rounds: [
                 { n: 2, r: 4, deg: 90, label: '4i' },
                 { n: 5, r: 32, deg: 0, label: '32' },
+                { n: 6, r: 64, deg: 180, label: '−64' },
               ],
-            }, 'Radio $\\sqrt[n]{r}$ y un pétalo en $\\tfrac{\\theta}{n}$; los demás cada $\\tfrac{360^\\circ}{n}$. $-8 - 8\\sqrt3\\,i = 16\\,\\mathrm{cis}\\,240^\\circ$: radio 2 y pétalos en $60^\\circ, 150^\\circ, 240^\\circ, 330^\\circ$. $-27$: radio 3, en $60^\\circ, 180^\\circ, 300^\\circ$. $4i$: radio 2, en $45^\\circ$ y $225^\\circ$. $32$: radio 2, en $0^\\circ, 72^\\circ, 144^\\circ, 216^\\circ, 288^\\circ$.',
-              { hint: 'El radio de la flor es la raíz n-ésima del módulo, no el módulo dividido entre n. Para girarla, divide el ángulo de z entre n: ahí va un pétalo, y los demás lo siguen solos.' }),
+            }, '$4i = 4\\,\\mathrm{cis}\\,90^\\circ$: radio 2, pétalos en $45^\\circ$ y $225^\\circ$ (a media vuelta). $32$: radio 2, en $0^\\circ, 72^\\circ, 144^\\circ, 216^\\circ, 288^\\circ$. $-64 = 64\\,\\mathrm{cis}\\,180^\\circ$: radio $\\sqrt[6]{64} = 2$ y un pétalo cada $60^\\circ$ desde $30^\\circ$.',
+              { hint: 'Cuantos más pétalos, más juntos: el salto entre uno y otro es 360° dividido entre n. El radio es el número que, elevado a n, da el módulo.' }),
+            play('espiral-potencias', 'Comprueba la raíz: multiplica w por sí misma hasta caer en la estrella', {
+              rounds: [
+                { z: { r: 1, deg: 90 }, goal: { r: 1, deg: 0 }, zLabel: 'i', label: '1' },
+                { z: { r: 3, deg: 60 }, goal: { r: 9, deg: 120 }, zLabel: '3 cis 60°', label: '9 cis 120°' },
+                { z: { r: 2, deg: 40 }, goal: { r: 8, deg: 120 }, zLabel: '2 cis 40°', label: '8 cis 120°' },
+              ],
+            }, 'Una raíz $n$-ésima de $z$ es un $w$ que, multiplicado $n$ veces por sí mismo, da $z$. $i$ llega a 1 en $n = 4$: es raíz cuarta de 1. $3\\,\\mathrm{cis}\\,60^\\circ$ llega a $9\\,\\mathrm{cis}\\,120^\\circ$ en $n = 2$: es una raíz cuadrada. $2\\,\\mathrm{cis}\\,40^\\circ$ llega a $8\\,\\mathrm{cis}\\,120^\\circ$ en $n = 3$.',
+              { hint: 'Cada vez que multiplicas, el módulo se multiplica por el de w y el ángulo suma el de w. Busca el n que deja las dos cosas justo en la estrella.' }),
             num('Entre las raíces cúbicas de $8i$, ¿cuál es el argumento (en grados) de la de menor argumento positivo?', 30, '$8i = 8\\,\\mathrm{cis}\\,90^\\circ$: las raíces son $2\\,\\mathrm{cis}\\,30^\\circ$, $2\\,\\mathrm{cis}\\,150^\\circ$ y $2\\,\\mathrm{cis}\\,270^\\circ$.',
               { suffix: '°', hint: 'Escribe 8i en forma polar. Divide su ángulo entre 3 y suma 120° para las otras dos raíces.' }),
           ],

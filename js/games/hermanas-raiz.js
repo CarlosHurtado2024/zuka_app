@@ -1,4 +1,4 @@
-// Las raíces hermanas (Trigonometría, trig-152): las n raíces n-ésimas de un complejo tienen el mismo módulo y reparten la vuelta en n
+// Las raíces hermanas (Trigonometría, trig-153): las n raíces n-ésimas de un complejo tienen el mismo módulo y reparten la vuelta en n
 // partes iguales. Con una raíz dada, se tocan las demás. item = { n, deg0, step }   (puntos cada `step` grados)
 GAMES['hermanas-raiz'] = (() => {
   const ORD = { 2: 'cuadradas', 3: 'cúbicas', 4: 'cuartas', 5: 'quintas', 6: 'sextas', 8: 'octavas' };

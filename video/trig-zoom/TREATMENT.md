@@ -1,6 +1,6 @@
 # Trigonometría en zoom · tratamiento
 
-Videos de todas las lecciones del curso de Trigonometría en el estilo **Scale Zoom Explainer** de Lemo-Opuscar: dibujo plano
+Videos de las 20 lecciones del curso de Trigonometría en el estilo **Scale Zoom Explainer** de Lemo-Opuscar: dibujo plano
 sobre azul noche, un solo zoom continuo que entra por un objeto de cada parada a la siguiente y la guía con lente (Orbi) que
 señala la «próxima parada». Spec: `docs/superpowers/specs/2026-11-15-trig-zoom.md`.
 
@@ -50,10 +50,10 @@ señala la «próxima parada». Spec: `docs/superpowers/specs/2026-11-15-trig-zo
 |---|---|---|
 | `polar` | `trig-151` | la nave solo entiende rumbo y distancia: 3 + 4i → un rumbo engaña a la calculadora (−3 − 4i) → 53.13°, distancia 5 |
 | `demoivre` | `trig-152` | la sonda se multiplica por 1 + i en cada pulso → la forma polar lo vuelve un juego → (1 + i)⁸ = 16 |
-| `raices` | `trig-152` (parte 2, `more`) | x³ = 1 solo tiene el 1 en la recta → las otras forman una figura perfecta → 1 y −½ ± (√3/2) i |
+| `raices` | `trig-153` | x³ = 1 solo tiene el 1 en la recta → las otras forman una figura perfecta → 1 y −½ ± (√3/2) i |
 
 ## Entrega
 
-Cada video espera su ID de Bunny. Al recibirlo: `clip.bunny` + la `duration` que reporte Bunny en la lección; `raices` va en
-`more: [{ after: 3, bunny, duration }]` de `trig-152`. Las escenas de respaldo de cada lección se cambian entonces por los
+Cada video espera su ID de Bunny. Al recibirlo: `clip.bunny` + la `duration` que reporte Bunny en la lección (`raices` es el
+video de `trig-153`, la lección de raíces). Las escenas de respaldo de cada lección se cambian entonces por los
 ejemplos del video. `tests/trig-zoom.test.js` comprueba ritmo, nombres, ejemplos fuera de los ejercicios, cuentas y cierre.

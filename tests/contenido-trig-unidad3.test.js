@@ -24,8 +24,9 @@ test('cada lección: sin opción múltiple, mayoría juegos y todos con pista', 
 
 test('los cuatro juegos nuevos se usan y las raíces tienen su video aparte', () => {
   for (const g of ['mapa-tesoro', 'telarana-polar', 'espiral-potencias', 'flor-de-raices']) assert.ok(of(g).length, g);
-  const l = lessons.find(l => l.id === 'trig-152'), flor = l.ex.findIndex(e => e.game === 'flor-de-raices');
-  assert.equal(l.more[0].after, flor, 'el video de raíces va justo antes de la flor');
+  assert.equal(lessons.map(l => l.id).join(), 'trig-151,trig-152,trig-153', 'Galaxia Polar: forma polar, De Moivre y raíces');
+  assert.ok(!lessons.find(l => l.id === 'trig-152').more, 'las raíces ya no son una parte 2 de De Moivre');
+  assert.ok(lessons.find(l => l.id === 'trig-153').ex.some(e => e.game === 'flor-de-raices'), 'la flor vive en la lección de raíces');
 });
 
 test('cada ronda se puede resolver con los controles', () => {

@@ -60,7 +60,7 @@ test('ninguna lección anterior se perdió al reorganizar', () => {
 });
 
 test('las lecciones nuevas del libro existen, con video y ejercicios', () => {
-  const nuevas = ['alg-12b', 'alg-23c', 'alg-32', 'alg-51', 'alg-52', 'alg-53', 'alg-61', 'alg-62', 'alg-71', 'alg-72', 'alg-92', 'alg-93', 'alg-101', 'alg-102', 'trig-151', 'trig-152'];
+  const nuevas = ['alg-12b', 'alg-23c', 'alg-32', 'alg-51', 'alg-52', 'alg-53', 'alg-61', 'alg-62', 'alg-71', 'alg-72', 'alg-92', 'alg-93', 'alg-101', 'alg-102', 'trig-151', 'trig-152', 'trig-153'];
   const all = [alg, trig, calc].flatMap(c => c.units.flatMap(u => u.lessons));
   for (const id of nuevas) {
     const l = all.find(l => l.id === id);
@@ -84,7 +84,7 @@ test('ids únicos y cada lección con clip y ejercicios', () => {
 test('las respuestas de opción múltiple apuntan a una opción existente y los textos no usan coma decimal', () => {
   for (const c of [alg, trig, calc]) for (const l of c.units.flatMap(u => u.lessons)) for (const e of l.ex) {
     if (e.type === 'mc') assert.ok(e.answer >= 0 && e.answer < e.options.length, `${l.id}: ${e.q}`);
-    if (['alg-12b', 'alg-23c', 'alg-32', 'alg-51', 'alg-52', 'alg-53', 'alg-61', 'alg-62', 'alg-71', 'alg-72', 'alg-92', 'alg-93', 'alg-101', 'alg-102', 'trig-151', 'trig-152'].includes(l.id)) {
+    if (['alg-12b', 'alg-23c', 'alg-32', 'alg-51', 'alg-52', 'alg-53', 'alg-61', 'alg-62', 'alg-71', 'alg-72', 'alg-92', 'alg-93', 'alg-101', 'alg-102', 'trig-151', 'trig-152', 'trig-153'].includes(l.id)) {
       const texts = [e.q, e.explain, ...(e.options || [])].filter(s => typeof s === 'string');
       for (const s of texts) assert.ok(!/\d,\d/.test(s), `${l.id}: coma decimal en «${s.slice(0, 40)}»`);
     }

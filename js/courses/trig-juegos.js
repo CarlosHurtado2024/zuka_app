@@ -232,6 +232,16 @@ const TRIG_EXTRA = (() => {
         { hint: 'Pregúntate dos cosas: ¿cambia la distancia al origen? ¿Y el ángulo: se refleja en el eje real, gira un cuarto de vuelta o media vuelta? Un ángulo negativo se escribe sumándole 360°.' }),
     ],
     'trig-152': [
+      play('multiplicador-oculto', 'La bandera gris se multiplicó por un número w y quedó en color. Mira cuánto giró y cuánto se estiró, y toca w en la telaraña', {
+        rounds: [
+          { title: 'Girar y estirar', items: [{ r: 2, deg: 90 }, { r: 1, deg: 150 }] },
+          { title: 'Achicar y girar hacia atrás', items: [{ r: 0.5, deg: 0 }, { r: 1.5, deg: 300 }] },
+          { title: 'Dos veces el mismo w', items: [{ r: 1, deg: 30, k: 2 }, { r: 1, deg: 90, k: 2 }] },
+        ],
+      }, 'Multiplicar por $w = r\\,\\mathrm{cis}\\,\\theta$ gira la figura $\\theta$ y la estira $r$ veces: $2\\,\\mathrm{cis}\\,90^\\circ$ la gira un cuarto de vuelta y la duplica; $\\tfrac12\\,\\mathrm{cis}\\,0^\\circ$ solo la achica; $1.5\\,\\mathrm{cis}\\,300^\\circ$ la gira $60^\\circ$ hacia el reloj. Multiplicar dos veces gira el doble ($w^2 = r^2\\,\\mathrm{cis}\\,2\\theta$), así que hay dos respuestas a media vuelta: $\\mathrm{cis}\\,30^\\circ$ o $\\mathrm{cis}\\,210^\\circ$, y $\\mathrm{cis}\\,90^\\circ$ o $\\mathrm{cis}\\,270^\\circ$.',
+        { hint: 'Compara las dos banderas: el ángulo que giró es el de w y las veces que creció es su módulo. Si se multiplicó dos veces, el giro total es el doble del de w: parte el giro a la mitad, y no olvides que media vuelta más también sirve.' }),
+    ],
+    'trig-153': [
       play('hermanas-raiz', 'Ya tienes una raíz (el punto amarillo). Las demás tienen el mismo módulo y reparten la vuelta en partes iguales: toca sobre la circunferencia dónde están', {
         rounds: [
           { title: 'Tres y cuatro raíces', items: [{ n: 3, deg0: 45, step: 15 }, { n: 4, deg0: 15, step: 15 }] },

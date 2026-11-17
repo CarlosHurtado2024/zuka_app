@@ -356,7 +356,7 @@ const GUIDE_ARCADE = new Set(['lluvia-elementos', 'revienta-globos', 'luciernaga
   'torre-grados', 'arma-la-mesa', 'camino-pascal', 'reparte-barras', 'gira-complejos', 'balanza-cajas', 'apunta-chorro', 'donde-cae', 'empaca-filas', 'sondea-niebla',
   'cruza-o-rebota', 'rio-o-hueco', 'llena-estanque', 'bote-corriente', 'cruce-curvas', 'lirios-laguna', 'dos-bancos', 'regla-de-calculo', 'piedras-selva',
   'quita-vueltas', 'rueda-rodante', 'toca-lados', 'figuras-notables', 'multiplica-razon', 'proyecta-punto', 'espejo-cuadrantes', 'ola-entre-lineas', 'crestas-faroles', 'ventana-inversa',
-  'escala-triangulo', 'todo-en-senos', 'rectangulo-suma', 'tira-doble', 'red-periodica', 'pareja-opuesta', 'bisagra-area', 'parientes-polares', 'hermanas-raiz']);
+  'escala-triangulo', 'todo-en-senos', 'rectangulo-suma', 'tira-doble', 'red-periodica', 'pareja-opuesta', 'bisagra-area', 'parientes-polares', 'multiplicador-oculto', 'hermanas-raiz']);
 
 // Los pasos propios de cada juego: [escena, texto, opciones]. El ejemplo de la escena es pequeño y distinto de los
 // ejercicios: enseña el gesto, no la respuesta.
@@ -379,6 +379,7 @@ const GUIDES = {
   'pareja-opuesta': [['tap', 'Toca, en orden, lo que ya se puede calcular hasta llegar a lo que se pide.', { items: ['C = ?', 'c = ?'], pick: [0, 1] }]],
   'bisagra-area': [['step', 'Gira el lado con − / + hasta la línea punteada y toca «Marcar». Si otro ángulo sirve, márcalo.', { from: 90, to: 60, label: 'ángulo C' }]],
   'parientes-polares': [['step', 'Mueve el punto w con las perillas de módulo y de ángulo, y toca «Fijar».', { from: 45, to: 90, label: 'ángulo' }]],
+  'multiplicador-oculto': [['tap', 'Mira cuánto giró y cuánto se estiró la bandera, y toca en la telaraña el número w que lo hace.', { items: ['•', '•', '•', '•'], pick: [2] }]],
   'hermanas-raiz': [['tap', 'Toca en la circunferencia dónde están las otras raíces: quedan igual de separadas.', { items: ['•', '•', '•', '•'], pick: [1, 3] }]],
   'acorrala-raiz': [['tap', 'Toca el tramo donde vive la raíz: está donde las marcas cambian de color.', { items: ['1.3', '1.4', '1.5'], pick: [1] }], ['tap', 'Cada toque abre una lupa: repite con las cifras que siguen.', { items: ['1.41', '1.42'], pick: [0] }]],
   'afina-sistema': [['step', 'Mueve un coeficiente con − / + y mira cómo gira o se desliza su recta.', { from: 1, to: 3, label: 'coeficiente' }]],

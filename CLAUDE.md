@@ -154,7 +154,7 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   cartel «Sin prisa») → `torre-pisos` (el piso n es aⁿ; se cuentan pisos con un ascensor y se entregan paquetes), `escala-leyes`
   (tarjetas «· xᵏ», «÷ xᵏ», «( )ᵏ» que hay que usar en el orden correcto), `siembra-raices` (elegir enteros y verlos crecer
   hasta xⁿ; ecuación frente a raíz) y `muro-radicales` (ladrillos de largo √n a escala, con costuras). Faltan los demás mundos.
-- **Trigonometría** (spec `2026-11-22-trigonometria-juegos`, pruebas `tests/trig-juegos.test.js`, robot `tests/robot-trig.js`: `await __trig.run()` juega con `peek().solve` cualquier juego `questGame`): las 19 lecciones ya no tienen `une-parejas` y cada una termina en un juego `questGame` propio (`TRIG_EXTRA` en `js/courses/trig-juegos.js`, que va después de `trig.js`): `quita-vueltas`, `rueda-rodante`, `toca-lados`, `figuras-notables`, `multiplica-razon`, `proyecta-punto`, `espejo-cuadrantes`, `ola-entre-lineas`, `crestas-faroles`, `ventana-inversa`, `escala-triangulo`, `todo-en-senos`, `rectangulo-suma`, `tira-doble`, `red-periodica`, `pareja-opuesta`, `bisagra-area`, `parientes-polares`, `hermanas-raiz`. Ayudas comunes `TK` al final de `kit.js` (`piTex`, valores notables, `ring`, `row`, `steps`, `hitSeg`, `sideLabel`). El rótulo (`prompt`) de un `questGame` debe ser corto (unas 60 letras): si no, sale diminuto. Faltan jefes y evaluaciones de Trigonometría.
+- **Trigonometría** (spec `2026-11-22-trigonometria-juegos`, pruebas `tests/trig-juegos.test.js`, robot `tests/robot-trig.js`: `await __trig.run()` juega con `peek().solve` cualquier juego `questGame`): las 20 lecciones ya no tienen `une-parejas` y cada una termina en un juego `questGame` propio (`TRIG_EXTRA` en `js/courses/trig-juegos.js`, que va después de `trig.js`): `quita-vueltas`, `rueda-rodante`, `toca-lados`, `figuras-notables`, `multiplica-razon`, `proyecta-punto`, `espejo-cuadrantes`, `ola-entre-lineas`, `crestas-faroles`, `ventana-inversa`, `escala-triangulo`, `todo-en-senos`, `rectangulo-suma`, `tira-doble`, `red-periodica`, `pareja-opuesta`, `bisagra-area`, `parientes-polares`, `multiplicador-oculto` (se ve una figura y su imagen al multiplicar por w una o dos veces; se toca w: girar y estirar, y con w² las dos raíces cuadradas), `hermanas-raiz`. **Galaxia Polar tiene tres lecciones**: `trig-151` forma polar, `trig-152` producto, cociente y potencias (De Moivre) y `trig-153` raíces n-ésimas (antes era la parte 2 de `trig-152`). Ayudas comunes `TK` al final de `kit.js` (`piTex`, valores notables, `ring`, `row`, `steps`, `hitSeg`, `sideLabel`). El rótulo (`prompt`) de un `questGame` debe ser corto (unas 60 letras): si no, sale diminuto. Faltan jefes y evaluaciones de Trigonometría.
 - **Juegos por rondas con `roundsGame(def)`** (al final de `kit.js`; spec `2026-11-15-torres-de-potencias`): armazón con
   pestañas, enunciado, pie y estado `{ rounds: [...] }`; el juego solo da `init, ok, solution, prompt, draw, press` (y
   `answered`, `foot`, `layout`, `peek` si hacen falta). Con `sup(n)`, `drawStepper` y `stepHit`. Hechos con él, todos del
@@ -446,7 +446,7 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   pruebas `tests/trig-zoom.test.js`). Un video por lección (130 s, sin nombres de personas: rueda, reloj, cometa, faros,
   noria, nave…): `grados` `arco` `soh` `notables` `seis` `unitaria` `signos` `amplitud` `periodo` (Mar de las Ondas),
   `inversas` `identidades` `demostrar` `suma` `doble` `ecuaciones` `senos` `cosenos` (Faro de los Ángulos), `polar`
-  `demoivre` `raices` (Galaxia Polar; `raices` va en `more: [{ after: 3, … }]` de `trig-152`). `sh video/trig-zoom/build.sh
+  `demoivre` `raices` (Galaxia Polar; `raices` es el video de la lección `trig-153`). `sh video/trig-zoom/build.sh
   [nombre …]` (unos 3 min cada uno; **no correr capturas de navegador a la vez**: se cuelga), `check.sh` (ritmo y lectura)
   y `sheet.sh` (hoja de contacto). Entregados en `Downloads/Zuka_Trig_zoom`; esperan su ID de Bunny: al recibirlo, poner
   `clip.bunny` + `duration` y cambiar las escenas de respaldo por los ejemplos del video. Reemplazan a T1–T20 (manimgl).
@@ -455,8 +455,7 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
 - Trigonometría unidad 2: T10–T17 (`trig-45`, `trig-4`, `trig-47b`, `trig-48a`, `trig-48b`, `trig-49`,
   `trig-46a`, `trig-46b`). En estas clases `zoom_to` (en su `mb_common.py`) no deja que el objetivo se salga
   por los lados y desvanece el encabezado mientras dura el zoom.
-- Trigonometría unidad 3: T18 (`trig-151`), T19 (`trig-152`) y T20 (raíces, `trig-152` en `more` con
-  `after: 3`, hoy solo con escenas).
+- Trigonometría unidad 3: T18 (`trig-151`), T19 (`trig-152`) y T20 (raíces, hoy lección `trig-153`, solo con escenas).
 - Cálculo: faltan lecciones de su cronograma (ver spec `2026-11-07-cronograma-algebra-calculo`).
 - El resto de Álgebra aún tiene ejercicios de opción múltiple y
   sin pistas.

@@ -10,7 +10,7 @@ const DYN = {
   'trig-42c': 'multiplica-razon', 'trig-3': 'proyecta-punto', 'trig-43b': 'espejo-cuadrantes', 'trig-44a': 'ola-entre-lineas',
   'trig-44b': 'crestas-faroles', 'trig-45': 'ventana-inversa', 'trig-4': 'escala-triangulo', 'trig-47b': 'todo-en-senos',
   'trig-48a': 'rectangulo-suma', 'trig-48b': 'tira-doble', 'trig-49': 'red-periodica', 'trig-46a': 'pareja-opuesta',
-  'trig-46b': 'bisagra-area', 'trig-151': 'parientes-polares', 'trig-152': 'hermanas-raiz',
+  'trig-46b': 'bisagra-area', 'trig-151': 'parientes-polares', 'trig-152': 'multiplicador-oculto', 'trig-153': 'hermanas-raiz',
 };
 const NEW = Object.values(DYN), FILES = NEW.map(g => `js/games/${g}.js`);
 const ctx = loadScripts(['js/content.js', 'js/games/kit.js', ...FILES, 'js/courses/trig.js', 'js/courses/trig-juegos.js']);
@@ -19,8 +19,8 @@ const GAMES = get(ctx, 'GAMES'), course = get(ctx, 'COURSE_TRIG');
 const lessons = course.units.flatMap(u => u.lessons);
 
 test('cada lección de Trigonometría termina con su juego nuevo, todos distintos', () => {
-  assert.equal(lessons.length, 19);
-  assert.equal(new Set(NEW).size, 19);
+  assert.equal(lessons.length, 20);
+  assert.equal(new Set(NEW).size, 20);
   for (const l of lessons) {
     const last = l.ex[l.ex.length - 1];
     assert.equal(last.type, 'play', l.id); assert.equal(last.game, DYN[l.id], l.id);
@@ -78,6 +78,8 @@ test('casos para pensar: lo que no es lo primero que se ocurre', () => {
   assert.ok(items('pareja-opuesta').some(it => GAMES['pareja-opuesta'].answer(it).taps.length >= 2), 'primero el tercer ángulo');
   assert.ok(items('proyecta-punto').some(it => it.deg > 180), 'un punto con seno negativo');
   assert.ok(items('ventana-inversa').some(it => it.std) && items('ventana-inversa').some(it => !it.std));
+  for (const it of items('multiplicador-oculto')) assert.equal(GAMES['multiplicador-oculto'].answer(it).found.length, it.k === 2 ? 2 : 1, 'w² tiene dos raíces cuadradas: ' + JSON.stringify(it));
+  assert.ok(items('multiplicador-oculto').some(it => it.r < 1) && items('multiplicador-oculto').some(it => it.deg > 180), 'achicar y girar hacia atrás');
 });
 
 test('los juegos nuevos están registrados, con guía y como juegos de vidas', () => {

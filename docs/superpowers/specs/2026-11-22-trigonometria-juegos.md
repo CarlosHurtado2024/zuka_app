@@ -35,7 +35,8 @@ ya convertidos a «Arma la cuenta» o «Escala la solución», y **un juego nuev
 | `trig-46a` | `pareja-opuesta` | Resolver un triángulo tocando lo que ya se puede calcular: tercer ángulo o lado con una pareja completa. |
 | `trig-46b` | `bisagra-area` | Girar un lado hasta la altura que da el área pedida: suelen servir dos ángulos (C y 180° − C). |
 | `trig-151` | `parientes-polares` | Llevar un punto al conjugado, al opuesto, a i·z o al inverso de z moviendo módulo y ángulo. |
-| `trig-152` | `hermanas-raiz` | Con una raíz n-ésima dada, tocar las demás: reparten la vuelta en n partes iguales. |
+| `trig-152` | `multiplicador-oculto` | Una figura y su imagen al multiplicarla por w (una o dos veces): tocar w. Girar y estirar; con w² salen las dos raíces cuadradas. |
+| `trig-153` | `hermanas-raiz` | Con una raíz n-ésima dada, tocar las demás: reparten la vuelta en n partes iguales. |
 
 Además, algunos de estos juegos se usan con otros retos en una lección vecina para que ninguna quede corta:
 `multiplica-razon` (solo sen, cos, tan) en `trig-1`, `proyecta-punto` (primer cuadrante) en `trig-2`, `quita-vueltas`

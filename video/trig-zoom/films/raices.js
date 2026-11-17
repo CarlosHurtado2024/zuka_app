@@ -1,4 +1,4 @@
-// «Raíces n-ésimas de un complejo» (lección trig-152, parte 2, Galaxia Polar, video 3) en estilo Scale Zoom Explainer.
+// «Raíces n-ésimas de un complejo» (lección trig-153, Galaxia Polar, video 3) en estilo Scale Zoom Explainer.
 // Ejemplos propios (no salen en los ejercicios): x³ = 1 (1 y −1/2 ± (√3/2) i, un triángulo equilátero), las raíces cúbicas
 // de 8 cis 60° (2 cis 20°, 140°, 260°) y las raíces sextas de 64 (radio 2, cada 60°: un hexágono).
 // Hilo: ¿qué número al cubo da 1? En la recta solo el 1, pero el álgebra promete tres. Sorpresa anunciada: las otras dos
