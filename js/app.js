@@ -5,7 +5,7 @@ const KEY = 'zuka-v1';
 const HEART_MS = 20 * 60 * 1000; // una vida cada 20 minutos
 const DEFAULTS = () => ({
   name: '', xp: 0, done: {}, exams: {}, watched: {}, likes: {}, saved: {}, course: 'algebra',
-  streak: 0, maxStreak: 0, lastDay: null, hearts: 5, heartsAt: Date.now(), today: { day: null, xp: 0 },
+  streak: 0, maxStreak: 0, days: {}, lastDay: null, hearts: 5, heartsAt: Date.now(), today: { day: null, xp: 0 },
   goal: 30, correct: 0, answered: 0, voice: false, sfx: true, theme: 'system', hideInstall: false, videoQuality: 'auto', videoMuted: false, videoSpeed: 1,
   // Modo revisión: todas las lecciones abiertas y sin perder vidas, para revisar el contenido mientras
   // se construye. Se apaga en Perfil → Ajustes (o aquí, con false, antes de abrirla a estudiantes).
@@ -91,7 +91,13 @@ const todayXP = () => (S.today.day === today() ? S.today.xp : 0);
 
 function addXP(n) {
   if (S.today.day !== today()) S.today = { day: today(), xp: 0 };
-  S.today.xp += n; S.xp += n; save();
+  S.today.xp += n; S.xp += n;
+  // XP de cada día, para el calendario de actividad (hoja de racha). Se guardan los 400 días más recientes.
+  const days = S.days || (S.days = {});
+  days[today()] = (days[today()] || 0) + n;
+  const keys = Object.keys(days);
+  if (keys.length > 400) keys.sort().slice(0, keys.length - 400).forEach(k => delete days[k]);
+  save();
 }
 function markStreak() {
   if (S.lastDay === today()) return false;
@@ -115,7 +121,8 @@ function loseHeart() {
 const minsToHeart = () => Math.max(1, Math.ceil((S.heartsAt + HEART_MS - Date.now()) / 60000));
 
 // ---- cursos ----
-const courseById = id => COURSES.find(c => c.id === id) || COURSES[0];
+// Solo entre los cursos que esta cuenta puede ver (js/cuenta.js): los estudiantes, los habilitados.
+const courseById = id => cursosVisibles().find(c => c.id === id) || cursosVisibles()[0];
 const lessonsOf = c => c.units.flatMap(u => u.lessons);
 const isDone = l => !!S.done[l.id];
 function isUnlocked(c, l) {
@@ -173,11 +180,11 @@ function openSheet(html, bind) {
 function closeSheet() { $('#sheet').classList.remove('open'); }
 
 function openCoursePicker() {
-  openSheet(`<h3 class="sheet-title">Elige un curso</h3><div class="course-list">${COURSES.map(c => {
+  openSheet(`<h3 class="sheet-title">Elige un curso</h3><div class="course-list">${cursosVisibles().map(c => {
     const ls = lessonsOf(c), d = ls.filter(isDone).length;
     return `<button class="course-row${c.id === S.course ? ' on' : ''}" data-id="${c.id}" style="--c:${c.color}">
       ${courseArt(c, 'lg')}
-      <span class="cr-body"><span class="eyebrow">${esc(c.level)} · ${ls.length} lecciones</span><b>${esc(c.name)}</b>
+      <span class="cr-body"><span class="eyebrow">${cursoBorrador(c) ? 'Borrador · ' : ''}${esc(c.level)} · ${ls.length} lecciones</span><b>${esc(c.name)}</b>
       <span class="mini-bar"><i style="width:${(d / ls.length) * 100}%"></i></span></span>
       ${d === ls.length ? `<span class="cr-done">${ICON.check}</span>` : ''}</button>`;
   }).join('')}</div>`, sh => sh.querySelectorAll('.course-row').forEach(b => b.onclick = () => {
@@ -185,18 +192,41 @@ function openCoursePicker() {
   }));
 }
 
-// Hoja de racha: la semana (días con actividad dentro de la racha viva), la racha máxima y las lecciones hechas.
+// Hoja de racha = actividad: el mes en una cuadrícula con los días con actividad (S.days y la racha viva),
+// flechas para ver meses anteriores y tres fichas (racha, XP de hoy, racha máxima).
 function openStreakSheet() {
-  const n = streakNow(), lit = S.lastDay === today();
-  const doneN = COURSES.reduce((t, c) => t + lessonsOf(c).filter(isDone).length, 0);
-  openSheet(`<div class="streak-sheet">
-    <p class="ss-big${lit ? ' lit' : ''}"><b>${n}</b>${ICON.flame}</p>
-    <h3>${n === 1 ? '1 día de racha' : `${n} días de racha`}</h3>
-    <p class="muted">${lit ? '¡Hoy ya sumaste! Vuelve mañana para seguirla.' : n ? 'Completa una lección hoy para no perderla.' : 'Completa una lección para empezar tu racha.'}</p>
-    <ol class="ss-week" aria-label="Tu semana">${streakWeek(S.lastDay, n).map(d =>
-      `<li class="${d.lit ? 'lit' : ''}${d.today ? ' today' : ''}"><span>${d.lit ? ICON.flame : ''}</span><small>${d.label}</small></li>`).join('')}</ol>
-    <div class="ss-stats"><p><b>${Math.max(S.maxStreak || 0, n)}</b><span>Racha máxima</span></p><p><b>${doneN}</b><span>Lecciones completadas</span></p></div>
-  </div>`);
+  const n = streakNow(), lit = S.lastDay === today(), now = new Date();
+  const active = new Set([...Object.keys(S.days || {}), ...streakDays(S.lastDay, n, now)]);
+  let off = 0;   // meses hacia atrás: 0 es el actual, −11 el más viejo que se muestra
+  const cal = () => {
+    const d = new Date(now.getFullYear(), now.getMonth() + off, 1);
+    return `<div class="act-nav">
+        <button class="icon-btn" data-month="-1" aria-label="Mes anterior"${off > -11 ? '' : ' disabled'}>${ICON.back}</button>
+        <b aria-live="polite">${d.toLocaleDateString('es', { month: 'long', year: 'numeric' })}</b>
+        <button class="icon-btn" data-month="1" aria-label="Mes siguiente"${off ? '' : ' disabled'}>${ICON.right}</button></div>
+      <ol class="act-grid" aria-label="Días con actividad">${[...'LMXJVSD'].map(l => `<li class="act-dow" aria-hidden="true">${l}</li>`).join('')}${
+        monthGrid(d.getFullYear(), d.getMonth(), active, now).map(c =>
+          `<li class="${c.out ? 'out' : ''}${c.lit ? ' lit' : ''}${c.today ? ' today' : ''}"${c.lit ? ` aria-label="${c.d}, con actividad"` : c.today ? ` aria-label="${c.d}, hoy"` : ''}><span>${c.d}</span></li>`).join('')}</ol>`;
+  };
+  openSheet(`<div class="act-sheet">
+    <h3 class="sheet-title">Actividad</h3>
+    <p class="muted">${lit ? '¡Hoy ya sumaste! Vuelve mañana para seguir tu racha.' : n ? 'Completa una lección hoy para no perder tu racha.' : 'Completa una lección para empezar tu racha.'}</p>
+    <div class="act-cal">${cal()}</div>
+    <div class="act-tiles">
+      <p class="fire${lit ? ' lit' : ''}">${ICON.flame}<b>${n}</b><span>${n === 1 ? 'Día de racha' : 'Días de racha'}</span></p>
+      <p class="gold">${ICON.bolt}<b>${todayXP()}</b><span>XP hoy</span></p>
+      <p class="brand">${ICON.trophy}<b>${Math.max(S.maxStreak || 0, n)}</b><span>Racha máxima</span></p>
+    </div>
+  </div>`, sh => {
+    const box = $('.act-cal', sh);
+    box.onclick = e => {
+      const b = e.target.closest('[data-month]');
+      if (!b || b.disabled) return;
+      off = Math.max(-11, Math.min(0, off + +b.dataset.month));
+      box.innerHTML = cal();
+      $(`[data-month="${b.dataset.month}"]:not(:disabled)`, box)?.focus();
+    };
+  });
 }
 
 function openLessonSheet(c, l) {
@@ -353,7 +383,9 @@ function renderWorld(c, ui) {
     openWorld = { course: c.id, i: ui + 1 }; renderLearn(); $('[data-back]', view).focus({ preventScroll: true });
   });
   view.scrollTop = 0;   // el mundo empieza arriba, o centrado en su nivel actual
-  view.querySelector('.node.current')?.scrollIntoView({ block: 'center' });
+  // Solo se baja hasta el nivel actual si queda fuera de la pantalla: así la tarjeta del mundo no se corta arriba.
+  const curNode = view.querySelector('.node.current');
+  if (curNode && curNode.getBoundingClientRect().bottom > view.getBoundingClientRect().bottom - 48) curNode.scrollIntoView({ block: 'center' });
 }
 
 // ---- pestaña Clips (feed vertical de curiosidades; ver js/curiosidades.js) ----
@@ -683,22 +715,20 @@ function startLesson(c, l) {
 }
 
 // ---- pestaña Perfil ----
+let profileSub = null;   // 'settings': pantalla de Ajustes dentro de la pestaña Perfil (null = el perfil)
 function renderProfile() {
-  const all = COURSES.flatMap(lessonsOf), doneN = all.filter(isDone).length;
+  if (profileSub === 'settings') return renderSettings();
+  const all = cursosVisibles().flatMap(lessonsOf), doneN = all.filter(isDone).length;
   const acc = S.answered ? Math.round((100 * S.correct) / S.answered) : 0;
-  const saved = Object.keys(S.saved).filter(id => S.saved[id]).map(id => findCurio(id) || findLesson(id)).filter(Boolean);
-  const installed = isStandalone();
+  const saved = Object.keys(S.saved).filter(id => S.saved[id]).map(id => findCurio(id) || findLesson(id)).filter(x => x && (x.l.fact || cursoVisible(x.c)));   // nada guardado de un curso oculto
   view.innerHTML = `<div class="profile">
-    <div class="brand-row">
-      <img class="logo logo-light" src="brand/logo-light.png" alt="Zuka" width="128" height="44">
-      <img class="logo logo-dark" src="brand/logo-dark.png" alt="Zuka" width="128" height="44">
-    </div>
     <section class="me">
       <div class="avatar">${esc((S.name || 'Z')[0].toUpperCase())}</div>
       <div class="me-body">
         <input class="name-input" value="${esc(S.name)}" placeholder="Tu nombre" maxlength="24" aria-label="Tu nombre">
         <p class="muted">Fundamentos de ingeniería</p>
       </div>
+      <button class="icon-btn prof-gear" data-settings aria-label="Ajustes">${ICON.gear}</button>
     </section>
     ${cuentaCard()}
     <section class="stats">
@@ -708,13 +738,13 @@ function renderProfile() {
       <div class="stat ok">${ICON.target}<b>${acc}%</b><small>Precisión</small></div>
     </section>
     <section class="card">
-      <h3>Meta diaria</h3>
-      <p class="muted">${todayXP()} de ${S.goal} XP hoy</p>
-      <div class="seg">${[10, 20, 30, 50].map(g => `<button data-goal="${g}" class="${S.goal === g ? 'on' : ''}">${g} XP</button>`).join('')}</div>
+      <h3>Meta de hoy</h3>
+      <p class="muted">${todayXP()} de ${S.goal} XP</p>
+      <div class="bar"><i style="width:${Math.min(1, todayXP() / S.goal) * 100}%"></i></div>
     </section>
     <section class="card">
       <h3>Progreso por curso</h3>
-      ${COURSES.map(c => {
+      ${cursosVisibles().map(c => {
         const ls = lessonsOf(c), d = ls.filter(isDone).length;
         return `<button class="prog-row" data-course="${c.id}" style="--c:${c.color}">${courseArt(c, 'md')}
           <span class="pr-body"><b>${esc(c.name)}</b><span class="mini-bar"><i style="width:${(d / ls.length) * 100}%"></i></span></span>
@@ -723,45 +753,67 @@ function renderProfile() {
     </section>
     ${saved.length ? `<section class="card"><h3>Clips guardados</h3>${saved.map(({ c, l }) =>
       `<button class="saved-row" data-${l.fact ? 'curio' : 'lesson'}="${l.id}" style="--c:${c.color}">${ICON.bookmark}<span><b>${esc(l.title)}</b><small>${esc(c.name)}</small></span></button>`).join('')}</section>` : ''}
-    <section class="card">
-      <h3>Apariencia</h3>
-      <div class="seg seg-3">${[['light', 'Claro'], ['dark', 'Oscuro'], ['system', 'Sistema']].map(([v, l]) =>
-        `<button data-theme-opt="${v}" class="${S.theme === v ? 'on' : ''}">${l}</button>`).join('')}</div>
-    </section>
-    <section class="card install-card">
-      <img src="icons/icon-192.png" alt="" width="56" height="56">
-      <div>
-        <h3>${installed ? 'Zuka está instalada' : 'Instala Zuka'}</h3>
-        <p class="muted">${installed ? 'Ya la estás usando como app.' : installEvt ? 'En tu celular o computador, como una app más.' : installHelp()}</p>
-      </div>
-      ${!installed && installEvt ? '<button class="btn brand sm" data-install>Instalar</button>' : ''}
-    </section>
-    <section class="card">
-      <h3>Ajustes</h3>
-      <button class="toggle-row" data-set="voice"><span>Narración por voz en las lecciones sin video</span><span class="toggle${S.voice ? ' on' : ''}"></span></button>
-      <button class="toggle-row" data-set="sfx"><span>Efectos de sonido</span><span class="toggle${S.sfx ? ' on' : ''}"></span></button>
-      ${cuentaEsAdmin() || SIN_CANDADOS ? `<button class="toggle-row" data-set="unlockAll"><span>Modo revisión: todas las lecciones abiertas y sin perder vidas</span><span class="toggle${S.unlockAll ? ' on' : ''}"></span></button>` : ''}
-      <button class="btn ghost tour-again" data-tour>Ver el recorrido otra vez</button>
-      <button class="btn ghost danger" data-reset>Reiniciar progreso</button>
-    </section>
   </div>`;
   const nameInp = $('.name-input', view);
   nameInp.onchange = () => { S.name = nameInp.value.trim(); save(); renderProfile(); };
   cuentaBind(view);
-  view.querySelectorAll('[data-goal]').forEach(b => b.onclick = () => { S.goal = +b.dataset.goal; save(); renderProfile(); });
+  $('[data-settings]', view).onclick = () => { profileSub = 'settings'; renderProfile(); view.scrollTop = 0; $('[data-back]', view).focus({ preventScroll: true }); };
   view.querySelectorAll('[data-course]').forEach(b => b.onclick = () => { S.course = b.dataset.course; openWorld = null; save(); go('learn'); });
   view.querySelectorAll('[data-lesson]').forEach(b => b.onclick = () => {
     const { c, l } = findLesson(b.dataset.lesson);
     if (isUnlocked(c, l)) startLesson(c, l); else toast(`Primero completa las lecciones anteriores de ${esc(c.name)}.`);
   });
   view.querySelectorAll('[data-curio]').forEach(b => b.onclick = () => { feedFilter = 'all'; feedStart = b.dataset.curio; go('clips'); });
-  view.querySelectorAll('[data-theme-opt]').forEach(b => b.onclick = () => { S.theme = b.dataset.themeOpt; save(); applyTheme(); renderProfile(); });
+}
+
+// Ajustes: pantalla propia dentro de Perfil (se entra por el piñón). Filas con icono, en grupos.
+function renderSettings() {
+  const installed = isStandalone();
+  const themes = [['system', 'Según el sistema', 'auto'], ['light', 'Claro', 'sun'], ['dark', 'Oscuro', 'moon']];
+  const row = (icon, title, sub, end = '') => `<span class="set-ico">${ICON[icon]}</span><span class="set-body"><b>${title}</b>${sub ? `<small>${sub}</small>` : ''}</span>${end}`;
+  const toggle = k => `<span class="toggle${S[k] ? ' on' : ''}"></span>`;
+  view.innerHTML = `<div class="settings">
+    <header class="set-head"><button class="icon-btn" data-back aria-label="Volver al perfil">${ICON.back}</button><h2>Ajustes</h2></header>
+    <section class="set-group">
+      <h3 class="eyebrow">Aprendizaje</h3>
+      <div class="set-row">${row('target', 'Meta diaria', `${todayXP()} de ${S.goal} XP hoy`)}</div>
+      <div class="seg" role="group" aria-label="Meta diaria">${[10, 20, 30, 50].map(g => `<button data-goal="${g}" class="${S.goal === g ? 'on' : ''}" aria-pressed="${S.goal === g}">${g} XP</button>`).join('')}</div>
+    </section>
+    <section class="set-group">
+      <h3 class="eyebrow">Sonido</h3>
+      <button class="set-row" data-set="voice" role="switch" aria-checked="${!!S.voice}">${row('voice', 'Narración por voz', 'En las lecciones sin video', toggle('voice'))}</button>
+      <button class="set-row" data-set="sfx" role="switch" aria-checked="${!!S.sfx}">${row('sound', 'Efectos de sonido', '', toggle('sfx'))}</button>
+    </section>
+    <section class="set-group">
+      <h3 class="eyebrow">Apariencia</h3>
+      <div class="set-row">${row('moon', 'Tema', themes.find(t => t[0] === S.theme)?.[1] || 'Según el sistema',
+        `<span class="theme-seg" role="group" aria-label="Tema">${themes.map(([v, l, ic]) => `<button data-theme-opt="${v}" aria-label="${l}" aria-pressed="${S.theme === v}">${ICON[ic]}</button>`).join('')}</span>`)}</div>
+    </section>
+    ${cuentaEsAdmin() || SIN_CANDADOS ? `<section class="set-group">
+      <h3 class="eyebrow">Administración</h3>
+      <button class="set-row" data-set="unlockAll" role="switch" aria-checked="${!!S.unlockAll}">${row('lock', 'Modo revisión', 'Todas las lecciones abiertas y sin perder vidas', toggle('unlockAll'))}</button>
+    </section>` : ''}
+    <section class="set-group">
+      <h3 class="eyebrow">App</h3>
+      ${!installed && installEvt
+        ? `<button class="set-row" data-install>${row('download', 'Instalar Zuka', 'En tu celular o computador, como una app más', ICON.right)}</button>`
+        : `<div class="set-row">${row('download', installed ? 'Zuka está instalada' : 'Instalar Zuka', installed ? 'Ya la estás usando como app.' : installHelp())}</div>`}
+      <button class="set-row" data-tour>${row('play', 'Ver el recorrido otra vez', 'Un paseo corto por la app', ICON.right)}</button>
+    </section>
+    <section class="set-group">
+      <button class="set-row danger" data-reset>${row('trash', 'Reiniciar progreso', 'Borra tu XP, tu racha y las lecciones completadas')}</button>
+    </section>
+  </div>`;
+  const repaint = () => { const y = view.scrollTop; renderSettings(); view.scrollTop = y; };
+  $('[data-back]', view).onclick = () => { profileSub = null; renderProfile(); view.scrollTop = 0; $('[data-settings]', view).focus({ preventScroll: true }); };
+  view.querySelectorAll('[data-goal]').forEach(b => b.onclick = () => { S.goal = +b.dataset.goal; save(); repaint(); });
+  view.querySelectorAll('[data-theme-opt]').forEach(b => b.onclick = () => { S.theme = b.dataset.themeOpt; save(); applyTheme(); repaint(); });
+  view.querySelectorAll('[data-set]').forEach(b => b.onclick = () => { S[b.dataset.set] = !S[b.dataset.set]; save(); repaint(); });
   $('[data-install]', view)?.addEventListener('click', promptInstall);
-  view.querySelectorAll('[data-set]').forEach(b => b.onclick = () => { S[b.dataset.set] = !S[b.dataset.set]; save(); renderProfile(); });
-  $('[data-tour]', view).onclick = startTour;
+  $('[data-tour]', view).onclick = () => { profileSub = null; startTour(); };
   $('[data-reset]', view).onclick = () => {
     ask({ title: '¿Borrar todo tu progreso?', text: 'Se borran tu XP, tu racha y las lecciones completadas. Tus asesorías separadas se conservan. No se puede deshacer.', ok: 'Borrar todo', cancel: 'Cancelar', danger: true })
-      .then(yes => { if (yes) { S = Object.assign(DEFAULTS(), { tourDone: S.tourDone, tutorias: S.tutorias, cuenta: S.cuenta, guest: S.guest, unlockAll: S.unlockAll }); openWorld = null; save(); applyTheme(); go('learn'); } });
+      .then(yes => { if (yes) { usoEnvia(); uso.ans = 0; uso.ok = 0; S = Object.assign(DEFAULTS(), { tourDone: S.tourDone, tutorias: S.tutorias, cuenta: S.cuenta, guest: S.guest, unlockAll: S.unlockAll }); openWorld = null; profileSub = null; save(); applyTheme(); go('learn'); } });
   };
 }
 
@@ -771,6 +823,7 @@ document.querySelectorAll('#tabbar button').forEach(b => {
   b.onclick = () => {
     if (lessonClose) return lessonClose(b.dataset.tab);
     if (tab === 'learn' && b.dataset.tab === 'learn') openWorld = null;   // tocar Aprender otra vez: al mapa
+    profileSub = null;   // el menú siempre lleva al Perfil, no a Ajustes
     go(b.dataset.tab);
   };
 });

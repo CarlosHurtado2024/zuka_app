@@ -8,6 +8,7 @@ const Cuenta = {
   perfil: null,    // fila de `perfiles` (se guarda en S.cuenta para abrir sin conexión)
   planes: null,    // filas de `planes`
   niveles: {},     // id de lección o recurso → nivel_minimo
+  cursos: null,    // id de curso → publicado (tabla `cursos`); null si aún no se sabe
   bases: new Map() // id de video → { base, hasta }
 };
 
@@ -117,6 +118,46 @@ function authScreen(modo = 'login', aviso = '') {
   };
 }
 
+// ---------- cursos habilitados ----------
+// El administrador decide en el panel (/admin → Cursos) qué cursos ven los estudiantes (tabla `cursos`).
+// Él los ve todos, con la marca «Borrador» en los que aún no habilita. Sin datos del servidor valen los
+// de CURSOS_LISTOS.
+const CURSOS_LISTOS = ['algebra', 'trig'];
+try { Cuenta.cursos = JSON.parse(localStorage.getItem('zuka-cursos')) || null; } catch (e) { /* sin copia */ }
+const cursoBorrador = c => (Cuenta.cursos ? Cuenta.cursos[c.id] !== true : !CURSOS_LISTOS.includes(c.id));
+const cursoVisible = c => SIN_CANDADOS || cuentaEsAdmin() || !cursoBorrador(c);
+function cursosVisibles() {
+  const v = COURSES.filter(cursoVisible);
+  return v.length ? v : COURSES.slice(0, 1);
+}
+
+// ---------- uso diario ----------
+// Tiempo con la app abierta y a la vista, lecciones completadas y ejercicios respondidos: se envían
+// cada minuto (registrar_uso) y alimentan las estadísticas del panel. Solo con sesión.
+const uso = { seg: 0, t: Date.now(), lec: 0, ans: null, ok: null };
+function usoTick(visible = !document.hidden) {
+  const now = Date.now(), dt = (now - uso.t) / 1000;
+  uso.t = now;
+  if (visible && dt > 0 && dt < 40 && Cuenta.user && !Cuenta.user.offline) uso.seg += dt;
+  if (uso.seg >= 60) usoEnvia();
+}
+function usoEnvia() {
+  if (!Cuenta.sb || !Cuenta.user || Cuenta.user.offline || typeof S === 'undefined') return;
+  if (uso.ans == null) { uso.ans = S.answered; uso.ok = S.correct; }
+  const seg = Math.round(uso.seg), ej = Math.max(0, S.answered - uso.ans), ac = Math.max(0, S.correct - uso.ok), lec = uso.lec;
+  if (!seg && !ej && !lec) return;
+  uso.seg = 0; uso.lec = 0; uso.ans = S.answered; uso.ok = S.correct;
+  Cuenta.sb.rpc('registrar_uso', { p_segundos: seg, p_lecciones: lec, p_ejercicios: ej, p_aciertos: Math.min(ac, ej), p_xp: S.xp, p_racha: streakNow() })
+    .then(() => {}, () => {});
+}
+if (typeof document !== 'undefined') {
+  setInterval(usoTick, 15000);
+  // Al esconder la app se cuenta lo que iba y se envía; al volver, el reloj arranca de nuevo.
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { usoTick(true); usoEnvia(); } else uso.t = Date.now();
+  });
+}
+
 function cuentaInit() {
   if (typeof S === 'undefined') return;
   // Lo último que se supo de la cuenta: sirve para abrir sin conexión.
@@ -134,6 +175,14 @@ function cuentaInit() {
     Object.assign(Cuenta.niveles, m);
     try { localStorage.setItem('zuka-niveles', JSON.stringify(m)); } catch (e) { /* sin espacio */ }
     cuentaRepinta();
+  });
+  Cuenta.sb.from('cursos').select('id,publicado').then(({ data }) => {
+    if (!data || !data.length) return;
+    const m = {}; data.forEach(r => { m[r.id] = r.publicado; });
+    const cambio = JSON.stringify(m) !== JSON.stringify(Cuenta.cursos);
+    Cuenta.cursos = m;
+    try { localStorage.setItem('zuka-cursos', JSON.stringify(m)); } catch (e) { /* sin espacio */ }
+    if (cambio) cuentaRepinta();
   });
 }
 
@@ -156,6 +205,7 @@ async function cuentaSesion(ev, session) {
   // Supabase repite el aviso de sesión cada vez que se vuelve a la pestaña: solo se repinta si algo cambió.
   if (antes === session.user.id) { if (JSON.stringify(Cuenta.perfil) !== perfilPrevio) cuentaRepinta(); return; }
   Cuenta.bases.clear(); cuentaCola.clear();   // nada pendiente de otra cuenta sube a esta
+  uso.seg = 0; uso.lec = 0; uso.ans = S.answered; uso.ok = S.correct; uso.t = Date.now();
   await cuentaSyncProgreso(uidPrevio);
   cuentaRepinta();
 }
@@ -201,6 +251,7 @@ function cuentaProgreso(id, { completada = false, segundos = 0 } = {}) {
   S.secs = S.secs || {};
   if (segundos > (S.secs[id] || 0)) S.secs[id] = Math.round(segundos);
   const q = cuentaCola.get(id) || { leccion: id, completada: false, segundos: 0 };
+  if (completada && !q.completada) uso.lec++;
   q.completada = q.completada || completada; q.segundos = Math.max(q.segundos, Math.round(S.secs[id] || 0));
   cuentaCola.set(id, q);
   clearTimeout(cuentaTimer);
@@ -460,7 +511,7 @@ function cuentaCard() {
 function cuentaBind(root) {
   const acts = { login: openLogin, registro: openRegistro, planes: openPlanes, canje: openCanje, datos: openDatos,
     salir: async () => {
-      cuentaEnvia();
+      cuentaEnvia(); usoEnvia();
       if (Cuenta.sb) await Cuenta.sb.auth.signOut().catch(() => {});
       Cuenta.user = null; Cuenta.perfil = null; cuentaCache(); cuentaRol(false); toast('Sesión cerrada.'); cuentaRepinta();
       authScreen('login');

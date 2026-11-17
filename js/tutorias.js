@@ -136,7 +136,7 @@ function renderTutorias() {
   if (!Array.isArray(S.tutorias) || mine.length !== S.tutorias.length) { S.tutorias = mine; save(); }   // las que ya pasaron se van
   const full = mine.length >= TUTORIAS.max, nx = nextFree(now, mine);
   // Primero la materia que se está estudiando.
-  const courses = [...COURSES].sort((a, b) => (b.id === S.course) - (a.id === S.course));
+  const courses = [...(typeof cursosVisibles === 'function' ? cursosVisibles() : COURSES)].sort((a, b) => (b.id === S.course) - (a.id === S.course));
   view.innerHTML = `<div class="tutorias">
     <header class="tu-head"><h1>Tutorías</h1>
       <p class="muted">Separa una asesoría virtual para reforzar lo que más te cuesta. Eliges la materia, los temas, el día y la hora.</p></header>

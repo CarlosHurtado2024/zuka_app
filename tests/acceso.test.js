@@ -120,7 +120,7 @@ test('solo el administrador ve todo abierto; a los demás se les abre de a una l
   const cuenta = read('js/cuenta.js'), app = read('js/app.js');
   assert.match(cuenta, /if \(!cuentaEsAdmin\(\)\) S\.unlockAll = false; else if \(entra\) S\.unlockAll = true;/);
   assert.match(app, /cuentaInit\(\);[^\n]*\ngo\(tabFromURL/, 'el rol se aplica antes de pintar la primera pantalla');
-  assert.match(app, /cuentaEsAdmin\(\) \|\| SIN_CANDADOS \? `<button class="toggle-row" data-set="unlockAll"/, 'el interruptor de modo revisión no se le muestra a un estudiante');
+  assert.match(app, /cuentaEsAdmin\(\) \|\| SIN_CANDADOS \? `<section class="set-group">\s*<h3 class="eyebrow">Administración<\/h3>\s*<button class="set-row" data-set="unlockAll"/, 'el interruptor de modo revisión no se le muestra a un estudiante');
   // Sin modo revisión, una lección se abre al completar la anterior, también entre un mundo y el siguiente.
   assert.match(app, /return i <= 0 \|\| isDone\(l\) \|\| isDone\(ls\[i - 1\]\);/);
 });
@@ -137,6 +137,33 @@ test('el panel no usa clases «ad-…»: los bloqueadores de anuncios las escond
   for (const f of ['admin/admin.js', 'admin/admin.css', 'admin/index.html']) {
     assert.ok(!/(^|[^A-Za-z0-9])ad-[a-z]/.test(read(f)), f);
   }
+});
+
+test('los estudiantes solo ven los cursos que el administrador habilita', () => {
+  const cuenta = read('js/cuenta.js'), app = read('js/app.js');
+  assert.match(cuenta, /const cursoVisible = c => SIN_CANDADOS \|\| cuentaEsAdmin\(\) \|\| !cursoBorrador\(c\);/);
+  assert.match(cuenta, /from\('cursos'\)\.select\('id,publicado'\)/);
+  assert.match(app, /const courseById = id => cursosVisibles\(\)\.find/, 'un curso oculto no queda como curso actual');
+  assert.match(app, /<div class="course-list">\$\{cursosVisibles\(\)\.map/, 'el selector de cursos');
+  assert.match(app, /const all = cursosVisibles\(\)\.flatMap\(lessonsOf\)/, 'el progreso del perfil');
+  const sql = read('supabase/migrations/20261117000004_cursos_y_uso.sql');
+  assert.match(sql, /grant update \(publicado\) on public\.cursos to authenticated/);
+  assert.match(sql, /create policy cursos_editar[^;]*es_admin/);
+  assert.match(sql, /not exists \(select 1 from public\.cursos c where c\.id = l\.curso and not c\.publicado\)/, 'el servidor tampoco entrega videos de un curso oculto');
+  // Los cursos de la app y los de la tabla son los mismos.
+  for (const c of f('COURSES')) assert.ok(sql.includes(`('${c.id}', `), c.id);
+});
+
+test('el uso diario se envía solo con sesión y lo escribe únicamente registrar_uso', () => {
+  const cuenta = read('js/cuenta.js'), sql = read('supabase/migrations/20261117000004_cursos_y_uso.sql');
+  assert.match(cuenta, /rpc\('registrar_uso'/);
+  assert.match(cuenta, /if \(visible && dt > 0 && dt < 40 && Cuenta\.user && !Cuenta\.user\.offline\) uso\.seg \+= dt;/, 'solo cuenta con la app a la vista');
+  assert.ok(!/grant[^;]*(insert|update)[^;]*on public\.uso_diario/.test(sql), 'un estudiante no puede escribir su uso a mano');
+  assert.match(cuenta, /if \(document\.hidden\) \{ usoTick\(true\); usoEnvia\(\); \} else uso\.t = Date\.now\(\);/, 'al esconder la app se envía lo que iba');
+  assert.match(read('supabase/migrations/20261117000005_ajustes_uso.sql'), /least\(u\.ejercicios \+ excluded\.ejercicios, 5000\)/, 'topes diarios');
+  assert.match(sql, /least\(greatest\(coalesce\(p_segundos, 0\), 0\), 300\)/, 'cada envío cuenta a lo sumo 5 minutos');
+  const admin = read('admin/admin.js');
+  for (const s of ['vCursos', 'Cursos que estudia', 'Uso de la app', 'Minutos por día', "rpc('admin_resumen')"]) assert.ok(admin.includes(s), s);
 });
 
 test('el video de Bunny se pide al servidor (enlace firmado) y no se arma en el navegador', () => {
@@ -162,7 +189,7 @@ test('seguridad de la base: RLS en todas las tablas, columnas del plan sin permi
   assert.match(canje, /'error', 'reemplaza'/, 'un código de otro nivel no reemplaza un plan vigente sin confirmar');
   assert.match(read('js/cuenta.js'), /p_confirmar: confirmado === c/);
   assert.match(read('js/cuenta.js'), /\(S\.cuenta \|\| \{\}\)\.uid !== Cuenta\.user\.id\) return;/, 'el avance de otra cuenta no sube a esta');
-  const fns = (sql + canje).match(/create function[\s\S]*?as \$\$/g);
+  const fns = (sql + canje + read('supabase/migrations/20261117000004_cursos_y_uso.sql')).match(/create function[\s\S]*?as \$\$/g);
   assert.ok(fns.length >= 20);
   for (const fn of fns) assert.match(fn, /set search_path = ''/, fn.slice(0, 60));
   assert.ok(!/sb_secret|service_role key|eyJhbGciOi/.test(read('js/acceso.js')), 'en el navegador solo va la llave pública');
