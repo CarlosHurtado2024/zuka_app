@@ -42,11 +42,11 @@ test('los jefes no tienen caras de caricatura', () => {
   }
 });
 
-test('la app usa botones y opciones con relieve fino', () => {
+test('la app usa botones y opciones sin relieve duro (spec 2026-11-27-interfaz-red)', () => {
   const css = read('css/styles.css');
   const btn = css.slice(css.indexOf('.btn {'), css.indexOf('.btn:hover'));
-  assert.match(btn, /box-shadow: 0 2px 0/);
-  assert.ok(!/box-shadow: 0 [3-9]px 0/.test(css.slice(css.indexOf('.opt {'), css.indexOf('.opt .key'))));
+  assert.doesNotMatch(btn, /box-shadow: 0 [1-9]px 0 /);
+  assert.ok(!/box-shadow: 0 [1-9]px 0 /.test(css.slice(css.indexOf('.opt {'), css.indexOf('.opt .key'))));
   assert.match(css, /\.play \{[^}]*border: 1px solid var\(--line\)/);
 });
 

@@ -26,7 +26,7 @@ test('el inicio trae la tarjeta «Sigue aquí» que abre la lección de un toque
 });
 
 test('las píldoras de arriba y la pestaña activa tienen su estilo', () => {
-  assert.match(rule('.tb-stat'), /border:\s*2px solid var\(--line\)/);
+  assert.match(rule('.tb-stat'), /border:\s*1px solid var\(--line\)/);   // borde fino (spec 2026-11-27-interfaz-red)
   assert.match(rule('.tb-stat'), /border-radius:\s*999px/);
   assert.match(css, /#tabbar button\.on \.i\s*\{[^}]*background:/, 'píldora detrás del icono activo');
 });

@@ -33,7 +33,7 @@ const darkQuery = matchMedia('(prefers-color-scheme: dark)');
 function applyTheme() {
   const t = S.theme === 'system' ? (darkQuery.matches ? 'dark' : 'light') : S.theme;
   document.documentElement.dataset.theme = t;
-  $('meta[name="theme-color"]').content = t === 'dark' ? '#0c0f1f' : '#f5f7fc';
+  $('meta[name="theme-color"]').content = t === 'dark' ? '#07080f' : '#f4f6fb';
   setGameTheme(t);   // los minijuegos abiertos se repintan con la paleta del tema
 }
 darkQuery.addEventListener('change', () => S.theme === 'system' && applyTheme());
@@ -75,7 +75,7 @@ function showUpdateBar(apply, dismiss) {
   const bar = document.createElement('div');
   bar.className = 'update-bar';
   bar.setAttribute('role', 'status');
-  bar.innerHTML = `<img src="brand/mascota.png" alt=""><div class="ub-text"><b>Hay una versión nueva de Zuka</b><span>Actualiza para tener lo último.</span></div>
+  bar.innerHTML = `${brainTile()}<div class="ub-text"><b>Hay una versión nueva de Zuka</b><span>Actualiza para tener lo último.</span></div>
     <div class="ub-actions"><button class="btn small main" data-update type="button">Actualizar</button><button class="btn small" data-later type="button">Más tarde</button></div>`;
   $('[data-update]', bar).onclick = () => { $('[data-update]', bar).textContent = 'Actualizando…'; apply(); };
   $('[data-later]', bar).onclick = () => { bar.remove(); dismiss(); };
@@ -669,7 +669,7 @@ function startLesson(c, l) {
     bar.style.width = '100%';
     body.className = 'lesson-body';
     body.innerHTML = `<div class="done-screen"><canvas class="confetti"></canvas>
-      <img class="mascot" src="brand/mascota.png" alt="Zuka celebrando" width="150" height="155">
+      <span class="brain-tile done-brain">${brainSVG('lit')}</span>
       <h2>${perfect ? '¡Lección perfecta!' : '¡Lección completada!'}</h2>
       <p class="muted">${esc(l.title)}</p>
       <div class="done-stats">
@@ -859,7 +859,7 @@ function hideBoot() {
   setTimeout(() => b.remove(), 200);
 }
 const fontsReady = document.fonts?.load
-  ? Promise.all(['400', '600', '700', '800'].map(w => document.fonts.load(`${w} 1em "Plus Jakarta Sans"`))).catch(() => {})
+  ? Promise.all(['400', '600', '700'].map(w => document.fonts.load(`${w} 1em "Plus Jakarta Sans"`))).catch(() => {})
   : null;
 Promise.race([fontsReady, new Promise(r => setTimeout(r, 300))])
   .then(() => requestAnimationFrame(() => requestAnimationFrame(hideBoot)));

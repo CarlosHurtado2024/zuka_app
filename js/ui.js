@@ -85,7 +85,7 @@ function toast(msg) {
   setTimeout(() => t.remove(), 2600);
 }
 
-// Diálogo propio (en lugar de la ventana de confirmación del navegador): tarjeta centrada con la mascota, con los
+// Diálogo propio (en lugar de la ventana de confirmación del navegador): tarjeta centrada con la ficha del cerebro, con los
 // colores del tema. ask({ title, text, ok, cancel, danger }) → Promise<boolean>; con ok: null solo
 // queda el botón de cancelar. Tocar el fondo, Esc o el botón «atrás» del celular (js/back.js) cancelan.
 let dialogDone = null;
@@ -98,7 +98,7 @@ function ask({ title, text = '', ok = 'Aceptar', cancel = 'Cancelar', danger = f
     d.className = 'dialog';
     d.innerHTML = `<div class="dialog-bg"></div>
       <div class="dialog-card${danger ? ' danger' : ''}" aria-modal="true" aria-labelledby="dlg-title"${text ? ' aria-describedby="dlg-text"' : ''}>
-        <img class="dialog-art" src="brand/mascota.png" alt="" width="88" height="91">
+        ${brainTile('simple', 'dialog-art')}
         <h3 id="dlg-title">${esc(title)}</h3>${text ? `<p id="dlg-text">${esc(text)}</p>` : ''}
         <div class="dialog-actions">${ok ? `<button class="btn" type="button" data-ok>${esc(ok)}</button>` : ''}
           <button class="btn${ok ? ' ghost' : ''}" type="button" data-cancel>${esc(cancel)}</button></div>

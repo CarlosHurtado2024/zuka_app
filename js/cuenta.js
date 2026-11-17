@@ -73,10 +73,7 @@ function authScreen(modo = 'login', aviso = '') {
   if (!el) { el = document.createElement('div'); el.id = 'auth'; document.body.appendChild(el); }
   const reg = modo === 'registro';
   el.innerHTML = `<div class="auth-in">
-    <div class="auth-brand">
-      <img class="logo logo-light" src="brand/logo-light.png" alt="Zuka" width="128" height="44">
-      <img class="logo logo-dark" src="brand/logo-dark.png" alt="Zuka" width="128" height="44">
-    </div>
+    <div class="auth-brand">${logoHTML()}</div>
     <h1>${reg ? 'Crea tu cuenta' : 'Entra a tu cuenta'}</h1>
     <p class="muted">${reg ? 'Es gratis. Guarda tu avance y te deja activar tu plan con un código.' : 'Sigue donde ibas: tu avance y tu plan te esperan.'}</p>
     <div class="seg seg-2" role="tablist"><button type="button" role="tab" data-m="login" aria-selected="${!reg}" class="${reg ? '' : 'on'}">Iniciar sesión</button><button type="button" role="tab" data-m="registro" aria-selected="${reg}" class="${reg ? 'on' : ''}">Crear cuenta</button></div>

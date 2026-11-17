@@ -22,7 +22,7 @@
     window.__inst?.destroy(); document.getElementById('bot-host')?.remove();
     const ex = exOf(name, nth), host = document.createElement('div');
     host.id = 'bot-host'; host.className = 'play';
-    host.style.cssText = `position:fixed;left:0;top:0;width:${width}px;z-index:99999;background:${S.theme === 'light' ? '#f5f7fc' : '#0c0f1f'}`;
+    host.style.cssText = `position:fixed;left:0;top:0;width:${width}px;z-index:99999;background:${S.theme === 'light' ? '#f4f6fb' : '#07080f'}`;
     document.body.appendChild(host);
     const st = { ready: false }, inst = GAMES[name].create(host, ex.params, { ready: v => { st.ready = v; }, sfx: {}, palette: PALETTE, tex: s => s });
     window.__inst = inst; await inst.loaded; await sleep(300);

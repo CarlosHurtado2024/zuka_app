@@ -281,7 +281,7 @@ const VIZ = {
     ctx.stroke();
     const block = (x, col, label) => {
       ctx.fillStyle = col; roundRect(ctx, x, floor - size, size, size, 8 * SC); ctx.fill();
-      text(ctx, label, x + size / 2, floor - size / 2, { color: '#0b0d1a', size: 13 * SC, align: 'center', base: 'middle', weight: 800 });
+      text(ctx, label, x + size / 2, floor - size / 2, { color: '#0b0d1a', size: 13 * SC, align: 'center', base: 'middle', weight: 700 });
     };
     if (v.pair) {
       const cx = b.x + b.w / 2, L = b.w * 0.28 * ease(p), cy = floor - size / 2;
@@ -379,10 +379,10 @@ const VIZ = {
       ctx.save(); ctx.translate(px, 0); ctx.rotate(-wob);
       ctx.strokeStyle = DIM; ctx.lineWidth = 1.5;
       ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-30 * SC, drop); ctx.moveTo(0, 0); ctx.lineTo(30 * SC, drop); ctx.stroke();
-      ctx.font = font(18 * SC, 800);
+      ctx.font = font(18 * SC, 700);
       const w = Math.max(70 * SC, ctx.measureText(label).width + 24 * SC), h = 40 * SC;
       ctx.fillStyle = col; roundRect(ctx, -w / 2, drop, w, h, 10 * SC); ctx.fill();
-      text(ctx, label, 0, drop + h / 2 + 1, { color: '#0b0d1a', size: 18 * SC, align: 'center', base: 'middle', weight: 800 });
+      text(ctx, label, 0, drop + h / 2 + 1, { color: '#0b0d1a', size: 18 * SC, align: 'center', base: 'middle', weight: 700 });
       ctx.restore();
     });
     ctx.restore();
@@ -404,10 +404,10 @@ const VIZ = {
       ctx.globalAlpha = k;
       ctx.fillStyle = c + '55'; ctx.fillRect(x, y, w, h);
       ctx.strokeStyle = c; ctx.lineWidth = 2.5 * SC; ctx.strokeRect(x, y, w, h);
-      text(ctx, l, x + w / 2, y + h / 2, { color: INK, size: 20 * SC, align: 'center', base: 'middle', weight: 800 });
+      text(ctx, l, x + w / 2, y + h / 2, { color: INK, size: 20 * SC, align: 'center', base: 'middle', weight: 700 });
       ctx.globalAlpha = 1;
     });
-    const o = { color: DIM, size: 14 * SC, align: 'center', weight: 800 };
+    const o = { color: DIM, size: 14 * SC, align: 'center', weight: 700 };
     text(ctx, 'a', x0 + A / 2, y0 - 8 * SC, o); text(ctx, 'b', x0 + A + B / 2, y0 - 8 * SC, o);
     text(ctx, 'a', x0 - 12 * SC, y0 + A / 2, { ...o, base: 'middle' }); text(ctx, 'b', x0 - 12 * SC, y0 + A + B / 2, { ...o, base: 'middle' });
   },

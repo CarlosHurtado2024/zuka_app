@@ -5,8 +5,8 @@
 // `target`: selectores que se prueban en orden (el primero que exista); sin target, la tarjeta va centrada
 // con su arte (`mascot`, `video` o `ex`). `review`: texto para el modo revisión (`S.unlockAll`). `view`: lo que debe verse detrás (mapa de mundos o un mundo).
 const TOUR_STEPS = [
-  { id: 'hola', view: 'map', art: 'mascot', title: '¡Hola! Soy Zuka',
-    text: 'Te muestro en un minuto cómo se usa la app: elegir tu curso, ver los videos y resolver los ejercicios.' },
+  { id: 'hola', view: 'map', art: 'mascot', title: 'Te damos la bienvenida',
+    text: 'En un minuto verás cómo se usa Zuka: elegir tu curso, ver los videos y resolver los ejercicios.' },
   { id: 'curso', view: 'map', target: ['.tb-course'], title: 'Elige tu curso',
     text: 'Toca aquí para cambiar de curso: Álgebra, Trigonometría, Cálculo y más. Tu avance se guarda aparte en cada uno.' },
   { id: 'mundos', view: 'map', target: ['.wnode.current', '.wnode'], title: 'El camino de mundos',
@@ -67,7 +67,7 @@ function tourTipPos(hole, tipW, tipH, vw, vh, bounds, gap = 14, edge = 8) {
 }
 
 const TOUR_ART = {
-  mascot: () => '<img class="tour-mascot" src="brand/mascota.png" alt="" width="96" height="99">',
+  mascot: () => brainTile('full', 'tour-mascot'),   // la ficha del cerebro (js/marca.js)
   // Los videos siempre son oscuros: la ilustración usa colores fijos, como el reproductor.
   video: () => `<div class="tour-video" aria-hidden="true"><span class="tv-skip">Ejercicios →</span>
     <span class="tv-play">${ICON.play}</span><span class="tv-seek"><b></b></span></div>`,

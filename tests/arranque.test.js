@@ -13,8 +13,8 @@ const darkBg = css.match(/:root\s*\{[^}]*--bg:\s*(#[0-9a-f]{6})/i)[1].toLowerCas
 const lightBg = css.match(/:root\[data-theme="light"\]\s*\{[^}]*--bg:\s*(#[0-9a-f]{6})/i)[1].toLowerCase();
 const inline = (index.match(/<style>([^<]*)<\/style>/) || [])[1] || '';
 
-test('la pantalla de inicio de Android es blanca como el fondo del icono', () => {
-  assert.equal(manifest.background_color.toLowerCase(), '#ffffff');
+test('la pantalla de inicio de Android tiene el fondo del icono: el negro azulado del tema oscuro', () => {
+  assert.equal(manifest.background_color.toLowerCase(), darkBg);
 });
 
 test('la portada #boot está en el HTML antes de #app y tiene su estilo en línea', () => {
@@ -31,8 +31,8 @@ test('la portada y el documento usan exactamente el --bg de cada tema', () => {
   assert.ok(inline.includes(`html[data-theme="light"] #boot{background:${lightBg}}`));
 });
 
-test('en la app instalada la portada sigue la pantalla de inicio: blanca y sin un segundo icono', () => {
-  assert.ok(inline.includes('@media (display-mode:standalone){#boot,html[data-theme="light"] #boot{background:#ffffff}}'));
+test('en la app instalada la portada sigue la pantalla de inicio (fondo del icono) y no lleva un segundo icono', () => {
+  assert.ok(inline.includes(`@media (display-mode:standalone){#boot,html[data-theme="light"] #boot{background:${darkBg}}}`));
   const boot = index.slice(index.indexOf('id="boot"'), index.indexOf('</div>', index.indexOf('id="boot"')));
   assert.doesNotMatch(boot, /<img/, 'un icono propio no coincide con el de Android y parece que salta');
   assert.doesNotMatch(index, /rel="preload" as="image" href="icons\/icon-192\.png"/);
