@@ -205,3 +205,10 @@ video/conjunto-neon/out/
 video/conjunto-neon/fonts/*.ttf
 video/conjunto-neon/conjunto-neon.mp4
 video/conjunto-neon/events.json
+
+# Video de alg-0a en estilo «showreel» (Plutón): lo que build.sh descarga o genera
+video/conjunto-cosmos/out/
+video/conjunto-cosmos/fonts/*.ttf
+video/conjunto-cosmos/conjunto-cosmos.mp4
+video/conjunto-cosmos/events.json
+video/conjunto-cosmos/poster.jpg
