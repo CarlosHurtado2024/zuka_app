@@ -130,7 +130,7 @@ const PU_RAZONAMIENTO = [
         stickers: [45000, 15000, 36000, 4000, 60000, 40000],
       }, 'El precio final es el de lista por el factor: $60\\,000 \\cdot 0.75 = 45\\,000$ (15 000 es solo el descuento), $40\\,000 \\cdot 0.9 = 36\\,000$ y, como el balón **sube** $20\\,\\%$, $50\\,000 \\cdot 1.2 = 60\\,000$.',
         { hint: 'Cuidado: algunos stickers son solo el descuento, no el precio final. Y no todo baja: mira el signo del cambio.' }),
-      play('vuela-precios', 'Vuela a toques y pasa por el aro del resultado', { rounds: [
+      play('vuela-precios', 'Alinea el planeador con el resultado y suelta para volar', { rounds: [
         { title: 'Porcentaje de una cantidad', items: [{ ask: '10 % de 350', options: ['35', '3.5', '340'], answer: 0 }, { ask: '50 % de 90', options: ['45', '40', '180'], answer: 0 }, { ask: '25 % de 120', options: ['30', '25', '95'], answer: 0 }, { ask: '20 % de 45', options: ['9', '20', '25'], answer: 0 }] },
         { title: 'De fracción a porcentaje', items: [{ ask: '3/4', options: ['75 %', '34 %', '43 %'], answer: 0 }, { ask: '3/5', options: ['60 %', '35 %', '53 %'], answer: 0 }, { ask: '1/8', options: ['12.5 %', '18 %', '8 %'], answer: 0 }, { ask: '7/10', options: ['70 %', '7 %', '17 %'], answer: 0 }] },
       ] }, 'El $10\\,\\%$ corre el punto un lugar; el $50\\,\\%$ es la mitad; el $25\\,\\%$, la cuarta parte; y el $20\\,\\%$, la quinta. Y cada fracción tiene su porcentaje: $\\tfrac34 = 75\\,\\%$, $\\tfrac35 = 60\\,\\%$, $\\tfrac18 = 12.5\\,\\%$.',
@@ -236,7 +236,7 @@ const PU_RAZONAMIENTO = [
       play('acorrala-raiz', 'La diagonal no siempre es entera: acorrala su valor', { rounds: [{ n: 2 }, { n: 20 }], levels: 3 },
         'La diagonal de un cuadrado de lado $1$ mide $\\sqrt2 \\approx 1.414$: por eso en un triángulo de $45^\\circ$-$45^\\circ$-$90^\\circ$ los lados son $x$, $x$ y $x\\sqrt2$. Y $\\sqrt{20} \\approx 4.47$ está entre $4$ y $5$.',
         { hint: 'Eleva al cuadrado los extremos de cada tramo y quédate con el tramo que deja el número de adentro en medio.' }),
-      play('vuela-precios', 'Vuela a toques y pasa por el aro de la hipotenusa o el cateto que falta', { rounds: [
+      play('vuela-precios', 'Alinea el planeador con la longitud que falta y suelta para volar', { rounds: [
         { title: 'Halla la hipotenusa', items: [{ ask: 'catetos 9 y 12', options: ['15', '21', '108'], answer: 0 }, { ask: 'catetos 8 y 15', options: ['17', '23', '120'], answer: 0 }, { ask: 'catetos 7 y 24', options: ['25', '31', '17'], answer: 0 }] },
         { title: 'Halla el cateto', items: [{ ask: 'hipotenusa 20, cateto 16', options: ['12', '4', '36'], answer: 0 }, { ask: 'hipotenusa 26, cateto 10', options: ['24', '16', '36'], answer: 0 }, { ask: 'hipotenusa 25, cateto 15', options: ['20', '10', '40'], answer: 0 }] },
       ] }, 'Son ternas y sus múltiplos: $9$-$12$-$15$ y $12$-$16$-$20$ y $15$-$20$-$25$ vienen de $3$-$4$-$5$; $10$-$24$-$26$, de $5$-$12$-$13$; y $8$-$15$-$17$ y $7$-$24$-$25$ son ternas propias. Sumar los catetos nunca da la hipotenusa.',

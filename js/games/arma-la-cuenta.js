@@ -108,34 +108,42 @@ GAMES['arma-la-cuenta'] = (() => {
   const numTex = (v, r) => numText(v, r).replace(/ /g, '\\,').replace('−', '-');
   const unitTex = r => { if (!r.unit) return ''; if (r.unit === '°') return '^{\\circ}'; const m = String(r.unit).match(/^(.*?)([²³])$/); return m ? `\\text{ ${m[1]}}^{${m[2] === '²' ? 2 : 3}}` : `\\text{ ${r.unit}}`; };
   const withUnit = (txt, r) => (r.unit ? `${txt}${r.unit === '°' ? '' : ' '}${r.unit}` : txt);
+  const pieces = G => {
+    const keys = keysOf(G.r), n = keys.length - OPS.length;
+    return keys.map((k, i) => ({ ...((i < n) ? G.num(i) : G.op(i - n)), label: i < n ? `$${tileTex(k)}$` : OP_TXT[k] }));
+  };
+  const add = (G, i) => {
+    if (G.s.seq.length < MAX) { G.s.seq.push(i); G.touch(); }
+  };
 
   const game = roundsGame({
-    aspect: 1.2,
+    aspect: 1.02,
     init: () => ({ seq: [] }),
     // Una ficha suelta no es una cuenta: si la solución tiene varias fichas, hay que plantear al menos una operación
     // (a veces un dato del problema vale lo mismo que la respuesta).
     ok: (s, r) => { const t = tokensOf(s, r), v = evaluate(t); return Number.isFinite(v) && Math.abs(v - r.answer) <= tolOf(r) && (r.sol.length === 1 || hasOp(t)); },
     answered: (s, r) => { const t = tokensOf(s, r); return Number.isFinite(evaluate(t)) && (r.sol.length === 1 || hasOp(t)); },
     solution: r => { const tx = exprTex(r.sol); return tx ? `$${tx} = ${numTex(r.answer, r)}${unitTex(r)}$` : `${exprText(r.sol)} = ${withUnit(numText(r.answer, r), r)}`; },
-    prompt: () => 'Plantea la cuenta con las fichas: el juego la calcula',
+    prompt: () => 'Construye la operación',
+    keyboard: 'Usa las flechas para elegir una pieza, espacio para añadirla y retroceso para quitar la última.',
     foot: (r, s) => (s.seq.length ? 'Cuando sea la cuenta que responde la pregunta, comprueba' : 'Sobran fichas: elige solo los datos que sirven'),
     layout(G) {
       const { W, H } = G, n = Math.max(...G.params.rounds.map(r => numbersOf(r).length)), cols = Math.min(4, n), tw = (W - 24 - (cols - 1) * 8) / cols;
       G.rows = Math.ceil(n / cols);
-      const y0 = H - 64 - 46 - G.rows * 46;
-      G.num = i => ({ x: 12 + (i % cols) * (tw + 8), y: y0 + Math.floor(i / cols) * 46, w: tw, h: 38 });
+      const y0 = H - 72 - G.rows * 40;
+      G.num = i => ({ x: 12 + (i % cols) * (tw + 8), y: y0 + Math.floor(i / cols) * 40, w: tw, h: 33 });
       const ow = (W - 24 - 7 * 6) / 8;
-      G.op = j => ({ x: 12 + j * (ow + 6), y: H - 64 - 38, w: ow, h: 36 });
-      G.board = { x: 12, y: 88, w: W - 24, h: Math.max(84, y0 - 100) };
-      G.del = { x: W - 12 - 46, y: G.board.y + G.board.h - 34, w: 40, h: 28 };
+      G.op = j => ({ x: 12 + j * (ow + 6), y: H - 63, w: ow, h: 34 });
+      G.board = { x: 12, y: 84, w: W - 24, h: y0 - 93 };
+      G.del = { x: W - 12 - 42, y: G.board.y + G.board.h - 34, w: 35, h: 28 };
     },
     draw(G) {
-      const { p, C, W, s, r } = G, keys = keysOf(r), nNum = keys.length - OPS.length, toks = tokensOf(s, r), v = evaluate(toks), b = G.board;
+      const { p, C, W, s, r } = G, toks = tokensOf(s, r), v = evaluate(toks), b = G.board, tray = pieces(G);
       // La pizarra con la cuenta y su resultado.
-      p.noStroke(); p.fill(shade(C.card, 0.82)); p.rect(b.x, b.y + 3, b.w, b.h, 14);
-      p.stroke(G.locked ? (game.grade({ rounds: [s] }, { rounds: [r] }).ok ? C.ok : C.bad) : C.line); p.strokeWeight(2); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 14);
+      const border = G.locked ? (game.grade({ rounds: [s] }, { rounds: [r] }).ok ? C.ok : C.bad) : G.piece ? C.brand : C.line;
+      drawPracticePanel(p, b, C.card, border, 11);
       p.noStroke(); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
-      if (!toks.length) { p.fill(C.mute); p.textStyle(p.NORMAL); fitText(p, 'Toca las fichas para escribir la cuenta', W / 2, b.y + b.h / 2, b.w - 24, 13); }
+      if (!toks.length) { p.fill(C.mute); p.textStyle(p.NORMAL); fitText(p, 'Arrastra aquí las piezas de tu cuenta', W / 2, b.y + b.h / 2, b.w - 24, 14); }
       else {
         const txt = exprText(toks), tx = exprTex(toks);
         p.fill(C.ink); p.textSize(19);
@@ -149,22 +157,48 @@ GAMES['arma-la-cuenta'] = (() => {
         } else fitText(p, txt, W / 2, b.y + 27, b.w - 24, 19);
         const okV = Number.isFinite(v);
         p.fill(okV ? C.N : C.mute); p.textStyle(okV ? p.BOLD : p.NORMAL);
-        fitText(p, okV ? `= ${withUnit(numText(v, r), r)}` : s.seq.length >= MAX ? 'No caben más fichas: borra con ⌫' : 'Sigue: así la cuenta no se puede calcular', W / 2 - (okV ? 0 : 0), b.y + b.h - 22, b.w - 110, okV ? 22 : 12);
+        fitText(p, okV ? `= ${withUnit(numText(v, r), r)}` : s.seq.length >= MAX ? 'Puedes quitar la última pieza' : 'Operación en construcción', W / 2, b.y + b.h - 22, b.w - 100, okV ? 22 : 12);
         if (!G.locked) drawTile(p, C, G.del, '⌫', { fill: C.coral, size: 14, r: 8, lift: 2 });
       }
-      // Fichas de números y de operaciones.
-      for (let i = 0; i < nNum; i++) drawTile(p, C, G.num(i), `$${tileTex(keys[i])}$`, { size: 17, lift: 3 });
-      OPS.forEach((o, j) => drawTile(p, C, G.op(j), OP_TXT[o], { fill: C.sky, size: 17, r: 9, lift: 2 }));
+      tray.forEach((tile, i) => drawTile(p, C, tile, tile.label, {
+        fill: i >= tray.length - OPS.length ? C.bg : C.card,
+        ring: G.focus === i || G.piece?.i === i ? C.brand : undefined, size: 16,
+      }));
+      if (G.piece?.dragged) {
+        const { i, x, y } = G.piece, tile = tray[i];
+        drawTile(p, C, { x: x - tile.w / 2, y: y - 17, w: tile.w, h: 34 }, tile.label, { ring: C.brand, size: 16 });
+      }
     },
     press(G, x, y) {
-      const keys = keysOf(G.r), nNum = keys.length - OPS.length, s = G.s;
-      if (s.seq.length && hitBox(G.del, x, y)) { s.seq.pop(); G.touch(); return true; }
-      let k = -1;
-      for (let i = 0; i < nNum; i++) if (hitBox(G.num(i), x, y)) k = i;
-      OPS.forEach((o, j) => { if (hitBox(G.op(j), x, y)) k = nNum + j; });
-      if (k < 0) return false;
-      if (s.seq.length < MAX) { s.seq.push(k); G.touch(); }
+      delete G.focus;
+      if (G.s.seq.length && hitBox(G.del, x, y)) { G.s.seq.pop(); G.touch(); return true; }
+      const i = pieces(G).findIndex(tile => hitBox(tile, x, y));
+      if (i < 0) return false;
+      G.piece = { i, x, y, x0: x, y0: y, dragged: false };
       return true;
+    },
+    drag(G, x, y) {
+      if (!G.piece) return false;
+      Object.assign(G.piece, { dragged: G.piece.dragged || Math.hypot(x - G.piece.x0, y - G.piece.y0) >= 6, x, y });
+      return true;
+    },
+    release(G, x, y) {
+      const piece = G.piece;
+      G.piece = null;
+      if (piece && (hitBox(G.board, x, y) || (!piece.dragged && hitBox(pieces(G)[piece.i], x, y)))) add(G, piece.i);
+    },
+    cancel(G) { G.piece = null; },
+    key(G, key) {
+      if (key === 'Backspace') { if (G.s.seq.length) { G.s.seq.pop(); G.touch(); } return true; }
+      if (key === ' ' || key === 'Enter') { G.focus ??= 0; add(G, G.focus); return true; }
+      if (!['ArrowLeft', 'ArrowRight'].includes(key)) return false;
+      const n = pieces(G).length;
+      G.focus = G.focus == null ? 0 : (G.focus + n + (key === 'ArrowRight' ? 1 : -1)) % n;
+      return true;
+    },
+    demo(G) {
+      const a = G.num(0), b = G.board;
+      return { from: { x: a.x + a.w / 2, y: a.y + a.h / 2 }, to: { x: b.x + b.w / 2, y: b.y + b.h / 2 } };
     },
     peek: G => { const keys = keysOf(G.r), n = keys.length - OPS.length; return { keys, boxes: keys.map((_, i) => (i < n ? G.num(i) : G.op(i - n))), del: G.del, want: G.r.sol.map(t => keys.indexOf(t)), value: valueOf(G.s, G.r) }; },
   });

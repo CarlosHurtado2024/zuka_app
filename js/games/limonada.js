@@ -51,7 +51,7 @@ GAMES.limonada = (() => {
           label(String(st[key]), x, y, 25, C.ink, 13);
           label(text, 39, y, 61, C.ink, 13);
         }
-        if (!drag && !locked && (!touched || t < reveal)) {
+        if (!drag && !locked && ((!touched && api.guideAuto !== false) || t < reveal)) {
           const y = controls[0].y;
           drawDemo(p, C, t < reveal ? t - (reveal - 2 * DEMO_T) : t,
             { from: { x: map.toPx(st.lemons), y }, to: { x: map.toPx(Math.min(3, params.maxEach)), y } });

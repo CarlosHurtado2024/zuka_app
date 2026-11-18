@@ -252,6 +252,7 @@ const fitScale = (h, room) => (room > 0 && h > 0 ? Math.max(FIT_MIN, Math.min(1,
 function mountSketch(host, sketch, aspect = 1.25, gesture) {
   let inst = null, removed = false, ro = null, grabbed = false;
   let seenGesture = false, gestureTime = 0, gestureUntil = 0;
+  const autoGuide = host.dataset?.guideAuto !== 'false';
   // Alto libre para el lienzo dentro de la lección: el del cuerpo menos lo demás del ejercicio (enunciado, pista, márgenes).
   const fit = size => {
     const cv = inst?.canvas, body = host.closest?.('.lesson-body'), ex = body?.firstElementChild;
@@ -271,8 +272,7 @@ function mountSketch(host, sketch, aspect = 1.25, gesture) {
     size.h = heightFor(size.w, aspect);
     inst = new P5(p => {
       sketch(p, size);
-      // Estilo de los videos en todos los juegos: la letra, el fondo con estrellas (cada vez que el
-      // juego limpia el lienzo con C.bg) y una onda donde el juego agarra o toca algo.
+      // El lienzo comparte la tipografía y la superficie de práctica del curso.
       const rawFont = p.textFont?.bind(p), rawBg = p.background?.bind(p);
       if (rawFont) p.textFont = (f, ...a) => rawFont(f === 'system-ui' ? gameFont() : f, ...a);
       if (rawBg) p.background = (...a) => { const r = rawBg(...a); if (a.length === 1 && a[0] === PALETTE.bg) drawBackdrop(p); return r; };
@@ -282,32 +282,16 @@ function mountSketch(host, sketch, aspect = 1.25, gesture) {
         drawRipples(p, ripples);
         if (gesture) {
           gestureTime += frameDt(p);
-          if ((!seenGesture && !grabbed) || gestureTime < gestureUntil) {
+          if ((autoGuide && !seenGesture && !grabbed) || gestureTime < gestureUntil) {
             const start = gestureTime < gestureUntil ? gestureUntil - 2 * DEMO_T : 0;
             drawDemo(p, PALETTE, gestureTime - start, gesture(p));
           }
         }
-        const guide = host.zukaCanvasGuide;
-        if (guide && !guide.locked && (guide.first || p.millis() < guide.until)) {
-          p.push(); p.resetMatrix(); p.rectMode(p.CORNER);
-          p.noStroke(); p.fill(PALETTE.card); p.rect(7, 6, p.width - 14, 43, 8);
-          p.fill(PALETTE.ink); p.textStyle(p.NORMAL); p.textSize(13); p.textAlign(p.CENTER, p.TOP);
-          p.text(guide.text, 16, 11, p.width - 32, 34);
-          p.pop();
-        }
-      };
-      if (host.zukaCanvasGuide) host.zukaCanvasGuide.replay = () => {
-        host.zukaCanvasGuide.until = p.millis() + 5200;
-        if (!p.isLooping()) p.redraw();
       };
       if (press0) p.mousePressed = (...a) => {
         const guided = gesture && !!gesture(p);
         const r = press0(...a);
         if (r === false && guided) { seenGesture = true; gestureUntil = 0; }
-        if (r === false && host.zukaCanvasGuide) {
-          host.zukaCanvasGuide.first = false;
-          host.zukaCanvasGuide.until = 0;
-        }
         if (r === false && p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height && !reducedMotion() && typeof anime === 'function') {
           const rp = { x: p.mouseX, y: p.mouseY, r: 6, a: 0.8 };
           ripples.push(rp);
@@ -345,8 +329,6 @@ function mountSketch(host, sketch, aspect = 1.25, gesture) {
     const body = host.closest?.('.lesson-body');
     if (body) { ro.observe(body); if (body.firstElementChild) ro.observe(body.firstElementChild); }
     fit(size);
-    // El lienzo entra subiendo (solo se traslada: escalarlo con CSS descuadraría la lectura del dedo).
-    if (typeof anime === 'function' && !reducedMotion() && inst?.canvas) anime({ targets: inst.canvas, translateY: [16, 0], opacity: [0, 1], duration: 520, easing: 'easeOutCubic' });
     // Si Jost aún no había cargado, el juego arrancó con la letra del sistema: al llegar, se cambia.
     if (typeof document !== 'undefined' && gameFont() !== 'Jost') {
       Promise.all([document.fonts?.load?.('700 14px Jost'), document.fonts?.load?.('400 14px Jost')])
@@ -507,20 +489,12 @@ function roundTabs(n, w) {
   const step = w ? Math.min(52, (w - 20) / n) : 52;
   return Array.from({ length: n }, (_, i) => ({ x: 12 + i * step, y: 8, w: step - 8, h: 30 }));
 }
-// Son fichas como las de los videos: la que falta va apagada (tarjeta y número gris); la respondida,
-// la actual y las calificadas se rellenan con su color. La actual lleva un aro color sol y rebota al cambiar.
-const TAB_FX = new WeakMap();
+// La pestaña actual conserva su posición al cambiar de ronda.
 function drawTabs(p, C, tabs, cur, colorOf) {
-  let fx = TAB_FX.get(p);
-  if (!fx) TAB_FX.set(p, fx = { cur, k: 1 });
-  if (fx.cur !== cur) { fx.cur = cur; fx.k = 0.7; fxTween(fx, { k: 1 }, { duration: 560, easing: 'easeOutElastic(1, .55)' }); }
   tabs.forEach((tb, i) => {
-    const col = colorOf(i), on = i === cur, plain = col === C.line, k = on ? fx.k : 1;
-    const w = tb.w * k, h = tb.h * k, x = tb.x + (tb.w - w) / 2, y = tb.y + (tb.h - h) / 2;
-    if (on) { p.noFill(); p.stroke(C.brand); p.strokeWeight(1.5); p.rect(x - 3, y - 3, w + 6, h + 6, 9); }
-    if (plain) { p.stroke(C.line); p.strokeWeight(1); p.fill(C.card); } else { p.noStroke(); p.fill(col); }
-    p.rect(x, y, w, h, 7);
-    p.noStroke(); p.fill(plain ? C.mute : inkOn(col, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(14); p.text(i + 1, tb.x + tb.w / 2, tb.y + tb.h / 2);
+    const col = colorOf(i), on = i === cur, plain = col === C.line;
+    drawPracticePanel(p, tb, plain ? C.card : col, on ? C.brand : C.line, 7, on ? 2 : 1);
+    p.fill(plain ? C.mute : inkOn(col, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(14); p.text(i + 1, tb.x + tb.w / 2, tb.y + tb.h / 2);
   });
 }
 const hitBox = (b, x, y) => !!b && x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
@@ -546,19 +520,45 @@ function shade(hex, k) {
   const f = v => Math.round(k <= 1 ? v * k : v + (255 - v) * Math.min(1, k - 1));
   return '#' + [1, 3, 5].map(i => f(parseInt(hex.slice(i, i + 2), 16)).toString(16).padStart(2, '0')).join('').toUpperCase();
 }
-// Ficha: bloque relleno con un labio más oscuro abajo (relieve plano) y el texto encima, con la tinta
-// que se lee sobre el relleno. o = { fill, ink, r, lift, size, ring (aro de selección), k (escala) }.
-let HILITE = null;   // filo de luz de las fichas (blanco translúcido), creado una sola vez
+function drawPracticePanel(p, b, fill, border, r = 10, weight = 1) {
+  p.stroke(border); p.strokeWeight(weight); p.fill(fill); p.rect(b.x, b.y, b.w, b.h, r); p.noStroke();
+}
+
+function drawPracticeHandle(p, C, x, y, tone = C.brand, active = false) {
+  p.noFill(); p.stroke(tone); p.strokeWeight(1); p.circle(x, y, active ? 29 : 25);
+  p.fill(C.card); p.strokeWeight(2); p.circle(x, y, 17);
+  p.noStroke(); p.fill(tone); p.circle(x, y, 5);
+}
+
+function practiceTrack(x0, x1, y, min, max, step) {
+  const map = lineMap(min, max, x0, x1), middle = (min + max) / 2;
+  return {
+    x0, x1, y, x: map.toPx,
+    hit: (x, yy) => x >= x0 - 14 && x <= x1 + 14 && Math.abs(y - yy) <= 16,
+    value: x => +Math.min(max, Math.max(min, min + Math.round((map.toVal(x) - min) / step) * step)).toFixed(6),
+    gesture: v => ({ from: { x: map.toPx(v), y }, to: { x: map.toPx(v > middle ? middle - (max - min) * .16 : middle + (max - min) * .16), y } }),
+  };
+}
+
+function drawPracticeTrack(p, C, rail, value, label, readout, tone = C.brand, active = false) {
+  const { x0, x1, y } = rail;
+  p.stroke(C.line); p.strokeWeight(3); p.line(x0, y, x1, y);
+  p.stroke(tone); p.strokeWeight(2); p.line(x0, y, rail.x(value), y);
+  drawPracticeHandle(p, C, rail.x(value), y, tone, active);
+  p.noStroke(); p.fill(C.ink); p.textStyle(p.NORMAL); p.textAlign(p.LEFT, p.CENTER);
+  fitText(p, label, 13, y, x0 - 28, 13);
+  p.textAlign(p.RIGHT, p.CENTER);
+  fitText(p, readout, p.width - 12, y, Math.max(28, p.width - x1 - 25), 13);
+}
+
+// El relleno conserva el significado que le da el juego. El contorno marca la pieza activa.
 function drawTile(p, C, b, txt, o = {}) {
-  const fill = o.fill ?? C.cream, r = o.r ?? 8, lift = o.lift ?? 2, k = o.k ?? 1;
+  const fill = o.fill ?? C.card, r = o.r ?? 8, k = o.k ?? 1;
   const w = b.w * k, h = b.h * k, x = b.x + (b.w - w) / 2, y = b.y + (b.h - h) / 2;
-  if (o.ring) { p.noFill(); p.stroke(o.ring); p.strokeWeight(2.5); p.rect(x - 3, y - 3, w + 6, h + 6 + lift, r + 3); }
-  p.noStroke(); p.fill(o.lip ?? (fill === C.cream ? C.creamD : shade(fill, 0.74))); p.rect(x, y + lift, w, h, r);
-  p.fill(fill); if (fill === C.cream) { p.stroke(C.creamD); p.strokeWeight(1); } p.rect(x, y, w, h, r); p.noStroke();
-  if (h > 14 && w > r * 2 + 4 && fill !== C.cream && typeof p.color === 'function') { HILITE ||= p.color(255, 255, 255, 46); p.fill(HILITE); p.rect(x + r * 0.6, y + 1.5, w - r * 1.2, Math.min(4, h / 6), 2); }
+  drawPracticePanel(p, { x, y, w, h }, fill, o.ring ?? C.line, r, o.ring ? 2 : 1);
   if (txt != null && txt !== '') {
-    p.fill(o.ink ?? inkOn(fill, C.ink)); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
-    fitText(p, String(txt), b.x + b.w / 2, b.y + b.h / 2 + 1, w - 8, o.size ?? 17, h - 6);   // una fracción no se sale de la ficha
+    p.fill(o.ink ?? (fill === C.card ? C.ink : inkOn(fill, C.ink))); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
+    fitText(p, String(txt), b.x + b.w / 2, b.y + b.h / 2, w - 8, o.size ?? 17, h - 6);
   }
 }
 // Casilla vacía (donde va una ficha): borde punteado.
@@ -763,19 +763,31 @@ function roundsGame(def) {
     const m = mountSketch(host, (p, size) => {
       G.p = p;
       const lay = () => { G.W = size.w; G.H = size.h; G.tabs = roundTabs(R.length, size.w); def.layout?.(G); };
-      p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); lay(); def.enter?.(G); };
+      p.setup = () => {
+        p.createCanvas(size.w, size.h); p.textFont('system-ui'); lay(); def.enter?.(G);
+        if (def.key && p.canvas) {
+          p.canvas.tabIndex = 0;
+          p.canvas.setAttribute('aria-label', def.keyboard);
+          p.canvas.addEventListener('keydown', e => {
+            if (G.locked || !def.key(G, e.key)) return;
+            e.preventDefault(); e.stopPropagation();
+          });
+          p.canvas.addEventListener('blur', () => { delete G.focus; });
+        }
+      };
       p.onResize = lay;
       p.draw = () => {
         p.background(C.bg);
         G.dt = frameDt(p); G.t += G.dt;
         drawTabs(p, C, G.tabs, G.cur, i => (G.locked ? (def.ok(G.st[i], R[i], params) ? C.ok : C.bad) : i === G.cur ? C.brand : answered(i) ? C.Z : C.line));
-        p.noStroke(); p.fill(C.N); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(14);
+        p.noStroke(); p.fill(C.ink); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(14);
         // Un enunciado con matemática va en un renglón, como fórmula; si no, en su caja de dos renglones.
         const pr = def.prompt(G.r, G.s, G);
         if (typeof formulaWanted === 'function' && formulaWanted(pr)) fitText(p, pr, 12, 63, G.W - 24, 15, 34); else p.text(pr, 12, 46, G.W - 24, 36);
         def.draw(G);
         // La mano que muestra el gesto: hasta que se toca esta ronda, o un rato si se pidió con «Cómo se juega».
-        if (def.demo && !G.locked && !G.down && (!G.touched[G.cur] || G.t < G.demoUntil)) drawDemo(p, C, G.t - G.demoT0, def.demo(G));
+        const autoDemo = api.guideAuto !== false && !G.touched[G.cur] && G.focus == null;
+        if (def.demo && !G.locked && !G.down && (autoDemo || G.t < G.demoUntil)) drawDemo(p, C, G.t - G.demoT0, def.demo(G));
         const good = def.ok(G.s, G.r, params), pend = R.findIndex((_, i) => !answered(i) && i !== G.cur);
         const foot = G.locked ? (good ? '¡Bien!' : 'La respuesta correcta quedó marcada') : answered(G.cur) && pend >= 0 ? `Sigue con la pestaña ${pend + 1}` : def.foot?.(G.r, G.s, G) ?? '';
         p.noStroke(); p.fill(G.locked ? (good ? C.ok : C.bad) : C.mute); p.textStyle(G.locked ? p.BOLD : p.NORMAL); p.textAlign(p.CENTER, p.CENTER); fitText(p, foot, G.W / 2, G.H - 14, G.W - 20, 11);
@@ -864,7 +876,7 @@ function questGame(def) {
           p.noStroke(); p.fill(C.N); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, def.prompt(G.item, G.round, G), G.W / 2, 68, G.W - 20, 16, 36);
           def.draw(G);
           // La mano que muestra el gesto, hasta el primer movimiento (o un rato si se pidió con «Cómo se juega»).
-          if (def.demo && !locked && !down && a.phase === 'play' && G.wait <= 0 && (!demoSeen || G.t < demoUntil)) drawDemo(p, C, G.t - demoT0, def.demo(G));
+          if (def.demo && !locked && !down && a.phase === 'play' && G.wait <= 0 && ((!demoSeen && api.guideAuto !== false) || G.t < demoUntil)) drawDemo(p, C, G.t - demoT0, def.demo(G));
           for (const b of bits) { b.t += G.dt; b.vy += 520 * G.dt; b.x += b.vx * G.dt; b.y += b.vy * G.dt; p.noStroke(); p.fill(b.col); p.rect(b.x, b.y, 6, 6, 2); }
           while (bits.length && bits[0].t > 1) bits.shift();
           drawArcadeBanner(p, C, a, mid, { idle: def.idle || 'Sin prisa: piensa y luego toca', lost: def.lost });

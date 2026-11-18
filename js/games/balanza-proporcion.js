@@ -59,7 +59,7 @@ GAMES['balanza-proporcion'] = (() => {
         p.fill(C.mute); p.textSize(12); p.textAlign(p.LEFT, p.TOP); p.text(params.min, map.toPx(params.min) - 4, slY + 18);
         p.textAlign(p.RIGHT, p.TOP); p.text(params.max, map.toPx(params.max) + 4, slY + 18);
         p.textAlign(p.CENTER, p.BOTTOM); p.text('x', W / 2, slY - 20);
-        if (!drag && !locked && (!touched || t < reveal)) {
+        if (!drag && !locked && ((!touched && api.guideAuto !== false) || t < reveal)) {
           const x = map.toPx(st.x), dx = (W - 60) * (x < W / 2 ? .17 : -.17);
           drawDemo(p, C, t < reveal ? t - (reveal - 2 * DEMO_T) : t, {
             from: { x, y: slY }, to: { x: x + dx, y: slY }, text: 'Desliza el contrapeso', ty: H * .34,

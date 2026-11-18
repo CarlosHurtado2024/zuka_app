@@ -1,5 +1,5 @@
 // Afina el sistema (geometría vectorial, sistemas 2×2 y su interpretación geométrica): cada ecuación
-// ax + by = c es una recta del plano. Uno o dos coeficientes tienen perillas −/+; al moverlas se ve cómo
+// ax + by = c es una recta del plano. Uno o dos coeficientes tienen manijas; al moverlas se ve cómo
 // gira o se desliza la recta. La meta de cada ronda es que el sistema no tenga solución (rectas
 // paralelas), tenga infinitas (la misma recta) o que su única solución sea un punto dado.
 // params = { rounds: [{ e1: [a, b, c], e2: [a, b, c], free: [[ecuación, coeficiente]], goal: 'ninguna' | 'infinitas' | 'punto', P, step }] }
@@ -63,14 +63,14 @@ GAMES['afina-sistema'] = (() => {
   function create(host, params, api) {
     const C = api.palette;
     const eqs = params.rounds.map(r => [r.e1.slice(), r.e2.slice()]), touched = params.rounds.map(() => false);
-    let locked = false, W = 0, H = 0, cur = 0, tabs = [], view = null, knobs = [];
+    let locked = false, W = 0, H = 0, cur = 0, tabs = [], view = null, knobs = [], drag = null;
 
     function layout() {
-      tabs = roundTabs(params.rounds.length);
-      const side = Math.min(W - 24, H - 230);
+      tabs = roundTabs(params.rounds.length, W);
+      const r = params.rounds[cur], side = Math.min(W - 24, H - 148 - 39 * r.free.length);
       view = planeView({ x: (W - side) / 2, y: 112, w: side, h: side }, [-RANGE, RANGE], [-RANGE, RANGE]);
-      const y0 = view.box.y + side + 12;
-      knobs = params.rounds[cur].free.map((f, i) => ({ f, y: y0 + i * 42, minus: { x: W - 150, y: y0 + i * 42, w: 42, h: 34 }, plus: { x: W - 54, y: y0 + i * 42, w: 42, h: 34 } }));
+      const y0 = view.box.y + side + 24;
+      knobs = r.free.map((f, i) => ({ f, rail: practiceTrack(61, W - 56, y0 + i * 37, -LIM, LIM, r.step || 1) }));
     }
 
     const m = mountSketch(host, (p, size) => {
@@ -104,38 +104,40 @@ GAMES['afina-sistema'] = (() => {
         if (locked) { p.noStroke(); p.fill(ok ? C.ok : C.bad); p.textSize(13); p.textStyle(p.BOLD); p.text(ok ? '¡Bien!' : 'Mira la solución abajo', W / 2, view.box.y + view.box.h - 14); }
         knobs.forEach(k => {
           const [e, c] = k.f;
-          p.noStroke(); p.fill(e ? C.I : C.Z); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(14);
-          p.text(`${NAMES[c]}${SUB[e]}`, 14, k.y + 17);
-          p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(16); p.text(n(E[e][c]), W - 81, k.y + 17);
-          [[k.minus, '−'], [k.plus, '+']].forEach(([b, s]) => {
-            p.stroke(locked ? C.line : C.Z); p.strokeWeight(1.5); p.fill(C.card); p.rect(b.x, b.y, b.w, b.h, 9);
-            p.noStroke(); p.fill(locked ? C.mute : C.ink); p.textSize(18); p.text(s, b.x + b.w / 2, b.y + b.h / 2);
-          });
+          drawPracticeTrack(p, C, k.rail, E[e][c], NAMES[c] + SUB[e], n(E[e][c]), e ? C.I : C.Z, drag === k);
         });
       };
 
-      p.mousePressed = () => {
-        const tb = tabs.findIndex(t => hitBox(t, p.mouseX, p.mouseY));
-        if (tb >= 0) { cur = tb; layout(); api.sfx?.tap?.(); return false; }
-        if (locked) return;
-        for (const k of knobs) {
-          const d = hitBox(k.minus, p.mouseX, p.mouseY) ? -1 : hitBox(k.plus, p.mouseX, p.mouseY) ? 1 : 0;
-          if (!d) continue;
-          const [e, c] = k.f, step = params.rounds[cur].step || 1;
-          eqs[cur][e][c] = Math.max(-LIM, Math.min(LIM, +(eqs[cur][e][c] + d * step).toFixed(3)));
-          touched[cur] = true; api.sfx?.tap?.(); api.ready(touched.every(Boolean));
-          return false;
+      const move = x => {
+        const [e, c] = drag.f, next = drag.rail.value(x);
+        if (!touched[cur] || eqs[cur][e][c] !== next) {
+          eqs[cur][e][c] = next; touched[cur] = true; api.sfx?.tap?.(); api.ready(touched.every(Boolean));
         }
       };
-    }, 1.55);
+      p.mousePressed = () => {
+        if (!inCanvas(p)) return;
+        const tb = tabs.findIndex(t => hitBox(t, p.mouseX, p.mouseY));
+        if (tb >= 0) { cur = tb; drag = null; layout(); api.sfx?.tap?.(); return false; }
+        if (locked) return;
+        drag = knobs.find(k => k.rail.hit(p.mouseX, p.mouseY));
+        if (drag) { move(p.mouseX); return false; }
+      };
+      p.mouseDragged = () => { if (drag && !locked) { move(p.mouseX); return false; } };
+      p.mouseReleased = () => { drag = null; };
+    }, 1.41, () => {
+      const k = knobs[0];
+      if (locked || !k) return null;
+      return k.rail.gesture(eqs[cur][k.f[0]][k.f[1]]);
+    });
 
     return {
       loaded: m.ready,
       getState: () => ({ eqs: eqs.map(E => E.map(e => e.slice())) }),
       lock() { locked = true; },
       destroy: () => m.remove(),
+      demo: m.demo,
     };
   }
 
-  return { grade, create, kind, solve, answer, eqText };
+  return { grade, create, kind, solve, answer, eqText, demo: true };
 })();

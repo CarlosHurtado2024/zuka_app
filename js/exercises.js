@@ -65,9 +65,13 @@ const EX = {
   },
 
   slider(area, ex, ready) {
-    area.innerHTML = `<div class="sim"><canvas></canvas></div><div class="readout"></div>
-      <input type="range" class="range" min="${ex.min}" max="${ex.max}" step="${ex.step}" value="${ex.init}" aria-label="Valor">
-      <div class="range-ends"><span>${ex.min}</span><span>${ex.max}</span></div>`;
+    area.innerHTML = `<div class="play"><div class="game-stage">
+      <div class="sim"><canvas aria-hidden="true"></canvas></div>
+      <div class="sim-controls">
+        <input type="range" class="range" min="${ex.min}" max="${ex.max}" step="${ex.step}" value="${ex.init}" aria-label="Valor de la simulación">
+        <div class="range-ends"><span>${ex.min}</span><span>${ex.max}</span></div>
+        <output class="readout"></output>
+      </div></div></div>`;
     const cv = area.querySelector('canvas'), ctx = cv.getContext('2d');
     const range = area.querySelector('.range'), readout = area.querySelector('.readout');
     let val = +ex.init;
@@ -77,19 +81,23 @@ const EX = {
       if (!r.width) return;
       cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.fillStyle = '#0f1226'; ctx.fillRect(0, 0, r.width, r.height);
+      ctx.fillStyle = PALETTE.card; ctx.fillRect(0, 0, r.width, r.height);
       const pad = Math.max(30, r.width * 0.08);
-      drawViz(ctx, ex.viz, 1, { x: pad, y: 14, w: r.width - pad - 14, h: r.height - 38 }, val);
+      drawViz(ctx, ex.viz, 1, { x: pad, y: 14, w: r.width - pad - 14, h: r.height - 38 }, val, PALETTE);
     };
     const update = () => { readout.innerHTML = tex(ex.readout ? ex.readout(val) : String(val)); fill(); draw(); };
     range.addEventListener('input', () => { val = +range.value; update(); ready(true); });
     const ro = new ResizeObserver(draw);
     ro.observe(cv);
+    const theme = new MutationObserver(draw);
+    theme.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     update();
+    const game = area.querySelector('.play');
     return {
       check: () => ({ ok: ex.check(val), solution: ex.answerText }),
-      lock(ok) { range.disabled = true; area.querySelector('.sim').classList.add(ok ? 'right' : 'wrong'); },
-      destroy: () => ro.disconnect(),
+      lock(ok) { range.disabled = true; game.classList.add(ok ? 'right' : 'wrong'); },
+      guideHost: game,
+      destroy() { ro.disconnect(); theme.disconnect(); },
     };
   },
 
@@ -122,32 +130,40 @@ const EX = {
 // Minijuego de p5.js: adapta GAMES[ex.game] (js/games/) al contrato de los demás ejercicios.
 EX.play = (area, ex, ready) => {
   const game = GAMES[ex.game];
-  area.innerHTML = '<div class="play"></div>';
+  area.innerHTML = '<div class="play"><div class="game-stage"></div></div>';
   const box = area.querySelector('.play');
+  const stage = box.firstElementChild;
   if (!game) {
-    box.innerHTML = `<p class="play-msg">Este ejercicio no está disponible (${esc(ex.game)}).</p>`;
+    stage.innerHTML = '<p class="play-msg">Este juego no está disponible.</p>';
     return { check: () => ({ ok: false, solution: '' }), lock() {}, destroy() {} };
   }
-  if (ex.canvasGuide && !game.demo && typeof guideSteps === 'function') {
-    const text = guideSteps(ex).find(([scene]) => !['start', 'rounds', 'lives', 'check'].includes(scene))?.[1];
-    if (text) box.zukaCanvasGuide = { text, first: !ex.exam, until: 0, locked: false };
-  }
-  ready(false);
-  const inst = game.create(box, ex.params, { ready, sfx: Sfx, palette: PALETTE, tex });
-  inst.loaded?.catch(() => {
-    box.innerHTML = '<p class="play-msg">Necesitas conexión para este ejercicio.</p>';
+  let inst, disposed = false;
+  function launch() {
+    stage.replaceChildren();
+    stage.setAttribute('aria-busy', 'true');
     ready(false);
-  });
+    const guideAuto = !ex.exam && (typeof S === 'undefined' || S.guideAuto !== false);
+    stage.dataset.guideAuto = String(guideAuto);
+    const next = inst = game.create(stage, ex.params, { ready, sfx: Sfx, palette: PALETTE, tex, guideAuto });
+    Promise.resolve(next.loaded).then(() => {
+      if (!disposed && inst === next) stage.removeAttribute('aria-busy');
+    }, () => {
+      if (disposed || inst !== next) return;
+      next.destroy();
+      inst = null;
+      stage.removeAttribute('aria-busy');
+      stage.innerHTML = '<div class="play-msg"><p role="status">El juego no pudo cargar.</p><button type="button" class="hint-btn">Reintentar</button></div>';
+      stage.querySelector('button').onclick = launch;
+      ready(false);
+    });
+  }
+  launch();
   return {
     check: () => game.grade(inst.getState(), ex.params),
-    // El marco del juego se pinta del color del resultado (y se sacude si falló).
-    lock: ok => {
-      if (box.zukaCanvasGuide) box.zukaCanvasGuide.locked = true;
-      inst.lock(ok); box.classList.add(ok ? 'right' : 'wrong'); playFx(box, ok);
-    },
-    destroy: () => inst.destroy(),
-    // «Cómo se juega» en un juego que se explica sobre el lienzo (spec 2026-11-18-demo-en-juego).
-    demo: () => inst.demo ? inst.demo() : box.zukaCanvasGuide?.replay?.(),
+    lock: ok => { inst.lock(ok); box.classList.add(ok ? 'right' : 'wrong'); playFx(box, ok); },
+    destroy: () => { disposed = true; inst?.destroy(); },
+    demo: () => inst?.demo?.(),
+    guideHost: box,
   };
 };
 
@@ -159,22 +175,25 @@ function hintBlock(ex) {
     + (ex.hint ? `<p class="hint-text" hidden>${ICON.bulb}<span>${tex(ex.hint)}</span></p>` : '') + '</div>';
 }
 
-// Bajo el enunciado van los botones «Cómo se juega» (js/guia.js) y «Ver pista». La guía sale sola la primera vez
-// que el estudiante ve ese juego o ese tipo de ejercicio.
+// Bajo el enunciado van «Cómo se juega» y «Ver pista». En los juegos la ayuda comparte el área de trabajo.
 function renderExercise(el, ex, ready) {
-  const algebra = ex.canvasGuide ? ' algebra-practice' : '';
-  const kind = !ex.canvasGuide || ex.exam ? `<p class="ex-kind">${EX_KIND[ex.type]}</p>` : '';
-  el.innerHTML = `<div class="ex${algebra}"><header class="ex-head">${kind}<h2 class="ex-q">${tex(ex.q)}</h2></header>${hintBlock(ex)}<div class="ex-area"></div></div>`;
+  const practice = ex.type === 'play' || ex.type === 'slider';
+  const exam = ex.exam || !!el.closest('.exam');
+  const kind = !practice || exam ? `<p class="ex-kind">${EX_KIND[ex.type]}</p>` : '';
+  el.innerHTML = `<div class="ex${practice ? ' practice' : ''}"><header class="ex-head">${kind}<h2 class="ex-q">${tex(ex.q)}</h2></header>${hintBlock(ex)}<div class="ex-area"></div></div>`;
   const gb = el.querySelector('.guide-btn');
   const focusInput = () => el.querySelector('.num input:not(:disabled)')?.focus({ preventScroll: true });
-  let guide = null;
-  if (typeof guideWanted === 'function' && guideWanted(ex)) guide = openGuide(ex, { auto: true, onClose: focusInput });
+  let guide = null, closePractice;
+  if (!practice && typeof guideWanted === 'function' && guideWanted(ex)) guide = openGuide(ex, { auto: true, onClose: focusInput });
   const hb = el.querySelector('.hint-open');
   if (hb) hb.onclick = () => { hb.hidden = true; el.querySelector('.hint-text').hidden = false; Sfx.tap(); };
-  const h = EX[ex.type](el.querySelector('.ex-area'), ex, ready), destroy = h.destroy;
-  // Si el juego se explica sobre el lienzo, el botón repite esa demostración; si no, abre la tarjeta de siempre.
-  if (gb) gb.onclick = () => { Sfx.tap(); h.demo && (GAMES[ex.game]?.demo || ex.canvasGuide) ? h.demo() : (guide = openGuide(ex)); el.querySelector('.play')?.scrollIntoView({ block: 'nearest' }); };
-  // Al quitar el ejercicio (otra pregunta, salir de la lección) su guía no se queda flotando.
-  h.destroy = () => { if (guide && guideOpen === guide) guide.close(true); destroy?.(); };
+  const area = el.querySelector('.ex-area'), h = EX[ex.type](area, { ...ex, exam }, ready), destroy = h.destroy;
+  if (gb && practice) {
+    const replay = GAMES[ex.game]?.demo ? h.demo : undefined;
+    closePractice = mountPracticeGuide(h.guideHost || area, gb, { ...ex, exam }, !exam && guideWanted(ex), replay);
+  } else if (gb) {
+    gb.onclick = () => { Sfx.tap(); guide = openGuide(ex); };
+  }
+  h.destroy = () => { closePractice?.(); if (guide && guideOpen === guide) guide.close(true); destroy?.(); };
   return h;
 }

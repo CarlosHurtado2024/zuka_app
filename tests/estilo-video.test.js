@@ -124,14 +124,13 @@ test('shade oscurece y aclara un color sin salirse de 00–FF', () => {
   assert.equal(shade('nada', 0.5), 'nada');
 });
 
-test('drawTile pinta labio, cara y texto con tinta legible; drawNumLine numera con el color del signo', () => {
+test('drawTile pinta una sola superficie con tinta legible; drawNumLine numera con el color del signo', () => {
   const drawTile = get(ctx, 'drawTile'), drawNumLine = get(ctx, 'drawNumLine'), C = PALETTES.dark;
   const p = fakeP(); p.textWidth = s => String(s).length * 8; p.line = () => {}; p.width = 328;
   drawTile(p, C, { x: 10, y: 10, w: 60, h: 40 }, '−3', { fill: C.coral });
   const rects = p.log.filter(e => e.kind === 'rect');
-  assert.equal(rects.length, 2);
-  assert.equal(rects[1].fill, C.coral);
-  assert.notEqual(rects[0].fill, C.coral, 'el labio es más oscuro');
+  assert.equal(rects.length, 1);
+  assert.equal(rects[0].fill, C.coral);
   assert.equal(p.log.find(e => e.kind === 'text').fill, inkOn(C.coral));
   const q = fakeP(); q.line = () => {}; q.textWidth = s => String(s).length * 8;
   const X = drawNumLine(q, C, { x0: 20, x1: 300, y: 200, min: -3, max: 3 });

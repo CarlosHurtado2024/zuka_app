@@ -24,13 +24,14 @@ GAMES['combina-vectores'] = (() => {
     let locked = false, W = 0, H = 0, cur = 0, tabs = [], view = null, knobs = [];
 
     function layout() {
-      tabs = roundTabs(params.rounds.length);
-      const side = Math.min(W - 24, H - 192);
+      tabs = roundTabs(params.rounds.length, W);
+      const side = Math.min(W - 24, H - 171);
       view = planeView({ x: (W - side) / 2, y: 92, w: side, h: side }, [-RANGE, RANGE], [-RANGE, RANGE]);
-      const y0 = view.box.y + side + 12;
-      knobs = [0, 1].map(i => ({ i, y: y0 + i * 42, minus: { x: W - 150, y: y0 + i * 42, w: 42, h: 34 }, plus: { x: W - 54, y: y0 + i * 42, w: 42, h: 34 } }));
+      const y0 = view.box.y + side + 22, step = params.rounds[cur].step || 1;
+      knobs = [0, 1].map(i => ({ i, rail: practiceTrack(76, W - 55, y0 + i * 36, -LIM, LIM, step) }));
     }
 
+    let drag = null;
     const m = mountSketch(host, (p, size) => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); W = size.w; H = size.h; layout(); };
       p.onResize = () => { W = size.w; H = size.h; layout(); };
@@ -63,39 +64,38 @@ GAMES['combina-vectores'] = (() => {
         ctx.restore(); p.fill(C.bg); p.stroke(C.bg); // p5 guarda el último color: lo resincroniza tras el recorte
         p.noStroke(); p.fill(ok ? C.ok : C.ink); p.circle(view.X(ex), view.Y(ey), 8);
         if (locked && !ok) { const [A, B] = coefs(r); p.fill(C.ok); p.textSize(13); p.text(`era a = ${n(A)}, b = ${n(B)}`, W / 2, view.box.y + view.box.h - 14); }
-        knobs.forEach(k => {
-          p.noStroke(); p.fill(k.i ? C.I : C.Z); p.textAlign(p.LEFT, p.CENTER); p.textStyle(p.BOLD); p.textSize(14);
-          p.text(k.i ? `b (con ${nm[1]})` : `a (con ${nm[0]})`, 14, k.y + 17);
-          p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textSize(16); p.text(n(ab[cur][k.i]), W - 81, k.y + 17);
-          [[k.minus, '−'], [k.plus, '+']].forEach(([bx, s]) => {
-            p.stroke(locked ? C.line : C.Z); p.strokeWeight(1.5); p.fill(C.card); p.rect(bx.x, bx.y, bx.w, bx.h, 9);
-            p.noStroke(); p.fill(locked ? C.mute : C.ink); p.textSize(18); p.text(s, bx.x + bx.w / 2, bx.y + bx.h / 2);
-          });
-        });
+        knobs.forEach(k => drawPracticeTrack(p, C, k.rail, ab[cur][k.i], (k.i ? 'b · ' : 'a · ') + nm[k.i], n(ab[cur][k.i]), k.i ? C.I : C.Z, drag === k));
       };
 
-      p.mousePressed = () => {
-        const tb = tabs.findIndex(t => hitBox(t, p.mouseX, p.mouseY));
-        if (tb >= 0) { cur = tb; api.sfx?.tap?.(); return false; }
-        if (locked) return;
-        for (const k of knobs) {
-          const d = hitBox(k.minus, p.mouseX, p.mouseY) ? -1 : hitBox(k.plus, p.mouseX, p.mouseY) ? 1 : 0;
-          if (!d) continue;
-          const step = params.rounds[cur].step || 1;
-          ab[cur][k.i] = Math.max(-LIM, Math.min(LIM, +(ab[cur][k.i] + d * step).toFixed(3)));
-          touched[cur] = true; api.sfx?.tap?.(); api.ready(touched.every(Boolean));
-          return false;
+      const move = x => {
+        const next = drag.rail.value(x);
+        if (!touched[cur] || ab[cur][drag.i] !== next) {
+          ab[cur][drag.i] = next; touched[cur] = true; api.sfx?.tap?.(); api.ready(touched.every(Boolean));
         }
       };
-    }, 1.52);
+      p.mousePressed = () => {
+        if (!inCanvas(p)) return;
+        const tb = tabs.findIndex(t => hitBox(t, p.mouseX, p.mouseY));
+        if (tb >= 0) { cur = tb; drag = null; layout(); api.sfx?.tap?.(); return false; }
+        if (locked) return;
+        drag = knobs.find(k => k.rail.hit(p.mouseX, p.mouseY));
+        if (drag) { move(p.mouseX); return false; }
+      };
+      p.mouseDragged = () => { if (drag && !locked) { move(p.mouseX); return false; } };
+      p.mouseReleased = () => { drag = null; };
+    }, 1.38, () => {
+      if (locked || !knobs.length) return null;
+      return knobs[0].rail.gesture(ab[cur][0]);
+    });
 
     return {
       loaded: m.ready,
       getState: () => ({ ab: ab.map(x => x.slice()) }),
       lock() { locked = true; },
       destroy: () => m.remove(),
+      demo: m.demo,
     };
   }
 
-  return { grade, create, coefs, LIM };
+  return { grade, create, coefs, LIM, demo: true };
 })();

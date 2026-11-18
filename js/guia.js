@@ -383,12 +383,12 @@ const GUIDES = {
   'multiplicador-oculto': [['tap', 'Mira cuánto giró y cuánto se estiró la bandera, y toca en la telaraña el número w que lo hace.', { items: ['•', '•', '•', '•'], pick: [2] }]],
   'hermanas-raiz': [['tap', 'Toca en la circunferencia dónde están las otras raíces: quedan igual de separadas.', { items: ['•', '•', '•', '•'], pick: [1, 3] }]],
   'acorrala-raiz': [['tap', 'Toca el tramo donde vive la raíz: está donde las marcas cambian de color.', { items: ['1.3', '1.4', '1.5'], pick: [1] }], ['tap', 'Cada toque abre una lupa: repite con las cifras que siguen.', { items: ['1.41', '1.42'], pick: [0] }]],
-  'afina-sistema': [['step', 'Mueve un coeficiente con − / + y mira cómo gira o se desliza su recta.', { from: 1, to: 3, label: 'coeficiente' }]],
+  'afina-sistema': [['slide', 'Desliza un coeficiente y mira cómo gira o se desplaza su recta.', { label: 'coeficiente' }]],
   'ajusta-capital': [['slide', 'Arrastra la pila de billetes para fijar el capital; el monto final se calcula solo.', { vert: true }]],
   'alcancias-gemelas': [['slide', 'Mueve la tasa simple hasta que las dos alcancías queden al mismo nivel.', { label: 'tasa' }]],
   'apila-alturas': [['slide', 'Arrastra cada cuenta hacia arriba o abajo hasta la altura que sale de operar f y g.', { vert: true }]],
   'arbol-potencia': [['step', 'Elige con − / + las ramas por nudo y los niveles: el árbol crece solo y cuenta sus hojas.', { from: 2, to: 3, label: 'niveles' }]],
-  'arma-la-cuenta': [['tap', 'Toca fichas de número y de operación para plantear la cuenta: el juego la calcula.', { items: ['6', '×', '4', '9'], pick: [0, 1, 2] }], ['tap', 'Sobran fichas: usa solo los datos que sirven. «⌫» borra la última.', { items: ['12', '÷', '3', '⌫'], pick: [0, 1, 2, 3] }]],
+  'arma-la-cuenta': [['drag', 'Arrastra números y operaciones al panel. El resultado se actualiza en vivo.', { tile: '6', slot: 'cuenta' }], ['tap', 'Sobran fichas: usa solo los datos que sirven. «⌫» borra la última.', { items: ['12', '÷', '3', '⌫'], pick: [0, 1, 2, 3] }]],
   'bloques-area': [['step', 'Mueve los números con − / +: el rectángulo cambia y cuenta sus barras y cuadritos.', { from: 2, to: 3, label: 'a' }]],
   'division-sintetica': [['step', 'Elige r con − / + y toca «Dividir»: el juego baja, multiplica y suma. El último es el residuo.', { from: 0, to: 2, label: 'r' }], ['tap', 'Hay pocas divisiones: mira el signo de los residuos anotados para decidir cuál probar.', { items: ['P(1) = −8', 'P(3) = 4'], pick: [0, 1] }]],
   'cancela-factores': [['drag', 'Arrastra cada factor de arriba sobre su igual de abajo para tachar ambos.', { tile: 'x + 3', slot: 'x + 3' }], ['tap', 'Confirma con «Listo» cuando hayas cancelado los factores comunes.', { items: ['Listo'], pick: [0] }]],
@@ -446,7 +446,7 @@ const GUIDES = {
   'clasifica-cartas': [['swipe', 'Desliza la tarjeta hacia el lado de su categoría (o usa los botones).', {}]],
   'cobra-intereses': [['tap', 'Toca el mes siguiente para cobrar su interés; el acumulado sube.', { items: ['1', '2', '3', '4'], pick: [0, 1, 2] }]],
   'cofre-candados': [['tap', 'Toca las llaves en el orden que deshace la función: el último candado se abre primero.', { items: ['− 3', '÷ 2', '√'], pick: [1, 0] }]],
-  'combina-vectores': [['step', 'Con las perillas elige cuántas veces va cada vector: el camino se dibuja solo.', { from: 1, to: 2, label: 'a' }]],
+  'combina-vectores': [['slide', 'Desliza cada coeficiente para ver cuántas veces se usa ese vector en el recorrido.', { label: 'a' }]],
   'compas-ambiguo': [['drag', 'Arrastra la punta del compás hasta la base; si la toca, suéltala ahí.', { dot: true }], ['tap', 'Si el brazo no alcanza, toca «No hay triángulo».', { items: ['No hay triángulo'], pick: [0] }]],
   'compas-raiz': [['step', 'Elige los catetos con − / +: la diagonal es la raíz que buscas.', { from: 1, to: 2, label: 'cateto' }], ['tap', 'Toca «Girar» y el compás acuesta la diagonal sobre la recta.', { items: ['Girar'], pick: [0] }]],
   'completa-cuadrado': [['step', 'Pasa unidades de la bandeja a la esquina con − / + hasta llenar el hueco.', { from: 1, to: 4, label: 'en la esquina' }]],
@@ -496,7 +496,7 @@ const GUIDES = {
   'tableta-fraccion': [['slide', 'Arrastra el deslizador para cortar la tableta en partes iguales.', {}], ['drag', 'Luego arrastra el dedo sobre la tableta para tomar las partes que pide.', { tile: 'parte', slot: 'tableta' }]],
   'corta-igual': [['slide', 'Arrastra: las dos barras se recortan en pedacitos. Cuando encajan en las dos, se pueden juntar.', {}]],
   'subraya-texto': [['tap', 'Lee el texto y toca los trozos que responden la consigna: quedan subrayados.', { items: ['El páramo', 'da agua a', 'dos millones'], pick: [2] }], ['tap', 'Tocar otra vez un trozo lo quita. Si hay varias pestañas, cada una es otra consigna.', { items: ['1', '2'], pick: [1] }]],
-  'escala-solucion': [['tap', 'En cada nivel, de abajo hacia arriba, toca el paso que sí se justifica.', { items: ['2x = 8', '2x = 2'], pick: [0] }], ['tap', 'La cuerda une tu ruta hasta la bandera; puedes cambiar un agarre antes de comprobar.', { items: ['x = 4', 'x = 1'], pick: [1, 0] }]],
+  'escala-solucion': [['trace', 'Traza una ruta desde la base y une un paso válido por nivel.', {}], ['tap', 'Toca un paso anterior para corregir lo que sigue.', { items: ['x = 4', 'x = 1'], pick: [1, 0] }]],
   'escala-leyes': [['tap', 'Toca las tarjetas en el orden que deja al escalador en la bandera. Se puede deshacer.', { items: ['· x³', '( )²', '÷ x⁴'], pick: [0, 1] }]],
   'escalera-aritmetica': [['slide', 'Arrastra el segundo peldaño: fija la diferencia y toda la escalera se acomoda.', { vert: true }]],
   'espejo-diagonal': [['drag', 'Arrastra cada ficha hasta su reflejo en el espejo y = x.', { dot: true }]],
@@ -574,7 +574,7 @@ const GUIDES = {
   'semaforo-signos': [['tap', 'Toca cada casilla para poner + o −; la fila del producto se calcula sola.', { items: ['+', '−', '+'], pick: [1] }], ['tap', 'Luego enciende los tramos de la solución y decide los puntos críticos.', { items: ['tramo', 'tramo', 'tramo'], pick: [0, 2] }]],
   'serpiente-orden': [['slide', 'Desliza en la dirección del próximo paso. Come las fichas de menor a mayor.', { label: 'avanza' }]],
   'siembra-raices': [['tap', 'Toca las semillas de la respuesta y luego «Sembrar»: crecen hasta su potencia.', { items: ['−2', '0', '2', 'Sembrar'], pick: [0, 2, 3] }]],
-  'sintoniza-onda': [['step', 'Mueve cada perilla con − / + hasta que tu onda tape la punteada.', { from: 1, to: 3, label: 'amplitud' }]],
+  'sintoniza-onda': [['slide', 'Desliza las manijas de la onda hasta hacerla coincidir con la punteada.', { label: 'amplitud' }]],
   'sirve-la-razon': [['hold', 'Mantén presionado para servir y suelta cuando la cantidad mantenga la razón.', {}]],
   'sombra-arbol': [['slide', 'Ajusta la altura del árbol hasta que el rayo caiga justo en la banderita.', { vert: true }]],
   'sombra-equivalente': [['tap', 'Toca una operación: se aplica a los dos lados. El signo de la desigualdad también se toca.', { items: ['− 3', '÷ (−2)', '<'], pick: [0, 1, 2] }]],
@@ -595,7 +595,7 @@ const GUIDES = {
   'une-parejas': [['drag', 'Arrastra desde una etiqueta de la izquierda hasta su pareja.', { cord: true, tile: 'A', slot: 'su pareja', other: 'otra' }]],
   'verdadero-falso': [['swipe', 'Desliza la tarjeta: a la derecha si es verdadera, a la izquierda si es falsa.', { left: 'falso', right: 'verdadero' }]],
   'voltea-desigualdad': [['tap', 'Después de cada operación elige «<» o «>» para el nuevo orden de los puntos.', { items: ['<', '>'], pick: [1] }]],
-  'vuela-precios': [['touch', 'Cada toque es un aleteo: pasa por el aro del resultado.', { label: 'aleteo' }]],
+  'vuela-precios': [['slide', 'Arrastra el planeador hasta la altura del resultado y suelta para volar.', { vert: true }]],
 };
 
 // Los ejercicios que no son juegos también tienen su ejemplo.
@@ -611,6 +611,7 @@ for (const [id, game] of Object.entries(typeof GAMES === 'undefined' ? {} : GAME
 }
 
 const guideKey = ex => (ex?.type === 'play' ? ex.game : ex?.type);
+const practiceGuideLines = ex => (ex?.type === 'play' ? GUIDES[ex.game] : GUIDE_TYPES[ex?.type])?.map(([, text]) => text) ?? [];
 
 function guideSteps(ex) {
   if (!ex) return [];
@@ -647,6 +648,56 @@ function guideButton(ex) {
 
 let guideOpen = null;
 function closeGuide() { guideOpen?.close(); }
+
+// La franja forma parte del área de práctica: al abrirla, el lienzo conserva su propia zona de toque.
+let practiceGuideId = 0;
+function mountPracticeGuide(host, button, ex, auto, replay) {
+  const note = document.createElement('div');
+  note.id = `instrucciones-juego-${++practiceGuideId}`;
+  note.className = 'practice-guide';
+  note.hidden = true;
+  note.setAttribute('role', 'status');
+  for (const text of practiceGuideLines(ex)) {
+    const line = document.createElement('p');
+    line.textContent = text;
+    note.appendChild(line);
+  }
+  host.prepend(note);
+  const stage = host.querySelector('.game-stage') || host;
+  button.setAttribute('aria-controls', note.id);
+  const guide = { close, el: note };
+  let afterRelease = 0;
+  const dismissIntro = () => { afterRelease = requestAnimationFrame(close); };
+  function close() {
+    stage.removeEventListener('pointerup', dismissIntro);
+    cancelAnimationFrame(afterRelease);
+    note.hidden = true;
+    button.setAttribute('aria-expanded', 'false');
+    if (guideOpen === guide) guideOpen = null;
+  }
+  function show(manual) {
+    if (manual) { closeGuide(); guideOpen = guide; }
+    note.hidden = false;
+    button.setAttribute('aria-expanded', 'true');
+    if (typeof S !== 'undefined' && !ex.exam && !(S.guides ||= {})[guideKey(ex)]) {
+      S.guides[guideKey(ex)] = true;
+      if (typeof save === 'function') save();
+    }
+  }
+  button.onclick = () => {
+    Sfx.tap();
+    if (note.hidden) {
+      show(true);
+      replay?.();
+      host.scrollIntoView({ block: 'nearest' });
+    } else close();
+  };
+  if (auto) {
+    show(false);
+    stage.addEventListener('pointerup', dismissIntro, { once: true });
+  } else close();
+  return close;
+}
 
 function openGuide(ex, o = {}) {
   const steps = guideSteps(ex);
@@ -725,7 +776,7 @@ function openGuide(ex, o = {}) {
 function guideWanted(ex) {
   // Un juego que se explica sobre el lienzo (mano que hace el gesto) no abre la tarjeta emergente.
   if (ex?.type === 'play' && typeof GAMES !== 'undefined' && GAMES[ex.game]?.demo) return false;
-  if (ex?.canvasGuide) return false;
+  if (ex?.exam) return false;
   if (typeof S === 'undefined' || !guideSteps(ex).length) return false;
   if (S.guideAuto === false || S.guides?.[guideKey(ex)]) return false;
   return !(typeof document !== 'undefined' && document.querySelector?.('#overlay.open .exam-foot'));   // js/exam.js

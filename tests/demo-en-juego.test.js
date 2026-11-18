@@ -42,6 +42,9 @@ test('los juegos del Preuniversitario traen su demostración y los armazones la 
 test('con demostración no sale la ventana emergente, y «Cómo se juega» la repite sobre el juego', () => {
   const guia = read('js/guia.js'), ex = read('js/exercises.js');
   assert.match(guia, /function guideWanted\(ex\) \{[\s\S]{0,200}GAMES\[ex\.game\]\?\.demo\) return false/);
-  assert.match(ex, /demo: \(\) => inst\.demo \? inst\.demo\(\) : box\.zukaCanvasGuide/);
-  assert.match(ex, /h\.demo && \(GAMES\[ex\.game\]\?\.demo \|\| ex\.canvasGuide\) \? h\.demo\(\) : \(guide = openGuide\(ex\)\)/);
+  assert.match(ex, /demo: \(\) => inst\?\.demo\?\.\(\)/);
+  assert.match(ex, /const replay = GAMES\[ex\.game\]\?\.demo \? h\.demo : undefined/);
+  assert.match(ex, /closePractice = mountPracticeGuide\(/);
+  assert.match(guia, /host\.prepend\(note\)/);
+  assert.match(guia, /replay\?\.\(\)/);
 });

@@ -26,9 +26,11 @@ test('el fondo de los juegos es liso: sin cuadrícula, sin estrellas y sin nada 
   assert.match(fn, /C\.brand/);
 });
 
-test('fichas con relieve fino, carteles con borde fino y vidas pequeñas', () => {
+test('fichas y carteles con contorno fino, y vidas pequeñas', () => {
   const kit = read('js/games/kit.js');
-  assert.match(kit, /const fill = o\.fill \?\? C\.cream, r = o\.r \?\? 8, lift = o\.lift \?\? 2/);
+  const tile = kit.slice(kit.indexOf('function drawTile'), kit.indexOf('function drawSlot'));
+  assert.match(tile, /drawPracticePanel\(p, \{ x, y, w, h \}, fill, o\.ring \?\? C\.line, r, o\.ring \? 2 : 1\)/);
+  assert.doesNotMatch(tile, /\blift\b|HILITE/);
   const banner = kit.slice(kit.indexOf('function drawBanner'), kit.indexOf('function makeArcade'));
   assert.ok(!/strokeWeight\(3\)/.test(banner), 'cartel sin borde grueso');
   const tabs = kit.slice(kit.indexOf('function drawTabs'), kit.indexOf('const hitBox'));

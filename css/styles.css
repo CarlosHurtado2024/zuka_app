@@ -607,15 +607,18 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .ex-head { position: relative; padding-left: 14px; margin-bottom: 22px; }
 .ex-head::before { content: ''; position: absolute; left: 0; top: 3px; bottom: 3px; width: 3px; border-radius: 3px; background: var(--c, var(--gold)); }
 .ex-head .ex-q { margin-bottom: 0; }
-.algebra-practice .ex-head { padding-left: 10px; margin-bottom: 14px; }
-.lesson-body:has(> .algebra-practice) { padding-block: 6px 14px; }
-.algebra-practice .ex-head::before { width: 1px; }
-.algebra-practice .ex-q { margin-top: 0; font-size: clamp(17px, 5.1vw, 20px); }
-.algebra-practice .ex-hint { margin: -3px 0 12px; }
-.algebra-practice .ex-tools { gap: 6px; }
-.algebra-practice .hint-btn { gap: 5px; padding-inline: 9px; font-size: 12px; }
-.algebra-practice .hint-btn svg { width: 15px; height: 15px; }
-.algebra-practice canvas:focus-visible { outline: 2px solid var(--c, var(--brand)); outline-offset: -3px; }
+.practice .ex-head { padding-left: 10px; margin-bottom: 14px; }
+.lesson-body:has(> .practice) { padding-block: 6px 14px; }
+.practice .ex-head::before { width: 1px; }
+.practice .ex-q { margin-top: 0; font-size: clamp(17px, 5.1vw, 20px); }
+.practice .ex-hint { margin: -3px 0 12px; }
+.practice .ex-tools { gap: 6px; }
+.practice .hint-btn { gap: 5px; min-height: 34px; padding-inline: 9px; font-size: 12px; }
+.practice .hint-btn svg { width: 15px; height: 15px; }
+.practice canvas:focus-visible { outline: 2px solid var(--c, var(--brand)); outline-offset: -3px; }
+.practice-guide { padding: 9px 13px; background: var(--bg2); color: var(--ink); border-bottom: 1px solid var(--line); font-size: 13px; line-height: 1.4; }
+.practice-guide[hidden] { display: none; }
+.practice-guide p + p { margin-top: 4px; }
 .algebra-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .opts { display: grid; gap: 10px; }
 .opt {
@@ -683,7 +686,8 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 }
 /* pan-y: sobre el juego se puede desplazar la lección con el dedo; cuando el juego agarra una pieza
    cancela el toque (js/games/kit.js) y la página no se mueve. */
-.play canvas { display: block; margin: 0 auto; }   /* la entrada la anima anime.js (mountSketch) */
+.game-stage { position: relative; min-height: 160px; }
+.play canvas { display: block; margin: 0 auto; }
 /* Celebración al acertar (playFx en js/games/kit.js): aro y confeti de formas planas. */
 .play-fx { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .play-fx i { position: absolute; left: 50%; top: 46%; display: block; }
@@ -693,7 +697,7 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .fx-bit.sq { border-radius: 2px; }
 .fx-bit.tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
 /* Mientras carga p5.js (la primera vez) el marco muestra que algo viene. */
-.play:empty::after {
+.game-stage[aria-busy="true"]:empty::after {
   content: ''; position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px; border-radius: 50%;
   border: 3px solid var(--line); border-top-color: var(--c, var(--brand)); animation: play-spin .8s linear infinite;
 }
@@ -701,7 +705,8 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .play.right { border-color: var(--ok); box-shadow: 0 0 0 1px var(--ok); }
 .play.wrong { border-color: var(--bad); box-shadow: 0 0 0 1px var(--bad); animation: play-no .32s ease-in-out; }
 @keyframes play-no { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-.play-msg { padding: 40px 18px; text-align: center; color: var(--mute); font-weight: 700; }
+@media (prefers-reduced-motion: reduce) { .practice, .play.wrong { animation: none; } }
+.play-msg { display: grid; justify-items: center; gap: 12px; padding: 36px 18px; text-align: center; color: var(--mute); }
 /* Subraya el texto (js/games/subraya-texto.js): un fragmento de lectura en HTML; cada trozo es un botón que se subraya
    con el color del curso, como con un resaltador. Al comprobar: verde lo que había que subrayar, tachado lo que sobraba. */
 .subraya { padding: 14px 14px 12px; color: var(--ink); }
@@ -710,8 +715,8 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .sb-tab.has { color: var(--ink); }
 .sb-tab.on { border-color: var(--c, var(--brand)); color: var(--c-ink); background: color-mix(in srgb, var(--c, var(--brand)) 14%, transparent); }
 .sb-ask { margin: 0 0 8px; font-weight: 700; font-size: 15px; line-height: 1.35; }
-.sb-title { margin: 0 0 8px; padding: 8px 10px; border-left: 3px solid var(--c, var(--brand)); color: var(--mute); font-size: 14px; line-height: 1.45; }
-.sb-text { margin: 0; font-size: 16px; line-height: 1.75; }
+.sb-title { margin: 0 0 8px; padding-left: 9px; border-left: 1px solid var(--c, var(--brand)); color: var(--mute); font-size: 14px; line-height: 1.45; }
+.sb-text { margin: 0; padding: 11px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg2); font-size: 16px; line-height: 1.75; }
 .sb-piece {
   padding: 1px 2px; border-radius: 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; cursor: pointer;
   user-select: none; -webkit-tap-highlight-color: transparent;
@@ -725,15 +730,17 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .sb-piece.extra { text-decoration: line-through var(--bad) 2px; color: var(--mute); }
 .sb-piece.off { cursor: default; }
 .sb-foot { margin: 10px 0 0; font-size: 13px; color: var(--mute); }
-.sim { position: relative; aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden; background: #0f1226; border: 1px solid var(--line); }
+.sim { position: relative; aspect-ratio: 5 / 3; margin: 12px 12px 0; border-radius: 12px; overflow: hidden; background: var(--bg2); border: 1px solid var(--line); }
 .sim.right { border-color: var(--ok); } .sim.wrong { border-color: var(--bad); }
 .sim canvas { display: block; width: 100%; height: 100%; }
-.readout { margin: 16px 0 8px; text-align: center; font-size: 22px; font-weight: 700; }
+.sim-controls { padding: 7px 12px 12px; }
+.readout { display: block; margin-top: 9px; padding: 7px; text-align: center; font-size: 18px; font-weight: 700; background: var(--bg2); border: 1px solid var(--line); border-radius: 8px; }
 .range { --fill: 0%; -webkit-appearance: none; appearance: none; width: 100%; height: 34px; background: none; cursor: pointer; }
-.range::-webkit-slider-runnable-track { height: 10px; border-radius: 10px; background: linear-gradient(90deg, var(--c) var(--fill), var(--card2) var(--fill)); }
-.range::-moz-range-track { height: 10px; border-radius: 10px; background: linear-gradient(90deg, var(--c) var(--fill), var(--card2) var(--fill)); }
-.range::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; margin-top: -10px; border-radius: 50%; background: #fff; border: 5px solid var(--c); box-shadow: 0 3px 8px rgba(0,0,0,.4); }
-.range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 5px solid var(--c); }
+.range::-webkit-slider-runnable-track { height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--c) var(--fill), var(--line) var(--fill)); }
+.range::-moz-range-track { height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--c) var(--fill), var(--line) var(--fill)); }
+.range::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; margin-top: -10px; border-radius: 50%; background: var(--bg2); border: 2px solid var(--c); }
+.range::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--bg2); border: 2px solid var(--c); }
+.range:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 2px; border-radius: 8px; }
 .range:disabled { opacity: .6; cursor: default; }
 .range-ends { display: flex; justify-content: space-between; color: var(--mute); font-size: 12px; font-weight: 700; }
 .slots { min-height: 70px; display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 16px; border: 2px dashed var(--line); justify-content: center; }

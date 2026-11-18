@@ -2,9 +2,9 @@
 // drawViz(ctx, viz, p, box, param): p ∈ [0,1] es el avance de la escena; `param` (opcional)
 // fija el valor que controla el deslizador de un ejercicio.
 
-const PAL = ['#8b7bff', '#22d3ee', '#f472b6', '#facc15', '#34d399', '#fb923c'];
-const INK = 'rgba(255,255,255,.92)', DIM = 'rgba(255,255,255,.5)';
-const GRID = 'rgba(255,255,255,.07)', AXIS = 'rgba(255,255,255,.35)';
+const CLIP_COLORS = [['#8b7bff', '#22d3ee', '#f472b6', '#facc15', '#34d399', '#fb923c'],
+  'rgba(255,255,255,.92)', 'rgba(255,255,255,.5)', 'rgba(255,255,255,.07)', 'rgba(255,255,255,.35)', 'rgba(8,10,24,.8)', '#0d1024'];
+let [PAL, INK, DIM, GRID, AXIS, CHIP, HOLE] = CLIP_COLORS;
 const lerp = (a, b, t) => a + (b - a) * t;
 const clamp01 = t => Math.max(0, Math.min(1, t));
 const ease = t => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
@@ -38,7 +38,7 @@ function chips(ctx, b, lines, right = false) {
     ctx.font = font(13 * SC);
     const w = ctx.measureText(s).width + 16 * SC, h = 24 * SC;
     const x = right ? b.x + b.w - w - 4 : b.x + 4;
-    ctx.fillStyle = 'rgba(8,10,24,.8)';
+    ctx.fillStyle = CHIP;
     roundRect(ctx, x, y, w, h, 8 * SC); ctx.fill();
     text(ctx, s, x + 8 * SC, y + h / 2 + 1, { color: c || INK, size: 13 * SC, base: 'middle' });
     y += h + 6 * SC;
@@ -48,7 +48,7 @@ function chips(ctx, b, lines, right = false) {
 function dot(ctx, x, y, color, r = 6, hollow = false) {
   ctx.beginPath(); ctx.arc(x, y, r * SC, 0, Math.PI * 2);
   if (hollow) {
-    ctx.fillStyle = '#0d1024'; ctx.fill();
+    ctx.fillStyle = HOLE; ctx.fill();
     ctx.lineWidth = 2.5 * SC; ctx.strokeStyle = color; ctx.stroke();
   } else {
     ctx.fillStyle = color; ctx.fill();
@@ -565,13 +565,21 @@ const VIZ = {
   },
 };
 
-function drawViz(ctx, viz, p, box, param) {
+function drawViz(ctx, viz, p, box, param, palette) {
   const fn = VIZ[viz.type];
   if (!fn) return;
+  if (palette) {
+    const { N, Q, I, Z, ok, brand, ink, mute, line, card, bg } = palette;
+    [PAL, INK, DIM, GRID, AXIS, CHIP, HOLE] = [[brand, Q, I, N, ok, Z], ink, mute, line, mute, card, bg];
+  }
   SC = Math.max(0.8, Math.min(1.35, box.w / 300));
   ctx.save();
-  fn(ctx, viz, p, box, param);
-  ctx.restore();
+  try {
+    fn(ctx, viz, p, box, param);
+  } finally {
+    ctx.restore();
+    if (palette) [PAL, INK, DIM, GRID, AXIS, CHIP, HOLE] = CLIP_COLORS;
+  }
 }
 
 function drawClipBg(ctx, W, H, color, t) {

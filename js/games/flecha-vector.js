@@ -50,7 +50,7 @@ GAMES['flecha-vector'] = (() => {
     const FAM = ['Z', 'I', 'Q', 'R'];
 
     function layout() {
-      tabs = roundTabs(params.rounds.length);
+      tabs = roundTabs(params.rounds.length, W);
       const R = params.rounds[cur].range || 6, side = Math.min(W - 24, H - 150);
       view = planeView({ x: (W - side) / 2, y: 98, w: side, h: side }, [-R, R], [-R, R]);
     }
@@ -93,7 +93,7 @@ GAMES['flecha-vector'] = (() => {
         const col = locked ? (ok ? C.ok : C.bad) : ok ? C.ok : C.brand;
         arrow(vec.tail, vec.tip, col, 4);
         ctx.restore(); p.fill(C.bg); p.stroke(C.bg); // p5 guarda el último color: lo resincroniza tras el recorte
-        p.noStroke(); p.fill(col); p.circle(view.X(vec.tip[0]), view.Y(vec.tip[1]), 14);
+        drawPracticeHandle(p, C, view.X(vec.tip[0]), view.Y(vec.tip[1]), col, drag === 'tip');
         if (r.freeTail) { p.stroke(col); p.strokeWeight(2.5); p.fill(C.card); p.circle(view.X(vec.tail[0]), view.Y(vec.tail[1]), 13); }
         else { p.noStroke(); p.fill(C.ink); p.circle(view.X(vec.tail[0]), view.Y(vec.tail[1]), 7); }
         if (locked && !ok) { p.noStroke(); p.fill(C.ok); p.textStyle(p.BOLD); fitText(p, `era ${solOf(r)}`, W / 2, view.box.y + view.box.h + 18, W - 24, 13); }
@@ -125,15 +125,20 @@ GAMES['flecha-vector'] = (() => {
         return false;
       };
       p.mouseReleased = () => { drag = null; };
-    }, 1.42);
+    }, 1.42, () => {
+      if (locked || !view) return null;
+      const [x, y] = vecs[cur].tip;
+      return { from: { x: view.X(x), y: view.Y(y) }, to: { x: view.X(x + (x >= 0 ? -1 : 1)), y: view.Y(y + (y >= 0 ? -1 : 1)) } };
+    });
 
     return {
       loaded: m.ready,
       getState: () => ({ vecs: vecs.map(v => ({ tail: v.tail.slice(), tip: v.tip.slice() })) }),
       lock() { locked = true; drag = null; },
       destroy: () => m.remove(),
+      demo: m.demo,
     };
   }
 
-  return { grade, create, dot, cross, meets };
+  return { grade, create, dot, cross, meets, demo: true };
 })();

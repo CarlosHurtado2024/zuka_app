@@ -120,11 +120,12 @@ test('caja-veloz (alg-13): cada respuesta es un entero corto y es la cuenta que 
 });
 
 // ---------- vuela-precios ----------
-test('vuela-precios: el aleteo sube y la gravedad baja; se pasa por el aro que queda a la altura', () => {
+test('vuela-precios: la trayectoria atraviesa el aro a la altura elegida al soltar', () => {
   const g = G('vuela-precios');
-  const up = g.stepBird({ y: 200, vy: g.FLAP }, 0.1), down = g.stepBird({ y: 200, vy: 0 }, 0.1);
-  assert.ok(up.y < 200 && up.vy > g.FLAP, 'sube, frenando');
-  assert.ok(down.y > 200 && down.vy > 0, 'cae');
+  assert.ok(g.flightAt(40, 200, 152, .5).y < 152, 'el planeador dibuja un arco');
+  const arrival = g.flightAt(40, 200, 152, 1);
+  assert.equal(arrival.x, 200);
+  assert.ok(Math.abs(arrival.y - 152) < 1e-6);
   assert.equal(g.ringAt(152, [60, 150, 240], 34), 1);
   assert.equal(g.ringAt(105, [60, 150, 240], 34), -1, 'entre dos aros no pasa por ninguno');
 });

@@ -14,17 +14,13 @@ const ALG_TALLER = (() => {
   const normal = (v, a, b) => (v - a) / (b - a);
   const color = (p, value, alpha) => { const c = p.color(value); c.setAlpha(alpha); return c; };
   const stroke = (p, c, w = 1) => { p.noFill(); p.stroke(c); p.strokeWeight(w); };
-  const panel = (p, b, ink, fill, radius = 10) => {
-    p.stroke(ink); p.strokeWeight(1); p.fill(fill); p.rect(b.x, b.y, b.w, b.h, radius);
-  };
+  const panel = (p, b, ink, fill, radius) => drawPracticePanel(p, b, fill, ink, radius);
   function txt(p, text, x, y, width, tone, size = 14) {
     p.noStroke(); p.fill(tone); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.NORMAL);
     fitText(p, String(text ?? ''), x, y, width, size, 27);
   }
   function handle(p, C, q, active = false) {
-    stroke(p, color(p, C.brand, 95), 1); p.circle(q.x, q.y, active ? 34 : 29);
-    p.fill(C.card); p.stroke(C.brand); p.strokeWeight(2); p.circle(q.x, q.y, 21);
-    p.noStroke(); p.fill(C.brand); p.circle(q.x, q.y, 6);
+    drawPracticeHandle(p, C, q.x, q.y, C.brand, active);
   }
   function line(p, a, b, c, w = 1) {
     stroke(p, c, w); p.line(a.x, a.y, b.x, b.y);
@@ -150,7 +146,7 @@ const ALG_TALLER = (() => {
             p.fill(C.brand); p.circle(q.x, q.y, 10);
             if (u >= 1) { motion = null; ready(); }
           }
-          const demo = !locked && !held && !motion && ((!activated && params.autoDemo !== false) || t < reveal);
+          const demo = !locked && !held && !motion && ((!activated && api.guideAuto !== false && params.autoDemo !== false) || t < reveal);
           if (demo) drawDemo(p, C, reveal > t ? t - (reveal - 2 * DEMO_T) : t, def.demo(G));
           if (keyboard && cursor && !locked) handle(p, C, cursor, held);
           const value = locked && !correct(s, r) ? (r.solution || r.read(r.goal)) : r.read(s.v);

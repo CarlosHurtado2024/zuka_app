@@ -1,123 +1,129 @@
-// Vuela por el precio (Álgebra, aumentos y descuentos; juego dinámico de la lección alg-13c): un pajarito vuela a
-// toques (cada toque es un aleteo; si no se toca, cae). Arriba sale una cuenta («200 con 10 % de descuento») y vienen
-// tres aros a distintas alturas, cada uno con un precio: hay que pasar por el del resultado. Pasar por otro quita una
-// vida; no pasar por ninguno no quita nada (la pregunta vuelve). Sin vidas, la ronda empieza otra vez.
-// params = { rounds: [{ title, items: [{ ask, options: [a, b, c], answer }] }], lives? }   state = { done: [n] }
-// Spec 2026-11-13-juegos-dinamicos-razones.
-
+// Ajusta el planeador en vertical. El vuelo empieza al soltar y usa la altura que ya elegiste.
 GAMES['vuela-precios'] = (() => {
-  const GRAV = 520, FLAP = -230, RING = 34;
-  // Un paso del vuelo: la gravedad acelera hacia abajo y la altura sigue a la velocidad.
-  const stepBird = (b, dt) => { const vy = b.vy + GRAV * dt; return { y: b.y + vy * dt, vy }; };
-  // Aro por el que pasa un pájaro a la altura y (−1 si pasa entre dos).
-  function ringAt(y, centers, r) {
-    let best = -1, bd = r;
-    centers.forEach((c, i) => { const d = Math.abs(y - c); if (d <= bd) { bd = d; best = i; } });
+  const flightAt = (x0, x1, y, t) => ({ x: x0 + (x1 - x0) * t, y: y - 10 * Math.sin(Math.PI * t) });
+  function ringAt(y, centers, radius) {
+    let best = -1, distance = radius;
+    centers.forEach((c, i) => {
+      const d = Math.abs(y - c);
+      if (d <= distance) { distance = d; best = i; }
+    });
     return best;
   }
-
   function grade(state, params) {
     const ok = params.rounds.every((r, i) => (state.done?.[i] ?? 0) >= r.items.length);
     return { ok, solution: params.rounds.map(r => r.items.map(it => `${it.ask}: ${it.options[it.answer]}`).join(', ')).join(' · ') };
   }
 
   function create(host, params, api) {
-    const C = api.palette, R = params.rounds, BX = 66;
-    const st = { done: R.map(() => 0) };
-    let locked = false, W = 0, H = 0, top = 112, bottom = 0, bird = { y: 0, vy: 0 }, queue = [], col = null, gap = 0, n = 0;
+    const C = api.palette, R = params.rounds, st = { done: R.map(() => 0) };
+    let W = 0, H = 0, y = 0, locked = false, held = false, flight = null, result, queue = [], order = [];
+    const top = 102, rail = 44;
+    const rings = () => [1, 2, 3].map(i => top + (H - top - 52) * i / 4);
+    const dock = () => W * .59;
+    const item = () => R[a.cur].items[queue[0]];
+    const reset = () => {
+      const it = item();
+      flight = null; result = null; held = false; y = rings()[1];
+      order = shuffledOrder(it.options.length, it.ask + a.cur);
+    };
     const a = makeArcade(R.length, params.lives ?? 3, api, {
-      start(i) { st.done[i] = 0; queue = R[i].items.map((_, k) => k); col = null; gap = 0.8; bird = { y: (top + bottom) / 2, vy: FLAP }; },
-      lost(i) { st.done[i] = 0; col = null; },
+      start(i) { st.done[i] = 0; queue = R[i].items.map((_, k) => k); reset(); },
+      lost(i) { st.done[i] = 0; held = false; },
     });
-    const centers = () => [1, 3, 5].map(k => top + ((bottom - top) * k) / 6);
-
-    function layout(w, h) { W = w; H = h; bottom = h - 36; if (!bird.y) bird.y = (top + bottom) / 2; }
-    function spawn() { const it = R[a.cur].items[queue[0]]; col = { x: W + 40, it, perm: shuffledOrder(3, it.ask + (n++)), done: false, pick: -1 }; }
+    const layout = (w, h) => {
+      const old = rings();
+      const position = H ? (y - old[0]) / (old[2] - old[0]) : .5;
+      W = w; H = h;
+      const next = rings();
+      y = next[0] + position * (next[2] - next[0]);
+    };
+    function advance(dt) {
+      a.tick(dt);
+      if (a.phase !== 'play') return;
+      if (result) {
+        result.wait -= dt;
+        if (result.wait > 0) return;
+        const answered = queue.shift();
+        if (!result.ok) queue.push(answered);
+        if (!queue.length) a.win();
+        else reset();
+        return;
+      }
+      if (!flight) return;
+      flight.t = reducedMotion() ? 1 : Math.min(1, flight.t + dt / .78);
+      if (flight.t < 1) return;
+      const it = item(), centers = rings(), i = ringAt(y, centers, (centers[1] - centers[0]) * .36);
+      const ok = order[i] === it.answer;
+      result = { i, ok, wait: .85 };
+      if (ok) { st.done[a.cur]++; a.hit(); a.say(`${it.ask}: ${it.options[it.answer]}`, C.ok); }
+      else if (i < 0) a.say('Quedaste entre dos aros. Ajusta la altura y vuelve a intentar.', C.mute);
+      else { a.say(`${it.options[order[i]]} no es el resultado`, C.bad); a.miss(); }
+    }
 
     const m = mountSketch(host, (p, size) => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
       p.onResize = () => { layout(size.w, size.h); if (a.stopped) p.redraw(); };
-
-      function step(dt) {
-        a.tick(dt);
-        if (a.phase !== 'play') return;
-        bird = stepBird(bird, dt);
-        const lim = centers();
-        if (bird.y > lim[2] + 10) { bird.y = lim[2] + 10; bird.vy = 0; }   // el piso y el techo no hacen daño
-        if (bird.y < lim[0] - 10) { bird.y = lim[0] - 10; bird.vy = 0; }
-        if (!col) { gap -= dt; if (gap <= 0 && queue.length) spawn(); return; }
-        col.x -= ((W - BX) / 4.1) * (1 + a.cur * 0.08) * (col.done ? 3 : 1) * dt;
-        if (!col.done && col.x <= BX + 6) {
-          col.done = true;
-          const i = ringAt(bird.y, centers(), RING), it = col.it;
-          col.pick = i;
-          if (i < 0) { a.say('Pasaste entre dos aros: vuelve después', C.sun); queue.push(queue.shift()); }
-          else if (col.perm[i] === it.answer) {
-            st.done[a.cur]++; queue.shift(); a.hit(); a.say(`${it.ask}: ${it.options[it.answer]}`, C.ok);
-            if (!queue.length) { a.win(); col = null; return; }
-          } else { a.say(`${it.options[col.perm[i]]} no es el resultado`, C.bad); queue.push(queue.shift()); if (a.miss()) return; }
-        }
-        if (col.x < -50) { col = null; gap = 0.5; }
-      }
-
       p.draw = () => {
         p.background(C.bg);
-        const dt = frameDt(p);
-        if (!locked) step(dt * a.slow);
-        const r = R[a.cur], cs = centers();
-
-        // Los tres aros con su precio.
-        if (col && col.x < W + 16) cs.forEach((cy, i) => {
-          const opt = col.it.options[col.perm[i]], good = col.perm[i] === col.it.answer;
-          const c = !col.done ? C.sky : good ? C.ok : col.pick === i ? C.bad : C.sky;
-          p.noFill(); p.stroke(c); p.strokeWeight(6); p.ellipse(col.x, cy, 30, RING * 2 - 6);
-          drawPill(p, C, opt, col.x + 42 > W - 30 ? col.x : col.x + 42, cy, c, 14);
-        });
-        // El planeador: cuerpo color sol, ala que sube al aletear y nariz.
-        const y = bird.y, flap = bird.vy < -60;
-        p.noStroke(); p.fill(shade(C.sun, 0.74)); p.ellipse(BX, y + 3, 30, 24);
-        p.fill(C.sun); p.ellipse(BX, y, 30, 24);
-        p.fill(shade(C.sun, 0.84)); p.ellipse(BX - 6, y + (flap ? -7 : 5), 16, 10);
-        p.fill(C.coral); p.triangle(BX + 13, y - 1, BX + 22, y + 2, BX + 13, y + 5);
-
-        // Encabezado: ronda, vidas y la cuenta.
-        p.noStroke(); p.fill(C.bg); p.rect(0, 0, W, top - 8);
+        if (!locked) advance(frameDt(p) * a.slow);
+        const cs = rings(), x = dock(), it = item(), live = a.phase === 'play' && !locked;
         drawArcadeHead(p, C, a, R.length);
-        p.noStroke(); p.fill(C.mute); p.textStyle(p.BOLD); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
-        p.text(`${r.title} · pasa por el aro del resultado`, W / 2, 40);
-        const it = col ? col.it : queue.length ? r.items[queue[0]] : null;
-        if (it && a.phase === 'play') drawPill(p, C, it.ask, W / 2, 70, C.sun, 15);
-        p.stroke(C.line); p.strokeWeight(2); p.line(8, cs[2] + 26, W - 8, cs[2] + 26);
-
-        arcadeToast(p, C, a, W / 2, H - 17, locked);
-        const mid = (top + bottom) / 2;
-        if (locked || a.phase === 'all') drawArcadeSummary(p, C, R.map((rr, i) => ({ ok: st.done[i] >= rr.items.length, text: `${rr.title}: ${Math.min(st.done[i], rr.items.length)} de ${rr.items.length}` })), mid);
-        else drawArcadeBanner(p, C, a, mid, { idle: 'Cada toque es un aleteo', lost: 'Demasiados aros equivocados' });
-        if (!a.toast || locked || a.phase === 'idle' || a.phase === 'all') {
-          p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
-          p.text(locked || a.phase === 'all' ? '¡Vuelo perfecto! Ya puedes comprobar' : 'Toca para subir · deja de tocar para bajar', W / 2, H - 16);
+        p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD);
+        fitText(p, live && it ? it.ask : R[a.cur].title, W / 2, 67, W - 28, 16);
+        drawPracticePanel(p, { x: 13, y: top, w: W - 26, h: H - top - 51 }, C.card, C.line, 12);
+        if (live && it) {
+          p.stroke(C.mute); p.strokeWeight(1); p.line(rail, cs[0], rail, cs[2]);
+          for (const [i, cy] of cs.entries()) {
+            const tint = result?.i === i ? (result.ok ? C.ok : C.bad) : C.brand;
+            p.stroke(C.line); p.line(rail, cy, x - 20, cy);
+            p.noFill(); p.stroke(tint); p.strokeWeight(2); p.circle(x, cy, Math.min(34, (cs[1] - cs[0]) * .72));
+            p.noStroke(); p.fill(C.ink); p.textAlign(p.CENTER, p.CENTER);
+            fitText(p, it.options[order[i]], (x + W) / 2 + 8, cy, W - x - 36, 15);
+          }
+          const pos = flight ? flightAt(rail, x, y, flight.t) : { x: rail, y };
+          p.noFill(); p.stroke(C.brand); p.strokeWeight(2);
+          if (!flight) {
+            p.drawingContext.setLineDash([4, 5]); p.line(rail + 14, y, x - 16, y); p.drawingContext.setLineDash([]);
+            p.fill(C.card); p.circle(rail, y, 29);
+          }
+          p.noStroke(); p.fill(C.brand);
+          p.triangle(pos.x - 10, pos.y - 7, pos.x + 12, pos.y, pos.x - 10, pos.y + 7);
+          p.fill(C.mute); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
+          fitText(p, flight ? 'Trayectoria del planeador' : 'Arrastra en vertical y suelta', W / 2, H - 33, W - 32, 12);
         }
+        const mid = (top + H - 51) / 2;
+        if (locked || a.phase === 'all') drawArcadeSummary(p, C, R.map((r, i) => ({ ok: st.done[i] >= r.items.length, text: `${r.title} · ${st.done[i]} de ${r.items.length}` })), mid);
+        else drawArcadeBanner(p, C, a, mid, { idle: 'Alinea el planeador con un aro', lost: 'Vuelve a comparar las alturas' });
+        arcadeToast(p, C, a, W / 2, H - 14, locked);
         arcadeStop(p, a, locked);
       };
-
+      const aim = () => { const cs = rings(); y = Math.min(cs[2], Math.max(cs[0], p.mouseY)); };
       p.mousePressed = () => {
         if (!inCanvas(p)) return;
-        const tp = a.tap(locked);
-        if (tp === 'off') return;
-        if (tp === 'play') { bird.vy = FLAP; api.sfx?.tap?.(); }
+        const phase = a.tap(locked);
+        if (phase === 'off') return;
+        if (phase !== 'play') return false;
+        if (flight || p.mouseX > rail + 31 || p.mouseY < top || p.mouseY > H - 51) return;
+        held = true; aim();
         return false;
       };
-    }, 1.3);
-
+      p.mouseDragged = () => { if (held && !locked) { aim(); return false; } };
+      p.mouseReleased = e => {
+        if (held && !locked && e?.type !== 'touchcancel') flight = { t: 0 };
+        held = false;
+      };
+    }, 1.12, () => {
+      if (locked || flight || a.phase !== 'play') return null;
+      return { from: { x: rail, y }, to: { x: rail, y: y - 22 } };
+    });
     return {
       loaded: m.ready,
       getState: () => ({ done: [...st.done] }),
       lock() { locked = true; },
       destroy: () => m.remove(),
-      // Para pruebas en el navegador: lo que hay en pantalla en este momento.
-      peek: () => ({ phase: a.phase, cur: a.cur, lives: a.lives, W, H, birdY: bird.y, vy: bird.vy, col: col && { x: col.x, done: col.done, goodY: centers()[col.perm.indexOf(col.it.answer)], badY: centers()[col.perm.findIndex(k => k !== col.it.answer)] } }),
+      demo: m.demo,
+      peek: () => ({ phase: a.phase, flight, rail, y, W, H, target: item() && rings()[order.indexOf(item().answer)] }),
     };
   }
-
-  return { grade, create, stepBird, ringAt, GRAV, FLAP };
+  return { grade, create, flightAt, ringAt, demo: true };
 })();
