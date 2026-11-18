@@ -17,6 +17,11 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
   `balanza-proporcion` (Razones y proporciones). Una escena con un objeto que reacciona en vivo (una jarra que cambia de color, una
   balanza que se inclina, un globo que sube) y que se manipula directamente arrastrando o deslizando; la cuenta se escribe sola.
   «Solo tocar botones es muy aburrido»: nada de filas de botones − / + / Listo como mecánica principal.
+- **Estándar por lección** (pedido del 2026-11-18, spec `2026-11-18-preuda-mundo-1`, pruebas `tests/preuda-mundo-1.test.js`): 7 u 8
+  ejercicios **distintos** (ningún juego repetido en la lección), todos gráficos e interactivos, y al final un **juego en
+  movimiento**. Fuera `escala-solucion`, `arma-la-cuenta`, `une-parejas`, `clasifica-cartas` y `ordena-terminos` («aburridos»). Vale
+  para razonamiento lógico, Álgebra y Trigonometría; se hace por mundos. Hecho: mundo 1 del Preuniversitario (Cálculo Mental).
+  Faltan los mundos 2 a 16 de razonamiento y todo Álgebra y Trigonometría.
 - **Las instrucciones van sobre el juego, no en una ventana** (pedido del 2026-11-18, spec `2026-11-18-demo-en-juego`, pruebas
   `tests/demo-en-juego.test.js`): una mano hace el gesto en el lugar real del lienzo (`def.demo(G)` en `roundsGame` / `questGame`,
   `drawDemo` en `kit.js`) hasta el primer toque, y «Cómo se juega» la repite. Juego nuevo = con `demo`; los viejos conservan su

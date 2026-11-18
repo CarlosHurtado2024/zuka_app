@@ -55,11 +55,10 @@ test('90 lecciones: 57 de razonamiento y 33 de lectura, cada una con escenas y a
 });
 
 test('solo juegos (nada de opción múltiple ni de teclear), que existen, con pista y explicación', () => {
-  const OK = ['escala-solucion', 'arma-la-cuenta', 'ordena-terminos', 'encuesta-venn', 'subraya-texto', 'globo-lastre', 'voltea-flecha', 'capas-operacion'];
   for (const { l, e, i } of exercises) {
     const at = `${l.id}#${i}`;
     assert.equal(e.type, 'play', at);
-    assert.ok(OK.includes(e.game) && GAMES[e.game], `${at}: ${e.game}`);
+    assert.ok(GAMES[e.game], `${at}: ${e.game}`);
     assert.ok(typeof e.hint === 'string' && e.hint.length > 20, `${at}: pista`);
     assert.ok(typeof e.explain === 'string' && e.explain.length > 20, `${at}: explicación`);
   }

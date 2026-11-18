@@ -30,8 +30,8 @@ test('los tres juegos nuevos existen, están registrados y con guía; se juegan 
   }
 });
 
-test('la lección: los tres juegos, el buzo y el de capas al final; todos con pista y explicación', () => {
-  assert.equal(L.ex.map(e => e.game).join(), 'globo-lastre,voltea-flecha,arma-la-cuenta,capas-operacion');
+test('la lección: ocho ejercicios distintos con los tres juegos propios; todos con pista y explicación', () => {
+  assert.equal(L.ex.map(e => e.game).join(), 'recta-espejo,globo-lastre,ascensor,tren-ordenado,voltea-flecha,pares-negativos,capas-operacion,salta-signos');
   assert.ok([...GUIDE_ARCADE].includes('capas-operacion'));
   for (const e of L.ex) {
     assert.ok(e.hint?.length > 20 && e.explain?.length > 20, e.game);
