@@ -67,7 +67,7 @@ const S = {
     const P = [['A', 'B', 'C'], ['A', 'C', 'B'], ['B', 'A', 'C'], ['B', 'C', 'A'], ['C', 'A', 'B'], ['C', 'B', 'A']], cols = { A: LIM, B: IX, C: TG };
     P.forEach((p, i) => fade(A(t, 1 + i * .8, .4), () => p.forEach((c, j) => chip(250 + (i % 2) * 420 + j * 100, 480 + Math.floor(i / 2) * 120, 84, 84, cols[c], c, { s: 40, c: cols[c] }))));
     fade(A(t, 10.2, .6), () => { F([['3', 'r', LIM], [' · ', 'r'], ['2', 'r', IX], [' · ', 'r'], ['1', 'r', TG], [' = 6', 'r']], CX, 940, 72); T('opciones para el 1.º, el 2.º y el 3.º', CX, 1010, { k: 'mono', s: 24, a: 'c', c: C.mute }); });
-    fade(A(t, 20.2, .6), () => F([['0! = 1', 'r', PI_], ['   por acuerdo', 'it', C.mute]], CX, 1140, 64));
+    fade(A(t, 20.2, .6), () => F([['0! = 1', 'r', PI_], ['   por convención', 'it', C.mute]], CX, 1140, 64));
   },
   // 9 · Una baraja: 52! ≈ 8 · 10⁶⁷; las cartas se barajan.
   baraja(t) {

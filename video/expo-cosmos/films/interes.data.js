@@ -1,0 +1,47 @@
+// «El testamento de Franklin» · lección alg-13b (Interés simple y compuesto). Datos puros (generados desde interes.json).
+// Historia (docs/storytelling-videos.md): en 1790 Benjamin Franklin deja 1 000 libras a Boston y otras 1 000 a Filadelfia
+// para prestarlas al 5 % durante 200 años; calcula que a los 100 años serían unas 131 000. Ejemplo: 1 000 000 al 10 %.
+// La sorpresa: con interés compuesto, el interés también gana interés y el dinero se duplica en unos 7 años.
+const D = (() => {
+  const SCENES = [
+    { id: 'franklin', name: 'FILADELFIA, 1790', dur: 28, formula: [['1 000 · 1.05', 'r'], ['¹⁰⁰', 'r']],
+      caps: [[1.0, 9.0, 'Filadelfia, 1790', 'el testamento de Benjamin Franklin'], [9.6, 18.0, '1 000 libras a Boston y a Filadelfia', 'para prestar al 5 % durante 200 años'], [18.6, 27.4, 'Su cuenta para los primeros 100 años', 'unas 131 000 libras']],
+      narr: [[1.0, 9.0, 'Filadelfia, mil setecientos noventa. Benjamin Franklin deja en su testamento un regalo poco común.'], [9.6, 18.0, 'Mil libras para Boston y otras mil para Filadelfia, para prestarlas a jóvenes artesanos al cinco por ciento, durante doscientos años.'], [18.6, 27.4, 'Franklin calculó que a los cien años cada fondo tendría unas ciento treinta y un mil libras. La cuenta es de interés compuesto.']] },
+    { id: 'simple', name: 'INTERÉS SIMPLE', dur: 28, formula: [['I', 'i'], [' = ', 'r'], ['C', 'i'], [' · ', 'r'], ['r', 'i'], [' · ', 'r'], ['t', 'i']],
+      caps: [[0.8, 9.4, 'Interés simple', 'siempre sobre el capital inicial'], [10.0, 18.4, '1 000 000 al 10 % anual', '100 000 cada año, todos iguales'], [19.0, 27.4, 'Crece en línea recta', 'a los 10 años: 2 000 000']],
+      narr: [[0.8, 9.4, 'Con interés simple, el interés se calcula siempre sobre el capital inicial.'], [10.0, 18.4, 'Un millón al diez por ciento anual paga cien mil cada año, todos iguales.'], [19.0, 27.4, 'El dinero crece en línea recta: a los diez años, dos millones.']] },
+    { id: 'compuesto', name: 'INTERÉS COMPUESTO', dur: 30, formula: [['1 100 000 · 0.10 = 110 000', 'r']],
+      caps: [[0.8, 9.4, 'Interés compuesto', 'el interés se suma al capital'], [10.0, 19.4, 'El segundo año paga sobre 1 100 000', '110 000: 10 000 más que el primero'], [20.0, 29.4, 'El interés gana interés', 'cada año paga un poco más']],
+      narr: [[0.8, 9.4, 'Con interés compuesto, el interés de cada año se suma al capital.'], [10.0, 19.4, 'El segundo año, el diez por ciento se calcula sobre un millón cien mil: ciento diez mil, diez mil más que el primer año.'], [20.0, 29.4, 'El interés también gana interés, y cada año el pago es un poco mayor que el anterior.']] },
+    { id: 'factor', name: 'EL FACTOR', dur: 28, formula: [['M', 'i'], [' = ', 'r'], ['C', 'i'], [' · (1 + ', 'r'], ['r', 'i'], [')', 'r'], ['ⁿ', 'r']],
+      caps: [[0.8, 9.4, 'Cada año: × 1.10', 'un aumento del 10 %'], [10.0, 18.4, 'n años: × 1.10ⁿ', 'M = C (1 + r)ⁿ'], [19.0, 27.4, 'Una función exponencial del tiempo', 'base 1.10']],
+      narr: [[0.8, 9.4, 'Cada año el dinero se multiplica por uno punto uno: un aumento del diez por ciento.'], [10.0, 18.4, 'Después de n años, se multiplica por uno punto uno a la n. El monto es el capital por uno más r, a la n.'], [19.0, 27.4, 'Es una función exponencial del tiempo, con base uno punto uno.']] },
+    { id: 'comparar', name: 'RECTA Y CURVA', dur: 30, formula: [['1.1', 'r'], ['¹⁰', 'r'], [' ≈ 2.594', 'r']],
+      caps: [[0.8, 9.4, 'A los 10 años', 'simple: 2 000 000'], [10.0, 19.4, 'Compuesto: 2 593 742', 'casi 600 000 más'], [20.0, 29.4, 'A los 30 años', 'simple: 4 millones; compuesto: más de 17']],
+      narr: [[0.8, 9.4, 'Comparemos a los diez años. Con interés simple, dos millones.'], [10.0, 19.4, 'Con interés compuesto, uno punto uno a la diez es dos punto cinco nueve: dos millones quinientos noventa y tres mil. Casi seiscientos mil más.'], [20.0, 29.4, 'A los treinta años la diferencia se dispara: cuatro millones con simple, y más de diecisiete con compuesto.']] },
+    { id: 'doble', name: 'LA REGLA DEL 72', dur: 28, formula: [['72 / 10 ≈ 7.2', 'r']],
+      caps: [[0.8, 9.4, 'Cuánto tarda en duplicarse', '1.1ⁿ = 2'], [10.0, 18.4, 'Unos 7.3 años; con pago anual, 8', '1.1⁷ ≈ 1.95 y 1.1⁸ ≈ 2.14'], [19.0, 27.4, 'Regla del 72', '72 ÷ tasa en % ≈ años para duplicar']],
+      narr: [[0.8, 9.4, 'Con interés compuesto, el dinero se duplica en un tiempo fijo, sin importar cuánto haya.'], [10.0, 18.4, 'Al diez por ciento, en unos siete años y cuarto: uno punto uno a la siete es casi dos.'], [19.0, 27.4, 'Hay un atajo famoso, la regla del setenta y dos: setenta y dos entre la tasa da los años, más o menos.']] },
+    { id: 'mensual', name: 'TASA MENSUAL', dur: 30, formula: [['1.015', 'r'], ['¹²', 'r'], [' ≈ 1.196', 'r']],
+      caps: [[0.8, 9.4, 'Si la tasa es mensual', 'n cuenta meses, no años'], [10.0, 19.4, '1.5 % mensual durante 12 meses', '1.015¹² ≈ 1.196'], [20.0, 29.4, 'Un 19.6 % al año, no 18 %', 'los meses también se componen']],
+      narr: [[0.8, 9.4, 'Si la tasa es mensual, n cuenta meses. El periodo de la tasa y el de n tienen que coincidir.'], [10.0, 19.4, 'Un uno y medio por ciento mensual durante un año es uno punto cero uno cinco a la doce: uno punto uno nueve seis.'], [20.0, 29.4, 'Eso es un diecinueve punto seis por ciento al año, no un dieciocho: también los meses se componen.']] },
+    { id: 'cien', name: 'LA CUENTA DE FRANKLIN', dur: 28, formula: [['1 000 · 1.05', 'r'], ['¹⁰⁰', 'r'], [' ≈ 131 501', 'r']],
+      caps: [[0.8, 9.4, '1 000 libras al 5 % durante 100 años', '1 000 · 1.05¹⁰⁰'], [10.0, 18.4, '≈ 131 501 libras', 'Franklin escribió 131 000'], [19.0, 27.4, 'Con interés simple', 'solo 6 000 libras']],
+      narr: [[0.8, 9.4, 'La cuenta de Franklin: mil libras al cinco por ciento durante cien años es mil por uno punto cero cinco a la cien.'], [10.0, 18.4, 'Da unas ciento treinta y un mil quinientas libras. Franklin escribió ciento treinta y un mil en su testamento.'], [19.0, 27.4, 'Con interés simple, en cambio, serían solo seis mil: mil más cinco mil de intereses.']] },
+    { id: 'presente', name: 'AL REVÉS', dur: 30, formula: [['C', 'i'], [' = ', 'r'], ['M', 'i'], [' / (1 + ', 'r'], ['r', 'i'], [')', 'r'], ['ⁿ', 'r']],
+      caps: [[0.8, 9.4, 'Para tener 10 000 000 en 10 años', 'al 10 % compuesto'], [10.0, 19.4, 'Se divide entre el factor', '10 000 000 / 1.1¹⁰'], [20.0, 29.4, '≈ 3 855 433 hoy', 'el valor presente']],
+      narr: [[0.8, 9.4, 'Y al revés: para tener diez millones dentro de diez años, al diez por ciento compuesto, cuánto hay que invertir hoy.'], [10.0, 19.4, 'Se divide la meta entre el factor de todos los años: diez millones entre uno punto uno a la diez.'], [20.0, 29.4, 'Da unos tres millones ochocientos cincuenta y cinco mil. Se llama valor presente.']] },
+    { id: 'cierre', name: 'CIERRE', dur: 30, formula: [['M', 'i'], [' = ', 'r'], ['C', 'i'], ['(1 + ', 'r'], ['r', 'i'], [')', 'r'], ['ⁿ', 'r']],
+      caps: [[0.8, 10.4, 'El testamento de Franklin', 'el interés que gana interés']],
+      narr: [[0.8, 10.4, 'Doscientos años después, el fondo de Boston había crecido hasta unos cinco millones de dólares. Franklin confiaba en una exponencial.'], [11.0, 20.4, 'El interés simple crece en línea recta; el compuesto multiplica por el mismo factor cada periodo.'], [21.0, 29.4, 'Y el tiempo es su mejor aliado.']] },
+  ];
+  const WORLD = 'ÁLGEBRA · CRECIMIENTO EXPONENCIAL', TITLE = 'INTERÉS SIMPLE Y COMPUESTO', LINE = 'El interés que también gana interés.';
+  let t = 0; const SC = [], NARR = [];
+  for (const s of SCENES) {
+    SC.push({ id: s.id, name: s.name, t0: t, t1: t + s.dur });
+    for (const n of s.narr) NARR.push([+(t + n[0]).toFixed(2), +(t + n[1]).toFixed(2), n[2]]);
+    t += s.dur;
+  }
+  return { DUR: t, SCENES, SC, NARR, WORLD, TITLE, LINE, LESSON: 'alg-13b' };
+})();
+if (typeof module !== 'undefined') module.exports = D;

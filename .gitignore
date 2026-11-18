@@ -248,3 +248,6 @@ video/ceros-cosmos/events.json
 video/fraccion-cosmos/out/
 video/fraccion-cosmos/fonts/*.ttf
 video/fraccion-cosmos/events.json
+video/expo-cosmos/out/
+video/expo-cosmos/fonts/*.ttf
+video/expo-cosmos/events.json

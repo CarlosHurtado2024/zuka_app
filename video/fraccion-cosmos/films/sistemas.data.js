@@ -1,0 +1,47 @@
+// «Los nueve capítulos» · lección alg-101 (Sistemas de ecuaciones lineales). Datos puros (generados desde sistemas.json).
+// Historia (docs/storytelling-videos.md): el libro chino «Los nueve capítulos sobre el arte matemático» (hacia el siglo I)
+// resuelve tres cosechas de grano con tres ecuaciones, ordenando los números en una tabla. Ejemplo: 12 monedas de 200 y 500
+// que suman 3 900. La sorpresa: el método chino es el que siglos después se llamó eliminación de Gauss.
+const D = (() => {
+  const SCENES = [
+    { id: 'china', name: 'CHINA, HACIA EL SIGLO I', dur: 28, formula: [['3', 'r'], ['x', 'i'], [' + 2', 'r'], ['y', 'i'], [' + ', 'r'], ['z', 'i'], [' = 39', 'r']],
+      caps: [[1.0, 9.0, 'China, hacia el siglo I', '«Los nueve capítulos sobre el arte matemático»'], [9.6, 18.0, 'Tres clases de grano', 'y tres datos de cuánto rinden juntas'], [18.6, 27.4, 'Tres incógnitas, tres ecuaciones', 'un sistema']],
+      narr: [[1.0, 9.0, 'China, hacia el siglo primero. Un libro reúne problemas prácticos: Los nueve capítulos sobre el arte matemático.'], [9.6, 18.0, 'Uno pregunta cuánto grano da un fajo de cada una de tres cosechas, sabiendo cuánto rinden juntas tres combinaciones de fajos.'], [18.6, 27.4, 'Tres cantidades desconocidas y tres datos: un sistema de ecuaciones. Antes, uno más sencillo.']] },
+    { id: 'monedas', name: 'DOS PISTAS', dur: 30, formula: [['x', 'i'], [' + ', 'r'], ['y', 'i'], [' = 12', 'r']],
+      caps: [[0.8, 9.4, '12 monedas de 200 y de 500', 'x de 200, y de 500: suman 3 900 pesos'], [10.0, 19.4, 'Primera pista: x + y = 12', 'muchas parejas la cumplen: una recta'], [20.0, 29.4, 'Segunda pista: 200x + 500y = 3 900', 'otra recta']],
+      narr: [[0.8, 9.4, 'Doce monedas de doscientos y de quinientos suman tres mil novecientos pesos. x cuenta las de doscientos; y, las de quinientos.'], [10.0, 19.4, 'La primera pista, x más y igual a doce, la cumplen muchas parejas: cero y doce, uno y once… Todas forman una recta.'], [20.0, 29.4, 'La segunda, doscientos x más quinientos y igual a tres mil novecientos, es otra recta.']] },
+    { id: 'cruce', name: 'EL CRUCE', dur: 28, formula: [['(', 'r'], ['x', 'i'], [', ', 'r'], ['y', 'i'], [') = (7, 5)', 'r']],
+      caps: [[0.8, 9.4, 'La solución cumple las dos', 'es el punto donde se cruzan'], [10.0, 18.4, 'Se cruzan en (7, 5)', '7 de 200 y 5 de 500'], [19.0, 27.4, 'Se comprueba', '7 + 5 = 12 y 1 400 + 2 500 = 3 900']],
+      narr: [[0.8, 9.4, 'La solución tiene que cumplir las dos pistas a la vez: es el punto donde se cruzan las dos rectas.'], [10.0, 18.4, 'Se cruzan en siete, cinco: siete monedas de doscientos y cinco de quinientos.'], [19.0, 27.4, 'Siete más cinco son doce, y mil cuatrocientos más dos mil quinientos, tres mil novecientos.']] },
+    { id: 'sustitucion', name: 'SUSTITUCIÓN', dur: 30, formula: [['y', 'i'], [' = 12 − ', 'r'], ['x', 'i']],
+      caps: [[0.8, 9.4, 'Sustitución', 'se despeja una incógnita: y = 12 − x'], [10.0, 19.4, 'Se reemplaza en la otra', '200x + 500(12 − x) = 3 900'], [20.0, 29.4, '−300x = −2 100, x = 7', 'luego, y = 12 − 7 = 5']],
+      narr: [[0.8, 9.4, 'Sin dibujar, hay métodos. Sustitución: de la primera ecuación, y es doce menos x.'], [10.0, 19.4, 'Se reemplaza en la segunda: doscientos x más quinientos por doce menos x igual a tres mil novecientos.'], [20.0, 29.4, 'Queda menos trescientos x igual a menos dos mil cien: x es siete. Entonces y vale doce menos siete, cinco.']] },
+    { id: 'reduccion', name: 'REDUCCIÓN', dur: 28, formula: [['200', 'r'], ['x', 'i'], [' + 200', 'r'], ['y', 'i'], [' = 2 400', 'r']],
+      caps: [[0.8, 9.4, 'Reducción', 'se multiplica la primera por 200'], [10.0, 18.4, 'Se restan las ecuaciones', '300y = 1 500: la x desaparece'], [19.0, 27.4, 'y = 5, y luego x = 7', 'el mismo cruce']],
+      narr: [[0.8, 9.4, 'Reducción: se multiplica la primera ecuación por doscientos, para que la x tenga el mismo coeficiente en las dos.'], [10.0, 18.4, 'Al restarlas, la x desaparece: trescientos y igual a mil quinientos.'], [19.0, 27.4, 'Entonces y es cinco, y x es siete. El mismo cruce, por otro camino.']] },
+    { id: 'igualacion', name: 'IGUALACIÓN', dur: 28, formula: [['12 − ', 'r'], ['x', 'i'], [' = (3 900 − 200', 'r'], ['x', 'i'], [') / 500', 'r']],
+      caps: [[0.8, 9.4, 'Igualación', 'se despeja y en las dos'], [10.0, 18.4, 'Las dos expresiones valen y', 'se igualan las dos expresiones'], [19.0, 27.4, 'Tres métodos, una respuesta', 'se elige el más cómodo']],
+      narr: [[0.8, 9.4, 'Igualación: se despeja la misma incógnita en las dos ecuaciones.'], [10.0, 18.4, 'Como las dos expresiones valen y, se igualan, y queda una ecuación con una sola incógnita.'], [19.0, 27.4, 'Sustitución, reducción e igualación llevan a la misma respuesta. Se elige el que deje la cuenta más corta.']] },
+    { id: 'casos', name: 'PARALELAS', dur: 30, formula: [['x', 'i'], [' + ', 'r'], ['y', 'i'], [' = 12,   ', 'r'], ['x', 'i'], [' + ', 'r'], ['y', 'i'], [' = 15', 'r']],
+      caps: [[0.8, 9.4, 'Si las rectas son paralelas', 'nunca se cruzan: no hay solución'], [10.0, 19.4, 'x + y = 12 y x + y = 15', 'piden cosas imposibles a la vez'], [20.0, 29.4, 'Si son la misma recta', 'infinitas soluciones']],
+      narr: [[0.8, 9.4, 'No siempre hay un cruce. Si las rectas son paralelas, nunca se tocan y el sistema no tiene solución.'], [10.0, 19.4, 'Por ejemplo, x más y igual a doce y x más y igual a quince: dos números no pueden sumar doce y quince a la vez.'], [20.0, 29.4, 'Y si las dos ecuaciones son la misma recta, como x más y igual a doce y dos x más dos y igual a veinticuatro, hay infinitas soluciones.']] },
+    { id: 'tabla', name: 'LA TABLA CHINA', dur: 30, formula: [['3 2 1 | 39', 'r']],
+      caps: [[0.8, 9.4, 'El problema del grano', '3x + 2y + z = 39, 2x + 3y + z = 34, x + 2y + 3z = 26'], [10.0, 19.4, 'Los números en una tabla', 'se restan filas para borrar incógnitas'], [20.0, 29.4, 'Hasta una escalera', 'abajo queda una sola incógnita']],
+      narr: [[0.8, 9.4, 'Volvamos al grano. Las tres ecuaciones del libro se escriben con los fajos de cada cosecha y lo que rinden juntos.'], [10.0, 19.4, 'Los chinos ponían solo los números en una tabla, y restaban filas multiplicadas para ir borrando incógnitas.'], [20.0, 29.4, 'Así la tabla se vuelve una escalera: en la última fila queda una sola incógnita.']] },
+    { id: 'escalera', name: 'LA ESCALERA', dur: 28, formula: [['z', 'i'], [' = 2.75', 'r']],
+      caps: [[0.8, 9.4, 'Abajo: 36z = 99', 'z = 2.75'], [10.0, 18.4, 'Un escalón arriba: y = 4.25', 'se reemplaza z'], [19.0, 27.4, 'Arriba: x = 9.25', '9 1/4, 4 1/4 y 2 3/4, como en el libro']],
+      narr: [[0.8, 9.4, 'En el último escalón queda treinta y seis z igual a noventa y nueve: z es dos punto setenta y cinco.'], [10.0, 18.4, 'Con z, el escalón de arriba da y igual a cuatro punto veinticinco.'], [19.0, 27.4, 'Y arriba, x igual a nueve punto veinticinco. Nueve y cuarto, cuatro y cuarto y dos y tres cuartos: la respuesta del libro.']] },
+    { id: 'cierre', name: 'CIERRE', dur: 28, formula: [['x', 'i'], [' = 9.25,  ', 'r'], ['y', 'i'], [' = 4.25,  ', 'r'], ['z', 'i'], [' = 2.75', 'r']],
+      caps: [[0.8, 10.4, 'Los nueve capítulos', 'la escalera china, mucho antes que Gauss']],
+      narr: [[0.8, 10.4, 'El método de la tabla china es el que en Europa, unos diecisiete siglos después, se llamaría eliminación de Gauss.'], [11.0, 20.4, 'Cada ecuación es una pista; la solución es lo que cumple todas a la vez.'], [21.0, 27.4, 'Como el grano de las tres cosechas, hace dos mil años.']] },
+  ];
+  const WORLD = 'ÁLGEBRA · FRACCIONES ALGEBRAICAS', TITLE = 'SISTEMAS DE ECUACIONES', LINE = 'Dos pistas, dos rectas: la solución es el cruce.';
+  let t = 0; const SC = [], NARR = [];
+  for (const s of SCENES) {
+    SC.push({ id: s.id, name: s.name, t0: t, t1: t + s.dur });
+    for (const n of s.narr) NARR.push([+(t + n[0]).toFixed(2), +(t + n[1]).toFixed(2), n[2]]);
+    t += s.dur;
+  }
+  return { DUR: t, SCENES, SC, NARR, WORLD, TITLE, LINE, LESSON: 'alg-101' };
+})();
+if (typeof module !== 'undefined') module.exports = D;

@@ -64,8 +64,8 @@ const S = {
   // 5 · El índice: ⁿ√a = b ⟺ bⁿ = a; impar sirve siempre; par pide a ≥ 0.
   indice(t) {
     stars(t, .3);
-    fade(A(t, .8, .6), () => { rad(CX - 300, 600, 110, 'a', RAD, { idx: 'n', k: 'i' }); T('= b', CX - 80, 600, { k: 'r', s: 110, c: C.ink }); T('⟺', CX + 140, 600, { k: 'r', s: 70, a: 'c' }); pw('b', 'n', CX + 230, 600, 110, RES, POT, { k: 'i' }); T('= a', CX + 360, 600, { k: 'r', s: 90, c: C.ink }); });
-    fade(A(t, 2.4, .5), () => { arrow(CX - 360, 470, CX - 290, 530, POT, 1, 2.5); T('índice', CX - 380, 450, { k: 'it', s: 36, a: 'c', c: POT }); });
+    fade(A(t, .8, .6), () => { rad(CX - 380, 600, 96, 'a', RAD, { idx: 'n', k: 'i' }); F([[' = ', 'r'], ['b', 'i', RES], ['   ⟺   ', 'r'], ['b', 'i', RES], ['ⁿ', 'r', POT], [' = ', 'r'], ['a', 'i']], CX - 200, 600, 80, { a: 'l' }); });
+    fade(A(t, 2.4, .5), () => { arrow(CX - 420, 470, CX - 360, 530, POT, 1, 2.5); T('índice', CX - 420, 450, { k: 'it', s: 36, a: 'c', c: POT }); });
     fade(A(t, 10.2, .6), () => { rad(220, 860, 60, '(−1 000)', RAD, { idx: 3 }); T('= −10', 640, 860, { k: 'r', s: 60, c: RES }); check(920, 840, 24, true, A(t, 11.4, .5)); T('impar', 96, 940, { k: 'mono', s: 24, c: RES }); });
     fade(A(t, 19.2, .6), () => { rad(220, 1080, 60, '(−49)', RAD); T('no es real', 560, 1080, { k: 'r', s: 52, c: TRP }); check(920, 1060, 24, false, A(t, 20.4, .5)); T('par: a ≥ 0', 96, 1160, { k: 'mono', s: 24, c: TRP }); });
   },
