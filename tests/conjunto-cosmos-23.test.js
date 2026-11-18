@@ -63,6 +63,28 @@ for (const V of VIDEOS) {
   });
 }
 
+// Cortes con audio que subió el usuario a Bunny el 2026-11-17 (duración medida en sus listas HLS).
+const EN_BUNNY = [
+  { lesson: 'alg-0b', bunny: 'e4d2c680-ddbc-4d0e-b472-6103a2b5f155', duration: 218.5,
+    has: ['Landsteiner', '1901', '\\\\varnothing', 'unitario', '\\\\subseteq', 'iguales', 'disjuntos', 'conjunto de partes', '2^3 = 8'],
+    old: /32 días|Bogotá|AMOR|topping/ },
+  { lesson: 'alg-0c', bunny: 'fa037ef4-0e95-493e-898b-ed0456c26714', duration: 191.4,
+    has: ['Maxwell', '1861', 'píxel', 'amarillo', '\\\\cup', '\\\\cap', 'R - G', 'R^c', '\\\\triangle', 'n(A \\\\cup B)', 'blanco'],
+    old: /amigos|fútbol|instrumento/ },
+];
+for (const V of EN_BUNNY) test(`${V.lesson} usa su video de Bunny y el respaldo trae los ejemplos del video`, () => {
+  const ctx = loadScripts(['js/content.js', 'js/courses/algebra.js']);
+  const l = get(ctx, 'COURSE_ALGEBRA').units.flatMap(u => u.lessons).find(x => x.id === V.lesson);
+  assert.strictEqual(l.clip.bunny, V.bunny);
+  assert.strictEqual(l.clip.duration, V.duration);
+  assert.ok(!l.more || !l.more.length, 'un solo video');
+  assert.strictEqual(get(ctx, `bunnyHost('${V.bunny}')`), 'vz-1a76d229-c83.b-cdn.net', 'biblioteca nueva, sin token');
+  const s = JSON.stringify(l.clip.scenes);
+  for (const w of V.has) assert.ok(s.includes(w), `respaldo sin ${w}`);
+  assert.doesNotMatch(s, V.old, 'quedan ejemplos del video anterior');
+  assert.ok(!/[¿?]/.test(l.clip.scenes.map(x => x.text).join(' ')), 'sin preguntas al espectador');
+});
+
 test('sangre: ocho tipos, donar es ser subconjunto, O− dona a todos y AB+ recibe de todos', () => {
   const D = VIDEOS[0].D, all = [0, 1, 2, 3, 4, 5, 6, 7];
   assert.strictEqual(all.map(D.typeName).join(), 'O−,A−,B−,AB−,O+,A+,B+,AB+');
