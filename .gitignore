@@ -224,3 +224,6 @@ video/conjunto-cosmos-3/fonts/*.ttf
 video/conjunto-cosmos-3/conjunto-cosmos-3.mp4
 video/conjunto-cosmos-3/events.json
 video/conjunto-cosmos-3/poster.jpg
+video/recta-cosmos/out/
+video/recta-cosmos/fonts/*.ttf
+video/recta-cosmos/events.json
