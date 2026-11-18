@@ -145,6 +145,12 @@ GAMES['capas-operacion'] = (() => {
       lay(G);
       if (s.tk.length === 1) G.submit();
     },
+    // La mano junta dos fichas vecinas (las del primer paso correcto): así se ve qué es «operar» en este juego.
+    demo(G) {
+      const tk = G.s.tk; if (tk.length === 1) return null;
+      const i = legal(tk)[0], c = b => ({ x: b.x + b.w / 2, y: b.y + b.h / 2 });
+      return { from: c(G.boxes[i - 1]), to: c(G.boxes[i + 1]), text: 'Arrastra un número sobre su vecino', ty: G.top + 44 };
+    },
     // Para el robot: las dos cajas que hay que juntar ahora, y un par que todavía no toca.
     peek: G => {
       const tk = G.s.tk, c = b => ({ x: b.x + b.w / 2, y: b.y + b.h / 2 });

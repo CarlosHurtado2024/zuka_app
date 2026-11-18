@@ -17,6 +17,10 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
   `balanza-proporcion` (Razones y proporciones). Una escena con un objeto que reacciona en vivo (una jarra que cambia de color, una
   balanza que se inclina, un globo que sube) y que se manipula directamente arrastrando o deslizando; la cuenta se escribe sola.
   «Solo tocar botones es muy aburrido»: nada de filas de botones − / + / Listo como mecánica principal.
+- **Las instrucciones van sobre el juego, no en una ventana** (pedido del 2026-11-18, spec `2026-11-18-demo-en-juego`, pruebas
+  `tests/demo-en-juego.test.js`): una mano hace el gesto en el lugar real del lienzo (`def.demo(G)` en `roundsGame` / `questGame`,
+  `drawDemo` en `kit.js`) hasta el primer toque, y «Cómo se juega» la repite. Juego nuevo = con `demo`; los viejos conservan su
+  tarjeta emergente hasta que se les escriba.
 - **Cada ejercicio con pista** (`hint`) que oriente sin dar la respuesta.
 - **Entender, no mecanizar:** los juegos no deben exigir cálculos rápidos ni reflejos. Nada de responder antes de que
   algo llegue o se acabe; si algo avanza solo, se detiene y espera. El juego dibuja la idea del video (barras, áreas,

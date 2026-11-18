@@ -139,6 +139,8 @@ EX.play = (area, ex, ready) => {
     // El marco del juego se pinta del color del resultado (y se sacude si falló).
     lock: ok => { inst.lock(ok); box.classList.add(ok ? 'right' : 'wrong'); playFx(box, ok); },
     destroy: () => inst.destroy(),
+    // «Cómo se juega» en un juego que se explica sobre el lienzo (spec 2026-11-18-demo-en-juego).
+    demo: () => inst.demo?.(),
   };
 };
 
@@ -157,11 +159,12 @@ function renderExercise(el, ex, ready) {
   const gb = el.querySelector('.guide-btn');
   const focusInput = () => el.querySelector('.num input:not(:disabled)')?.focus({ preventScroll: true });
   let guide = null;
-  if (gb) gb.onclick = () => { Sfx.tap(); guide = openGuide(ex); };
   if (typeof guideWanted === 'function' && guideWanted(ex)) guide = openGuide(ex, { auto: true, onClose: focusInput });
   const hb = el.querySelector('.hint-open');
   if (hb) hb.onclick = () => { hb.hidden = true; el.querySelector('.hint-text').hidden = false; Sfx.tap(); };
   const h = EX[ex.type](el.querySelector('.ex-area'), ex, ready), destroy = h.destroy;
+  // Si el juego se explica sobre el lienzo, el botón repite esa demostración; si no, abre la tarjeta de siempre.
+  if (gb) gb.onclick = () => { Sfx.tap(); h.demo && GAMES[ex.game]?.demo ? h.demo() : (guide = openGuide(ex)); el.querySelector('.play')?.scrollIntoView({ block: 'nearest' }); };
   // Al quitar el ejercicio (otra pregunta, salir de la lección) su guía no se queda flotando.
   h.destroy = () => { if (guide && guideOpen === guide) guide.close(true); destroy?.(); };
   return h;

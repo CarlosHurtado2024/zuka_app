@@ -710,6 +710,8 @@ function openGuide(ex, o = {}) {
 
 // ¿Sale sola? La primera vez que se ve ese juego (o ese tipo de ejercicio), fuera de las evaluaciones.
 function guideWanted(ex) {
+  // Un juego que se explica sobre el lienzo (mano que hace el gesto) no abre la tarjeta emergente.
+  if (ex?.type === 'play' && typeof GAMES !== 'undefined' && GAMES[ex.game]?.demo) return false;
   if (typeof S === 'undefined' || !guideSteps(ex).length) return false;
   if (S.guideAuto === false || S.guides?.[guideKey(ex)]) return false;
   return !(typeof document !== 'undefined' && document.querySelector?.('#overlay.open .exam-foot'));   // js/exam.js

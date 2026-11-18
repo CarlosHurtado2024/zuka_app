@@ -63,6 +63,8 @@ GAMES['voltea-flecha'] = (() => {
     press(G, x, y) { if (Math.abs(y - G.slY) > 30) return false; G.dragging = true; game.setB(G, x); return true; },
     drag(G, x) { if (!G.dragging) return false; game.setB(G, x); return true; },
     release(G) { G.dragging = false; },
+    // La mano arrastra el multiplicador hacia el lado que voltea.
+    demo: G => ({ from: { x: G.bx(G.s.b), y: G.slY }, to: { x: G.bx(G.s.b > -2 ? -3 : 3), y: G.slY }, text: 'Arrastra el multiplicador: mira la flecha', ty: G.L.y + 64 }),
     peek: G => ({ slY: G.slY, xOf: [...Array(2 * B + 1).keys()].map(i => G.bx(i - B)), need: G.r.target / G.r.a }),
   });
   // El multiplicador que corresponde al dedo; cambia de ronda → la recta toma el rango de esa ronda.

@@ -158,7 +158,7 @@ test('revisión de los juegos dinámicos: ronda nueva limpia, se puede desplazar
   const kit = fs.readFileSync(path.join(ROOT, 'js/games/kit.js'), 'utf8'), q = kit.slice(kit.indexOf('function questGame'));
   assert.ok(q.includes('if (a.cur !== was && a.cur < R.length) fresh();'), 'al cambiar de ronda el reto empieza limpio');
   assert.ok(q.includes('lost: i => { st.done[i] = 0; fresh(); }'), 'al perder la ronda también');
-  assert.ok(q.includes('return def.press(G, p.mouseX, p.mouseY) ? false : undefined;'), 'un toque en zona vacía deja desplazar la lección');
+  assert.ok(q.includes('if (!def.press(G, p.mouseX, p.mouseY)) return;'), 'un toque en zona vacía deja desplazar la lección');
   const lessons = WORLDS.flatMap(w => unit(w).lessons), L = id => lessons.find(l => l.id === id);
   const items = id => L(id).ex.slice(-1)[0].params.rounds.flatMap(r => r.items), rest = id => JSON.stringify(L(id).ex.slice(0, -1));
   // El chorro de una fuente abre hacia abajo.

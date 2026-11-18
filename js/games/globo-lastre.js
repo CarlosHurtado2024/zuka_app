@@ -87,6 +87,13 @@ GAMES['globo-lastre'] = (() => {
       if (a < LO || a > HI) return;
       s.k++; G.touch();
     },
+    // La mano muestra el gesto de esta ronda: del tarro al canasto, o del canasto hacia afuera.
+    demo(G) {
+      const { p, C, r, cx, cy } = G, what = isG(r) ? 'un globo' : 'un saco', carry = (x, y) => (isG(r) ? balloon : bag)(p, C, x, y - 4, isG(r) ? 24 : 18);
+      if (isAdd(r)) return { from: { x: G.src.x + G.src.w / 2, y: G.src.y + G.src.h / 2 }, to: { x: cx, y: cy - 6 }, text: `Arrastra ${what} hasta el canasto`, ty: G.H - 106, carry };
+      const from = { x: cx - 12, y: isG(r) ? cy - 44 : cy + 30 };
+      return { from, to: { x: Math.max(44, cx - 112), y: from.y + (isG(r) ? -40 : 56) }, text: `Arrastra ${what} lejos del canasto para soltarlo`, ty: G.H - 106, carry };
+    },
     peek: G => ({ src: G.src, craft: { x: G.cx, y: G.cy }, reset: G.reset, need: need(G.r) }),
   });
   return Object.assign(game, { alt, need, expr, maxK, start });

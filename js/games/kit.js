@@ -650,6 +650,48 @@ const inCanvas = p => p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p
 const frameDt = p => Math.min(0.05, (p.deltaTime || 16) / 1000);
 const negTxt = v => String(v).replace('-', '−');
 
+// ---------- Demostración sobre el juego (spec 2026-11-18-demo-en-juego) ----------
+// La explicación de cómo se juega va encima del lienzo, no en una ventana: una mano hace el gesto en el lugar real.
+// Un juego la pide con def.demo(G) → { from: {x, y}, to?: {x, y}, text, ty?, carry?(x, y) } (sin `to` es un toque;
+// `carry` dibuja lo que la mano lleva agarrado). Los armazones
+// (roundsGame, questGame) la dibujan en bucle hasta el primer toque y la repiten con inst.demo() («Cómo se juega»).
+const DEMO_T = 2.6;
+// Dónde está la mano en el momento u (0 a 1) del bucle: entra, presiona en `a`, viaja a `b`, suelta y sale.
+function demoPose(u, a, b) {
+  const ease = k => (k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
+  const k = b ? ease(Math.max(0, Math.min(1, (u - .25) / .5))) : 0;
+  const alpha = u < .1 ? u / .1 : u > .88 ? Math.max(0, (1 - u) / .12) : 1;
+  return { x: a.x + ((b ? b.x : a.x) - a.x) * k, y: a.y + ((b ? b.y : a.y) - a.y) * k, down: u >= .15 && u < .85, alpha, k };
+}
+// Mano que señala: la punta del índice queda en (x, y). Presionada se encoge un poco y deja un aro.
+function drawHand(p, C, x, y, down, alpha) {
+  const g = p.drawingContext;
+  g.save(); g.globalAlpha = alpha;
+  if (down) { p.noFill(); p.stroke(C.brand); p.strokeWeight(2.5); p.circle(x, y, 26); }
+  p.translate(x, y); p.rotate(-0.3); p.scale(down ? 0.92 : 1);
+  p.stroke(C.night ?? C.ink); p.strokeWeight(2); p.fill(C.cream);
+  p.rect(-6, 0, 12, 30, 6);            // índice
+  p.rect(-8, 20, 30, 26, 8);           // palma
+  p.rect(6, 12, 9, 18, 4.5); p.rect(14, 15, 8, 16, 4);   // dedos doblados
+  p.rect(-16, 22, 12, 9, 4.5);         // pulgar
+  p.noStroke(); p.fill(C.cream); p.rect(-5, 16, 10, 12); p.rect(-6, 22, 26, 10);   // tapa las uniones
+  p.resetMatrix?.();
+  g.restore();
+}
+function drawDemo(p, C, t, d) {
+  if (!d || !d.from) return;
+  const still = reducedMotion(), u = still ? .8 : (t % DEMO_T) / DEMO_T, h = demoPose(u, d.from, d.to), g = p.drawingContext;
+  // El camino del gesto, punteado, y lo que la mano lleva.
+  if (d.to) {
+    g.save(); g.globalAlpha = .7 * h.alpha; p.stroke(C.brand); p.strokeWeight(2.5); g.setLineDash([6, 6]); p.line(d.from.x, d.from.y, d.to.x, d.to.y); g.setLineDash([]);
+    p.noFill(); p.circle(d.to.x, d.to.y, 18); g.restore();
+  }
+  // Lo que la mano lleva agarrado (un globo, una ficha), si el juego lo dibuja.
+  if (d.carry && h.down) { g.save(); g.globalAlpha = h.alpha; d.carry(h.x, h.y); g.restore(); }
+  p.push(); drawHand(p, C, h.x, h.y, h.down, h.alpha); p.pop();
+  if (d.text) drawPill(p, C, d.text, d.tx ?? p.width / 2, d.ty ?? 124, C.brand, 12);
+}
+
 // ---------- Juegos por rondas con pestañas (spec 2026-11-15-torres-de-potencias) ----------
 // Exponente en superíndice: sup(-3) → «⁻³».
 const sup = n => String(n).replace(/-/g, '⁻').replace(/\d/g, d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]);
@@ -672,7 +714,7 @@ function roundsGame(def) {
   });
   function create(host, params, api) {
     const C = api.palette, R = params.rounds;
-    const G = { C, api, params, W: 0, H: 0, cur: 0, locked: false, t: 0, dt: 0, tabs: [], p: null, st: R.map(r => def.init(r, params)), touched: R.map(() => false),
+    const G = { C, api, params, W: 0, H: 0, cur: 0, locked: false, t: 0, dt: 0, tabs: [], p: null, st: R.map(r => def.init(r, params)), touched: R.map(() => false), down: false, demoUntil: 0, demoT0: 0,
       get r() { return R[this.cur]; }, get s() { return this.st[this.cur]; },
       touch() { this.touched[this.cur] = true; api.ready(R.every((r, i) => (def.answered ? def.answered(G.st[i], r) : G.touched[i]))); api.sfx?.tap?.(); } };
     const answered = i => (def.answered ? def.answered(G.st[i], R[i]) : G.touched[i]);
@@ -690,6 +732,8 @@ function roundsGame(def) {
         const pr = def.prompt(G.r, G.s, G);
         if (typeof formulaWanted === 'function' && formulaWanted(pr)) fitText(p, pr, 12, 63, G.W - 24, 15, 34); else p.text(pr, 12, 46, G.W - 24, 36);
         def.draw(G);
+        // La mano que muestra el gesto: hasta que se toca esta ronda, o un rato si se pidió con «Cómo se juega».
+        if (def.demo && !G.locked && !G.down && (!G.touched[G.cur] || G.t < G.demoUntil)) drawDemo(p, C, G.t - G.demoT0, def.demo(G));
         const good = def.ok(G.s, G.r, params), pend = R.findIndex((_, i) => !answered(i) && i !== G.cur);
         const foot = G.locked ? (good ? '¡Bien!' : 'La respuesta correcta quedó marcada') : answered(G.cur) && pend >= 0 ? `Sigue con la pestaña ${pend + 1}` : def.foot?.(G.r, G.s, G) ?? '';
         p.noStroke(); p.fill(G.locked ? (good ? C.ok : C.bad) : C.mute); p.textStyle(G.locked ? p.BOLD : p.NORMAL); p.textAlign(p.CENTER, p.CENTER); fitText(p, foot, G.W / 2, G.H - 14, G.W - 20, 11);
@@ -697,23 +741,27 @@ function roundsGame(def) {
       p.mousePressed = () => {
         if (!inCanvas(p)) return;
         const tb = G.tabs.findIndex(b => hitBox(b, p.mouseX, p.mouseY));
-        if (tb >= 0) { G.cur = tb; def.enter?.(G); api.sfx?.tap?.(); return false; }
+        if (tb >= 0) { G.cur = tb; G.demoT0 = G.t; def.enter?.(G); api.sfx?.tap?.(); return false; }
         if (G.locked || !def.press) return;
-        return def.press(G, p.mouseX, p.mouseY) ? false : undefined;
+        if (!def.press(G, p.mouseX, p.mouseY)) return;
+        G.down = true; G.demoUntil = 0;   // mientras el dedo está abajo no se dibuja la demostración
+        return false;
       };
       p.mouseDragged = () => { if (G.locked || !def.drag) return; return def.drag(G, p.mouseX, p.mouseY) ? false : undefined; };
-      p.mouseReleased = () => { if (!G.locked) def.release?.(G, p.mouseX, p.mouseY); };
+      p.mouseReleased = () => { G.down = false; if (!G.locked) def.release?.(G, p.mouseX, p.mouseY); };
     }, def.aspect ?? 1.2);
     return {
       loaded: m.ready,
       getState: () => ({ rounds: JSON.parse(JSON.stringify(G.st)) }),
       lock() { G.locked = true; },
       destroy: () => m.remove(),
+      // «Cómo se juega»: repite la demostración sobre el juego durante dos vueltas.
+      demo() { G.demoT0 = G.t; G.demoUntil = G.t + 2 * DEMO_T; },
       // Para pruebas en el navegador: lo que hay en pantalla en este momento.
       peek: () => ({ cur: G.cur, W: G.W, H: G.H, tabs: G.tabs, s: JSON.parse(JSON.stringify(G.s)), ...(def.peek?.(G) || {}) }),
     };
   }
-  return { grade, create };
+  return { grade, create, demo: !!def.demo };
 }
 
 // ---------- Juegos dinámicos por retos (spec 2026-11-21-dinamicos-mundos-altos) ----------
@@ -732,7 +780,7 @@ function questGame(def) {
   });
   function create(host, params, api) {
     const C = api.palette, R = params.rounds, st = { done: R.map(() => 0) };
-    let locked = false, p5 = null;
+    let locked = false, p5 = null, demoSeen = false, demoUntil = 0, demoT0 = 0, down = false;
     const a = makeArcade(R.length, params.lives ?? 3, api, { start: i => { st.done[i] = 0; fresh(); }, lost: i => { st.done[i] = 0; fresh(); } });
     const G = { C, api, params, a, W: 0, H: 0, p: null, t: 0, dt: 0, s: null, wait: 0, solved: false, top: 100, bottom: 0,
       get round() { return R[a.cur]; },
@@ -767,6 +815,8 @@ function questGame(def) {
         else {
           p.noStroke(); p.fill(C.N); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER); fitText(p, def.prompt(G.item, G.round, G), G.W / 2, 68, G.W - 20, 16, 36);
           def.draw(G);
+          // La mano que muestra el gesto, hasta el primer movimiento (o un rato si se pidió con «Cómo se juega»).
+          if (def.demo && !locked && !down && a.phase === 'play' && G.wait <= 0 && (!demoSeen || G.t < demoUntil)) drawDemo(p, C, G.t - demoT0, def.demo(G));
           for (const b of bits) { b.t += G.dt; b.vy += 520 * G.dt; b.x += b.vx * G.dt; b.y += b.vy * G.dt; p.noStroke(); p.fill(b.col); p.rect(b.x, b.y, 6, 6, 2); }
           while (bits.length && bits[0].t > 1) bits.shift();
           drawArcadeBanner(p, C, a, mid, { idle: def.idle || 'Sin prisa: piensa y luego toca', lost: def.lost });
@@ -780,24 +830,28 @@ function questGame(def) {
         if (!inCanvas(p)) return;
         const t = a.tap(locked);
         if (t === 'off') return;
-        if (t === 'start') return false;
+        if (t === 'start') { demoT0 = G.t; return false; }
         if (t !== 'play' || G.wait > 0 || !def.press) return;
         // Un toque en zona vacía no agarra nada: deja desplazar la lección.
-        return def.press(G, p.mouseX, p.mouseY) ? false : undefined;
+        if (!def.press(G, p.mouseX, p.mouseY)) return;
+        down = true; demoSeen = true; demoUntil = 0;
+        return false;
       };
       p.mouseDragged = () => { if (locked || a.phase !== 'play' || G.wait > 0 || !def.drag) return; return def.drag(G, p.mouseX, p.mouseY) ? false : undefined; };
-      p.mouseReleased = () => { if (!locked && a.phase === 'play' && G.wait <= 0) def.release?.(G, p.mouseX, p.mouseY); };
+      p.mouseReleased = () => { down = false; if (!locked && a.phase === 'play' && G.wait <= 0) def.release?.(G, p.mouseX, p.mouseY); };
     }, def.aspect ?? 1.3);
     return {
       loaded: m.ready,
       getState: () => ({ done: [...st.done] }),
       lock() { locked = true; if (p5 && a.stopped) p5.redraw(); },
       destroy: () => m.remove(),
+      // «Cómo se juega»: repite la demostración sobre el juego durante dos vueltas.
+      demo() { demoT0 = G.t; demoUntil = G.t + 2 * DEMO_T; },
       // Para el robot del navegador: en juego y sin pausa, `solve` trae las cajas que resuelven el reto actual.
       peek: () => ({ phase: a.phase, cur: a.cur, lives: a.lives, done: [...st.done], wait: G.wait, W: G.W, H: G.H, ...(a.phase === 'play' && G.wait <= 0 ? def.peek?.(G) : {}) }),
     };
   }
-  return { grade, create, ok: def.ok, answer: def.answer, init: def.init };
+  return { grade, create, ok: def.ok, answer: def.answer, init: def.init, demo: !!def.demo };
 }
 // Botón de un juego (ficha con texto); `on`: resaltado.
 function drawBtn(p, C, b, txt, on, col) { drawTile(p, C, b, txt, { fill: col ?? (on ? C.mint : C.sky), size: 14, r: 10 }); }
