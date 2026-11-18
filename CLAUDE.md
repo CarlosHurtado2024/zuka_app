@@ -20,8 +20,14 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
 - **Estándar por lección** (pedido del 2026-11-18, spec `2026-11-18-preuda-mundo-1`, pruebas `tests/preuda-mundo-1.test.js`): 7 u 8
   ejercicios **distintos** (ningún juego repetido en la lección), todos gráficos e interactivos, y al final un **juego en
   movimiento**. Fuera `escala-solucion`, `arma-la-cuenta`, `une-parejas`, `clasifica-cartas` y `ordena-terminos` («aburridos»). Vale
-  para razonamiento lógico, Álgebra y Trigonometría; se hace por mundos. Hecho: mundo 1 del Preuniversitario (Cálculo Mental).
-  Faltan los mundos 2 a 16 de razonamiento y todo Álgebra y Trigonometría.
+  para razonamiento lógico, Álgebra y Trigonometría; se hace por mundos. Hecho: mundo 1 del Preuniversitario (Cálculo Mental) y las
+  lecciones 1 y 2 del mundo 2, Geometría (spec `2026-11-18-preuda-geometria`, pruebas `tests/preuda-geometria.test.js`): kit de dibujo
+  `GEO` en `js/games/geo-kit.js` (ángulos en grados: `at`, `angOf`, `wedge`, `line`, `knob`; va después de `kit.js`) y juegos
+  `tijera-angulos`, `paralelas-gira`, `apice-triangulo` (modos `falta` y `tipo`), `suma-poligono`, `cuadrados-pitagoras`,
+  `escalera-pared` y `billar-rebote` (el de movimiento: se arrastra la mira y al soltar sale la bola). Faltan `pu-ge-3` a `pu-ge-6`,
+  los mundos 3 a 16 de razonamiento y todo Álgebra y Trigonometría. Al probar con arrastres simulados: si el panel del navegador
+  está oculto el juego corre lento; montar el juego en un `div` propio, cargar `tests/robot-trig.js` (cambia `requestAnimationFrame`)
+  y esperar con `peek()` en vez de tiempos fijos.
 - **Las instrucciones van sobre el juego, no en una ventana** (pedido del 2026-11-18, spec `2026-11-18-demo-en-juego`, pruebas
   `tests/demo-en-juego.test.js`): una mano hace el gesto en el lugar real del lienzo (`def.demo(G)` en `roundsGame` / `questGame`,
   `drawDemo` en `kit.js`) hasta el primer toque, y «Cómo se juega» la repite. Juego nuevo = con `demo`; los viejos conservan su

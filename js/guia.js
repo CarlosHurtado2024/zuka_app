@@ -349,7 +349,7 @@ const GUIDE_SCENES = {
 };
 
 // Juegos de acción (cartel de inicio y vidas): la guía les añade esos dos pasos.
-const GUIDE_ARCADE = new Set(['capas-operacion', 'lazo-conjunto', 'cubo-partes', 'orbita-conjuntos', 'descifra-zona', 'lluvia-elementos', 'revienta-globos', 'luciernagas-venn', 'buzo-enteros', 'carrera-fracciones', 'frena-aguja',
+const GUIDE_ARCADE = new Set(['billar-rebote', 'capas-operacion', 'lazo-conjunto', 'cubo-partes', 'orbita-conjuntos', 'descifra-zona', 'lluvia-elementos', 'revienta-globos', 'luciernagas-venn', 'buzo-enteros', 'carrera-fracciones', 'frena-aguja',
   'dispara-inverso', 'salta-signos', 'serpiente-orden', 'sirve-la-razon', 'corta-proporciones', 'resortera-tres', 'caja-veloz', 'vuela-precios',
   'rompe-cambios', 'traza-progresion', 'encesta-suma', 'dobla-fichas', 'rana-zenon', 'maquina-sigma', 'torre-pisos', 'escala-leyes',
   'siembra-raices', 'muro-radicales', 'jefe-venn', 'jefe-ruta', 'jefe-rueda',
@@ -486,6 +486,13 @@ const GUIDES = {
   'globo-lastre': [['drag', 'Arrastra globos o sacos de arena: el canasto sube o baja y la cuenta se escribe sola.', { tile: 'saco', slot: 'canasto' }], ['tap', 'Déjalo a la altura de la bandera. «Reiniciar» lo devuelve al comienzo.', { items: ['Reiniciar'], pick: [0] }]],
   'voltea-flecha': [['slide', 'Arrastra el multiplicador: la flecha se repite y, a la izquierda del 0, se voltea.', {}]],
   'capas-operacion': [['drag', 'Arrastra un número sobre su vecino: el juego los opera y los funde en uno.', { tile: '5', slot: '8' }], ['drag', 'Para una potencia, junta la base con su exponente (la ficha pequeña de arriba).', { tile: '(−3)', slot: '²' }]],
+  'tijera-angulos': [['turn', 'Arrastra la punta de la recta: los cuatro ángulos cambian a la vez.', {}]],
+  'paralelas-gira': [['turn', 'Gira la recta de abajo hasta que no se cruce nunca con la de arriba.', {}]],
+  'apice-triangulo': [['drag', 'Arrastra el vértice de arriba: los ángulos cambian, pero siempre suman 180°.', { tile: 'C', slot: 'arriba' }]],
+  'suma-poligono': [['drag', 'Arrastra desde el punto hasta otro vértice para trazar una diagonal.', { tile: '•', slot: 'vértice' }]],
+  'cuadrados-pitagoras': [['drag', 'Arrastra las puntas de los catetos: sus cuadrados crecen y la tira los suma.', { tile: 'cateto', slot: 'más largo' }]],
+  'escalera-pared': [['slide', 'Arrastra el pie de la escalera: la punta sube o baja por la pared.', {}]],
+  'billar-rebote': [['slide', 'Arrastra la mira por la banda de arriba y suelta: la bola sale.', {}]],
   'tableta-fraccion': [['slide', 'Arrastra el deslizador para cortar la tableta en partes iguales.', {}], ['drag', 'Luego arrastra el dedo sobre la tableta para tomar las partes que pide.', { tile: 'parte', slot: 'tableta' }]],
   'corta-igual': [['slide', 'Arrastra: las dos barras se recortan en pedacitos. Cuando encajan en las dos, se pueden juntar.', {}]],
   'subraya-texto': [['tap', 'Lee el texto y toca los trozos que responden la consigna: quedan subrayados.', { items: ['El páramo', 'da agua a', 'dos millones'], pick: [2] }], ['tap', 'Tocar otra vez un trozo lo quita. Si hay varias pestañas, cada una es otra consigna.', { items: ['1', '2'], pick: [1] }]],
