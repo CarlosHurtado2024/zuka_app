@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<title>Raíces de Polinomios</title>
+<style>
+@font-face{font-family:Jost;src:url(fonts/Jost.ttf) format('truetype');font-weight:100 900;}
+@font-face{font-family:KMain;src:url(fonts/KaTeX_Main-Regular.ttf) format('truetype');font-style:normal;}
+@font-face{font-family:KMain;src:url(fonts/KaTeX_Main-Italic.ttf) format('truetype');font-style:italic;}
+@font-face{font-family:KMath;src:url(fonts/KaTeX_Math-Italic.ttf) format('truetype');font-style:italic;}
+html,body{margin:0;background:#04060e;overflow:hidden}
+canvas{position:absolute;left:0;top:0;display:block}
+</style></head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="kit.js"></script>
+<script src="ceros.js"></script>
+<script>
+// ?f=<nombre> carga films/<nombre>.data.js (guion) y films/<nombre>.js (escenas) · ?t=segundos muestra ese cuadro
+const Q = new URLSearchParams(location.search), FILM = Q.get('f') || 'division';
+const load = src => new Promise((ok, bad) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = bad; document.body.appendChild(s); });
+X = document.getElementById('c').getContext('2d');
+load('films/' + FILM + '.data.js').then(() => load('films/' + FILM + '.js'))
+  .then(() => Promise.all(['300 40px Jost', '600 40px Jost', '400 40px KMain', 'italic 400 40px KMain', 'italic 400 40px KMath'].map(f => document.fonts.load(f, 'Áx∈∉{}ε≠…ℕℤℚℝ'))))
+  .then(() => document.fonts.ready).then(() => {
+    window.render = t => film(Math.max(0, Math.min(D.DUR - 1e-3, t)));
+    window.DUR = D.DUR;
+    window.EV = D.SC.map((s, i) => ({ t: s.t0, type: 'scene', v: i }));
+    window.render(+(Q.get('t') || 0));
+    window.READY = true;
+  });
+</script>
+</body></html>

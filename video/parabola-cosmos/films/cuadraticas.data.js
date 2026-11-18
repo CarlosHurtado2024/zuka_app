@@ -1,0 +1,47 @@
+// «La tablilla del cuadrado» · lección alg-4 (Ecuaciones cuadráticas). Datos puros (generados desde cuadraticas.json).
+// Historia (docs/storytelling-videos.md): la tablilla babilónica BM 13901 (hacia 1800 a. C.) pide el lado de un cuadrado
+// si su área más su lado da 3/4: x² + x = 3/4 → x = 1/2. Aplicación: el corral de 40 m de cerca con 96 m² (8 × 12).
+// Analogía: si un producto es cero, algún factor es cero. La sorpresa: el discriminante dice cuántas raíces hay sin resolver.
+const D = (() => {
+  const SCENES = [
+    { id: 'tablilla', name: 'BABILONIA, HACIA 1800 A. C.', dur: 28, formula: [['x', 'i'], ['² + ', 'r'], ['x', 'i'], [' = 3/4', 'r']],
+      caps: [[1.0, 9.0, 'Babilonia, hacia 1800 a. C.', 'una tablilla de arcilla con problemas'], [9.6, 18.0, 'Sumé el área y el lado del cuadrado', 'y obtuve tres cuartos'], [18.6, 27.4, 'Una ecuación cuadrática', 'la x aparece al cuadrado']],
+      narr: [[1.0, 9.0, 'Babilonia, hacia mil ochocientos antes de Cristo. Un escriba graba problemas en una tablilla de arcilla.'], [9.6, 18.0, 'El primero dice: sumé el área y el lado de mi cuadrado, y obtuve tres cuartos. Hay que hallar el lado.'], [18.6, 27.4, 'Es una ecuación cuadrática: x al cuadrado más x igual a tres cuartos. La incógnita aparece al cuadrado.']] },
+    { id: 'raices', name: 'LAS RAÍCES', dur: 28, formula: [['a', 'i'], ['x', 'i'], ['² + ', 'r'], ['b', 'i'], ['x', 'i'], [' + ', 'r'], ['c', 'i'], [' = 0', 'r']],
+      caps: [[0.8, 9.4, 'Toda cuadrática se escribe', 'ax² + bx + c = 0, con a ≠ 0'], [10.0, 18.4, 'Sus soluciones se llaman raíces', 'donde la parábola cruza el eje x'], [19.0, 27.4, 'Puede haber dos, una o ninguna', 'raíz real, según cuántas veces toca el eje']],
+      narr: [[0.8, 9.4, 'Toda ecuación cuadrática se puede escribir como a x al cuadrado más b x más c igual a cero, con a distinto de cero.'], [10.0, 18.4, 'Sus soluciones se llaman raíces. En la parábola de a x al cuadrado más b x más c, son las x donde cruza el eje.'], [19.0, 27.4, 'Una parábola puede cruzar el eje dos veces, tocarlo una vez o no tocarlo nunca.']] },
+    { id: 'cero', name: 'PRODUCTO CERO', dur: 30, formula: [['(', 'r'], ['x', 'i'], [' − 3)(', 'r'], ['x', 'i'], [' + 2) = 0', 'r']],
+      caps: [[0.8, 9.4, 'Si un producto da cero', 'algún factor es cero'], [10.0, 19.4, 'x² − x − 6 = (x − 3)(x + 2)', '−3 y 2: producto −6, suma −1'], [20.0, 29.4, 'x − 3 = 0 o x + 2 = 0', 'x = 3 o x = −2']],
+      narr: [[0.8, 9.4, 'La idea clave: si un producto da cero, alguno de los factores es cero. Ningún producto de números distintos de cero da cero.'], [10.0, 19.4, 'En x al cuadrado menos x menos seis igual a cero, se factoriza: menos tres y dos multiplican menos seis y suman menos uno.'], [20.0, 29.4, 'Queda x menos tres por x más dos igual a cero. Entonces x es tres, o x es menos dos.']] },
+    { id: 'completar', name: 'COMPLETAR EL CUADRADO', dur: 30, formula: [['(', 'r'], ['x', 'i'], [' + 1/2)² = 1', 'r']],
+      caps: [[0.8, 9.4, 'La tablilla: x² + x = 3/4', 'completar el cuadrado'], [10.0, 19.4, 'Se suma 1/4 a los dos lados', '(x + 1/2)² = 1'], [20.0, 29.4, 'x + 1/2 = 1, así que x = 1/2', 'el lado del cuadrado']],
+      narr: [[0.8, 9.4, 'Volvamos a la tablilla: x al cuadrado más x igual a tres cuartos. El escriba completó el cuadrado.'], [10.0, 19.4, 'La barra x se parte en dos mitades y falta una esquina de un cuarto. Sumando un cuarto a cada lado: x más un medio, al cuadrado, es uno.'], [20.0, 29.4, 'Como el lado es positivo, x más un medio es uno, y x es un medio. La otra solución, menos tres medios, no es un lado.']] },
+    { id: 'formula', name: 'LA FÓRMULA GENERAL', dur: 30, formula: [['x', 'i'], [' = (−', 'r'], ['b', 'i'], [' ± √(', 'r'], ['b', 'i'], ['² − 4', 'r'], ['ac', 'i'], [')) / 2', 'r'], ['a', 'i']],
+      caps: [[0.8, 9.4, 'Completar el cuadrado en general', 'con ax² + bx + c = 0'], [10.0, 19.4, 'Sale la fórmula general', 'x = (−b ± √(b² − 4ac)) / 2a'], [20.0, 29.4, 'Sirve para cualquier cuadrática', 'aunque no se pueda factorizar']],
+      narr: [[0.8, 9.4, 'Si se completa el cuadrado con letras, en a x al cuadrado más b x más c igual a cero, sale una fórmula.'], [10.0, 19.4, 'x es menos b, más o menos la raíz de b al cuadrado menos cuatro a c, todo entre dos a.'], [20.0, 29.4, 'Sirve para cualquier ecuación cuadrática, aunque no se deje factorizar.']] },
+    { id: 'corral', name: 'UN CORRAL DE 96 m²', dur: 30, formula: [['x', 'i'], ['² − 20', 'r'], ['x', 'i'], [' + 96 = 0', 'r']],
+      caps: [[0.8, 9.4, 'El corral de 40 m de cerca', 'qué ancho da un área de 96 m²'], [10.0, 19.4, 'x(20 − x) = 96', 'x² − 20x + 96 = 0: Δ = 400 − 384 = 16'], [20.0, 29.4, 'x = (20 ± 4) / 2 = 12 u 8', 'el mismo corral de 8 × 12, girado']],
+      narr: [[0.8, 9.4, 'El corral del video anterior: con cuarenta metros de cerca, se busca el ancho que da un área de noventa y seis metros cuadrados.'], [10.0, 19.4, 'Equis por veinte menos x igual a noventa y seis: x al cuadrado menos veinte x más noventa y seis igual a cero. El discriminante es dieciséis.'], [20.0, 29.4, 'Las raíces son veinte más o menos cuatro, entre dos: doce y ocho. Las dos sirven: es el mismo corral de ocho por doce, girado.']] },
+    { id: 'discriminante', name: 'EL DISCRIMINANTE', dur: 28, formula: [['Δ', 'r'], [' = ', 'r'], ['b', 'i'], ['² − 4', 'r'], ['ac', 'i']],
+      caps: [[0.8, 9.4, 'Lo de adentro de la raíz', 'Δ = b² − 4ac, el discriminante'], [10.0, 18.4, 'Δ > 0: dos raíces reales', 'la parábola cruza el eje dos veces'], [19.0, 27.4, 'Δ = 0: una; Δ < 0: ninguna real', 'la parábola toca el eje o no llega']],
+      narr: [[0.8, 9.4, 'Lo que va dentro de la raíz, b al cuadrado menos cuatro a c, se llama discriminante, y dice cuántas raíces hay sin resolver nada.'], [10.0, 18.4, 'Si es positivo, hay dos raíces reales: la parábola cruza el eje dos veces.'], [19.0, 27.4, 'Si es cero, hay una sola: la parábola toca el eje en su vértice. Si es negativo, no hay raíces reales.']] },
+    { id: 'complejas', name: 'RAÍCES COMPLEJAS', dur: 30, formula: [['x', 'i'], [' = −1 ± 2', 'r'], ['i', 'i']],
+      caps: [[0.8, 9.4, 'x² + 2x + 5 = 0', 'Δ = 4 − 20 = −16'], [10.0, 19.4, '√−16 = 4i', 'x = (−2 ± 4i) / 2 = −1 ± 2i'], [20.0, 29.4, 'Dos raíces complejas conjugadas', 'la parábola no toca el eje, pero hay solución']],
+      narr: [[0.8, 9.4, 'Por ejemplo, x al cuadrado más dos x más cinco igual a cero: el discriminante es cuatro menos veinte, menos dieciséis.'], [10.0, 19.4, 'Con los complejos ya se puede: raíz de menos dieciséis es cuatro i, y las raíces son menos uno más o menos dos i.'], [20.0, 29.4, 'Son dos complejos conjugados. La parábola no toca el eje, pero la ecuación sí tiene solución en el plano complejo.']] },
+    { id: 'suma', name: 'SUMA Y PRODUCTO', dur: 28, formula: [['x', 'i'], ['₁ + ', 'r'], ['x', 'i'], ['₂ = −', 'r'], ['b', 'i'], ['/', 'r'], ['a', 'i']],
+      caps: [[0.8, 9.4, 'Las dos raíces suman −b/a', 'en x² − x − 6: 3 + (−2) = 1'], [10.0, 18.4, 'Y multiplican c/a', '3 · (−2) = −6'], [19.0, 27.4, 'Por eso funciona factorizar', 'con a = 1: dos números que sumen b y multipliquen c']],
+      narr: [[0.8, 9.4, 'Un dato curioso: las dos raíces siempre suman menos b sobre a. En x al cuadrado menos x menos seis, tres más menos dos es uno.'], [10.0, 18.4, 'Y multiplican c sobre a: tres por menos dos, menos seis.'], [19.0, 27.4, 'Por eso, al factorizar con a igual a uno, se buscan dos números que sumen b y multipliquen c: las raíces con el signo cambiado.']] },
+    { id: 'cierre', name: 'CIERRE', dur: 28, formula: [['x', 'i'], [' = (−', 'r'], ['b', 'i'], [' ± √Δ) / 2', 'r'], ['a', 'i']],
+      caps: [[0.8, 10.4, 'De la tablilla al corral', 'completar el cuadrado, siempre']],
+      narr: [[0.8, 10.4, 'Hace casi cuatro mil años, un escriba completó un cuadrado para hallar un lado. Hoy, la misma idea da la fórmula general.'], [11.0, 20.4, 'Factorizar cuando se puede, la fórmula cuando no, y el discriminante para saber qué esperar.'], [21.0, 27.4, 'Y el corral vuelve a decirlo: ocho por doce.']] },
+  ];
+  const WORLD = 'ÁLGEBRA · PARÁBOLAS Y COMPLEJOS', TITLE = 'ECUACIONES CUADRÁTICAS', LINE = 'Donde la parábola toca el eje: las raíces.';
+  let t = 0; const SC = [], NARR = [];
+  for (const s of SCENES) {
+    SC.push({ id: s.id, name: s.name, t0: t, t1: t + s.dur });
+    for (const n of s.narr) NARR.push([+(t + n[0]).toFixed(2), +(t + n[1]).toFixed(2), n[2]]);
+    t += s.dur;
+  }
+  return { DUR: t, SCENES, SC, NARR, WORLD, TITLE, LINE, LESSON: 'alg-4' };
+})();
+if (typeof module !== 'undefined') module.exports = D;

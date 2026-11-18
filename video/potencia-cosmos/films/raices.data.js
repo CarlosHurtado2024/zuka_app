@@ -1,0 +1,47 @@
+// «La ley de Kepler» · lección alg-22a (Raíces y exponentes racionales). Datos puros (generados desde raices.json).
+// Historia (docs/storytelling-videos.md): en 1619 Kepler publica que el período al cuadrado es la distancia al cubo
+// (años y unidades astronómicas); para hallar la distancia hay que deshacer potencias: a = T²⁄³. Analogías: el terreno
+// cuadrado de 49 m², el cubo de 343 cm³ y el triángulo 3-4-5. La sorpresa: √((−5)²) = 5 y √(9 + 16) no es 3 + 4.
+const D = (() => {
+  const SCENES = [
+    { id: 'kepler', name: 'AUSTRIA, 1619', dur: 28, formula: [['T', 'i'], ['² = ', 'r'], ['a', 'i'], ['³', 'r']],
+      caps: [[1.0, 9.0, 'Austria, 1619', 'Kepler publica «La armonía del mundo»'], [9.6, 18.0, 'Una ley de los planetas', 'el período al cuadrado es la distancia al cubo'], [18.6, 27.4, 'Para hallar la distancia', 'hay que deshacer potencias: raíces']],
+      narr: [[1.0, 9.0, 'Austria, mil seiscientos diecinueve. Johannes Kepler publica una ley que había buscado durante años.'], [9.6, 18.0, 'Con el período en años y la distancia media al Sol en unidades astronómicas, el período al cuadrado es igual a la distancia al cubo.'], [18.6, 27.4, 'Conociendo el período de un planeta, sale su distancia. Pero hay que deshacer un cuadrado y un cubo: hacen falta raíces.']] },
+    { id: 'cuadrada', name: 'RAÍZ CUADRADA', dur: 30, formula: [['√49 = 7', 'r']],
+      caps: [[0.8, 9.4, 'Un terreno cuadrado de 49 m²', 'su lado: el número que al cuadrado da 49'], [10.0, 19.4, 'La raíz cuadrada deshace el cuadrado', '√49 = 7, porque 7² = 49'], [20.0, 29.4, 'Si no es exacta, igual existe', '√50 ≈ 7.07: un poco más de 7']],
+      narr: [[0.8, 9.4, 'Un terreno cuadrado tiene cuarenta y nueve metros cuadrados. Su lado es el número que, al cuadrado, da cuarenta y nueve.'], [10.0, 19.4, 'Ese número es la raíz cuadrada: deshace el cuadrado. Raíz de cuarenta y nueve es siete, porque siete al cuadrado es cuarenta y nueve.'], [20.0, 29.4, 'Si el área fuera cincuenta, el lado sería raíz de cincuenta: un poco más de siete, cerca de siete punto cero siete.']] },
+    { id: 'positiva', name: 'LA POSITIVA', dur: 28, formula: [['x', 'i'], ['² = 49  ⟹  ', 'r'], ['x', 'i'], [' = ±7', 'r']],
+      caps: [[0.8, 9.4, 'x² = 49 tiene dos soluciones', '7 y −7: (−7)² también es 49'], [10.0, 18.4, 'Pero √49 es un solo número', 'la raíz cuadrada es la no negativa'], [19.0, 27.4, 'Por eso se escribe ±√49', 'cuando se quieren las dos']],
+      narr: [[0.8, 9.4, 'Ojo: la ecuación x al cuadrado igual a cuarenta y nueve tiene dos soluciones, siete y menos siete.'], [10.0, 18.4, 'Pero raíz de cuarenta y nueve es un solo número: el positivo, siete. Como el lado del terreno.'], [19.0, 27.4, 'Cuando se quieren las dos soluciones se escribe más o menos raíz de cuarenta y nueve.']] },
+    { id: 'cubica', name: 'RAÍZ CÚBICA', dur: 30, formula: [['∛343 = 7', 'r']],
+      caps: [[0.8, 9.4, 'Un cubo de 343 cm³', 'su arista: el número que al cubo da 343'], [10.0, 19.4, '∛343 = 7', 'porque 7 · 7 · 7 = 343'], [20.0, 29.4, 'Índice impar: acepta negativos', '∛(−343) = −7, porque (−7)³ = −343']],
+      narr: [[0.8, 9.4, 'Ahora un cubo de trescientos cuarenta y tres centímetros cúbicos. Su arista es el número que, al cubo, da trescientos cuarenta y tres.'], [10.0, 19.4, 'Es la raíz cúbica: siete, porque siete por siete por siete es trescientos cuarenta y tres.'], [20.0, 29.4, 'Y la raíz cúbica sí acepta negativos: menos siete al cubo es menos trescientos cuarenta y tres, así que su raíz cúbica es menos siete.']] },
+    { id: 'indice', name: 'EL ÍNDICE', dur: 28, formula: [['ⁿ√', 'r'], ['a', 'i'], [' = ', 'r'], ['b', 'i'], ['  ⟺  ', 'r'], ['b', 'i'], ['ⁿ = ', 'r'], ['a', 'i']],
+      caps: [[0.8, 9.4, 'La raíz n-ésima', 'elevado a la n da a (n par: el no negativo)'], [10.0, 18.4, 'Índice impar, cualquier a', '∛(−1 000) = −10'], [19.0, 27.4, 'Índice par, a ≥ 0', '√(−49) no es un número real']],
+      narr: [[0.8, 9.4, 'La raíz de índice n de a es el número que, elevado a la n, da a; si n es par, se toma el no negativo.'], [10.0, 18.4, 'Con índice impar sirve cualquier a, positiva o negativa.'], [19.0, 27.4, 'Con índice par, a no puede ser negativa: ningún número real al cuadrado da menos cuarenta y nueve.']] },
+    { id: 'fraccion', name: 'EXPONENTE FRACCIÓN', dur: 30, formula: [['a', 'i'], ['¹⁄ⁿ = ⁿ√', 'r'], ['a', 'i']],
+      caps: [[0.8, 9.4, 'Un exponente fracción es una raíz', 'a¹⁄² = √a'], [10.0, 19.4, 'Por la potencia de una potencia', '(a¹⁄²)² = a¹⁄² · ² = a¹ = a'], [20.0, 29.4, 'El denominador es el índice', 'a¹⁄ⁿ = ⁿ√a, con a ≥ 0 si n es par']],
+      narr: [[0.8, 9.4, 'Las raíces también se escriben como potencias, con un exponente fracción: a elevado a un medio es raíz de a.'], [10.0, 19.4, 'Se define así para que siga valiendo la potencia de una potencia: a elevado a un medio, al cuadrado, da a elevado a uno.'], [20.0, 29.4, 'Eso hace la raíz cuadrada. En general, el denominador del exponente es el índice de la raíz.']] },
+    { id: 'mn', name: 'm SOBRE n', dur: 28, formula: [['16³⁄⁴ = (⁴√16)³ = 8', 'r']],
+      caps: [[0.8, 9.4, 'Con numerador y denominador', 'aᵐ⁄ⁿ = (ⁿ√a)ᵐ, con a ≥ 0 si n es par'], [10.0, 18.4, '16³⁄⁴', 'raíz cuarta de 16 = 2, y 2³ = 8'], [19.0, 27.4, 'Conviene sacar la raíz primero', 'los números quedan pequeños']],
+      narr: [[0.8, 9.4, 'Si el exponente es m sobre n, el denominador es el índice de la raíz, y el numerador, la potencia.'], [10.0, 18.4, 'Dieciséis a la tres cuartos: la raíz cuarta de dieciséis es dos, y dos al cubo es ocho.'], [19.0, 27.4, 'Conviene sacar la raíz primero: dieciséis al cubo sería cuatro mil noventa y seis, mucho más difícil de deshacer.']] },
+    { id: 'marte', name: 'LA DISTANCIA A MARTE', dur: 30, formula: [['a', 'i'], [' = ', 'r'], ['T', 'i'], ['²⁄³', 'r']],
+      caps: [[0.8, 9.4, 'Despejar a en T² = a³', 'a = T²⁄³'], [10.0, 19.4, 'Marte da una vuelta en 1.88 años', 'a = 1.88²⁄³ ≈ 1.52 UA'], [20.0, 29.4, 'Júpiter tarda 11.86 años', 'a = 11.86²⁄³ ≈ 5.20 UA']],
+      narr: [[0.8, 9.4, 'Volvamos a Kepler. Si el período al cuadrado es la distancia al cubo, la distancia es el período a la dos tercios.'], [10.0, 19.4, 'Marte tarda uno punto ochenta y ocho años en dar la vuelta. Su distancia es uno punto ochenta y ocho a la dos tercios: uno punto cincuenta y dos unidades astronómicas.'], [20.0, 29.4, 'Júpiter tarda once punto ochenta y seis años: su distancia es unas cinco punto dos veces la de la Tierra al Sol.']] },
+    { id: 'trampas', name: 'DOS TRAMPAS', dur: 30, formula: [['√(', 'r'], ['x', 'i'], ['²) = |', 'r'], ['x', 'i'], ['|', 'r']],
+      caps: [[0.8, 9.4, '√((−5)²) no es −5', '(−5)² = 25 y √25 = 5'], [10.0, 19.4, 'La raíz de un cuadrado', 'es el valor absoluto: √(x²) = |x|'], [20.0, 29.4, 'No se reparte en una suma', '√(9 + 16) = 5, pero √9 + √16 = 7']],
+      narr: [[0.8, 9.4, 'Primera trampa: raíz de menos cinco al cuadrado no es menos cinco. Menos cinco al cuadrado es veinticinco, y su raíz es cinco.'], [10.0, 19.4, 'La raíz de un cuadrado devuelve el valor absoluto, porque la raíz cuadrada siempre es positiva o cero.'], [20.0, 29.4, 'Segunda: la raíz no se reparte en una suma. Raíz de nueve más dieciséis es cinco, no tres más cuatro: el triángulo de lados tres, cuatro y cinco.']] },
+    { id: 'cierre', name: 'CIERRE', dur: 30, formula: [['ⁿ√', 'r'], ['a', 'i'], [' = ', 'r'], ['a', 'i'], ['¹⁄ⁿ', 'r']],
+      caps: [[0.8, 10.4, 'Como Kepler', 'con la raíz, del período sale la distancia']],
+      narr: [[0.8, 10.4, 'Con una sola ley, Kepler unió el tiempo de vuelta de cada planeta con su distancia al Sol.'], [11.0, 20.4, 'La raíz deshace la potencia, y se escribe también como un exponente fracción.'], [21.0, 29.4, 'Las dos formas dicen lo mismo, cada una a su manera.']] },
+  ];
+  const WORLD = 'ÁLGEBRA · EXPONENTES Y RADICALES', TITLE = 'RAÍCES', LINE = 'Deshacer una potencia: la raíz.';
+  let t = 0; const SC = [], NARR = [];
+  for (const s of SCENES) {
+    SC.push({ id: s.id, name: s.name, t0: t, t1: t + s.dur });
+    for (const n of s.narr) NARR.push([+(t + n[0]).toFixed(2), +(t + n[1]).toFixed(2), n[2]]);
+    t += s.dur;
+  }
+  return { DUR: t, SCENES, SC, NARR, WORLD, TITLE, LINE, LESSON: 'alg-22a' };
+})();
+if (typeof module !== 'undefined') module.exports = D;

@@ -1,0 +1,47 @@
+// «El cuadrado de Euclides» · lección alg-3 (Productos notables). Datos puros (generados desde notables.json).
+// Historia (docs/storytelling-videos.md): Euclides, Elementos, libro II, proposición 4: el cuadrado de una suma se parte
+// en dos cuadrados y dos rectángulos iguales. Aplicación: cálculo mental (51², 49², 31 · 29, 102²). La sorpresa: el
+// «sueño» de repartir el cuadrado, (x + y)² = x² + y², falla con x = y = 1.
+const D = (() => {
+  const SCENES = [
+    { id: 'euclides', name: 'ALEJANDRÍA, HACIA 300 A. C.', dur: 28, formula: [['(', 'r'], ['a', 'i'], [' + ', 'r'], ['b', 'i'], [')²', 'r']],
+      caps: [[1.0, 9.0, 'Alejandría, hacia el 300 a. C.', 'Euclides escribe los Elementos'], [9.6, 18.0, 'Libro II, proposición 4', 'un cuadrado partido en cuatro piezas'], [18.6, 27.4, 'Álgebra con dibujos', 'los griegos razonaban con áreas']],
+      narr: [[1.0, 9.0, 'Alejandría, hacia el año trescientos antes de Cristo. Euclides reúne en los Elementos la geometría de su tiempo.'], [9.6, 18.0, 'En el libro dos, la proposición cuatro parte un cuadrado en cuatro piezas: dos cuadrados y dos rectángulos iguales.'], [18.6, 27.4, 'Los griegos razonaban con áreas. Ese dibujo es una fórmula que hoy escribimos con letras.']] },
+    { id: 'cuadrado', name: 'EL CUADRADO DE UNA SUMA', dur: 30, formula: [['(', 'r'], ['a', 'i'], [' + ', 'r'], ['b', 'i'], [')² = ', 'r'], ['a', 'i'], ['² + 2', 'r'], ['ab', 'i'], [' + ', 'r'], ['b', 'i'], ['²', 'r']],
+      caps: [[0.8, 9.4, 'Un cuadrado de lado a + b', 'adentro: a², b² y dos rectángulos ab'], [10.0, 19.4, '(a + b)² = a² + 2ab + b²', 'el 2ab es el doble producto'], [20.0, 29.4, 'Tres términos, no dos', 'los dos rectángulos siempre están']],
+      narr: [[0.8, 9.4, 'Un cuadrado de lado a más b. Adentro caben un cuadrado de lado a, uno de lado b y dos rectángulos de a por b.'], [10.0, 19.4, 'Por eso a más b, al cuadrado, es a al cuadrado más dos a b más b al cuadrado. El dos a b se llama doble producto.'], [20.0, 29.4, 'El resultado tiene tres términos, no dos: los dos rectángulos siempre están.']] },
+    { id: 'mental', name: 'CÁLCULO MENTAL', dur: 28, formula: [['51² = 2 500 + 100 + 1', 'r']],
+      caps: [[0.8, 9.4, '51² de cabeza', '51 = 50 + 1'], [10.0, 18.4, '50² + 2 · 50 · 1 + 1²', '2 500 + 100 + 1'], [19.0, 27.4, '51² = 2 601', 'el doble producto hace casi todo el trabajo extra']],
+      narr: [[0.8, 9.4, 'Sirve para calcular de cabeza. Cincuenta y uno al cuadrado: cincuenta y uno es cincuenta más uno.'], [10.0, 18.4, 'Cincuenta al cuadrado, dos mil quinientos; el doble producto, dos por cincuenta por uno, cien; y uno al cuadrado, uno.'], [19.0, 27.4, 'En total, dos mil seiscientos uno. El doble producto aporta casi todo lo que se agrega.']] },
+    { id: 'diferencia', name: 'EL CUADRADO DE UNA RESTA', dur: 30, formula: [['(', 'r'], ['a', 'i'], [' − ', 'r'], ['b', 'i'], [')² = ', 'r'], ['a', 'i'], ['² − 2', 'r'], ['ab', 'i'], [' + ', 'r'], ['b', 'i'], ['²', 'r']],
+      caps: [[0.8, 9.4, 'Con una resta', '(a − b)² = a² − 2ab + b²'], [10.0, 19.4, 'Se quitan dos tiras de a por b', 'y la esquina b², quitada dos veces, vuelve'], [20.0, 29.4, '49² = 2 500 − 100 + 1', '= 2 401']],
+      narr: [[0.8, 9.4, 'Con una resta, el doble producto se resta: a menos b, al cuadrado, es a al cuadrado menos dos a b más b al cuadrado.'], [10.0, 19.4, 'Al cuadrado grande se le quitan dos tiras de a por b. Pero la esquina de b por b se quitó dos veces, y hay que devolverla una.'], [20.0, 29.4, 'Cuarenta y nueve al cuadrado: dos mil quinientos menos cien más uno, dos mil cuatrocientos uno.']] },
+    { id: 'sumadif', name: 'SUMA POR DIFERENCIA', dur: 28, formula: [['(', 'r'], ['a', 'i'], [' + ', 'r'], ['b', 'i'], [')(', 'r'], ['a', 'i'], [' − ', 'r'], ['b', 'i'], [') = ', 'r'], ['a', 'i'], ['² − ', 'r'], ['b', 'i'], ['²', 'r']],
+      caps: [[0.8, 9.4, 'Suma por diferencia', 'da una diferencia de cuadrados: a² − b²'], [10.0, 18.4, 'Los términos del medio se cancelan', '+ab − ab = 0'], [19.0, 27.4, '31 · 29 = (30 + 1)(30 − 1)', '= 900 − 1 = 899']],
+      narr: [[0.8, 9.4, 'Al cuadrado de lado a se le quita la esquina b por b. La tira sobrante se gira: queda un rectángulo de a más b por a menos b.'], [10.0, 18.4, 'Al multiplicar aparecen más a b y menos a b, que se cancelan: no hay término del medio.'], [19.0, 27.4, 'Treinta y uno por veintinueve es treinta más uno por treinta menos uno: novecientos menos uno, ochocientos noventa y nueve.']] },
+    { id: 'sueno', name: 'EL SUEÑO DE REPARTIR', dur: 30, formula: [['(', 'r'], ['x', 'i'], [' + ', 'r'], ['y', 'i'], [')²', 'r'], [' ≠ ', 'r'], ['x', 'i'], ['² + ', 'r'], ['y', 'i'], ['²', 'r']],
+      caps: [[0.8, 9.4, 'Un error muy común', '(x + y)² = x² + y², que es falso'], [10.0, 19.4, 'Basta un ejemplo para tumbarlo', 'x = y = 1: (1 + 1)² = 4, pero 1 + 1 = 2'], [20.0, 29.4, 'Faltan los dos rectángulos', 'solo vale si xy = 0']],
+      narr: [[0.8, 9.4, 'Un error muy común es repartir el cuadrado: escribir que x más y, al cuadrado, es x al cuadrado más y al cuadrado.'], [10.0, 19.4, 'Basta un ejemplo para tumbarlo: con x y y iguales a uno, el lado izquierdo da cuatro y el derecho, dos.'], [20.0, 29.4, 'Faltan los dos rectángulos de Euclides. Solo da lo mismo cuando x por y es cero.']] },
+    { id: 'comun', name: 'UN TÉRMINO COMÚN', dur: 28, formula: [['(', 'r'], ['x', 'i'], [' + ', 'r'], ['a', 'i'], [')(', 'r'], ['x', 'i'], [' + ', 'r'], ['b', 'i'], [') = ', 'r'], ['x', 'i'], ['² + (', 'r'], ['a', 'i'], [' + ', 'r'], ['b', 'i'], [')', 'r'], ['x', 'i'], [' + ', 'r'], ['ab', 'i']],
+      caps: [[0.8, 9.4, 'Dos binomios con la misma x', '(x + a)(x + b)'], [10.0, 18.4, 'x² + (a + b)x + ab', 'suman para el término en x; multiplican al final'], [19.0, 27.4, '(x + 3)(x + 7)', 'x² + 10x + 21']],
+      narr: [[0.8, 9.4, 'Cuando dos binomios comparten la x, como x más a por x más b, hay otro atajo.'], [10.0, 18.4, 'Sale x al cuadrado, más la suma a más b por x, más el producto a por b.'], [19.0, 27.4, 'Equis más tres por x más siete: x al cuadrado más diez x más veintiuno.']] },
+    { id: 'negativos', name: 'CON SIGNOS', dur: 28, formula: [['(', 'r'], ['x', 'i'], [' + 4)(', 'r'], ['x', 'i'], [' − 9) = ', 'r'], ['x', 'i'], ['² − 5', 'r'], ['x', 'i'], [' − 36', 'r']],
+      caps: [[0.8, 9.4, 'Con un número negativo', '(x + 4)(x − 9)'], [10.0, 18.4, 'a + b = 4 + (−9) = −5', 'a · b = 4 · (−9) = −36'], [19.0, 27.4, 'x² − 5x − 36', 'la misma regla, con signos']],
+      narr: [[0.8, 9.4, 'La regla funciona igual con signos. Equis más cuatro por x menos nueve.'], [10.0, 18.4, 'Los números son cuatro y menos nueve: suman menos cinco y multiplican menos treinta y seis.'], [19.0, 27.4, 'El resultado es x al cuadrado menos cinco x menos treinta y seis.']] },
+    { id: 'tabla', name: 'DE UN VISTAZO', dur: 30, formula: [['102² = 10 404', 'r']],
+      caps: [[0.8, 9.4, '102² = (100 + 2)²', '10 000 + 400 + 4 = 10 404'], [10.0, 19.4, '98 · 102 = (100 − 2)(100 + 2)', '10 000 − 4 = 9 996'], [20.0, 29.4, 'Reconocer la forma', 'y la cuenta se hace sola']],
+      narr: [[0.8, 9.4, 'Ciento dos al cuadrado: cien al cuadrado, más el doble producto, cuatrocientos, más cuatro. Diez mil cuatrocientos cuatro.'], [10.0, 19.4, 'Noventa y ocho por ciento dos es cien menos dos por cien más dos: diez mil menos cuatro, nueve mil novecientos noventa y seis.'], [20.0, 29.4, 'Por eso se llaman notables: si se reconoce la forma, la cuenta casi se hace sola.']] },
+    { id: 'cierre', name: 'CIERRE', dur: 30, formula: [['(', 'r'], ['a', 'i'], [' ± ', 'r'], ['b', 'i'], [')² = ', 'r'], ['a', 'i'], ['² ± 2', 'r'], ['ab', 'i'], [' + ', 'r'], ['b', 'i'], ['²', 'r']],
+      caps: [[0.8, 10.4, 'El cuadrado de Euclides', 'dos cuadrados y dos rectángulos']],
+      narr: [[0.8, 10.4, 'El dibujo de Euclides sigue diciendo lo mismo dos mil trescientos años después: un cuadrado de lado a más b tiene cuatro piezas.'], [11.0, 20.4, 'Los productos notables son esas piezas, contadas con letras.'], [21.0, 29.4, 'Y los dos rectángulos nunca se olvidan.']] },
+  ];
+  const WORLD = 'ÁLGEBRA · ÁLGEBRA DE POLINOMIOS', TITLE = 'PRODUCTOS NOTABLES', LINE = 'Multiplicaciones que conviene reconocer de un vistazo.';
+  let t = 0; const SC = [], NARR = [];
+  for (const s of SCENES) {
+    SC.push({ id: s.id, name: s.name, t0: t, t1: t + s.dur });
+    for (const n of s.narr) NARR.push([+(t + n[0]).toFixed(2), +(t + n[1]).toFixed(2), n[2]]);
+    t += s.dur;
+  }
+  return { DUR: t, SCENES, SC, NARR, WORLD, TITLE, LINE, LESSON: 'alg-3' };
+})();
+if (typeof module !== 'undefined') module.exports = D;

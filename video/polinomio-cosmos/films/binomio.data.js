@@ -1,0 +1,47 @@
+// «El tablero de Galton» · lección alg-24c (Binomio de Newton). Datos puros (generados desde binomio.json).
+// Historia (docs/storytelling-videos.md): en 1889 Francis Galton describe un tablero de clavos donde las bolitas caen
+// izquierda o derecha y se apilan según los números del triángulo de Pascal (conocido antes por Jia Xian y Yang Hui).
+// Analogías: caminos por el tablero, elegir paréntesis, lanzar cuatro monedas. La sorpresa: cada fila suma 2ⁿ.
+const D = (() => {
+  const SCENES = [
+    { id: 'galton', name: 'INGLATERRA, 1889', dur: 28, formula: [['1 · 4 · 6 · 4 · 1', 'r']],
+      caps: [[1.0, 9.0, 'Inglaterra, 1889', 'Francis Galton explica un tablero de clavos'], [9.6, 18.0, 'En cada clavo, izquierda o derecha', 'las bolitas se apilan abajo'], [18.6, 27.4, 'Los montones no son iguales', 'el del medio crece más']],
+      narr: [[1.0, 9.0, 'Inglaterra, mil ochocientos ochenta y nueve. En su libro Herencia natural, Francis Galton explica un tablero vertical lleno de clavos.'], [9.6, 18.0, 'Las bolitas caen y en cada clavo se desvían a la izquierda o a la derecha, hasta llegar a unas casillas abajo.'], [18.6, 27.4, 'Los montones no salen parejos: el del centro crece más que los de los bordes. Los números que lo explican son los de un binomio.']] },
+    { id: 'caminos', name: 'CAMINOS', dur: 30, formula: [['1 + 1 = 2', 'r']],
+      caps: [[0.8, 9.4, 'Contar caminos', 'cuántas maneras hay de llegar a cada clavo'], [10.0, 19.4, 'Cada clavo interior viene de dos', 'los caminos se suman: 1 + 1, 1 + 2…'], [20.0, 29.4, 'Cuatro filas: 1, 4, 6, 4, 1', '16 caminos en total']],
+      narr: [[0.8, 9.4, 'Para entenderlo, se cuentan los caminos: de cuántas maneras puede una bolita llegar a cada clavo.'], [10.0, 19.4, 'A cada clavo de adentro se llega desde los dos de arriba, así que sus caminos se suman: uno más uno, dos; uno más dos, tres.'], [20.0, 29.4, 'Después de cuatro filas, las casillas tienen uno, cuatro, seis, cuatro y un camino. Dieciséis en total.']] },
+    { id: 'triangulo', name: 'EL TRIÁNGULO', dur: 28, formula: [['cada número = suma de los dos de arriba', 'it']],
+      caps: [[0.8, 9.4, 'El triángulo de Pascal', 'cada número es la suma de los dos de arriba'], [10.0, 18.4, 'Mucho antes que Pascal', 'Jia Xian (siglo XI) y Yang Hui (1261) en China'], [19.0, 27.4, 'Pascal, 1654', 'lo estudió a fondo y le quedó su nombre']],
+      narr: [[0.8, 9.4, 'Esos números forman el triángulo de Pascal: bordes de unos y, adentro, cada número es la suma de los dos de arriba.'], [10.0, 18.4, 'Mucho antes, en China, lo usaron Jia Xian en el siglo once y Yang Hui en mil doscientos sesenta y uno.'], [19.0, 27.4, 'Blaise Pascal lo estudió a fondo en mil seiscientos cincuenta y cuatro, y en Europa le quedó su nombre.']] },
+    { id: 'potencias', name: 'LAS POTENCIAS DEL BINOMIO', dur: 30, formula: [['(', 'r'], ['a', 'i'], [' + ', 'r'], ['b', 'i'], [')³ = ', 'r'], ['a', 'i'], ['³ + 3', 'r'], ['a', 'i'], ['²', 'r'], ['b', 'i'], [' + 3', 'r'], ['ab', 'i'], ['² + ', 'r'], ['b', 'i'], ['³', 'r']],
+      caps: [[0.8, 9.4, '(a + b)² = a² + 2ab + b²', 'coeficientes 1, 2, 1'], [10.0, 19.4, '(a + b)³', 'coeficientes 1, 3, 3, 1'], [20.0, 29.4, 'Son las filas del triángulo', 'la fila n da los coeficientes de (a + b)ⁿ']],
+      narr: [[0.8, 9.4, 'Ahora el álgebra. A más b, al cuadrado, tiene coeficientes uno, dos, uno.'], [10.0, 19.4, 'A más b, al cubo: a al cubo, más tres a al cuadrado b, más tres a b al cuadrado, más b al cubo. Uno, tres, tres, uno.'], [20.0, 29.4, 'Son las filas del triángulo de Pascal, contando la punta como fila cero: la fila n da los coeficientes de a más b a la n.']] },
+    { id: 'exponentes', name: 'LOS EXPONENTES', dur: 28, formula: [['a', 'i'], ['⁴, ', 'r'], ['a', 'i'], ['³', 'r'], ['b', 'i'], [', ', 'r'], ['a', 'i'], ['²', 'r'], ['b', 'i'], ['², ', 'r'], ['ab', 'i'], ['³, ', 'r'], ['b', 'i'], ['⁴', 'r']],
+      caps: [[0.8, 9.4, 'Los exponentes de a bajan', '4, 3, 2, 1, 0'], [10.0, 18.4, 'Los de b suben', '0, 1, 2, 3, 4'], [19.0, 27.4, 'En cada término suman n', 'a³b, a²b², ab³: siempre 4']],
+      narr: [[0.8, 9.4, 'En a más b a la cuarta, los exponentes de a van bajando: cuatro, tres, dos, uno, cero.'], [10.0, 18.4, 'Los de b van subiendo: cero, uno, dos, tres, cuatro.'], [19.0, 27.4, 'Y en cada término, los dos exponentes suman cuatro.']] },
+    { id: 'elegir', name: 'ELEGIR', dur: 30, formula: [['C', 'i'], ['(4, 2) = 6', 'r']],
+      caps: [[0.8, 9.4, '(a + b)(a + b)(a + b)(a + b)', 'de cada paréntesis se toma a o b'], [10.0, 19.4, 'Para a²b², b sale de 2 de los 4', 'hay 6 maneras de elegirlos'], [20.0, 29.4, 'C(n, k): maneras de elegir k de n', 'el coeficiente del término con bᵏ']],
+      narr: [[0.8, 9.4, 'Por qué funciona: a más b a la cuarta son cuatro paréntesis multiplicados, y de cada uno se toma una a o una b.'], [10.0, 19.4, 'Para que salga a al cuadrado b al cuadrado, la b tiene que salir de dos de los cuatro paréntesis. Hay seis maneras de elegirlos.'], [20.0, 29.4, 'Ese número se escribe C de n, k: las maneras de elegir k entre n. Es el coeficiente del término con b a la k.']] },
+    { id: 'monedas', name: 'CUATRO MONEDAS', dur: 28, formula: [['1 + 4 + 6 + 4 + 1 = 16', 'r']],
+      caps: [[0.8, 9.4, 'Lanzar cuatro monedas', 'cara o sello en cada una: 16 resultados'], [10.0, 18.4, 'Cuántos tienen 2 caras', 'C(4, 2) = 6'], [19.0, 27.4, '0, 1, 2, 3 o 4 caras', '1, 4, 6, 4 y 1 maneras']],
+      narr: [[0.8, 9.4, 'Lo mismo pasa al lanzar cuatro monedas: cada una sale cara o sello, y hay dieciséis resultados posibles.'], [10.0, 18.4, 'Los que tienen exactamente dos caras son seis: elegir cuáles dos de las cuatro monedas salen cara.'], [19.0, 27.4, 'Con cero, una, dos, tres o cuatro caras hay uno, cuatro, seis, cuatro y un resultado. La fila cuatro otra vez.']] },
+    { id: 'sumafila', name: 'CADA FILA SUMA 2ⁿ', dur: 30, formula: [['1 + 5 + 10 + 10 + 5 + 1 = 32 = 2⁵', 'r']],
+      caps: [[0.8, 9.4, 'Cada fila suma una potencia de 2', '1, 2, 4, 8, 16, 32, …'], [10.0, 19.4, 'Con a = b = 1', '(1 + 1)ⁿ = 2ⁿ'], [20.0, 29.4, 'Como en el tablero', 'cada fila de clavos duplica los caminos']],
+      narr: [[0.8, 9.4, 'Una sorpresa: cada fila del triángulo suma una potencia de dos. Uno, dos, cuatro, ocho, dieciséis.'], [10.0, 19.4, 'Sale de poner a y b iguales a uno: uno más uno, a la n, es dos a la n, y es también la suma de los coeficientes.'], [20.0, 29.4, 'En el tablero es claro: en cada fila, cada bolita tiene dos opciones, así que los caminos se duplican.']] },
+    { id: 'ejemplo', name: 'UN EJEMPLO', dur: 30, formula: [['(', 'r'], ['x', 'i'], [' + 3)³ = ', 'r'], ['x', 'i'], ['³ + 9', 'r'], ['x', 'i'], ['² + 27', 'r'], ['x', 'i'], [' + 27', 'r']],
+      caps: [[0.8, 9.4, '(x + 3)³', 'fila 3: 1, 3, 3, 1'], [10.0, 19.4, 'Término por término', 'x³ + 3·x²·3 + 3·x·3² + 3³'], [20.0, 29.4, 'x³ + 9x² + 27x + 27', 'sin multiplicar paréntesis']],
+      narr: [[0.8, 9.4, 'Un ejemplo: x más tres, al cubo. La fila tres da los coeficientes uno, tres, tres, uno.'], [10.0, 19.4, 'Los exponentes de x bajan y los del tres suben: x al cubo, tres por x al cuadrado por tres, tres por x por nueve, y veintisiete.'], [20.0, 29.4, 'Queda x al cubo más nueve x al cuadrado más veintisiete x más veintisiete, sin multiplicar un solo paréntesis.']] },
+    { id: 'cierre', name: 'CIERRE', dur: 30, formula: [['(', 'r'], ['a', 'i'], [' + ', 'r'], ['b', 'i'], [')ⁿ = Σₖ₌₀ⁿ ', 'r'], ['C', 'i'], ['(', 'r'], ['n', 'i'], [', ', 'r'], ['k', 'i'], [') ', 'r'], ['a', 'i'], ['ⁿ⁻ᵏ', 'r'], ['b', 'i'], ['ᵏ', 'r']],
+      caps: [[0.8, 10.4, 'El tablero de Galton', 'los coeficientes cuentan caminos']],
+      narr: [[0.8, 10.4, 'Las bolitas de Galton, las monedas y los paréntesis cuentan lo mismo: maneras de elegir.'], [11.0, 20.4, 'Esta fórmula se llama binomio de Newton: hacia mil seiscientos sesenta y cinco, él la extendió a exponentes que no son enteros.'], [21.0, 29.4, 'Y el montón del centro es el que más caminos tiene.']] },
+  ];
+  const WORLD = 'ÁLGEBRA · ÁLGEBRA DE POLINOMIOS', TITLE = 'BINOMIO DE NEWTON', LINE = 'Los coeficientes cuentan maneras de elegir.';
+  let t = 0; const SC = [], NARR = [];
+  for (const s of SCENES) {
+    SC.push({ id: s.id, name: s.name, t0: t, t1: t + s.dur });
+    for (const n of s.narr) NARR.push([+(t + n[0]).toFixed(2), +(t + n[1]).toFixed(2), n[2]]);
+    t += s.dur;
+  }
+  return { DUR: t, SCENES, SC, NARR, WORLD, TITLE, LINE, LESSON: 'alg-24c' };
+})();
+if (typeof module !== 'undefined') module.exports = D;
