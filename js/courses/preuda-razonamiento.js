@@ -915,3 +915,6 @@ const PU_RAZONAMIENTO = [
     ]),
   ] },
 ];
+
+// Constructores de los juegos de cada mundo (preuda-r-*.js); los aplica preuda-razonamiento-juegos.js.
+const PU_JUEGOS = [];

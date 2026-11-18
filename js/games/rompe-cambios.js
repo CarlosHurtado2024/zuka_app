@@ -4,7 +4,7 @@
 // arriba; después, el lado de la paleta donde pega decide hacia dónde rebota. Hay que mandarla al
 // ladrillo del resultado. Pegarle a otro quita una vida (ese ladrillo se apaga); si la pelota se cae no pasa nada,
 // vuelve a salir. Sin vidas, la ronda empieza otra vez.
-// params = { rounds: [{ title, items: [{ ask, options: [a, b, c], answer }] }], lives? }   state = { done: [n] }
+// params = { rounds: [{ title, items: [{ ask, options: [a, b, c], answer }] }], lives?, miss? }   (miss: consejo al fallar)   state = { done: [n] }
 // Spec 2026-11-13-juegos-dinamicos-razones.
 
 GAMES['rompe-cambios'] = (() => {
@@ -63,7 +63,7 @@ GAMES['rompe-cambios'] = (() => {
           if (b.dead) return;
           b.hit = 1;
           if (b.good) { const it = item(); st.done[a.cur]++; a.hit(); a.say(`${it.ask} = ${b.label}`, C.ok); ball = null; pause = 1.1; }
-          else { b.dead = true; a.say(`${b.label} no es: aplica un cambio y luego el otro`, C.bad); a.miss(); }
+          else { b.dead = true; a.say(`${b.label} no es: ${params.miss || 'aplica un cambio y luego el otro'}`, C.bad); a.miss(); }
           return;
         }
         if (ball.y > H + 20) ball = null;   // se cayó: vuelve a salir de la paleta, sin castigo
