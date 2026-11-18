@@ -455,17 +455,22 @@
       [1, 3], 'Expresa 27 como potencia de 3. Luego iguala exponentes.'),
   ]);
 
-  function assess(world, boss, replacements) {
+  // Sin jefes (spec 2026-11-18-algebra-revision): la evaluación conserva sus preguntas, suma las variantes y los retos
+  // que eran del jefe (cada uno ligado a la lección que repasa) y el nodo del jefe desaparece del mundo.
+  function assess(world, boss, replacements, bossLessons) {
     const u = COURSE_ALGEBRA.units.find(u => u.world === world);
-    u.boss.ex = boss;
-    u.boss.clip.scenes[1] = sc(5, 'El Guardián propone tres construcciones. Observa cómo cambia cada escena y comprueba tu solución cuando esté lista.',
-      { title: 'Tres retos del mundo' });
-    u.exam.items = u.exam.items.map((item, i) => {
-      const challenge = replacements[i];
-      const ex = challenge || item.ex;
-      return { ...item, ...(challenge ? { review: challenge.hint + ' ' + challenge.explain } : {}),
-        ex: { ...ex, canvasGuide: true, exam: true, params: { ...ex.params, autoDemo: false } } };
-    });
+    const item = (lesson, ex, review) => ({ lesson, review: review || ((ex.hint || '') + ' ' + (ex.explain || '')).trim(),
+      ex: { ...ex, canvasGuide: true, exam: true, motion: false, params: { ...ex.params, motion: false, autoDemo: false } } });
+    // Las preguntas de escoger o de armar con fichas de tocar no siguen: el usuario las descartó.
+    const dull = ['escala-solucion', 'arma-la-cuenta', 'une-parejas', 'clasifica-cartas', 'ordena-terminos', 'verdadero-falso'];
+    const items = u.exam.items.filter(it => !dull.includes(it.ex.game)).map(it => item(it.lesson, it.ex, it.review));
+    for (const [i, ex] of Object.entries(replacements)) items.push(item(u.exam.items[i].lesson, ex));
+    boss.forEach((ex, i) => items.push(item(bossLessons[i], ex)));
+    // Orden del mundo: primero las preguntas de la primera lección.
+    const order = u.lessons.map(l => l.id);
+    u.exam.items = items.map((it, k) => [it, k]).sort((a, b) => order.indexOf(a[0].lesson) - order.indexOf(b[0].lesson) || a[1] - b[1]).map(([it]) => it);
+    u.exam.minutes = Math.max(12, Math.round(u.exam.items.length * 1.5));
+    delete u.boss;
   }
 
   assess('conjuntos', [
@@ -478,10 +483,12 @@
   ], {
     3: rail('Ajusta el número de subconjuntos de $\\{P,L,A,T,O\\}$.', [0, 40, 10, 32], v => tex('n(\\mathcal P(A))=' + v),
       'Incluye o deja fuera cada uno de los cinco elementos.', { explain: '$2^5=32$ subconjuntos, incluido el vacío.' }),
-  });
+  }, ['alg-0c', 'alg-0c', 'alg-0a']);
   assess('numeros', [
-    point('Ubica el racional $-\\tfrac74$ en el eje horizontal.', [-3, 1, -2, 2], [.25, 0], [-1.75, 0], [],
-      'Siete cuartos equivalen a una unidad y tres cuartos. El signo fija el lado del cero.', { dx: .25 }),
+    play('ubica-en-recta', 'Suelta cada número en su lugar de la recta', { min: -3, max: 3, tol: 0.15, points: [
+      { label: '−7/4', tex: '-\\tfrac74', value: -1.75 }, { label: '2/3', tex: '\\tfrac23', value: 0.6667 }, { label: '−√2', tex: '-\\sqrt2', value: -1.4142 }, { label: '2.25', tex: '2.25', value: 2.25 },
+    ] }, 'Siete cuartos son una unidad y tres cuartos, a la izquierda del cero; $-\\sqrt2 \\approx -1.41$ queda un poco a su derecha, y $\\tfrac23$ y $2.25$ a la derecha del cero.',
+      { hint: 'Antes de soltar, convierte cada número a decimal: así ves entre qué enteros cae y de qué lado del cero está.' }),
     groups('Pon cada valor en la familia más pequeña que lo contiene.', ['Enteros', 'Racionales no enteros', 'Irracionales'],
       ['$-3$', '$1/7$', '$\\sqrt5$', '$\\sqrt{16}$', '$0.25$'], [0, 1, 2, 0, 1],
       'Reduce una raíz cuadrada exacta antes de clasificarla.'),
@@ -490,7 +497,7 @@
   ], {
     6: rail('Ajusta la distancia entre $-3.5$ y $2.25$.', [0, 8, 3, 5.75, .25], v => format(v, 'd'),
       'Mide cada tramo hasta cero y suma las longitudes.', { explain: '$|2.25-(-3.5)|=5.75$.' }),
-  });
+  }, ['alg-11b', 'alg-11c', 'alg-12d']);
   assess('razones', [
     rect('Construye un rectángulo de 24 unidades cuya razón ancho a alto sea 3:2.', [10, 8], [6, 4],
       'Multiplica los lados del modelo por el mismo número y comprueba el área.', { read: ([a, b]) => tex(a + ':' + b + '\\quad A=' + a * b) }),
@@ -501,7 +508,7 @@
   ], {
     6: probe('En un mapa, 2 cm representan 15 km. Pon la sonda en la distancia que representan 7 cm.',
       [0, 8, 0, 64], 2, 7, line(7.5, 0), 'Un centímetro representa la mitad de 15 km.', { explain: '$7\\cdot7.5=52.5$ km.' }),
-  });
+  }, ['alg-12', 'alg-12f', 'alg-13d']);
   assess('potencias', [
     rect('Empaca $(2^3)^2$ como dos filas de tres factores 2. Muestra cuántos factores hay en total.', [6, 5], [3, 2],
       'Cada fila repite completa la potencia de adentro.', { read: ([x, y]) => tex('(2^{' + x + '})^{' + y + '}=2^{' + x * y + '}') }),
@@ -513,7 +520,7 @@
     5: dial('En la rueda de potencias de 81, identifica el exponente que saca la raíz cuarta y luego eleva al cubo.',
       ['$1/4$', '$1/3$', '$3/4$', '$4/3$', '$2$', '$3$'], 2, (v, i) => tex('81^{' + v.slice(1, -1) + '}=' + n(81 ** [.25, 1 / 3, .75, 4 / 3, 2, 3][i])),
       'El índice de la raíz es el denominador de la potencia fraccionaria.', { explain: '$81^{3/4}=3^3=27$.' }),
-  });
+  }, ['alg-21b', 'alg-22b', 'alg-21a']);
   assess('progresiones', [
     point('Marca en la gráfica el séptimo término de 2, 6, 10, … .', [0, 8, 0, 35], [1, 2], [7, 26], [line(4, -2)],
       'Entre los términos 1 y 7 hay seis saltos de la misma longitud.'),
@@ -527,7 +534,7 @@
       'Los términos se emparejan por los extremos. Cada pareja suma lo mismo.', { explain: 'El rectángulo tiene 220 unidades. Una copia de la suma vale 110.' }),
     2: probe('Sondea el número de bacterias tras seis horas, si empieza una y la cantidad se duplica cada hora.', [0, 7, 0, 130], 2, 6, x => 2 ** x,
       'El número de duplicaciones es el número de horas.'),
-  });
+  }, ['alg-14', 'alg-14d', 'alg-14d']);
   assess('polinomios', [
     groups('Reúne las piezas semejantes de $(x+2)(x+7)$ para construir el polinomio.', ['Cuadrado', 'Lineales', 'Constante'],
       ['$7x$', '$x^2$', '$14$', '$2x$'], [1, 0, 2, 1], 'Solo las dos piezas lineales comparten la misma potencia de x.', { explain: '$x^2+9x+14$.' }),
@@ -546,7 +553,7 @@
     4: tiles('Pinta los dos factores que recomponen $x^3+27$.', 2,
       ['$x+3$', '$x^2-3x+9$', '$x-3$', '$x^2+3x+9$'], [0, 1],
       'Es una suma de cubos. Al multiplicar, los términos mixtos se cancelan.', { explain: '$x^3+27=(x+3)(x^2-3x+9)$.' }),
-  });
+  }, ['alg-3', 'alg-24c', 'alg-24b']);
   assess('cuadraticas', [
     point('Coloca el conjugado de $-2+3i$ en el plano complejo.', [-5, 5, -5, 5], [1, 0], [-2, -3], [],
       'Refleja sobre el eje real. La parte real queda fija y la imaginaria cambia de signo.'),
@@ -563,7 +570,7 @@
       'Eleva b al cuadrado y resta $4ac$, conservando el signo del término independiente.', { explain: '$(-2)^2-4\\cdot3(-1)=16$.' }),
     4: tiles('Marca en el tablero las raíces de $x^2+2x-8=0$.', 3, ['$-4$', '$-2$', '$0$', '$2$', '$4$', '$8$'],
       [0, 3], 'Dos factores lineales con constantes de producto −8 y suma 2 dejan ver las raíces.', { explain: 'Los factores son $(x+4)(x-2)$.' }),
-  });
+  }, ['alg-23c', 'alg-1', 'alg-4a']);
   assess('grado-superior', [
     tiles('Pinta los puntos donde cruza el eje $y=(x+1)^2(x-2)(x-4)^3$.', 3, ['$-1$', '$2$', '$4$'],
       [1, 2], 'Solo la multiplicidad impar cambia el signo de la gráfica.', { explain: 'Cruza en 2 y 4. Rebota en −1.' }),
@@ -579,7 +586,7 @@
     4: tiles('Para $x^3-3x^2+2x+5$, pinta cada coeficiente que cambia de signo con respecto al anterior.', 4,
       ['1', '$-3$', '2', '5'], [1, 2], 'Recorre los coeficientes en orden descendente de grado.',
       { explain: 'Hay dos cambios de signo. Por la regla de Descartes puede haber dos raíces positivas o ninguna.' }),
-  });
+  }, ['alg-93', 'alg-92', 'alg-92']);
   assess('racionales', [
     bridges('Construye el denominador común para sumar las dos expresiones.',
       [['3', 'x+1'], ['1', 'x-4']], ['x+1', 'x-4'], ['x+1', 'x-4', 'x-1', 'x+4'], [1, 0],
@@ -594,7 +601,7 @@
       '$\\frac3x+\\frac2{x^2}=\\frac{3x+2}{x^2}$, con $x\\ne0$.'),
     4: point('Encuentra el punto de corte de $y=x^2$ y $y=x+2$ que tiene abscisa negativa.', [-4, 4, -2, 12], [1, 1], [-1, 1],
       [par(1, 0, 0), line(1, 2)], 'Las dos curvas pueden tener más de un punto en común. Usa el que queda a la izquierda del eje vertical.'),
-  });
+  }, ['alg-25b', 'alg-25a', 'alg-102']);
   assess('exp-log', [
     point('Marca en $y=2^x$ la altura que corresponde a dos pasos a la izquierda de cero.', [-4, 5, 0, 8], [1, 2], [-2, .25],
       [x => 2 ** x], 'Cada paso a la izquierda divide la altura anterior por 2.', { dy: .25 }),
@@ -613,5 +620,5 @@
     4: probe('Busca el valor aproximado de x que hace que $5^x$ llegue a 20.', [1, 2, 0, 26], 1, 1.86, x => 5 ** x,
       'La solución queda entre 1 y 2. Acerca la sonda a la altura dada.',
       { dx: .01, valid: x => Math.abs(5 ** x - 20) < .2, explain: '$x=\\log_5 20\\approx1.861$.' }),
-  });
+  }, ['alg-71', 'alg-72', 'alg-73']);
 })();

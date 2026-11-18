@@ -28,7 +28,7 @@ Fecha: 2026-11-18.
 
 | Curso | Archivo | Estado |
 |---|---|---|
-| Álgebra (10 mundos, 43 lecciones) | `js/courses/algebra.js`, `mundos-altos.js` | el más completo: juegos, jefes, evaluaciones, resúmenes PDF |
+| Álgebra (10 mundos, 43 lecciones) | `js/courses/algebra.js`, `mundos-altos.js` | el más completo: juegos, evaluaciones, resúmenes PDF; en revisión mundo por mundo |
 | Trigonometría (3 mundos, 20 lecciones) | `js/courses/trig.js`, `trig-juegos.js` | juegos y jefes; faltan evaluaciones |
 | Cálculo Diferencial (5 mundos, 15 lecciones) | `js/courses/calculo.js` | parcial |
 | Preuniversitario UdeA (2 componentes, 28 mundos, 90 lecciones) | `js/courses/preuda*.js` | en borrador; en construcción mundo por mundo |
@@ -93,7 +93,7 @@ Ideas clave:
 - Fórmulas con KaTeX entre `$…$`; dentro de cadenas JS la barra va doble (`'$\\tfrac{1}{2}$'`).
 - Cada ejercicio lleva **pista** (orienta sin dar la respuesta) y **explicación** (se muestra al comprobar).
 - Los ejemplos del video **no se repiten** en los ejercicios.
-- Estructuras alrededor de la lección: **jefe final** del mundo (`unit.boss`), **evaluación** (`unit.exam`, con
+- Estructuras alrededor de la lección: **evaluación** del mundo (`unit.exam`, con
   cronómetro e informe) y **resumen en PDF** (LaTeX en `docs/resumenes/tex/` → `media/resumenes/`).
 
 ### Estándar actual por lección (pedido del usuario)
@@ -274,7 +274,9 @@ Carpeta modelo: `video/conjunto-cosmos`, y un proyecto por mundo (`recta-cosmos`
   `ordena-terminos`.
 - **Videos**: muchos están entregados y esperan su ID de Bunny (lista en `CLAUDE.md`, sección «Pendiente»).
 - **Instrucciones sobre el juego**: solo los juegos nuevos tienen `demo`; los viejos conservan su tarjeta emergente.
-- Faltan evaluaciones de Trigonometría y jefes, evaluaciones y resúmenes de los demás cursos.
+- Faltan evaluaciones de Trigonometría y evaluaciones y resúmenes de los demás cursos.
+- **Álgebra sin jefes** (2026-11-18): los retos del jefe pasaron a la evaluación. La práctica se revisa mundo por mundo para
+  quitar los motores genéricos `taller-*` y los juegos repetidos (spec `2026-11-18-algebra-revision`); hecho el mundo 1.
 - Hay cambios de accesibilidad (foco y teclado) hechos **solo en local**, sin subir, hasta que el usuario lo diga.
 
 ---

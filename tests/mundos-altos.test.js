@@ -61,21 +61,16 @@ test('las lecciones de los cinco mundos ya no tienen opción múltiple ni teclad
   }
 });
 
-test('cada mundo tiene su propio jefe, con tres construcciones y un cierre en movimiento', () => {
-  for (const { world, boss, exam } of ALG.units) {
-    assert.ok(/^jefe-alg-/.test(boss.id) && boss.clip.scenes.length === 2 && exam, world);
-    assert.equal(new Set(boss.ex.map(e => e.game)).size, 3, world);
-    assert.equal(boss.ex.at(-1).motion, true, world);
-    for (const ex of boss.ex) check(ex, boss.id);
-  }
-  assert.equal(new Set(ALG.units.map(u => u.boss.id)).size, 10);
+// Sin jefes (spec 2026-11-18-algebra-revision): el usuario no los quiere; sus retos pasaron a la evaluación.
+test('ningún mundo tiene jefe final; todos tienen evaluación', () => {
+  for (const { world, boss, exam } of ALG.units) { assert.equal(boss, undefined, world); assert.ok(exam, world); }
 });
 
-test('cada mundo tiene su evaluación: cinco preguntas, cada una ligada a una lección del mundo', () => {
+test('cada mundo tiene su evaluación: al menos cinco preguntas, cada una ligada a una lección del mundo', () => {
   for (const w of [...WORLDS, 'progresiones']) {
     const e = unit(w).exam, ids = unit(w).lessons.map(l => l.id);
     assert.ok(e && /^exam-alg-/.test(e.id) && e.minutes >= 10, w);
-    assert.equal(e.items.length, 5);
+    assert.ok(e.items.length >= 5, w);
     e.items.forEach((it, i) => { assert.ok(ids.includes(it.lesson), `${w}#${i}: ${it.lesson}`); assert.ok(it.review.length > 30); check(it.ex, `${e.id}#${i}`); });
     assert.ok(new Set(e.items.map(it => it.lesson)).size >= 3, `${w}: cubre varias lecciones`);
   }

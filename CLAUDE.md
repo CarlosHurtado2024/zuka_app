@@ -130,7 +130,7 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   `js/courses/mundos-altos.js` (va después de `algebra.js` y reemplaza los `ex` de 16 lecciones; los viejos de `algebra.js` ya no se
   usan). Juegos: `bloques-area`, `division-sintetica`, `cancela-factores` y `jefe-ruta`, un **jefe genérico** por rutas de pasos
   (`{ name, color, rounds: [{ title, attacks: [{ say, levels }] }] }`, el paso válido primero) que sirve para cualquier mundo. Los diez
-  mundos de Álgebra ya tienen jefe y evaluación (spec `2026-11-20-jefes-valle-a-escalera`); faltan en los demás cursos.
+  mundos de Álgebra tenían jefe y evaluación (spec `2026-11-20-jefes-valle-a-escalera`); desde el 2026-11-18 ya no tienen jefe.
 - **Juegos dinámicos por retos con `questGame(def)`** (al final de `kit.js`; spec `2026-11-21-dinamicos-mundos-altos`): armazón de un juego
   de acción sin prisa (rondas de dos o tres retos, tres vidas, cartel, pausa tras acertar, resumen). El juego da `init`, `ok` y
   `answer` (puras), `solution`, `prompt`, `draw`, `press` y `peek` con `solve` (cajas por tocar, para el robot). Hechos con él, uno
@@ -196,7 +196,18 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   (spec `2026-11-15-escalera-de-sigma`): `cuenta-saltos` (saltos y no términos; modos `value` y `count`, `arit` y `geo`),
   `resta-corrida` (rS − S: se tachan las parejas iguales) y `parte-sigma` (Σ(ck + d) = c·Σk + d·n); tampoco le quedan tarjetas. El robot
   `tests/robot-torres.js` (se carga en la página con `fetch` + `eval`) resuelve con `peek()` los juegos de los dos mundos.
-- **Jefe final de un mundo** (spec `2026-11-14-jefe-final-pradera`, pruebas `tests/jefe-venn.test.js`): `unit.boss = { id, title,
+- **Revisión a fondo de Álgebra** (pedido del 2026-11-18, spec `2026-11-18-algebra-revision`, pruebas `tests/algebra-revision.test.js`):
+  otro agente (commits `74352a0` y `587631a`, archivos `js/courses/algebra-taller.js`, `js/games/algebra-taller.js` y
+  `algebra-escenas.js`) había llenado cada lección con nueve motores genéricos `taller-*` (membrana, mosaico, plano, barra, sonda,
+  área, balanza, trazo, giro), que se repetían hasta 26 veces y a veces sin sentido (un plano cartesiano para la recta, una balanza
+  sin ecuación). El usuario pidió: **ningún juego repetido**, una escena propia por idea, **sin jefes finales** y una **evaluación
+  completa** por mundo. Ya no hay jefes en Álgebra (`assess` borra `u.boss` y pasa sus retos a la evaluación). Los mundos se rehacen
+  en `js/courses/algebra-revision.js` (va después del taller): `setLesson` y `setExam`; `ALG_REVISADOS` lista los terminados y la
+  prueba les exige 7 u 8 juegos distintos, ninguno `taller-*`, ningún juego usado en dos lecciones del curso, último en movimiento
+  y al menos dos preguntas por lección en la evaluación. Hecho: mundo 1 (Teoría de Conjuntos), con `tamiz-rango`, `cajas-anidadas`,
+  `gemelos`, `escalera-inclusion`, `arbol-partes`, `anillos-subconjunto` (en movimiento), `solapa-cardinal`, `goma-diferencia` y
+  `busca-b`. Faltan los mundos 2 a 10, en orden (la tabla del plan está en la spec).
+- **Jefe final de un mundo** (ya no se usa en Álgebra: ver la revisión de arriba) (spec `2026-11-14-jefe-final-pradera`, pruebas `tests/jefe-venn.test.js`): `unit.boss = { id, title,
   clip: { scenes }, ex: [play(…)] }`, definido junto a las evaluaciones al final de `js/courses/algebra.js`. Es un nodo propio
   del camino (`.node.boss`, rojo con corona, entre la última lección y la evaluación; `bossUnlocked`, `openBossSheet` en
   `js/app.js`) y se lanza con `startLesson(c, unit.boss)`; **no es una lección** (no entra en `unit.lessons` ni en el avance).

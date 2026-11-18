@@ -53,7 +53,7 @@ const SK = (() => {
     }
   }
   // Franja de escritura formal: tarjeta con barra de color, rótulo pequeño y la fórmula (TeX entre $…$).
-  // o = { kicker, col, ink, size, right (ancho reservado a la derecha) }.
+  // o = { kicker, raw (rótulo sin pasar a mayúsculas), col, ink, size, right (ancho reservado a la derecha) }.
   function formal(p, C, b, tex, o = {}) {
     panel(p, C, b, { r: 12 });
     p.noStroke(); p.fill(o.col ?? C.mint); p.rect(b.x + 1, b.y + 9, 3, b.h - 18, 2);
@@ -62,7 +62,7 @@ const SK = (() => {
       const ctx = p.drawingContext;
       p.fill(C.mute); p.textStyle(p.BOLD); p.textAlign(p.LEFT, p.CENTER); p.textSize(10);
       if ('letterSpacing' in ctx) ctx.letterSpacing = '1px';
-      p.text(String(o.kicker).toUpperCase(), b.x + 14, b.y + 13);
+      p.text(o.raw ? String(o.kicker) : String(o.kicker).toUpperCase(), b.x + 14, b.y + 13);
       if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
     }
     p.fill(o.ink ?? C.ink); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);

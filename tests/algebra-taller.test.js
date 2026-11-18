@@ -31,12 +31,13 @@ test('Álgebra tiene 43 lecciones de siete u ocho juegos distintos, con pista y 
   }
 });
 
-test('los jefes y las evaluaciones practican los objetivos de su mundo', () => {
+// Sin jefes (spec 2026-11-18-algebra-revision): sus retos pasaron a la evaluación del mundo.
+test('las evaluaciones practican los objetivos de su mundo, y ya no hay jefes', () => {
   for (const u of units) {
-    assert.ok(u.boss.ex.length >= 3, u.world);
+    assert.equal(u.boss, undefined, u.world);
     assert.ok(u.exam.items.length >= 5, u.world);
     for (const item of u.exam.items) assert.ok(u.lessons.some(l => l.id === item.lesson), item.lesson);
-    for (const e of [...u.boss.ex, ...u.exam.items.map(it => it.ex)]) {
+    for (const e of u.exam.items.map(it => it.ex)) {
       assert.ok(games[e.game] && !legacy.has(e.game), `${u.world}: ${e.game}`);
       assert.ok(e.hint && e.explain, e.game);
     }
@@ -44,7 +45,7 @@ test('los jefes y las evaluaciones practican los objetivos de su mundo', () => {
 });
 
 test('las escenas nuevas aceptan la construcción correcta y rechazan una escena intacta', () => {
-  const puzzles = units.flatMap(u => [...u.lessons.flatMap(l => l.ex), ...u.boss.ex, ...u.exam.items.map(it => it.ex)])
+  const puzzles = units.flatMap(u => [...u.lessons.flatMap(l => l.ex), ...u.exam.items.map(it => it.ex)])
     .filter(e => games[e.game]?.algebraScene);
   assert.ok(puzzles.length >= 100);
   for (const e of puzzles) {

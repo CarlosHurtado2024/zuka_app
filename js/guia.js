@@ -349,7 +349,7 @@ const GUIDE_SCENES = {
 };
 
 // Juegos de acción (cartel de inicio y vidas): la guía les añade esos dos pasos.
-const GUIDE_ARCADE = new Set(['billar-rebote', 'capas-operacion', 'lazo-conjunto', 'cubo-partes', 'orbita-conjuntos', 'descifra-zona', 'lluvia-elementos', 'revienta-globos', 'luciernagas-venn', 'buzo-enteros', 'carrera-fracciones', 'frena-aguja',
+const GUIDE_ARCADE = new Set(['anillos-subconjunto', 'billar-rebote', 'capas-operacion', 'lazo-conjunto', 'cubo-partes', 'orbita-conjuntos', 'descifra-zona', 'lluvia-elementos', 'revienta-globos', 'luciernagas-venn', 'buzo-enteros', 'carrera-fracciones', 'frena-aguja',
   'dispara-inverso', 'salta-signos', 'serpiente-orden', 'sirve-la-razon', 'corta-proporciones', 'resortera-tres', 'caja-veloz', 'vuela-precios',
   'rompe-cambios', 'traza-progresion', 'encesta-suma', 'dobla-fichas', 'rana-zenon', 'maquina-sigma', 'torre-pisos', 'escala-leyes',
   'siembra-raices', 'muro-radicales', 'jefe-venn', 'jefe-ruta', 'jefe-rueda',
@@ -504,6 +504,15 @@ const GUIDES = {
   'estira-barra': [['slide', 'Estira o encoge la barra con el tirador (o − / +) hasta el porcentaje pedido.', { label: '%' }]],
   'estira-foto': [['slide', 'Arrastra el borde de abajo para fijar el alto sin deformar la foto.', { vert: true }]],
   'etiqueta-rebaja': [['drag', 'Arrastra a cada etiqueta el sticker con su precio final.', { tile: '$ 80', slot: 'etiqueta −20 %' }]],
+  'tamiz-rango': [['slide', 'Arrastra los corchetes: los números que quedan adentro forman el conjunto.', {}]],
+  'cajas-anidadas': [['drag', 'Arrastra a la membrana las fichas y bolsas que pide la notación.', { tile: '{2, 3}', slot: 'A' }]],
+  'gemelos': [['drag', 'Arrastra a la papelera lo que impide la relación; los hilos unen elementos iguales.', { tile: 's', slot: 'papelera' }]],
+  'escalera-inclusion': [['drag', 'Arrastra al centro los conjuntos, del más pequeño al más grande: cada uno debe contener al anterior.', { tile: '{a}', slot: 'centro' }]],
+  'arbol-partes': [['drag', 'Arrastra un elemento al árbol: cada rama se parte en dos y las hojas se duplican.', { tile: 'p', slot: 'árbol' }]],
+  'anillos-subconjunto': [['slide', 'Arrastra el lanzador bajo una estaca y suelta: el aro solo encaja si la estaca lo contiene.', {}]],
+  'solapa-cardinal': [['slide', 'Arrastra B sobre A: lo que comparten pasa a la zona común y la cuenta se escribe sola.', {}]],
+  'goma-diferencia': [['drag', 'Arrastra a la goma los elementos que la operación deja por fuera.', { tile: '2', slot: 'goma' }]],
+  'busca-b': [['drag', 'Arrastra elementos del universo a B hasta que se cumplan las dos pistas.', { tile: '4', slot: 'B' }]],
   'lazo-conjunto': [['trace', 'Rodea con el dedo los elementos que pertenecen (o tócalos) y entran al conjunto.', { labels: ['pera', 'uva', 'mango'], trap: 'papa' }], ['tap', 'Cuando adentro estén justo los que cumplen la condición, toca «Listo».', { items: ['pera', 'papa', 'Listo'], pick: [0, 2] }]],
   'cubo-partes': [['tap', 'Arma un subconjunto con los interruptores y toca «Encender». Enciéndelos todos sin repetir.', { items: ['x', 'y', 'Encender'], pick: [0, 2] }]],
   'orbita-conjuntos': [['tap', 'Marca todos los conjuntos que cumplen la relación con A y toca «Listo».', { items: ['{a}', '{a, e}', 'Listo'], pick: [0, 2] }]],
