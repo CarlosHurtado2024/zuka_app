@@ -249,8 +249,9 @@ const heightFor = (w, aspect) => Math.round(Math.max(w, DESIGN_W) * aspect);
 // Cuánto se achica el lienzo (de alto h) para caber en `room` px: 1 si cabe; nunca menos de FIT_MIN (ahí ya se desliza).
 const FIT_MIN = 0.66;
 const fitScale = (h, room) => (room > 0 && h > 0 ? Math.max(FIT_MIN, Math.min(1, room / h)) : 1);
-function mountSketch(host, sketch, aspect = 1.25) {
+function mountSketch(host, sketch, aspect = 1.25, gesture) {
   let inst = null, removed = false, ro = null, grabbed = false;
+  let seenGesture = false, gestureTime = 0, gestureUntil = 0;
   // Alto libre para el lienzo dentro de la lección: el del cuerpo menos lo demás del ejercicio (enunciado, pista, márgenes).
   const fit = size => {
     const cv = inst?.canvas, body = host.closest?.('.lesson-body'), ex = body?.firstElementChild;
@@ -276,9 +277,37 @@ function mountSketch(host, sketch, aspect = 1.25) {
       if (rawFont) p.textFont = (f, ...a) => rawFont(f === 'system-ui' ? gameFont() : f, ...a);
       if (rawBg) p.background = (...a) => { const r = rawBg(...a); if (a.length === 1 && a[0] === PALETTE.bg) drawBackdrop(p); return r; };
       const draw0 = p.draw, press0 = p.mousePressed;
-      if (draw0) p.draw = () => { draw0(); drawRipples(p, ripples); };
+      if (draw0) p.draw = () => {
+        draw0();
+        drawRipples(p, ripples);
+        if (gesture) {
+          gestureTime += frameDt(p);
+          if ((!seenGesture && !grabbed) || gestureTime < gestureUntil) {
+            const start = gestureTime < gestureUntil ? gestureUntil - 2 * DEMO_T : 0;
+            drawDemo(p, PALETTE, gestureTime - start, gesture(p));
+          }
+        }
+        const guide = host.zukaCanvasGuide;
+        if (guide && !guide.locked && (guide.first || p.millis() < guide.until)) {
+          p.push(); p.resetMatrix(); p.rectMode(p.CORNER);
+          p.noStroke(); p.fill(PALETTE.card); p.rect(7, 6, p.width - 14, 43, 8);
+          p.fill(PALETTE.ink); p.textStyle(p.NORMAL); p.textSize(13); p.textAlign(p.CENTER, p.TOP);
+          p.text(guide.text, 16, 11, p.width - 32, 34);
+          p.pop();
+        }
+      };
+      if (host.zukaCanvasGuide) host.zukaCanvasGuide.replay = () => {
+        host.zukaCanvasGuide.until = p.millis() + 5200;
+        if (!p.isLooping()) p.redraw();
+      };
       if (press0) p.mousePressed = (...a) => {
+        const guided = gesture && !!gesture(p);
         const r = press0(...a);
+        if (r === false && guided) { seenGesture = true; gestureUntil = 0; }
+        if (r === false && host.zukaCanvasGuide) {
+          host.zukaCanvasGuide.first = false;
+          host.zukaCanvasGuide.until = 0;
+        }
         if (r === false && p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height && !reducedMotion() && typeof anime === 'function') {
           const rp = { x: p.mouseX, y: p.mouseY, r: 6, a: 0.8 };
           ripples.push(rp);
@@ -324,9 +353,13 @@ function mountSketch(host, sketch, aspect = 1.25) {
         .then(() => { if (inst && gameFont() === 'Jost') inst.textFont('system-ui'); }).catch(() => {});
     }
     // p5 no escucha touchcancel (llamada entrante, gesto del sistema): se suelta lo que el juego tenía agarrado.
-    host.addEventListener?.('touchcancel', () => { if (grabbed) { grabbed = false; inst?.mouseReleased?.(); } });
+    host.addEventListener?.('touchcancel', e => { if (grabbed) { grabbed = false; inst?.mouseReleased?.(e); } });
   });
-  return { ready, remove() { removed = true; ro?.disconnect(); inst?.remove(); inst = null; } };
+  return {
+    ready,
+    demo() { gestureUntil = gestureTime + 2 * DEMO_T; },
+    remove() { removed = true; ro?.disconnect(); inst?.remove(); inst = null; },
+  };
 }
 
 // ---------- Texto que siempre cabe ----------
@@ -680,11 +713,20 @@ function drawHand(p, C, x, y, down, alpha) {
 }
 function drawDemo(p, C, t, d) {
   if (!d || !d.from) return;
-  const still = reducedMotion(), u = still ? .8 : (t % DEMO_T) / DEMO_T, h = demoPose(u, d.from, d.to), g = p.drawingContext;
+  const still = reducedMotion(), u = still ? .8 : (t % DEMO_T) / DEMO_T, g = p.drawingContext;
+  const path = d.path || (d.to ? [d.from, d.to] : null);
+  const h = demoPose(u, d.from, path?.at(-1));
+  if (d.path) {
+    const k = h.k * (path.length - 1), i = Math.min(path.length - 2, Math.floor(k));
+    const a = path[i], b = path[i + 1], f = k - i;
+    h.x = a.x + (b.x - a.x) * f; h.y = a.y + (b.y - a.y) * f;
+  }
   // El camino del gesto, punteado, y lo que la mano lleva.
-  if (d.to) {
-    g.save(); g.globalAlpha = .7 * h.alpha; p.stroke(C.brand); p.strokeWeight(2.5); g.setLineDash([6, 6]); p.line(d.from.x, d.from.y, d.to.x, d.to.y); g.setLineDash([]);
-    p.noFill(); p.circle(d.to.x, d.to.y, 18); g.restore();
+  if (path) {
+    g.save(); g.globalAlpha = .7 * h.alpha; p.stroke(C.brand); p.noFill(); p.strokeWeight(2.5); g.setLineDash([6, 6]);
+    p.beginShape(); path.forEach(q => p.vertex(q.x, q.y)); p.endShape(); g.setLineDash([]);
+    const end = path.at(-1);
+    p.circle(end.x, end.y, 18); g.restore();
   }
   // Lo que la mano lleva agarrado (un globo, una ficha), si el juego lo dibuja.
   if (d.carry && h.down) { g.save(); g.globalAlpha = h.alpha; d.carry(h.x, h.y); g.restore(); }
@@ -748,7 +790,13 @@ function roundsGame(def) {
         return false;
       };
       p.mouseDragged = () => { if (G.locked || !def.drag) return; return def.drag(G, p.mouseX, p.mouseY) ? false : undefined; };
-      p.mouseReleased = () => { G.down = false; if (!G.locked) def.release?.(G, p.mouseX, p.mouseY); };
+      p.mouseReleased = e => {
+        G.down = false;
+        if (!G.locked) {
+          if (e?.type === 'touchcancel' && def.cancel) def.cancel(G);
+          else def.release?.(G, p.mouseX, p.mouseY);
+        }
+      };
     }, def.aspect ?? 1.2);
     return {
       loaded: m.ready,
@@ -838,7 +886,13 @@ function questGame(def) {
         return false;
       };
       p.mouseDragged = () => { if (locked || a.phase !== 'play' || G.wait > 0 || !def.drag) return; return def.drag(G, p.mouseX, p.mouseY) ? false : undefined; };
-      p.mouseReleased = () => { down = false; if (!locked && a.phase === 'play' && G.wait <= 0) def.release?.(G, p.mouseX, p.mouseY); };
+      p.mouseReleased = e => {
+        down = false;
+        if (!locked && a.phase === 'play' && G.wait <= 0) {
+          if (e?.type === 'touchcancel' && def.cancel) def.cancel(G);
+          else def.release?.(G, p.mouseX, p.mouseY);
+        }
+      };
     }, def.aspect ?? 1.3);
     return {
       loaded: m.ready,

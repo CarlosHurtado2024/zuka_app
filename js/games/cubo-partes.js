@@ -81,6 +81,7 @@ GAMES['cubo-partes'] = (() => {
     idle: 'Sin prisa: lleva la cuenta de los que faltan',
     layout, draw, press,
     // Para el robot: los interruptores que llevan al primer subconjunto que falta, y «Encender».
+    demo(G) { const b = G.L.sw(0); return { from: { x: b.x + b.w / 2, y: b.y + b.h / 2 } }; },
     peek: G => { const m = missing(G.s, G.item), d = m ^ G.s.cur; return { solve: [...G.item.elements.map((_, k) => (d & (1 << k) ? G.L.sw(k) : null)).filter(Boolean), G.L.btn] }; },
   }), { label, missing });
 })();

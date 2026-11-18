@@ -50,7 +50,7 @@ test('la guía completa añade el cartel y las vidas a los juegos de acción, la
   const rounds = guideSteps({ type: 'play', game: 'parte-sigma', params: { rounds: [{}, {}, {}] } });
   assert.equal(rounds.map(s => s[0]).join(' '), 'step rounds check');
   assert.match(rounds[1][1], /Son 3 rondas/);
-  assert.equal(guideSteps({ type: 'play', game: 'limonada', params: {} }).map(s => s[0]).join(' '), 'tap check');
+  assert.equal(guideSteps({ type: 'play', game: 'limonada', params: {} }).map(s => s[0]).join(' '), 'slide check');
   for (const type of ['mc', 'input', 'order', 'slider']) {
     const st = guideSteps({ type });
     assert.ok(st.length === 2 && st[1][0] === 'check', `${type} tiene ejemplo`);
@@ -61,7 +61,7 @@ test('la guía completa añade el cartel y las vidas a los juegos de acción, la
   // Los juegos de acción de la lista existen y de verdad usan el armazón de vidas.
   for (const name of get(ctx, 'GUIDE_ARCADE')) assert.ok(/makeArcade\(|drawHearts\(|questGame\(/.test(read(`js/games/${name}.js`)), `${name} no es de acción`);
   // Y no falta ninguno: todo juego con vidas lleva esos pasos.
-  for (const name of Object.keys(GAMES)) if (/makeArcade\(/.test(read(`js/games/${name}.js`))) assert.ok(get(ctx, 'GUIDE_ARCADE').has(name), `${name} es de acción y no está en la lista`);
+  for (const [name, game] of Object.entries(GAMES)) if (!game.algebraScene && /makeArcade\(/.test(read(`js/games/${name}.js`))) assert.ok(get(ctx, 'GUIDE_ARCADE').has(name), `${name} es de acción y no está en la lista`);
 });
 
 test('cada escena se dibuja en los dos temas, en toda la animación, sin fallar y sin colores fijos de tema', () => {

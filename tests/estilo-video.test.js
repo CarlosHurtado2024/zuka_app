@@ -158,5 +158,5 @@ test('los juegos de Conjuntos (Álgebra U0) dibujan con las piezas de los videos
 
 test('los juegos de Progresiones y sumatoria dibujan con las piezas de los videos', () => {
   const U4 = 'pisa-huellas escalera-aritmetica rellena-medios dos-escaleras parejas-gauss suma-filas rebota-pelota torre-producto limite-serie arma-sigma verdadero-falso clasifica-cartas'.split(' ');
-  for (const g of U4) assert.match(read(`js/games/${g}.js`), /draw(Tile|Pill|Kicker|Dot|Slot)\(/, g);
+  for (const g of U4) assert.match(read(`js/games/${g}.js`), /draw(Tile|Pill|Kicker|Dot|Slot)\(|lineMap\(0, params\.max/, g);
 });

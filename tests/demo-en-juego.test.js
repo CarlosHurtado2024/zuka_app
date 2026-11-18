@@ -8,7 +8,7 @@ const path = require('path');
 const { loadScripts, get, ROOT } = require('./load');
 
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8').replace(/\r\n/g, '\n');
-const ctx = loadScripts(['js/games/kit.js', 'js/games/formula.js', 'js/games/globo-lastre.js', 'js/games/voltea-flecha.js', 'js/games/capas-operacion.js', 'js/games/limonada.js']);
+const ctx = loadScripts(['js/games/kit.js', 'js/games/formula.js', 'js/games/globo-lastre.js', 'js/games/voltea-flecha.js', 'js/games/capas-operacion.js', 'js/games/limonada.js', 'js/games/ascensor.js']);
 const GAMES = get(ctx, 'GAMES'), demoPose = get(ctx, 'demoPose');
 
 test('demoPose: la mano aparece, presiona, viaja de un punto al otro, suelta y se va', () => {
@@ -29,7 +29,8 @@ test('los juegos del Preuniversitario traen su demostración y los armazones la 
     assert.equal(GAMES[g].demo, true, `${g}: se explica sobre el juego`);
     assert.match(read(`js/games/${g}.js`), /\n    demo\(G\) \{|\n    demo: G =>/, `${g}: define el gesto`);
   }
-  assert.ok(!GAMES.limonada.demo, 'los juegos sin demostración siguen con su guía');
+  assert.ok(GAMES.limonada.demo, 'la jarra muestra el gesto sobre el ingrediente');
+  assert.ok(!GAMES.ascensor.demo, 'los juegos antiguos sin demostración conservan su guía');
   const kit = read('js/games/kit.js');
   assert.match(kit, /function drawDemo\(p, C, t, d\)/);
   assert.match(kit, /function drawHand\(p, C, x, y, down, alpha\)/);
@@ -41,6 +42,6 @@ test('los juegos del Preuniversitario traen su demostración y los armazones la 
 test('con demostración no sale la ventana emergente, y «Cómo se juega» la repite sobre el juego', () => {
   const guia = read('js/guia.js'), ex = read('js/exercises.js');
   assert.match(guia, /function guideWanted\(ex\) \{[\s\S]{0,200}GAMES\[ex\.game\]\?\.demo\) return false/);
-  assert.match(ex, /demo: \(\) => inst\.demo\?\.\(\)/);
-  assert.match(ex, /h\.demo && GAMES\[ex\.game\]\?\.demo \? h\.demo\(\) : \(guide = openGuide\(ex\)\)/);
+  assert.match(ex, /demo: \(\) => inst\.demo \? inst\.demo\(\) : box\.zukaCanvasGuide/);
+  assert.match(ex, /h\.demo && \(GAMES\[ex\.game\]\?\.demo \|\| ex\.canvasGuide\) \? h\.demo\(\) : \(guide = openGuide\(ex\)\)/);
 });

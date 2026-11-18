@@ -607,6 +607,16 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .ex-head { position: relative; padding-left: 14px; margin-bottom: 22px; }
 .ex-head::before { content: ''; position: absolute; left: 0; top: 3px; bottom: 3px; width: 3px; border-radius: 3px; background: var(--c, var(--gold)); }
 .ex-head .ex-q { margin-bottom: 0; }
+.algebra-practice .ex-head { padding-left: 10px; margin-bottom: 14px; }
+.lesson-body:has(> .algebra-practice) { padding-block: 6px 14px; }
+.algebra-practice .ex-head::before { width: 1px; }
+.algebra-practice .ex-q { margin-top: 0; font-size: clamp(17px, 5.1vw, 20px); }
+.algebra-practice .ex-hint { margin: -3px 0 12px; }
+.algebra-practice .ex-tools { gap: 6px; }
+.algebra-practice .hint-btn { gap: 5px; padding-inline: 9px; font-size: 12px; }
+.algebra-practice .hint-btn svg { width: 15px; height: 15px; }
+.algebra-practice canvas:focus-visible { outline: 2px solid var(--c, var(--brand)); outline-offset: -3px; }
+.algebra-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .opts { display: grid; gap: 10px; }
 .opt {
   display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; padding: 14px; border-radius: 14px;

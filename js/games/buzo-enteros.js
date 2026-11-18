@@ -1,8 +1,7 @@
 // El buzo de los enteros (Álgebra 1.1, naturales y enteros; juego dinámico de la lección alg-11): una recta vertical
 // de enteros con el nivel del mar en 0 (arriba el cielo, abajo el agua). El buzo sube y baja arrastrando el dedo.
 // Arriba sale una pregunta («Estás en 3 y bajas 5», «El opuesto de −2», «1 − 4») y vienen tres perlas a distintas
-// alturas: hay que estar en la altura del resultado cuando lleguen. Tocar otra perla quita una vida; dejarlas pasar
-// no quita nada (la pregunta vuelve después). Sin vidas, la ronda empieza otra vez.
+// alturas. Las perlas esperan a que sueltes la sonda. Una perla equivocada quita una vida.
 // params = { min, max, rounds: [{ title, items: [{ text, value, traps: [a, b] }] }], lives? }   state = { done: [n] }
 // Spec 2026-11-13-juegos-dinamicos-valle.
 
@@ -38,7 +37,7 @@ GAMES['buzo-enteros'] = (() => {
     }
     function spawn() {
       const it = R[a.cur].items[queue[0]], vals = shuffledOrder(3, it.text + queue.length + st.done[a.cur]).map(k => [it.value, ...it.traps][k]);
-      wave = { x: W + 24, vals, it, done: false, pick: -1 };
+      wave = { x: W - 32, vals, it, fired: false, done: false, pick: -1 };
     }
 
     const m = mountSketch(host, (p, size) => {
@@ -50,10 +49,11 @@ GAMES['buzo-enteros'] = (() => {
         diver.y += (diver.ty - diver.y) * Math.min(1, dt * 16);
         if (a.phase !== 'play') return;
         if (!wave) { gap -= dt; if (gap <= 0 && queue.length) spawn(); return; }
-        wave.x -= ((W - diver.x) / 4.2) * (1 + a.cur * 0.12) * (wave.done ? 3 : 1) * dt;   // ya resueltas, se van rápido
+        if (!wave.fired) { wave.x = W - 32; return; }
+        wave.x -= (W - diver.x) * (wave.done ? 3 : 1) * dt;
         if (!wave.done && wave.x <= diver.x + 8) {
           wave.done = true;
-          const i = hitIndex(levelAt(diver.y), wave.vals), it = wave.it;
+          const i = hitIndex(levelAt(diver.ty), wave.vals), it = wave.it;
           wave.pick = i;
           if (i < 0) { a.say('Se fueron de largo: vuelven después', C.sun); queue.push(queue.shift()); }
           else if (wave.vals[i] === it.value) {
@@ -114,10 +114,10 @@ GAMES['buzo-enteros'] = (() => {
         arcadeToast(p, C, a, W / 2, H - 17, locked);
         const mid = (top + bottom) / 2;
         if (locked || a.phase === 'all') drawArcadeSummary(p, C, R.map((rr, i) => ({ ok: st.done[i] >= rr.items.length, text: `${rr.title}: ${Math.min(st.done[i], rr.items.length)} de ${rr.items.length}` })), mid);
-        else drawArcadeBanner(p, C, a, mid, { idle: 'Sube o baja la sonda con el dedo', lost: 'Demasiadas perlas equivocadas' });
+        else drawArcadeBanner(p, C, a, mid, { idle: 'Arrastra la sonda y suelta', lost: 'Demasiadas perlas equivocadas' });
         if (!a.toast || locked || a.phase === 'idle' || a.phase === 'all') {
           p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
-          p.text(locked || a.phase === 'all' ? '¡Perlas recogidas! Ya puedes comprobar' : 'Ponte a la altura del resultado', W / 2, H - 16);
+          p.text(locked || a.phase === 'all' ? '¡Perlas recogidas! Ya puedes comprobar' : 'Alinea la sonda y suelta', W / 2, H - 16);
         }
         arcadeStop(p, a, locked);
       };
@@ -127,11 +127,14 @@ GAMES['buzo-enteros'] = (() => {
         if (!inCanvas(p)) return;
         const t = a.tap(locked);
         if (t === 'off') return;
-        if (t !== 'wait') { drag = true; aim(); }
+        if (t === 'play' && wave && !wave.fired) { drag = true; aim(); }
         return false;
       };
       p.mouseDragged = () => { if (drag && a.phase === 'play' && !locked) { aim(); return false; } };
-      p.mouseReleased = () => { drag = false; };
+      p.mouseReleased = e => {
+        if (drag && wave && e?.type !== 'touchcancel') wave.fired = true;
+        drag = false;
+      };
     }, 1.3);
 
     return {

@@ -79,15 +79,20 @@ GAMES['dos-escaleras'] = (() => {
       };
       p.mouseDragged = () => { if (drag && G) { setH((G.base - p.mouseY) / G.u); return false; } };
       p.mouseReleased = () => { drag = false; };
-    }, 1.3);
+    }, 1.25, () => {
+      if (locked || !G) return null;
+      const x = W / 2, y = G.base - hs[cur] * G.u;
+      return { from: { x, y }, to: { x, y: Math.max(103, y - 25) } };
+    });
 
     return {
       loaded: m.ready,
       getState: () => ({ hs: hs.map((h, i) => (touched[i] ? h : null)) }),
       lock() { locked = true; drag = false; },
       destroy: () => m.remove(),
+      demo: m.demo,
     };
   }
 
-  return { grade, create };
+  return { grade, create, demo: true };
 })();

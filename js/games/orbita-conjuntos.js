@@ -73,6 +73,7 @@ GAMES['orbita-conjuntos'] = (() => {
     foot: () => 'Toca un conjunto para marcarlo o desmarcarlo',
     idle: 'Sin prisa: revisa elemento por elemento',
     layout, draw, press,
+    demo(G) { const b = G.L.cap(0); return { from: { x: b.x + b.w / 2, y: b.y + b.h / 2 } }; },
     peek: G => { const g = goods(G.item); return { solve: [...G.item.sets.map((_, i) => (G.s.pick.includes(i) !== g.includes(i) ? G.L.cap(i) : null)).filter(Boolean), G.L.btn] }; },
   }), { REL, goods });
 })();

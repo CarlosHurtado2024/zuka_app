@@ -128,6 +128,10 @@ EX.play = (area, ex, ready) => {
     box.innerHTML = `<p class="play-msg">Este ejercicio no está disponible (${esc(ex.game)}).</p>`;
     return { check: () => ({ ok: false, solution: '' }), lock() {}, destroy() {} };
   }
+  if (ex.canvasGuide && !game.demo && typeof guideSteps === 'function') {
+    const text = guideSteps(ex).find(([scene]) => !['start', 'rounds', 'lives', 'check'].includes(scene))?.[1];
+    if (text) box.zukaCanvasGuide = { text, first: !ex.exam, until: 0, locked: false };
+  }
   ready(false);
   const inst = game.create(box, ex.params, { ready, sfx: Sfx, palette: PALETTE, tex });
   inst.loaded?.catch(() => {
@@ -137,10 +141,13 @@ EX.play = (area, ex, ready) => {
   return {
     check: () => game.grade(inst.getState(), ex.params),
     // El marco del juego se pinta del color del resultado (y se sacude si falló).
-    lock: ok => { inst.lock(ok); box.classList.add(ok ? 'right' : 'wrong'); playFx(box, ok); },
+    lock: ok => {
+      if (box.zukaCanvasGuide) box.zukaCanvasGuide.locked = true;
+      inst.lock(ok); box.classList.add(ok ? 'right' : 'wrong'); playFx(box, ok);
+    },
     destroy: () => inst.destroy(),
     // «Cómo se juega» en un juego que se explica sobre el lienzo (spec 2026-11-18-demo-en-juego).
-    demo: () => inst.demo?.(),
+    demo: () => inst.demo ? inst.demo() : box.zukaCanvasGuide?.replay?.(),
   };
 };
 
@@ -155,7 +162,9 @@ function hintBlock(ex) {
 // Bajo el enunciado van los botones «Cómo se juega» (js/guia.js) y «Ver pista». La guía sale sola la primera vez
 // que el estudiante ve ese juego o ese tipo de ejercicio.
 function renderExercise(el, ex, ready) {
-  el.innerHTML = `<div class="ex"><header class="ex-head"><p class="ex-kind">${EX_KIND[ex.type]}</p><h2 class="ex-q">${tex(ex.q)}</h2></header>${hintBlock(ex)}<div class="ex-area"></div></div>`;
+  const algebra = ex.canvasGuide ? ' algebra-practice' : '';
+  const kind = !ex.canvasGuide || ex.exam ? `<p class="ex-kind">${EX_KIND[ex.type]}</p>` : '';
+  el.innerHTML = `<div class="ex${algebra}"><header class="ex-head">${kind}<h2 class="ex-q">${tex(ex.q)}</h2></header>${hintBlock(ex)}<div class="ex-area"></div></div>`;
   const gb = el.querySelector('.guide-btn');
   const focusInput = () => el.querySelector('.num input:not(:disabled)')?.focus({ preventScroll: true });
   let guide = null;
@@ -164,7 +173,7 @@ function renderExercise(el, ex, ready) {
   if (hb) hb.onclick = () => { hb.hidden = true; el.querySelector('.hint-text').hidden = false; Sfx.tap(); };
   const h = EX[ex.type](el.querySelector('.ex-area'), ex, ready), destroy = h.destroy;
   // Si el juego se explica sobre el lienzo, el botón repite esa demostración; si no, abre la tarjeta de siempre.
-  if (gb) gb.onclick = () => { Sfx.tap(); h.demo && GAMES[ex.game]?.demo ? h.demo() : (guide = openGuide(ex)); el.querySelector('.play')?.scrollIntoView({ block: 'nearest' }); };
+  if (gb) gb.onclick = () => { Sfx.tap(); h.demo && (GAMES[ex.game]?.demo || ex.canvasGuide) ? h.demo() : (guide = openGuide(ex)); el.querySelector('.play')?.scrollIntoView({ block: 'nearest' }); };
   // Al quitar el ejercicio (otra pregunta, salir de la lección) su guía no se queda flotando.
   h.destroy = () => { if (guide && guideOpen === guide) guide.close(true); destroy?.(); };
   return h;

@@ -8,8 +8,10 @@ const { loadScripts, get, ROOT } = require('./load');
 
 const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 const all = [...html.matchAll(/src="(js\/[^"]+)"/g)].map(m => m[1]).filter(f => /content|games\/|courses\/|data\.js/.test(f));
-const before = loadScripts(all.filter(f => !/sin-escribir/.test(f)));   // los cursos como están escritos
-const ctx = loadScripts(all);                                             // como los ve la app
+const transition = all.filter(f => f !== 'js/courses/algebra-taller.js');
+const before = loadScripts(transition.filter(f => !/sin-escribir/.test(f)));
+const converted = loadScripts(transition);
+const ctx = loadScripts(all);
 const GAMES = get(ctx, 'GAMES'), TABLE = get(ctx, 'SIN_ESCRIBIR'), cuenta = GAMES['arma-la-cuenta'], escala = GAMES['escala-solucion'];
 const walk = c => get(c, 'COURSES').flatMap(co => (co.units || []).flatMap(u => [
   ...(u.lessons || []).flatMap(l => l.ex.map((ex, i) => ({ key: `${l.id}#${i}`, ex }))),
@@ -23,7 +25,7 @@ test('en la app no queda ningún ejercicio de escribir, en ningún curso', () =>
   assert.equal(Object.keys(TABLE).filter(k => !old.some(e => e.key === k)).join(), '', 'no sobran fichas en la tabla');
   // El cambio conserva enunciado, explicación y pista.
   for (const o of old) {
-    const n = now.find(e => e.key === o.key).ex;
+    const n = walk(converted).find(e => e.key === o.key).ex;
     assert.equal(n.type, 'play'); assert.ok(GAMES[n.game], o.key);
     assert.equal(n.q, o.ex.q); assert.equal(n.explain, o.ex.explain); assert.equal(n.hint, o.ex.hint);
   }

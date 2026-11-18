@@ -40,7 +40,7 @@ GAMES['descifra-zona'] = (() => {
     p.noStroke();
     SK.tag(p, C, 'A', L.circles[0].x - L.circles[0].r * 0.74, L.circles[0].y - L.circles[0].r * 0.8, A);
     SK.tag(p, C, 'B', L.circles[1].x + L.circles[1].r * 0.74, L.circles[1].y - L.circles[1].r * 0.8, B);
-    // Las tres ruedas: tocar el lado derecho pasa a la siguiente opción; el izquierdo, a la anterior.
+    // Las tres ruedas se deslizan a los lados y se ajustan a cada símbolo.
     [[SETS, s.l], [OPS, s.op], [SETS, s.r]].forEach(([opts, v], i) => {
       const b = L.wheel(i);
       SK.panel(p, C, b, { r: 12, col: hit ? C.ok : null });
@@ -56,12 +56,29 @@ GAMES['descifra-zona'] = (() => {
   }
 
   function press(G, x, y) {
-    const { s, L } = G;
+    const { L } = G;
     if (hitBox(L.btn, x, y)) { G.submit('Lo pintado no coincide con lo rayado'); return true; }
     const i = [0, 1, 2].findIndex(k => hitBox(L.wheel(k), x, y));
     if (i < 0) return false;
-    const b = L.wheel(i), d = x < b.x + b.w / 2 ? 3 : 1, key = ['l', 'op', 'r'][i];
-    s[key] = (s[key] + d) % 4; G.api.sfx?.tap?.(); return true;
+    G.roll = { i, key: ['l', 'op', 'r'][i], x, moved: false };
+    return true;
+  }
+  function roll(G, d) {
+    const k = G.roll.key;
+    G.s[k] = (G.s[k] + d + 4) % 4;
+    G.api.sfx?.tap?.();
+  }
+  function drag(G, x) {
+    if (!G.roll) return false;
+    const d = Math.trunc((x - G.roll.x) / 26);
+    if (d) { roll(G, d % 4); G.roll.x += d * 26; G.roll.moved = true; }
+    return true;
+  }
+  function release(G, x, y) {
+    if (!G.roll) return;
+    const b = G.L.wheel(G.roll.i);
+    if (!G.roll.moved && hitBox(b, x, y)) roll(G, x < b.x + b.w / 2 ? -1 : 1);
+    G.roll = null;
   }
   const right = b => ({ x: b.x + b.w / 2 + 4, y: b.y + 4, w: b.w / 2 - 8, h: b.h - 8 });
 
@@ -72,7 +89,12 @@ GAMES['descifra-zona'] = (() => {
     yes: (it, s) => `¡Eso! ${SETS[s.l]} ${OPS[s.op]} ${SETS[s.r]}`,
     foot: () => 'Compara lo rayado con lo pintado antes de tocar Listo',
     idle: 'Sin prisa: compara las dos zonas',
-    layout, draw, press,
+    layout, draw, press, drag, release,
+    cancel(G) { G.roll = null; },
+    demo(G) {
+      const b = G.L.wheel(1), x = b.x + b.w / 2 - 12, y = b.y + b.h / 2 - 5;
+      return { from: { x, y }, to: { x: x + 28, y } };
+    },
     peek: G => { const a = answer(G.item), out = []; ['l', 'op', 'r'].forEach((k, i) => { for (let n = (a[k] - G.s[k] + 4) % 4; n > 0; n--) out.push(right(G.L.wheel(i))); }); return { solve: [...out, G.L.btn] }; },
   }), { region, tex });
 })();

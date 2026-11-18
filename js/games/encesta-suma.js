@@ -29,14 +29,13 @@ GAMES['encesta-suma'] = (() => {
   function create(host, params, api) {
     const C = api.palette, R = params.rounds;
     const st = { done: R.map(() => 0) };
-    let locked = false, W = 0, H = 0, hoopY = 0, home = { x: 0, y: 0 }, queue = [], perm = [0, 1, 2], ball = null, drag = null, aim = null, pause = 0, result = null, sway = 0, n = 0;
+    let locked = false, W = 0, H = 0, hoopY = 0, home = { x: 0, y: 0 }, queue = [], perm = [0, 1, 2], ball = null, drag = null, aim = null, pause = 0, result = null, n = 0;
     const a = makeArcade(R.length, params.lives ?? 3, api, {
       start(i) { st.done[i] = 0; queue = R[i].items.map((_, k) => k); load(); },
       lost(i) { st.done[i] = 0; ball = null; drag = null; },
     });
     const item = () => R[a.cur].items[queue[0] ?? 0];
-    // Las canastas se mecen un poco a partir de la segunda ronda.
-    const centers = () => [1, 3, 5].map(k => (W * k) / 6 + (a.cur ? Math.sin(sway) * 14 : 0));
+    const centers = () => [1, 3, 5].map(k => (W * k) / 6);
 
     function layout(w, h) { W = w; H = h; hoopY = 150; home = { x: w / 2, y: h - 84 }; }
     function load() { perm = shuffledOrder(3, item().ask + (n++)); ball = null; drag = null; aim = null; pause = 0; result = null; }
@@ -47,7 +46,6 @@ GAMES['encesta-suma'] = (() => {
 
       function step(dt) {
         a.tick(dt);
-        sway += dt * 1.3;
         if (a.phase !== 'play') return;
         if (pause > 0) {
           pause -= dt;

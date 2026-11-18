@@ -254,7 +254,7 @@ const COURSE_ALGEBRA = {
             }, 'Restar dos naturales no siempre da un natural: si al primero le quitas uno más grande, el resultado es negativo. Por ejemplo, $2 - 11 = -9$ y $1 - 8 = -7$. Por eso hacían falta los enteros.',
               { hint: 'Con la resta, ¿qué pasa si al número de la izquierda le quitas uno más grande? Prueba las fichas en ese orden.' }),
             // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-valle).
-            play('buzo-enteros', 'Lleva la sonda a la altura del resultado antes de que lleguen las perlas', {
+            play('buzo-enteros', 'Alinea la sonda con el resultado y suelta para acercar las perlas', {
               min: -6, max: 6,
               rounds: [
                 { title: 'Sube y baja', items: [
@@ -619,7 +619,7 @@ const COURSE_ALGEBRA = {
             play('dibuja-intervalo', 'Dibuja en la recta los números que cumplen $|x - 2| \\le 3$', { min: -4, max: 8, a: -1, b: 5, aClosed: true, bClosed: true, set: '|x − 2| ≤ 3' },
               '$|x - 2| \\le 3$ son los números a distancia **a lo sumo 3** del 2: desde $2 - 3 = -1$ hasta $2 + 3 = 5$, con los extremos incluidos: $[-1, 5]$.', { hint: 'Lee $|x - 2|$ como la distancia de $x$ al número 2. ¿Hasta dónde puedes alejarte del 2 hacia cada lado? El signo ≤ te dice si los extremos entran.' }),
             // Juego dinámico de la lección (spec 2026-11-13-juegos-dinamicos-valle).
-            play('serpiente-orden', 'Guía a la serpiente para que se coma los números de menor a mayor', {
+            play('serpiente-orden', 'Desliza para avanzar una casilla y come las fichas de menor a mayor', {
               rounds: [
                 { title: 'Enteros', items: [{ label: '−5', value: -5 }, { label: '2', value: 2 }, { label: '−1', value: -1 }, { label: '4', value: 4 }, { label: '0', value: 0 }] },
                 { title: 'Fracciones y decimales', items: [{ label: '−1/2', value: -0.5 }, { label: '0.3', value: 0.3 }, { label: '−2', value: -2 }, { label: '3/2', value: 1.5 }, { label: '1', value: 1 }] },

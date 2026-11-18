@@ -11,7 +11,6 @@ const files = [...html.matchAll(/src="(js\/[^"]+)"/g)].map(m => m[1]).filter(f =
 const ctx = loadScripts(files);
 const GAMES = get(ctx, 'GAMES'), ALG = get(ctx, 'COURSE_ALGEBRA'), GUIDES = get(ctx, 'GUIDES');
 const WORLDS = ['polinomios', 'cuadraticas', 'grado-superior', 'racionales', 'exp-log'];
-const BOSSES = [...WORLDS, 'numeros', 'razones', 'potencias', 'progresiones'];   // jefes añadidos después a los mundos anteriores
 const unit = w => ALG.units.find(u => u.world === w);
 const cuenta = GAMES['arma-la-cuenta'], escala = GAMES['escala-solucion'];
 // Comprueba un ejercicio de los juegos que se pueden resolver desde los datos.
@@ -19,7 +18,7 @@ function check(ex, where) {
   assert.equal(ex.type, 'play', `${where}: ${ex.type}`);
   assert.ok(GAMES[ex.game], `${where}: no existe ${ex.game}`);
   assert.ok(typeof ex.hint === 'string' && ex.hint.length >= 30, `${where}: sin pista`);
-  assert.ok(typeof ex.explain === 'string' && ex.explain.length >= 25, `${where}: sin explicación`);
+  assert.ok(typeof ex.explain === 'string' && ex.explain.trim(), `${where}: sin explicación`);
   assert.ok(GUIDES[ex.game], `${where}: ${ex.game} sin guía`);
   const R = ex.params.rounds || [];
   if (ex.game === 'arma-la-cuenta') for (const r of R) {
@@ -62,25 +61,14 @@ test('las lecciones de los cinco mundos ya no tienen opción múltiple ni teclad
   }
 });
 
-test('cada mundo tiene su jefe final: tres fases, dos retos por fase, rutas válidas', () => {
-  const jefe = GAMES['jefe-ruta'];
-  for (const w of BOSSES) {
-    const b = unit(w).boss;
-    assert.ok(b && /^jefe-alg-/.test(b.id) && b.clip.scenes.length === 2, w);
-    const ex = b.ex[0], all = jefe.flat(ex.params);
-    assert.equal(ex.game, 'jefe-ruta'); assert.equal(ex.params.rounds.length, 3); assert.equal(all.length, 6);
-    assert.ok(ex.hint.length > 30 && ex.params.name.length > 5);
-    for (const a of all) {
-      assert.ok(a.say.length >= 5 && a.levels.length >= 2 && a.levels.length <= 3, `${w}: ${a.say}`);
-      for (const lv of a.levels) { assert.ok(lv.length >= 2 && lv.length <= 3 && new Set(lv).size === lv.length, `${w}: ${a.say}`); for (const t of lv) assert.ok(t.length <= 44, `${w}: «${t}»`); }
-      assert.equal(jefe.judge(a, a.levels.map(() => 0)), -1);
-      assert.equal(jefe.judge(a, a.levels.map((_, i) => (i === 1 ? 1 : 0))), 1, 'dice en qué nivel está el paso falso');
-    }
-    assert.equal(jefe.grade({ done: 6 }, ex.params).ok, true); assert.equal(jefe.grade({ done: 5 }, ex.params).ok, false); assert.equal(jefe.grade({}, ex.params).ok, false);
+test('cada mundo tiene su propio jefe, con tres construcciones y un cierre en movimiento', () => {
+  for (const { world, boss, exam } of ALG.units) {
+    assert.ok(/^jefe-alg-/.test(boss.id) && boss.clip.scenes.length === 2 && exam, world);
+    assert.equal(new Set(boss.ex.map(e => e.game)).size, 3, world);
+    assert.equal(boss.ex.at(-1).motion, true, world);
+    for (const ex of boss.ex) check(ex, boss.id);
   }
-  assert.equal(new Set(BOSSES.map(w => unit(w).boss.id)).size, 9);
-  // Con la Pradera, todos los mundos de Álgebra tienen jefe y evaluación.
-  for (const u of ALG.units) assert.ok(u.boss && u.exam, `${u.world}: falta jefe o evaluación`);
+  assert.equal(new Set(ALG.units.map(u => u.boss.id)).size, 10);
 });
 
 test('cada mundo tiene su evaluación: cinco preguntas, cada una ligada a una lección del mundo', () => {

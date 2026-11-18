@@ -12,7 +12,7 @@ GAMES['balanza-proporcion'] = (() => {
   function create(host, params, api) {
     const C = api.palette;
     const st = { x: Math.round((params.min + params.max) / 2) };
-    let locked = false, W = 0, H = 0, map = null, slY = 0, drag = false, tilt = 0;
+    let locked = false, W = 0, H = 0, map = null, slY = 0, drag = false, tilt = 0, t = 0, reveal = 0, touched = false;
 
     function layout(w, h) { W = w; H = h; slY = h * 0.86; map = lineMap(params.min, params.max, 30, w - 30); }
 
@@ -28,6 +28,7 @@ GAMES['balanza-proporcion'] = (() => {
       }
 
       p.draw = () => {
+        t += frameDt(p);
         p.background(C.bg);
         const L = params.a * params.d, R = params.b * st.x;
         const target = p.constrain((R - L) / Math.max(L, 1), -1, 1) * 0.28;
@@ -58,11 +59,17 @@ GAMES['balanza-proporcion'] = (() => {
         p.fill(C.mute); p.textSize(12); p.textAlign(p.LEFT, p.TOP); p.text(params.min, map.toPx(params.min) - 4, slY + 18);
         p.textAlign(p.RIGHT, p.TOP); p.text(params.max, map.toPx(params.max) + 4, slY + 18);
         p.textAlign(p.CENTER, p.BOTTOM); p.text('x', W / 2, slY - 20);
+        if (!drag && !locked && (!touched || t < reveal)) {
+          const x = map.toPx(st.x), dx = (W - 60) * (x < W / 2 ? .17 : -.17);
+          drawDemo(p, C, t < reveal ? t - (reveal - 2 * DEMO_T) : t, {
+            from: { x, y: slY }, to: { x: x + dx, y: slY }, text: 'Desliza el contrapeso', ty: H * .34,
+          });
+        }
       };
 
       p.mousePressed = () => {
         if (locked) return;
-        if (Math.abs(p.mouseY - slY) < 26) { drag = true; setX(p.mouseX); return false; }
+        if (inCanvas(p) && Math.abs(p.mouseY - slY) < 26) { touched = true; reveal = 0; drag = true; setX(p.mouseX); return false; }
       };
       const setX = mx => {
         const v = Math.round(p.constrain(map.toVal(mx), params.min, params.max));
@@ -78,8 +85,9 @@ GAMES['balanza-proporcion'] = (() => {
       getState: () => ({ ...st }),
       lock() { locked = true; },
       destroy: () => m.remove(),
+      demo() { reveal = t + 2 * DEMO_T; },
     };
   }
 
-  return { grade, create };
+  return { grade, create, demo: true };
 })();

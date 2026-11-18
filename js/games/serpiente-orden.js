@@ -1,5 +1,5 @@
 // La serpiente ordenada (Álgebra 1.2, axiomas de orden y valor absoluto; juego dinámico de la lección alg-12d): una
-// serpiente avanza sola por una cuadrícula y gira hacia donde se toca. En la cuadrícula hay fichas con números
+// serpiente espera cada gesto para avanzar una casilla. En la cuadrícula hay fichas con números
 // («−5», «3/2», «|−4|») y hay que comérselas de menor a mayor. Morder una que no es la menor quita una vida (la ficha
 // se queda). Al salir por un borde, la serpiente entra por el otro. Sin vidas, la ronda empieza otra vez.
 // params = { rounds: [{ title, items: [{ label, value }] }], lives? }   state = { done: [n] }
@@ -30,6 +30,7 @@ GAMES['serpiente-orden'] = (() => {
     const C = api.palette, R = params.rounds;
     const st = { done: R.map(() => 0) };
     let locked = false, W = 0, H = 0, grid = { x0: 0, y0: 0, cell: 0 }, snake = [], dir = { x: 1, y: 0 }, want = null, acc = 0, eaten = [], spots = [], safeK = -1, n = 0;
+    let drag = null, preview = null;
     const a = makeArcade(R.length, params.lives ?? 3, api, {
       start(i) { st.done[i] = 0; reset(i); },
       lost(i) { st.done[i] = 0; },
@@ -44,12 +45,13 @@ GAMES['serpiente-orden'] = (() => {
     // Empieza la ronda: la serpiente en el centro y las fichas repartidas lejos de ella y sin tocarse.
     function reset(i) {
       snake = [{ c: 2, r: 4 }, { c: 1, r: 4 }, { c: 0, r: 4 }]; dir = { x: 1, y: 0 }; want = null; acc = 0; eaten = []; safeK = -1;
+      drag = preview = null;
       const free = [];
       for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) if (r !== 4 && (c + r) % 2 === 0) free.push({ c, r });
       const order = shuffledOrder(free.length, R[i].title + (n++));
       spots = R[i].items.map((_, k) => free[order[k]]);
     }
-    const period = () => Math.max(0.24, 0.36 - a.cur * 0.03);
+    const travel = .17;
 
     const m = mountSketch(host, (p, size) => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
@@ -71,9 +73,9 @@ GAMES['serpiente-orden'] = (() => {
       }
       function step(dt) {
         a.tick(dt);
-        if (a.phase !== 'play') return;
+        if (a.phase !== 'play' || !want) return;
         acc += dt;
-        while (acc >= period() && a.phase === 'play') { acc -= period(); advance(); }
+        if (acc >= travel || reducedMotion()) advance();
       }
 
       p.draw = () => {
@@ -95,6 +97,13 @@ GAMES['serpiente-orden'] = (() => {
         // La serpiente: cuerpo menta y cabeza con una flecha que marca hacia dónde va.
         if (a.phase !== 'idle') snake.forEach((s, i) => {
           const c = px(s), d = g.cell * (i === 0 ? 0.86 : 0.7);
+          if (i === 0 && want) {
+            const end = stepCell(s, want, COLS, ROWS), to = px(end);
+            if (Math.abs(s.c - end.c) + Math.abs(s.r - end.r) === 1) {
+              const u = Math.min(1, acc / travel);
+              c.x += (to.x - c.x) * u; c.y += (to.y - c.y) * u;
+            }
+          }
           p.noStroke(); p.fill(i === 0 ? C.mint : shade(C.mint, i % 2 ? 0.86 : 0.94)); p.rect(c.x - d / 2, c.y - d / 2, d, d, d * 0.32);
           if (i === 0) { const ux = dir.x * d * 0.28, uy = dir.y * d * 0.28, vx = dir.y * d * 0.2, vy = dir.x * d * 0.2; p.fill(inkOn(C.mint, C.ink)); p.triangle(c.x + ux, c.y + uy, c.x - ux * 0.4 + vx, c.y - uy * 0.4 + vy, c.x - ux * 0.4 - vx, c.y - uy * 0.4 - vy); }
         });
@@ -110,7 +119,7 @@ GAMES['serpiente-orden'] = (() => {
         if (locked || a.phase === 'all') {
           p.noStroke(); p.fill(C.card); p.rect(g.x0, mid - R.length * 13 - 8, g.cell * COLS, R.length * 26 + 16, 10);
           drawArcadeSummary(p, C, R.map((rr, i) => ({ ok: st.done[i] >= rr.items.length, text: [...rr.items].sort((x, y) => x.value - y.value).map(it => it.label).join(' < ') })), mid, g.cell * COLS - 16);
-        } else drawArcadeBanner(p, C, a, mid, { idle: 'Toca hacia donde quieres que gire', lost: 'Demasiados mordiscos fuera de orden' });
+        } else drawArcadeBanner(p, C, a, mid, { idle: 'Desliza para avanzar una casilla', lost: 'Demasiados mordiscos fuera de orden' });
         if (!a.toast || locked || a.phase === 'idle' || a.phase === 'all') {
           p.noStroke(); p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(11); p.textAlign(p.CENTER, p.CENTER);
           p.text(locked || a.phase === 'all' ? '¡Todo en orden! Ya puedes comprobar' : 'Rodea las fichas que todavía no tocan', W / 2, H - 16);
@@ -122,8 +131,18 @@ GAMES['serpiente-orden'] = (() => {
         if (!inCanvas(p)) return;
         const tp = a.tap(locked);
         if (tp === 'off') return;
-        if (tp === 'play') { const h = px(snake[0]); want = turnTo(dir, p.mouseX - h.x, p.mouseY - h.y); }
+        if (tp === 'play' && !want) drag = { x: p.mouseX, y: p.mouseY };
         return false;
+      };
+      p.mouseDragged = () => {
+        if (!drag) return;
+        const dx = p.mouseX - drag.x, dy = p.mouseY - drag.y;
+        if (Math.hypot(dx, dy) >= 10) preview = turnTo(dir, dx, dy);
+        return false;
+      };
+      p.mouseReleased = e => {
+        if (preview && !locked && a.phase === 'play' && e?.type !== 'touchcancel') { want = preview; acc = 0; }
+        drag = preview = null;
       };
     }, 1.3);
 

@@ -391,7 +391,7 @@ const GUIDES = {
   'arma-la-cuenta': [['tap', 'Toca fichas de número y de operación para plantear la cuenta: el juego la calcula.', { items: ['6', '×', '4', '9'], pick: [0, 1, 2] }], ['tap', 'Sobran fichas: usa solo los datos que sirven. «⌫» borra la última.', { items: ['12', '÷', '3', '⌫'], pick: [0, 1, 2, 3] }]],
   'bloques-area': [['step', 'Mueve los números con − / +: el rectángulo cambia y cuenta sus barras y cuadritos.', { from: 2, to: 3, label: 'a' }]],
   'division-sintetica': [['step', 'Elige r con − / + y toca «Dividir»: el juego baja, multiplica y suma. El último es el residuo.', { from: 0, to: 2, label: 'r' }], ['tap', 'Hay pocas divisiones: mira el signo de los residuos anotados para decidir cuál probar.', { items: ['P(1) = −8', 'P(3) = 4'], pick: [0, 1] }]],
-  'cancela-factores': [['tap', 'Toca un factor de arriba y luego uno igual de abajo: los dos se tachan.', { items: ['x + 3', 'x − 2', 'x + 3'], pick: [0, 2] }], ['tap', 'Lo que está sumando no se cancela. Cuando no quede nada, toca «Listo».', { items: ['Listo'], pick: [0] }]],
+  'cancela-factores': [['drag', 'Arrastra cada factor de arriba sobre su igual de abajo para tachar ambos.', { tile: 'x + 3', slot: 'x + 3' }], ['tap', 'Confirma con «Listo» cuando hayas cancelado los factores comunes.', { items: ['Listo'], pick: [0] }]],
   'jefe-ruta': [['tap', 'En cada nivel, de abajo hacia arriba, toca el paso que sí se justifica.', { items: ['2x = 8', '2x = 2'], pick: [0] }], ['tap', 'Con la ruta completa toca «¡Atacar!». Si un paso falla, el juego dice en qué nivel.', { items: ['¡Atacar!'], pick: [0] }]],
   'torre-grados': [['tap', 'Toca los términos del exponente mayor al menor: se apilan en orden.', { items: ['3x', 'x⁴', '7'], pick: [1, 0, 2] }]],
   'arma-la-mesa': [['tap', 'Toca las piezas que completan la mesa y luego «Listo».', { items: ['3x', '9', '6', '3x'], pick: [0, 3, 1] }]],
@@ -430,7 +430,7 @@ const GUIDES = {
   'bodegas': [['slide', 'Arrastra el divisor para repartir los sacos; al soltar, una parte viaja de A a B.', {}]],
   'bolsa-razon': [['step', 'Pon o quita bolas de cada color con − / + hasta que la bolsa cumpla la razón.', { from: 2, to: 3, label: 'rojas' }]],
   'brazo-robot': [['drag', 'Arrastra la pinza para doblar el codo (o ajusta con − / +) hasta la gema.', { dot: true }]],
-  'buzo-enteros': [['slide', 'Arrastra la sonda arriba o abajo y espera, a la altura del resultado, a que llegue su perla.', { vert: true }]],
+  'buzo-enteros': [['slide', 'Arrastra la sonda a la altura del resultado y suelta para acercar las perlas.', { vert: true }]],
   'cadena-cambios': [['tap', 'Toca dos sellos de la bandeja: la etiqueta muestra el precio después de cada uno.', { items: ['+10 %', '−50 %', '+20 %'], pick: [0, 1] }]],
   'cadena-razones': [['tap', 'Toca una tarjeta para voltear su fracción; el resultado se recalcula solo.', { items: ['9/7', '3/4'], pick: [0] }]],
   'caja-veloz': [['keys', 'Escribe el resultado en el teclado y toca OK.', { text: '20' }]],
@@ -507,7 +507,7 @@ const GUIDES = {
   'lazo-conjunto': [['trace', 'Rodea con el dedo los elementos que pertenecen (o tócalos) y entran al conjunto.', { labels: ['pera', 'uva', 'mango'], trap: 'papa' }], ['tap', 'Cuando adentro estén justo los que cumplen la condición, toca «Listo».', { items: ['pera', 'papa', 'Listo'], pick: [0, 2] }]],
   'cubo-partes': [['tap', 'Arma un subconjunto con los interruptores y toca «Encender». Enciéndelos todos sin repetir.', { items: ['x', 'y', 'Encender'], pick: [0, 2] }]],
   'orbita-conjuntos': [['tap', 'Marca todos los conjuntos que cumplen la relación con A y toca «Listo».', { items: ['{a}', '{a, e}', 'Listo'], pick: [0, 2] }]],
-  'descifra-zona': [['tap', 'Cambia las ruedas hasta que lo pintado coincida con la zona rayada y toca «Listo».', { items: ['A', '∩', 'B'], pick: [1, 2] }]],
+  'descifra-zona': [['slide', 'Desliza cada rueda hasta que el color coincida con la zona rayada y toca «Listo».', { label: 'operación' }]],
   'fabrica-subconjuntos': [['tap', 'En cada caja toca los elementos para encenderlos o apagarlos: todas deben ser distintas.', { items: ['a', 'b', 'c'], pick: [0, 2] }]],
   'fila-a-fila': [['tap', 'Toca la fila que cambia (y la otra, si hace falta) y elige la operación.', { items: ['F1', 'F2', 'F3'], pick: [1, 0] }], ['step', 'Elige k con las perillas y aplica. Se puede deshacer.', { from: 1, to: 2, label: 'k' }]],
   'flecha-vector': [['drag', 'Arrastra la punta de la flecha sobre la cuadrícula para construir el vector.', { dot: true }]],
@@ -522,7 +522,7 @@ const GUIDES = {
   'lado-del-cuadrado': [['drag', 'Arrastra la esquina del cuadrado: el área se calcula sola; − y + ajustan fino.', { dot: true }]],
   'laser-recta': [['step', 'Con las perillas «sube», «avanza» y el corte, alinea el láser con los dos cristales.', { from: 1, to: 2, label: 'sube' }]],
   'limite-serie': [['tap', 'Toca «+ término» para sumar saltos cada vez más cortos.', { items: ['+ término'], pick: [0, 0] }], ['slide', 'Arrastra el marcador al valor al que se acerca la suma.', {}]],
-  'limonada': [['tap', 'Toca los botones para echar limones y agua: el color depende de la razón.', { items: ['+ limón', '+ agua'], pick: [0, 1] }]],
+  'limonada': [['slide', 'Desliza cada ingrediente y compara la razón y el color de las dos jarras.', { label: 'limón' }]],
   'lluvia-elementos': [['slide', 'Arrastra la canasta de lado a lado: atrapa lo que pertenece y esquiva lo que no.', { label: 'canasta' }]],
   'luciernagas-venn': [['tap', 'Toca una luciérnaga cuando esté en la zona de la operación pedida.', { items: ['✦', '✦', '✦'], pick: [1] }]],
   'lupa-densidad': [['tap', 'Amplía con la lupa (+) hasta ver espacio entre las dos banderitas.', { items: ['−', '+'], pick: [1, 1] }], ['slide', 'Suelta el punto estrictamente entre las dos.', {}]],
@@ -572,20 +572,20 @@ const GUIDES = {
   'salta-signos': [['touch', 'Toca la pantalla para saltar las fichas peligrosas; las demás se atrapan corriendo.', { label: '¡salta!' }]],
   'sellos-graficas': [['tap', 'Toca los sellos en orden: cada uno transforma la gráfica actual. ↶ quita el último.', { items: ['→', '↑', '×2'], pick: [0, 2] }]],
   'semaforo-signos': [['tap', 'Toca cada casilla para poner + o −; la fila del producto se calcula sola.', { items: ['+', '−', '+'], pick: [1] }], ['tap', 'Luego enciende los tramos de la solución y decide los puntos críticos.', { items: ['tramo', 'tramo', 'tramo'], pick: [0, 2] }]],
-  'serpiente-orden': [['touch', 'Toca hacia donde debe girar la serpiente: cómete las fichas de menor a mayor.', { label: 'gira' }]],
+  'serpiente-orden': [['slide', 'Desliza en la dirección del próximo paso. Come las fichas de menor a mayor.', { label: 'avanza' }]],
   'siembra-raices': [['tap', 'Toca las semillas de la respuesta y luego «Sembrar»: crecen hasta su potencia.', { items: ['−2', '0', '2', 'Sembrar'], pick: [0, 2, 3] }]],
   'sintoniza-onda': [['step', 'Mueve cada perilla con − / + hasta que tu onda tape la punteada.', { from: 1, to: 3, label: 'amplitud' }]],
   'sirve-la-razon': [['hold', 'Mantén presionado para servir y suelta cuando la cantidad mantenga la razón.', {}]],
   'sombra-arbol': [['slide', 'Ajusta la altura del árbol hasta que el rayo caiga justo en la banderita.', { vert: true }]],
   'sombra-equivalente': [['tap', 'Toca una operación: se aplica a los dos lados. El signo de la desigualdad también se toca.', { items: ['− 3', '÷ (−2)', '<'], pick: [0, 1, 2] }]],
-  'suma-filas': [['tap', 'Toca «+ fila» para añadir una fila de puntos; el contador lleva el total.', { items: ['− fila', '+ fila'], pick: [1, 1] }]],
+  'suma-filas': [['slide', 'Arrastra la manija para desplegar más filas y compara la suma.', { vert: true }]],
   'tabla-conjugado': [['tap', 'Elige por cuál multiplicar: el juego arma la tabla y muestra qué se cancela. Prueba varias.', { items: ['√3 + 1', '√3 − 1'], pick: [0, 1] }]],
   'tacha-repetidos': [['tap', 'Toca las letras que sobran para tacharlas: cada una debe quedar una sola vez.', { items: ['O', 'S', 'O'], pick: [2] }]],
   'tanque-pitagorico': [['slide', 'Ajusta la perilla (arrastre o − / +) hasta que el líquido llegue justo a la marca.', { vert: true }]],
   'telarana-polar': [['drag', 'Arrastra la araña al nudo del resultado: el módulo en el hilo, el ángulo en el rayo.', { dot: true }]],
   'tirolesa': [['step', 'Suelta o recoge cable con los botones hasta que quede tenso entre las torres.', { from: 4, to: 5, label: 'cable' }]],
-  'torre-pisos': [['tap', 'Toca un piso de la torre y el ascensor va hasta allí: cuenta pisos desde la planta baja.', { items: ['piso 3', 'piso 2', 'piso 1'], pick: [1] }], ['tap', 'Cuando estés en el piso, toca «Entregar».', { items: ['Entregar'], pick: [0] }]],
-  'torre-producto': [['tap', 'Toca «×» para multiplicar: la torre crece. «÷ atrás» deshace el último paso.', { items: ['÷ atrás', '× 2'], pick: [1, 1] }]],
+  'torre-pisos': [['slide', 'Arrastra el ascensor hasta el piso, contando desde la planta baja.', { vert: true }], ['tap', 'Cuando estés en el piso, toca «Entregar».', { items: ['Entregar'], pick: [0] }]],
+  'torre-producto': [['slide', 'Sube la manija para construir la torre. Cada piso aplica una multiplicación.', { vert: true }]],
   'tragamonedas': [['step', 'Toca arriba o abajo de cada rodillo para armar el factor.', { from: 2, to: 3, label: 'décimas' }]],
   'traza-progresion': [['trace', 'Traza el camino pasando por los términos en orden; puedes levantar el dedo y pensar.', { labels: ['4', '7', '10'], trap: '9' }]],
   'tren-ordenado': [['drag', 'Arrastra cada vagón a su lugar: de menor a mayor, de izquierda a derecha.', { tile: '−2', slot: 'primer vagón' }]],
@@ -605,6 +605,10 @@ const GUIDE_TYPES = {
   order: [['tap', 'Toca las fichas en el orden correcto; tocar una que ya pusiste la devuelve.', { items: ['2.º', '1.º', '3.º'], pick: [1, 0, 2] }]],
   slider: [['slide', 'Mueve el deslizador y mira cómo cambia el dibujo hasta que cumpla lo pedido.', { label: 'valor' }]],
 };
+
+for (const [id, game] of Object.entries(typeof GAMES === 'undefined' ? {} : GAMES)) {
+  if (game.algebraScene) GUIDES[id] = [['drag', game.instruction + '.', {}]];
+}
 
 const guideKey = ex => (ex?.type === 'play' ? ex.game : ex?.type);
 
@@ -721,6 +725,7 @@ function openGuide(ex, o = {}) {
 function guideWanted(ex) {
   // Un juego que se explica sobre el lienzo (mano que hace el gesto) no abre la tarjeta emergente.
   if (ex?.type === 'play' && typeof GAMES !== 'undefined' && GAMES[ex.game]?.demo) return false;
+  if (ex?.canvasGuide) return false;
   if (typeof S === 'undefined' || !guideSteps(ex).length) return false;
   if (S.guideAuto === false || S.guides?.[guideKey(ex)]) return false;
   return !(typeof document !== 'undefined' && document.querySelector?.('#overlay.open .exam-foot'));   // js/exam.js

@@ -26,7 +26,7 @@ GAMES['lazo-conjunto'] = (() => {
     G.L = {
       U, cw, fb, mem: { x: W / 2, y: U.y + U.h - 62, rx: U.w / 2 - 12, ry: 54 },
       btn: { x: fb.x + fb.w - 76, y: fb.y + 10, w: 66, h: 32 },
-      cell: i => ({ x: U.x + 10 + (i % 3) * (cw + 6), y: U.y + 32 + Math.floor(i / 3) * 37, w: cw, h: 29 }),
+      cell: i => ({ x: U.x + 10 + (i % 3) * (cw + 6), y: U.y + 29 + Math.floor(i / 3) * 35, w: cw, h: 29 }),
     };
   }
   // Caja de un elemento: su celda del universo o su sitio dentro de la membrana (filas de a tres).
@@ -107,6 +107,14 @@ GAMES['lazo-conjunto'] = (() => {
     foot: () => 'Rodea con el dedo o toca · adentro: toca para sacar',
     idle: 'Sin prisa: lee la condición entera',
     layout, draw, press, drag, release,
+    demo(G) {
+      const b = G.L.cell(1);
+      const path = Array.from({ length: 21 }, (_, i) => {
+        const a = -Math.PI / 2 + i * Math.PI / 10;
+        return { x: b.x + b.w / 2 + (b.w / 2 + 3) * Math.cos(a), y: b.y + b.h / 2 + 18 * Math.sin(a) };
+      });
+      return { from: path[0], path };
+    },
     // Para el robot: de a un toque (al sacar un elemento, los de adentro se reacomodan); con todo en su sitio, «Listo».
     peek: G => { const els = order(G.item), i = els.findIndex(lab => G.s.in.includes(lab) !== G.item.members.includes(lab)); return { solve: [i >= 0 ? target(G, els[i], i) : G.L.btn] }; },
   }), { inPoly, order });

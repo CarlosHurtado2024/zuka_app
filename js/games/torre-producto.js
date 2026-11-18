@@ -23,19 +23,15 @@ GAMES['torre-producto'] = (() => {
     const unitOf = v => (v === 1 ? String(params.unit).replace(/s$/, '') : params.unit);   // «1 capa», «2 capas»
     const fact = params.kind === 'factorial';
     const st = { n: 0 };
-    let locked = false, W = 0, H = 0, buttons = [], tower = null;
+    let locked = false, W = 0, H = 0, tower = null, rail, drag = false;
 
     function layout(w, h) {
       W = w; H = h;
-      tower = { x: 24, y: 52, w: w - 48, h: h - 52 - 150 };   // deja sitio al total (H − 118) y a los botones
-      const bw = (w - 36) / 2, by = h - 100;
-      buttons = [
-        { v: -1, x: 12, y: by, w: bw, h: 44, t: '÷ atrás', col: C.I },
-        { v: 1, x: 24 + bw, y: by, w: bw, h: 44, t: fact ? '× siguiente' : `× ${params.r}`, col: C.Q },
-      ];
+      tower = { x: 12, y: 59, w: w - 82, h: h - 136 };
+      rail = lineMap(0, params.max, h - 73, 70);
     }
-    const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
     const ready = () => api.ready(st.n > 0);
+    const handle = () => ({ x: W - 28, y: rail.toPx(st.n) });
 
     const m = mountSketch(host, (p, size) => {
       p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
@@ -50,40 +46,45 @@ GAMES['torre-producto'] = (() => {
         const rowH = Math.min(26, tower.h / Math.max(params.max + 1, 1)), lg = Math.log(Math.max(params.target, valueAt(params.max, params)));
         for (let k = 0; k <= st.n; k++) {
           const val = valueAt(k, params), bw = Math.max(40, (Math.log(Math.max(val, 1.0001)) / lg) * tower.w), y = tower.y + tower.h - (k + 1) * rowH;
-          p.stroke(C.bg); p.strokeWeight(1); p.fill(k === st.n ? C.sun : k % 2 ? C.sky : shade(C.sky, 0.9)); p.rect(W / 2 - bw / 2, y, bw, rowH - 2, 4);
+          const cx = tower.x + tower.w / 2;
+          p.stroke(C.bg); p.strokeWeight(1); p.fill(k === st.n ? C.sun : k % 2 ? C.sky : shade(C.sky, 0.9)); p.rect(cx - bw / 2, y, bw, rowH - 2, 4);
           p.noStroke(); p.fill(inkOn(k === st.n ? C.sun : C.sky, C.ink)); p.textSize(11); p.textStyle(p.BOLD); p.textAlign(p.CENTER, p.CENTER);
-          fitText(p, fact && k ? `${k}! = ${fmt(val)}` : fmt(val), W / 2, y + (rowH - 2) / 2, bw - 6, 11);   // dentro del bloque: fuera no se leería
-          p.fill(C.mute); p.textStyle(p.NORMAL); p.textSize(10); p.textAlign(p.LEFT, p.CENTER); p.text(fact ? (k ? `× ${k}` : '') : `${params.period} ${k}`, tower.x, y + (rowH - 2) / 2);
+          fitText(p, fact && k ? `${k}! = ${fmt(val)}` : fmt(val), cx, y + (rowH - 2) / 2, bw - 6, 11);
         }
         p.noStroke(); p.fill(locked ? (good ? C.ok : C.bad) : C.ink); p.textAlign(p.CENTER, p.CENTER); p.textStyle(p.BOLD); p.textSize(18);
-        p.text(fact ? (st.n ? `${st.n}! = ${fmt(v)}` : '1') : `${st.n} ${plural(params.period, st.n)} · ${fmt(v)} ${unitOf(v)}`, W / 2, H - 118);
-        buttons.forEach(b => {
-          const dim = locked || (b.v < 0 ? st.n === 0 : st.n >= params.max);
-          drawTile(p, C, b, b.t, { fill: dim ? C.card : b.col, ink: dim ? C.mute : undefined, r: 12, size: 15, lift: dim ? 1 : 3 });
-        });
+        p.text(fact ? (st.n ? `${st.n}! = ${fmt(v)}` : '1') : `${st.n} ${plural(params.period, st.n)} · ${fmt(v)} ${unitOf(v)}`, W / 2, H - 48);
+        const { x, y } = handle();
+        p.stroke(C.line); p.strokeWeight(3); p.line(x, rail.toPx(0), x, rail.toPx(params.max));
+        p.fill(C.card); p.stroke(C.brand); p.strokeWeight(2); p.circle(x, y, 23);
+        p.noStroke(); p.fill(C.ink); p.textSize(12); p.text(st.n, x, y);
         p.fill(C.mute); p.textSize(11); p.textStyle(p.NORMAL); p.textAlign(p.CENTER, p.CENTER);
         const ans = answerOf(params);
-        p.text(locked ? (good ? '¡Justo la meta!' : ans === null ? `Ningún paso llega justo a ${fmt(params.target)}` : `${ans === 1 ? 'Era' : 'Eran'} ${ans} ${plural(params.period, ans)}`) : `Multiplica hasta llegar exactamente a ${fmt(params.target)}`, 12, H - 30, W - 24, 24);
+        p.text(locked ? (good ? '¡Justo la meta!' : ans === null ? `Ningún paso llega justo a ${fmt(params.target)}` : `${ans === 1 ? 'Era' : 'Eran'} ${ans} ${plural(params.period, ans)}`) : 'Arrastra la manija para construir la torre', 12, H - 26, W - 24, 24);
       };
 
-      p.mousePressed = () => {
-        if (locked) return;
-        const b = buttons.find(b => inside(b, p.mouseX, p.mouseY));
-        if (!b) return;
-        const next = st.n + b.v;
-        if (next < 0 || next > params.max) return false;
-        st.n = next; api.sfx?.tap?.(); ready();
-        return false;
+      const move = () => {
+        const next = Math.max(0, Math.min(params.max, Math.round(rail.toVal(p.mouseY))));
+        if (next !== st.n) { st.n = next; api.sfx?.tap?.(); ready(); }
       };
-    }, 1.2);
+      p.mousePressed = () => {
+        if (locked || !inCanvas(p) || Math.abs(p.mouseX - handle().x) > 24 || p.mouseY < 50 || p.mouseY > H - 55) return;
+        drag = true; move(); return false;
+      };
+      p.mouseDragged = () => { if (drag && !locked) { move(); return false; } };
+      p.mouseReleased = () => { drag = false; };
+    }, 1.12, () => {
+      if (locked || !rail) return null;
+      return { from: handle(), to: { x: handle().x, y: rail.toPx(st.n ? st.n - 1 : 1) } };
+    });
 
     return {
       loaded: m.ready,
       getState: () => ({ n: st.n }),
       lock() { locked = true; },
       destroy: () => m.remove(),
+      demo: m.demo,
     };
   }
 
-  return { grade, create, valueAt };
+  return { grade, create, valueAt, demo: true };
 })();

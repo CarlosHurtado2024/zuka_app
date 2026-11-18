@@ -19,7 +19,7 @@ GAMES['torre-pisos'] = (() => {
   function create(host, params, api) {
     const C = api.palette, R = params.rounds;
     const st = { done: R.map(() => 0) };
-    let locked = false, W = 0, H = 0, pos = 0, dest = 0, seen = new Set(), pause = 0, result = null, btn = {}, top = 104, bot = 0;
+    let locked = false, W = 0, H = 0, pos = 0, dest = 0, seen = new Set(), pause = 0, result = null, btn = {}, top = 104, bot = 0, drag = false;
     const a = makeArcade(R.length, params.lives ?? 3, api, {
       start(i) { st.done[i] = 0; pos = 0; dest = 0; seen = new Set([0, 1]); pause = 0; result = null; },
       lost(i) { st.done[i] = 0; },
@@ -85,28 +85,40 @@ GAMES['torre-pisos'] = (() => {
         arcadeStop(p, a, locked);
       };
 
+      const move = () => {
+        const { lo, hi } = round();
+        const next = Math.max(lo, Math.min(hi, lo + Math.floor((bot - p.mouseY) / rowH())));
+        if (next !== dest) { dest = next; api.sfx?.tap?.(); }
+      };
       p.mousePressed = () => {
         if (!inCanvas(p)) return;
         const tp = a.tap(locked);
         if (tp === 'off') return;
         if (tp !== 'play' || pause > 0) return false;
-        const r = round(), x = p.mouseX, y = p.mouseY;
+        const x = p.mouseX, y = p.mouseY;
         if (hitBox({ x: btn.x - 6, y: btn.y - 4, w: btn.w + 12, h: btn.h + 10 }, x, y)) { if (pos === dest) deliver(); return false; }
         if (y < top || y > bot) return;
-        dest = Math.max(r.lo, Math.min(r.hi, r.lo + Math.floor((bot - y) / rowH()))); api.sfx?.tap?.();
+        drag = true; move();
         return false;
       };
-    }, 1.45);
+      p.mouseDragged = () => { if (drag && !locked) { move(); return false; } };
+      p.mouseReleased = () => { drag = false; };
+    }, 1.45, () => {
+      if (locked || a.phase !== 'play' || pause > 0) return null;
+      const x = W - 42;
+      return { from: { x, y: Y(pos) }, to: { x, y: Y(pos >= round().hi ? pos - 1 : pos + 1) } };
+    });
 
     return {
       loaded: m.ready,
       getState: () => ({ done: [...st.done] }),
       lock() { locked = true; },
       destroy: () => m.remove(),
+      demo: m.demo,
       // Para pruebas en el navegador: lo que hay en pantalla en este momento.
       peek: () => { const r = round(); return { phase: a.phase, cur: a.cur, lives: a.lives, W, H, pause, floor: pos, moving: pos !== dest, target: item().exp, ok: { x: btn.x + btn.w / 2, y: btn.y + btn.h / 2 }, floors: Array.from({ length: r.hi - r.lo + 1 }, (_, i) => ({ k: r.lo + i, x: W / 2 - 80, y: Y(r.lo + i) })) }; },
     };
   }
 
-  return { grade, create, valTxt };
+  return { grade, create, valTxt, demo: true };
 })();

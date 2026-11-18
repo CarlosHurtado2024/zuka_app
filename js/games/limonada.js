@@ -1,88 +1,83 @@
-// Limonada (lección 1.2): una jarra modelo con la razón limones : agua y una jarra grande que se
-// llena tocando botones. El color de la mezcla depende solo de la razón, así que si coincide con
-// el modelo, la limonada «sabe igual». Correcto si la razón es la del modelo y hay bastantes limones.
-// params = { base: [limones, agua], minLemons, maxEach }   state = { lemons, water }
-
-GAMES['limonada'] = (() => {
+// La proporción se ve a la vez en el color, los niveles y la razón escrita.
+GAMES.limonada = (() => {
   function grade(state, params) {
-    const [bl, bw] = params.base;
+    const [bl, bw] = params.base, k = Math.ceil(params.minLemons / bl);
     const ok = state.lemons >= params.minLemons && state.lemons * bw === state.water * bl;
-    return { ok, solution: `La razón debe ser $${bl} : ${bw}$ con al menos ${params.minLemons} limones, por ejemplo $${bl * 2} : ${bw * 2}$.` };
+    return { ok, solution: `La razón debe ser $${bl}:${bw}$. Una mezcla que sirve es $${bl * k}:${bw * k}$.` };
   }
 
   function create(host, params, api) {
-    const C = api.palette;
-    const st = { lemons: 0, water: 0 };
-    const [bl, bw] = params.base;
-    let locked = false, W = 0, H = 0, jars = {}, buttons = [], pour = 0;
-
-    function layout(w, h) {
-      W = w; H = h;
-      const jw = w * 0.3, jh = h * 0.38, y = h * 0.14;
-      jars = { model: { x: w * 0.22 - jw / 2, y, w: jw, h: jh }, big: { x: w * 0.68 - jw * 0.6, y: y - 20, w: jw * 1.2, h: jh + 20 } };
-      const bw2 = (w - 36) / 4, by = h * 0.82;
-      buttons = [
-        { k: 'lemons', d: -1, x: 12, y: by, w: bw2, h: 36, t: '− limón' }, { k: 'lemons', d: 1, x: 16 + bw2, y: by, w: bw2, h: 36, t: '+ limón' },
-        { k: 'water', d: -1, x: 20 + 2 * bw2, y: by, w: bw2, h: 36, t: '− agua' }, { k: 'water', d: 1, x: 24 + 3 * bw2, y: by, w: bw2, h: 36, t: '+ agua' },
-      ];
-    }
-    const inside = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
-    // Color de la mezcla: de agua clara (0 limones) a amarillo intenso (solo limones).
-    const mix = (p, l, w) => { const t = l + w ? l / (l + w) : 0; return p.lerpColor(p.color('#5EC8FF'), p.color('#FFD23F'), Math.min(1, t * 1.6)); };
-
+    const C = api.palette, st = { lemons: 0, water: 0 }, [bl, bw] = params.base;
+    let W, H, controls, jars, map, drag, locked = false, t = 0, reveal = 0, touched = false;
     const m = mountSketch(host, (p, size) => {
-      p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(size.w, size.h); };
-      p.onResize = () => layout(size.w, size.h);
-
-      function jar(j, l, w, label, cap) {
-        const fill = Math.min(1, (l + w) / cap), lvl = j.h * (0.1 + 0.85 * fill);
-        p.noStroke(); p.fill(mix(p, l, w)); p.rect(j.x + 3, j.y + j.h - lvl, j.w - 6, lvl - 3, 0, 0, 12, 12);
-        // Limones flotando.
-        p.fill(C.sun); p.stroke(shade(C.sun, 0.7)); p.strokeWeight(1);
-        for (let i = 0; i < Math.min(l, 24); i++) p.circle(j.x + 12 + (i % 4) * (j.w - 24) / 3, j.y + j.h - 12 - Math.floor(i / 4) * 14, 9);
-        p.stroke(C.ink); p.strokeWeight(2.5); p.noFill(); p.rect(j.x, j.y, j.w, j.h, 4, 4, 14, 14);
-        p.line(j.x + j.w, j.y + 10, j.x + j.w + 10, j.y + 18); p.line(j.x + j.w + 10, j.y + 18, j.x + j.w, j.y + j.h - 18);
-        p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(12);
-        p.text(label, j.x + j.w / 2, j.y + j.h + 6);
-        p.fill(C.ink); p.textSize(16); p.text(`${l} limón : ${w} agua`, j.x + j.w / 2, j.y + j.h + 22);
-      }
-
-      p.draw = () => {
-        p.background(C.bg);
-        p.noStroke(); p.fill(C.mute); p.textAlign(p.CENTER, p.TOP); p.textStyle(p.BOLD); p.textSize(13);
-        drawKicker(p, C, 'Que sepa igual que el modelo', W / 2, 16, { center: true });
-        jar(jars.model, bl, bw, 'Modelo', bl + bw);
-        jar(jars.big, st.lemons, st.water, 'Tu jarra', 2 * params.maxEach);
-        pour = Math.max(0, pour - 0.05);
-        const same = st.lemons + st.water > 0 && st.lemons * bw === st.water * bl;
-        const good = grade(st, params).ok;
-        p.noStroke(); p.textAlign(p.CENTER, p.CENTER); p.textSize(14); p.textStyle(p.BOLD);
-        p.fill(locked ? (good ? C.ok : C.bad) : same ? C.ok : C.mute);
-        const msg = locked && !good ? `Debía ser ${bl} : ${bw} con ≥ ${params.minLemons} limones` : same ? (st.lemons >= params.minLemons ? '¡Mismo sabor y jarra grande!' : 'Mismo sabor… pero la jarra es pequeña') : st.lemons + st.water ? 'El color no coincide con el modelo' : 'Toca los botones para agregar';
-        p.text(msg, W / 2, H * 0.72);
-        buttons.forEach(b => {
-          drawTile(p, C, b, b.t, { size: 15 });
-        });
+      const layout = () => {
+        W = size.w; H = size.h;
+        const w = W * .26, h = H * .31;
+        jars = [{ x: W * .26, w, h }, { x: W * .74, w, h }];
+        map = lineMap(0, params.maxEach, 83, W - 29);
+        controls = [
+          { key: 'lemons', y: H - 95, text: 'Limón', col: 'sun' },
+          { key: 'water', y: H - 51, text: 'Agua', col: 'sky' },
+        ];
       };
-
-      p.mousePressed = () => {
-        if (locked) return;
-        const b = buttons.find(b => inside(b, p.mouseX, p.mouseY));
-        if (!b) return;
-        st[b.k] = Math.max(0, Math.min(params.maxEach, st[b.k] + b.d));
-        api.sfx?.tap?.(); pour = 1;
+      p.setup = () => { p.createCanvas(size.w, size.h); p.textFont('system-ui'); layout(); };
+      p.onResize = layout;
+      const label = (txt, x, y, w, col, sz) => {
+        p.noStroke(); p.fill(col); p.textAlign(p.CENTER, p.CENTER); fitText(p, txt, x, y, w, sz);
+      };
+      function jar(j, l, w, title, capacity) {
+        const y = 59, left = j.x - j.w / 2, floor = y + j.h, total = l + w;
+        const h = (j.h - 8) * Math.min(1, total / capacity);
+        const hue = p.lerpColor(p.color(C.sky), p.color(C.sun), total ? l / total : 0);
+        p.stroke(C.line); p.fill(C.card); p.strokeWeight(1.5); p.rect(left, y, j.w, j.h, 10);
+        if (h > 5) { p.noStroke(); p.fill(hue); p.rect(left + 4, floor - h - 4, j.w - 8, h, 6); }
+        p.stroke(C.mute); p.strokeWeight(1); p.line(left + j.w, y + 15, left + j.w + 9, y + 19);
+        p.line(left + j.w + 9, y + 19, left + j.w + 9, y + 43); p.line(left + j.w + 9, y + 43, left + j.w, y + 49);
+        label(title, j.x, y - 15, W * .42, C.mute, 13);
+        label(`$${l}:${w}$`, j.x, floor + 20, W * .42, C.ink, 19);
+      }
+      p.draw = () => {
+        t += frameDt(p); p.background(C.bg);
+        jar(jars[0], bl, bw, 'Receta', Math.max(bl + bw, params.minLemons * 2));
+        jar(jars[1], st.lemons, st.water, 'Tu jarra', params.maxEach * 2);
+        const equal = st.lemons > 0 && st.lemons * bw === st.water * bl;
+        const line = locked ? grade(st, params).solution : equal ? (st.lemons >= params.minLemons ? 'Misma proporción y cantidad suficiente' : 'Misma proporción. Prepara más.') : `Al menos ${params.minLemons} medidas de limón`;
+        label(line, W / 2, H - 132, W - 24, equal ? C.ok : C.ink, 14);
+        for (const { key, y, text, col } of controls) {
+          const x = map.toPx(st[key]);
+          p.stroke(C.line); p.strokeWeight(3); p.line(map.toPx(0), y, map.toPx(params.maxEach), y);
+          p.stroke(C[col]); p.line(map.toPx(0), y, x, y);
+          p.stroke(C[col]); p.strokeWeight(2); p.fill(C.card); p.circle(x, y, 25);
+          label(String(st[key]), x, y, 25, C.ink, 13);
+          label(text, 39, y, 61, C.ink, 13);
+        }
+        if (!drag && !locked && (!touched || t < reveal)) {
+          const y = controls[0].y;
+          drawDemo(p, C, t < reveal ? t - (reveal - 2 * DEMO_T) : t,
+            { from: { x: map.toPx(st.lemons), y }, to: { x: map.toPx(Math.min(3, params.maxEach)), y } });
+          label('Desliza para añadir cada ingrediente', W / 2, H - 18, W - 24, C.mute, 12);
+        }
+      };
+      const move = () => {
+        st[drag.key] = Math.round(p.constrain(map.toVal(p.mouseX), 0, params.maxEach));
         api.ready(st.lemons > 0 && st.water > 0);
+      };
+      p.mousePressed = () => {
+        if (locked || !inCanvas(p) || p.mouseX < map.toPx(0) - 17) return;
+        drag = controls.find(o => Math.abs(p.mouseY - o.y) < 21);
+        if (!drag) return;
+        touched = true; reveal = 0; move();
         return false;
       };
-    }, 1.05);
-
+      p.mouseDragged = () => { if (drag) { move(); return false; } };
+      p.mouseReleased = () => { drag = null; };
+    }, 1.03);
     return {
-      loaded: m.ready,
-      getState: () => ({ ...st }),
-      lock() { locked = true; },
-      destroy: () => m.remove(),
+      loaded: m.ready, getState: () => ({ ...st }), lock() { locked = true; }, destroy: () => m.remove(),
+      demo() { reveal = t + 2 * DEMO_T; },
+      peek: () => ({ controls, solve: [{ x: map?.toPx(bl * Math.ceil(params.minLemons / bl)), y: controls?.[0].y },
+        { x: map?.toPx(bw * Math.ceil(params.minLemons / bl)), y: controls?.[1].y }] }),
     };
   }
-
-  return { grade, create };
+  return { grade, create, demo: true };
 })();
