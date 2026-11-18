@@ -10,7 +10,7 @@ const PU_HECHOS = [];
   // Evaluación del mundo: [lección, nota de repaso, ejercicio]. La pista corta se completa con la nota de repaso.
   const setExam = (world, title, items) => {
     const u = PU_RAZONAMIENTO.find(u => u.world === world), order = u.lessons.map(l => l.id);
-    u.exam = { id: `exam-${world}`, title, minutes: 0, items: items.map(([lesson, review, ex]) => ({ lesson, review, ex: { ...ex, hint: ex.hint.length >= 30 ? ex.hint : `${ex.hint} ${review}`, canvasGuide: true, exam: true, params: { ...ex.params, autoDemo: false } } })) };
+    u.exam = { id: `exam-${world}`, title, minutes: 0, items: items.map(([lesson, review, ex]) => ({ lesson, review, ex: { ...ex, hint: ex.hint.length >= 30 ? ex.hint : `${ex.hint} ${review}`, explain: ex.explain.length > 30 ? ex.explain : `${review} ${ex.explain}`, canvasGuide: true, exam: true, params: { ...ex.params, autoDemo: false } } })) };
     u.exam.items.sort((a, b) => order.indexOf(a.lesson) - order.indexOf(b.lesson));
     u.exam.minutes = Math.max(12, Math.round(u.exam.items.length * 1.5));
     PU_HECHOS.push(world);
