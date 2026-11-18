@@ -28,7 +28,7 @@ Fecha: 2026-11-18.
 
 | Curso | Archivo | Estado |
 |---|---|---|
-| Álgebra (10 mundos, 43 lecciones) | `js/courses/algebra.js`, `mundos-altos.js` | el más completo: juegos, evaluaciones, resúmenes PDF; en revisión mundo por mundo |
+| Álgebra (10 mundos, 43 lecciones) | `js/courses/algebra.js`, `mundos-altos.js` | el más completo: juegos, evaluaciones, resúmenes PDF; los diez mundos rehechos sin juegos repetidos ni jefes; evaluación completa por mundo |
 | Trigonometría (3 mundos, 20 lecciones) | `js/courses/trig.js`, `trig-juegos.js` | juegos y jefes; faltan evaluaciones |
 | Cálculo Diferencial (5 mundos, 15 lecciones) | `js/courses/calculo.js` | parcial |
 | Preuniversitario UdeA (2 componentes, 28 mundos, 90 lecciones) | `js/courses/preuda*.js` | en borrador; en construcción mundo por mundo |

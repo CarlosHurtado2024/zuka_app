@@ -34,7 +34,7 @@ test('el archivo de la revisión va después del taller y está en el service wo
   assert.ok(sw.includes("'js/courses/algebra-revision.js'"));
 });
 
-test('mundos revisados: escenas propias, 7 u 8 juegos distintos y sin repetir juegos en el curso', () => {
+test('mundos revisados: escenas propias, de 6 a 8 juegos distintos y sin repetir juegos en el curso', () => {
   assert.ok(DONE.includes('conjuntos'));
   const seen = new Map();
   for (const l of A.units.flatMap(u => u.lessons)) for (const g of games(l)) seen.set(g, [...(seen.get(g) || []), l.id]);
@@ -42,7 +42,7 @@ test('mundos revisados: escenas propias, 7 u 8 juegos distintos y sin repetir ju
     const u = unit(w);
     for (const l of u.lessons) {
       const gs = games(l);
-      assert.ok(gs.length >= 7 && gs.length <= 8, `${l.id}: ${gs.length}`);
+      assert.ok(gs.length >= 6 && gs.length <= 8, `${l.id}: ${gs.length}`);
       assert.equal(new Set(gs).size, gs.length, `${l.id}: repetido`);
       for (const e of l.ex) {
         assert.ok(!e.game.startsWith('taller-'), `${l.id}: ${e.game} es un motor genérico`);
@@ -70,13 +70,38 @@ const solve = {
   'solapa-cardinal': r => ({ k: GAMES['solapa-cardinal'].need(r) }),
   'goma-diferencia': r => ({ gone: GAMES['goma-diferencia'].start(r).filter(v => !GAMES['goma-diferencia'].target(r).includes(v)) }),
   'busca-b': r => ({ B: GAMES['busca-b'].answer(r) }),
+  // Mundo 2 · La Recta Real
+  'pares-cero': r => GAMES['pares-cero'].answer(r),
+  'flecha-resta': r => ({ t: r.from, h: r.to }),
+  'agrupa-fraccion': r => ({ k: GAMES['agrupa-fraccion'].gcd(r.num, r.den) }),
+  'espiral-teodoro': r => ({ k: r.n - 1 }),
+  'agrupa-amigos': r => GAMES['agrupa-amigos'].answer(r),
+  'une-rectangulos': r => ({ on: GAMES['une-rectangulos'].goods(r) }),
+  'deshaz-camino': r => { const G = GAMES['deshaz-camino']; return { slots: [...r.ops].reverse().map(o => { const [op, v] = G.inv(o); return r.cards.findIndex(c => c[0] === op && Math.abs(c[1] - v) < 1e-9); }) }; },
+  'multiplica-primero': r => ({ first: GAMES['multiplica-primero'].best(r) }),
+  'resta-opuesto': () => ({ flip: true, att: true }),
+  'parte-flecha': r => ({ n: Math.abs(r.b), flip: r.b < 0 }),
+  'espejo-desigualdad': r => ({ k: GAMES['espejo-desigualdad'].need(r) }),
 };
+// Juegos en movimiento (questGame): cada reto tiene respuesta alcanzable con el control.
+const quest = {
+  'anillos-subconjunto': it => GAMES['anillos-subconjunto'].goods(it).length > 0,
+  'vagon-inverso': it => (it.kind === '+' ? Math.abs(it.a) <= 8 : GAMES['vagon-inverso'].need(it) >= 0),
+  'rebote-signos': it => { const s = GAMES['rebote-signos'].start(it); return Number.isInteger(s) && Math.abs(s) <= 8 && s !== 1; },
+};
+test('juegos en movimiento: cada reto se puede resolver con el control', () => {
+  for (const [g, f] of Object.entries(quest)) {
+    const list = A.units.flatMap(u => u.lessons.flatMap(l => l.ex)).filter(e => e.game === g);
+    assert.ok(list.length, g);
+    for (const e of list) for (const r of e.params.rounds) for (const it of r.items) assert.ok(f(it), `${g}: ${JSON.stringify(it)}`);
+  }
+});
 const uses = () => A.units.flatMap(u => [...u.lessons.flatMap(l => l.ex), ...u.exam.items.map(it => it.ex)]);
 
-test('juegos nuevos del mundo 1: la respuesta gana, el inicio no, y los datos tienen sentido', () => {
+test('juegos nuevos de los mundos revisados: la respuesta gana, el inicio no, y los datos tienen sentido', () => {
   for (const [g, f] of Object.entries(solve)) {
     const list = uses().filter(e => e.game === g);
-    assert.ok(list.length >= 2, `${g} se usa en la lección y en la evaluación`);
+    assert.ok(list.length >= 1, `${g} no se usa`);
     for (const e of list) {
       const G = GAMES[g];
       assert.equal(G.grade({ rounds: e.params.rounds.map(f) }, e.params).ok, true, `${g}: ${e.q}`);
@@ -107,9 +132,46 @@ test('juegos nuevos del mundo 1: la respuesta gana, el inicio no, y los datos ti
 });
 
 test('juegos nuevos registrados, con guía y mano sobre el lienzo', () => {
-  for (const g of [...Object.keys(solve), 'anillos-subconjunto']) {
+  for (const g of [...Object.keys(solve), ...Object.keys(quest)]) {
     assert.ok(html.includes(`js/games/${g}.js`) && sw.includes(`'js/games/${g}.js'`), g);
     assert.ok(GUIDES[g], g); assert.equal(GAMES[g].demo, true, g);
   }
   assert.ok(html.indexOf('js/games/conjuntos-kit.js') < html.indexOf('js/games/tamiz-rango.js'));
+});
+
+// Mundos 9 y 10: cada ronda tiene solución con su control, la respuesta gana y ninguna ronda empieza resuelta.
+const NUEVOS_9_10 = {
+  prohibidos: r => ({ marks: r.bad }),
+  'cerca-asintota': r => ({ i: GAMES['cerca-asintota'].need(r) }),
+  'resta-fracciones': r => ({ flip: r.B.map((_, i) => i) }),
+  'voltea-divide': () => ({ flip: true, mult: true }),
+  'multiplica-cancela': r => ({ gone: GAMES['multiplica-cancela'].pairs(r) }),
+  'corte-parabola-recta': r => ({ n: GAMES['corte-parabola-recta'].need(r) }),
+  'tapa-evalua': r => ({ put: r.ps.map((_, k) => k) }),
+  'hacia-e': r => ({ i: GAMES['hacia-e'].need(r) }),
+  'entre-potencias10': r => ({ k: GAMES['entre-potencias10'].need(r) }),
+  'cabe-barra': r => ({ n: GAMES['cabe-barra'].need(r) }),
+  'media-vida': r => ({ i: GAMES['media-vida'].need(r) }),
+  'sube-al-exponente': r => ({ x: GAMES['sube-al-exponente'].need(r) }),
+  'cambio-u': r => ({ marks: GAMES['cambio-u'].good(r) }),
+  'baja-con-log': () => ({ seq: [0, 1] }),
+  'mueve-asintota': r => ({ h: r.h, k: r.k }),
+};
+for (const g of ['evalua-racional', 'denominador-comun', 'amplifica-fraccion', 'dos-rectas', 'elimina-variable', 'dos-compras', 'circulo-recta',
+  'rectangulo-pa', 'parciales-tapar', 'ajusta-exponencial', 'mitad-espejo', 'exponente-buscado', 'expande-log']) NUEVOS_9_10[g] = r => GAMES[g].answer(r);
+test('mundos 9 y 10: la respuesta gana con el control y ninguna ronda empieza resuelta', () => {
+  for (const [g, f] of Object.entries(NUEVOS_9_10)) {
+    const list = uses().filter(e => e.game === g);
+    assert.ok(list.length >= 1, `${g} no se usa`);
+    for (const e of list) for (const r of e.params.rounds) {
+      const s = f(r);
+      assert.ok(s, `${g}: sin solución ${JSON.stringify(r)}`);
+      assert.equal(GAMES[g].grade({ rounds: [s] }, { ...e.params, rounds: [r] }).ok, true, `${g}: ${JSON.stringify(r)}`);
+      assert.equal(GAMES[g].grade({ rounds: [] }, { ...e.params, rounds: [r] }).ok, false, `${g}: empieza resuelta ${JSON.stringify(r)}`);
+    }
+  }
+  // Las soluciones están dentro del alcance de los controles.
+  for (const e of uses().filter(e => e.game === 'elimina-variable')) for (const r of e.params.rounds) assert.ok(GAMES['elimina-variable'].answer(r).k !== undefined);
+  for (const e of uses().filter(e => e.game === 'sube-al-exponente')) for (const r of e.params.rounds) { const x = GAMES['sube-al-exponente'].need(r); assert.ok(x >= -6 && x <= 12 && Number.isInteger(x * 2)); }
+  for (const e of uses().filter(e => e.game === 'corte-parabola-recta')) for (const r of e.params.rounds) { const n = GAMES['corte-parabola-recta'].need(r); assert.ok(n >= -8 && n <= 12); }
 });

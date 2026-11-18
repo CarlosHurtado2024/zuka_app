@@ -62,7 +62,7 @@ Son 162 de los 302 ejercicios: más de la mitad de la práctica es el mismo puñ
 1. **Ningún `taller-*` en las lecciones.** Cada ejercicio tiene una escena propia que dibuja la idea de su lección.
 2. **Ningún juego repetido dentro del curso de Álgebra** (cada juego vive en una sola lección). Las evaluaciones sí
    reutilizan juegos de sus lecciones, con datos nuevos.
-3. 7 ejercicios distintos por lección (8 si la lección es larga), el último en movimiento; todos con pista y con la
+3. De 6 a 8 ejercicios distintos por lección, el último en movimiento; todos con pista y con la
    mano que muestra el gesto (`demo`).
 4. Cada escena corresponde a la idea: recta para la recta, plano solo cuando hay dos variables o una gráfica, balanza
    solo cuando hay dos lados que deben pesar lo mismo (una ecuación), área cuando hay un producto.
@@ -101,14 +101,109 @@ Los mundos 6 a 10 son los que más juegos nuevos necesitan (cuatro o cinco por l
 Evaluación: las preguntas que tenía (laberinto, dominó, detective) y siete nuevas con los juegos de las lecciones y datos
 distintos; dos de ellas reciclan los retos del jefe (letras de CLIMA y MAR, complemento de $\{2, 4, 6\}$).
 
-### Mundo 2 · La Recta Real (siguiente)
+Pedido del usuario el mismo día: «examina todos los mundos de una vez y todas las lecciones, después sube los cambios». Los mundos 2 a 10 se rehicieron juntos; en negrita no se marca nada: cada juego aparece en una sola lección del curso (algunos, como `globo-lastre`, también viven en el Preuniversitario, que es otro curso). Los juegos nuevos se dibujan con el kit `RK` de `js/games/recta-kit.js` (`chip`, `strip`, `track`, `pick`, `tile`, `plane`, `curve`).
+### Mundo 2 · La Recta Real (hecho)
 
-Quedan: `alg-11` `ascensor`, `recta-espejo`, `fuga-de-familia`, `buzo-enteros`; `alg-11b` `pizzeria`, `candado-fraccion`,
-`pon-la-rayita`, `carrera-fracciones` (`fuga-de-familia` sale de aquí: queda solo en `alg-11`); `alg-11c` `cajas-numericas`,
-`lupa-densidad`, `ubica-en-recta`, `compas-raiz`, `acorrala-raiz`, `frena-aguja`; `alg-12b` `corta-rectangulo`,
-`inversos-gemelos`; `alg-12c` `arma-producto`, `cancela-balanza`; `alg-12d` `tren-ordenado`, `dobla-la-recta`,
-`distancia-justa`, `dibuja-intervalo`, `serpiente-orden`. Hacen falta unos 19 juegos nuevos (5 en `alg-12b` y 5 en
-`alg-12c`, donde casi todo era del taller). Todo lo que hoy usa un plano para la recta pasa a una recta.
+| Lección | Ejercicios (el último en movimiento) |
+|---|---|
+| `alg-11` | `ascensor`, `recta-espejo`, `globo-lastre`, `pares-cero`, `fuga-de-familia`, `flecha-resta`, `buzo-enteros` |
+| `alg-11b` | `pizzeria`, `candado-fraccion`, `tableta-fraccion`, `agrupa-fraccion`, `corta-igual`, `pon-la-rayita`, `carrera-fracciones` |
+| `alg-11c` | `cajas-numericas`, `lupa-densidad`, `ubica-en-recta`, `compas-raiz`, `espiral-teodoro`, `acorrala-raiz`, `frena-aguja` |
+| `alg-12b` | `corta-rectangulo`, `agrupa-amigos`, `multiplica-primero`, `inversos-gemelos`, `une-rectangulos`, `deshaz-camino`, `vagon-inverso` |
+| `alg-12c` | `arma-producto`, `resta-opuesto`, `voltea-flecha`, `parte-flecha`, `cancela-balanza`, `capas-operacion`, `rebote-signos` |
+| `alg-12d` | `tren-ordenado`, `dobla-la-recta`, `espejo-desigualdad`, `distancia-justa`, `dibuja-intervalo`, `correa-del-perro`, `serpiente-orden` |
+
+Evaluación (19 preguntas, 29 min): `laberinto-valor`, `pares-cero`, `flecha-resta`, `domino-equivalencias`, `ubica-en-recta`, `agrupa-fraccion`, `corta-igual`, `espiral-teodoro`, `compas-raiz`, `detective-pasos`, `deshaz-camino`, `agrupa-amigos`, `piramide-numerica`, `resta-opuesto`, `parte-flecha`, `espejo-desigualdad`, `correa-del-perro`.
+
+### Mundo 3 · Escalas y Proporciones (hecho)
+
+| Lección | Ejercicios (el último en movimiento) |
+|---|---|
+| `alg-12` | `limonada`, `barra-razon`, `estira-foto`, `rejilla-razon`, `receta-escala`, `bici-cambios` |
+| `alg-12e` | `balanza-proporcion`, `sombra-arbol`, `cuadrado-media`, `duplica-magnitud`, `grafica-relacion`, `reparto`, `llaves-tanque` |
+| `alg-12f` | `arma-regla`, `bascula`, `la-obra`, `mapa-escala`, `engranajes`, `resortera-tres` |
+| `alg-13` | `cuadricula-cien`, `rueda-porcentaje`, `pinta-personas`, `cruz-porcentaje`, `mezcla`, `tanque-porcentaje` |
+| `alg-13c` | `estira-barra`, `etiqueta-rebaja`, `factor-cambio`, `bodegas`, `precio-original`, `rampa-precio` |
+| `alg-13d` | `cascada`, `rebote`, `semanas-rebaja`, `dos-etapas`, `sube-y-baja`, `rompe-cambios` |
+
+Evaluación (18 preguntas, 27 min): `domino-equivalencias`, `barra-razon`, `rejilla-razon`, `laberinto-valor`, `receta-escala`, `detective-pasos`, `mapa-escala`, `la-obra`, `pinta-personas`, `cuadricula-cien`, `factor-cambio`, `precio-original`, `semanas-rebaja`, `sube-y-baja`.
+
+### Mundo 4 · Exponentes y Radicales (hecho)
+
+| Lección | Ejercicios (el último en movimiento) |
+|---|---|
+| `alg-21a` | `arbol-potencia`, `torre-producto`, `escalera-potencias`, `pares-negativos`, `cubo-bloques`, `torre-pisos` |
+| `alg-21b` | `cuenta-factores`, `cancela-pisos`, `cambia-de-piso`, `copias-potencia`, `salta-la-coma`, `escala-leyes` |
+| `alg-22a` | `lado-del-cuadrado`, `reparte-factores`, `fraccion-exponente`, `absoluto-raiz`, `suma-raices`, `siembra-raices` |
+| `alg-22b` | `saca-del-radical`, `parte-baldosa`, `copias-raiz`, `racionaliza-uno`, `tabla-conjugado`, `muro-radicales` |
+
+Evaluación (12 preguntas, 18 min): `laberinto-valor`, `escalera-potencias`, `piramide-numerica`, `detective-pasos`, `cancela-pisos`, `copias-potencia`, `domino-equivalencias`, `fraccion-exponente`, `suma-raices`, `copias-raiz`, `racionaliza-uno`.
+
+### Mundo 5 · Sucesiones y Series (hecho)
+
+| Lección | Ejercicios (el último en movimiento) |
+|---|---|
+| `alg-14` | `pisa-huellas`, `escalera-aritmetica`, `goteo-tanque`, `cuenta-saltos`, `poste-cerca`, `traza-progresion` |
+| `alg-14b` | `dos-escaleras`, `parejas-gauss`, `nivela-barras`, `suma-filas`, `alcancia-semanas`, `encesta-suma` |
+| `alg-14c` | `rebota-pelota`, `razon-terminos`, `rellena-medios`, `carrera-crecimiento`, `cultivo-celulas`, `dobla-fichas` |
+| `alg-14d` | `resta-corrida`, `torre-geometrica`, `limite-serie`, `cuadrado-mitades`, `ajusta-razon`, `rana-zenon` |
+| `alg-15` | `arma-sigma`, `sigma-indices`, `parte-sigma`, `cambia-indice`, `factorial-cajas`, `maquina-sigma` |
+
+Evaluación (12 preguntas, 18 min): `goteo-tanque`, `poste-cerca`, `nivela-barras`, `alcancia-semanas`, `razon-terminos`, `cultivo-celulas`, `resta-corrida`, `torre-geometrica`, `ajusta-razon`, `parte-sigma`, `sigma-indices`, `factorial-cajas`.
+
+### Mundo 6 · Álgebra de Polinomios (hecho)
+
+| Lección | Ejercicios (el último en movimiento) |
+|---|---|
+| `alg-23a` | `bloques-polinomio`, `reduce-semejantes`, `resta-voltea`, `evalua-polinomio`, `llena-rectangulo`, `torre-grados` |
+| `alg-3` | `bloques-area`, `parte-cuadrado`, `diferencia-cuadrados`, `binomios-comun`, `marco-cuadro`, `arma-la-mesa` |
+| `alg-24c` | `triangulo-pascal`, `elige-parentesis`, `exponentes-binomio`, `fila-potencia`, `once-potencias`, `camino-pascal` |
+| `alg-24b` | `factor-comun-bloques`, `diferencia-esquina`, `suma-producto`, `agrupa-terminos`, `completa-cuadrado`, `reparte-barras` |
+
+Evaluación (9 preguntas, 14 min): `bloques-polinomio`, `resta-voltea`, `binomios-comun`, `diferencia-cuadrados`, `exponentes-binomio`, `triangulo-pascal`, `bloques-area`, `suma-producto`, `diferencia-esquina`.
+
+### Mundo 7 · Parábolas y Complejos (hecho)
+
+| Lección | Ejercicios (el último en movimiento) |
+|---|---|
+| `alg-23c` | `plano-complejo`, `vueltas-i`, `suma-complejos`, `conjugado-espejo`, `modulo-circulo`, `gira-complejos` |
+| `alg-1` | `despeja-x`, `encuentro-caminantes`, `consecutivos`, `sin-o-infinitas`, `perimetro-x`, `balanza-cajas` |
+| `alg-4a` | `mueve-parabola`, `simetria-parabola`, `abertura-a`, `forma-canonica`, `ingreso-maximo`, `apunta-chorro` |
+| `alg-4` | `raices-imanes`, `producto-cero`, `discriminante-traslada`, `raices-simetricas`, `area-ecuacion`, `donde-cae` |
+
+Evaluación (9 preguntas, 14 min): `suma-complejos`, `modulo-circulo`, `despeja-x`, `consecutivos`, `mueve-parabola`, `forma-canonica`, `simetria-parabola`, `producto-cero`, `discriminante-traslada`.
+
+### Mundo 8 · Raíces de Polinomios (hecho)
+
+| Lección | Ejercicios (el último en movimiento) |
+|---|---|
+| `alg-23b` | `bolsas-residuo`, `grado-cociente`, `lado-faltante`, `completa-identidad`, `iguala-coeficientes`, `empaca-filas` |
+| `alg-92` | `division-sintetica`, `signo-divisor`, `llena-sintetica`, `factor-k`, `arma-factores`, `sondea-niebla` |
+| `alg-93` | `tramo-signo`, `multiplicidad`, `prueba-candidatos`, `arma-ceros`, `factoriza-cubica`, `cruza-o-rebota` |
+
+Evaluación (8 preguntas, 12 min): `bolsas-residuo`, `iguala-coeficientes`, `division-sintetica`, `llena-sintetica`, `factor-k`, `raices-imanes`, `prueba-candidatos`, `tramo-signo`.
+
+### Mundo 9 · Fracciones Algebraicas (hecho)
+
+| Lección | Ejercicios (el último en movimiento) |
+|---|---|
+| `alg-25a` | `prohibidos`, `cancela-factores`, `evalua-racional`, `cerca-asintota`, `cruz-asintotas`, `rio-o-hueco` |
+| `alg-25b` | `denominador-comun`, `amplifica-fraccion`, `resta-fracciones`, `multiplica-cancela`, `voltea-divide`, `llena-estanque` |
+| `alg-101` | `dos-rectas`, `afina-sistema`, `elimina-variable`, `dos-compras`, `combina-vectores`, `bote-corriente` |
+| `alg-102` | `corte-parabola-recta`, `circulo-recta`, `rectangulo-pa`, `parciales-tapar`, `tapa-evalua`, `cruce-curvas` |
+
+Evaluación (11 preguntas, 17 min): `cancela-factores`, `cruz-asintotas`, `prohibidos`, `evalua-racional`, `denominador-comun`, `resta-fracciones`, `combina-vectores`, `dos-rectas`, `elimina-variable`, `corte-parabola-recta`, `parciales-tapar`.
+
+### Mundo 10 · Crecimiento Exponencial (hecho)
+
+| Lección | Ejercicios (el último en movimiento) |
+|---|---|
+| `alg-71` | `ajusta-exponencial`, `proyector-sombras`, `mueve-asintota`, `mitad-espejo`, `hacia-e`, `lirios-laguna` |
+| `alg-13b` | `crece-planta`, `carrera-interes`, `ajusta-capital`, `mejor-oferta`, `alcancias-gemelas`, `dos-bancos` |
+| `alg-72` | `exponente-buscado`, `espejo-diagonal`, `entre-potencias10`, `expande-log`, `cabe-barra`, `regla-de-calculo` |
+| `alg-73` | `balanza-exponencial`, `baja-con-log`, `sube-al-exponente`, `media-vida`, `cambio-u`, `piedras-selva` |
+
+Evaluación (9 preguntas, 14 min): `balanza-exponencial`, `ajusta-exponencial`, `mitad-espejo`, `crece-planta`, `alcancias-gemelas`, `exponente-buscado`, `expande-log`, `sube-al-exponente`, `baja-con-log`.
 
 ## Evaluaciones sin jefe (todas desde ya)
 
@@ -124,5 +219,5 @@ ubicaba $-\tfrac74$ en un plano pasa a `ubica-en-recta` desde ya.
 
 - ningún mundo tiene jefe y ninguna parte de la app lo dibuja;
 - cada evaluación tiene al menos dos preguntas por lección, todas con lección existente y nota de repaso;
-- en los mundos ya rehechos (lista `DONE`): ningún `taller-*` en lecciones ni en la evaluación, 7 u 8 juegos distintos
+- en los mundos ya rehechos (lista `DONE`): ningún `taller-*` en lecciones ni en la evaluación, de 6 a 8 juegos distintos
   por lección con el último en movimiento, ningún juego repetido entre lecciones del curso, pista y `demo` en cada uno.

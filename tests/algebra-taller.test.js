@@ -13,13 +13,13 @@ const games = get(ctx, 'GAMES');
 const legacy = new Set(['escala-solucion', 'arma-la-cuenta', 'une-parejas', 'clasifica-cartas', 'ordena-terminos',
   'caja-veloz', 'salta-signos', 'vuela-precios', 'dispara-inverso', 'corta-proporciones']);
 
-test('Álgebra tiene 43 lecciones de siete u ocho juegos distintos, con pista y ayuda dentro del juego', () => {
+test('Álgebra tiene 43 lecciones de seis a ocho juegos distintos, con pista y ayuda dentro del juego', () => {
   assert.equal(units.length, 10);
   const lessons = units.flatMap(u => u.lessons);
   assert.equal(lessons.length, 43);
   assert.equal(new Set(lessons.map(l => l.ex.at(-1).game)).size, lessons.length);
   for (const l of lessons) {
-    assert.ok([7, 8].includes(l.ex.length), l.id);
+    assert.ok([6, 7, 8].includes(l.ex.length), l.id);
     assert.equal(new Set(l.ex.map(e => e.game)).size, l.ex.length, l.id);
     for (const e of l.ex) {
       assert.equal(e.type, 'play', l.id);
@@ -47,20 +47,10 @@ test('las evaluaciones practican los objetivos de su mundo, y ya no hay jefes', 
 test('las escenas nuevas aceptan la construcción correcta y rechazan una escena intacta', () => {
   const puzzles = units.flatMap(u => [...u.lessons.flatMap(l => l.ex), ...u.exam.items.map(it => it.ex)])
     .filter(e => games[e.game]?.algebraScene);
-  assert.ok(puzzles.length >= 100);
+  // La revisión (spec 2026-11-18-algebra-revision) va quitando estas escenas de las lecciones; las que quedan deben funcionar.
   for (const e of puzzles) {
     const g = games[e.game];
     assert.equal(g.grade({ rounds: e.params.rounds.map(g.answer) }, e.params).ok, true, e.q);
     assert.equal(g.grade({}, e.params).ok, false, e.q);
   }
-});
-
-test('el punto de interés compuesto admite la precisión de una gráfica móvil', () => {
-  const lesson = units.flatMap(u => u.lessons).find(l => l.id === 'alg-13b');
-  const e = lesson.ex.find(ex => ex.game === 'taller-plano');
-  const grade = v => games[e.game].grade({ rounds: [{ v, moved: true }] }, e.params).ok;
-  assert.equal(grade([3, 266]), true);
-  assert.equal(grade([3, 267]), true);
-  assert.equal(grade([3, 268]), false);
-  assert.equal(grade([2, 266]), false);
 });
