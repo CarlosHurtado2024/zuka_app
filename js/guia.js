@@ -349,7 +349,7 @@ const GUIDE_SCENES = {
 };
 
 // Juegos de acción (cartel de inicio y vidas): la guía les añade esos dos pasos.
-const GUIDE_ARCADE = new Set(['lazo-conjunto', 'cubo-partes', 'orbita-conjuntos', 'descifra-zona', 'lluvia-elementos', 'revienta-globos', 'luciernagas-venn', 'buzo-enteros', 'carrera-fracciones', 'frena-aguja',
+const GUIDE_ARCADE = new Set(['capas-operacion', 'lazo-conjunto', 'cubo-partes', 'orbita-conjuntos', 'descifra-zona', 'lluvia-elementos', 'revienta-globos', 'luciernagas-venn', 'buzo-enteros', 'carrera-fracciones', 'frena-aguja',
   'dispara-inverso', 'salta-signos', 'serpiente-orden', 'sirve-la-razon', 'corta-proporciones', 'resortera-tres', 'caja-veloz', 'vuela-precios',
   'rompe-cambios', 'traza-progresion', 'encesta-suma', 'dobla-fichas', 'rana-zenon', 'maquina-sigma', 'torre-pisos', 'escala-leyes',
   'siembra-raices', 'muro-radicales', 'jefe-venn', 'jefe-ruta', 'jefe-rueda',
@@ -483,6 +483,9 @@ const GUIDES = {
   'encesta-suma': [['fling', 'Desliza el dedo hacia la canasta de la suma y suelta para lanzar el balón.', {}]],
   'encuesta-venn': [['step', 'En cada zona del diagrama pon con − / + cuántas personas hay.', { from: 3, to: 5, label: 'solo en A' }]],
   'engranajes': [['step', 'Fija con − / + el dato que falta de la rueda B y compara los contadores.', { from: 8, to: 10, label: 'dientes' }]],
+  'globo-lastre': [['drag', 'Arrastra globos o sacos de arena: el canasto sube o baja y la cuenta se escribe sola.', { tile: 'saco', slot: 'canasto' }], ['tap', 'Déjalo a la altura de la bandera. «Reiniciar» lo devuelve al comienzo.', { items: ['Reiniciar'], pick: [0] }]],
+  'voltea-flecha': [['slide', 'Arrastra el multiplicador: la flecha se repite y, a la izquierda del 0, se voltea.', {}]],
+  'capas-operacion': [['drag', 'Arrastra un número sobre su vecino: el juego los opera y los funde en uno.', { tile: '5', slot: '8' }], ['drag', 'Para una potencia, junta la base con su exponente (la ficha pequeña de arriba).', { tile: '(−3)', slot: '²' }]],
   'subraya-texto': [['tap', 'Lee el texto y toca los trozos que responden la consigna: quedan subrayados.', { items: ['El páramo', 'da agua a', 'dos millones'], pick: [2] }], ['tap', 'Tocar otra vez un trozo lo quita. Si hay varias pestañas, cada una es otra consigna.', { items: ['1', '2'], pick: [1] }]],
   'escala-solucion': [['tap', 'En cada nivel, de abajo hacia arriba, toca el paso que sí se justifica.', { items: ['2x = 8', '2x = 2'], pick: [0] }], ['tap', 'La cuerda une tu ruta hasta la bandera; puedes cambiar un agarre antes de comprobar.', { items: ['x = 4', 'x = 1'], pick: [1, 0] }]],
   'escala-leyes': [['tap', 'Toca las tarjetas en el orden que deja al escalador en la bandera. Se puede deshacer.', { items: ['· x³', '( )²', '÷ x⁴'], pick: [0, 1] }]],

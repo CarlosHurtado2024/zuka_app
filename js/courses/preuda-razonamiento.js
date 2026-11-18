@@ -13,17 +13,34 @@ const PU_L = (id, title, scenes, ex) => ({ id, title, clip: { scenes }, ex });
 const PU_RAZONAMIENTO = [
   // ---------------- 1 · Cálculo mental ----------------
   { world: 'pu-calculo', title: 'Cálculo mental', block: 'razonamiento', lessons: [
+    // Video: video/preuda-cosmos, película «enteros» (spec 2026-11-18-preuda-enteros). Las escenas cuentan lo mismo.
     PU_L('pu-cm-1', 'Enteros, signos y jerarquía', [
-      sc(6, 'Una cuenta larga se resuelve por capas: primero los **paréntesis**, luego **potencias y raíces**, después **× y ÷** de izquierda a derecha y al final **+ y −**.', { title: 'Jerarquía de operaciones' }),
-      sc(6, 'Con los signos basta una regla: dos factores con el **mismo signo** dan positivo; con **signos distintos**, negativo.', { title: '$(-3)(-4) = 12 \\qquad (-3)(4) = -12$' }),
-      sc(7, 'Ejemplo: $8 - 2 \\cdot (5 - 7)^2$. El paréntesis da $-2$, la potencia da $4$, el producto $2 \\cdot 4 = 8$ y queda $8 - 8 = 0$.', { title: '$8 - 2 \\cdot (5 - 7)^2 = 0$' }),
+      sc(6, 'Una cuenta, tres respuestas distintas: $8 - 2 \\cdot (5 - 7)^2$ da $0$, $24$ o $16$ según el orden en que se haga. Solo una es correcta.', { title: 'Una cuenta, tres respuestas' }),
+      sc(6, 'Los enteros son **posiciones** en la recta: a la derecha del 0 los positivos, a la izquierda los negativos. $-3$ y $3$ son **opuestos**: igual de lejos del 0.', { title: 'La recta numérica' }),
+      sc(6, 'Sumar es **moverse**: $+6$ va seis pasos a la derecha. $-4 + 6$ sale de $-4$ y llega a $2$.', { title: '$-4 + 6 = 2$' }),
+      sc(7, 'Restar es sumar el opuesto: $3 - 7 = 3 + (-7) = -4$. Y restar un negativo es **quitar una deuda**: $2 - (-5) = 7$.', { title: '$2 - (-5) = 2 + 5 = 7$' }),
+      sc(7, 'Multiplicar es repetir saltos: $(-3) \\cdot 4$ son cuatro saltos de 3 hacia la izquierda, $-12$. Multiplicar por $-1$ es **dar la vuelta** en el 0: $(-3)(-4)$ son dos vueltas, y queda $12$.', { title: 'El menos da la vuelta' }),
+      sc(6, 'Por eso se cuentan los negativos: un número **par** de signos menos da positivo, uno **impar** da negativo. $(-1)(-2)(-3) = -6$.', { title: 'Regla de los signos' }),
+      sc(7, 'La jerarquía son **capas**: primero los paréntesis, luego las potencias, después × y ÷ de izquierda a derecha, y al final + y −. Como vestirse: medias antes que zapatos.', { title: 'Las capas de una cuenta' }),
+      sc(7, 'Capa por capa: $5 - 7 = -2$, $(-2)^2 = 4$, $2 \\cdot 4 = 8$ y $8 - 8 = 0$. Ojo: $(-2)^2 = 4$, pero $-2^2 = -4$.', { title: '$8 - 2 \\cdot (5 - 7)^2 = 0$' }),
     ], [
-      PU_ES('Resuelve $-12 + 18 \\div (-3) \\cdot 2$ escalando paso a paso', [['18 ÷ (−3) = −6', '−12 + 18 = 6'], ['−6 · 2 = −12', '−6 · 2 = 12'], ['−12 + (−12) = −24', '−12 − 12 = 0']],
-        'La división y el producto van antes que la suma: $18 \\div (-3) = -6$, luego $-6 \\cdot 2 = -12$ y al final $-12 + (-12) = -24$.',
-        'La división y el producto se hacen antes que la suma, y entre ellos se trabaja de izquierda a derecha.'),
+      play('globo-lastre', 'Lleva el canasto a la altura de la bandera', { rounds: [
+        { g: 2, s: 5, act: 'addG', target: 1 }, { g: 3, s: 1, act: 'addS', target: -4 }, { g: 6, s: 2, act: 'remG', target: -1 },
+        { g: 1, s: 6, act: 'remS', target: -1 }, { g: 4, s: 6, act: 'remS', target: 3 },
+      ] }, 'Cada globo vale $+1$ y cada saco de arena $-1$. Amarrar globos es sumar positivos y colgar sacos es sumar negativos. Soltar un globo es restar un positivo: baja. Soltar un saco es restar un negativo: **sube**. Por eso $-5 - (-4) = -1$.',
+        { hint: 'Mira si el canasto está por debajo o por encima de la bandera y cuántos niveles le faltan. Luego piensa qué le pasa a la altura cada vez que haces lo que permite esa ronda.' }),
+      play('voltea-flecha', 'Estira y voltea la flecha hasta el aro', { rounds: [
+        { a: 2, target: -12 }, { a: -4, target: -20 }, { a: -2, target: 10 }, { a: -5, target: 15 }, { a: 6, target: -18 },
+      ] }, 'El multiplicador repite la flecha y, si es negativo, la refleja en el 0. Una flecha que ya miraba a la izquierda queda a la derecha al voltearla: por eso $(-2)(-5) = 10$ y $(-5)(-3) = 15$, mientras que $2 \\cdot (-6) = -12$.',
+        { hint: 'Primero decide cuántas copias de la flecha caben hasta el aro. Después mira de qué lado del 0 está el aro y hacia dónde apunta la flecha: así sabes si hay que voltearla.' }),
       PU_CTA('Un buzo está a 15 m bajo el nivel del mar, baja 3 tramos de 4 m y luego sube 10 m. Plantea su altura final', { sol: ['-15', '-', '3', '*', '4', '+', '10'], traps: ['5', '-4'], answer: -17, unit: 'm' },
         'Bajo el nivel del mar es negativo: $-15 - 3 \\cdot 4 + 10 = -15 - 12 + 10 = -17$ m.',
         'Escribe la posición inicial con signo negativo: bajar resta y subir suma. Los tres tramos iguales son un producto.'),
+      play('capas-operacion', 'Resuelve capa por capa: junta las fichas que se operan primero', { rounds: [
+        { title: 'Primero lo de adentro', items: [{ expr: '6 + 2 * ( 5 - 8 ) ^ 2' }, { expr: '( 4 - 9 ) * ( 3 + 1 )' }, { expr: '18 - ( 2 + 4 ) * 3' }] },
+        { title: 'Izquierda a derecha', items: [{ expr: '20 / 4 * 5 - 3' }, { expr: '-12 + 18 / -3 * 2' }, { expr: '3 ^ 2 - 4 * ( 1 - 3 )' }] },
+      ] }, 'El orden es: paréntesis, potencias, × y ÷ de izquierda a derecha, y + y − de izquierda a derecha. Por ejemplo, $6 + 2(5 - 8)^2 = 6 + 2 \\cdot 9 = 24$.',
+        { hint: 'Busca primero si queda algún paréntesis con una operación adentro. Si no, mira si hay potencias; luego × y ÷, y al final + y −, siempre la que esté más a la izquierda.' }),
     ]),
     PU_L('pu-cm-2', 'Fracciones', [
       sc(6, 'Simplificar es dividir arriba y abajo por el mismo número: la fracción no cambia de valor.', { title: '$\\tfrac{18}{24} = \\tfrac{3}{4}$' }),

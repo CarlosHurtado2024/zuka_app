@@ -55,7 +55,7 @@ test('90 lecciones: 57 de razonamiento y 33 de lectura, cada una con escenas y a
 });
 
 test('solo juegos (nada de opción múltiple ni de teclear), que existen, con pista y explicación', () => {
-  const OK = ['escala-solucion', 'arma-la-cuenta', 'ordena-terminos', 'encuesta-venn', 'subraya-texto'];
+  const OK = ['escala-solucion', 'arma-la-cuenta', 'ordena-terminos', 'encuesta-venn', 'subraya-texto', 'globo-lastre', 'voltea-flecha', 'capas-operacion'];
   for (const { l, e, i } of exercises) {
     const at = `${l.id}#${i}`;
     assert.equal(e.type, 'play', at);
