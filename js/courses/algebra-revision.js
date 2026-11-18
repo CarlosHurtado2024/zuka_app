@@ -886,19 +886,20 @@ const ALG_ABURRIDOS = ['escala-solucion', 'arma-la-cuenta', 'une-parejas', 'clas
       ] }, 'Se multiplica arriba y abajo por el factor que le falta a cada denominador: eso es multiplicar por 1 y la fracción no cambia. Si una fracción ya tiene el común denominador, no se toca. Luego se suman los numeradores.',
         { hint: 'Compara cada denominador con el común: el factor que le falta es el que va arriba y abajo.' }),
       play('resta-fracciones', 'El menos de la resta va a todo el numerador', { rounds: [
-        { A: ['3x', '+1'], B: ['x', '-4'], den: 'x + 2' }, { A: ['x^2'], B: ['x', '-6'], den: 'x - 3' }, { A: ['4x', '-2'], B: ['-x', '+5'], den: '2x' },
-      ] }, 'Al restar una fracción, el signo menos multiplica a todo su numerador: $3x + 1 - (x - 4) = 2x + 5$; $x^2 - (x - 6) = x^2 - x + 6$; $4x - 2 - (-x + 5) = 5x - 7$. Olvidar un término es el error más común.',
-        { hint: 'El menos está delante de un paréntesis: cada término de adentro cambia de signo, no solo el primero.' }),
+        { A: ['3x', '+1'], B: ['x', '-4'], den: 'x + 2' }, { A: ['x^2'], B: ['x', '-6'], C: ['2x', '-1'], den: 'x - 3' }, { A: ['4x', '-2'], B: ['-x', '+5'], C: ['x'], den: '2x' },
+      ] }, 'Al restar una fracción, el signo menos multiplica a todo su numerador; la que se suma queda igual: $3x + 1 - (x - 4) = 2x + 5$; $x^2 - (x - 6) + (2x - 1) = x^2 + x + 5$; $4x - 2 - (-x + 5) + x = 6x - 7$. Olvidar un término es el error más común.',
+        { hint: 'Mira qué signo hay delante de cada paréntesis: solo el menos cambia los signos, y los cambia todos.' }),
       play('multiplica-cancela', 'Multiplica y cancela cruzado', { rounds: [
         { top: ['x', 'x+5'], bottom: ['x+5', '3', 'x'] }, { top: ['x-4', 'x+1'], bottom: ['x+1', 'x+4', 'x-4'] }, { top: ['x', 'x', 'x-3'], bottom: ['x-3', 'x', '5'] },
       ] }, 'Al multiplicar fracciones todo lo de arriba queda multiplicando, y todo lo de abajo también: un factor de un numerador se cancela con uno igual de cualquier denominador. Quedan $\\dfrac{1}{3}$, $\\dfrac{1}{x + 4}$ y $\\dfrac{x}{5}$.',
         { hint: 'Busca parejas iguales: una arriba y otra abajo, sin importar de qué fracción venga cada una.' }),
       play('voltea-divide', 'Dividir es multiplicar por la recíproca', { rounds: [
-        { a: ['x + 1', '4'], b: ['x + 1', '8'], res: '\\dfrac{(x + 1) \\cdot 8}{4 (x + 1)} = 2' },
-        { a: ['x^2', 'x - 2'], b: ['x', 'x - 2'], res: '\\dfrac{x^2 (x - 2)}{(x - 2)\\, x} = x' },
-        { a: ['3', 'x + 5'], b: ['6', 'x(x + 5)'], res: '\\dfrac{3 \\cdot x(x + 5)}{(x + 5) \\cdot 6} = \\dfrac{x}{2}' },
-      ] }, 'Dividir entre una fracción es multiplicar por la fracción volteada: $\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\cdot \\dfrac{d}{c}$. Después se cancelan los factores comunes.',
-        { hint: 'Antes de multiplicar, la segunda fracción cambia arriba por abajo; la primera se queda quieta.' }),
+        { a: ['x + 1', '4'], b: ['x + 1', '8'], res: '\\dfrac{(x + 1) \\cdot 8}{4 (x + 1)} = 2', wrong: '\\tfrac12' },
+        { a: ['x^2', 'x - 2'], b: ['x', 'x - 2'], res: '\\dfrac{x^2 (x - 2)}{(x - 2)\\, x} = x', wrong: '\\tfrac1x' },
+        { a: ['3', 'x + 5'], b: ['6', 'x(x + 5)'], res: '\\dfrac{3 \\cdot x(x + 5)}{(x + 5) \\cdot 6} = \\dfrac{x}{2}', wrong: '\\tfrac2x' },
+        { a: ['x^2 - 1', '3'], b: ['x - 1', '1'], res: '\\dfrac{(x - 1)(x + 1)}{3 (x - 1)} = \\dfrac{x + 1}{3}', wrong: '\\tfrac{3}{x + 1}' },
+      ] }, 'Dividir entre una fracción es multiplicar por la fracción volteada: $\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\cdot \\dfrac{d}{c}$; se voltea solo el divisor. Una expresión sola es una fracción con 1 abajo: $x - 1 = \\tfrac{x - 1}{1}$. Después se cancelan los factores comunes.',
+        { hint: 'Pregúntate cuál es el divisor: la fracción que va después del signo ÷. Solo esa cambia.' }),
       keep('alg-25b', 'llena-estanque')]);
 
     setLesson('alg-101', [
@@ -938,7 +939,7 @@ const ALG_ABURRIDOS = ['escala-solucion', 'arma-la-cuenta', 'une-parejas', 'clas
       play('tapa-evalua', 'Tapa un factor y evalúa', { rounds: [
         { num: [1, 9], ps: [3, -3] }, { num: [3, 9], ps: [-1, -4] }, { num: [1, -4], ps: [0, 1, -2] },
       ] }, 'Para hallar el numerador de $\\dfrac{A}{x - p}$ se tapa $x - p$ en la fracción original y lo que queda se evalúa en $x = p$: $\\dfrac{3 + 9}{3 + 3} = 2$. Funciona porque, al multiplicar todo por $x - p$ y poner $x = p$, las demás fracciones se anulan.',
-        { hint: 'Tapa un factor; el número que aparece va arriba de la fracción parcial que tiene ese mismo factor abajo.' }),
+        { hint: 'Cada factor se tapa con el número que lo vuelve cero: cuidado con el signo dentro del paréntesis.' }),
       keep('alg-102', 'cruce-curvas')]);
 
     setExam('racionales', [
@@ -949,7 +950,7 @@ const ALG_ABURRIDOS = ['escala-solucion', 'arma-la-cuenta', 'une-parejas', 'clas
       ['alg-25b', 'El común denominador lleva cada factor con su mayor potencia.',
         play('denominador-comun', 'Arma el común denominador', { rounds: [{ d1: ['x', 'x+6'], d2: ['x+6', 'x-5'], chips: ['x', 'x+6', 'x-5', 'x-6'] }] }, '$x(x + 6)(x - 5)$.', { hint: 'El factor compartido va una vez.' })],
       ['alg-25b', 'Al restar, el menos cambia el signo de todo el numerador.',
-        play('resta-fracciones', 'Resta', { rounds: [{ A: ['2x'], B: ['x', '-3'], den: 'x + 1' }] }, '$2x - (x - 3) = x + 3$.', { hint: 'Todos cambian de signo.' })],
+        play('resta-fracciones', 'Resta y suma', { rounds: [{ A: ['2x'], B: ['x', '-3'], C: ['-x', '+4'], den: 'x + 1' }] }, '$2x - (x - 3) + (-x + 4) = 7$.', { hint: 'Solo el menos cambia signos.' })],
       ['alg-101', 'La solución de un sistema está en el cruce de las rectas.',
         play('dos-rectas', 'Busca el cruce', { rounds: [{ e1: [1, 1, 4], e2: [2, -1, 5] }] }, 'El punto $(3, 1)$ cumple las dos.', { hint: 'Desliza el punto por una recta.' })],
       ['alg-101', 'Sumando un múltiplo de una ecuación se elimina una incógnita.',
@@ -1004,9 +1005,9 @@ const ALG_ABURRIDOS = ['escala-solucion', 'arma-la-cuenta', 'une-parejas', 'clas
       keep('alg-72', 'regla-de-calculo')]);
 
     setLesson('alg-73', [keep('alg-73', 'balanza-exponencial'),
-      play('baja-con-log', 'Cuando las bases no coinciden: logaritmo', { rounds: [{ b: 5, N: 20 }, { b: 2, N: 10 }, { b: 1.05, N: 2 }] },
+      play('baja-con-log', 'Cuando las bases no coinciden: logaritmo', { rounds: [{ b: 5, N: 20, max: 4 }, { b: 2, N: 10, max: 6 }, { b: 1.05, N: 2, max: 20 }] },
         'Si no se puede escribir con la misma base, se toma logaritmo a los dos lados: $x \\log b = \\log N$, y se divide entre $\\log b$. $5^x = 20$ da $x \\approx 1.86$; $2^x = 10$, $x \\approx 3.32$; y al 5 % el dinero se duplica en $x \\approx 14.2$ periodos.',
-        { hint: 'La x está en el exponente: busca la operación que la baje, y luego la que la deje sola.' }),
+        { hint: 'Con logaritmos la potencia se vuelve un producto: busca la x donde la barra que crece alcanza a la fija.' }),
       play('sube-al-exponente', 'Del logaritmo a la potencia', { rounds: [{ b: 2, k: -1, c: 3 }, { b: 3, k: 4, c: 2 }, { b: 5, k: -5, c: 1 }, { b: 2, k: 3, c: -1 }] },
         '$\\log_b(x + k) = c$ quiere decir $x + k = b^c$: $x - 1 = 8$, $x = 9$; $x + 4 = 9$, $x = 5$; $x - 5 = 5$, $x = 10$; $x + 3 = \\tfrac12$, $x = -2.5$. La solución debe dejar positivo lo de adentro del logaritmo.',
         { hint: 'Escribe la ecuación como potencia: la base del logaritmo elevada al otro lado es lo de adentro.' }),
@@ -1035,7 +1036,145 @@ const ALG_ABURRIDOS = ['escala-solucion', 'arma-la-cuenta', 'une-parejas', 'clas
       ['alg-73', 'log_b(x + k) = c quiere decir x + k = bᶜ.',
         play('sube-al-exponente', 'Del logaritmo a la potencia', { rounds: [{ b: 3, k: -2, c: 2 }] }, '$x - 2 = 9$: $x = 11$.', { hint: 'Pasa a potencia.' })],
       ['alg-73', 'Con bases distintas se toma logaritmo a los dos lados.',
-        play('baja-con-log', 'Resuelve', { rounds: [{ b: 3, N: 50 }] }, '$x = \\dfrac{\\log 50}{\\log 3} \\approx 3.56$.', { hint: 'Baja el exponente.' })],
+        play('baja-con-log', 'Resuelve', { rounds: [{ b: 3, N: 50, max: 5 }] }, '$x = \\dfrac{\\log 50}{\\log 3} \\approx 3.56$.', { hint: 'Iguala las barras.' })],
     ]);
+  }
+  // ───────── Séptimo juego de las lecciones que tenían seis (pedido del 2026-11-18) ─────────
+  {
+    // Entra antes del juego en movimiento, que sigue siendo el último.
+    const add7 = (id, ex) => { const l = L(id); l.ex.splice(l.ex.length - 1, 0, { ...ex, canvasGuide: true, motion: false }); };
+    add7('alg-12', play('tasa-unitaria', 'Compara precios por unidad', { rounds: [
+      { names: ['paquete A', 'paquete B'], packs: [[6, 9000], [4, 7200]], step: 100, max: 2500 },
+      { names: ['paquete A', 'paquete B'], packs: [[12, 18000], [8, 10400]], step: 100, max: 2500 },
+      { names: ['paquete A', 'paquete B'], packs: [[3, 4500], [5, 8000]], step: 100, max: 2500 },
+    ] }, 'Para comparar paquetes de distinto tamaño se divide: precio ÷ unidades. $9000 \\div 6 = 1500$ frente a $7200 \\div 4 = 1800$; $18\\,000 \\div 12 = 1500$ frente a $10\\,400 \\div 8 = 1300$; $1500$ frente a $1600$. El paquete más grande no siempre es el más barato.',
+      { hint: 'Las copias del precio unitario deben llenar la barra del paquete exactamente: ni sobra ni falta.' }));
+    add7('alg-12f', play('tabla-compuesta', 'Regla de tres compuesta: reduce a la unidad', { rounds: [
+      { who: 'hornos', what: 'panes', m1: 2, h1: 3, c1: 1200, m2: 3, h2: 5, step: 50, max: 500 },
+      { who: 'pintores', what: 'paredes', m1: 4, h1: 2, c1: 16, m2: 6, h2: 3, step: 1, max: 10 },
+      { who: 'bombas', what: 'litros', m1: 5, h1: 2, c1: 3000, m2: 2, h2: 7, step: 50, max: 500 },
+    ] }, 'Si el resultado es proporcional a dos magnitudes, se busca lo que hace una unidad de cada una: $1200 \\div (2 \\cdot 3) = 200$ panes por horno y hora, y $200 \\cdot 3 \\cdot 5 = 3000$. Luego $16 \\div 8 = 2$ y $2 \\cdot 18 = 36$; $3000 \\div 10 = 300$ y $300 \\cdot 14 = 4200$.',
+      { hint: 'Cada casilla es un trabajador durante una hora; reparte el total conocido entre todas las casillas.' }));
+    add7('alg-13', play('estira-todo', '¿De qué número es ese porcentaje?', { rounds: [
+      { part: 15, p: 25, step: 5, max: 150 }, { part: 9, p: 12, step: 5, max: 150 }, { part: 36, p: 120, step: 5, max: 150 }, { part: 14, p: 35, step: 5, max: 150 },
+    ] }, 'Si la parte es el $p\\,\\%$ del total, el total es parte $\\div p \\cdot 100$: $15 \\div 25 \\cdot 100 = 60$, $9 \\div 12 \\cdot 100 = 75$, $36 \\div 120 \\cdot 100 = 30$ y $14 \\div 35 \\cdot 100 = 40$. Si el porcentaje pasa de 100, la parte es mayor que el total.',
+      { hint: 'Estira el total hasta que la marca del porcentaje caiga sobre la parte: la barra entera es el 100 %.' }));
+    add7('alg-13c', play('oferta-lleve', '«Lleve tantos, pague menos» en porcentaje', { rounds: [{ take: 5, pay: 4 }, { take: 4, pay: 3 }, { take: 2, pay: 1 }, { take: 10, pay: 7 }] },
+      'En «lleve $n$, pague $m$» se regalan $n - m$ de cada $n$: el descuento es $\\tfrac{n - m}{n}$. Lleve 5 pague 4: $\\tfrac15 = 20\\,\\%$; 4 por 3: $25\\,\\%$; 2 por 1: $50\\,\\%$; 10 por 7: $30\\,\\%$.',
+      { hint: 'El descuento es la parte que no se paga comparada con todo lo que te llevas.' }));
+    add7('alg-13d', play('puntos-o-porciento', 'Puntos porcentuales o por ciento', { rounds: [
+      { what: 'El desempleo', from: 20, to: 25 }, { what: 'La humedad', from: 40, to: 30 }, { what: 'La aprobación', from: 10, to: 15 }, { what: 'La tasa', from: 50, to: 60 },
+    ] }, 'La diferencia entre dos porcentajes se mide en puntos; el cambio relativo, sobre el valor de antes: de 20 % a 25 % son 5 puntos, pero $\\tfrac{5}{20} = 25\\,\\%$ de aumento. De 40 a 30: $-25\\,\\%$; de 10 a 15: $+50\\,\\%$; de 50 a 60: $+20\\,\\%$.',
+      { hint: 'Compara la diferencia con el valor de antes, no con 100.' }));
+
+    add7('alg-21a', play('ubica-potencias', 'Ubica las potencias en la recta', { rounds: [
+      { chips: [['2^5', 32], ['3^3', 27], ['5^2', 25], ['4^3', 64]], max: 70, snap: 1 },
+      { chips: [['2^{-1}', 0.5], ['3^0', 1], ['10^{-1}', 0.1], ['2^1', 2]], max: 2.5, snap: 0.1 },
+    ] }, 'Para comparar potencias hay que calcularlas: $2^5 = 32$ pasa a $5^2 = 25$ aunque su base sea menor, y $4^3 = 64$ queda lejos. Un exponente 0 da 1 y uno negativo da una fracción: $2^{-1} = \\tfrac12$, $10^{-1} = 0.1$.',
+      { hint: 'Calcula cada potencia multiplicando la base tantas veces como dice el exponente; un exponente negativo divide.' }));
+    add7('alg-21b', play('reparte-exponente', 'El exponente le llega a cada factor', { rounds: [{ a: 2, b: 5, n: 3 }, { a: 3, b: 2, n: 2 }, { a: 6, b: 2, n: 3, div: true }, { a: 2, b: 3, n: 4 }] },
+      '$(a \\cdot b)^n = a^n \\cdot b^n$ porque al repetir el producto $n$ veces cada factor aparece $n$ veces: $(2 \\cdot 5)^3 = 2^3 \\cdot 5^3 = 1000$. Con un cociente pasa igual: $(6 \\div 2)^3 = 6^3 \\div 2^3 = 27$.',
+      { hint: 'Escribe la potencia como el producto repetido y cuenta cuántas veces aparece cada factor.' }));
+    add7('alg-22a', play('lado-cubo', 'La raíz cúbica es el lado del cubo', { rounds: [{ V: 27 }, { V: 125 }, { V: 64 }, { V: 8 }] },
+      '$\\sqrt[3]{V}$ es el lado del cubo de volumen $V$: $3^3 = 27$, $5^3 = 125$, $4^3 = 64$ y $2^3 = 8$.',
+      { hint: 'Cuenta los cubitos de una capa y multiplícalos por el número de capas.' }));
+    add7('alg-22b', play('indice-radical', 'Simplifica el índice', { rounds: [{ n0: 6, m0: 8, n: 2, m: 2 }, { n0: 4, m0: 9, n: 2, m: 3 }, { n0: 6, m0: 25, n: 3, m: 5 }, { n0: 9, m0: 27, n: 3, m: 3 }] },
+      'Si el radicando es una potencia, índice y exponente se dividen entre lo mismo: $\\sqrt[6]{8} = \\sqrt[6]{2^3} = 2^{3/6} = \\sqrt{2}$; $\\sqrt[4]{9} = \\sqrt[4]{3^2} = \\sqrt3$; $\\sqrt[6]{25} = \\sqrt[3]{5}$; $\\sqrt[9]{27} = \\sqrt[3]{3}$.',
+      { hint: 'Escribe el radicando como potencia de un número primo y simplifica la fracción exponente.' }));
+
+    add7('alg-14', play('arregla-termino', 'Un término rompe la progresión', { rounds: [
+      { terms: [3, 7, 11, 16, 19], fix: [3, 15] }, { terms: [20, 17, 13, 11, 8], fix: [2, 14] }, { terms: [-5, -2, 1, 4, 8], fix: [4, 7] }, { terms: [2, 8, 10, 14, 18], fix: [1, 6] },
+    ] }, 'En una progresión aritmética la diferencia es constante. En $3, 7, 11, 16, 19$ casi todas son $+4$: el cuarto debía ser 15. Luego $-3$ pide 14; $+3$ pide 7; y $+4$ pide 6 en el segundo lugar.',
+      { hint: 'Busca la diferencia que más se repite; el término mal es el que tiene diferencias raras a sus dos lados.' }));
+    add7('alg-14b', play('suma-impares', 'La suma de los impares es un cuadrado', { rounds: [{ S: 49 }, { S: 36 }, { S: 81 }, { S: 100 }] },
+      'Cada impar es una escuadra que agranda el cuadrado: $1 + 3 + \\dots + (2n - 1) = n^2$. Con 7 impares la suma es 49; con 6, 36; con 9, 81; con 10, 100. Es la suma aritmética: $n \\cdot \\tfrac{1 + (2n - 1)}{2} = n^2$.',
+      { hint: 'Mira la forma: con n escuadras tienes un cuadrado de lado n.' }));
+    add7('alg-14c', play('zigzag-razon', 'Razón negativa o menor que 1', { rounds: [{ a: 1, r: -2 }, { a: 8, r: -0.5 }, { a: 2, r: -1 }, { a: 1, r: 3 }] },
+      'La razón es cada término dividido entre el anterior: $-2 \\div 1 = -2$ (los signos se alternan), $-4 \\div 8 = -\\tfrac12$ (se alternan y se achican), $-2 \\div 2 = -1$ (vaivén) y $3 \\div 1 = 3$.',
+      { hint: 'Divide un término entre el anterior; el signo del cociente dice si la cadena hace zigzag.' }));
+    add7('alg-14d', play('periodico-serie', 'El decimal periódico es una serie', { rounds: [{ block: '3' }, { block: '45' }, { block: '12' }, { block: '6' }] },
+      '$0.\\overline{45} = \\tfrac{45}{100} + \\tfrac{45}{100^2} + \\dots$ es geométrica de razón $\\tfrac1{100}$: suma $\\tfrac{45/100}{1 - 1/100} = \\tfrac{45}{99} = \\tfrac{5}{11}$. Igual: $0.\\overline3 = \\tfrac13$, $0.\\overline{12} = \\tfrac{4}{33}$, $0.\\overline6 = \\tfrac23$.',
+      { hint: 'El bloque que se repite va sobre tantos nueves como cifras tenga; luego simplifica.' }));
+    add7('alg-15', play('producto-telescopico', 'Productoria telescópica', { rounds: [{ kind: 'up', target: 6 }, { kind: 'down', target: 0.125 }, { kind: 'up', target: 11 }] },
+      'En $\\prod \\tfrac{k + 1}{k}$ cada numerador se cancela con el denominador siguiente y quedan los extremos: $\\tfrac{n + 1}{1}$. En $\\prod_{k = 2}^{n} \\tfrac{k - 1}{k}$ queda $\\tfrac1n$.',
+      { hint: 'Escribe los primeros factores y tacha lo que se repite arriba y abajo: ¿qué sobrevive?' }));
+
+    add7('alg-23a', play('monomio-area', 'El producto de monomios es un área', { rounds: [{ f: [[3, 1], [2, 2]] }, { f: [[4, 2], [5, 1]] }, { f: [[2, 3], [4, 2]] }, { f: [[3, 1], [3, 1]] }] },
+      'Los números se multiplican y los exponentes de la misma letra se suman: $3x \\cdot 2x^2 = 6x^3$, $4x^2 \\cdot 5x = 20x^3$, $2x^3 \\cdot 4x^2 = 8x^5$, $3x \\cdot 3x = 9x^2$.',
+      { hint: 'Separa: primero el producto de los números, después cuántas x quedan multiplicándose en total.' }));
+    add7('alg-3', play('cubo-del-binomio', 'El cubo de un binomio', { rounds: [{ b: 1 }, { b: 2 }, { b: 3 }] },
+      'El cubo de arista $x + b$ se parte en un cubo $x^3$, tres losas $b x^2$, tres barras $b^2 x$ y un cubito $b^3$: $(x + 2)^3 = x^3 + 6x^2 + 12x + 8$.',
+      { hint: 'Hay tres losas iguales y tres barras iguales: cada coeficiente es 3 por el área o el largo de una pieza.' }));
+    add7('alg-24c', play('elige-comite', 'Comités: los números de Pascal', { rounds: [{ n: 4, ways: 6 }, { n: 5, ways: 10 }, { n: 6, ways: 15 }, { n: 7, ways: 35 }] },
+      'Cada persona es un paréntesis $(1 + x)$: entra al comité (se toma la $x$) o no. Las maneras de escoger $k$ entre $n$ son $\\binom{n}{k}$, un número de la fila $n$ de Pascal: $\\binom42 = 6$, $\\binom52 = 10$, $\\binom62 = 15$, $\\binom73 = 35$. Escoger a $k$ es lo mismo que dejar por fuera a $n - k$.',
+      { hint: 'Busca el número en la fila del triángulo de Pascal que corresponde al número de personas.' }));
+    add7('alg-24b', play('parte-medio', 'Parte el término del medio', { rounds: [{ a: 2, b: 7, c: 3 }, { a: 3, b: -1, c: -2 }, { a: 6, b: 5, c: 1 }, { a: 2, b: -5, c: 2 }] },
+      'Se buscan $m$ y $n$ con $m + n = b$ y $mn = ac$: $2x^2 + 7x + 3$ pide $6$ y $1$, y $2x^2 + 6x + x + 3 = (2x + 1)(x + 3)$. Luego $-3, 2$; $3, 2$; $-4, -1$.',
+      { hint: 'Primero multiplica a por c; luego busca entre los divisores de ese número dos que sumen b.' }));
+
+    add7('alg-23c', play('cuadrado-complejo', 'La raíz cuadrada de un complejo', { rounds: [{ t: [-4, 0] }, { t: [0, 2] }, { t: [3, 4] }, { t: [-5, 12] }] },
+      'Al elevar $a + bi$ al cuadrado sale $a^2 - b^2 + 2ab\\,i$: el ángulo se duplica y el módulo se eleva al cuadrado. Así $(2i)^2 = -4$, $(1 + i)^2 = 2i$, $(2 + i)^2 = 3 + 4i$ y $(2 + 3i)^2 = -5 + 12i$. El opuesto también sirve.',
+      { hint: 'El módulo de z debe ser la raíz del módulo de la estrella, y su ángulo la mitad.' }));
+    add7('alg-1', play('edades-barras', 'Un problema de edades', { rounds: [{ k1: 3, L: 10, k2: 2 }, { k1: 4, L: 6, k2: 2 }, { k1: 5, L: 4, k2: 3 }, { k1: 3, L: 12, k2: 2 }] },
+      'Con $x$ la edad del hijo: $3x + 10 = 2(x + 10)$ da $x = 10$. Luego $4x + 6 = 2(x + 6)$, $x = 3$; $5x + 4 = 3(x + 4)$, $x = 4$; $3x + 12 = 2(x + 12)$, $x = 12$. Los dos envejecen lo mismo.',
+      { hint: 'La primera condición ya la cumple la barra; mueve la edad hasta que también se cumpla la segunda.' }));
+    add7('alg-4a', play('tres-puntos', 'La parábola por tres puntos', { rounds: [{ a: 1, b: -2, c: -3, xs: [-1, 0, 3] }, { a: -1, b: 2, c: 3, xs: [0, 1, 3] }, { a: 2, b: 0, c: -4, xs: [0, 1, 2] }] },
+      'Tres puntos con $x$ distintas fijan una sola parábola. El punto con $x = 0$ da $c$ directamente; los otros dos dan un sistema para $a$ y $b$: $y = x^2 - 2x - 3$, $y = -x^2 + 2x + 3$ y $y = 2x^2 - 4$.',
+      { hint: 'Empieza por c: es la altura del punto que está sobre el eje y.' }));
+    add7('alg-4', play('vieta-raices', 'Suma y producto de las raíces', { rounds: [{ S: 5, P: 6 }, { S: -1, P: -6 }, { S: 0, P: -9 }, { S: -4, P: 4 }] },
+      'Si $x^2 - Sx + P = (x - r_1)(x - r_2)$, entonces $r_1 + r_2 = S$ y $r_1 r_2 = P$: raíces 2 y 3; $-3$ y 2; $3$ y $-3$; y $-2$ doble.',
+      { hint: 'Con producto negativo las raíces tienen signos distintos; con suma cero son opuestas.' }));
+
+    add7('alg-23b', play('reparte-terminos', 'Divide término a término', { rounds: [
+      { terms: ['6x^3', '+4x^2', '-2x'], d: '2x', ans: ['3x^2', '+2x', '-1'], tray: ['3x^2', '+2x', '-1', '3x^3', '+2x^2', '-x'] },
+      { terms: ['9x^4', '-3x^2'], d: '3x^2', ans: ['3x^2', '-1'], tray: ['3x^2', '-1', '6x^2', '-x', '3x^6'] },
+      { terms: ['10x^5', '+5x^3', '+15x'], d: '5x', ans: ['2x^4', '+x^2', '+3'], tray: ['2x^4', '+x^2', '+3', '2x^5', '+x^3', '+3x'] },
+    ] }, 'Un divisor monomio reparte: cada término se divide por separado, números entre números y exponentes que se restan: $\\tfrac{6x^3}{2x} = 3x^2$, $\\tfrac{-2x}{2x} = -1$. Un término igual al divisor da 1, no 0.',
+      { hint: 'En cada término: divide los números y resta el exponente del divisor al del término.' }));
+    add7('alg-92', play('divisor-fraccion', 'Dividir entre ax − b', { rounds: [{ P: [2, -1, 3, -1], a: 2, b: 1 }, { P: [4, 0, -1, 5], a: 2, b: -1 }, { P: [1, 2, 0, -3], a: 1, b: 2 }] },
+      'El residuo de dividir entre $ax - b$ es $P\\left(\\tfrac ba\\right)$: el número que anula el divisor. Entre $2x - 1$ se evalúa en $\\tfrac12$ y el residuo es $0.5$; entre $2x + 1$, en $-\\tfrac12$ (residuo 5); entre $x - 2$, en 2 (residuo 13).',
+      { hint: 'Busca el valor de x que hace cero al divisor completo, con su coeficiente incluido.' }));
+    add7('alg-93', play('ceros-fraccion', 'Ceros que son fracciones', { rounds: [{ P: [2, -3, -3, 2], zeros: [-1, 0.5, 2] }, { P: [2, -1, -1], zeros: [-0.5, 1] }, { P: [4, 0, -1], zeros: [-0.5, 0.5] }] },
+      'Un cero racional $\\tfrac pq$ tiene $p$ divisor del término independiente y $q$ divisor del coeficiente principal; por eso con 2 o 4 adelante aparecen mitades: $2x^3 - 3x^2 - 3x + 2 = (x + 1)(2x - 1)(x - 2)$.',
+      { hint: 'Prueba enteros y mitades: si el primer coeficiente es 2 o 4, los ceros pueden ser medios.' }));
+
+    add7('alg-25a', play('signo-afuera', 'Factores opuestos', { rounds: [
+      { top: ['2-x'], bottom: ['x-2'], pairs: [[0, 0]], res: '-1' },
+      { top: ['x+3', '5-x'], bottom: ['x-5', 'x'], pairs: [[1, 0]], res: '-\\dfrac{x+3}{x}' },
+      { top: ['x-4'], bottom: ['4-x', 'x+1'], pairs: [[0, 0]], res: '-\\dfrac{1}{x+1}' },
+      { top: ['3-x', 'x+2'], bottom: ['x+2', 'x-3'], pairs: [[0, 1]], res: '-1' },
+    ] }, '$a - b$ y $b - a$ son opuestos: $2 - x = -(x - 2)$. Se saca el signo de uno, los factores iguales se cancelan y queda un $-1$: $\\tfrac{2 - x}{x - 2} = -1$. Un factor como $x + 3$ no tiene opuesto aquí.',
+      { hint: 'Busca parejas que tengan los mismos números pero restados al revés; basta voltear uno de los dos.' }));
+    add7('alg-25b', play('fraccion-compuesta', 'Simplifica la fracción compuesta', { rounds: [
+      { tex: '\\dfrac{\\frac1x + \\frac12}{x + 2}', chips: ['x', '2', '2x', 'x^2'], good: 2, res: '\\dfrac{2 + x}{2x(x + 2)} = \\dfrac{1}{2x}', why: ['queda el 1/2 adentro', 'queda el 1/x adentro', '', 'queda el 1/2 adentro'] },
+      { tex: '\\dfrac{1 - \\frac1x}{1 - \\frac{1}{x^2}}', chips: ['x', 'x^2', 'x - 1', '2x'], good: 1, res: '\\dfrac{x^2 - x}{x^2 - 1} = \\dfrac{x}{x + 1}', why: ['queda el 1/x² adentro', '', 'no quita ninguna fracción', 'queda el 1/x² adentro'] },
+      { tex: '\\dfrac{\\frac3x}{\\frac{6}{x^2}}', chips: ['3', 'x', 'x^2', '6'], good: 2, res: '\\dfrac{3x}{6} = \\dfrac{x}{2}', why: ['quedan las dos fracciones', 'queda el 6/x² como 6/x', '', 'quedan las dos fracciones'] },
+    ] }, 'Se multiplica arriba y abajo por el común denominador de las fracciones de adentro; así todas desaparecen a la vez: con $2x$, $\\tfrac{\\frac1x + \\frac12}{x + 2} = \\tfrac{2 + x}{2x(x + 2)} = \\tfrac1{2x}$.',
+      { hint: 'Mira los denominadores pequeños de adentro: el multiplicador debe ser múltiplo de todos.' }));
+    add7('alg-101', play('escalera-sistema', 'Tres ecuaciones en escalera', { rounds: [
+      { eqs: [[1, 2, -1, -6], [0, 1, 1, 1], [0, 0, 2, 6]], sol: [1, -2, 3] },
+      { eqs: [[1, -1, 3, -2], [0, 2, 1, 1], [0, 0, 1, -1]], sol: [2, 1, -1] },
+      { eqs: [[1, 1, 1, -1], [0, 1, -2, -4], [0, 0, 3, 6]], sol: [-3, 0, 2] },
+    ] }, 'En un sistema escalonado la última ecuación tiene una sola incógnita: $2z = 6$ da $z = 3$; con ella, $y + 3 = 1$ da $y = -2$; y con las dos, $x - 4 - 3 = -6$ da $x = 1$.',
+      { hint: 'Empieza por la ecuación de abajo, que solo tiene z; cada valor hallado sirve para la de arriba.' }));
+    add7('alg-102', play('parciales-repetido', 'Fracciones parciales con factor repetido', { rounds: [{ p: 1, c: 2, d: -1 }, { p: -2, c: 3, d: 5 }, { p: 3, c: 1, d: 4 }, { p: -1, c: -1, d: 3 }] },
+      'Un factor al cuadrado pide dos fracciones: $\\tfrac{A}{x - p} + \\tfrac{B}{(x - p)^2}$, cuyo numerador común es $A(x - p) + B$. El coeficiente de $x$ da $A$ y el número suelto da $B$: $\\tfrac{2x - 1}{(x - 1)^2} = \\tfrac{2}{x - 1} + \\tfrac{1}{(x - 1)^2}$.',
+      { hint: 'Solo A acompaña a la x: empieza por A con la barra de x y luego ajusta B con la del número.' }));
+
+    add7('alg-71', play('cruce-potencias', 'Exponencial contra polinomio', { rounds: [{ b: 2, g: 'sq', zeros: [2, 4] }, { b: 2, g: 'lin', zeros: [1, 2] }, { b: 2, g: 'plus1', zeros: [0, 1] }] },
+      '$2^x$ y $x^2$ valen lo mismo en $x = 2$ y $x = 4$; después la exponencial gana para siempre: $2^5 = 32 > 25$. Con $2x$ se cruzan en 1 y 2; con $x + 1$, en 0 y 1. Multiplicar siempre por lo mismo termina superando a cualquier polinomio.',
+      { hint: 'Compara las dos tablas de valores en x = 0, 1, 2, …: busca dónde dan el mismo número.' }));
+    add7('alg-13b', play('regla-del-72', 'La regla del 72', { rounds: [{ r: 8 }, { r: 12 }, { r: 9 }, { r: 24 }] },
+      'Al $r\\,\\%$ compuesto el dinero se duplica en unos $72 \\div r$ periodos: al 8 % la regla dice 9 años y $1.08^9 \\approx 1.999$, así que se duplica al décimo. Al 12 %: regla 6, real 7; al 9 %: regla 8, real 9; al 24 %: regla 3, real 4.',
+      { hint: 'La barra debe pasar la marca de 2 pesos; la regla del 72 te da un buen punto de partida.' }));
+    add7('alg-72', play('escala-sonido', 'Los decibeles son un logaritmo', { rounds: [{ tex: '10^{3}', db: 30 }, { tex: '1\\,000\\,000', db: 60 }, { tex: '1', db: 0 }, { tex: '10^{11}', db: 110 }] },
+      'El nivel en decibeles es $10 \\log \\tfrac{I}{I_0}$: diez veces el exponente de la intensidad relativa. $10^3$ da 30 dB; $1\\,000\\,000 = 10^6$ da 60; $1 = 10^0$ da 0 (el umbral); $10^{11}$ da 110. Cada 10 dB más es diez veces más intensidad.',
+      { hint: 'Escribe la intensidad como potencia de 10 y multiplica su exponente por 10.' }));
+    add7('alg-73', play('dos-ciudades', '¿Cuándo una ciudad alcanza a la otra?', { rounds: [
+      { names: ['Villa Sol', 'Río Claro'], A: 50000, a: 2, B: 40000, b: 5 },
+      { names: ['El Alto', 'La Vega'], A: 90000, a: 1, B: 60000, b: 4 },
+      { names: ['Norte', 'Sur'], A: 30000, a: 3, B: 20000, b: 8 },
+    ] }, 'Con tasas $a\\,\\%$ y $b\\,\\%$ se iguala $A\\left(1 + \\tfrac{a}{100}\\right)^t = B\\left(1 + \\tfrac{b}{100}\\right)^t$ y se toma logaritmo: $t = \\dfrac{\\log(A/B)}{\\log\\frac{1 + b/100}{1 + a/100}}$. Para la primera, $t \\approx 7.7$: el pueblo de abajo pasa en el año 8.',
+      { hint: 'Compara las barras año tras año: la de crecimiento rápido acorta la distancia cada vez más.' }));
   }
 })();

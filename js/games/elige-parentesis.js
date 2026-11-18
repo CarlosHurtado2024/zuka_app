@@ -27,7 +27,7 @@ GAMES['elige-parentesis'] = (() => {
       // Las maneras halladas.
       const total = C_(r.n, r.k), cols = Math.max(1, Math.floor((G.W - 90) / 64));
       s.found.forEach((m, j) => { const x = 80 + (j % cols) * 64, y = G.trayY + Math.floor(j / cols) * 22; TK.label(p, C, Array.from({ length: r.n }, (_, i) => (m.includes(String(i)) ? 'b' : 'a')).join(''), x + 24, y + 10, C.ink, 11, 60); });
-      RK.strip(p, C, G.fb, `$${s.found.length}\\text{ de }\\binom{${r.n}}{${r.k}}\\ \\text{maneras}$`, { kicker: `${r.n - r.k} paréntesis dan a y ${r.k} dan b`, col: G.locked || ok(s, r) ? C.ok : C.brand, size: 17 });
+      RK.strip(p, C, G.fb, `$${s.found.length}\\text{ de }C(${r.n}, ${r.k})\\ \\text{maneras}$`, { kicker: `${r.n - r.k} paréntesis dan a y ${r.k} dan b`, col: G.locked || ok(s, r) ? C.ok : C.brand, size: 17 });
       if (G.locked && !ok(s, r)) TK.label(p, C, `eran ${total} maneras`, G.W / 2, G.fb.y - 12, C.ok, 12, 160);
     },
     press(G, x, y) {

@@ -62,7 +62,7 @@ Son 162 de los 302 ejercicios: más de la mitad de la práctica es el mismo puñ
 1. **Ningún `taller-*` en las lecciones.** Cada ejercicio tiene una escena propia que dibuja la idea de su lección.
 2. **Ningún juego repetido dentro del curso de Álgebra** (cada juego vive en una sola lección). Las evaluaciones sí
    reutilizan juegos de sus lecciones, con datos nuevos.
-3. De 6 a 8 ejercicios distintos por lección, el último en movimiento; todos con pista y con la
+3. 7 u 8 ejercicios distintos por lección, el último en movimiento; todos con pista y con la
    mano que muestra el gesto (`demo`).
 4. Cada escena corresponde a la idea: recta para la recta, plano solo cuando hay dos variables o una gráfica, balanza
    solo cuando hay dos lados que deben pesar lo mismo (una ecuación), área cuando hay un producto.
@@ -119,12 +119,12 @@ Evaluación (19 preguntas, 29 min): `laberinto-valor`, `pares-cero`, `flecha-res
 
 | Lección | Ejercicios (el último en movimiento) |
 |---|---|
-| `alg-12` | `limonada`, `barra-razon`, `estira-foto`, `rejilla-razon`, `receta-escala`, `bici-cambios` |
+| `alg-12` | `limonada`, `barra-razon`, `estira-foto`, `rejilla-razon`, `receta-escala`, `tasa-unitaria`, `bici-cambios` |
 | `alg-12e` | `balanza-proporcion`, `sombra-arbol`, `cuadrado-media`, `duplica-magnitud`, `grafica-relacion`, `reparto`, `llaves-tanque` |
-| `alg-12f` | `arma-regla`, `bascula`, `la-obra`, `mapa-escala`, `engranajes`, `resortera-tres` |
-| `alg-13` | `cuadricula-cien`, `rueda-porcentaje`, `pinta-personas`, `cruz-porcentaje`, `mezcla`, `tanque-porcentaje` |
-| `alg-13c` | `estira-barra`, `etiqueta-rebaja`, `factor-cambio`, `bodegas`, `precio-original`, `rampa-precio` |
-| `alg-13d` | `cascada`, `rebote`, `semanas-rebaja`, `dos-etapas`, `sube-y-baja`, `rompe-cambios` |
+| `alg-12f` | `arma-regla`, `bascula`, `la-obra`, `mapa-escala`, `engranajes`, `tabla-compuesta`, `resortera-tres` |
+| `alg-13` | `cuadricula-cien`, `rueda-porcentaje`, `pinta-personas`, `cruz-porcentaje`, `mezcla`, `estira-todo`, `tanque-porcentaje` |
+| `alg-13c` | `estira-barra`, `etiqueta-rebaja`, `factor-cambio`, `bodegas`, `precio-original`, `oferta-lleve`, `rampa-precio` |
+| `alg-13d` | `cascada`, `rebote`, `semanas-rebaja`, `dos-etapas`, `sube-y-baja`, `puntos-o-porciento`, `rompe-cambios` |
 
 Evaluación (18 preguntas, 27 min): `domino-equivalencias`, `barra-razon`, `rejilla-razon`, `laberinto-valor`, `receta-escala`, `detective-pasos`, `mapa-escala`, `la-obra`, `pinta-personas`, `cuadricula-cien`, `factor-cambio`, `precio-original`, `semanas-rebaja`, `sube-y-baja`.
 
@@ -132,10 +132,10 @@ Evaluación (18 preguntas, 27 min): `domino-equivalencias`, `barra-razon`, `reji
 
 | Lección | Ejercicios (el último en movimiento) |
 |---|---|
-| `alg-21a` | `arbol-potencia`, `torre-producto`, `escalera-potencias`, `pares-negativos`, `cubo-bloques`, `torre-pisos` |
-| `alg-21b` | `cuenta-factores`, `cancela-pisos`, `cambia-de-piso`, `copias-potencia`, `salta-la-coma`, `escala-leyes` |
-| `alg-22a` | `lado-del-cuadrado`, `reparte-factores`, `fraccion-exponente`, `absoluto-raiz`, `suma-raices`, `siembra-raices` |
-| `alg-22b` | `saca-del-radical`, `parte-baldosa`, `copias-raiz`, `racionaliza-uno`, `tabla-conjugado`, `muro-radicales` |
+| `alg-21a` | `arbol-potencia`, `torre-producto`, `escalera-potencias`, `pares-negativos`, `cubo-bloques`, `ubica-potencias`, `torre-pisos` |
+| `alg-21b` | `cuenta-factores`, `cancela-pisos`, `cambia-de-piso`, `copias-potencia`, `salta-la-coma`, `reparte-exponente`, `escala-leyes` |
+| `alg-22a` | `lado-del-cuadrado`, `reparte-factores`, `fraccion-exponente`, `absoluto-raiz`, `suma-raices`, `lado-cubo`, `siembra-raices` |
+| `alg-22b` | `saca-del-radical`, `parte-baldosa`, `copias-raiz`, `racionaliza-uno`, `tabla-conjugado`, `indice-radical`, `muro-radicales` |
 
 Evaluación (12 preguntas, 18 min): `laberinto-valor`, `escalera-potencias`, `piramide-numerica`, `detective-pasos`, `cancela-pisos`, `copias-potencia`, `domino-equivalencias`, `fraccion-exponente`, `suma-raices`, `copias-raiz`, `racionaliza-uno`.
 
@@ -143,11 +143,11 @@ Evaluación (12 preguntas, 18 min): `laberinto-valor`, `escalera-potencias`, `pi
 
 | Lección | Ejercicios (el último en movimiento) |
 |---|---|
-| `alg-14` | `pisa-huellas`, `escalera-aritmetica`, `goteo-tanque`, `cuenta-saltos`, `poste-cerca`, `traza-progresion` |
-| `alg-14b` | `dos-escaleras`, `parejas-gauss`, `nivela-barras`, `suma-filas`, `alcancia-semanas`, `encesta-suma` |
-| `alg-14c` | `rebota-pelota`, `razon-terminos`, `rellena-medios`, `carrera-crecimiento`, `cultivo-celulas`, `dobla-fichas` |
-| `alg-14d` | `resta-corrida`, `torre-geometrica`, `limite-serie`, `cuadrado-mitades`, `ajusta-razon`, `rana-zenon` |
-| `alg-15` | `arma-sigma`, `sigma-indices`, `parte-sigma`, `cambia-indice`, `factorial-cajas`, `maquina-sigma` |
+| `alg-14` | `pisa-huellas`, `escalera-aritmetica`, `goteo-tanque`, `cuenta-saltos`, `poste-cerca`, `arregla-termino`, `traza-progresion` |
+| `alg-14b` | `dos-escaleras`, `parejas-gauss`, `nivela-barras`, `suma-filas`, `alcancia-semanas`, `suma-impares`, `encesta-suma` |
+| `alg-14c` | `rebota-pelota`, `razon-terminos`, `rellena-medios`, `carrera-crecimiento`, `cultivo-celulas`, `zigzag-razon`, `dobla-fichas` |
+| `alg-14d` | `resta-corrida`, `torre-geometrica`, `limite-serie`, `cuadrado-mitades`, `ajusta-razon`, `periodico-serie`, `rana-zenon` |
+| `alg-15` | `arma-sigma`, `sigma-indices`, `parte-sigma`, `cambia-indice`, `factorial-cajas`, `producto-telescopico`, `maquina-sigma` |
 
 Evaluación (12 preguntas, 18 min): `goteo-tanque`, `poste-cerca`, `nivela-barras`, `alcancia-semanas`, `razon-terminos`, `cultivo-celulas`, `resta-corrida`, `torre-geometrica`, `ajusta-razon`, `parte-sigma`, `sigma-indices`, `factorial-cajas`.
 
@@ -155,10 +155,10 @@ Evaluación (12 preguntas, 18 min): `goteo-tanque`, `poste-cerca`, `nivela-barra
 
 | Lección | Ejercicios (el último en movimiento) |
 |---|---|
-| `alg-23a` | `bloques-polinomio`, `reduce-semejantes`, `resta-voltea`, `evalua-polinomio`, `llena-rectangulo`, `torre-grados` |
-| `alg-3` | `bloques-area`, `parte-cuadrado`, `diferencia-cuadrados`, `binomios-comun`, `marco-cuadro`, `arma-la-mesa` |
-| `alg-24c` | `triangulo-pascal`, `elige-parentesis`, `exponentes-binomio`, `fila-potencia`, `once-potencias`, `camino-pascal` |
-| `alg-24b` | `factor-comun-bloques`, `diferencia-esquina`, `suma-producto`, `agrupa-terminos`, `completa-cuadrado`, `reparte-barras` |
+| `alg-23a` | `bloques-polinomio`, `reduce-semejantes`, `resta-voltea`, `evalua-polinomio`, `llena-rectangulo`, `monomio-area`, `torre-grados` |
+| `alg-3` | `bloques-area`, `parte-cuadrado`, `diferencia-cuadrados`, `binomios-comun`, `marco-cuadro`, `cubo-del-binomio`, `arma-la-mesa` |
+| `alg-24c` | `triangulo-pascal`, `elige-parentesis`, `exponentes-binomio`, `fila-potencia`, `once-potencias`, `elige-comite`, `camino-pascal` |
+| `alg-24b` | `factor-comun-bloques`, `diferencia-esquina`, `suma-producto`, `agrupa-terminos`, `completa-cuadrado`, `parte-medio`, `reparte-barras` |
 
 Evaluación (9 preguntas, 14 min): `bloques-polinomio`, `resta-voltea`, `binomios-comun`, `diferencia-cuadrados`, `exponentes-binomio`, `triangulo-pascal`, `bloques-area`, `suma-producto`, `diferencia-esquina`.
 
@@ -166,10 +166,10 @@ Evaluación (9 preguntas, 14 min): `bloques-polinomio`, `resta-voltea`, `binomio
 
 | Lección | Ejercicios (el último en movimiento) |
 |---|---|
-| `alg-23c` | `plano-complejo`, `vueltas-i`, `suma-complejos`, `conjugado-espejo`, `modulo-circulo`, `gira-complejos` |
-| `alg-1` | `despeja-x`, `encuentro-caminantes`, `consecutivos`, `sin-o-infinitas`, `perimetro-x`, `balanza-cajas` |
-| `alg-4a` | `mueve-parabola`, `simetria-parabola`, `abertura-a`, `forma-canonica`, `ingreso-maximo`, `apunta-chorro` |
-| `alg-4` | `raices-imanes`, `producto-cero`, `discriminante-traslada`, `raices-simetricas`, `area-ecuacion`, `donde-cae` |
+| `alg-23c` | `plano-complejo`, `vueltas-i`, `suma-complejos`, `conjugado-espejo`, `modulo-circulo`, `cuadrado-complejo`, `gira-complejos` |
+| `alg-1` | `despeja-x`, `encuentro-caminantes`, `consecutivos`, `sin-o-infinitas`, `perimetro-x`, `edades-barras`, `balanza-cajas` |
+| `alg-4a` | `mueve-parabola`, `simetria-parabola`, `abertura-a`, `forma-canonica`, `ingreso-maximo`, `tres-puntos`, `apunta-chorro` |
+| `alg-4` | `raices-imanes`, `producto-cero`, `discriminante-traslada`, `raices-simetricas`, `area-ecuacion`, `vieta-raices`, `donde-cae` |
 
 Evaluación (9 preguntas, 14 min): `suma-complejos`, `modulo-circulo`, `despeja-x`, `consecutivos`, `mueve-parabola`, `forma-canonica`, `simetria-parabola`, `producto-cero`, `discriminante-traslada`.
 
@@ -177,9 +177,9 @@ Evaluación (9 preguntas, 14 min): `suma-complejos`, `modulo-circulo`, `despeja-
 
 | Lección | Ejercicios (el último en movimiento) |
 |---|---|
-| `alg-23b` | `bolsas-residuo`, `grado-cociente`, `lado-faltante`, `completa-identidad`, `iguala-coeficientes`, `empaca-filas` |
-| `alg-92` | `division-sintetica`, `signo-divisor`, `llena-sintetica`, `factor-k`, `arma-factores`, `sondea-niebla` |
-| `alg-93` | `tramo-signo`, `multiplicidad`, `prueba-candidatos`, `arma-ceros`, `factoriza-cubica`, `cruza-o-rebota` |
+| `alg-23b` | `bolsas-residuo`, `grado-cociente`, `lado-faltante`, `completa-identidad`, `iguala-coeficientes`, `reparte-terminos`, `empaca-filas` |
+| `alg-92` | `division-sintetica`, `signo-divisor`, `llena-sintetica`, `factor-k`, `arma-factores`, `divisor-fraccion`, `sondea-niebla` |
+| `alg-93` | `tramo-signo`, `multiplicidad`, `prueba-candidatos`, `arma-ceros`, `factoriza-cubica`, `ceros-fraccion`, `cruza-o-rebota` |
 
 Evaluación (8 preguntas, 12 min): `bolsas-residuo`, `iguala-coeficientes`, `division-sintetica`, `llena-sintetica`, `factor-k`, `raices-imanes`, `prueba-candidatos`, `tramo-signo`.
 
@@ -187,10 +187,10 @@ Evaluación (8 preguntas, 12 min): `bolsas-residuo`, `iguala-coeficientes`, `div
 
 | Lección | Ejercicios (el último en movimiento) |
 |---|---|
-| `alg-25a` | `prohibidos`, `cancela-factores`, `evalua-racional`, `cerca-asintota`, `cruz-asintotas`, `rio-o-hueco` |
-| `alg-25b` | `denominador-comun`, `amplifica-fraccion`, `resta-fracciones`, `multiplica-cancela`, `voltea-divide`, `llena-estanque` |
-| `alg-101` | `dos-rectas`, `afina-sistema`, `elimina-variable`, `dos-compras`, `combina-vectores`, `bote-corriente` |
-| `alg-102` | `corte-parabola-recta`, `circulo-recta`, `rectangulo-pa`, `parciales-tapar`, `tapa-evalua`, `cruce-curvas` |
+| `alg-25a` | `prohibidos`, `cancela-factores`, `evalua-racional`, `cerca-asintota`, `cruz-asintotas`, `signo-afuera`, `rio-o-hueco` |
+| `alg-25b` | `denominador-comun`, `amplifica-fraccion`, `resta-fracciones`, `multiplica-cancela`, `voltea-divide`, `fraccion-compuesta`, `llena-estanque` |
+| `alg-101` | `dos-rectas`, `afina-sistema`, `elimina-variable`, `dos-compras`, `combina-vectores`, `escalera-sistema`, `bote-corriente` |
+| `alg-102` | `corte-parabola-recta`, `circulo-recta`, `rectangulo-pa`, `parciales-tapar`, `tapa-evalua`, `parciales-repetido`, `cruce-curvas` |
 
 Evaluación (11 preguntas, 17 min): `cancela-factores`, `cruz-asintotas`, `prohibidos`, `evalua-racional`, `denominador-comun`, `resta-fracciones`, `combina-vectores`, `dos-rectas`, `elimina-variable`, `corte-parabola-recta`, `parciales-tapar`.
 
@@ -198,12 +198,16 @@ Evaluación (11 preguntas, 17 min): `cancela-factores`, `cruz-asintotas`, `prohi
 
 | Lección | Ejercicios (el último en movimiento) |
 |---|---|
-| `alg-71` | `ajusta-exponencial`, `proyector-sombras`, `mueve-asintota`, `mitad-espejo`, `hacia-e`, `lirios-laguna` |
-| `alg-13b` | `crece-planta`, `carrera-interes`, `ajusta-capital`, `mejor-oferta`, `alcancias-gemelas`, `dos-bancos` |
-| `alg-72` | `exponente-buscado`, `espejo-diagonal`, `entre-potencias10`, `expande-log`, `cabe-barra`, `regla-de-calculo` |
-| `alg-73` | `balanza-exponencial`, `baja-con-log`, `sube-al-exponente`, `media-vida`, `cambio-u`, `piedras-selva` |
+| `alg-71` | `ajusta-exponencial`, `proyector-sombras`, `mueve-asintota`, `mitad-espejo`, `hacia-e`, `cruce-potencias`, `lirios-laguna` |
+| `alg-13b` | `crece-planta`, `carrera-interes`, `ajusta-capital`, `mejor-oferta`, `alcancias-gemelas`, `regla-del-72`, `dos-bancos` |
+| `alg-72` | `exponente-buscado`, `espejo-diagonal`, `entre-potencias10`, `expande-log`, `cabe-barra`, `escala-sonido`, `regla-de-calculo` |
+| `alg-73` | `balanza-exponencial`, `baja-con-log`, `sube-al-exponente`, `media-vida`, `cambio-u`, `dos-ciudades`, `piedras-selva` |
 
 Evaluación (9 preguntas, 14 min): `balanza-exponencial`, `ajusta-exponencial`, `mitad-espejo`, `crece-planta`, `alcancias-gemelas`, `exponente-buscado`, `expande-log`, `sube-al-exponente`, `baja-con-log`.
+
+### Séptimo juego (segunda pasada)
+
+Tras la revisión independiente, las 33 lecciones que habían quedado con seis juegos recibieron un séptimo (bloque «Séptimo juego» al final de `algebra-revision.js`, función `add7`; entra antes del juego en movimiento) y se rehicieron cuatro juegos que decidían poco: `voltea-divide` (se puede voltear cualquiera de las dos; voltear el dividendo da otro resultado), `resta-fracciones` (hay fracciones que se suman y no cambian), `baja-con-log` (ya no es escoger pasos: se arrastra x hasta que $x\log b$ iguale a $\log N$) y `tapa-evalua` (el estudiante elige en qué x evaluar cada factor). Cuatro temas que ya salían en los videos se cambiaron: el cubo se mide por su lado, los coeficientes del binomio con comités, la regla de los logaritmos con decibeles y el crecimiento con ciudades.
 
 ## Evaluaciones sin jefe (todas desde ya)
 
@@ -219,5 +223,5 @@ ubicaba $-\tfrac74$ en un plano pasa a `ubica-en-recta` desde ya.
 
 - ningún mundo tiene jefe y ninguna parte de la app lo dibuja;
 - cada evaluación tiene al menos dos preguntas por lección, todas con lección existente y nota de repaso;
-- en los mundos ya rehechos (lista `DONE`): ningún `taller-*` en lecciones ni en la evaluación, de 6 a 8 juegos distintos
+- en los mundos ya rehechos (lista `DONE`): ningún `taller-*` en lecciones ni en la evaluación, 7 u 8 juegos distintos
   por lección con el último en movimiento, ningún juego repetido entre lecciones del curso, pista y `demo` en cada uno.

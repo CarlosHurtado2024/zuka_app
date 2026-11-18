@@ -13,13 +13,13 @@ const games = get(ctx, 'GAMES');
 const legacy = new Set(['escala-solucion', 'arma-la-cuenta', 'une-parejas', 'clasifica-cartas', 'ordena-terminos',
   'caja-veloz', 'salta-signos', 'vuela-precios', 'dispara-inverso', 'corta-proporciones']);
 
-test('Álgebra tiene 43 lecciones de seis a ocho juegos distintos, con pista y ayuda dentro del juego', () => {
+test('Álgebra tiene 43 lecciones de siete u ocho juegos distintos, con pista y ayuda dentro del juego', () => {
   assert.equal(units.length, 10);
   const lessons = units.flatMap(u => u.lessons);
   assert.equal(lessons.length, 43);
   assert.equal(new Set(lessons.map(l => l.ex.at(-1).game)).size, lessons.length);
   for (const l of lessons) {
-    assert.ok([6, 7, 8].includes(l.ex.length), l.id);
+    assert.ok([7, 8].includes(l.ex.length), l.id);
     assert.equal(new Set(l.ex.map(e => e.game)).size, l.ex.length, l.id);
     for (const e of l.ex) {
       assert.equal(e.type, 'play', l.id);

@@ -12,7 +12,7 @@
 
 const TEX_SYM = {
   cdot: ['·', 'op'], times: ['×', 'op'], div: ['÷', 'op'], pm: ['±', 'op'], mp: ['∓', 'op'], circ: ['∘', 'op'], cup: ['∪', 'op'], cap: ['∩', 'op'], setminus: ['∖', 'op'], triangle: ['△', 'op'],
-  le: ['≤', 'rel'], leq: ['≤', 'rel'], ge: ['≥', 'rel'], geq: ['≥', 'rel'], ne: ['≠', 'rel'], neq: ['≠', 'rel'], approx: ['≈', 'rel'], to: ['→', 'rel'], rightarrow: ['→', 'rel'], Rightarrow: ['⇒', 'rel'],
+  le: ['≤', 'rel'], leq: ['≤', 'rel'], ge: ['≥', 'rel'], geq: ['≥', 'rel'], ne: ['≠', 'rel'], neq: ['≠', 'rel'], approx: ['≈', 'rel'], to: ['→', 'rel'], rightarrow: ['→', 'rel'], Rightarrow: ['⇒', 'rel'], Leftrightarrow: ['⇔', 'rel'],
   leftarrow: ['←', 'rel'], iff: ['⟺', 'rel'], in: ['∈', 'rel'], notin: ['∉', 'rel'], subseteq: ['⊆', 'rel'], subset: ['⊂', 'rel'], equiv: ['≡', 'rel'], perp: ['⟂', 'rel'], parallel: ['∥', 'rel'],
   pi: ['π', 'var'], theta: ['θ', 'var'], alpha: ['α', 'var'], beta: ['β', 'var'], gamma: ['γ', 'var'], delta: ['δ', 'var'], lambda: ['λ', 'var'], mu: ['μ', 'var'], phi: ['φ', 'var'], varphi: ['φ', 'var'], rho: ['ρ', 'var'], omega: ['ω', 'var'], epsilon: ['ε', 'var'], sigma: ['σ', 'var'],
   Delta: ['Δ', 'ord'], Sigma: ['Σ', 'ord'], sum: ['Σ', 'ord'], prod: ['Π', 'ord'], infty: ['∞', 'ord'], emptyset: ['∅', 'ord'], varnothing: ['∅', 'ord'], angle: ['∠', 'ord'], degree: ['°', 'ord'], ldots: ['…', 'ord'], dots: ['…', 'ord'], cdots: ['⋯', 'ord'],

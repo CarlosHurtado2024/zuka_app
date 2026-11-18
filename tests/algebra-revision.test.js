@@ -34,7 +34,7 @@ test('el archivo de la revisión va después del taller y está en el service wo
   assert.ok(sw.includes("'js/courses/algebra-revision.js'"));
 });
 
-test('mundos revisados: escenas propias, de 6 a 8 juegos distintos y sin repetir juegos en el curso', () => {
+test('mundos revisados: escenas propias, 7 u 8 juegos distintos y sin repetir juegos en el curso', () => {
   assert.ok(DONE.includes('conjuntos'));
   const seen = new Map();
   for (const l of A.units.flatMap(u => u.lessons)) for (const g of games(l)) seen.set(g, [...(seen.get(g) || []), l.id]);
@@ -42,7 +42,7 @@ test('mundos revisados: escenas propias, de 6 a 8 juegos distintos y sin repetir
     const u = unit(w);
     for (const l of u.lessons) {
       const gs = games(l);
-      assert.ok(gs.length >= 6 && gs.length <= 8, `${l.id}: ${gs.length}`);
+      assert.ok(gs.length >= 7 && gs.length <= 8, `${l.id}: ${gs.length}`);
       assert.equal(new Set(gs).size, gs.length, `${l.id}: repetido`);
       for (const e of l.ex) {
         assert.ok(!e.game.startsWith('taller-'), `${l.id}: ${e.game} es un motor genérico`);
@@ -143,18 +143,18 @@ test('juegos nuevos registrados, con guía y mano sobre el lienzo', () => {
 const NUEVOS_9_10 = {
   prohibidos: r => ({ marks: r.bad }),
   'cerca-asintota': r => ({ i: GAMES['cerca-asintota'].need(r) }),
-  'resta-fracciones': r => ({ flip: r.B.map((_, i) => i) }),
-  'voltea-divide': () => ({ flip: true, mult: true }),
+  'resta-fracciones': r => ({ flip: r.B.map((_, i) => `b${i}`) }),
+  'voltea-divide': () => ({ fa: false, fb: true, mult: true }),
   'multiplica-cancela': r => ({ gone: GAMES['multiplica-cancela'].pairs(r) }),
   'corte-parabola-recta': r => ({ n: GAMES['corte-parabola-recta'].need(r) }),
-  'tapa-evalua': r => ({ put: r.ps.map((_, k) => k) }),
+  'tapa-evalua': r => ({ put: [...r.ps] }),
   'hacia-e': r => ({ i: GAMES['hacia-e'].need(r) }),
   'entre-potencias10': r => ({ k: GAMES['entre-potencias10'].need(r) }),
   'cabe-barra': r => ({ n: GAMES['cabe-barra'].need(r) }),
   'media-vida': r => ({ i: GAMES['media-vida'].need(r) }),
   'sube-al-exponente': r => ({ x: GAMES['sube-al-exponente'].need(r) }),
   'cambio-u': r => ({ marks: GAMES['cambio-u'].good(r) }),
-  'baja-con-log': () => ({ seq: [0, 1] }),
+  'baja-con-log': r => GAMES['baja-con-log'].answer(r),
   'mueve-asintota': r => ({ h: r.h, k: r.k }),
 };
 for (const g of ['evalua-racional', 'denominador-comun', 'amplifica-fraccion', 'dos-rectas', 'elimina-variable', 'dos-compras', 'circulo-recta',

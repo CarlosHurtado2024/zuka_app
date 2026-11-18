@@ -18,7 +18,7 @@ GAMES['camino-pascal'] = (() => {
     init: () => ({ path: [0], found: [] }),
     ok: (s, it) => s.found.length === binom(it.row, it.k) && new Set(s.found).size === s.found.length,
     answer: it => ({ path: [0], found: paths(it.row, it.k) }),
-    solution: it => `$\\binom{${it.row}}{${it.k}} = ${binom(it.row, it.k)}$ caminos`,
+    solution: it => `$C(${it.row}, ${it.k}) = ${binom(it.row, it.k)}$ caminos`,
     prompt: it => `Encuentra todos los caminos hasta la estrella`,
     foot: (it, s) => `Llevas ${s.found.length} ${s.found.length === 1 ? 'camino' : 'caminos'} · baja un paso a la izquierda o a la derecha`,
     idle: 'Sin prisa: cuenta con orden',

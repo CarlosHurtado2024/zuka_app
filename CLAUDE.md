@@ -203,9 +203,9 @@ Contrato: `GAMES['nombre'] = { grade(state, params) → { ok, solution }, create
   sin ecuación). El usuario pidió: **ningún juego repetido**, una escena propia por idea, **sin jefes finales** y una **evaluación
   completa** por mundo. Ya no hay jefes en Álgebra (`assess` borra `u.boss` y pasa sus retos a la evaluación). Los mundos se rehacen
   en `js/courses/algebra-revision.js` (va después del taller): `setLesson` y `setExam`; `ALG_REVISADOS` lista los terminados y la
-  prueba les exige de 6 a 8 juegos distintos, ninguno `taller-*`, ningún juego usado en dos lecciones del curso, último en movimiento
+  prueba les exige 7 u 8 juegos distintos, ninguno `taller-*`, ningún juego usado en dos lecciones del curso, último en movimiento
   y al menos dos preguntas por lección en la evaluación. **Los diez mundos están rehechos** (mundo 1 primero; los mundos 2 a 10
-  juntos, con unos 150 juegos nuevos; la lista de cada lección está en la spec). Los juegos nuevos de los mundos 2 a 10 se dibujan
+  juntos, con unos 185 juegos nuevos; la lista de cada lección está en la spec). Los juegos nuevos de los mundos 2 a 10 se dibujan
   con el kit `RK` de `js/games/recta-kit.js` (`chip`, `strip`, `track` + `pick` para deslizadores por pasos, `tile`, `plane` + `curve`
   para el plano cartesiano). Con ellos se pueden armar los de Trigonometría y Cálculo si se pide la misma revisión.
 - **Jefe final de un mundo** (ya no se usa en Álgebra: ver la revisión de arriba) (spec `2026-11-14-jefe-final-pradera`, pruebas `tests/jefe-venn.test.js`): `unit.boss = { id, title,
