@@ -75,7 +75,7 @@ const S = {
     fade(A(t, 10, .6), () => F([['(1 + 1/', 'r'], ['n', 'i', EE], [')', 'r'], ['ⁿ', 'r', EE]], CX, 600, 80));
     const ns = [1, 2, 4, 12, 365, 10000];
     ns.forEach((n, i) => fade(A(t, 12 + i * 2.6, .5), () => { const v = (1 + 1 / n) ** n, y = 720 + i * 85; T('n = ' + num(n), 300, y, { k: 'mono', s: 28, a: 'r', c: C.mute }); bar(330, y - 34, 540 * (v - 1.9) / 0.9, 44, i > 3 ? EE : UP, 1, { fill: .3 }); T(v.toFixed(4), 1000, y, { k: 'r', s: 32, a: 'r', c: C.ink }); }));
-    fade(A(t, 20, .6), () => stroke(AS, 2, () => { X.setLineDash([10, 10]); X.moveTo(330 + 540 * (Math.E - 1.9) / .9, 690); X.lineTo(330 + 540 * (Math.E - 1.9) / .9, 1230); X.setLineDash([]); }, { g: 8 }); T('e', 330 + 540 * (Math.E - 1.9) / .9, 680, { k: 'it', s: 36, a: 'c', c: EE }); });
+    fade(A(t, 20, .6), () => { stroke(AS, 2, () => { X.setLineDash([10, 10]); X.moveTo(330 + 540 * (Math.E - 1.9) / .9, 690); X.lineTo(330 + 540 * (Math.E - 1.9) / .9, 1230); X.setLineDash([]); }, { g: 8 }); T('e', 330 + 540 * (Math.E - 1.9) / .9, 680, { k: 'it', s: 36, a: 'c', c: EE }); });
   },
   // 8 · El número e y la curva e^x entre 2^x y 3^x.
   e(t) {

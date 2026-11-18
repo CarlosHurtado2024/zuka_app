@@ -33,6 +33,7 @@ for (const [name, V] of Object.entries(FILMS)) {
     D.SC.forEach((s, i) => assert.strictEqual(s.t0, i ? D.SC[i - 1].t1 : 0));
     for (const s of D.SCENES) assert.ok(film.includes(`\n  ${s.id}(t) {`), `falta la escena ${s.id}`);
     assert.doesNotMatch(film, /Date\.now|performance\.now|Math\.random\(/);
+    assert.doesNotThrow(() => new (require('vm').Script)(film), 'la película compila');
   });
   test(`${name}: rótulos y narración caben, no se montan y se alcanzan a leer; sin preguntas`, () => {
     for (const s of D.SCENES) {
