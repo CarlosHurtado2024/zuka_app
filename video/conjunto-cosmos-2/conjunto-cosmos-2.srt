@@ -1,0 +1,115 @@
+1
+00:00:01,000 --> 00:00:09,000
+Hasta 1900, recibir sangre de otra persona era una lotería. A veces salvaba la vida. A veces la quitaba.
+
+2
+00:00:09,600 --> 00:00:18,000
+En Viena, en 1901, el médico Karl Landsteiner mezcla en el laboratorio la sangre de sus colegas, de dos en dos.
+
+3
+00:00:18,600 --> 00:00:27,400
+Unas mezclas quedan lisas y otras se aglutinan. Tiene que haber una regla. Y la respuesta más rara de todas es un conjunto sin elementos.
+
+4
+00:00:28,800 --> 00:00:37,000
+Landsteiner descubre que los glóbulos rojos llevan marcas en la superficie. Encuentra dos, y las llama A y B.
+
+5
+00:00:37,600 --> 00:00:45,400
+En 1940, él mismo y Alexander Wiener hallan una tercera marca: el factor Rh.
+
+6
+00:00:46,000 --> 00:00:53,400
+Entonces la sangre de cada persona se puede escribir como un conjunto: el de las marcas que tiene.
+
+7
+00:00:54,800 --> 00:01:03,400
+Hay sangre que no lleva ninguna marca: la del tipo O negativo. Su conjunto no tiene elementos. Se llama conjunto vacío.
+
+8
+00:01:04,000 --> 00:01:13,400
+Y hay sangre con una sola marca, como la A negativo. Un conjunto con un solo elemento se llama unitario.
+
+9
+00:01:14,000 --> 00:01:23,400
+El vacío es un conjunto de verdad: está bien definido, porque de cualquier objeto se sabe que no pertenece a él.
+
+10
+00:01:24,800 --> 00:01:33,400
+Con tres marcas, cada una puede estar o no estar. Así se arman todas las combinaciones posibles.
+
+11
+00:01:34,000 --> 00:01:43,400
+Dos opciones para A, dos para B y dos para Rh: dos por dos por dos, ocho conjuntos. Son los ocho tipos de sangre.
+
+12
+00:01:44,000 --> 00:01:59,400
+El conjunto que reúne todos esos conjuntos se llama conjunto de partes. Si un conjunto tiene n elementos, su conjunto de partes tiene dos a la n.
+
+13
+00:02:00,800 --> 00:02:09,400
+Y esta es la regla que buscaba Landsteiner: el cuerpo ataca cualquier marca que no conoce.
+
+14
+00:02:10,000 --> 00:02:19,400
+Para donar, todas las marcas del donante tienen que estar en el receptor. En matemáticas eso se llama ser subconjunto.
+
+15
+00:02:20,000 --> 00:02:28,400
+Se escribe con este símbolo, y se lee: es subconjunto de, o está contenido en.
+
+16
+00:02:29,000 --> 00:02:37,400
+Si al donante le sobra una sola marca, ya no es subconjunto. Aquí sobra la B, y la sangre se aglutina.
+
+17
+00:02:38,800 --> 00:02:47,400
+Y aquí está la sorpresa. El conjunto vacío es subconjunto de cualquier conjunto: no tiene ningún elemento que pueda sobrar.
+
+18
+00:02:48,000 --> 00:02:56,400
+Por eso la sangre O negativo, la que no lleva marcas, le sirve a los ocho tipos. Es el donante universal.
+
+19
+00:02:57,000 --> 00:03:05,400
+Al otro lado está quien tiene las tres marcas: las conoce todas, y puede recibir de cualquiera.
+
+20
+00:03:06,800 --> 00:03:16,400
+Dos personas con las mismas marcas tienen conjuntos iguales: exactamente los mismos elementos.
+
+21
+00:03:17,000 --> 00:03:27,400
+Cada uno es subconjunto del otro. Por eso se pueden donar sangre en los dos sentidos.
+
+22
+00:03:28,800 --> 00:03:38,400
+Estos dos conjuntos no comparten ningún elemento. Se llaman disjuntos. Ninguno le puede donar al otro.
+
+23
+00:03:39,000 --> 00:03:51,400
+Disjuntos no es lo mismo que distintos. Estos otros dos son distintos, pero comparten la marca Rh: no son disjuntos.
+
+24
+00:03:52,800 --> 00:04:01,400
+Los ocho conjuntos se pueden ordenar en un mapa. Cada línea une dos que se diferencian en una sola marca.
+
+25
+00:04:02,000 --> 00:04:11,400
+Donar es subir por las líneas: el vacío, luego el conjunto con A, luego el de A y Rh, hasta el conjunto completo.
+
+26
+00:04:12,000 --> 00:04:21,400
+Abajo queda el vacío, que es subconjunto de todos. Arriba, el conjunto total, que los contiene a todos.
+
+27
+00:04:22,800 --> 00:04:32,400
+La lotería de las transfusiones tenía una regla, y era una regla de conjuntos. Landsteiner recibió el Nobel en 1930.
+
+28
+00:04:33,000 --> 00:04:42,400
+Vacío, unitario, subconjunto, iguales, disjuntos y conjunto de partes: todo estaba en una gota de sangre.
+
+29
+00:04:43,000 --> 00:04:51,400
+Donar es ser subconjunto. Y el que no tiene nada, le sirve a todos.

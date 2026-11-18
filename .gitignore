@@ -212,3 +212,15 @@ video/conjunto-cosmos/fonts/*.ttf
 video/conjunto-cosmos/conjunto-cosmos.mp4
 video/conjunto-cosmos/events.json
 video/conjunto-cosmos/poster.jpg
+
+# Videos de alg-0b y alg-0c en estilo «showreel»: lo que build.sh descarga o genera
+video/conjunto-cosmos-2/out/
+video/conjunto-cosmos-2/fonts/*.ttf
+video/conjunto-cosmos-2/conjunto-cosmos-2.mp4
+video/conjunto-cosmos-2/events.json
+video/conjunto-cosmos-2/poster.jpg
+video/conjunto-cosmos-3/out/
+video/conjunto-cosmos-3/fonts/*.ttf
+video/conjunto-cosmos-3/conjunto-cosmos-3.mp4
+video/conjunto-cosmos-3/events.json
+video/conjunto-cosmos-3/poster.jpg

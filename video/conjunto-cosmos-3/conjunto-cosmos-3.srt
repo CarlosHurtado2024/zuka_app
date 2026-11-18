@@ -1,0 +1,119 @@
+1
+00:00:01,000 --> 00:00:08,600
+La pantalla en la que ves este video solo tiene luces de tres colores: rojo, verde y azul.
+
+2
+00:00:09,200 --> 00:00:17,200
+De cerca, cada punto es un trío de luces diminutas. Se llama píxel, y la pantalla tiene millones.
+
+3
+00:00:17,800 --> 00:00:25,400
+No hay ninguna luz amarilla. Y aun así ves amarillo. Para entender cómo, hacen falta las operaciones entre conjuntos.
+
+4
+00:00:26,800 --> 00:00:35,000
+Londres, mayo de 1861. El físico James Clerk Maxwell proyecta ante el público la primera fotografía en color.
+
+5
+00:00:35,600 --> 00:00:43,400
+En realidad son tres fotos en blanco y negro, proyectadas con filtros rojo, verde y azul, una encima de otra.
+
+6
+00:00:44,000 --> 00:00:51,400
+Funciona porque el ojo humano tiene tres tipos de células para el color. Con tres luces basta.
+
+7
+00:00:52,800 --> 00:01:01,400
+Antes de operar hay que decir de qué objetos se habla. Ese conjunto grande se llama universo, y se dibuja como un rectángulo.
+
+8
+00:01:02,000 --> 00:01:11,400
+Aquí el universo son los ocho colores que hace un píxel, con cada luz prendida o apagada.
+
+9
+00:01:12,000 --> 00:01:21,400
+Adentro van dos conjuntos: R, los colores que llevan luz roja, y G, los que llevan luz verde. Es un diagrama de Venn.
+
+10
+00:01:22,800 --> 00:01:31,400
+La primera operación es la unión: se juntan los elementos que están en R o están en G.
+
+11
+00:01:32,000 --> 00:01:40,400
+Se escribe con este símbolo. Ese «o» incluye a los elementos que están en los dos conjuntos.
+
+12
+00:01:41,000 --> 00:01:49,400
+La unión de R y G tiene seis colores: todos los que llevan luz roja, luz verde, o las dos.
+
+13
+00:01:50,800 --> 00:01:59,400
+La intersección es lo contrario de juntar todo: solo los elementos que están en R y también en G.
+
+14
+00:02:00,000 --> 00:02:08,400
+Se escribe con este símbolo, y es la zona donde los dos círculos se cruzan.
+
+15
+00:02:09,000 --> 00:02:17,400
+Y ahí está el amarillo. No es una luz: es la intersección de la luz roja y la luz verde.
+
+16
+00:02:18,800 --> 00:02:27,400
+La diferencia R menos G: los elementos que están en R pero no están en G. Rojo y magenta.
+
+17
+00:02:28,000 --> 00:02:36,400
+Aquí el orden sí importa. G menos R es otro conjunto distinto: verde y cian.
+
+18
+00:02:37,000 --> 00:02:45,400
+Funciona como una resta: al conjunto R se le quita todo lo que comparte con G.
+
+19
+00:02:46,800 --> 00:02:55,400
+El complemento de R es todo lo que está en el universo pero no está en R: los colores sin luz roja.
+
+20
+00:02:56,000 --> 00:03:03,400
+Se escribe con una c pequeña arriba, y se lee R complemento.
+
+21
+00:03:04,000 --> 00:03:11,400
+El complemento depende del universo. Por eso lo primero fue decir cuál era U.
+
+22
+00:03:12,800 --> 00:03:21,400
+La diferencia simétrica reúne los elementos que están en uno solo de los dos conjuntos.
+
+23
+00:03:22,000 --> 00:03:29,400
+Se escribe con un triángulo. Es la unión, quitándole la intersección.
+
+24
+00:03:30,000 --> 00:03:37,400
+También se puede ver como las dos diferencias juntas: R menos G, unido con G menos R.
+
+25
+00:03:38,800 --> 00:03:47,400
+Para contar la unión no basta sumar. R tiene cuatro elementos y G tiene cuatro, pero la unión tiene seis.
+
+26
+00:03:48,000 --> 00:03:57,400
+El amarillo y el blanco se contaron dos veces: una vez con R y otra vez con G.
+
+27
+00:03:58,000 --> 00:04:07,400
+Por eso se resta la intersección. Cuatro más cuatro, menos dos, da seis. Vale para dos conjuntos cualesquiera.
+
+28
+00:04:08,800 --> 00:04:17,400
+Con la luz azul son tres conjuntos. Tres círculos hacen ocho zonas: exactamente una para cada color.
+
+29
+00:04:18,000 --> 00:04:27,400
+En el centro están las tres luces a la vez. La intersección de los tres conjuntos es el blanco.
+
+30
+00:04:28,000 --> 00:04:41,400
+Cada píxel de esta pantalla es una zona de este diagrama. Unir, cruzar y quitar: con tres luces y esas operaciones salen todos los colores.
