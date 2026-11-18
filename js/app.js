@@ -192,7 +192,7 @@ function openCoursePicker() {
       <span class="mini-bar"><i style="width:${(d / ls.length) * 100}%"></i></span></span>
       ${d === ls.length ? `<span class="cr-done">${ICON.check}</span>` : ''}</button>`;
   }).join('')}</div>`, sh => sh.querySelectorAll('.course-row').forEach(b => b.onclick = () => {
-    S.course = b.dataset.id; openWorld = null; save(); closeSheet(); go('learn'); view.scrollTop = 0;
+    S.course = b.dataset.id; openWorld = null; openBlock = null; save(); closeSheet(); go('learn'); view.scrollTop = 0;
   }));
 }
 
@@ -266,6 +266,11 @@ const PATH_STEP = 196;   // alto de cada fila de nivel (igual a .node-wrap en st
 const W_OFFSETS = [0, 62, 0, -62];   // zigzag del camino de mundos
 const WORLD_STEP = 236;  // alto de cada fila de mundo (igual a .wnode-wrap; el botón mide 128 px)
 let openWorld = null;    // { course, i }: mundo abierto en la pestaña Aprender (null = mapa de mundos)
+// Cursos con componentes (c.blocks, Preuniversitario UdeA): al entrar se elige primero el componente y luego se ven solo
+// sus mundos. openBlock = { course, id } es el componente abierto; null = la pantalla para elegirlo.
+let openBlock = null;
+// Número del mundo para mostrar: dentro de su componente (el primer mundo de Lectura es el 1); sin componentes, el de siempre.
+const worldNo = (c, ui) => (c.blocks ? c.units.slice(0, ui + 1).filter(u => u.block === c.units[ui].block).length : ui + 1);
 function worldInfo(c, u) {
   const wDone = u.lessons.filter(isDone).length;
   return { w: WORLDS[u.world] || { name: u.title, art: '' }, wDone, all: wDone === u.lessons.length,
@@ -274,8 +279,9 @@ function worldInfo(c, u) {
 // Lección que toca: la primera sin terminar. En un curso con componentes, la del componente que se estudió por
 // última vez (S.lastLesson), para que quien va por Lectura no vea «Sigue aquí» en Razonamiento.
 const blockOf = (c, l) => c.units.find(u => u.lessons.includes(l))?.block;
-function currentLesson(c) {
+function currentLesson(c, block) {
   const ls = lessonsOf(c);
+  if (block) return ls.find(l => !isDone(l) && blockOf(c, l) === block);   // la que toca dentro de un componente
   if (c.blocks) {
     const last = ls.find(l => l.id === S.lastLesson), b = last && blockOf(c, last);
     const inBlock = b && ls.find(l => !isDone(l) && blockOf(c, l) === b);
@@ -283,20 +289,55 @@ function currentLesson(c) {
   }
   return ls.find(l => !isDone(l));
 }
-// Mundos del mapa agrupados por componente (c.blocks); sin componentes, un solo grupo. idx: índices en c.units.
-function worldGroups(c) {
-  if (!c.blocks) return [{ idx: c.units.map((_, i) => i) }];
-  return c.blocks.map((block, k) => ({ block, n: k + 1, idx: c.units.map((u, i) => (u.block === block.id ? i : -1)).filter(i => i >= 0) }))
-    .filter(g => g.idx.length);
-}
-function renderLearn() {
-  const c = courseById(S.course), ls = lessonsOf(c), doneN = ls.filter(isDone).length;
-  if (openWorld?.course === c.id && c.units[openWorld.i]) return renderWorld(c, openWorld.i);
-  openWorld = null;
-  const cur = currentLesson(c), goalP = Math.min(1, todayXP() / S.goal);
+// Pantalla de entrada de un curso con componentes: la portada del curso y una tarjeta por componente, con sus mundos,
+// sus lecciones, el avance y la lección que sigue. Tocar una tarjeta abre los mundos de ese componente.
+function renderComponents(c) {
+  const ls = lessonsOf(c), doneN = ls.filter(isDone).length, goalP = Math.min(1, todayXP() / S.goal);
+  const lastL = ls.find(l => l.id === S.lastLesson), last = lastL && blockOf(c, lastL);
   view.innerHTML = `<div class="learn" style="--c:${c.color}">
     <section class="hero">
       <div class="hero-body"><p class="eyebrow">${esc(c.level)}</p><h1>${esc(c.name)}</h1><p class="sub">${esc(c.tagline)}</p>
+        <div class="hero-prog"><span class="mini-bar"><i style="width:${(doneN / ls.length) * 100}%"></i></span><small>${doneN}/${ls.length}</small></div></div>
+      ${courseArt(c, 'xl')}
+    </section>
+    <section class="goal">
+      ${ICON.target}<div class="goal-body"><p><b>Meta diaria</b><span>${todayXP()} / ${S.goal} XP</span></p>
+      <div class="bar"><i style="width:${goalP * 100}%"></i></div></div>
+    </section>
+    <h2 class="comp-title">Elige un componente</h2>
+    <div class="comp-list">${c.blocks.map((b, k) => {
+      const bl = ls.filter(l => blockOf(c, l) === b.id), d = bl.filter(isDone).length, nw = c.units.filter(u => u.block === b.id).length;
+      const nxt = currentLesson(c, b.id), here = b.id === last;
+      return `<button class="comp-card${here ? ' here' : ''}" data-block="${b.id}" type="button"
+        aria-label="Componente ${k + 1}: ${esc(b.name)}. ${nw} mundos, ${d} de ${bl.length} lecciones${here ? ', aquí ibas' : ''}">
+        <span class="comp-n" aria-hidden="true">${k + 1}</span>
+        <span class="comp-body"><small>Componente ${k + 1}${here ? ' · aquí ibas' : ''}</small><b>${esc(b.name)}</b><span class="comp-desc">${esc(b.desc)}</span>
+          <span class="comp-stats">${nw} mundos · ${bl.length} lecciones</span>
+          <span class="comp-prog"><span class="mini-bar"><i style="width:${(d / bl.length) * 100}%"></i></span><small>${d}/${bl.length}</small></span>
+          <span class="comp-next">${nxt ? `${d ? 'Sigue' : 'Empieza'}: ${esc(nxt.title)}` : 'Componente completado'}</span></span>
+        <span class="comp-go" aria-hidden="true">${ICON.right}</span></button>`;
+    }).join('')}</div>
+    ${doneN === ls.length ? `<div class="course-done">${ICON.star}<div><b>¡Curso completado!</b><p>Repasa cualquier lección o prueba otro curso.</p></div></div>` : ''}
+  </div>`;
+  view.querySelectorAll('[data-block]').forEach(b => b.onclick = () => {
+    openBlock = { course: c.id, id: b.dataset.block }; renderLearn(); $('[data-back]', view)?.focus({ preventScroll: true });
+  });
+  view.scrollTop = 0;
+}
+function renderLearn() {
+  const c = courseById(S.course);
+  if (openWorld?.course === c.id && c.units[openWorld.i]) return renderWorld(c, openWorld.i);
+  openWorld = null;
+  if (c.blocks && openBlock?.course !== c.id) return renderComponents(c);
+  // Con componentes, todo lo de esta vista (avance, «Sigue aquí», mapa) es solo del componente abierto.
+  const block = c.blocks ? c.blocks.find(b => b.id === openBlock.id) || c.blocks[0] : null, bn = block ? c.blocks.indexOf(block) + 1 : 0;
+  const ls = block ? lessonsOf(c).filter(l => blockOf(c, l) === block.id) : lessonsOf(c), doneN = ls.filter(isDone).length;
+  const idx = c.units.map((u, i) => (!block || u.block === block.id ? i : -1)).filter(i => i >= 0);
+  const cur = block ? currentLesson(c, block.id) : currentLesson(c), goalP = Math.min(1, todayXP() / S.goal);
+  view.innerHTML = `<div class="learn" style="--c:${c.color}">
+    ${block ? `<button class="world-back" data-back>${ICON.back}<span>Componentes</span></button>` : ''}
+    <section class="hero">
+      <div class="hero-body"><p class="eyebrow">${block ? `Componente ${bn} · ${esc(c.name)}` : esc(c.level)}</p><h1>${esc(block ? block.name : c.name)}</h1><p class="sub">${esc(block ? block.desc : c.tagline)}</p>
         <div class="hero-prog"><span class="mini-bar"><i style="width:${(doneN / ls.length) * 100}%"></i></span><small>${doneN}/${ls.length}</small></div></div>
       ${courseArt(c, 'xl')}
     </section>
@@ -305,7 +346,7 @@ function renderLearn() {
       const ui = c.units.findIndex(u => u.lessons.includes(cur)), li = c.units[ui].lessons.indexOf(cur), n1 = ls[ls.indexOf(cur) + 1], nxt = n1 && blockOf(c, n1) === blockOf(c, cur) ? n1 : null;
       return `<section class="next-card" aria-label="Sigue aquí">
       <p class="eyebrow">Sigue aquí · ${esc((WORLDS[c.units[ui].world] || {}).name || c.units[ui].title)}</p>
-      <p class="nc-row cur"><span class="nc-dot">${ICON.play}</span><span><small>Nivel ${ui + 1}-${li + 1}</small><b>${esc(cur.title)}</b></span></p>
+      <p class="nc-row cur"><span class="nc-dot">${ICON.play}</span><span><small>Nivel ${worldNo(c, ui)}-${li + 1}</small><b>${esc(cur.title)}</b></span></p>
       ${nxt ? `<p class="nc-row"><span class="nc-dot"></span><span>${esc(nxt.title)}</span></p>` : ''}
       <button class="btn" data-continue>${doneN ? 'Continuar' : 'Empezar'} · +10 XP</button>
     </section>`;
@@ -320,27 +361,32 @@ function renderLearn() {
       <button class="btn brand sm" data-install>Instalar</button>
       <button class="icon-btn" data-hide-install aria-label="Ocultar">${ICON.x}</button>
     </section>` : ''}
-    ${worldGroups(c).map(g => `${g.block ? `<div class="wblock"><small>Componente ${g.n}</small><b>${esc(g.block.name)}</b><span>${esc(g.block.desc)}</span></div>` : ''}
     <div class="world-map" role="list">
-      <svg class="trail" width="1" height="1" overflow="visible" aria-hidden="true"><path d="${worldTrail(g.idx.map(i => W_OFFSETS[i % W_OFFSETS.length]), WORLD_STEP, 64)}"/></svg>
-      ${g.idx.map(ui => {
+      <svg class="trail" width="1" height="1" overflow="visible" aria-hidden="true"><path d="${worldTrail(idx.map((_, k) => W_OFFSETS[k % W_OFFSETS.length]), WORLD_STEP, 64)}"/></svg>
+      ${idx.map((ui, k) => {
         const u = c.units[ui], { w, wDone, all, closed } = worldInfo(c, u), here = !!cur && u.lessons.includes(cur);
-        return `<div class="wnode-wrap${closed ? ' closed' : ''}${all ? ' complete' : ''}" role="listitem" style="--x:${W_OFFSETS[ui % W_OFFSETS.length]}px">
+        return `<div class="wnode-wrap${closed ? ' closed' : ''}${all ? ' complete' : ''}" role="listitem" style="--x:${W_OFFSETS[k % W_OFFSETS.length]}px">
           ${here ? '<span class="start-bubble" aria-hidden="true">AQUÍ VAS</span>' : ''}
           <button class="wnode${here ? ' current' : ''}" data-world="${ui}" style="--p:${wDone / u.lessons.length}"
-            aria-label="Mundo ${ui + 1}: ${esc(w.name)}, ${wDone} de ${u.lessons.length} niveles${here ? ', aquí vas' : ''}">
+            aria-label="Mundo ${worldNo(c, ui)}: ${esc(w.name)}, ${wDone} de ${u.lessons.length} niveles${here ? ', aquí vas' : ''}">
             <span class="wnode-art">${w.art}</span>
             ${all ? `<span class="wnode-badge">${ICON.star}</span>` : closed ? `<span class="wnode-badge">${ICON.lock}</span>` : ''}
           </button>
-          <span class="wnode-label" aria-hidden="true"><small>Mundo ${ui + 1} · ${wDone}/${u.lessons.length}</small>${esc(w.name)}</span></div>`;
+          <span class="wnode-label" aria-hidden="true"><small>Mundo ${worldNo(c, ui)} · ${wDone}/${u.lessons.length}</small>${esc(w.name)}</span></div>`;
       }).join('')}
-    </div>`).join('')}
-    ${cur ? '' : `<div class="course-done">${ICON.star}<div><b>¡Curso completado!</b><p>Repasa cualquier lección o prueba otro curso.</p></div></div>`}
+    </div>
+    ${cur ? '' : block ? `<div class="course-done">${ICON.star}<div><b>¡Componente completado!</b><p>Repasa cualquier lección o vuelve a los componentes.</p></div></div>`
+      : `<div class="course-done">${ICON.star}<div><b>¡Curso completado!</b><p>Repasa cualquier lección o prueba otro curso.</p></div></div>`}
   </div>`;
   view.querySelectorAll('.wnode').forEach(b => b.onclick = () => {
     openWorld = { course: c.id, i: +b.dataset.world }; renderLearn(); $('[data-back]', view).focus({ preventScroll: true });
   });
   $('[data-continue]', view)?.addEventListener('click', () => startLesson(c, cur));
+  $('[data-back]', view)?.addEventListener('click', () => {
+    openBlock = null; renderLearn();
+    const card = view.querySelector(`[data-block="${block.id}"]`);
+    card?.scrollIntoView({ block: 'center' }); card?.focus({ preventScroll: true });
+  });
   $('[data-install]', view)?.addEventListener('click', promptInstall);
   $('[data-hide-install]', view)?.addEventListener('click', () => { S.hideInstall = true; save(); renderLearn(); });
   view.scrollTop = 0;   // arriba queda «Sigue aquí»; el mapa de mundos está debajo
@@ -348,7 +394,7 @@ function renderLearn() {
 
 // Vista de un mundo: su tarjeta y el camino de sus niveles (lecciones).
 function renderWorld(c, ui) {
-  const u = c.units[ui], cur = currentLesson(c);
+  const u = c.units[ui], cur = currentLesson(c, u.block);   // la que toca en el componente de este mundo
   const { w, wDone, all, closed } = worldInfo(c, u);
   // El jefe final y la evaluación del mundo (si tiene) son nodos más al final del camino; no cuentan como lecciones.
   const xs = [...u.lessons, ...(u.boss ? [u.boss] : []), ...(u.exam ? [u.exam] : [])].map((_, i) => OFFSETS[i % OFFSETS.length]);
@@ -357,7 +403,7 @@ function renderWorld(c, ui) {
     <section class="world${closed ? ' closed' : ''}${all ? ' complete' : ''}">
       <header class="world-card">
         <div class="world-art">${w.art}
-          <span class="world-tag">Mundo ${ui + 1}</span>
+          <span class="world-tag">Mundo ${worldNo(c, ui)}</span>
           <span class="world-prog" aria-label="${wDone} de ${u.lessons.length} completadas">${all ? ICON.star : closed ? ICON.lock : ''}${wDone}/${u.lessons.length}</span></div>
         <div class="world-body"><h2>${esc(w.name)}</h2><p>${esc(u.title)}</p>
           <p class="world-stats"><span>${ICON.clips} ${u.lessons.length} lecciones</span><span>${ICON.target} ${u.lessons.reduce((t, l) => t + l.ex.length, 0)} ejercicios</span></p></div>
@@ -370,28 +416,28 @@ function renderWorld(c, ui) {
         const icon = st === 'done' ? ICON.check : st.startsWith('locked') ? ICON.lock : `<b class="node-n">${li + 1}</b>`;
         return `<div class="node-wrap" style="--x:${xs[li]}px">
           ${st === 'current' ? '<span class="start-bubble">EMPIEZA</span>' : ''}
-          <button class="node ${st}" data-id="${l.id}" aria-label="Nivel ${ui + 1}-${li + 1}: ${esc(l.title)}">${icon}</button>
-          <span class="node-label"><small>Nivel ${ui + 1}-${li + 1}</small>${esc(l.title)}</span></div>`;
+          <button class="node ${st}" data-id="${l.id}" aria-label="Nivel ${worldNo(c, ui)}-${li + 1}: ${esc(l.title)}">${icon}</button>
+          <span class="node-label"><small>Nivel ${worldNo(c, ui)}-${li + 1}</small>${esc(l.title)}</span></div>`;
       }).join('')}
         ${u.boss ? (() => {
           const st = planMotivo(u.boss.id) ? 'locked' : isDone(u.boss) ? 'done' : bossUnlocked(u) ? 'open' : 'locked';
           return `<div class="node-wrap" style="--x:${xs[u.lessons.length]}px">
           ${st === 'open' && u.lessons.every(isDone) ? '<span class="start-bubble">JEFE FINAL</span>' : ''}
-          <button class="node boss ${st}" data-boss aria-label="Jefe final del mundo ${ui + 1}: ${esc(u.boss.title)}">${st === 'locked' ? ICON.lock : ICON.crown}</button>
+          <button class="node boss ${st}" data-boss aria-label="Jefe final del mundo ${worldNo(c, ui)}: ${esc(u.boss.title)}">${st === 'locked' ? ICON.lock : ICON.crown}</button>
           <span class="node-label"><small>Jefe final</small>${esc(u.boss.title)}</span></div>`;
         })() : ''}
         ${u.exam ? (() => {
           const best = S.exams[u.exam.id]?.best, st = planMotivo(u.exam.id) ? 'locked' : best != null ? 'done' : examUnlocked(u) ? 'open' : 'locked';
           return `<div class="node-wrap" style="--x:${xs[xs.length - 1]}px">
           ${st === 'open' && u.lessons.every(isDone) ? '<span class="start-bubble">EVALÚATE</span>' : ''}
-          <button class="node exam ${st}" data-exam aria-label="Evaluación del mundo ${ui + 1}${best != null ? `, mejor resultado ${best}%` : ''}">${st === 'locked' ? ICON.lock : ICON.trophy}</button>
+          <button class="node exam ${st}" data-exam aria-label="Evaluación del mundo ${worldNo(c, ui)}${best != null ? `, mejor resultado ${best}%` : ''}">${st === 'locked' ? ICON.lock : ICON.trophy}</button>
           <span class="node-label"><small>Evaluación · ${u.exam.minutes} min</small>${best != null ? `Mejor resultado: ${best}%` : 'Pon a prueba el mundo'}</span></div>`;
         })() : ''}</div></section>
     ${summaryOf(u) && planMotivo(`resumen-${u.world}`) ? `<button class="world-summary locked" data-summary-lock type="button">
       <span class="ws-icon">${ICON.lock}</span><span class="ws-text"><b>Resumen del mundo</b><small>PDF con la teoría, gráficas y un taller de 10 ejercicios · plan ${NIVEL_NOMBRE[nivelDe(`resumen-${u.world}`)]}</small></span></button>`
     : summaryOf(u) ? `<a class="world-summary" href="${summaryOf(u)}" download="Zuka - ${esc(w.name)} (resumen).pdf" target="_blank" rel="noopener">
       <span class="ws-icon">${ICON.doc}</span><span class="ws-text"><b>Resumen del mundo</b><small>PDF con la teoría, gráficas y un taller de 10 ejercicios · se descarga con conexión</small></span>${ICON.download}</a>` : ''}
-    ${ui + 1 < c.units.length ? `<button class="world-next" data-next>Siguiente: Mundo ${ui + 2} · ${esc((WORLDS[c.units[ui + 1].world] || c.units[ui + 1]).name || c.units[ui + 1].title)} ${ICON.right}</button>` : ''}
+    ${ui + 1 < c.units.length && c.units[ui + 1].block === u.block ? `<button class="world-next" data-next>Siguiente: Mundo ${worldNo(c, ui + 1)} · ${esc((WORLDS[c.units[ui + 1].world] || c.units[ui + 1]).name || c.units[ui + 1].title)} ${ICON.right}</button>` : ''}
   </div>`;
   view.querySelectorAll('.node[data-id]').forEach(b => b.onclick = () => openLessonSheet(c, findLesson(b.dataset.id).l));
   $('[data-exam]', view)?.addEventListener('click', () => (planMotivo(u.exam.id) ? openBloqueo(u.exam.id) : openExamSheet(c, u)));
@@ -785,7 +831,7 @@ function renderProfile() {
   nameInp.onchange = () => { S.name = nameInp.value = nameInp.value.trim(); save(); $('.avatar', view).textContent = (S.name || 'Z')[0].toUpperCase(); };
   cuentaBind(view);
   $('[data-settings]', view).onclick = () => { profileSub = 'settings'; renderProfile(); view.scrollTop = 0; $('[data-back]', view).focus({ preventScroll: true }); };
-  view.querySelectorAll('[data-course]').forEach(b => b.onclick = () => { S.course = b.dataset.course; openWorld = null; save(); go('learn'); });
+  view.querySelectorAll('[data-course]').forEach(b => b.onclick = () => { S.course = b.dataset.course; openWorld = null; openBlock = null; save(); go('learn'); });
   view.querySelectorAll('[data-lesson]').forEach(b => b.onclick = () => {
     const { c, l } = findLesson(b.dataset.lesson);
     if (isUnlocked(c, l)) startLesson(c, l); else toast(`Primero completa las lecciones anteriores de ${esc(c.name)}.`);
@@ -853,7 +899,7 @@ function renderSettings() {
         if (!yes) return;
         // Se conserva lo que no es progreso: cuenta, asesorías y preferencias (tema, nombre, meta, sonido, video, guías vistas).
         const keep = Object.fromEntries(RESET_KEEP.filter(k => k in S).map(k => [k, S[k]]));
-        S = Object.assign(DEFAULTS(), keep); openWorld = null; profileSub = null; save(); applyTheme(); go('learn');
+        S = Object.assign(DEFAULTS(), keep); openWorld = null; openBlock = null; profileSub = null; save(); applyTheme(); go('learn');
       });
   };
 }
@@ -863,7 +909,7 @@ document.querySelectorAll('#tabbar button').forEach(b => {
   b.insertAdjacentHTML('afterbegin', ICON[{ learn: 'learn', clips: 'clips', tutorias: 'calendar' }[b.dataset.tab] || 'user']);
   b.onclick = () => {
     if (lessonClose) return lessonClose(b.dataset.tab);
-    if (tab === 'learn' && b.dataset.tab === 'learn') openWorld = null;   // tocar Aprender otra vez: al mapa
+    if (tab === 'learn' && b.dataset.tab === 'learn') { if (openWorld) openWorld = null; else openBlock = null; }   // tocar Aprender otra vez: un paso arriba (mundo → mapa → componentes)
     profileSub = null;   // el menú siempre lleva al Perfil, no a Ajustes
     go(b.dataset.tab);
   };

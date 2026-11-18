@@ -140,18 +140,40 @@ test('subraya-texto está registrado, tiene guía y estilos para los dos temas',
   assert.ok(!/\.subraya[^{]*\{[^}]*#[0-9a-f]{3,6}/i.test(css), 'sin colores fijos: usa las variables del tema');
 });
 
-test('cada componente se abre por su cuenta y el mapa muestra su encabezado', () => {
+test('al entrar al curso se elige primero el componente y luego se ven solo sus mundos', () => {
+  // Pedido del usuario: «al ingresar al curso me muestre los dos componentes; si selecciono uno, me desglose sus mundos».
+  assert.match(app, /let openBlock = null;/);
+  assert.match(app, /if \(c\.blocks && openBlock\?\.course !== c\.id\) return renderComponents\(c\);/);
+  assert.match(app, /function renderComponents\(c\) \{[\s\S]{0,2500}class="comp-card[\s\S]{0,1500}openBlock = \{ course: c\.id, id: b\.dataset\.block \}/);
+  // En el componente: botón para volver a los componentes y solo los mundos de ese componente, numerados desde 1.
+  assert.match(app, /<span>Componentes<\/span>/);
+  assert.match(app, /const worldNo = \(c, ui\) =>/);
+  assert.doesNotMatch(app, /Mundo \$\{ui \+ 1\}|Mundo \$\{ui \+ 2\}|Nivel \$\{ui \+ 1\}/, 'la numeración pasa por worldNo');
+  assert.match(app, /c\.units\[ui \+ 1\]\.block === u\.block/, '«Siguiente mundo» no salta al otro componente');
+  // Cambiar de curso, volver a tocar Aprender o el botón atrás del celular regresan a los componentes.
+  assert.ok((app.match(/openWorld = null; openBlock = null;/g) || []).length >= 3);
+  // El mundo abierto marca la lección que toca en su propio componente, y el recorrido guiado abre un componente.
+  assert.match(app, /cur = currentLesson\(c, u\.block\)/);
+  assert.match(read('js/tour.js'), /if \(needBlock\) openBlock = \{ course: c\.id/);
+  assert.match(read('js/back.js'), /openBlock/);
+  const css = read('css/styles.css');
+  for (const k of ['.comp-list', '.comp-card']) assert.ok(css.includes(k), k);
+  // worldNo cuenta dentro del componente: el primer mundo de Lectura es el 1.
+  const worldNo = (c, ui) => (c.blocks ? c.units.slice(0, ui + 1).filter(u => u.block === c.units[ui].block).length : ui + 1);
+  assert.equal(worldNo(C, 0), 1); assert.equal(worldNo(C, 15), 16); assert.equal(worldNo(C, 16), 1); assert.equal(worldNo(C, 27), 12);
+  assert.ok(app.includes(`const worldNo = ${worldNo.toString()};`), 'la app usa esta misma worldNo');
+});
+
+test('cada componente se abre por su cuenta, gratis, y «Sigue aquí» no salta de componente', () => {
   assert.match(app, /function isUnlocked\(c, l\) \{[\s\S]{0,400}blockStart/);
   // «Sigue aquí» se queda en el componente que se estudia y no salta al otro.
-  assert.match(app, /function currentLesson\(c\) \{[\s\S]{0,300}S\.lastLesson/);
+  assert.match(app, /function currentLesson\(c, block\) \{[\s\S]{0,300}S\.lastLesson/);
   assert.match(app, /S\.lastLesson = l\.id; save\(\);/);
   assert.match(app, /nxt = n1 && blockOf\(c, n1\) === blockOf\(c, cur\) \? n1 : null/);
   // La primera lección de cada componente es gratis.
   const rows = get(ctx, 'catalogo')([C]).filter(r => r.tipo === 'leccion' && r.nivel_minimo === 'gratis').map(r => r.id);
   assert.equal(rows.join(), 'pu-cm-1,pu-el-1');
-  assert.match(app, /class="wblock"/);
   const css = read('css/styles.css');
-  assert.match(css, /\.wblock\b/);
 });
 
 test('figura, paleta de juegos y láminas del curso', () => {

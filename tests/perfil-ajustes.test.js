@@ -96,7 +96,7 @@ test('Ajustes: filas con icono para meta, sonido, tema, instalar, recorrido y re
 
 test('volver de Ajustes: flecha, botón atrás del celular y tocar la pestaña Perfil', () => {
   assert.match(settings, /\[data-back\][^\n]*profileSub = null/);
-  assert.match(back, /world: \(tab === 'learn' && !!openWorld\) \|\| \(tab === 'profile' && !!profileSub\)/);
+  assert.match(back, /world: \(tab === 'learn' && \(!!openWorld \|\| !!openBlock\)\) \|\| \(tab === 'profile' && !!profileSub\)/);
   const boot = app.slice(app.indexOf('// ---- arranque'));
   assert.match(boot, /profileSub = null/);
 });

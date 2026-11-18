@@ -11,6 +11,12 @@ temas por prioridad según exámenes reales: 40 preguntas de cada componente, 50
 - Cada unidad = un mundo, con `block: 'razonamiento' | 'lectura'`. `COURSE_PREUDA.blocks` da nombre y descripción de cada
   componente. El mapa de mundos muestra un **encabezado de componente** antes del primer mundo de cada bloque
   (`.wblock`), y la numeración de mundos sigue corrida.
+- **Actualización (pedido del usuario, 2026-11-18): al entrar al curso se eligen primero los componentes.** La pestaña
+  Aprender muestra la portada del curso y dos tarjetas (`renderComponents`): nombre, descripción, mundos, lecciones,
+  avance y la lección que sigue; «aquí ibas» marca el componente de la última lección abierta. Al tocar una se abre la
+  vista del componente (`openBlock`): botón «Componentes», portada del componente, «Sigue aquí» y solo sus mundos,
+  numerados desde 1 dentro del componente (`worldNo`). «Siguiente mundo» no salta al otro componente. Cambiar de curso,
+  volver a tocar Aprender o el botón atrás del celular regresan a los componentes. Reemplaza al encabezado `.wblock`.
 - **Cada componente se abre por su cuenta**: la primera lección de cada bloque está abierta aunque no se haya
   terminado el bloque anterior (`isUnlocked` mira el bloque) y es gratis como la primera del curso (`catalogo`). Así un
   estudiante puede empezar por lectura; «Sigue aquí» sigue en el componente de la última lección abierta

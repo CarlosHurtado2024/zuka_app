@@ -83,13 +83,15 @@ function endTour() { tourEnd?.(); }
 // Deja detrás la vista que el paso necesita: el mapa de mundos o el mundo donde va el estudiante.
 function tourView(v) {
   if ($('#sheet').classList.contains('open')) closeSheet();
-  const c = courseById(S.course);
+  const c = courseById(S.course), cur = currentLesson(c);
+  // Con componentes (c.blocks) el mapa vive dentro de un componente: se abre el de la lección que toca.
+  const needBlock = !!c.blocks && openBlock?.course !== c.id;
+  if (needBlock) openBlock = { course: c.id, id: (cur && blockOf(c, cur)) || c.blocks[0].id };
   if (v === 'map') {
-    if (tab !== 'learn' || openWorld) { openWorld = null; go('learn'); }
+    if (tab !== 'learn' || openWorld || needBlock) { openWorld = null; go('learn'); }
     return;
   }
   if (tab === 'learn' && openWorld?.course === c.id) return;
-  const cur = lessonsOf(c).find(l => !isDone(l));
   openWorld = { course: c.id, i: Math.max(0, c.units.findIndex(u => u.lessons.includes(cur))) };
   go('learn');
 }

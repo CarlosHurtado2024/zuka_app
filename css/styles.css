@@ -215,13 +215,31 @@ body[data-tab=clips] #tabbar button.on .i { color: #fff; background: rgba(255, 2
 .world-map { position: relative; display: flex; flex-direction: column; align-items: center; padding: 64px 0 0; margin-top: 8px; }
 .world-map > .trail { top: 64px; }
 .world-map .trail path { stroke-width: 1.5; }
-/* Encabezado de componente (cursos con c.blocks, como el Preuniversitario UdeA): separa los mapas de mundos. */
-.wblock { display: flex; flex-direction: column; gap: 2px; margin-top: 28px; padding: 12px 14px; border-radius: var(--r); border: 1px solid var(--line); border-left: 3px solid var(--c, var(--brand)); background: var(--card); }
-.wblock small { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--c-ink); }
-.wblock b { font-family: var(--display); font-weight: 500; font-size: 20px; color: var(--ink); }
-.wblock span { font-size: 13px; color: var(--mute); }
-.wblock + .world-map { padding-top: 40px; }
-.wblock + .world-map > .trail { top: 40px; }
+/* Componentes de un curso (c.blocks, Preuniversitario UdeA): al entrar se elige uno (renderComponents en js/app.js). */
+.comp-title { margin: 26px 2px 10px; font-family: var(--display); font-weight: 500; font-size: 20px; color: var(--ink); }
+.comp-list { display: flex; flex-direction: column; gap: 12px; }
+.comp-card {
+  display: flex; align-items: center; gap: 14px; width: 100%; padding: 16px 14px; text-align: left; color: var(--ink);
+  border-radius: var(--r); border: 1px solid var(--line); background: var(--card); transition: border-color .2s, transform .15s;
+}
+.comp-card:hover { border-color: color-mix(in srgb, var(--c, var(--brand)) 55%, var(--line)); }
+.comp-card:active { transform: scale(.99); }
+.comp-card.here { border-color: var(--c, var(--brand)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--c, var(--brand)) var(--halo), transparent); }
+.comp-n {
+  flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; font-family: var(--display); font-size: 22px;
+  color: var(--c-ink); border: 1px solid color-mix(in srgb, var(--c, var(--brand)) 60%, transparent); background: color-mix(in srgb, var(--c, var(--brand)) 12%, transparent);
+}
+.comp-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.comp-body small { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--c-ink); }
+.comp-body b { font-family: var(--display); font-weight: 500; font-size: 20px; line-height: 1.2; }
+.comp-desc { font-size: 13px; color: var(--mute); }
+.comp-stats { font-size: 13px; font-weight: 700; margin-top: 4px; }
+.comp-prog { display: flex; align-items: center; gap: 8px; }
+.comp-prog .mini-bar { flex: 1; }
+.comp-prog small { color: var(--mute); letter-spacing: 0; text-transform: none; }
+.comp-next { font-size: 13px; color: var(--mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.comp-go { flex: none; color: var(--mute); }
+.comp-go svg { width: 20px; height: 20px; }
 .wnode-wrap { position: relative; height: 236px; display: flex; flex-direction: column; align-items: center; transform: translateX(var(--x)); }
 .wnode {
   position: relative; width: 128px; height: 128px; border-radius: 50%; padding: 4px;

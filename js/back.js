@@ -31,7 +31,7 @@ function setupBack() {
   addEventListener('popstate', () => {
     const step = backStep({
       exitAsk, tab, dialog: dialogOpen(), tour: tourOpen(), guide: typeof guideOpen !== 'undefined' && !!guideOpen, sheet: $('#sheet').classList.contains('open'),
-      lesson: !!lessonClose, world: (tab === 'learn' && !!openWorld) || (tab === 'profile' && !!profileSub),   // Ajustes vuelve al Perfil por su [data-back]
+      lesson: !!lessonClose, world: (tab === 'learn' && (!!openWorld || !!openBlock)) || (tab === 'profile' && !!profileSub),   // Ajustes vuelve al Perfil por su [data-back]
     });
     if (step === 'exit') { exitAsk = false; dismissDialog(); history.back(); return; }
     if (step === 'ask-exit') {
@@ -54,7 +54,7 @@ function setupBack() {
     else if (step === 'guide') closeGuide();
     else if (step === 'sheet') closeSheet();
     else if (step === 'lesson') lessonClose();
-    else if (step === 'world') { const b = $('[data-back]', view); if (b) b.click(); else if (tab === 'profile') { profileSub = null; renderProfile(); } else { openWorld = null; renderLearn(); } }   // como el botón «Mundos»: vuelve al mapa centrado en ese mundo
+    else if (step === 'world') { const b = $('[data-back]', view); if (b) b.click(); else if (tab === 'profile') { profileSub = null; renderProfile(); } else { openWorld = null; openBlock = null; renderLearn(); } }   // como «Mundos» o «Componentes»: un paso atrás
     else go('learn');
   });
 }
