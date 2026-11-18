@@ -80,3 +80,16 @@ test('rondas de los juegos que saben su respuesta: se ganan con ella y no empiez
     }
   }
 });
+
+test('acertijos de orden: cada uno tiene una sola solución, y en «descarta-casos» queda una sola tarjeta', () => {
+  const ORD = get(ctx, 'ORD');
+  for (const u of units.filter(u => DONE.includes(u.world))) {
+    for (const e of [...u.lessons.flatMap(l => l.ex), ...u.exam.items.map(it => it.ex)]) {
+      const g = GAMES[e.game];
+      for (const r of e.params.rounds || []) {
+        if (typeof g.solutions === 'function') assert.equal(g.solutions(r).length, 1, `${e.game}: ${JSON.stringify(r.names || r.rows || r.people)}`);
+        if (e.game === 'descarta-casos') assert.equal(r.cands.filter(a => r.clues.every(c => ORD.sat(a, c, !!r.circ))).length, 1, JSON.stringify(r.cands));
+      }
+    }
+  }
+});
