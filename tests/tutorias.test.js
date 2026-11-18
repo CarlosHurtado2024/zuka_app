@@ -179,7 +179,7 @@ test('las materias y los temas salen del contenido real de la app', () => {
 });
 
 test('los títulos de unidades y lecciones son texto simple (la pestaña los muestra sin KaTeX)', () => {
-  const c = loadScripts(['js/ui.js', 'js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js', 'js/courses/calculo.js', 'js/courses/geometria.js', 'js/data.js']);
+  const c = loadScripts(['js/ui.js', 'js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js', 'js/courses/calculo.js', 'js/courses/geometria.js', 'js/courses/preuda-razonamiento.js', 'js/courses/preuda-lectura.js', 'js/courses/preuda.js', 'js/data.js']);
   for (const course of get(c, 'COURSES')) for (const u of course.units) {
     for (const t of [u.title, ...u.lessons.map(l => l.title)]) assert.doesNotMatch(t, /[$\\*<>]/, `${course.id}: ${t}`);
   }

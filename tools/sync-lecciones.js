@@ -6,7 +6,8 @@ const { loadScripts, get } = require('../tests/load');
 
 const ctx = loadScripts(['js/ui.js', 'js/worlds.js', 'js/content.js', 'js/curiosidades.js', 'js/acceso.js',
   'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js',
-  'js/courses/calculo.js', 'js/courses/geometria.js', 'js/data.js']);
+  'js/courses/calculo.js', 'js/courses/geometria.js', 'js/courses/preuda-razonamiento.js',
+  'js/courses/preuda-lectura.js', 'js/courses/preuda.js', 'js/data.js']);
 const rows = get(ctx, 'catalogo(COURSES, CURIOS, summaryOf)');
 
 const q = s => `'${String(s).replace(/'/g, "''")}'`;

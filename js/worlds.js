@@ -232,6 +232,143 @@ const WORLDS = (() => {
       ${F('M80 42L96 38L104 22L88 26Z', VIOLET, .28)}
       ${A(80, 42, 96, 38, INK, 1.5)}${A(80, 42, 88, 26, VIOLET, 1.5)}
       ${T(100, 46, 'T(e₁)', INK, 5.5, 'start')}${T(84, 20, 'T(e₂)', VIOLET, 5.5)}`) },
+
+    // ---------- Preuniversitario UdeA · Razonamiento lógico ----------
+    'pu-calculo': { name: 'Cálculo Mental', art: plate('pu-calculo', TEAL, `
+      ${L('M50 22h60M50 58h60', INK, .8)}${T(80, 34, '8 − 2·(5 − 7)²', INK, 8)}
+      ${A(80, 40, 80, 48, TEAL, 1)}${T(80, 55, '= 0', TEAL, 9)}
+      ${C(44, 40, 6, INK, .8, true)}${T(44, 42.5, '÷', INK, 7)}${C(116, 40, 6, INK, .8, true)}${T(116, 42.5, '×', INK, 7)}
+      ${T(26, 72, '¼ = 0.25', INK, 5.5)}${T(134, 72, '25 %', TEAL, 6)}`) },
+    'pu-geometria': { name: 'Geometría Plana y Sólida', art: plate('pu-geometria', TEAL, `
+      ${F('M50 60H96V24Z', TEAL, .2)}${L('M50 60H96V24Z')}${L('M90 60v-6h6', INK, .8)}
+      ${T(73, 68, 'a', INK, 6.5)}${T(102, 44, 'b', INK, 6.5)}${T(68, 38, 'c', TEAL, 7)}
+      ${C(118, 30, 10, INK, .9)}${L('M118 30h10', TEAL, 1)}${D(118, 30, 1.2)}${T(124, 27, 'r', TEAL, 5.5)}
+      ${T(30, 24, 'c² = a² + b²', INK, 5.5)}`) },
+    'pu-orden': { name: 'Acertijos de Orden', art: plate('pu-orden', TEAL, `
+      ${[0, 1, 2, 3, 4].map(i => L(`M${46 + i * 14} 30h12v14h-12z`, i === 2 ? TEAL : INK, i === 2 ? 1.3 : .8) + T(52 + i * 14, 52, i + 1, INK, 5)).join('')}
+      ${D(52, 37, 2, TEAL)}${D(66, 37, 2)}${D(94, 37, 2)}${H(108, 37, 2.2, TEAL)}
+      ${A(66, 24, 52, 24, TEAL, .9)}${T(80, 20, 'antes de…', INK, 5.5)}
+      ${T(80, 66, '¿tiene que · podría · no puede?', INK, 4.8)}`) },
+    'pu-proporcion': { name: 'Proporcionalidad', art: plate('pu-proporcion', TEAL, `
+      ${F('M48 58h20v-10h-20z', TEAL, .35)}${F('M70 58h30v-15h-30z', TEAL, .35)}${L('M48 58h20v-10h-20zM70 58h30v-15h-30z')}
+      ${T(58, 66, '2', INK, 6)}${T(85, 66, '3', INK, 6)}
+      ${T(110, 30, '× 1.19', TEAL, 7)}${T(52, 30, 'a : b', INK, 7)}${A(66, 28, 98, 28, INK, .8)}
+      ${T(124, 56, '%', TEAL, 12)}`) },
+    'pu-conteo': { name: 'Conteo y Combinatoria', art: plate('pu-conteo', TEAL, `
+      ${D(56, 40, 2.2, TEAL)}${[24, 40, 56].map(y => L(`M56 40L80 ${y}`, INK, .9) + D(80, y, 1.8)).join('')}
+      ${[24, 40, 56].map(y => [-5, 5].map(d => L(`M80 ${y}L104 ${y + d}`, INK, .6) + D(104, y + d, 1.4, TEAL)).join('')).join('')}
+      ${T(80, 70, '3 · 2 = 6', TEAL, 7)}${T(126, 30, 'n!', INK, 9)}${T(30, 30, 'C(n, k)', INK, 6)}`) },
+    'pu-espacial': { name: 'Razonamiento Espacial', art: plate('pu-espacial', TEAL, `
+      ${F('M66 34l14-8 14 8-14 8z', TEAL, .3)}${L('M66 34l14-8 14 8-14 8zM66 34v18l14 8 14-8V34M80 42v18')}
+      ${Ld('M66 52l14-8 14 8M80 26v18')}
+      ${L('M106 30h8v8h-8zM114 30h8v8h-8zM114 22h8v8h-8zM114 38h8v8h-8z', INK, .7)}${T(118, 56, 'desarrollo', INK, 4.5)}
+      ${L('M40 26v28', TEAL, .8)}${T(34, 34, 'F', INK, 9)}${L('M48 26v10M48 26h-5M48 30.5h-4', TEAL, 1.1)}`) },
+    'pu-secuencias': { name: 'Secuencias y Patrones', art: plate('pu-secuencias', TEAL, `
+      ${[3, 4, 7, 11, 18].map((v, i) => C(46 + i * 17, 40, 6, i === 4 ? TEAL : INK, .9) + T(46 + i * 17, 42.5, v, i === 4 ? TEAL : INK, 6)).join('')}
+      ${T(80, 58, 'a + b', TEAL, 5)}
+      ${L('M50 33q4-6 8 0M67 33q4-6 8 0M84 33q4-6 8 0M101 33q4-6 8 0', INK, .7)}
+      ${T(134, 22, 'n mod 7', INK, 5.5)}`) },
+    'pu-codigos': { name: 'Códigos y Claves', art: plate('pu-codigos', TEAL, `
+      ${C(80, 40, 22, INK, 1)}${C(80, 40, 14, TEAL, 1)}
+      ${['A', 'B', 'C', 'D', 'E', 'F'].map((ch, i) => { const a = rad(i * 60 - 90); return T(80 + 18.5 * Math.cos(a), 42 + 18.5 * Math.sin(a), ch, INK, 5); }).join('')}
+      ${['C', 'D', 'E', 'F', 'G', 'H'].map((ch, i) => { const a = rad(i * 60 - 90); return T(80 + 9 * Math.cos(a), 42 + 9 * Math.sin(a), ch, TEAL, 4.5); }).join('')}
+      ${L('M80 18v8M80 54v8', TEAL, 1)}${L('M58 40h-6M108 40h-6', INK, .8)}${D(80, 40, 1.6, TEAL)}${L('M120 26h20M120 34h14', INK, .7)}${T(130, 46, 'SOL → VRO', INK, 5)}${T(30, 54, '+2', TEAL, 8)}`) },
+    'pu-graficas': { name: 'Tablas y Gráficas', art: plate('pu-graficas', TEAL, `
+      ${axes(50, 60, 46, 114, 20, 60)}
+      ${[[56, 20], [68, 30], [80, 14], [92, 24]].map(([x, h]) => F(`M${x} 60h8v-${h}h-8z`, TEAL, .35) + L(`M${x} 60h8v-${h}h-8z`, TEAL, .9)).join('')}
+      ${L('M100 46L106 34L112 38', INK, 1)}${D(106, 34, 1.6)}
+      ${C(128, 34, 10, INK, .9)}${F('M128 34V24A10 10 0 0 1 137.5 37.1Z', TEAL, .45)}`) },
+    'pu-logica': { name: 'Lógica Proposicional', art: plate('pu-logica', TEAL, `
+      ${L('M48 24h64v32H48zM48 32h64M80 24v32M48 40h64M48 48h64', INK, .7)}
+      ${T(64, 30, 'p → q', TEAL, 5)}${T(96, 30, 'valor', INK, 5)}
+      ${[['V V', 'V'], ['V F', 'F'], ['F V', 'V']].map(([a, b], i) => T(64, 38 + i * 8, a, INK, 5) + T(96, 38 + i * 8, b, b === 'F' ? TEAL : INK, 5)).join('')}
+      ${T(30, 66, '¬(p ∧ q)', INK, 5.5)}${T(132, 66, '¬p ∨ ¬q', TEAL, 5.5)}${D(112, 52, 1.6, TEAL)}${C(136, 30, 6, TEAL, .9)}${Ld('M44 60h72')}${D(48, 52, 1.2)}${D(48, 44, 1.2)}${L('M133 30l2 3 4-6', TEAL, 1)}`) },
+    'pu-operadores': { name: 'Operadores Definidos', art: plate('pu-operadores', TEAL, `
+      ${L('M60 28h40v24H60z', INK, 1)}${T(80, 44, '★', TEAL, 13)}
+      ${A(40, 34, 58, 34, INK, .9)}${A(40, 46, 58, 46, INK, .9)}${T(34, 36, 'a', INK, 7)}${T(34, 48, 'b', INK, 7)}
+      ${A(102, 40, 120, 40, TEAL, 1)}${T(136, 42, '2a − b', TEAL, 6)}
+      ${T(80, 66, 'a ★ b = 2a − b', INK, 5.5)}`) },
+    'pu-aritmetica': { name: 'Aritmética y Promedios', art: plate('pu-aritmetica', TEAL, `
+      ${L('M46 50h72', INK, .9)}
+      ${[3, 7, 7, 8, 10].map((v, i) => D(46 + v * 7, 46 - i % 2 * 6, 2, i === 2 ? TEAL : INK)).join('')}
+      ${L('M95 32V54', TEAL, 1.2)}${T(95, 28, 'x̄ = 7', TEAL, 6)}
+      ${F('M50 62h18v-6h-18z', INK, .3)}${F('M70 62h12v-6h-12z', TEAL, .4)}${T(100, 61, '⅓ · ¼', INK, 5.5)}`) },
+    'pu-ecuaciones': { name: 'Ecuaciones con Contexto', art: plate('pu-ecuaciones', TEAL, `
+      ${L('M80 22v30M54 30h52', INK, 1.1)}${L('M80 52l-6 6h12z', INK, .9)}
+      ${L('M54 30l-8 12h16zM106 30l-8 12h16z', INK, .8)}
+      ${T(54, 40, 'x + y', TEAL, 5)}${T(106, 40, '10', TEAL, 5)}
+      ${T(80, 70, 'x − y = 2', TEAL, 7)}${T(28, 22, 'x = 6', INK, 5)}${D(54, 30, 1.6, TEAL)}${D(106, 30, 1.6, TEAL)}${Ld('M40 62h80')}`) },
+    'pu-conjuntos': { name: 'Conjuntos y Encuestas', art: plate('pu-conjuntos', TEAL, `
+      ${F('M80 26.8A15 15 0 0 1 80 49.2A15 15 0 0 1 80 26.8Z', TEAL, .4)}
+      ${C(70, 38, 15)}${C(90, 38, 15)}${L('M44 18h72v44H44z', INK, .6)}
+      ${T(62, 41, 'A', INK, 6)}${T(80, 41, '∩', TEAL, 6)}${T(98, 41, 'B', INK, 6)}${T(52, 58, 'U', INK, 5.5)}
+      ${T(136, 30, 'n(A ∪ B)', INK, 5.5)}${D(60, 46, 1.2)}${D(98, 46, 1.2)}${Ld('M118 36h-10')}`) },
+    'pu-numeros': { name: 'Teoría de Números', art: plate('pu-numeros', TEAL, `
+      ${T(80, 26, '360', INK, 9)}${L('M80 30L68 40M80 30L92 40', INK, .9)}
+      ${T(66, 46, '36', INK, 7)}${T(94, 46, '10', INK, 7)}${L('M66 50l-6 8M66 50l6 8M94 50l-5 8M94 50l5 8', INK, .7)}
+      ${T(60, 64, '6', TEAL, 5.5)}${T(72, 64, '6', TEAL, 5.5)}${T(89, 64, '2', TEAL, 5.5)}${T(99, 64, '5', TEAL, 5.5)}
+      ${T(132, 34, 'MCD', INK, 5.5)}${T(30, 34, 'MCM', INK, 5.5)}${D(80, 30, 1.4, TEAL)}${C(132, 46, 5, TEAL, .8)}${C(30, 46, 5, INK, .8, true)}${Ld('M46 70h68')}`) },
+    'pu-probabilidad': { name: 'Azar y Probabilidad', art: plate('pu-probabilidad', TEAL, `
+      ${L('M52 30h22v22H52z', INK, 1)}${D(57, 35, 1.6)}${D(63, 41, 1.6)}${D(69, 47, 1.6)}
+      ${L('M86 30h22v22H86z', TEAL, 1)}${D(91, 35, 1.6, TEAL)}${D(103, 35, 1.6, TEAL)}${D(91, 47, 1.6, TEAL)}${D(103, 47, 1.6, TEAL)}
+      ${T(80, 68, 'P = 6 / 36', TEAL, 6.5)}${T(80, 20, 'favorables / posibles', INK, 4.8)}`) },
+
+    // ---------- Preuniversitario UdeA · Comprensión lectora ----------
+    'pu-estrategias': { name: 'Estrategias de Lectura', art: plate('pu-estrategias', TEAL, `
+      ${L('M56 18h48v46H56z', INK, 1)}${L('M62 26h24', TEAL, 1.5)}
+      ${[34, 40, 46, 52].map(y => L(`M62 ${y}h36`, INK, .6)).join('')}
+      ${F('M60 37h40v6H60z', TEAL, .3)}${A(112, 40, 104, 40, TEAL, 1)}${T(126, 42, 'idea', TEAL, 5.5)}
+      ${T(32, 26, '15 min', INK, 5.5)}${C(32, 40, 7, INK, .8)}${L('M32 40v-4M32 40l3 2', INK, .8)}`) },
+    'pu-tipos': { name: 'Tipos de Texto', art: plate('pu-tipos', TEAL, `
+      ${[[46, 'narra'], [66, 'describe'], [86, 'explica'], [106, 'argumenta']].map(([x, t], i) => L(`M${x} 22h14v34h-14z`, i === 3 ? TEAL : INK, i === 3 ? 1.2 : .8) + L(`M${x + 3} 30h8M${x + 3} 36h8M${x + 3} 42h6`, INK, .5) + T(x + 7, 64, t, i === 3 ? TEAL : INK, 3.8)).join('')}
+      ${T(80, 16, 'tesis → argumentos', INK, 4.8)}`) },
+    'pu-explicita': { name: 'Información Explícita', art: plate('pu-explicita', TEAL, `
+      ${[24, 31, 38, 45, 52].map(y => L(`M46 ${y}h56`, INK, .6)).join('')}
+      ${F('M60 35h28v6H60z', TEAL, .45)}
+      ${C(110, 46, 9, TEAL, 1.2)}${L('M116.5 52.5l7 7', TEAL, 1.6)}
+      ${T(80, 66, '«según el texto…»', INK, 5)}`) },
+    'pu-inferencia': { name: 'Inferencia', art: plate('pu-inferencia', TEAL, `
+      ${[26, 33, 40].map(y => L(`M42 ${y}h40`, INK, .6)).join('')}${D(84, 40, 1.5, TEAL)}
+      ${A(88, 34, 104, 34, TEAL, 1)}${C(116, 34, 9, TEAL, 1)}${T(116, 37, '∴', TEAL, 8)}
+      ${Ld('M42 50h40')}${T(62, 60, 'pistas del texto', INK, 4.5)}${T(116, 54, 'conclusión', TEAL, 4.5)}`) },
+    'pu-vocabulario': { name: 'Vocabulario en Contexto', art: plate('pu-vocabulario', TEAL, `
+      ${L('M44 30h22M94 30h22', INK, .6)}${L('M68 24h24v12H68z', TEAL, 1.2)}${T(80, 33, 'sólida', TEAL, 5.5)}
+      ${A(80, 38, 80, 48, INK, .8)}${T(80, 56, 'bien fundada', INK, 5.5)}
+      ${Ld('M80 38L56 52')}${T(50, 60, 'dura', INK, 5)}${L('M44 58l12 4', INK, .8)}
+      ${T(126, 66, 'bio · logía', TEAL, 5)}`) },
+    'pu-aplicacion': { name: 'Aplicación y Analogía', art: plate('pu-aplicacion', TEAL, `
+      ${T(58, 32, 'A', INK, 9)}${T(74, 32, ':', INK, 9)}${T(90, 32, 'B', INK, 9)}
+      ${T(58, 56, 'C', TEAL, 9)}${T(74, 56, ':', TEAL, 9)}${T(90, 56, 'D', TEAL, 9)}
+      ${L('M50 40h48', INK, .5)}${T(74, 44, '::', INK, 7)}
+      ${A(104, 28, 116, 40, INK, .8)}${A(116, 40, 104, 52, TEAL, .8)}${T(128, 42, 'misma relación', INK, 4.2)}`) },
+    'pu-fuentes': { name: 'Voces y Citas', art: plate('pu-fuentes', TEAL, `
+      ${L('M48 22h30q4 0 4 4v12q0 4-4 4H60l-6 6v-6h-6q-4 0-4-4V26q0-4 4-4z', INK, 1)}${T(63, 35, '«…»', INK, 7)}
+      ${L('M86 34h26q4 0 4 4v10q0 4-4 4h-6v6l-6-6H86q-4 0-4-4V38q0-4 4-4z', TEAL, 1.1)}${T(99, 46, 'según', TEAL, 5)}
+      ${T(80, 68, 'autor · citado', INK, 5)}${D(56, 30, 1.3)}${D(70, 30, 1.3)}${D(94, 42, 1.3, TEAL)}${Ld('M44 62h72')}`) },
+    'pu-conectores': { name: 'Conectores y Funciones', art: plate('pu-conectores', TEAL, `
+      ${L('M42 34h22v12H42zM96 34h22v12H96z', INK, .9)}
+      ${L('M64 40h32', TEAL, 1.5)}${C(80, 40, 5, TEAL, 1.1)}
+      ${T(80, 28, 'sin embargo', TEAL, 5)}${T(53, 54, 'idea 1', INK, 4.5)}${T(107, 54, 'idea 2', INK, 4.5)}
+      ${T(80, 68, '«» · ( ) · — · :', INK, 5.5)}${D(42, 40, 1.4)}${D(118, 40, 1.4)}${Ld('M46 60h68')}`) },
+    'pu-argumentacion': { name: 'Argumentación y Tono', art: plate('pu-argumentacion', TEAL, `
+      ${L('M64 22h32v10H64z', TEAL, 1.2)}${T(80, 29, 'tesis', TEAL, 5.5)}
+      ${L('M70 32V48M80 32V48M90 32V48', INK, .9)}${L('M58 48h44v6H58z', INK, .8)}
+      ${T(66, 62, 'datos', INK, 4)}${T(80, 62, 'ejemplo', INK, 4)}${T(95, 62, 'autoridad', INK, 4)}
+      ${T(126, 30, 'hecho', INK, 5)}${T(126, 40, 'opinión', TEAL, 5)}${D(70, 48, 1.3)}${D(80, 48, 1.3)}${D(90, 48, 1.3)}${Ld('M116 35h20')}`) },
+    'pu-dos-textos': { name: 'Lectura de Dos Textos', art: plate('pu-dos-textos', TEAL, `
+      ${L('M46 22h26v36H46z', INK, .9)}${L('M88 22h26v36H88z', TEAL, 1)}
+      ${[30, 36, 42, 48].map(y => L(`M50 ${y}h18M92 ${y}h18`, INK, .5)).join('')}
+      ${L('M72 34h16M72 46h16', INK, .7)}${D(80, 34, 1.4, TEAL)}${D(80, 46, 1.4, TEAL)}
+      ${T(59, 66, 'A', INK, 6)}${T(101, 66, 'B', TEAL, 6)}`) },
+    'pu-referencia': { name: 'Referencia y Cohesión', art: plate('pu-referencia', TEAL, `
+      ${L('M44 30h18M84 50h18', INK, .6)}${L('M64 26h18v8H64z', INK, 1)}${T(73, 32, 'gato', INK, 4.5)}
+      ${L('M104 46h12v8h-12z', TEAL, 1.1)}${T(110, 52, 'felino', TEAL, 4)}
+      ${L('M110 46C110 30 90 22 76 26', TEAL, .9)}${D(76, 26, 1.4, TEAL)}
+      ${T(60, 64, 'este · aquel · lo cual', INK, 4.6)}`) },
+    'pu-figurado': { name: 'Lenguaje Figurado', art: plate('pu-figurado', TEAL, `
+      ${T(62, 34, 'calles', INK, 6)}${T(62, 48, '=', INK, 7)}${T(62, 60, 'ríos', TEAL, 7)}
+      ${L('M86 50q6-14 12 0t12 0', TEAL, 1.2)}${L('M86 56q6-14 12 0t12 0', INK, .7)}
+      ${T(110, 28, 'como', INK, 5)}${T(30, 30, 'ironía', INK, 5)}${C(30, 44, 5, TEAL, .8, true)}${D(86, 50, 1.3, TEAL)}${D(110, 50, 1.3, TEAL)}${Ld('M50 40h24')}`) },
   };
 })();
 

@@ -6,6 +6,7 @@ const COURSES = [
   COURSE_TRIG,
   COURSE_CALC,
   COURSE_GEO,
+  COURSE_PREUDA,
   {
     id: 'fis', level: 'Semestre 1', name: 'Física Mecánica', icon: 'F', color: '#facc15',
     tagline: 'Por qué las cosas se mueven: fuerzas, energía y movimiento.',

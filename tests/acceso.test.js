@@ -8,7 +8,7 @@ const { loadScripts, get, ROOT } = require('./load');
 
 const ctx = loadScripts(['js/ui.js', 'js/worlds.js', 'js/content.js', 'js/curiosidades.js', 'js/acceso.js',
   'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js', 'js/courses/calculo.js',
-  'js/courses/geometria.js', 'js/data.js']);
+  'js/courses/geometria.js', 'js/courses/preuda-razonamiento.js', 'js/courses/preuda-lectura.js', 'js/courses/preuda.js', 'js/data.js']);
 const f = name => get(ctx, name);
 const read = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
 
@@ -82,7 +82,8 @@ test('catálogo: cada lección una vez, la primera de cada curso gratis, y cada 
   for (const c of COURSES) {
     const ls = rows.filter(r => r.curso === c.id && r.tipo === 'leccion');
     assert.strictEqual(ls.length, c.units.flatMap(u => u.lessons).length, c.id);
-    assert.strictEqual(ls.filter(r => r.nivel_minimo === 'gratis').length, 1, `${c.id}: una sola gratis`);
+    // Una gratis por curso; con componentes (c.blocks), una por componente: cada uno se abre por su cuenta.
+    assert.strictEqual(ls.filter(r => r.nivel_minimo === 'gratis').length, c.blocks ? c.blocks.length : 1, `${c.id}: una gratis por componente`);
     assert.strictEqual(ls[0].nivel_minimo, 'gratis');
   }
   const nivel = tipo => [...new Set(rows.filter(r => r.tipo === tipo).map(r => r.nivel_minimo))].join();
@@ -123,7 +124,7 @@ test('solo el administrador ve todo abierto; a los demás se les abre de a una l
   assert.match(app, /\$\{SIN_CANDADOS \? `<section class="set-group">\s*<h3 class="eyebrow">Administración<\/h3>\s*<button class="set-row" data-set="unlockAll"/, 'el interruptor solo existe en el computador de desarrollo');
   assert.match(app, /: cuentaEsAdmin\(\) \? `<section class="set-group">[\s\S]{0,200}Acceso total/, 'el admin ve que tiene acceso total, sin interruptor para apagarlo');
   // Sin modo revisión, una lección se abre al completar la anterior, también entre un mundo y el siguiente.
-  assert.match(app, /return i <= 0 \|\| isDone\(l\) \|\| isDone\(ls\[i - 1\]\);/);
+  assert.match(app, /return i <= 0 \|\| blockStart\(c, l\) \|\| isDone\(l\) \|\| isDone\(ls\[i - 1\]\);/);
 });
 
 test('sin sesión la app abre en la pantalla de entrada, que deja seguir sin cuenta', () => {
@@ -152,7 +153,8 @@ test('los estudiantes solo ven los cursos que el administrador habilita', () => 
   assert.match(sql, /create policy cursos_editar[^;]*es_admin/);
   assert.match(sql, /not exists \(select 1 from public\.cursos c where c\.id = l\.curso and not c\.publicado\)/, 'el servidor tampoco entrega videos de un curso oculto');
   // Los cursos de la app y los de la tabla son los mismos.
-  for (const c of f('COURSES')) assert.ok(sql.includes(`('${c.id}', `), c.id);
+  const all = fs.readdirSync(path.join(ROOT, 'supabase/migrations')).map(m => read(`supabase/migrations/${m}`)).join(' ');
+  for (const c of f('COURSES')) assert.ok(all.includes(`('${c.id}', `), c.id);
 });
 
 test('el uso diario se envía solo con sesión y lo escribe únicamente registrar_uso', () => {

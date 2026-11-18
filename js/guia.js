@@ -483,6 +483,7 @@ const GUIDES = {
   'encesta-suma': [['fling', 'Desliza el dedo hacia la canasta de la suma y suelta para lanzar el balón.', {}]],
   'encuesta-venn': [['step', 'En cada zona del diagrama pon con − / + cuántas personas hay.', { from: 3, to: 5, label: 'solo en A' }]],
   'engranajes': [['step', 'Fija con − / + el dato que falta de la rueda B y compara los contadores.', { from: 8, to: 10, label: 'dientes' }]],
+  'subraya-texto': [['tap', 'Lee el texto y toca los trozos que responden la consigna: quedan subrayados.', { items: ['El páramo', 'da agua a', 'dos millones'], pick: [2] }], ['tap', 'Tocar otra vez un trozo lo quita. Si hay varias pestañas, cada una es otra consigna.', { items: ['1', '2'], pick: [1] }]],
   'escala-solucion': [['tap', 'En cada nivel, de abajo hacia arriba, toca el paso que sí se justifica.', { items: ['2x = 8', '2x = 2'], pick: [0] }], ['tap', 'La cuerda une tu ruta hasta la bandera; puedes cambiar un agarre antes de comprobar.', { items: ['x = 4', 'x = 1'], pick: [1, 0] }]],
   'escala-leyes': [['tap', 'Toca las tarjetas en el orden que deja al escalador en la bandera. Se puede deshacer.', { items: ['· x³', '( )²', '÷ x⁴'], pick: [0, 1] }]],
   'escalera-aritmetica': [['slide', 'Arrastra el segundo peldaño: fija la diferencia y toda la escalera se acomoda.', { vert: true }]],

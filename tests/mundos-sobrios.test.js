@@ -12,8 +12,8 @@ const CHILDISH = /Pradera|Valle|Mercado|Torres|Escalera|Taller|Fuente|Cordillera
 
 test('los mundos tienen nombres de capítulo, sin lugares de cuento', () => {
   const names = Object.values(WORLDS).map(w => w.name);
-  assert.equal(names.length, 28);
-  assert.equal(new Set(names).size, 28, 'nombres distintos');
+  assert.equal(names.length, 56);
+  assert.equal(new Set(names).size, 56, 'nombres distintos');
   for (const n of names) { assert.ok(!CHILDISH.test(n), n); assert.ok(n.length >= 8 && n.length <= 26, `${n}: largo`); }
   assert.equal(WORLDS.conjuntos.name, 'Teoría de Conjuntos');
   // Lo que dicen los jefes al ganar tampoco nombra lugares.

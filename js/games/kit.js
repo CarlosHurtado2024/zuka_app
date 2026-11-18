@@ -104,6 +104,16 @@ const COURSE_PALETTES = {
     },
   },
   // Álgebra Lineal: naranja sobre un fondo cálido; el azul se queda de contraste.
+  preuda: {
+    dark: {
+      brand: '#A3E635', bg: '#121A0B', card: '#1E2813', line: '#3E5225', ink: '#F5FBEA', mute: '#B3C29A',
+      mint: '#BEF264', sky: '#38BDF8', cream: '#EEF5E0', creamD: '#BCCAA3', night: '#121A0B', star: '#2C3B1B', halo: '#1D2912',
+    },
+    light: {
+      brand: '#4D7C0F', bg: '#F6FAEE', card: '#FFFFFF', line: '#DCE6C8', ink: '#1A2608', mute: '#5B6B45',
+      mint: '#65A30D', sky: '#0284C7', creamD: '#D6E0C2', night: '#1A2608', star: '#E6EFD6', halo: '#EEF4E2',
+    },
+  },
   lin: {
     dark: {
       brand: '#FB923C', bg: '#1E130C', card: '#2E1F15', line: '#5E4029', ink: '#FFF3EA', mute: '#C9AD98',

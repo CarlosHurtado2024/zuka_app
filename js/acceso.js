@@ -49,9 +49,11 @@ function catalogo(courses, curios = [], summaryOf = () => null) {
   const videos = l => [l.clip, ...(l.more || [])].map(c => c && c.bunny).filter(Boolean);
   courses.forEach(c => {
     let n = 0;
-    c.units.forEach(u => {
-      u.lessons.forEach(l => add({ id: l.id, tipo: 'leccion', curso: c.id, titulo: l.title, orden: n,
-        nivel_minimo: n++ === 0 ? 'gratis' : NIVEL_TIPO.leccion, videos: videos(l) }));
+    c.units.forEach((u, ui) => {
+      // Con componentes (c.blocks) cada uno se abre por su cuenta: su primera lección también es gratis.
+      const blockFirst = !!c.blocks && !!u.block && (ui === 0 || c.units[ui - 1].block !== u.block);
+      u.lessons.forEach((l, li) => add({ id: l.id, tipo: 'leccion', curso: c.id, titulo: l.title, orden: n,
+        nivel_minimo: n++ === 0 || (blockFirst && li === 0) ? 'gratis' : NIVEL_TIPO.leccion, videos: videos(l) }));
       if (u.boss) add({ id: u.boss.id, tipo: 'jefe', curso: c.id, titulo: u.boss.title, orden: n, nivel_minimo: NIVEL_TIPO.jefe, videos: videos(u.boss) });
       if (u.exam) add({ id: u.exam.id, tipo: 'evaluacion', curso: c.id, titulo: u.exam.title, orden: n, nivel_minimo: NIVEL_TIPO.evaluacion, videos: [] });
       if (summaryOf(u)) add({ id: `resumen-${u.world}`, tipo: 'resumen', curso: c.id, titulo: `Resumen: ${u.title}`, orden: n, nivel_minimo: NIVEL_TIPO.resumen, videos: [] });

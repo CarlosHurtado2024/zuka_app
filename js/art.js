@@ -10,6 +10,7 @@ const ART_PAL = {
   geo:     { blue: '#4f93f0', deep: '#2a62bd', soft: '#8dbdfc', pale: '#c5dcfd', sun: '#5eead4', sunDeep: '#2bb39c' },   // azul + turquesa
   fis:     { blue: '#f2b705', deep: '#b48200', soft: '#fbd94a', pale: '#fde99a', sun: '#fb7a3c', sunDeep: '#cf541c' },   // amarillo + naranja
   int:     { blue: '#22c087', deep: '#11845a', soft: '#6ee7b7', pale: '#b6f3da', sun: '#d9f25e', sunDeep: '#a4bd2c' },   // verde + lima
+  preuda:  { blue: '#84cc16', deep: '#4d7c0f', soft: '#bef264', pale: '#d9f99d', sun: '#38bdf8', sunDeep: '#0284c7' },   // lima + celeste
   lin:     { blue: '#f5822a', deep: '#b9580f', soft: '#fdb070', pale: '#fed3ab', sun: '#ff5d7a', sunDeep: '#d23a58' },   // naranja + rojo rosado
 };
 const artTint = (svg, pal) => (pal ? svg.replace(/#[0-9a-f]{6}/g, h => { const k = Object.keys(ART_C).find(n => ART_C[n] === h); return k ? pal[k] : h; }) : svg);
@@ -86,6 +87,13 @@ const COURSE_ART_BASE = {
     <path d="M11 46C25 42 38 30 58 8" fill="none" stroke="${ART_C.sun}" stroke-width="4" stroke-linecap="round"/>`),
 
   // Álgebra lineal: plano deformado por una matriz y dos vectores.
+  // Preuniversitario UdeA: un libro abierto (lectura) y, encima, una pieza de rompecabezas (razonamiento).
+  preuda: artSvg(`
+    <path d="M32 52C24 47 15 46 7 48V20c8-2 17-1 25 4z" fill="${ART_C.deep}"/>
+    <path d="M32 52c8-5 17-6 25-4V20c-8-2-17-1-25 4z" fill="${ART_C.blue}"/>
+    <path d="M12 28c5-1 10-.5 15 1.5M12 35c5-1 10-.5 15 1.5M37 30c5-2 10-2.5 15-1.5M37 37c5-2 10-2.5 15-1.5" stroke="${ART_C.pale}" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+    <path d="M32 24v28" stroke="${ART_C.soft}" stroke-width="2"/>
+    <path d="M24 6h7a3.5 3.5 0 1 1 7 0h7v7a3.5 3.5 0 1 1 0 7v0H24z" fill="${ART_C.sun}" stroke="${ART_C.sunDeep}" stroke-width="2" stroke-linejoin="round"/>`),
   lin: artSvg(`
     <path d="M10 50h28l16-28H26z" fill="${ART_C.pale}" fill-opacity=".3" stroke="${ART_C.pale}" stroke-width="2" stroke-linejoin="round"/>
     <path d="M19.3 50l16-28M28.7 50l16-28M18 36h28" stroke="${ART_C.pale}" stroke-width="1.5" opacity=".8"/>

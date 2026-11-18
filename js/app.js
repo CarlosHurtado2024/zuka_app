@@ -126,10 +126,13 @@ const minsToHeart = () => Math.max(1, Math.ceil((S.heartsAt + HEART_MS - Date.no
 const courseById = id => cursosVisibles().find(c => c.id === id) || cursosVisibles()[0];
 const lessonsOf = c => c.units.flatMap(u => u.lessons);
 const isDone = l => !!S.done[l.id];
+// Componentes (c.blocks, curso Preuniversitario UdeA): cada uno se abre por su cuenta, así que la primera lección
+// de cada componente está abierta aunque el anterior no se haya terminado.
+const blockStart = (c, l) => !!c.blocks && c.units.some((u, i) => u.lessons[0] === l && u.block && (i === 0 || c.units[i - 1].block !== u.block));
 function isUnlocked(c, l) {
   if (S.unlockAll) return true;   // modo revisión: todo abierto
   const ls = lessonsOf(c), i = ls.indexOf(l);
-  return i <= 0 || isDone(l) || isDone(ls[i - 1]);
+  return i <= 0 || blockStart(c, l) || isDone(l) || isDone(ls[i - 1]);
 }
 function findLesson(id) {
   for (const c of COURSES) for (const l of lessonsOf(c)) if (l.id === id) return { c, l };
@@ -268,11 +271,29 @@ function worldInfo(c, u) {
   return { w: WORLDS[u.world] || { name: u.title, art: '' }, wDone, all: wDone === u.lessons.length,
     closed: u.lessons.every(l => !isUnlocked(c, l)) };
 }
+// Lección que toca: la primera sin terminar. En un curso con componentes, la del componente que se estudió por
+// última vez (S.lastLesson), para que quien va por Lectura no vea «Sigue aquí» en Razonamiento.
+const blockOf = (c, l) => c.units.find(u => u.lessons.includes(l))?.block;
+function currentLesson(c) {
+  const ls = lessonsOf(c);
+  if (c.blocks) {
+    const last = ls.find(l => l.id === S.lastLesson), b = last && blockOf(c, last);
+    const inBlock = b && ls.find(l => !isDone(l) && blockOf(c, l) === b);
+    if (inBlock) return inBlock;
+  }
+  return ls.find(l => !isDone(l));
+}
+// Mundos del mapa agrupados por componente (c.blocks); sin componentes, un solo grupo. idx: índices en c.units.
+function worldGroups(c) {
+  if (!c.blocks) return [{ idx: c.units.map((_, i) => i) }];
+  return c.blocks.map((block, k) => ({ block, n: k + 1, idx: c.units.map((u, i) => (u.block === block.id ? i : -1)).filter(i => i >= 0) }))
+    .filter(g => g.idx.length);
+}
 function renderLearn() {
   const c = courseById(S.course), ls = lessonsOf(c), doneN = ls.filter(isDone).length;
   if (openWorld?.course === c.id && c.units[openWorld.i]) return renderWorld(c, openWorld.i);
   openWorld = null;
-  const cur = ls.find(l => !isDone(l)), goalP = Math.min(1, todayXP() / S.goal);
+  const cur = currentLesson(c), goalP = Math.min(1, todayXP() / S.goal);
   view.innerHTML = `<div class="learn" style="--c:${c.color}">
     <section class="hero">
       <div class="hero-body"><p class="eyebrow">${esc(c.level)}</p><h1>${esc(c.name)}</h1><p class="sub">${esc(c.tagline)}</p>
@@ -281,7 +302,7 @@ function renderLearn() {
     </section>
     ${cur ? (() => {
       // «Sigue aquí»: la lección que toca y la que viene, con un botón que la abre de un toque.
-      const ui = c.units.findIndex(u => u.lessons.includes(cur)), li = c.units[ui].lessons.indexOf(cur), nxt = ls[ls.indexOf(cur) + 1];
+      const ui = c.units.findIndex(u => u.lessons.includes(cur)), li = c.units[ui].lessons.indexOf(cur), n1 = ls[ls.indexOf(cur) + 1], nxt = n1 && blockOf(c, n1) === blockOf(c, cur) ? n1 : null;
       return `<section class="next-card" aria-label="Sigue aquí">
       <p class="eyebrow">Sigue aquí · ${esc((WORLDS[c.units[ui].world] || {}).name || c.units[ui].title)}</p>
       <p class="nc-row cur"><span class="nc-dot">${ICON.play}</span><span><small>Nivel ${ui + 1}-${li + 1}</small><b>${esc(cur.title)}</b></span></p>
@@ -299,10 +320,11 @@ function renderLearn() {
       <button class="btn brand sm" data-install>Instalar</button>
       <button class="icon-btn" data-hide-install aria-label="Ocultar">${ICON.x}</button>
     </section>` : ''}
+    ${worldGroups(c).map(g => `${g.block ? `<div class="wblock"><small>Componente ${g.n}</small><b>${esc(g.block.name)}</b><span>${esc(g.block.desc)}</span></div>` : ''}
     <div class="world-map" role="list">
-      <svg class="trail" width="1" height="1" overflow="visible" aria-hidden="true"><path d="${worldTrail(c.units.map((_, i) => W_OFFSETS[i % W_OFFSETS.length]), WORLD_STEP, 64)}"/></svg>
-      ${c.units.map((u, ui) => {
-        const { w, wDone, all, closed } = worldInfo(c, u), here = !!cur && u.lessons.includes(cur);
+      <svg class="trail" width="1" height="1" overflow="visible" aria-hidden="true"><path d="${worldTrail(g.idx.map(i => W_OFFSETS[i % W_OFFSETS.length]), WORLD_STEP, 64)}"/></svg>
+      ${g.idx.map(ui => {
+        const u = c.units[ui], { w, wDone, all, closed } = worldInfo(c, u), here = !!cur && u.lessons.includes(cur);
         return `<div class="wnode-wrap${closed ? ' closed' : ''}${all ? ' complete' : ''}" role="listitem" style="--x:${W_OFFSETS[ui % W_OFFSETS.length]}px">
           ${here ? '<span class="start-bubble" aria-hidden="true">AQUÍ VAS</span>' : ''}
           <button class="wnode${here ? ' current' : ''}" data-world="${ui}" style="--p:${wDone / u.lessons.length}"
@@ -312,7 +334,7 @@ function renderLearn() {
           </button>
           <span class="wnode-label" aria-hidden="true"><small>Mundo ${ui + 1} · ${wDone}/${u.lessons.length}</small>${esc(w.name)}</span></div>`;
       }).join('')}
-    </div>
+    </div>`).join('')}
     ${cur ? '' : `<div class="course-done">${ICON.star}<div><b>¡Curso completado!</b><p>Repasa cualquier lección o prueba otro curso.</p></div></div>`}
   </div>`;
   view.querySelectorAll('.wnode').forEach(b => b.onclick = () => {
@@ -326,7 +348,7 @@ function renderLearn() {
 
 // Vista de un mundo: su tarjeta y el camino de sus niveles (lecciones).
 function renderWorld(c, ui) {
-  const u = c.units[ui], cur = lessonsOf(c).find(l => !isDone(l));
+  const u = c.units[ui], cur = currentLesson(c);
   const { w, wDone, all, closed } = worldInfo(c, u);
   // El jefe final y la evaluación del mundo (si tiene) son nodos más al final del camino; no cuentan como lecciones.
   const xs = [...u.lessons, ...(u.boss ? [u.boss] : []), ...(u.exam ? [u.exam] : [])].map((_, i) => OFFSETS[i % OFFSETS.length]);
@@ -468,6 +490,7 @@ const PRAISE = ['¡Correcto!', '¡Excelente!', '¡Muy bien!', '¡Así se hace!',
 function startLesson(c, l) {
   if (planMotivo(l.id)) return openBloqueo(l.id);   // candado por plan: también si se llega por otro camino
   setGameCourse(c.id);   // los juegos toman la paleta del curso (COURSE_PALETTES, js/games/kit.js)
+  S.lastLesson = l.id; save();   // el componente que se estudia (currentLesson)
   syncHearts();
   if (S.hearts <= 0 && !S.unlockAll) return toast(`Sin vidas. Recuperas una en ${minsToHeart()} min.`);
   const back = tab;

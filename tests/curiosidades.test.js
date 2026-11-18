@@ -50,7 +50,7 @@ test('solo se ofrecen como chips los temas que ya tienen clips', () => {
 });
 
 test('ninguna curiosidad usa el id de una lección', () => {
-  const all = loadScripts(['js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js', 'js/courses/calculo.js', 'js/courses/geometria.js', 'js/data.js']);
+  const all = loadScripts(['js/content.js', 'js/courses/algebra.js', 'js/courses/trig.js', 'js/courses/trig-juegos.js', 'js/courses/calculo.js', 'js/courses/geometria.js', 'js/courses/preuda-razonamiento.js', 'js/courses/preuda-lectura.js', 'js/courses/preuda.js', 'js/data.js']);
   const lessonIds = new Set(get(all, 'COURSES').flatMap(c => c.units.flatMap(u => u.lessons.map(l => l.id))));
   for (const q of CURIOS) assert.ok(!lessonIds.has(q.id), q.id);
 });

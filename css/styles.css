@@ -215,6 +215,13 @@ body[data-tab=clips] #tabbar button.on .i { color: #fff; background: rgba(255, 2
 .world-map { position: relative; display: flex; flex-direction: column; align-items: center; padding: 64px 0 0; margin-top: 8px; }
 .world-map > .trail { top: 64px; }
 .world-map .trail path { stroke-width: 1.5; }
+/* Encabezado de componente (cursos con c.blocks, como el Preuniversitario UdeA): separa los mapas de mundos. */
+.wblock { display: flex; flex-direction: column; gap: 2px; margin-top: 28px; padding: 12px 14px; border-radius: var(--r); border: 1px solid var(--line); border-left: 3px solid var(--c, var(--brand)); background: var(--card); }
+.wblock small { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--c-ink); }
+.wblock b { font-family: var(--display); font-weight: 500; font-size: 20px; color: var(--ink); }
+.wblock span { font-size: 13px; color: var(--mute); }
+.wblock + .world-map { padding-top: 40px; }
+.wblock + .world-map > .trail { top: 40px; }
 .wnode-wrap { position: relative; height: 236px; display: flex; flex-direction: column; align-items: center; transform: translateX(var(--x)); }
 .wnode {
   position: relative; width: 128px; height: 128px; border-radius: 50%; padding: 4px;
@@ -667,6 +674,29 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .play.wrong { border-color: var(--bad); box-shadow: 0 0 0 1px var(--bad); animation: play-no .32s ease-in-out; }
 @keyframes play-no { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 .play-msg { padding: 40px 18px; text-align: center; color: var(--mute); font-weight: 700; }
+/* Subraya el texto (js/games/subraya-texto.js): un fragmento de lectura en HTML; cada trozo es un botón que se subraya
+   con el color del curso, como con un resaltador. Al comprobar: verde lo que había que subrayar, tachado lo que sobraba. */
+.subraya { padding: 14px 14px 12px; color: var(--ink); }
+.sb-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.sb-tab { min-width: 40px; height: 30px; border-radius: 8px; border: 1px solid var(--line); color: var(--mute); font-weight: 700; background: transparent; }
+.sb-tab.has { color: var(--ink); }
+.sb-tab.on { border-color: var(--c, var(--brand)); color: var(--c-ink); background: color-mix(in srgb, var(--c, var(--brand)) 14%, transparent); }
+.sb-ask { margin: 0 0 8px; font-weight: 700; font-size: 15px; line-height: 1.35; }
+.sb-title { margin: 0 0 8px; padding: 8px 10px; border-left: 3px solid var(--c, var(--brand)); color: var(--mute); font-size: 14px; line-height: 1.45; }
+.sb-text { margin: 0; font-size: 16px; line-height: 1.75; }
+.sb-piece {
+  padding: 1px 2px; border-radius: 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; cursor: pointer;
+  user-select: none; -webkit-tap-highlight-color: transparent;
+  text-decoration: underline dotted color-mix(in srgb, var(--mute) 60%, transparent); text-underline-offset: 4px;
+}
+.sb-piece:focus-visible { outline: 2px solid var(--c, var(--brand)); outline-offset: 1px; }
+.sb-piece:hover { background: color-mix(in srgb, var(--c, var(--brand)) 10%, transparent); }
+.sb-piece.on { background: color-mix(in srgb, var(--c, var(--brand)) 34%, transparent); text-decoration: none; }
+.sb-piece.good { background: color-mix(in srgb, var(--ok) 30%, transparent); text-decoration: none; }
+.sb-piece.miss { background: transparent; outline: 2px dashed var(--ok); outline-offset: -1px; }
+.sb-piece.extra { text-decoration: line-through var(--bad) 2px; color: var(--mute); }
+.sb-piece.off { cursor: default; }
+.sb-foot { margin: 10px 0 0; font-size: 13px; color: var(--mute); }
 .sim { position: relative; aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden; background: #0f1226; border: 1px solid var(--line); }
 .sim.right { border-color: var(--ok); } .sim.wrong { border-color: var(--bad); }
 .sim canvas { display: block; width: 100%; height: 100%; }
