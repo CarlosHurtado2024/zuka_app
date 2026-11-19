@@ -8,7 +8,8 @@ const PU_ES = (q, levels, explain, hint) => play('escala-solucion', q, { rounds:
 const PU_CTA = (q, round, explain, hint) => play('arma-la-cuenta', q, { rounds: [{ tol: 1e-6 * Math.max(1, Math.abs(round.answer)), ...round }] }, explain, { hint });
 const PU_ORD = (q, tex, chips, order, sep, explain, hint) => play('ordena-terminos', q, { tex, chips, order, sep }, explain, { hint });
 const PU_SUB = (q, rounds, explain, hint) => play('subraya-texto', q, { rounds }, explain, { hint });
-const PU_L = (id, title, scenes, ex) => ({ id, title, clip: { scenes }, ex });
+// video: { bunny, duration } cuando la lección ya tiene su video en Bunny (duración la que reporta Bunny).
+const PU_L = (id, title, scenes, ex, video) => ({ id, title, clip: { ...video, scenes }, ex });
 
 const PU_RAZONAMIENTO = [
   // ---------------- 1 · Cálculo mental ----------------
@@ -64,7 +65,7 @@ const PU_RAZONAMIENTO = [
         { title: 'Tres factores y potencias', mission: 'pos', items: [{ text: '(−1)(−4)(−2)', sign: -1 }, { text: '(−2)(3)(−4)', sign: 1 }, { text: '(−4)²', sign: 1 }, { text: '−4²', sign: -1 }, { text: '(−2)³', sign: -1 }, { text: '(−1)(−1)(5)', sign: 1 }] },
       ] }, 'Basta contar los signos menos: si son pares, el resultado es positivo; si son impares, negativo. Ojo con $-4^2$: el menos está fuera de la potencia, así que da $-16$.',
         { hint: 'No calcules el número: cuenta cuántos factores negativos hay. Un número par de negativos da positivo.' }),
-    ]),
+    ], { bunny: '1fb04a76-64d9-42e9-a931-9efec25a2135', duration: 237.1 }),
     PU_L('pu-cm-2', 'Fracciones', [
       sc(6, 'Un problema para empezar: Luis se comió un tercio de una torta y notó que una torta completa era el $60\\,\\%$ (tres quintos) de lo que le quedaba. Al final se sabe cuántas recibió.', { title: 'Las tortas de Luis' }),
       sc(6, 'El número de abajo, el **denominador**, dice en cuántas partes **iguales** se corta; el de arriba, el **numerador**, cuántas se toman. $\\tfrac38$: ocho partes, se toman tres.', { title: 'Abajo se corta, arriba se cuenta' }),
