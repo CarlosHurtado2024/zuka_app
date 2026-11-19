@@ -103,15 +103,16 @@ const COURSE_PALETTES = {
       sky: '#22A9B8', creamD: '#C4DCD3', night: '#0D2A22', star: '#D6E9E2', halo: '#E3F1EC',
     },
   },
-  // Álgebra Lineal: naranja sobre un fondo cálido; el azul se queda de contraste.
+  // Preuniversitario UdeA: el lima solo como acento. Fondo, fichas y bordes neutros (grafito / gris muy claro) y sin brillo de
+  // fondo (flat): el verde teñido detrás de los juegos tapaba botones y gráficas (pedido del usuario, 2026-11-19).
   preuda: {
     dark: {
-      brand: '#A3E635', bg: '#121A0B', card: '#1E2813', line: '#3E5225', ink: '#F5FBEA', mute: '#B3C29A',
-      mint: '#BEF264', sky: '#38BDF8', cream: '#EEF5E0', creamD: '#BCCAA3', night: '#121A0B', star: '#2C3B1B', halo: '#1D2912',
+      brand: '#A3E635', bg: '#11141B', card: '#1B2029', line: '#363E4C', ink: '#F3F5F8', mute: '#A4ADBC',
+      mint: '#BEF264', sky: '#38BDF8', cream: '#EEF1F5', creamD: '#B9C0CC', night: '#11141B', star: '#262C38', halo: '#181C24',
     },
     light: {
-      brand: '#4D7C0F', bg: '#F6FAEE', card: '#FFFFFF', line: '#DCE6C8', ink: '#1A2608', mute: '#5B6B45',
-      mint: '#65A30D', sky: '#0284C7', creamD: '#D6E0C2', night: '#1A2608', star: '#E6EFD6', halo: '#EEF4E2',
+      brand: '#4D7C0F', bg: '#F7F8FA', card: '#FFFFFF', line: '#D9DEE6', ink: '#161B24', mute: '#5A6273',
+      mint: '#65A30D', sky: '#0284C7', creamD: '#D3D8E0', night: '#161B24', star: '#E8EBF0', halo: '#EFF1F4',
     },
   },
   lin: {
@@ -126,6 +127,8 @@ const COURSE_PALETTES = {
   },
 };
 let gameTheme = 'dark', gameCourse = null;
+// Cursos con fondo plano (sin el brillo de su color detrás del juego).
+const FLAT_COURSES = new Set(['preuda']);
 function paintGamePalette() {
   Object.assign(PALETTE, PALETTES[gameTheme], COURSE_PALETTES[gameCourse]?.[gameTheme]);
   // El marco del juego (.play, la guía) usa el mismo fondo: css/styles.css trae el del tema y aquí se pone el del curso.
@@ -164,7 +167,7 @@ function fxTween(target, props, opts = {}) {
 // más de fondo abajo. Sin cuadrícula (el usuario la quitó el 2026-11-27) y sin nada que se mueva.
 function drawBackdrop(p) {
   const ctx = p.drawingContext, W = p.width, H = p.height, C = PALETTE;
-  if (!ctx?.save || !ctx.createRadialGradient) return;
+  if (FLAT_COURSES.has(gameCourse) || !ctx?.save || !ctx.createRadialGradient) return;
   const d = typeof p.pixelDensity === 'function' ? p.pixelDensity() : 1;
   ctx.save(); ctx.setTransform(d, 0, 0, d, 0, 0);
   const g = ctx.createRadialGradient(W / 2, -H * 0.1, 10, W / 2, -H * 0.1, H * 0.9);
