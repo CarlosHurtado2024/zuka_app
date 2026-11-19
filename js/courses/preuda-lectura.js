@@ -520,3 +520,7 @@ const PU_LECTURA = [
     ]),
   ] },
 ];
+
+// Mundos de lectura rehechos con textos de verdad (spec 2026-11-19-preuda-lectura-textos): cada js/courses/preuda-l-<mundo>.js
+// empuja aquí su función; preuda-lectura-juegos.js las aplica.
+const PU_LEC_JUEGOS = [];

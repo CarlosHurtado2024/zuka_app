@@ -116,7 +116,7 @@ function startExam(c, u) {
     if (!queue.length) return finish(false);
     const i = queue[0], it = E.items[i];
     handle = renderExercise(body, it.ex, ok => { btn.disabled = !ok; });
-    $('.ex-kind', body).textContent = `Pregunta ${i + 1} de ${n} · ${EX_KIND[it.ex.type]}`;
+    $('.ex-kind', body).textContent = `Pregunta ${i + 1} de ${n} · ${it.ex.kind || EX_KIND[it.ex.type]}`;
     const hb = $('.hint-open', body);   // el de la pista, no «Cómo se juega» (también es .hint-btn)
     if (hb) {
       $('span', hb).textContent = results[i].hint ? 'Ver pista' : 'Ver pista · la pregunta vale la mitad';

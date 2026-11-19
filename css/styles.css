@@ -730,6 +730,118 @@ body.in-lesson .lesson-foot { padding-bottom: max(16px, calc(env(safe-area-inset
 .sb-piece.extra { text-decoration: line-through var(--bad) 2px; color: var(--mute); }
 .sb-piece.off { cursor: default; }
 .sb-foot { margin: 10px 0 0; font-size: 13px; color: var(--mute); }
+/* Kit LEC de lectura (js/games/lectura-kit.js, spec 2026-11-19-preuda-lectura-textos): el texto de la lección arriba, en
+   párrafos numerados y con su propio desplazamiento; abajo fichas que se arrastran a zonas. Todo con variables del tema. */
+.lec { padding: 12px 12px 10px; color: var(--ink); }
+.lec-doc { border: 1px solid var(--line); border-radius: 12px; background: var(--bg2); margin-bottom: 12px; }
+.lec-doc + .lec-doc { margin-top: -4px; }
+.lec-doc summary { display: flex; gap: 8px; align-items: baseline; padding: 9px 12px; cursor: pointer; list-style: none; }
+.lec-doc summary::-webkit-details-marker { display: none; }
+.lec-doc summary::before { content: '▸'; color: var(--mute); transition: transform .2s; }
+.lec-doc[open] summary::before { transform: rotate(90deg); }
+.lec-dk { flex: none; font-size: 12px; color: var(--c-ink, var(--brand)); text-transform: uppercase; letter-spacing: .06em; }
+.lec-dt { font-family: var(--display); font-size: 15px; line-height: 1.3; }
+.lec-ficha { margin: 0 12px 8px; font-size: 13px; color: var(--mute); }
+.lec-body { max-height: min(46vh, 380px); overflow-y: auto; padding: 0 12px 10px; overscroll-behavior: contain; }
+.lec-p { margin: 0 0 10px; font-size: 15.5px; line-height: 1.68; }
+.lec-pn { display: inline-grid; place-items: center; min-width: 21px; height: 21px; margin-right: 7px; border-radius: 6px; border: 1px solid var(--c, var(--brand)); color: var(--c-ink, var(--brand)); font-size: 12px; font-weight: 700; vertical-align: 1px; }
+.lec-hidden { margin: 4px 0 6px; font-size: 14px; color: var(--mute); font-style: italic; }
+.lec-ask, .lec-q { margin: 0 0 10px; font-weight: 700; font-size: 15px; line-height: 1.4; }
+.lec-foot { margin: 10px 0 0; font-size: 13px; color: var(--mute); }
+.lec-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.lec-tab { display: grid; place-items: center; min-width: 40px; height: 30px; border-radius: 8px; border: 1px solid var(--line); color: var(--mute); font-weight: 700; cursor: pointer; }
+.lec-tab.has { color: var(--ink); }
+.lec-tab.on { border-color: var(--c, var(--brand)); color: var(--c-ink); background: color-mix(in srgb, var(--c, var(--brand)) 14%, transparent); }
+.lec-chip {
+  display: inline-block; max-width: 100%; padding: 7px 11px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--c, var(--brand)) 45%, var(--line));
+  background: var(--card2); color: var(--ink); font-size: 14px; line-height: 1.35; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+  box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--c, var(--brand)) 30%, transparent);
+}
+.lec-chip.sel { border-color: var(--c, var(--brand)); background: color-mix(in srgb, var(--c, var(--brand)) 26%, var(--card2)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c, var(--brand)) var(--halo), transparent); }
+.lec-chip.lifting { opacity: .35; }
+.lec-chip.good { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 22%, var(--card2)); box-shadow: none; }
+.lec-chip.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 18%, var(--card2)); text-decoration: line-through color-mix(in srgb, var(--bad) 70%, transparent); box-shadow: none; }
+.lec-chip.off { opacity: .55; box-shadow: none; }
+.lec-chip:focus-visible, .lec-zone:focus-visible, .lec-tgt:focus-visible, .lec-opt:focus-visible, .lec-dial:focus-visible, .lec-tab:focus-visible { outline: 2px solid var(--c, var(--brand)); outline-offset: 2px; }
+.lec-ghost { position: fixed; z-index: 9999; pointer-events: none; transform: translate(-50%, -70%) rotate(-2deg); box-shadow: var(--shadow); opacity: .95; }
+.lec-pool { display: flex; flex-wrap: wrap; gap: 7px; min-height: 44px; margin-top: 12px; padding: 9px; border-radius: 12px; border: 1px dashed var(--line); }
+.lec-empty { align-self: center; font-size: 13px; color: var(--mute); }
+.lec-zones { display: grid; gap: 8px; }
+.lec-zone { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 46px; padding: 8px; border-radius: 12px; border: 1px solid var(--line); background: color-mix(in srgb, var(--bg2) 70%, transparent); cursor: pointer; transition: border-color .15s, background .15s; }
+.lec-zone.over { border-color: var(--c, var(--brand)); background: color-mix(in srgb, var(--c, var(--brand)) 12%, transparent); }
+.lec-zl { font-size: 12px; font-weight: 700; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
+.lec-first { flex: 1 1 120px; font-size: 13px; color: var(--mute); font-style: italic; }
+.lec-rows .lec-zone { display: grid; grid-template-columns: auto 1fr; }
+.lec-rows .lec-zone > .lec-chip { grid-column: 1 / -1; justify-self: start; }
+.lec-esq { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 10px; font-size: 12.5px; }
+.lec-bone { padding: 3px 8px; border-radius: 7px; background: color-mix(in srgb, var(--c, var(--brand)) 16%, transparent); color: var(--ink); }
+.lec-bone.gap { background: transparent; border: 1px dashed var(--line); color: var(--mute); }
+.lec-arrow { color: var(--mute); }
+.lec-shelf { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
+.lec-shelf-z { flex-direction: column; align-items: stretch; }
+.lec-shelf-z .lec-first { flex: none; }
+.lec-none { margin-top: 8px; }
+.lec-out { border-style: dashed; border-color: color-mix(in srgb, var(--bad) 55%, var(--line)); }
+.lec-bins { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 420px) { .lec-bins { grid-template-columns: 1fr; } }
+.lec-bin { position: relative; flex-direction: column; align-items: stretch; min-height: 92px; overflow: hidden; }
+.lec-bin > * { position: relative; }
+.lec-ico { width: 22px; height: 22px; fill: none; stroke: var(--c-ink, var(--brand)); stroke-width: 1.8; stroke-linecap: round; }
+.lec-level { position: absolute !important; left: 0; right: 0; bottom: 0; height: var(--lv); background: color-mix(in srgb, var(--c, var(--brand)) 12%, transparent); transition: height .3s; pointer-events: none; }
+.lec-sent { margin: 0 0 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg2); font-size: 15.5px; line-height: 1.75; }
+.lec-orig { text-decoration-color: var(--c, var(--brand)); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.lec-try .lec-zone, .lec-zone.lec-inline { display: inline-flex; min-height: 34px; padding: 2px 6px; vertical-align: middle; border-style: dashed; }
+.lec-gap { display: inline-block; min-width: 76px; }
+.lec-hinge { display: grid; gap: 8px; }
+.lec-card { margin: 0; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg2); font-size: 15px; line-height: 1.6; }
+.lec-hinge-mid { display: flex; align-items: center; gap: 10px; }
+.lec-hz { flex: 1; justify-content: center; border-style: dashed; }
+.lec-rel { display: grid; justify-items: center; min-width: 92px; font-size: 12px; color: var(--mute); }
+.lec-rel b { font-size: 24px; line-height: 1; color: var(--mute); }
+.lec-rel.on b { color: var(--c-ink, var(--brand)); }
+.lec-sign { display: inline-block; margin: 0 2px; padding: 0 6px; border-radius: 6px; font-size: 1.4em; font-weight: 700; line-height: 1; color: var(--c-ink, var(--brand)); background: color-mix(in srgb, var(--c, var(--brand)) 16%, transparent); }
+.lec-voices { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+.lec-voice { flex-direction: column; align-items: stretch; }
+.lec-av { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: color-mix(in srgb, var(--c, var(--brand)) 24%, transparent); color: var(--ink); font-weight: 700; }
+.lec-thesis { margin: 0 0 6px; padding: 10px 12px; border-radius: 12px; border-left: 3px solid var(--c, var(--brand)); background: var(--bg2); font-size: 15px; line-height: 1.5; }
+.lec-thesis .lec-zl { display: block; margin-bottom: 3px; }
+.lec-beam { display: block; width: min(100%, 320px); height: auto; margin: 2px auto; stroke: var(--mute); stroke-width: 3; fill: var(--mute); }
+.lec-beam .lec-post { stroke: none; fill: var(--line); }
+.lec-pans, .lec-venn { grid-template-columns: 1fr 1fr; }
+.lec-pan, .lec-dock, .lec-vz { flex-direction: column; align-items: stretch; min-height: 96px; }
+.lec-pan { border-radius: 4px 4px 22px 22px; }
+.lec-dock-no { border-style: dashed; }
+.lec-venn { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 420px) { .lec-venn { grid-template-columns: 1fr; } }
+.lec-vz0 { border-radius: 40px 12px 12px 40px; }
+.lec-vz1 { background: color-mix(in srgb, var(--c, var(--brand)) 10%, var(--bg2)); }
+.lec-vz2 { border-radius: 12px 40px 40px 12px; }
+.lec-thread { position: relative; }
+.lec-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 1; }
+.lec-line { fill: none; stroke: var(--c, var(--brand)); stroke-width: 2.5; stroke-linecap: round; }
+.lec-from { position: relative; padding: 1px 3px; border-radius: 5px; background: color-mix(in srgb, var(--c, var(--brand)) 26%, transparent); cursor: grab; touch-action: none; }
+.lec-knob { position: absolute; left: 50%; bottom: -9px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--c, var(--brand)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c, var(--brand)) var(--halo), transparent); }
+.lec-tgt { padding: 1px 2px; border-radius: 5px; cursor: pointer; text-decoration: underline dotted color-mix(in srgb, var(--mute) 60%, transparent); text-underline-offset: 4px; }
+.lec-tgt.on { background: color-mix(in srgb, var(--c, var(--brand)) 22%, transparent); text-decoration: none; }
+.lec-tgt.good { background: color-mix(in srgb, var(--ok) 28%, transparent); text-decoration: none; }
+.lec-tgt.miss { background: transparent; outline: 2px dashed var(--ok); }
+.lec-tgt.bad { text-decoration: line-through var(--bad) 2px; }
+.lec-frag { margin: 0 0 8px; padding: 10px 12px; border-left: 3px solid var(--c, var(--brand)); background: var(--bg2); border-radius: 0 12px 12px 0; font-size: 15px; line-height: 1.6; }
+.lec-dial { display: block; width: min(100%, 420px); height: auto; margin: 0 auto; touch-action: none; cursor: pointer; }
+.lec-sec { fill: var(--bg2); stroke: var(--line); stroke-width: 1; transition: fill .15s; }
+.lec-sec.on { fill: color-mix(in srgb, var(--c, var(--brand)) 30%, var(--bg2)); }
+.lec-sec.good { fill: color-mix(in srgb, var(--ok) 34%, var(--bg2)); }
+.lec-sec.bad { fill: color-mix(in srgb, var(--bad) 26%, var(--bg2)); }
+.lec-sec-t { font-size: 12px; fill: var(--ink); pointer-events: none; }
+.lec-needle line { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+.lec-needle circle { fill: var(--c, var(--brand)); }
+.lec-needle.idle { opacity: .3; }
+.lec-opts { display: grid; gap: 8px; }
+.lec-opt { display: flex; gap: 9px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg2); font-size: 15px; line-height: 1.45; cursor: pointer; }
+.lec-opt b { color: var(--c-ink, var(--brand)); }
+.lec-opt.on { border-color: var(--c, var(--brand)); background: color-mix(in srgb, var(--c, var(--brand)) 14%, var(--bg2)); }
+.lec-opt.good { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 18%, var(--bg2)); }
+.lec-opt.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--bg2)); }
 .sim { position: relative; aspect-ratio: 5 / 3; margin: 12px 12px 0; border-radius: 12px; overflow: hidden; background: var(--bg2); border: 1px solid var(--line); }
 .sim.right { border-color: var(--ok); } .sim.wrong { border-color: var(--bad); }
 .sim canvas { display: block; width: 100%; height: 100%; }

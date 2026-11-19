@@ -30,7 +30,11 @@ UdeA (Zarrazola, 2024), `C:\Users\User Acer\Documents\LIBRO DE ALGEBRA Y TRIGONO
   `ORD`, `CUBO`, `SUC` (término que sigue), `CODK` (casillas con fichas), `GRAF` (ejes y barras). Faltan la Comprensión lectora y
   Trigonometría. Al probar con arrastres simulados: si el panel del navegador
   está oculto el juego corre lento; montar el juego en un `div` propio, cargar `tests/robot-trig.js` (cambia `requestAnimationFrame`)
-  y esperar con `peek()` en vez de tiempos fijos.
+  y esperar con `peek()` en vez de tiempos fijos. **Comprensión lectora se rehace por mundos** (spec `2026-11-19-preuda-lectura-textos`,
+  pruebas `tests/preuda-lectura.test.js`, estrategia general en `2026-11-19-preuda-estrategia-examen`): cada lección = un texto original
+  de 330–560 palabras en 4–7 párrafos y 7 juegos distintos de arrastrar del kit HTML `LEC` (`js/games/lectura-kit.js`: `LEC.doc`,
+  `LEC.drop`); la evaluación del mundo, otro texto con `pregunta-examen` (formato real A–D, solo en evaluaciones). Un archivo por mundo
+  `js/courses/preuda-l-<mundo>.js` con `PU_LEC_JUEGOS.push(({ setLesson, setExam }) => …)`; hechos los mundos 1 y 2.
 - **Las instrucciones van sobre el juego, no en una ventana** (pedido del 2026-11-18, spec `2026-11-18-demo-en-juego`, pruebas
   `tests/demo-en-juego.test.js`): una mano hace el gesto en el lugar real del lienzo (`def.demo(G)` en `roundsGame` / `questGame`,
   `drawDemo` en `kit.js`) hasta el primer toque, y «Cómo se juega» la repite. Juego nuevo = con `demo`; los viejos conservan su
