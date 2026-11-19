@@ -13,7 +13,7 @@ GAMES['ciclo-colores'] = (() => {
     solution: r => `${r.N} deja residuo ${r.N % r.cyc.length} al dividir entre ${r.cyc.length}: la cuenta ${need(r) + 1} del grupo`,
     prompt: r => `¿De qué color es la cuenta número ${r.N}?`,
     foot: () => 'Arrastra una cuenta de la bandeja al hueco',
-    layout(G) { G.fb = { x: 12, y: G.H - 66, w: G.W - 24, h: 44 }; G.slot = { x: G.W / 2, y: 236 }; G.trayY = G.H - 112; },
+    layout(G) { G.fb = { x: 12, y: G.H - 66, w: G.W - 24, h: 44 }; G.slot = { x: G.W / 2, y: 236 }; G.trayY = Math.max(G.H - 112, 300); },
     enter(G) { G.grab = -1; },
     draw(G) {
       const { p, C, r } = G, s = G.locked && !ok(G.s, r) ? { c: need(r) } : G.s, good = ok(s, r), k = r.cyc.length, shown = Math.min(2 * k + 1, 9), w = (G.W - 40) / shown;

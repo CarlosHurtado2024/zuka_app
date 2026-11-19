@@ -12,7 +12,7 @@ GAMES['rectangulo-max'] = (() => {
     solution: r => `${need(r)} × ${need(r)}: área ${need(r) ** 2}`,
     prompt: r => `Con ${r.P} m de cerca, ¿qué rectángulo encierra más área?`,
     foot: () => 'Arrastra la esquina del rectángulo',
-    layout(G) { G.o = { x: 30, y: G.H - 150 }; G.u = Math.min((G.W - 60) / (G.r ? G.r.P / 2 : 12), 22); G.fb = { x: 12, y: G.H - 66, w: G.W - 24, h: 44 }; },
+    layout(G) { G.o = { x: 30, y: G.H - 150 }; G.u = G.r ? Math.min((G.W - 60) / (G.r.P / 2), (G.H - 300) / (G.r.P / 2) * 1.6, 22) : 14; G.fb = { x: 12, y: G.H - 66, w: G.W - 24, h: 44 }; },
     enter(G) { G.grab = false; G.u = Math.min((G.W - 60) / (G.r.P / 2), (G.H - 300) / (G.r.P / 2) * 1.6, 22); G.tried = []; },
     draw(G) {
       const { p, C, r } = G, s = G.locked && !ok(G.s, r) ? { w: need(r) } : G.s, good = ok(s, r), h = r.P / 2 - s.w, u = G.u, o = G.o;

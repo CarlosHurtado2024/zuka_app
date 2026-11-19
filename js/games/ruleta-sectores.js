@@ -15,7 +15,7 @@ GAMES['ruleta-sectores'] = (() => {
     solution: r => `pintar ${want(r)} de ${r.n} sectores`,
     prompt: r => `Pinta la ruleta para que ${r.not ? 'NO caer en lo pintado' : 'caer en lo pintado'} tenga $P = \\tfrac{${r.target[0]}}{${r.target[1]}}$`,
     foot: () => 'Toca un sector para pintarlo o despintarlo',
-    layout(G) { G.c = { x: G.W / 2, y: 210 }; G.R = Math.min(G.W * 0.36, 110); G.fb = { x: 12, y: G.H - 66, w: G.W - 24, h: 44 }; },
+    layout(G) { G.c = { x: G.W / 2, y: 210 }; G.R = Math.min(G.W * 0.36, 110, G.H - 66 - 210 - 8); G.fb = { x: 12, y: G.H - 66, w: G.W - 24, h: 44 }; },
     enter(G) {},
     draw(G) {
       const { p, C, r } = G, s = G.locked && !ok(G.s, r) ? { m: Array.from({ length: r.n }, (_, i) => i < want(r)) } : G.s, good = ok(s, r), c = G.c, R = G.R, step = 2 * Math.PI / r.n;

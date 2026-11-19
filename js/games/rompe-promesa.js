@@ -20,7 +20,7 @@ GAMES['rompe-promesa'] = (() => {
       const { p, C, r } = G, s = G.locked && !ok(G.s, r) ? { m: need(r) } : G.s, good = ok(s, r), lw = 76, cw = (G.W - 30 - lw) / 2, ch = 72, x0 = 15 + lw, y0 = 136;
       TK.label(p, C, r.q, x0 + cw, y0 - 40, C.ink, 11, 2 * cw);
       ['sí', 'no'].forEach((t, j) => TK.label(p, C, t, x0 + (j + 0.5) * cw, y0 - 18, C.mute, 10, cw));
-      ['sí', 'no'].forEach((t, i) => { TK.label(p, C, `${t}: ${r.p}`, 15 + lw / 2, y0 + (i + 0.5) * ch, C.ink, 10, lw - 4); });
+      ['sí', 'no'].forEach((t, i) => { const yy = y0 + (i + 0.5) * ch; TK.label(p, C, t, 15 + lw / 2, yy - 9, C.ink, 11, lw - 4); TK.label(p, C, r.p, 15 + lw / 2, yy + 8, C.mute, 9, lw - 4); });
       G.cells = CASES.map((_, k) => {
         const i = Math.floor(k / 2), j = k % 2, x = x0 + j * cw, y = y0 + i * ch, on = s.m[k];
         p.stroke(C.line); p.strokeWeight(1); p.fill(on ? RK.al(p, r.want ? C.ok : C.coral, 110) : RK.al(p, C.card, 200)); p.rect(x + 3, y + 3, cw - 6, ch - 6, 8);

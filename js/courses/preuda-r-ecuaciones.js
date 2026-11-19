@@ -7,7 +7,7 @@ PU_JUEGOS.push(({ setLesson, setExam }) => {
     play('arma-negacion', 'Del texto a la expresión', { rounds: [
       { ask: 'Traduce a una expresión', show: 'el triple de un número, disminuido en 4', tray: ['$3x$', '$3(x$', '$- 4$', '$- 4)$', '$x - 3$', '$4x$'], need: [0, 2] },
       { ask: 'Traduce a una expresión', show: 'el triple de la diferencia entre un número y 4', tray: ['$3x$', '$3(x$', '$- 4$', '$- 4)$', '$x - 3$', '$4x$'], need: [1, 3] },
-      { ask: 'Traduce a una ecuación', show: 'la mitad de un número excede en 3 a su cuarta parte', tray: ['$\\tfrac{x}{2}$', '$\\tfrac{x}{4}$', '$=$', '$+ 3$', '$- 3$', '$2x$'], need: [0, 2, 1, 3] },
+      { ask: 'Traduce a una ecuación', show: 'la mitad de un número excede en 3 a su cuarta parte', tray: ['$\\tfrac{x}{2}$', '$\\tfrac{x}{4}$', '$=$', '$+ 3$', '$- 3$', '$2x$'], need: [0, 2, 1, 3], alt: [[0, 4, 2, 1], [1, 3, 2, 0]] },
     ] }, 'Con coma, primero se triplica y luego se resta: $3x - 4$. «El triple de la diferencia» multiplica todo: $3(x - 4)$. «Excede en 3» dice que la mitad es la cuarta parte más 3.',
       { hint: 'Lee la frase despacio: ¿qué se hace primero? Lo que se hace al final es lo de afuera.' }),
     play('cinta-ecuacion', 'La cinta de la ecuación', { rounds: [

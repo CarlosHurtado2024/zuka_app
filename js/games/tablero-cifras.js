@@ -6,7 +6,7 @@ GAMES['tablero-cifras'] = (() => {
   const all = r => Array.from({ length: 90 }, (_, k) => k + 10).filter(n => r.conds.every(c => c.f(n)));
   const ok = (s, r) => s.n !== null && r.conds.every(c => c.f(s.n));
   const game = roundsGame({
-    aspect: 1.45,
+    aspect: 1.6,
     init: () => ({ n: null }),
     answered: s => s.n !== null,
     ok,

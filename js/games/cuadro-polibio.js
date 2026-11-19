@@ -37,7 +37,7 @@ GAMES['cuadro-polibio'] = (() => {
         p.stroke(k >= 0 ? (good ? C.ok : C.brand) : C.line); p.strokeWeight(1.3); p.fill(k >= 0 ? RK.al(p, good ? C.ok : C.brand, 50) : RK.al(p, C.card, 120)); p.rect(b.x, b.y, b.w, b.h, 7);
         if (k >= 0) TK.label(p, C, r.mode === 'decode' ? ABC[k] : code(k), b.x + b.w / 2, b.y + b.h / 2, C.ink, 14, b.w);
       });
-      RK.strip(p, C, G.fb, good ? `$\\text{${r.word} = ${need(r).map(code).join('\\ ')}}$` : '$\\text{fila y columna}$', { col: G.locked || good ? C.ok : C.brand, size: 16 });
+      RK.strip(p, C, G.fb, good ? `$\\text{${r.word} = ${need(r).map(code).join(' ')}}$` : '$\\text{fila y columna}$', { col: G.locked || good ? C.ok : C.brand, size: 16 });
     },
     press(G, x, y) {
       const sl = (G.slots || []).findIndex(b => hitBox(b, x, y));

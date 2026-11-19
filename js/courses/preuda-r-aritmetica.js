@@ -85,8 +85,8 @@ PU_JUEGOS.push(({ setLesson, setExam }) => {
       'Las unidades de $7^n$ giran 7, 9, 3, 1: $23$ deja residuo 3, termina en 3. Las de $8^n$ giran 8, 4, 2, 6: $14$ deja residuo 2, termina en 4.',
       { hint: 'Solo importa la cifra de las unidades: mira cada cuánto se repite.' }),
     play('arma-negacion', 'El valor de un número de dos cifras', { rounds: [
-      { ask: 'Escribe el valor de AB', show: '$\\overline{AB}$', tray: ['$10A$', '$10B$', '$A$', '$B$', '$+$', '$\\cdot$'], need: [0, 4, 3] },
-      { ask: 'Escribe AB + BA', show: '$\\overline{AB} + \\overline{BA}$', tray: ['$11$', '$10$', '$(A + B)$', '$(A - B)$', '$\\cdot$', '$+$'], need: [0, 4, 2] },
+      { ask: 'Escribe el valor de AB', show: '$\\overline{AB}$', tray: ['$10A$', '$10B$', '$A$', '$B$', '$+$', '$\\cdot$'], need: [0, 4, 3], alt: [[3, 4, 0]] },
+      { ask: 'Escribe AB + BA', show: '$\\overline{AB} + \\overline{BA}$', tray: ['$11$', '$10$', '$(A + B)$', '$(A - B)$', '$\\cdot$', '$+$'], need: [0, 4, 2], alt: [[2, 4, 0]] },
     ] }, 'La cifra de las decenas vale 10 veces: $\\overline{AB} = 10A + B$. Y $\\overline{AB} + \\overline{BA} = 11A + 11B = 11(A + B)$.',
       { hint: 'Escribe cada número como decenas por 10 más unidades.' }),
     play('binario-luces', 'Valor posicional en base 2', { rounds: [{ n: 19, bits: 5 }, { n: 26, bits: 5 }] },

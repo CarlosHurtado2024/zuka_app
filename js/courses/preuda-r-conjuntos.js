@@ -22,7 +22,7 @@ PU_JUEGOS.push(({ setLesson, setExam }) => {
       { hint: 'Revisa si todos los de B están en A, o si no comparten ninguno.' }),
     play('arma-negacion', 'Escribe la operación', { rounds: [
       { ask: 'Escribe con símbolos', show: 'lo que está en A pero no en B', tray: ['$A$', '$B$', '$-$', '$\\cup$', '$\\cap$', '$C$'], need: [0, 2, 1] },
-      { ask: 'Escribe con símbolos', show: 'lo que está en B y también en C', tray: ['$A$', '$B$', '$-$', '$\\cup$', '$\\cap$', '$C$'], need: [1, 4, 5] },
+      { ask: 'Escribe con símbolos', show: 'lo que está en B y también en C', tray: ['$A$', '$B$', '$-$', '$\\cup$', '$\\cap$', '$C$'], need: [1, 4, 5], alt: [[5, 4, 1]] },
     ] }, '«Pero no» es diferencia: $A - B$. «Y también» es intersección: $B \\cap C$.',
       { hint: '«O» es unión, «y» es intersección, «pero no» es diferencia.' }),
     play('orbita-conjuntos', 'Marca los que cumplen', { rounds: [{ title: 'Relaciones', items: [

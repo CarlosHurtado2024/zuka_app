@@ -10,7 +10,7 @@ PU_JUEGOS.push(({ setLesson, setExam }) => {
       { hint: 'Busca cada letra (o cada símbolo) en la tabla, uno por uno, sin saltarte ninguno.' }),
     play('altura-letras', 'Lo que vale una palabra', { rounds: [{ word: 'PAN' }, { word: 'DEDO' }] },
       'Cada letra vale su lugar: $P + A + N = 16 + 1 + 14 = 31$ y $D + E + D + O = 4 + 5 + 4 + 15 = 28$.',
-      { hint: 'Sin la Ñ, la N es la 14 y la O la 15: cuenta desde la regla de la izquierda.' }),
+      { hint: 'Sin la Ñ, la K es la 11: cuenta desde la regla de la izquierda.' }),
     play('binario-luces', 'El código de los bombillos', { rounds: [{ n: 13, bits: 5 }, { n: 22, bits: 5 }, { n: 7, bits: 4 }] },
       'Cada bombillo vale el doble del de su derecha: $13 = 8 + 4 + 1$ (01101), $22 = 16 + 4 + 2$ (10110) y $7 = 4 + 2 + 1$ (0111).',
       { hint: 'Empieza por el bombillo más grande que quepa en el número y sigue con lo que falta.' }),

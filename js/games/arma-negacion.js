@@ -10,6 +10,7 @@ GAMES['arma-negacion'] = CODK.fillGame({
   foot: 'Arrastra las fichas a las casillas',
   tray: r => r.tray,
   need: r => r.need,
+  alt: r => r.alt,
   done: () => 'bien escrita',
   col: C => C.mint,
   decor(G) {

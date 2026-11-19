@@ -10,7 +10,7 @@ GAMES['anida-operador'] = (() => {
     init: () => ({ done: [] }),
     answered: s => s.done.length > 0,
     ok,
-    solution: r => { const out = []; const ev = e => { if (!Array.isArray(e)) return e; const a = ev(e[0]), b = ev(e[1]), v = r.f(a, b); out.push(`${a} ★ ${b} = ${v}`); return v; }; ev(r.expr); return out.join('; '); },
+    solution: r => { const out = []; const ev = e => { if (!Array.isArray(e)) return e; const a = ev(e[0]), b = ev(e[1]), v = r.f(a, b); out.push(`$${a} ${r.sym} ${b} = ${v}$`); return v; }; ev(r.expr); return out.join('; '); },
     prompt: r => `Con $a ${r.sym} b = ${r.tex}$, calcula de adentro hacia afuera`,
     foot: () => 'Toca la caja que ya se puede calcular',
     layout(G) { G.fb = { x: 12, y: G.H - 66, w: G.W - 24, h: 44 }; },

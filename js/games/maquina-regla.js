@@ -60,7 +60,7 @@ GAMES['maquina-regla'] = (() => {
       if (G.drag) { const m = G.mbox; if (hitBox({ x: m.x - 20, y: m.y - 20, w: m.w + 40, h: m.h + 60 }, x, y)) { G.s.op = G.drag.i; G.touch(); } G.drag = null; }
       G.grab = false;
     },
-    demo: G => (G.chips && G.mbox ? { from: { x: G.chips[3].x + G.chips[3].w / 2, y: G.chips[3].y + 16 }, to: { x: G.mbox.x + 70, y: G.mbox.y + 15 }, text: 'Arrastra una regla', ty: G.chips[3].y + 52 } : null),
+    demo: G => { if (!G.chips || !G.mbox) return null; const c = G.chips[answer(G.r).op === 0 ? 1 : 0]; return { from: { x: c.x + c.w / 2, y: c.y + 16 }, to: { x: G.mbox.x + 70, y: G.mbox.y + 15 }, text: 'Arrastra una regla', ty: c.y + 52 }; },
     peek: G => ({ chips: G.chips, mbox: G.mbox, tY: G.tY }),
   });
   game.move = (G, x) => { const k = RK.pick(x, 30, G.W - 30, 13); if (k !== G.s.k || !G.touched[G.cur]) { G.s.k = k; G.touch(); } };

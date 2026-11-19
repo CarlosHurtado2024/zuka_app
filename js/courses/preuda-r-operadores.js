@@ -28,7 +28,7 @@ PU_JUEGOS.push(({ setLesson, setExam }) => {
       'Con $(2, 6)$: $2 \\star 6 = -2$ pero $6 \\star 2 = 10$. Con números iguales no se nota; basta una pareja distinta para ver que no es conmutativa.',
       { hint: 'Calcula $a \\star b$ y $b \\star a$ con cada pareja.' }),
     play('capas-operacion', 'Reemplaza y calcula por capas', { rounds: [{ title: 'Después de reemplazar', items: [{ expr: '4 ^ 2 - 3 * 5' }, { expr: '2 * 7 - 3 * 2' }] }] },
-      'Con $a \\triangle b = a^2 - 3b$: $4 \\triangle 5 = 4^2 - 3 \\cdot 5 = 16 - 15 = 1$. Con $a \\star b = 2a - 3b$: $7 \\star 2 = 14 - 6 = 8$. Primero potencias, luego productos, luego restas.',
+      'Con $a \\triangle b = a^2 - 3b$: $4 \\triangle 5 = 4^2 - 3 \\cdot 5 = 16 - 15 = 1$. Con $a \\otimes b = 2a - 3b$: $7 \\otimes 2 = 14 - 6 = 8$. Primero potencias, luego productos, luego restas.',
       { hint: 'Al reemplazar aparecen potencias y productos: resuélvelos antes de restar.' }),
     play('vuela-precios', 'Vuela al resultado del operador', { rounds: [{ title: 'Operadores', items: [
       { ask: 'a ★ b = 2a − b: 4 ★ 1', options: ['7', '2', '9'], answer: 0 },
@@ -64,7 +64,7 @@ PU_JUEGOS.push(({ setLesson, setExam }) => {
       { hint: 'Lo de adentro del paréntesis es la primera operación.' }),
     play('arma-negacion', 'Escribe el reemplazo', { rounds: [
       { ask: 'Con a ★ b = 2a − b, escribe la regla', show: '$5 \\star x$', tray: ['$2 \\cdot 5$', '$2x$', '$-$', '$+$', '$x$', '$5$'], need: [0, 2, 4] },
-      { ask: 'Con a ⊕ b = 3a + b, escribe la regla', show: '$x \\oplus 7$', tray: ['$3x$', '$3 \\cdot 7$', '$+$', '$-$', '$7$', '$x$'], need: [0, 2, 4] },
+      { ask: 'Con a ⊕ b = 3a + b, escribe la regla', show: '$x \\oplus 7$', tray: ['$3x$', '$3 \\cdot 7$', '$+$', '$-$', '$7$', '$x$'], need: [0, 2, 4], alt: [[4, 2, 0]] },
     ] }, '$5 \\star x = 2 \\cdot 5 - x$: el 5 va en $a$ y la $x$ en $b$. $x \\oplus 7 = 3x + 7$.',
       { hint: 'Copia la regla y cambia $a$ por lo de la izquierda y $b$ por lo de la derecha.' }),
     play('balanza-cajas', 'Despeja lo que queda', { rounds: [{ title: 'Ecuaciones del operador', items: [{ a: 3, b: 2, c: 0, d: 17 }, { a: 4, b: 3, c: 1, d: 12 }] }] },

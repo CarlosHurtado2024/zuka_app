@@ -36,8 +36,8 @@ PU_JUEGOS.push(({ setLesson, setExam }) => {
 
   setLesson('pu-lo-2', [
     play('arma-negacion', 'Escribe la negación', { rounds: [
-      { ask: 'Escribe la negación con De Morgan', show: '$\\neg(p \\wedge q)$', tray: ['$\\neg p$', '$\\neg q$', '$\\wedge$', '$\\vee$', '$p$', '$q$'], need: [0, 3, 1] },
-      { ask: 'Escribe la negación con De Morgan', show: '$\\neg(p \\vee \\neg q)$', tray: ['$\\neg p$', '$q$', '$\\wedge$', '$\\vee$', '$p$', '$\\neg q$'], need: [0, 2, 1] },
+      { ask: 'Escribe la negación con De Morgan', show: '$\\neg(p \\wedge q)$', tray: ['$\\neg p$', '$\\neg q$', '$\\wedge$', '$\\vee$', '$p$', '$q$'], need: [0, 3, 1], alt: [[1, 3, 0]] },
+      { ask: 'Escribe la negación con De Morgan', show: '$\\neg(p \\vee \\neg q)$', tray: ['$\\neg p$', '$q$', '$\\wedge$', '$\\vee$', '$p$', '$\\neg q$'], need: [0, 2, 1], alt: [[1, 2, 0]] },
       { ask: 'Escribe la negación de la frase', show: 'Todos los trenes salieron a tiempo', tray: ['algún', 'ningún', 'tren', 'todos', 'no salió', 'salió'], need: [0, 2, 4] },
     ] }, 'Negar un «y» da un «o» de negaciones: $\\neg p \\vee \\neg q$. Negar un «o» da un «y»: $\\neg p \\wedge q$ (la doble negación se cancela). «Todos salieron» se niega con «algún tren no salió».',
       { hint: 'Niega cada parte y cambia el conectivo: «y» por «o», «o» por «y».' }),
@@ -174,7 +174,7 @@ PU_JUEGOS.push(({ setLesson, setExam }) => {
     ['pu-lo-1', 'En serie es «y»; en paralelo es «o».',
       play('circuito-logico', 'Circuito', { rounds: [{ op: 'or', neg: [false, true], want: false }] }, '$p \\vee \\neg q$ se apaga con $p$ F y $q$ V.', { hint: 'Paralelo.' })],
     ['pu-lo-2', 'Negar un «y» da un «o» de negaciones.',
-      play('arma-negacion', 'Negación', { rounds: [{ ask: 'Escribe la negación con De Morgan', show: '$\\neg(\\neg p \\wedge q)$', tray: ['$p$', '$\\neg q$', '$\\wedge$', '$\\vee$', '$\\neg p$', '$q$'], need: [0, 3, 1] }] }, '$p \\vee \\neg q$.', { hint: 'De Morgan.' })],
+      play('arma-negacion', 'Negación', { rounds: [{ ask: 'Escribe la negación con De Morgan', show: '$\\neg(\\neg p \\wedge q)$', tray: ['$p$', '$\\neg q$', '$\\wedge$', '$\\vee$', '$\\neg p$', '$q$'], need: [0, 3, 1], alt: [[1, 3, 0]] }] }, '$p \\vee \\neg q$.', { hint: 'De Morgan.' })],
     ['pu-lo-2', '«Todos» cae con un solo caso que no cumpla.',
       play('niega-todos', 'Negar', { rounds: [{ kind: 'todas', on: [true, true, true, true] }] }, 'Basta apagar una.', { hint: 'Mínimo.' })],
     ['pu-lo-3', 'Ponens y tollens concluyen; afirmar el consecuente no.',

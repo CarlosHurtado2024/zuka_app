@@ -27,7 +27,7 @@ GAMES['tabla-doble'] = (() => {
         TK.label(p, C, `${s.p[i]} %`, Math.min(Math.max(X(s.p[i]), 40), G.W - 40), yy + 30, C.brand, 11, 60);
       });
       const best = good ? r.rows[need(r).indexOf(Math.max(...need(r)))][0] : null;
-      RK.strip(p, C, G.fb, good ? `$\\text{mayor proporción: ${best}}$` : `$\\text{${s.p.map(v => v + '\\%').join('\\ \\ ')}}$`, { col: G.locked || good ? C.ok : C.brand, size: 15 });
+      RK.strip(p, C, G.fb, good ? `$\\text{mayor proporción: ${best}}$` : `$${s.p.map(v => v + '\\%').join('\\quad ')}$`, { col: G.locked || good ? C.ok : C.brand, size: 15 });
     },
     press(G, x, y) { const i = (G.rowsY || []).findIndex(yy => Math.abs(y - yy) < 24); if (i < 0) return false; G.grab = i; game.move(G, x); return true; },
     drag(G, x) { if (G.grab < 0) return false; game.move(G, x); return true; },

@@ -13,7 +13,7 @@ PU_JUEGOS.push(({ setLesson, setExam }) => {
       { hint: 'Prueba primero con 2; cuando ya no se pueda, con 3, luego con 5…' }),
     play('tabla-divisores', 'Contar divisores', { rounds: [{ p: [2, 3], e: [2, 2] }, { p: [3, 5], e: [1, 2] }] },
       'Cada divisor elige cuántos de cada primo lleva: $36 = 2^2 \\cdot 3^2$ tiene $3 \\cdot 3 = 9$ divisores y $75 = 3 \\cdot 5^2$ tiene $2 \\cdot 3 = 6$.',
-      { hint: 'El exponente 0 también cuenta: con $2^2$ hay tres opciones, $2^0$, $2^1$ y $2^2$.' }),
+      { hint: 'El exponente 0 también cuenta: con $5^3$ habría cuatro opciones, $5^0$, $5^1$, $5^2$ y $5^3$.' }),
     play('cifra-faltante', 'La cifra que falta', { rounds: [{ tpl: '4_72', by: 9 }, { tpl: '31_6', by: 4 }, { tpl: '7_83', by: 11 }] },
       'Por 9: $4 + x + 7 + 2 = 13 + x$ debe ser múltiplo de 9, $x = 5$. Por 4: el final $\\_6$ debe ser múltiplo de 4 (16, 36, 56…). Por 11: $7 - x + 8 - 3 = 12 - x$, $x = 1$.',
       { hint: 'Usa el criterio que pide el divisor y mira qué cifra lo cumple.' }),

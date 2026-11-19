@@ -16,6 +16,7 @@ const TEX_SYM = {
   leftarrow: ['←', 'rel'], iff: ['⟺', 'rel'], in: ['∈', 'rel'], notin: ['∉', 'rel'], subseteq: ['⊆', 'rel'], subset: ['⊂', 'rel'], equiv: ['≡', 'rel'], perp: ['⟂', 'rel'], parallel: ['∥', 'rel'],
   pi: ['π', 'var'], theta: ['θ', 'var'], alpha: ['α', 'var'], beta: ['β', 'var'], gamma: ['γ', 'var'], delta: ['δ', 'var'], lambda: ['λ', 'var'], mu: ['μ', 'var'], phi: ['φ', 'var'], varphi: ['φ', 'var'], rho: ['ρ', 'var'], omega: ['ω', 'var'], epsilon: ['ε', 'var'], sigma: ['σ', 'var'],
   Delta: ['Δ', 'ord'], Sigma: ['Σ', 'ord'], sum: ['Σ', 'ord'], prod: ['Π', 'ord'], infty: ['∞', 'ord'], emptyset: ['∅', 'ord'], varnothing: ['∅', 'ord'], angle: ['∠', 'ord'], degree: ['°', 'ord'], ldots: ['…', 'ord'], dots: ['…', 'ord'], cdots: ['⋯', 'ord'],
+  neg: ['¬', 'ord'], lnot: ['¬', 'ord'], vee: ['∨', 'op'], lor: ['∨', 'op'], land: ['∧', 'op'], leftrightarrow: ['↔', 'rel'], star: ['⋆', 'op'], oplus: ['⊕', 'op'], odot: ['⊙', 'op'], otimes: ['⊗', 'op'], diamond: ['⋄', 'op'], ast: ['∗', 'op'], bullet: ['•', 'op'],
   square: ['□', 'ord'], Box: ['□', 'ord'], wedge: ['∧', 'ord'], forall: ['∀', 'ord'], exists: ['∃', 'ord'], partial: ['∂', 'ord'], nabla: ['∇', 'ord'], vert: ['|', 'ord'], Vert: ['‖', 'ord'], lVert: ['‖', 'open'], rVert: ['‖', 'close'], langle: ['⟨', 'open'], rangle: ['⟩', 'close'],
   sin: ['sin', 'fn'], sen: ['sen', 'fn'], cos: ['cos', 'fn'], tan: ['tan', 'fn'], cot: ['cot', 'fn'], sec: ['sec', 'fn'], csc: ['csc', 'fn'], log: ['log', 'fn'], ln: ['ln', 'fn'], det: ['det', 'fn'], lim: ['lím', 'fn'], max: ['máx', 'fn'], min: ['mín', 'fn'],
 };
@@ -66,6 +67,7 @@ function parseTex(src) {
       let name = (src.slice(i).match(/^[A-Za-z]+/) || [''])[0];
       if (name) { i += name.length; while (src[i] === ' ') i++; } else name = src[i++] ?? '';
       if (name === 'frac' || name === 'tfrac' || name === 'dfrac') { const n = arg(), d = arg(); return { t: 'frac', n, d }; }
+      if (name === 'overline' || name === 'bar') return { t: 'over', b: arg() };
       if (name === 'sqrt') { let idx = null; if (src[i] === '[') { i++; idx = row(']'); i++; } return { t: 'sqrt', b: arg(), idx }; }
       if (name === 'text' || name === 'mathrm' || name === 'textbf' || name === 'mathbf') return sym(raw(), 'text');
       if (name === 'operatorname') return sym(raw(), 'fn');
@@ -258,6 +260,10 @@ function layoutTex(node, size, ctx, weight = 400) {
       up?.draw(c, x + b.w + size * 0.02, y - rise);
       dn?.draw(c, x + b.w + size * 0.02, y + drop);
     });
+  }
+  if (node.t === 'over') {   // \overline{…}: raya encima
+    const b = layoutTex(node.b, size, ctx, weight), lw = Math.max(1, size * 0.06), a = b.a + size * 0.14;
+    return mk(b.w, a + lw, b.d, (c, x, y) => { c.lineWidth = lw; c.strokeStyle = c.fillStyle; c.beginPath(); c.moveTo(x + size * 0.04, y - a); c.lineTo(x + b.w - size * 0.04, y - a); c.stroke(); b.draw(c, x, y); });
   }
   if (node.t === 'sqrt') {
     const b = layoutTex(node.b, size, ctx, weight), pad = size * 0.16, rw = size * 0.52, lw = Math.max(1.1, size * 0.07);

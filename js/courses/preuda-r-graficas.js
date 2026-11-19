@@ -3,8 +3,8 @@ PU_JUEGOS.push(({ setLesson, setExam }) => {
   setLesson('pu-gr-1', [
     play('lee-barras', 'Lee la gráfica con su escala', { rounds: [
       { bars: [['lun', 35], ['mar', 50], ['mié', 20], ['jue', 45]], hi: 60, step: 10, q: 'diff', a: 1, b: 2, max: 60, tstep: 5 },
-      { bars: [['A', 120], ['B', 90], ['C', 150]], hi: 160, step: 40, q: 'sum', max: 400, tstep: 10 },
-    ] }, 'Martes llega a 50 y miércoles a 20: 30 más. Con rayas de 40 en 40, B queda en la mitad entre 80 y 120 (90) y C entre 120 y 160 (150): $120 + 90 + 150 = 360$.',
+      { bars: [['A', 120], ['B', 90], ['C', 150]], hi: 160, step: 40, q: 'sum', max: 400, tstep: 20 },
+    ] }, 'Martes llega a 50 y miércoles a 20: 30 más. Con rayas de 40 en 40, B queda a un cuarto del camino entre 80 y 120 (90) y C a tres cuartos entre 120 y 160 (150): $120 + 90 + 150 = 360$.',
       { hint: 'Mira cuánto vale cada raya de la escala antes de leer una barra.' }),
     play('arma-barras', 'Pasa la tabla a la gráfica', { rounds: [
       { rows: [['fútbol', 12], ['baloncesto', 7], ['voleibol', 4], ['tenis', 9]], hi: 14, step: 2, snap: 1 },
@@ -69,7 +69,7 @@ PU_JUEGOS.push(({ setLesson, setExam }) => {
   const G2 = ['1111111111', '1111111111', '1111111111', '1111111111', '1111100000', '0000000000', '0010000100', '0000000000', '0000010000', '0000000000'];
   setLesson('pu-gr-3', [
     play('muestra-sesgo', 'La muestra que representa', { rounds: [{ grid: G1, w: 4, h: 5, tol: 5 }, { grid: G2, w: 5, h: 4, tol: 5 }] },
-      'Una muestra tomada solo en un rincón engaña: a la izquierda casi todos dicen «sí» y a la derecha casi nadie. La muestra se parece al pueblo cuando toma de las dos zonas.',
+      'Una muestra tomada en un solo rincón engaña: en la primera cuadrícula el «sí» está a la izquierda y en la segunda arriba. La muestra se parece al pueblo cuando toma de las dos zonas.',
       { hint: 'Pon el marco donde quede gente de los dos lados de la frontera.' }),
     play('eje-engano', 'El eje que engaña', { rounds: [{ a: ['marca A', 55], b: ['marca B', 50], floor: 45 }, { a: ['2024', 84], b: ['2023', 70], floor: 60 }] },
       'Con el eje cortado, A parece el doble de B, pero $\\tfrac{55 - 50}{50} = 10\\%$ más. Y 84 frente a 70 es $\\tfrac{14}{70} = 20\\%$ más.',

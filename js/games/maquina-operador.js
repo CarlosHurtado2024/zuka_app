@@ -12,7 +12,7 @@ GAMES['maquina-operador'] = (() => {
     aspect: 1.25,
     init: r => { const s = { a: r.fix?.a ?? r.lo, b: r.fix?.b ?? r.lo }; if (ok(s, r)) s[r.fix?.b === undefined ? 'b' : 'a'] += 1; return s; },
     ok,
-    solution: r => { const s = sols(r)[0]; return `${s.a} ${r.symTxt || '★'} ${s.b} = ${r.target}`; },
+    solution: r => { const s = sols(r)[0]; return `$${s.a} ${r.sym} ${s.b} = ${r.target}$`; },
     prompt: r => `Con $a ${r.sym} b = ${r.tex}$, logra que salga ${r.target}`,
     foot: () => 'Desliza los números de las bocas',
     layout(G) { G.tA = G.H - 150; G.tB = G.H - 104; G.fb = { x: 12, y: G.H - 66, w: G.W - 24, h: 44 }; },

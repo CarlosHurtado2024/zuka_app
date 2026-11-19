@@ -2,10 +2,10 @@
 // casillas que se llena arrastrando fichas de una bandeja (las fichas no se gastan: se pueden usar varias veces). Cada juego da
 // lo que se ve arriba (la clave, los ejemplos) y qué ficha va en cada casilla.
 // o = { aspect, prompt(r), foot, tray(r) → [rótulos], need(r) → [índice de ficha por casilla], over(r, i) → rótulo sobre la
-//       casilla i, decor(G), done(r) → texto al acertar, col(C) }
+//       casilla i, decor(G), done(r) → texto al acertar, col(C), alt(r) → [[otras respuestas igual de válidas]] (p. ej. ¬q ∨ ¬p) }
 const CODK = (() => {
   function fillGame(o) {
-    const ok = (s, r) => o.need(r).every((k, i) => s.f[i] === k);
+    const ok = (s, r) => [o.need(r), ...(o.alt ? o.alt(r) || [] : [])].some(nd => nd.every((k, i) => s.f[i] === k));
     const answer = r => ({ f: o.need(r).slice() });
     const game = roundsGame({
       aspect: o.aspect || 1.25,
@@ -43,7 +43,8 @@ const CODK = (() => {
       },
       drag(G, x, y) { if (!G.drag) return false; G.drag.x = x; G.drag.y = y; return true; },
       release(G, x, y) { if (!G.drag) return; const i = (G.slots || []).findIndex(b => hitBox({ x: b.x - 6, y: b.y - 10, w: b.w + 12, h: b.h + 20 }, x, y)); if (i >= 0) { G.s.f[i] = G.drag.k; G.touch(); } G.drag = null; },
-      demo(G) { const t = G.tray?.[o.need(G.r)[0]], sl = G.slots?.[0]; if (!t || !sl) return null; return { from: { x: t.x + t.w / 2, y: t.y + 19 }, to: { x: sl.x + sl.w / 2, y: sl.y + 20 }, text: 'Arrastra una ficha', ty: Math.min(sl.y + 58, (sl.y + 40 + Math.min(...G.tray.map(b => b.y))) / 2) }; },
+      // La mano arrastra una ficha que NO es la de la respuesta (así la demostración no regala nada).
+      demo(G) { const need = o.need(G.r), n = (G.tray || []).length, k = [...Array(n).keys()].find(i => !need.includes(i)) ?? (need[0] + 1) % Math.max(n, 1), t = G.tray?.[k], sl = G.slots?.[0]; if (!t || !sl) return null; return { from: { x: t.x + t.w / 2, y: t.y + 19 }, to: { x: sl.x + sl.w / 2, y: sl.y + 20 }, text: 'Arrastra una ficha', ty: Math.min(sl.y + 58, (sl.y + 40 + Math.min(...G.tray.map(b => b.y))) / 2) }; },
       peek: G => ({ slots: G.slots, tray: G.tray }),
     });
     return Object.assign(game, { answer });

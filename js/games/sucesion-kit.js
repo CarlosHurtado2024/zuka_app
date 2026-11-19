@@ -27,13 +27,15 @@ const SUC = (() => {
         const mx = b.x + G.miss * w + w / 2; RK.knob(p, C, mx, Y(s.v), C.brand); G.kx = mx;
         RK.strip(p, C, G.fb, good ? `$\\text{sigue: ${o.fmt ? o.fmt(o.need(r)) : o.need(r)}}$` : `$\\text{¿${o.fmt ? o.fmt(s.v) : s.v}?}$`, { col: G.locked || good ? C.ok : C.brand, size: 17 });
       },
-      press(G, x, y) { const w = G.b.w / o.terms(G.r).length; if (Math.abs(x - G.kx) > w * 0.6 + 10 || !hitBox({ x: G.b.x, y: G.b.y - 20, w: G.b.w, h: G.b.h + 40 }, x, y)) return false; G.grab = true; game.move(G, y); return true; },
-      drag(G, x, y) { if (!G.grab) return false; game.move(G, y); return true; },
-      release(G) { G.grab = false; },
+      // Arrastre relativo: cada 8 px desde donde se tocó es una unidad (en el celular la barra es corta y las unidades, muchas);
+      // un toque sin arrastrar sube o baja una unidad según se toque por encima o por debajo de la punta.
+      press(G, x, y) { const w = G.b.w / o.terms(G.r).length; if (Math.abs(x - G.kx) > w * 0.6 + 10 || !hitBox({ x: G.b.x, y: G.b.y - 20, w: G.b.w, h: G.b.h + 40 }, x, y)) return false; G.grab = { y0: y, v0: G.s.v, moved: false }; return true; },
+      drag(G, x, y) { if (!G.grab) return false; if (Math.abs(y - G.grab.y0) > 4) G.grab.moved = true; game.set(G, G.grab.v0 + Math.round((G.grab.y0 - y) / 8)); return true; },
+      release(G, x, y) { if (G.grab && !G.grab.moved) game.set(G, G.s.v + (y < G.Y(G.s.v) ? 1 : -1)); G.grab = null; },
       demo: G => ({ from: { x: G.kx, y: G.Y(G.s.v) }, to: { x: G.kx, y: G.Y(G.s.v) - 40 }, text: 'Arrastra la barra', ty: G.b.y + 10 }),
       peek: G => ({ b: G.b, kx: G.kx }),
     });
-    game.move = (G, y) => { const b = G.b, v = Math.max(G.vlo, Math.min(G.hi, Math.round(G.lo + (b.y + b.h - y) / b.h * (G.hi - G.lo)))); if (v !== G.s.v || !G.touched[G.cur]) { G.s.v = v; G.touch(); } };
+    game.set = (G, raw) => { const v = Math.max(G.vlo, Math.min(G.hi, raw)); if (v !== G.s.v || !G.touched[G.cur]) { G.s.v = v; G.touch(); } };
     return Object.assign(game, { answer: r => ({ v: o.need(r) }) });
   }
   return { nextGame };

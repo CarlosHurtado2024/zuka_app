@@ -32,12 +32,13 @@ GAMES['nota-ponderada'] = (() => {
       TK.label(p, C, `definitiva ${r2(d)}`, b.x + b.w - 50, y - 10, C.coral, 10, 100);
       RK.strip(p, C, G.fb, `$${r.items.map(([, w, n]) => `${w / 100}\\cdot ${n ?? s.g}`).join(' + ')} = ${r2(d)}$`, { kicker: good ? 'llega justo a la meta' : `meta ${r.target}`, col: G.locked || good ? C.ok : C.brand, size: 14 });
     },
-    press(G, x, y) { const m = G.miss; if (!m || x < m.x0 - 6 || x > m.x1 + 6 || y < G.b.y - 20 || y > G.b.y + G.b.h + 10) return false; G.grab = true; game.move(G, y); return true; },
-    drag(G, x, y) { if (!G.grab) return false; game.move(G, y); return true; },
-    release(G) { G.grab = false; },
+    // Arrastre relativo: 10 px por décima desde donde se tocó; un toque sin arrastrar sube o baja una décima.
+    press(G, x, y) { const m = G.miss; if (!m || x < m.x0 - 6 || x > m.x1 + 6 || y < G.b.y - 20 || y > G.b.y + G.b.h + 10) return false; G.grab = { y0: y, g0: G.s.g, moved: false }; return true; },
+    drag(G, x, y) { if (!G.grab) return false; if (Math.abs(y - G.grab.y0) > 4) G.grab.moved = true; game.set(G, G.grab.g0 * 10 + Math.round((G.grab.y0 - y) / 10)); return true; },
+    release(G, x, y) { if (G.grab && !G.grab.moved) { const b = G.b, top = b.y + b.h - G.s.g / 5 * b.h; game.set(G, G.s.g * 10 + (y < top ? 1 : -1)); } G.grab = null; },
     demo: G => (G.miss ? { from: { x: G.miss.x, y: G.b.y + G.b.h - 10 }, to: { x: G.miss.x, y: G.b.y + G.b.h - 90 }, text: 'Sube la barra', ty: G.b.y + 10 } : null),
     peek: G => ({ b: G.b, miss: G.miss }),
   });
-  game.move = (G, y) => { const b = G.b, g = Math.max(0, Math.min(5, Math.round((b.y + b.h - y) / b.h * 50) / 10)); if (g !== G.s.g || !G.touched[G.cur]) { G.s.g = g; G.touch(); } };
+  game.set = (G, tenths) => { const g = Math.max(0, Math.min(50, Math.round(tenths))) / 10; if (g !== G.s.g || !G.touched[G.cur]) { G.s.g = g; G.touch(); } };
   return Object.assign(game, { answer: r => ({ g: need(r) }) });
 })();

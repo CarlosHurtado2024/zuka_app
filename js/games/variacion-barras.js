@@ -1,14 +1,14 @@
 // La variación porcentual en barras (Preuniversitario, pu-gr-1 y pu-gr-3; spec 2026-11-18-preuda-razonamiento-completo): la
 // barra de antes es el 100 % y lleva una regla de 10 en 10 %. Se desliza el porcentaje de cambio y una barra fantasma crece o
 // se encoge desde la de antes; cuando la fantasma llega justo a la barra de ahora, ese es el cambio porcentual.
-// params = { rounds: [{ from, to, what }] }   state = { rounds: [{ p }] }   (de −80 a 150, de 5 en 5)
+// params = { rounds: [{ from, to, what }] }   state = { rounds: [{ p }] }   (de −75 a 150, de 25 en 25)
 GAMES['variacion-barras'] = (() => {
   const need = r => (r.to - r.from) / r.from * 100;
   const ok = (s, r) => s.p === need(r);
-  const P0 = -80, P1 = 150, N = (P1 - P0) / 5 + 1;
+  const P0 = -75, P1 = 150, ST = 25, N = (P1 - P0) / ST + 1;   // de 25 en 25: en el celular cada marca queda a más de 20 px
   const game = roundsGame({
     aspect: 1.25,
-    init: r => ({ p: need(r) === 0 ? 5 : 0 }),
+    init: r => ({ p: need(r) === 0 ? 25 : 0 }),
     ok,
     solution: r => `${need(r) > 0 ? '+' : ''}${need(r)} %`,
     prompt: r => `${r.what}: de ${r.from} a ${r.to}. ¿Qué porcentaje cambió?`,
@@ -25,15 +25,15 @@ GAMES['variacion-barras'] = (() => {
       p.noFill(); p.stroke(good ? C.ok : C.brand); p.strokeWeight(2); p.drawingContext.setLineDash([5, 4]); p.rect(xb - 4, Y(ghost), bw + 8, Y(0) - Y(ghost), 3); p.drawingContext.setLineDash([]);
       TK.label(p, C, `antes ${r.from}`, xa + bw / 2, Y(0) + 13, C.ink, 10, bw + 20);
       TK.label(p, C, `ahora ${r.to}`, xb + bw / 2, Y(0) + 13, C.ink, 10, bw + 20);
-      G.X = RK.track(p, C, 30, G.W - 30, G.tY, N, (s.p - P0) / 5, k => ((P0 + 5 * k) % 50 === 0 ? `${P0 + 5 * k}` : null), good ? C.ok : C.brand);
+      G.X = RK.track(p, C, 30, G.W - 30, G.tY, N, (s.p - P0) / ST, k => ((P0 + ST * k) % 50 === 0 ? `${P0 + ST * k}` : null), good ? C.ok : C.brand);
       RK.strip(p, C, G.fb, `$${r.from} \\cdot ${(1 + s.p / 100).toFixed(2)} = ${Math.round(ghost * 100) / 100}$`, { kicker: `cambio ${s.p > 0 ? '+' : ''}${s.p} %`, col: G.locked || good ? C.ok : C.brand, size: 17 });
     },
     press(G, x, y) { if (Math.abs(y - G.tY) > 28) return false; G.grab = true; game.move(G, x); return true; },
     drag(G, x) { if (!G.grab) return false; game.move(G, x); return true; },
     release(G) { G.grab = false; },
-    demo: G => ({ from: { x: G.X((G.s.p - P0) / 5), y: G.tY }, to: { x: G.X((G.s.p - P0) / 5 + 6), y: G.tY }, text: 'Desliza el porcentaje', ty: G.tY - 30 }),
+    demo: G => ({ from: { x: G.X((G.s.p - P0) / ST), y: G.tY }, to: { x: G.X((G.s.p - P0) / ST + 2), y: G.tY }, text: 'Desliza el porcentaje', ty: G.tY - 30 }),
     peek: G => ({ tY: G.tY }),
   });
-  game.move = (G, x) => { const v = P0 + 5 * RK.pick(x, 30, G.W - 30, N); if (v !== G.s.p || !G.touched[G.cur]) { G.s.p = v; G.touch(); } };
+  game.move = (G, x) => { const v = P0 + ST * RK.pick(x, 30, G.W - 30, N); if (v !== G.s.p || !G.touched[G.cur]) { G.s.p = v; G.touch(); } };
   return Object.assign(game, { answer: r => ({ p: need(r) }) });
 })();

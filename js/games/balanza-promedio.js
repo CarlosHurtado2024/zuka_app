@@ -26,7 +26,7 @@ GAMES['balanza-promedio'] = (() => {
       r.groups.forEach((g, i) => {
         const x = X(g.mean) - fx, sz = 12, per = 3;
         for (let k = 0; k < g.n; k++) { p.noStroke(); p.fill(cols[i % 3]); p.rect(x - per * sz / 2 + (k % per) * sz, -4 - sz - Math.floor(k / per) * sz, sz - 1, sz - 1, 2); }
-        TK.label(p, C, `${g.lab}: ${g.n} · prom. ${g.mean}`, x, -18 - Math.ceil(g.n / per) * sz, C.ink, 9, 120);
+        TK.label(p, C, `${g.lab}: ${g.n} · prom. ${g.mean}`, x, -18 - Math.ceil(g.n / per) * sz - (i % 2) * 14, C.ink, 9, 120);
       });
       p.pop();
       p.noStroke(); p.fill(good ? C.ok : C.brand); p.triangle(fx, ax.y + 3, fx - 14, ax.y + 30, fx + 14, ax.y + 30);
