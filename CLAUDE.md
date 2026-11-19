@@ -361,6 +361,13 @@ material extra (promos, cortos, efectos, 3D, audio).
 ## Pendiente (a la fecha)
 
 Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`):
+- **Preuniversitario UdeA, razonamiento, mundo 1 completo en video** (spec `2026-11-19-preuda-videos-mundo-1`, pruebas
+  `tests/preuda-videos-mundo-1.test.js`): `video/preuda-cosmos` películas `enteros` (`pu-cm-1`), `fracciones`, `porcentajes` y
+  `potencias` (`pu-cm-2` a `pu-cm-4`, ≈ 4 min 52 s). Cada una abre con una **pregunta real del examen de admisión UdeA** como reto
+  (tarjeta `examCard` de `preu.js`, opciones A–D) y la resuelve al final, con otra pregunta real o de los talleres del
+  preuniversitario en medio (material en `Documents/PreU`). `sh video/preuda-cosmos/tools_stills.sh <película>` deja una hoja de
+  contacto. Entregados en `Downloads/Zuka_Preuniversitario` (mp4 1080 + `.srt`); las escenas de respaldo ya cuentan el video.
+  **Modelo para los mundos siguientes del preuniversitario**: reto real del examen, conceptos con intuición y cierre en la opción.
 - Clips: `cur-origen-numeros` ya está en Bunny (versión zoom, 80 s). `cur-abejas` también (75.5 s). Un clip nuevo puede vivir como mp4 en `media/clips/`
   mientras llega su ID; al recibirlo, cambiar `clip.video` por `clip.bunny`, poner la `duration` de Bunny y borrar el mp4.
   Bunny solo responde con `Referer` de la app o de localhost. **`cur-arroz`** («El arroz del rey», estilo Data Physicalization, 72.5 s, `video/arroz-ajedrez`,

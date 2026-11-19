@@ -2,7 +2,7 @@
 // Archivos propios: red primero (para recibir actualizaciones) y caché si no hay conexión.
 // Recursos externos (KaTeX, fuentes): caché primero.
 
-const VERSION = 'zuka-v185';
+const VERSION = 'zuka-v186';
 const SHELL = [
   './', 'index.html', 'manifest.json', 'css/styles.css', 'js/marca.js',
   'js/games/algebra-taller.js', 'js/games/algebra-escenas.js', 'js/courses/algebra-taller.js', 'js/courses/algebra-revision.js',

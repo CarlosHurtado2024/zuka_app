@@ -113,3 +113,91 @@ function area(x0, y0, ux, a, b, k = 1) {
   T(lab[0][0], x0 + wa[0] / 2, y0 - 18, { k: 'r', s: 34, a: 'c', c: C.cyan }); T(String(lab[0][1]), x0 + wa[0] + wa[1] / 2, y0 - 18, { k: 'r', s: 34, a: 'c', c: C.green });
   T(lab[1][0], x0 - 18, y0 + hb[0] / 2 + 12, { k: 'r', s: 34, a: 'r', c: C.cyan }); T(String(lab[1][1]), x0 - 18, y0 + hb[0] + hb[1] / 2 + 12, { k: 'r', s: 34, a: 'r', c: C.green });
 }
+
+// ---------- piezas del mundo 1 (fracciones, porcentajes, potencias) y de las preguntas reales del examen ----------
+// Tarjeta de una pregunta real del examen de admisión de la UdeA: etiqueta con el año, enunciado en renglones (texto o
+// partes de F) y las opciones A–D en dos filas. o: year, lines, opts, ok (índice correcto), t0, rv (cuándo se revela la
+// correcta), y (borde de arriba), lh (alto de renglón), s (tamaño del enunciado), out ({ índice: segundo en que se tacha }).
+function examCard(t, o) {
+  const y0 = o.y ?? 290, t0 = o.t0 ?? .6, lh = o.lh || 54, s = o.s || 38, n = o.lines.length;
+  const hOpt = o.opts ? 2 * 104 + 20 : 0, h = 96 + n * lh + hOpt;
+  fade(A(t, t0, .6), () => {
+    X.save(); X.fillStyle = 'rgba(14,20,46,.55)'; X.beginPath(); X.roundRect(70, y0, 940, h, 30); X.fill(); X.restore();
+    stroke(hexA(C.lime, .75), 2.5, () => X.roundRect(70, y0, 940, h, 30), { g: 10 });
+    const tw = T(o.tag || 'EXAMEN DE ADMISIÓN UdeA · ' + o.year, 120, y0 + 52, { k: 'mono', s: 22, ls: 2, c: C.lime });
+    stroke(hexA(C.lime, .5), 1.5, () => X.roundRect(100, y0 + 22, tw + 40, 44, 22), { g: 0 });
+    o.lines.forEach((ln, i) => fade(A(t, t0 + .35 + i * .3, .5), () => {
+      const y = y0 + 118 + i * lh;
+      if (Array.isArray(ln)) F(ln, 120, y, s, { a: 'l', max: 840 }); else T(ln, 120, y, { k: 'j', s, c: '#dfe5fb', max: 840 });
+    }));
+    if (o.opts) o.opts.forEach((op, i) => {
+      const x = 310 + (i % 2) * 460, y = y0 + 96 + n * lh + 60 + Math.floor(i / 2) * 104, rv = A(t, o.rv ?? 1e9, .6);
+      const good = i === o.ok, gone = !!o.out && o.out[i] != null && t > o.out[i];
+      const col = rv > 0 && good ? C.green : gone || (rv > 0 && !good) ? C.dim : hexA(C.violet, .9);
+      fade(A(t, t0 + .8 + n * .3 + i * .15, .4), () => {
+        stroke(col, good && rv > 0 ? 4 : 2.5, () => X.roundRect(x - 200, y - 42, 400, 84, 20), { g: good && rv > 0 ? 22 : 6 });
+        T('ABCD'[i], x - 170, y + 10, { k: 'mono', s: 28, c: good && rv > 0 ? C.green : C.mute });
+        if (Array.isArray(op)) F(op, x + 10, y + 14, 42, { max: 300, c: gone ? C.dim : C.ink }); else T(String(op), x + 10, y + 14, { k: 'r', s: 42, a: 'c', c: gone ? C.dim : C.ink, max: 300 });
+        if (gone) stroke(C.red, 3, () => { X.moveTo(x - 120, y); X.lineTo(x + 160, y); }, { g: 8 });
+        if (good) check(x + 160, y, 16, true, rv);
+      });
+    });
+  });
+  return y0 + h;
+}
+// «Lo que dice» → «lo que significa»: leer el enunciado y decirlo con otras palabras (la lectura del examen).
+function readNote(t, t0, y, said, means, col = C.lime) {
+  fade(A(t, t0, .5), () => {
+    T('LO QUE DICE', 120, y, { k: 'mono', s: 20, ls: 3, c: C.mute });
+    T(said, 120, y + 50, { k: 'j', s: 42, c: C.ink, max: 840 });
+  });
+  fade(A(t, t0 + 1.2, .5), () => {
+    arrow(140, y + 74, 140, y + 128, col, 1, 3, { h: 12 });
+    T('LO QUE SIGNIFICA', 180, y + 112, { k: 'mono', s: 20, ls: 3, c: col });
+    T(means, 120, y + 170, { k: 'r', s: 44, c: col, g: 10, max: 840 });
+  });
+}
+// Barra partida en den trozos iguales (x, y arriba a la izquierda): los primeros num van llenos. o.k (0–1) dibuja los
+// cortes; o.fill (0–1) llena los trozos; o.from llena desde ese trozo; o.lab rótulo encima.
+function fbar(x, y, w, h, den, num, col, o = {}) {
+  const k = o.k ?? 1, f = o.fill ?? 1, from = o.from || 0, pw = w / den;
+  for (let i = 0; i < den; i++) {
+    const on = i >= from && i < from + num, kk = clamp(f * num - (i - from));
+    if (on && kk > 0) { X.save(); X.fillStyle = hexA(o.cols ? o.cols[i] : col, .45 * kk); X.shadowColor = col; X.shadowBlur = 10 * kk; X.fillRect(x + i * pw + 2, y + 2, pw - 4, h - 4); X.restore(); }
+  }
+  stroke(o.line || 'rgba(225,232,255,.85)', 2.5, () => X.rect(x, y, w, h), { g: 6 });
+  for (let i = 1; i < den; i++) { const kk = clamp(k * den - i + 1); if (kk > 0) stroke('rgba(225,232,255,.6)', 1.5, () => { X.moveTo(x + i * pw, y); X.lineTo(x + i * pw, y + h * kk); }, { g: 0 }); }
+}
+// Torta vista desde arriba (centro, radio) cortada en den porciones; take porciones encendidas (desde arriba, en el
+// sentido del reloj). o.eaten: porciones que ya no están (solo el borde punteado; o.ghost las pinta de otro color con
+// fuerza o.ghostK). o.k dibuja el borde.
+function cake(cx, cy, r, den, take, col, o = {}) {
+  const k = o.k ?? 1, a0 = -Math.PI / 2, da = Math.PI * 2 / Math.max(1, den), eaten = o.eaten || 0;
+  for (let i = 0; i < den; i++) {
+    const a = a0 + i * da, gone = i >= den - eaten, on = !gone && i < take;
+    X.save(); X.beginPath(); X.moveTo(cx, cy); X.arc(cx, cy, r, a, a + da); X.closePath();
+    if (on) { X.fillStyle = hexA(col, o.alpha ?? .42); X.shadowColor = col; X.shadowBlur = 14; X.fill(); }
+    X.restore();
+    if (gone && o.ghost) { X.save(); X.beginPath(); X.moveTo(cx, cy); X.arc(cx, cy, r, a, a + da); X.closePath(); X.fillStyle = hexA(o.ghost, .4 * (o.ghostK ?? 1)); X.shadowColor = o.ghost; X.shadowBlur = 14; X.fill(); X.restore(); }
+    if (gone) stroke(hexA(C.mute, .6), 2, () => { X.moveTo(cx, cy); X.arc(cx, cy, r, a, a + da); X.closePath(); }, { g: 0, dash: [8, 8] });
+  }
+  if (den > 1) for (let i = 0; i < den; i++) { const a = a0 + i * da; stroke('rgba(225,232,255,.7)', 2, () => { X.moveTo(cx, cy); X.lineTo(cx + r * Math.cos(a) * k, cy + r * Math.sin(a) * k); }, { g: 0 }); }
+  stroke(o.ring || 'rgba(225,232,255,.9)', 3, () => X.arc(cx, cy, r, a0, a0 + Math.PI * 2 * (1 - eaten / Math.max(1, den)) * k), { g: 10 });
+}
+// n puntos en filas de cols (centrados en cx, desde y0): colFn(i) da el color de cada uno (o null = apagado).
+function dots(cx, y0, n, cols, gap, colFn, r = 12, kk = 1) {
+  const rows = Math.ceil(n / cols), x0 = cx - (cols - 1) * gap / 2;
+  for (let i = 0; i < Math.ceil(n * clamp(kk)); i++) {
+    const c = colFn(i), x = x0 + (i % cols) * gap, y = y0 + Math.floor(i / cols) * gap;
+    if (c) dot(x, y, r, c, 14); else { X.save(); X.strokeStyle = 'rgba(160,180,240,.45)'; X.lineWidth = 2; X.beginPath(); X.arc(x, y, r, 0, 7); X.stroke(); X.restore(); }
+  }
+  return { x: i => x0 + (i % cols) * gap, y: i => y0 + Math.floor(i / cols) * gap, rows };
+}
+// Fila de pasos con flechas: [[partes de F, rótulo], …] de arriba abajo desde y0; aparecen desde t0 cada dt segundos.
+function stepsDown(t, t0, dt, rows, y0 = 440, gap = 150, size = 64) {
+  rows.forEach(([p, lab], i) => fade(A(t, t0 + i * dt, .5), () => {
+    const y = y0 + i * gap; F(p, CX, y, size, { max: 900 });
+    if (lab) T(lab, CX, y + 46, { k: 'mono', s: 22, a: 'c', c: C.mute, max: 900 });
+    if (i) arrow(CX, y - gap + 62, CX, y - size * .9, hexA(C.lime, .7), 1, 2.5, { h: 10, g: 4 });
+  }));
+}
