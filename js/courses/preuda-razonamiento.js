@@ -15,14 +15,17 @@ const PU_RAZONAMIENTO = [
   { world: 'pu-calculo', title: 'Cálculo mental', block: 'razonamiento', lessons: [
     // Video: video/preuda-cosmos, película «enteros» (spec 2026-11-18-preuda-enteros). Las escenas cuentan lo mismo.
     PU_L('pu-cm-1', 'Enteros, signos y jerarquía', [
-      sc(6, 'Una cuenta, tres respuestas distintas: $8 - 2 \\cdot (5 - 7)^2$ da $0$, $24$ o $16$ según el orden en que se haga. Solo una es correcta.', { title: 'Una cuenta, tres respuestas' }),
+      sc(6, 'Pregunta real del examen UdeA 2023-2: Luisa, Juliana y Ana hacen el mismo cálculo y obtienen 33, 37 y 49. El resultado correcto difiere de los de ellas en 5, 7 y 9, no necesariamente en ese orden. Al final se sabe quién falló por cuánto.', { title: 'Tres resultados' }),
       sc(6, 'Los enteros son **posiciones** en la recta: a la derecha del 0 los positivos, a la izquierda los negativos. $-3$ y $3$ son **opuestos**: igual de lejos del 0.', { title: 'La recta numérica' }),
+      sc(6, 'La **distancia** entre dos números es cuántos pasos hay de uno a otro: de $-3$ a $5$ hay $5 - (-3) = 8$. Se escribe $|5 - (-3)| = 8$ y nunca es negativa. A distancia 4 de 10 hay dos lugares: 6 y 14.', { title: 'La distancia en la recta' }),
       sc(6, 'Sumar es **moverse**: $+6$ va seis pasos a la derecha. $-4 + 6$ sale de $-4$ y llega a $2$.', { title: '$-4 + 6 = 2$' }),
       sc(7, 'Restar es sumar el opuesto: $3 - 7 = 3 + (-7) = -4$. Y restar un negativo es **quitar una deuda**: $2 - (-5) = 7$.', { title: '$2 - (-5) = 2 + 5 = 7$' }),
+      sc(7, 'Examen UdeA 2024-1: el día siguiente de pasado mañana está tan lejos del domingo como ayer de pasado mañana. En la recta: hoy 0, ayer $-1$, pasado mañana 2 y el día siguiente 3. De $-1$ a 2 hay 3 días, así que el domingo es el día 6: hoy es lunes.', { title: 'Los días en la recta' }),
       sc(7, 'Multiplicar es repetir saltos: $(-3) \\cdot 4$ son cuatro saltos de 3 hacia la izquierda, $-12$. Multiplicar por $-1$ es **dar la vuelta** en el 0: $(-3)(-4)$ son dos vueltas, y queda $12$.', { title: 'El menos da la vuelta' }),
       sc(6, 'Por eso se cuentan los negativos: un número **par** de signos menos da positivo, uno **impar** da negativo. $(-1)(-2)(-3) = -6$.', { title: 'Regla de los signos' }),
       sc(7, 'La jerarquía son **capas**: primero los paréntesis, luego las potencias, después × y ÷ de izquierda a derecha, y al final + y −. Como vestirse: medias antes que zapatos.', { title: 'Las capas de una cuenta' }),
       sc(7, 'Capa por capa: $5 - 7 = -2$, $(-2)^2 = 4$, $2 \\cdot 4 = 8$ y $8 - 8 = 0$. Ojo: $(-2)^2 = 4$, pero $-2^2 = -4$.', { title: '$8 - 2 \\cdot (5 - 7)^2 = 0$' }),
+      sc(7, 'El reto: el correcto está a 5, 7 o 9 de 33 (24, 26, 28, 38, 40 o 42). Solo 42 cuadra con los otros: $|42 - 33| = 9$, $|42 - 37| = 5$ y $|42 - 49| = 7$. Juliana falló por 5.', { title: 'Juliana falló por 5' }),
     ], [
       play('recta-espejo', 'Pon en la recta el número que describe cada ronda', { min: -8, max: 8, rounds: [
         { text: 'el opuesto de 7', value: -7 }, { text: '−(−4)', value: 4 }, { text: 'el que sumado con −6 da 0', value: 6 }, { text: 'el opuesto del opuesto de −2', value: -2 },

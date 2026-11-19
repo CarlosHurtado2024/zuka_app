@@ -1,5 +1,5 @@
-// Preuniversitario UdeA · razonamiento lógico, mundo 1 (Cálculo mental): videos de las lecciones pu-cm-2 a pu-cm-4
-// (spec 2026-11-19-preuda-videos-mundo-1). Proyecto video/preuda-cosmos, películas fracciones, porcentajes y potencias:
+// Preuniversitario UdeA · razonamiento lógico, mundo 1 (Cálculo mental): videos de las lecciones pu-cm-1 a pu-cm-4
+// (spec 2026-11-19-preuda-videos-mundo-1). Proyecto video/preuda-cosmos, películas enteros, fracciones, porcentajes y potencias:
 // 4 a 5 minutos, diez escenas, un reto que es una pregunta real del examen de admisión de la UdeA y se resuelve al final,
 // y al menos otra pregunta real (examen o taller del preuniversitario) en medio.
 const test = require('node:test');
@@ -15,7 +15,7 @@ const all = [...html.matchAll(/src="(js\/[^"]+)"/g)].map(m => m[1]).filter(f => 
 const ctx = loadScripts(all);
 const C = get(ctx, 'COURSES').find(c => c.id === 'preuda');
 const lesson = id => C.units.flatMap(u => u.lessons).find(l => l.id === id);
-const FILMS = { fracciones: 'pu-cm-2', porcentajes: 'pu-cm-3', potencias: 'pu-cm-4' };
+const FILMS = { enteros: 'pu-cm-1', fracciones: 'pu-cm-2', porcentajes: 'pu-cm-3', potencias: 'pu-cm-4' };
 
 for (const [name, id] of Object.entries(FILMS)) {
   test(`${name}: película de la lección ${id}, de 4 a 5 minutos, con el formato del curso`, () => {
@@ -53,6 +53,13 @@ test('el HUD sigue sin reloj ni barra de avance abajo', () => {
 });
 
 test('la matemática de los videos', () => {
+  // Enteros: tres resultados (UdeA 2023-2) y los días (UdeA 2024-1).
+  const ok = [];
+  for (let r = 0; r <= 100; r++) { const d = [33, 37, 49].map(v => Math.abs(r - v)); if ([...d].sort((a, b) => a - b).join() === '5,7,9') ok.push([r, d.join()]); }
+  assert.deepEqual(ok, [[42, '9,5,7']]);
+  const cand = [5, 7, 9].flatMap(d => [33 - d, 33 + d]).sort((a, b) => a - b); assert.equal(cand.join(), '24,26,28,38,40,42');
+  assert.equal(2 - (-1), 3); assert.equal((3 + 3) % 7, 6);   // hoy = 0 (lunes) → el día 6 es domingo
+  assert.equal(5 - (-3), 8); assert.ok(Math.abs(6 - 10) === 4 && Math.abs(14 - 10) === 4);
   // Fracciones: las tortas (UdeA 2024-2) y el grupo (UdeA 2023-2).
   const restoTortas = 1 / (3 / 5); assert.ok(Math.abs(restoTortas + 1 / 3 - 2) < 1e-9);
   assert.ok(4 * 9 > 5 * 7 && 4 / 7 > 5 / 9 && 35 / 7 * 2 === 10 && Math.abs(1 / 4 + 1 / 6 - 5 / 12) < 1e-12);

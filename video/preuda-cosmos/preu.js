@@ -137,7 +137,7 @@ function examCard(t, o) {
       fade(A(t, t0 + .8 + n * .3 + i * .15, .4), () => {
         stroke(col, good && rv > 0 ? 4 : 2.5, () => X.roundRect(x - 200, y - 42, 400, 84, 20), { g: good && rv > 0 ? 22 : 6 });
         T('ABCD'[i], x - 170, y + 10, { k: 'mono', s: 28, c: good && rv > 0 ? C.green : C.mute });
-        if (Array.isArray(op)) F(op, x + 10, y + 14, 42, { max: 300, c: gone ? C.dim : C.ink }); else T(String(op), x + 10, y + 14, { k: 'r', s: 42, a: 'c', c: gone ? C.dim : C.ink, max: 300 });
+        if (Array.isArray(op)) F(op, x + 10, y + 14, 42, { max: 300, c: gone ? C.dim : C.ink }); else T(String(op), x + 10, y + 14, { k: 'r', s: o.os || 42, a: 'c', c: gone ? C.dim : C.ink, max: 300 });
         if (gone) stroke(C.red, 3, () => { X.moveTo(x - 120, y); X.lineTo(x + 160, y); }, { g: 8 });
         if (good) check(x + 160, y, 16, true, rv);
       });
