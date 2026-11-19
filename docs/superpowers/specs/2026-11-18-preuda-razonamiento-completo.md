@@ -48,3 +48,32 @@ arcades de la biblioteca (`vuela-precios`, `rompe-cambios`, `encesta-suma`, `ser
 | 16 Probabilidad | `pu-pb-1`…`2` | **urna**, **tabla de dos dados**, **ruleta**, complemento, **árbol de probabilidad** |
 
 Se trabaja por mundos, con pruebas, navegador (robot de encimados a 300 px), revisión fresca y subida a `main` por tandas.
+
+## Estado (2026-11-19)
+
+**Terminado**: los 16 mundos de razonamiento tienen todas sus lecciones con 7 juegos distintos (el último en movimiento) y su
+evaluación; el mundo 1 (Cálculo mental) ya tenía sus juegos y ahora tiene evaluación (`js/courses/preuda-r-calculo.js`). Cada mundo
+vive en `js/courses/preuda-r-<mundo>.js` (`PU_JUEGOS.push(({ setLesson, setExam }) => …)`), cargado antes de
+`preuda-razonamiento-juegos.js`.
+
+Kits nuevos: `orden-kit.js` (`ORD`), `cubo-kit.js` (`CUBO`), `sucesion-kit.js` (`SUC.nextGame`: el término que sigue como barra),
+`codigo-kit.js` (`CODK.fillGame`: casillas que se llenan con fichas que no se gastan; lo usan `clave-simbolos`, `permuta-codigo`,
+`adivina-conectivo`, `arma-negacion`, `adivina-operador`, `ordena-mediana`) y `grafica-kit.js` (`GRAF`: ejes y barras).
+
+Juegos nuevos por mundo (además de los de geometría, orden, proporción, conteo y espacial ya listados en los commits):
+- Secuencias: `diferencias-escalera`, `fibonacci-suma`, `alterna-dos`, `letras-salto`, `figura-patron`, `ciclo-reloj`,
+  `ciclo-colores`, `ultima-cifra`.
+- Codificación: `rueda-cesar`, `clave-simbolos`, `permuta-codigo`, `altura-letras`, `binario-luces`, `cuadro-polibio`, `maquina-regla`.
+- Tablas y gráficas: `lee-barras`, `arma-barras`, `mayor-subida`, `variacion-barras`, `nivela-datos`, `ordena-mediana`,
+  `tres-centros`, `dato-faltante`, `balanza-promedio`, `muestra-sesgo`, `eje-engano`, `tabla-doble`.
+- Lógica: `circuito-logico`, `tabla-verdad`, `rompe-promesa`, `adivina-conectivo`, `arma-negacion` (genérico: escribir con fichas),
+  `contraejemplo`, `niega-todos`, `flecha-deduce`, `arma-silogismo`, `quien-miente` (con `solutions`: solución única probada).
+- Operadores: `maquina-operador`, `cruce-tabla`, `neutro-buscador`, `adivina-operador`, `anida-operador`, `busca-x-operador`.
+- Aritmética: `corta-lo-que-queda`, `area-queda`, `total-original`, `nota-ponderada`, `cripto-letras` y `tablero-cifras` (con
+  `solutions`), `peor-caso-bolsa`, `rectangulo-max`, `reparto-extremo`.
+- Ecuaciones: `cinta-ecuacion`, `mezcla-precio`, `alcancia-monedas`, `intervalo-solucion` (más juegos de Álgebra con datos nuevos).
+- Conjuntos: `encuesta-tres`, `solapa-barras` (más los de conjuntos de Álgebra).
+- Números: `criba-primos`, `arbol-factores`, `tabla-divisores`, `cifra-faltante`, `ritmos-mcm`, `corta-mcd`, `pares-primos`.
+- Probabilidad: `tabla-dados`, `urna-fraccion`, `ruleta-sectores`, `arbol-caminos`, `area-probabilidad`.
+
+Pendiente: la Comprensión lectora (otro componente) y los videos de cada lección.
