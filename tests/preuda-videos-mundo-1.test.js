@@ -1,7 +1,7 @@
 // Preuniversitario UdeA · razonamiento lógico, mundo 1 (Cálculo mental): videos de las lecciones pu-cm-1 a pu-cm-4
 // (spec 2026-11-19-preuda-videos-mundo-1). Proyecto video/preuda-cosmos, películas enteros, fracciones, porcentajes y potencias:
-// 4 a 5 minutos, diez escenas, un reto que es una pregunta real del examen de admisión de la UdeA y se resuelve al final,
-// y al menos otra pregunta real (examen o taller del preuniversitario) en medio.
+// 4 a 5 minutos, diez escenas, un reto que se plantea al inicio y se resuelve al final, y al menos otro problema en medio
+// (tomados de exámenes y talleres reales, pero en el video solo aparece el enunciado: sin decir de dónde salen).
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
@@ -38,12 +38,15 @@ for (const [name, id] of Object.entries(FILMS)) {
     assert.doesNotThrow(() => new (require('vm').Script)(film));
     // Preguntas reales: el reto y al menos otra, con su tarjeta de examen.
     assert.ok((film.match(/examCard\(t,/g) || []).length >= 2, 'dos preguntas reales con tarjeta');
-    assert.match(D.SCENES[0].caps[0][2], /Examen UdeA 20\d\d-\d/);
-    assert.match(txt, /Universidad de Antioquia/);
+    // Pedido del usuario (2026-11-19): los enunciados aparecen solos, sin decir que son del examen de admisión ni del taller.
+    const names = D.SCENES.map(s => s.name).join(' ');
+    assert.ok(!/examen|taller|admisi|universidad|udea|pregunta real/i.test(txt + ' ' + names), `${name}: menciona el examen o el taller`);
+    assert.ok(!/UdeA|year:/.test(film.replace(/\/\/.*$/gm, '')), `${name}: la tarjeta no lleva año ni UdeA`);
+    assert.match(film, /examCard\(t, \{ tag: 'RETO'/);
     // Las escenas de respaldo de la lección cuentan el video.
     const L = lesson(id);
     assert.ok(L.clip.scenes.length >= 8);
-    assert.match(L.clip.scenes[0].text, /examen UdeA 20\d\d-\d/);
+    assert.ok(L.clip.scenes.every(sc => !/examen|taller|UdeA|admisi/i.test(sc.text + ' ' + (sc.title || ''))), `${id}: respaldo sin examen ni taller`);
   });
 }
 

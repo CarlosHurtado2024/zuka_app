@@ -115,7 +115,7 @@ function area(x0, y0, ux, a, b, k = 1) {
 }
 
 // ---------- piezas del mundo 1 (fracciones, porcentajes, potencias) y de las preguntas reales del examen ----------
-// Tarjeta de una pregunta real del examen de admisión de la UdeA: etiqueta con el año, enunciado en renglones (texto o
+// Tarjeta de un problema: etiqueta (o.tag, «PROBLEMA» si no se da; nunca el examen ni el año), enunciado en renglones (texto o
 // partes de F) y las opciones A–D en dos filas. o: year, lines, opts, ok (índice correcto), t0, rv (cuándo se revela la
 // correcta), y (borde de arriba), lh (alto de renglón), s (tamaño del enunciado), out ({ índice: segundo en que se tacha }).
 function examCard(t, o) {
@@ -124,7 +124,7 @@ function examCard(t, o) {
   fade(A(t, t0, .6), () => {
     X.save(); X.fillStyle = 'rgba(14,20,46,.55)'; X.beginPath(); X.roundRect(70, y0, 940, h, 30); X.fill(); X.restore();
     stroke(hexA(C.lime, .75), 2.5, () => X.roundRect(70, y0, 940, h, 30), { g: 10 });
-    const tw = T(o.tag || 'EXAMEN DE ADMISIÓN UdeA · ' + o.year, 120, y0 + 52, { k: 'mono', s: 22, ls: 2, c: C.lime });
+    const tw = T(o.tag || 'PROBLEMA', 120, y0 + 52, { k: 'mono', s: 22, ls: 2, c: C.lime });
     stroke(hexA(C.lime, .5), 1.5, () => X.roundRect(100, y0 + 22, tw + 40, 44, 22), { g: 0 });
     o.lines.forEach((ln, i) => fade(A(t, t0 + .35 + i * .3, .5), () => {
       const y = y0 + 118 + i * lh;

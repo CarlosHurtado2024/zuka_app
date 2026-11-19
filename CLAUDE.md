@@ -371,6 +371,9 @@ Videos hechos y entregados que esperan su ID de Bunny (`clip.bunny` + `duration`
   preuniversitario en medio (material en `Documents/PreU`). `sh video/preuda-cosmos/tools_stills.sh <película>` deja una hoja de
   contacto. Entregados en `Downloads/Zuka_Preuniversitario` (mp4 1080 + `.srt`); las escenas de respaldo ya cuentan el video.
   **Modelo para los mundos siguientes del preuniversitario**: reto real del examen, conceptos con intuición y cierre en la opción.
+  **En el video solo va el enunciado** (pedido del usuario, 2026-11-19): nada de «pregunta del examen de admisión», «UdeA
+  2024-2», «taller del preuniversitario» ni «la opción B del examen», ni en narración, rótulos, nombre de escena ni tarjeta (la
+  tarjeta dice «RETO» o «PROBLEMA»); tampoco en las escenas de respaldo. La prueba lo comprueba.
 - Clips: `cur-origen-numeros` ya está en Bunny (versión zoom, 80 s). `cur-abejas` también (75.5 s). Un clip nuevo puede vivir como mp4 en `media/clips/`
   mientras llega su ID; al recibirlo, cambiar `clip.video` por `clip.bunny`, poner la `duration` de Bunny y borrar el mp4.
   Bunny solo responde con `Referer` de la app o de localhost. **`cur-arroz`** («El arroz del rey», estilo Data Physicalization, 72.5 s, `video/arroz-ajedrez`,

@@ -15,12 +15,12 @@ const PU_RAZONAMIENTO = [
   { world: 'pu-calculo', title: 'Cálculo mental', block: 'razonamiento', lessons: [
     // Video: video/preuda-cosmos, película «enteros» (spec 2026-11-18-preuda-enteros). Las escenas cuentan lo mismo.
     PU_L('pu-cm-1', 'Enteros, signos y jerarquía', [
-      sc(6, 'Pregunta real del examen UdeA 2023-2: Luisa, Juliana y Ana hacen el mismo cálculo y obtienen 33, 37 y 49. El resultado correcto difiere de los de ellas en 5, 7 y 9, no necesariamente en ese orden. Al final se sabe quién falló por cuánto.', { title: 'Tres resultados' }),
+      sc(6, 'Un problema para empezar: Luisa, Juliana y Ana hacen el mismo cálculo y obtienen 33, 37 y 49. El resultado correcto difiere de los de ellas en 5, 7 y 9, no necesariamente en ese orden. Al final se sabe quién falló por cuánto.', { title: 'Tres resultados' }),
       sc(6, 'Los enteros son **posiciones** en la recta: a la derecha del 0 los positivos, a la izquierda los negativos. $-3$ y $3$ son **opuestos**: igual de lejos del 0.', { title: 'La recta numérica' }),
       sc(6, 'La **distancia** entre dos números es cuántos pasos hay de uno a otro: de $-3$ a $5$ hay $5 - (-3) = 8$. Se escribe $|5 - (-3)| = 8$ y nunca es negativa. A distancia 4 de 10 hay dos lugares: 6 y 14.', { title: 'La distancia en la recta' }),
       sc(6, 'Sumar es **moverse**: $+6$ va seis pasos a la derecha. $-4 + 6$ sale de $-4$ y llega a $2$.', { title: '$-4 + 6 = 2$' }),
       sc(7, 'Restar es sumar el opuesto: $3 - 7 = 3 + (-7) = -4$. Y restar un negativo es **quitar una deuda**: $2 - (-5) = 7$.', { title: '$2 - (-5) = 2 + 5 = 7$' }),
-      sc(7, 'Examen UdeA 2024-1: el día siguiente de pasado mañana está tan lejos del domingo como ayer de pasado mañana. En la recta: hoy 0, ayer $-1$, pasado mañana 2 y el día siguiente 3. De $-1$ a 2 hay 3 días, así que el domingo es el día 6: hoy es lunes.', { title: 'Los días en la recta' }),
+      sc(7, 'Otro problema: el día siguiente de pasado mañana está tan lejos del domingo como ayer de pasado mañana. En la recta: hoy 0, ayer $-1$, pasado mañana 2 y el día siguiente 3. De $-1$ a 2 hay 3 días, así que el domingo es el día 6: hoy es lunes.', { title: 'Los días en la recta' }),
       sc(7, 'Multiplicar es repetir saltos: $(-3) \\cdot 4$ son cuatro saltos de 3 hacia la izquierda, $-12$. Multiplicar por $-1$ es **dar la vuelta** en el 0: $(-3)(-4)$ son dos vueltas, y queda $12$.', { title: 'El menos da la vuelta' }),
       sc(6, 'Por eso se cuentan los negativos: un número **par** de signos menos da positivo, uno **impar** da negativo. $(-1)(-2)(-3) = -6$.', { title: 'Regla de los signos' }),
       sc(7, 'La jerarquía son **capas**: primero los paréntesis, luego las potencias, después × y ÷ de izquierda a derecha, y al final + y −. Como vestirse: medias antes que zapatos.', { title: 'Las capas de una cuenta' }),
@@ -66,14 +66,14 @@ const PU_RAZONAMIENTO = [
         { hint: 'No calcules el número: cuenta cuántos factores negativos hay. Un número par de negativos da positivo.' }),
     ]),
     PU_L('pu-cm-2', 'Fracciones', [
-      sc(6, 'Pregunta real del examen UdeA 2024-2: Luis se comió un tercio de una torta y notó que una torta completa era el $60\\,\\%$ (tres quintos) de lo que le quedaba. Al final se sabe cuántas recibió.', { title: 'Las tortas de Luis' }),
+      sc(6, 'Un problema para empezar: Luis se comió un tercio de una torta y notó que una torta completa era el $60\\,\\%$ (tres quintos) de lo que le quedaba. Al final se sabe cuántas recibió.', { title: 'Las tortas de Luis' }),
       sc(6, 'El número de abajo, el **denominador**, dice en cuántas partes **iguales** se corta; el de arriba, el **numerador**, cuántas se toman. $\\tfrac38$: ocho partes, se toman tres.', { title: 'Abajo se corta, arriba se cuenta' }),
       sc(6, 'Más cortes, la misma cantidad: $\\tfrac35 = \\tfrac{6}{10} = \\tfrac{12}{20}$. Simplificar es el camino de vuelta: $\\tfrac{18}{24} = \\tfrac34$, dividiendo entre 6.', { title: '$\\tfrac{18}{24} = \\tfrac34$' }),
       sc(6, 'Para comparar se multiplica en cruz: $\\tfrac47$ frente a $\\tfrac59$ da $36$ frente a $35$, así que $\\tfrac47$ es mayor. Es pasar las dos a sesenta y tresavos.', { title: 'Producto cruzado' }),
       sc(6, 'La fracción de una cantidad: $\\tfrac27$ de 35 son siete grupos de 5 y se toman dos: $10$. Primero dividir, luego multiplicar.', { title: '$\\tfrac27 \\cdot 35 = 10$' }),
       sc(7, 'Solo se suman pedazos del mismo tamaño: $\\tfrac14 + \\tfrac16 = \\tfrac{3}{12} + \\tfrac{2}{12} = \\tfrac{5}{12}$, no $\\tfrac{2}{10}$.', { title: '$\\tfrac14 + \\tfrac16 = \\tfrac{5}{12}$' }),
       sc(7, 'La fracción **del resto**: Sara gasta $\\tfrac13$ de 120 000 y luego $\\tfrac14$ de lo que le queda (de 80 000, no de 120 000). Le queda $\\tfrac23 \\cdot \\tfrac34 = \\tfrac12$: 60 000.', { title: 'La fracción del resto' }),
-      sc(7, 'Examen UdeA 2023-2: si sale una niña, $\\tfrac17$ del resto son niñas; si salen dos niños, $\\tfrac15$. Probando opciones: con 22, quedan 21 (3 niñas) o 20 (4 niñas). Eran 4 niñas y 18 niños.', { title: 'Probar las opciones' }),
+      sc(7, 'Otro problema: si sale una niña, $\\tfrac17$ del resto son niñas; si salen dos niños, $\\tfrac15$. Probando opciones: con 22, quedan 21 (3 niñas) o 20 (4 niñas). Eran 4 niñas y 18 niños.', { title: 'Probar las opciones' }),
       sc(7, 'Las tortas: si una torta son $\\tfrac35$ de lo que quedó, cada quinto es $\\tfrac13$ de torta y quedaron $\\tfrac53$. Con el tercio comido: $\\tfrac53 + \\tfrac13 = 2$ tortas.', { title: 'Luis recibió 2 tortas' }),
     ], [
       play('pizzeria', 'Sirve cada pedido: corta la pizza y marca las porciones que pide', { maxSlices: 12, orders: [
@@ -109,14 +109,14 @@ const PU_RAZONAMIENTO = [
         { hint: 'No hay prisa: mide cada puerta en la regla y compara su largo con el del número de arriba.' }),
     ]),
     PU_L('pu-cm-3', 'Decimales y porcentajes', [
-      sc(6, 'Pregunta real del examen UdeA 2025-2: unos tenis de 120 000 rebajados un $10\\,\\%$ y luego con un impuesto del $10\\,\\%$. Carlos esperaba pagar lo mismo.', { title: 'Los tenis de Carlos' }),
+      sc(6, 'Un problema para empezar: unos tenis de 120 000 rebajados un $10\\,\\%$ y luego con un impuesto del $10\\,\\%$. Carlos esperaba pagar lo mismo.', { title: 'Los tenis de Carlos' }),
       sc(6, 'Por ciento es «de cada 100»: $\\tfrac14 = 0.25 = 25\\,\\%$ son 25 casillas de 100. El $100\\,\\%$ es el total y el $120\\,\\%$ es más que el total.', { title: '$\\tfrac14 = 0.25 = 25\\,\\%$' }),
       sc(6, 'Una fracción es una división: $\\tfrac38 = 0.375 = 37.5\\,\\%$. Algunas no terminan: $\\tfrac{1}{13} = 0.\\overline{076923}$.', { title: '$\\tfrac38 = 0.375$' }),
-      sc(7, 'Taller del preuniversitario UdeA: la suma de las 2019 primeras cifras de $\\tfrac{1}{13}$. Bloques de 6 que suman 27: $2019 = 336 \\cdot 6 + 3$, y $336 \\cdot 27 + 0 + 7 + 6 = 9085$.', { title: 'El bloque que se repite' }),
+      sc(7, 'Un problema: la suma de las 2019 primeras cifras de $\\tfrac{1}{13}$. Bloques de 6 que suman 27: $2019 = 336 \\cdot 6 + 3$, y $336 \\cdot 27 + 0 + 7 + 6 = 9085$.', { title: 'El bloque que se repite' }),
       sc(6, 'Para comparar, todo a decimal: $\\tfrac25 = 0.40$, $0.38$ y $41\\,\\% = 0.41$. Ordenados: $0.38 < \\tfrac25 < 41\\,\\%$.', { title: 'Todo a decimal' }),
       sc(6, 'El $10\\,\\%$ corre el punto: de 80 000 es 8 000. El $15\\,\\%$ es $10\\,\\% + 5\\,\\%$: $8\\,000 + 4\\,000 = 12\\,000$.', { title: 'Pedazos fáciles' }),
       sc(7, 'Cada cambio es un factor: bajar $20\\,\\%$ es multiplicar por $0.8$ ($250\\,000 \\to 200\\,000$) y subir $20\\,\\%$, por $1.2$ ($250\\,000 \\to 300\\,000$).', { title: 'Subir y bajar es multiplicar' }),
-      sc(7, 'Examen UdeA 2026-1: Humberto $40\\,\\%$, Iván $25\\,\\%$ y Javier el resto, 70 g. El resto es $35\\,\\%$; si $35\\,\\%$ son 70 g, el $1\\,\\%$ son 2 g y la barra pesa 200 g.', { title: 'La barra de chocolate' }),
+      sc(7, 'Otro problema: Humberto $40\\,\\%$, Iván $25\\,\\%$ y Javier el resto, 70 g. El resto es $35\\,\\%$; si $35\\,\\%$ son 70 g, el $1\\,\\%$ son 2 g y la barra pesa 200 g.', { title: 'La barra de chocolate' }),
       sc(7, 'Los tenis: $120\\,000 \\cdot 0.9 = 108\\,000$ y $108\\,000 \\cdot 1.1 = 118\\,800$. Juntos, $0.9 \\cdot 1.1 = 0.99$: el $10\\,\\%$ que se quita y el que se pone se calculan sobre bases distintas.', { title: 'Pagó 118 800' }),
     ], [
       play('cuadricula-cien', 'Pinta en la cuadrícula lo que pide cada ronda', { rounds: [{ ask: '35 %', count: 35 }, { ask: '2/5', count: 40 }, { ask: '0.08', count: 8 }] },
@@ -152,13 +152,13 @@ const PU_RAZONAMIENTO = [
         { hint: 'Piensa cada porcentaje como una fracción sencilla del número: la mitad, la cuarta parte, la décima parte.' }),
     ]),
     PU_L('pu-cm-4', 'Potencias, raíces y estimación', [
-      sc(6, 'Pregunta real del examen UdeA 2024-2: María escribe la suma de las cifras de $10^n - 51$. Para $10^5 - 51 = 99\\,949$ escribe 40; falta saber qué escribe para $10^{10} - 51$.', { title: 'Las cuentas de María' }),
+      sc(6, 'Un problema para empezar: María escribe la suma de las cifras de $10^n - 51$. Para $10^5 - 51 = 99\\,949$ escribe 40; falta saber qué escribe para $10^{10} - 51$.', { title: 'Las cuentas de María' }),
       sc(6, 'Una potencia es multiplicar repetido: $5^3 = 5 \\cdot 5 \\cdot 5 = 125$ cubitos, cinco capas de 25. No es $5 \\cdot 3$.', { title: '$5^3 = 125$' }),
       sc(6, '$10^n$ es un 1 con $n$ ceros, y $10^n - 1$ son $n$ nueves. Por eso $10\\,000 - 37 = 9\\,999 - 36 = 9\\,963$.', { title: 'Las potencias de 10' }),
-      sc(7, 'Al cuadrado es un área: $13^2 = 100 + 30 + 30 + 9 = 169$. Si el lado crece $20\\,\\%$, el área se multiplica por $1.2^2 = 1.44$: crece $44\\,\\%$ (examen UdeA 2026-1, el círculo).', { title: 'Al cuadrado' }),
+      sc(7, 'Al cuadrado es un área: $13^2 = 100 + 30 + 30 + 9 = 169$. Si el lado crece $20\\,\\%$, el área se multiplica por $1.2^2 = 1.44$: crece $44\\,\\%$ (pasa igual con un círculo).', { title: 'Al cuadrado' }),
       sc(6, 'Las leyes salen de contar: $2^3 \\cdot 2^4 = 2^7$ (siete doses) y $(2^3)^2 = 2^6$ (dos grupos de tres doses).', { title: 'Contar factores' }),
-      sc(7, 'Examen UdeA 2025-2: cartas 1, 2, 4, 8, 16 y 32; Ana suma 7 más que Eliza. El total es 63, así que Ana tiene 35 = 32 + 2 + 1: tres cartas.', { title: 'Las cartas' }),
-      sc(7, 'Taller UdeA: el residuo de $2^{2019}$ entre 7. Los residuos dan vueltas: 2, 4, 1, 2, 4, 1… Como $2019 = 3 \\cdot 673$, el residuo es 1.', { title: 'Las potencias dan vueltas' }),
+      sc(7, 'Otro problema: cartas 1, 2, 4, 8, 16 y 32; Ana suma 7 más que Eliza. El total es 63, así que Ana tiene 35 = 32 + 2 + 1: tres cartas.', { title: 'Las cartas' }),
+      sc(7, 'Otro problema: el residuo de $2^{2019}$ entre 7. Los residuos dan vueltas: 2, 4, 1, 2, 4, 1… Como $2019 = 3 \\cdot 673$, el residuo es 1.', { title: 'Las potencias dan vueltas' }),
       sc(7, '$\\sqrt{72} = \\sqrt{36 \\cdot 2} = 6\\sqrt2 \\approx 8.5$, entre 8 y 9 porque $64 < 72 < 81$. Y $49.7 \\cdot 20.3 \\approx 50 \\cdot 20 = 1\\,000$.', { title: 'Raíces y estimación' }),
       sc(7, '$10^{10} - 51 = 9\\,999\\,999\\,949$: ocho nueves, un 4 y un 9. La suma es $72 + 4 + 9 = 85$, la opción C.', { title: 'María escribirá 85' }),
     ], [

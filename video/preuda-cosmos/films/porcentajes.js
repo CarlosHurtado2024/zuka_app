@@ -16,7 +16,7 @@ const S = {
   // 1 · El reto: los tenis de Carlos (UdeA 2025-2).
   reto(t) {
     stars(t, .6);
-    examCard(t, { year: '2025-2', y: 262, t0: 1, lines: ['Carlos compró unos tenis de $120.000 rebajados', 'un 10 %. Al pagar le cobraron un impuesto del', '10 % por ser importados. Lo que pagó finalmente', 'Carlos por sus zapatos fue:'], opts: ['$120 000', '$118 800', '$108 000', '$117 600'], ok: 1 });
+    examCard(t, { tag: 'RETO', y: 262, t0: 1, lines: ['Carlos compró unos tenis de $120.000 rebajados', 'un 10 %. Al pagar le cobraron un impuesto del', '10 % por ser importados. Lo que pagó finalmente', 'Carlos por sus zapatos fue:'], opts: ['$120 000', '$118 800', '$108 000', '$117 600'], ok: 1 });
     fade(A(t, 10.2, .6), () => {
       tag(230, 1000, '120 000', TOT);
       arrow(430, 1000, 560, 1000, DOWN, eo(seg(t, 11, 12)), 4); fade(A(t, 11.4, .4), () => lab('− 10 %', 495, 960, DOWN, { s: 28 }));
@@ -74,7 +74,7 @@ const S = {
   // 4 · Taller UdeA: la suma de las 2019 primeras cifras de 1/13.
   bloque(t) {
     stars(t, .3);
-    examCard(t, { tag: 'PREUNIVERSITARIO UdeA · TALLER', y: 262, t0: .8, lines: [[['1/13 = 0.076923076923…', 'r']], 'La suma de los primeros 2019 dígitos que', 'aparecen después del punto decimal es:'], opts: ['6085', '7085', '8085', '9085'], ok: 3, rv: 24 });
+    examCard(t, { y: 262, t0: .8, lines: [[['1/13 = 0.076923076923…', 'r']], 'La suma de los primeros 2019 dígitos que', 'aparecen después del punto decimal es:'], opts: ['6085', '7085', '8085', '9085'], ok: 3, rv: 24 });
     fade(A(t, 10.2, .6), () => {
       const y = 920, w = 200;
       [0, 1, 2].forEach(b => fade(A(t, 10.4 + b * .5, .4), () => { chip(170 + b * 230, y, w, 80, b % 2 ? UP : TOT, '076923', { s: 40 }); lab('suma 27', 170 + b * 230, y + 80, b % 2 ? UP : TOT); }));
@@ -150,7 +150,7 @@ const S = {
   // 8 · Pregunta real UdeA 2026-1: la barra de chocolate.
   examen(t) {
     stars(t, .3);
-    examCard(t, { year: '2026-1', y: 262, t0: .8, lines: ['Humberto recibe el 40 % de una barra de chocolate,', 'Iván el 25 % y Javier el resto, que pesa 70 gramos.', 'El peso total de la barra, en gramos, es:'], opts: ['200', '240', '160', '280'], ok: 0, rv: 22 });
+    examCard(t, { y: 262, t0: .8, lines: ['Humberto recibe el 40 % de una barra de chocolate,', 'Iván el 25 % y Javier el resto, que pesa 70 gramos.', 'El peso total de la barra, en gramos, es:'], opts: ['200', '240', '160', '280'], ok: 0, rv: 22 });
     const x = 140, w = 800, y = 880;
     fade(A(t, 3, .6), () => {
       const parts = [[.40, PART, 'Humberto 40 %'], [.25, UP, 'Iván 25 %'], [.35, NOW, 'Javier ']];

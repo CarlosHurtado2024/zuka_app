@@ -23,7 +23,7 @@ const S = {
   // 1 · El reto (UdeA 2023-2): tres estudiantes, tres resultados; el profesor dice que fallaron por 5, 7 y 9.
   reto(t) {
     stars(t, .6);
-    examCard(t, { year: '2023-2', y: 262, t0: 1, os: 34, lines: ['Luisa, Juliana y Ana hacen el mismo cálculo mental', 'y obtienen 33, 37 y 49. El resultado correcto difiere', 'de los de ellas en 5, 7 y 9 unidades, no necesaria-', 'mente en ese orden. La única afirmación verdadera es:'], opts: ['Juliana falló por 9', 'Ana falló por 9', 'Ana falló por 5', 'Juliana falló por 5'], ok: 3 });
+    examCard(t, { tag: 'RETO', y: 262, t0: 1, os: 34, lines: ['Luisa, Juliana y Ana hacen el mismo cálculo mental', 'y obtienen 33, 37 y 49. El resultado correcto difiere', 'de los de ellas en 5, 7 y 9 unidades, no necesaria-', 'mente en ese orden. La única afirmación verdadera es:'], opts: ['Juliana falló por 9', 'Ana falló por 9', 'Ana falló por 5', 'Juliana falló por 5'], ok: 3 });
     fade(A(t, 10.2, .6), () => {
       const y = 1080, px = nline(90, 990, y, 25, 55, { lab: v => v % 5 === 0, s: 26, k: eio(seg(t, 10.2, 11.6)) });
       KIDS.forEach(([name, v, c], i) => fade(A(t, 11.8 + i * .6, .5), () => { dot(px(v), y, 14, c, 20); T(String(v), px(v), y - 34, { k: 'r', s: 40, a: 'c', c }); T(name, px(v), y - 84 - (i === 1 ? 40 : 0), { k: 'mono', s: 24, a: 'c', c }); }));
@@ -116,7 +116,7 @@ const S = {
   // 6 · Pregunta real UdeA 2024-1: los días como posiciones en la recta.
   examen(t) {
     stars(t, .3);
-    examCard(t, { year: '2024-1', y: 262, t0: .8, lines: ['El día siguiente de pasado mañana está tan lejos', 'del domingo como el día de ayer lo está del de', 'pasado mañana. Luego, el día de hoy es:'], opts: ['Lunes', 'Martes', 'Miércoles', 'Jueves'], ok: 0, rv: 25 });
+    examCard(t, { y: 262, t0: .8, lines: ['El día siguiente de pasado mañana está tan lejos', 'del domingo como el día de ayer lo está del de', 'pasado mañana. Luego, el día de hoy es:'], opts: ['Lunes', 'Martes', 'Miércoles', 'Jueves'], ok: 0, rv: 25 });
     const y = 1000, px = v => 90 + (v + 2) / 9 * 900;
     fade(A(t, 10.2, .3), () => nline(90, 990, y, -2, 7, { lab: () => false, k: eio(seg(t, 10.2, 11.4)) }));
     fade(A(t, 10.4, .5), () => {

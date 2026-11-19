@@ -30,7 +30,7 @@ const S = {
   // 1 · El reto: las cuentas de María (UdeA 2024-2).
   reto(t) {
     stars(t, .6);
-    examCard(t, { year: '2024-2', y: 262, t0: 1, lines: ['María calcula mentalmente números de la forma', [['10', 'r'], ['n', 'spi'], [' − 51', 'r'], ['  y escribe la suma de las cifras del', 'j']], [['resultado. Para ', 'j'], ['10', 'r'], ['5', 'sp'], [' − 51', 'r'], ['  escribe 40. Para ', 'j'], ['10', 'r'], ['10', 'sp'], [' − 51', 'r'], ['  escribirá:', 'j']]], opts: ['75', '90', '85', '80'], ok: 2 });
+    examCard(t, { tag: 'RETO', y: 262, t0: 1, lines: ['María calcula mentalmente números de la forma', [['10', 'r'], ['n', 'spi'], [' − 51', 'r'], ['  y escribe la suma de las cifras del', 'j']], [['resultado. Para ', 'j'], ['10', 'r'], ['5', 'sp'], [' − 51', 'r'], ['  escribe 40. Para ', 'j'], ['10', 'r'], ['10', 'sp'], [' − 51', 'r'], ['  escribirá:', 'j']]], opts: ['75', '90', '85', '80'], ok: 2 });
     fade(A(t, 10.2, .6), () => {
       F([['10', 'r'], sp(5), [' − 51 = ', 'r']], 330, 960, 56);
       digitsRow('99949', 720, 960, 52, 64, i => (i === 3 ? EXP : NOW));
@@ -127,7 +127,7 @@ const S = {
   // 6 · Pregunta real UdeA 2025-2: las cartas 1, 2, 4, 8, 16 y 32.
   examen(t) {
     stars(t, .3);
-    examCard(t, { year: '2025-2', y: 262, t0: .8, lines: ['Seis cartas tienen los números 1, 2, 4, 8, 16 y 32.', 'Ana toma algunas y Eliza las demás. La suma de', 'Ana supera a la de Eliza en 7. Ana tomó:'], opts: ['4 cartas', '5 cartas', '3 cartas', '2 cartas'], ok: 2, rv: 22.4 });
+    examCard(t, { y: 262, t0: .8, lines: ['Seis cartas tienen los números 1, 2, 4, 8, 16 y 32.', 'Ana toma algunas y Eliza las demás. La suma de', 'Ana supera a la de Eliza en 7. Ana tomó:'], opts: ['4 cartas', '5 cartas', '3 cartas', '2 cartas'], ok: 2, rv: 22.4 });
     const vals = [1, 2, 4, 8, 16, 32], ana = [1, 2, 32], k = eio(seg(t, 20.4, 22));
     const home = i => CX + (i - 2.5) * 150, dest = i => { const a = ana.indexOf(vals[i]); return a >= 0 ? 190 + a * 132 : 650 + [4, 8, 16].indexOf(vals[i]) * 132; };
     vals.forEach((v, i) => card(lerp(home(i), dest(i), k), 920, v, k > .5 ? (ana.includes(v) ? EXP : BASE) : MORE, A(t, 3 + i * .3, .4)));
@@ -144,7 +144,7 @@ const S = {
   // 7 · Las potencias dan vueltas: residuo de 2²⁰¹⁹ entre 7 (taller UdeA).
   ciclos(t) {
     stars(t, .3);
-    examCard(t, { tag: 'PREUNIVERSITARIO UdeA · TALLER', y: 262, t0: .8, lines: [[['Al dividir ', 'j'], ['2', 'r'], ['2019', 'sp'], [' entre 7, el residuo es:', 'j']]] });
+    examCard(t, { y: 262, t0: .8, lines: [[['Al dividir ', 'j'], ['2', 'r'], ['2019', 'sp'], [' entre 7, el residuo es:', 'j']]] });
     const rows = [[1, 2, 2], [2, 4, 4], [3, 8, 1], [4, 16, 2], [5, 32, 4], [6, 64, 1]];
     const n = t < 10.4 ? 0 : Math.min(6, Math.floor((t - 10.4) / 1.3) + 1), wx = 800, wy = 720, wr = 140;
     fade(win(t, 3, 9.8), () => lab('2²⁰¹⁹ tiene 608 cifras', CX, 560, BAD, { s: 30 }));

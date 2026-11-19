@@ -38,3 +38,11 @@ pasado mañana 2, el siguiente 3; el domingo queda en el día 0 o en el 6, y el 
 la vuelta, con la regla de los signos (cantidad par o impar de menos) → las capas → el reto resuelto → cierre. Salen las
 escenas «multiplicar» y «signos» (su idea queda en «vuelta»); `films/enteros.json` se borró (el guion es
 `enteros.data.js`). Las escenas de respaldo de `pu-cm-1` cuentan el video nuevo.
+
+## Sin mencionar el examen ni el taller (pedido del usuario, 2026-11-19)
+
+Los problemas siguen saliendo de exámenes y talleres reales, pero **en los videos solo aparece el enunciado**: se quitó toda
+mención al examen de admisión, al año, a la UdeA y al taller del preuniversitario (narración, rótulos, nombres de escena
+del HUD, la etiqueta de la tarjeta, que ahora dice «RETO» en el problema del inicio y «PROBLEMA» en los demás, y «la opción
+B del examen» del cierre). Las escenas de respaldo de `pu-cm-1` a `pu-cm-4` tampoco lo mencionan. Se volvieron a
+renderizar los cuatro videos.

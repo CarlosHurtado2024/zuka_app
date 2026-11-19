@@ -20,7 +20,7 @@ const S = {
   // 1 · El reto: la pregunta de las tortas (UdeA 2024-2).
   reto(t) {
     stars(t, .6);
-    examCard(t, { year: '2024-2', y: 262, t0: 1, lines: ['Luis recibió varias tortas idénticas. Se comió', 'un tercio de una y notó que una torta completa', 'era el 60 % de las tortas que le quedaron.', 'La cantidad de tortas que recibió fue:'], opts: ['3', '2', '5', '4'], ok: 1 });
+    examCard(t, { tag: 'RETO', y: 262, t0: 1, lines: ['Luis recibió varias tortas idénticas. Se comió', 'un tercio de una y notó que una torta completa', 'era el 60 % de las tortas que le quedaron.', 'La cantidad de tortas que recibió fue:'], opts: ['3', '2', '5', '4'], ok: 1 });
     fade(A(t, 10.2, .6), () => {
       cake(260, 1060, 118, 3, 2, TAKE, { eaten: 1, k: eo(seg(t, 10.2, 11.4)) });
       lab('se comió 1/3', 260, 1236, GONE);
@@ -160,7 +160,7 @@ const S = {
   // 8 · Pregunta real UdeA 2023-2: el grupo de niñas y niños; se prueban las opciones.
   examen(t) {
     stars(t, .3);
-    examCard(t, { year: '2023-2', y: 262, t0: .8, lines: ['En un grupo hay niñas y niños. Si sale una niña,', '1/7 del resto del grupo son niñas. Si en vez de', 'eso salen dos niños, 1/5 del resto son niñas.', 'El tamaño del grupo original es:'], opts: ['57', '36', '71', '22'], ok: 3, rv: 21, out: { 1: 15, 2: 16.6, 0: 18.2 } });
+    examCard(t, { y: 262, t0: .8, lines: ['En un grupo hay niñas y niños. Si sale una niña,', '1/7 del resto del grupo son niñas. Si en vez de', 'eso salen dos niños, 1/5 del resto son niñas.', 'El tamaño del grupo original es:'], opts: ['57', '36', '71', '22'], ok: 3, rv: 21, out: { 1: 15, 2: 16.6, 0: 18.2 } });
     fade(win(t, 10.2, 19.8), () => {
       readNote(t, 10.2, 880, '«1/5 del resto son niñas»', 'el resto se reparte en 5 grupos iguales');
       [['36: sin dos niños quedan 34, y 34 no se reparte en 5', 15], ['71: quedan 69, y tampoco', 16.6], ['57: daría 9 niñas en un caso y 11 en el otro', 18.2]]
