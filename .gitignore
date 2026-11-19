@@ -254,3 +254,7 @@ video/expo-cosmos/events.json
 video/preuda-cosmos/out/
 video/preuda-cosmos/fonts/*.ttf
 video/preuda-cosmos/events.json
+
+# Simulacros tipo UdeA: los PDF y los temporales se generan con docs/simulacros/build.py
+docs/simulacros/pdf/
+docs/simulacros/tmp/
