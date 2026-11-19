@@ -20,7 +20,7 @@ const CODK = (() => {
       draw(G) {
         const { p, C, r } = G, s = G.locked && !ok(G.s, r) ? answer(r) : G.s, good = ok(s, r), n = o.need(r).length, T = o.tray(r);
         o.decor?.({ ...G, s });
-        const sw = Math.min(46, (G.W - 32) / n - 6), sy = G.slotY || 232, x0 = (G.W - n * (sw + 6) + 6) / 2;
+        const sw = Math.min(o.chipW || 46, (G.W - 32) / n - 6), sy = G.slotY || 232, x0 = (G.W - n * (sw + 6) + 6) / 2;
         G.slots = Array.from({ length: n }, (_, i) => ({ x: x0 + i * (sw + 6), y: sy, w: sw, h: 40 }));
         G.slots.forEach((b, i) => {
           if (o.over) TK.label(p, C, o.over(r, i), b.x + b.w / 2, b.y - 12, C.ink, 13, b.w + 4);
@@ -28,7 +28,7 @@ const CODK = (() => {
           if (k >= 0) RK.chip(p, C, b, T[k], { on: true, col: good ? C.ok : (o.col?.(C) || C.sky), size: 14 });
           else { p.noFill(); p.stroke(C.line); p.strokeWeight(1.2); p.drawingContext.setLineDash([4, 3]); p.rect(b.x, b.y, b.w, b.h, 8); p.drawingContext.setLineDash([]); }
         });
-        const per = Math.min(T.length, 7), tw = Math.min(44, (G.W - 24) / per - 6), rows = Math.ceil(T.length / per), ty0 = G.H - 80 - rows * 46;
+        const per = Math.min(T.length, o.perRow || 7), tw = Math.min(o.chipW || 44, (G.W - 24) / per - 6), rows = Math.ceil(T.length / per), ty0 = G.H - 80 - rows * 46;
         G.tray = T.map((t, i) => { const row = Math.floor(i / per), inRow = Math.min(per, T.length - row * per), tx0 = (G.W - inRow * (tw + 6) + 6) / 2; return { x: tx0 + (i % per) * (tw + 6), y: ty0 + row * 46, w: tw, h: 38, k: i }; });
         G.tray.forEach(b => RK.chip(p, C, b, T[b.k], { on: false, size: 14 }));
         if (G.drag) RK.chip(p, C, { x: G.drag.x - tw / 2, y: G.drag.y - 19, w: tw, h: 38 }, T[G.drag.k], { on: true, col: C.brand, size: 14 });
@@ -43,7 +43,7 @@ const CODK = (() => {
       },
       drag(G, x, y) { if (!G.drag) return false; G.drag.x = x; G.drag.y = y; return true; },
       release(G, x, y) { if (!G.drag) return; const i = (G.slots || []).findIndex(b => hitBox({ x: b.x - 6, y: b.y - 10, w: b.w + 12, h: b.h + 20 }, x, y)); if (i >= 0) { G.s.f[i] = G.drag.k; G.touch(); } G.drag = null; },
-      demo(G) { const t = G.tray?.[o.need(G.r)[0]], sl = G.slots?.[0]; if (!t || !sl) return null; return { from: { x: t.x + t.w / 2, y: t.y + 19 }, to: { x: sl.x + sl.w / 2, y: sl.y + 20 }, text: 'Arrastra una ficha', ty: sl.y + 58 }; },
+      demo(G) { const t = G.tray?.[o.need(G.r)[0]], sl = G.slots?.[0]; if (!t || !sl) return null; return { from: { x: t.x + t.w / 2, y: t.y + 19 }, to: { x: sl.x + sl.w / 2, y: sl.y + 20 }, text: 'Arrastra una ficha', ty: Math.min(sl.y + 58, (sl.y + 40 + Math.min(...G.tray.map(b => b.y))) / 2) }; },
       peek: G => ({ slots: G.slots, tray: G.tray }),
     });
     return Object.assign(game, { answer });
