@@ -28,3 +28,13 @@ Las escenas de respaldo de `pu-cm-2`, `pu-cm-3` y `pu-cm-4` cuentan ahora lo mis
 `tests/preuda-videos-mundo-1.test.js` (duración, ritmo de lectura ≤ 3.4 palabras/s, sin preguntas al espectador, dos
 tarjetas de examen por película, matemática de cada pregunta y que los ejemplos no se repitan en los ejercicios).
 Entrega: `Downloads/Zuka_Preuniversitario` (mp4 1080 y `.srt`); esperan su ID de Bunny.
+
+## Enteros en el mismo formato (pedido del usuario, 2026-11-19)
+
+`enteros` (`pu-cm-1`) se rehízo con el mismo formato (294 s): reto real UdeA 2023-2 (Luisa, Juliana y Ana obtienen 33, 37
+y 49 y fallaron por 5, 7 y 9 en algún orden; el correcto es 42 y la verdadera es «Juliana falló por 5», opción D) → la recta
+→ la distancia `|a − b|` (escena nueva) → sumar → restar → pregunta real UdeA 2024-1 (los días como posiciones: ayer −1,
+pasado mañana 2, el siguiente 3; el domingo queda en el día 0 o en el 6, y el 0 no es opción: hoy es lunes) → el menos da
+la vuelta, con la regla de los signos (cantidad par o impar de menos) → las capas → el reto resuelto → cierre. Salen las
+escenas «multiplicar» y «signos» (su idea queda en «vuelta»); `films/enteros.json` se borró (el guion es
+`enteros.data.js`). Las escenas de respaldo de `pu-cm-1` cuentan el video nuevo.
