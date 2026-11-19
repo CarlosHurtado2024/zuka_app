@@ -32,7 +32,7 @@ const CODK = (() => {
         G.tray = T.map((t, i) => { const row = Math.floor(i / per), inRow = Math.min(per, T.length - row * per), tx0 = (G.W - inRow * (tw + 6) + 6) / 2; return { x: tx0 + (i % per) * (tw + 6), y: ty0 + row * 46, w: tw, h: 38, k: i }; });
         G.tray.forEach(b => RK.chip(p, C, b, T[b.k], { on: false, size: 14 }));
         if (G.drag) RK.chip(p, C, { x: G.drag.x - tw / 2, y: G.drag.y - 19, w: tw, h: 38 }, T[G.drag.k], { on: true, col: C.brand, size: 14 });
-        RK.strip(p, C, G.fb, good ? `$\\text{${o.done ? o.done(r) : 'código correcto'}}$` : '$\\text{completa todas las casillas}$', { col: G.locked || good ? C.ok : C.brand, size: 15 });
+        RK.strip(p, C, G.fb, good ? ((d => (d.includes('$') ? d : `$\\text{${d}}$`))(o.done ? o.done(r) : 'código correcto')) : '$\\text{completa todas las casillas}$', { col: G.locked || good ? C.ok : C.brand, size: 15 });
       },
       press(G, x, y) {
         const t = (G.tray || []).find(b => hitBox(b, x, y));
