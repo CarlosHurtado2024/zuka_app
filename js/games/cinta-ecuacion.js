@@ -7,7 +7,7 @@ GAMES['cinta-ecuacion'] = (() => {
   const need = r => { for (let x = r.lo; x <= r.hi; x++) if (len(r, x) === r.total) return x; return null; };
   const ok = (s, r) => len(r, s.x) === r.total;
   const N = r => r.hi - r.lo + 1;
-  const term = (c, k) => { const a = c === 1 ? 'x' : c === 0 ? '' : `${c}x`; return k ? (a ? `${a} ${k > 0 ? '+' : '-'} ${Math.abs(k)}` : `${k}`) : a; };
+  const term = (c, k) => { if (c === -1 && k > 0) return `${k} - x`; const a = c === 1 ? 'x' : c === -1 ? '-x' : c === 0 ? '' : `${c}x`; return k ? (a ? `${a} ${k > 0 ? '+' : '-'} ${Math.abs(k)}` : `${k}`) : a; };
   const game = roundsGame({
     aspect: 1.15,
     init: r => ({ x: need(r) === r.lo ? r.lo + 1 : r.lo }),
@@ -22,12 +22,14 @@ GAMES['cinta-ecuacion'] = (() => {
       p.stroke(C.ink); p.strokeWeight(1.5); p.drawingContext.setLineDash([6, 4]); p.noFill(); p.rect(x0, 112, r.total * sc, 40, 6); p.drawingContext.setLineDash([]);
       TK.label(p, C, `total ${r.total}`, x0 + r.total * sc / 2, 102, C.ink, 10, 120);
       let x = x0;
-      r.parts.forEach(([c, k, lab], i) => {
-        const v = c * s.x + k, w = Math.max(0, Math.min(v * sc, x0 + Wt - x));
+      const segs = r.parts.map(([c, k, lab], i) => {
+        const v = c * s.x + k, w = Math.max(0, Math.min(v * sc, x0 + Wt - x)), seg = { x, w, v, c, k, lab, i };
         p.noStroke(); p.fill(RK.al(p, cols[i % 4], 200)); p.rect(x, 116, w, 32, 4);
+        x += w; return seg;
+      });
+      segs.forEach(({ x, w, v, c, k, lab, i }) => {
         if (w > 34) TK.label(p, C, `$${term(c, k)}$`, x + w / 2, 132, inkOn(cols[i % 4]), 11, w - 4);
         TK.label(p, C, `${lab}: ${v}`, x + w / 2, 166 + i * 15, C.mute, 9, Math.max(w, 70));
-        x += w;
       });
       const L = len(r, s.x), cs = r.parts.reduce((a, p) => a + p[0], 0), ks = r.parts.reduce((a, p) => a + p[1], 0);
       G.X = RK.track(p, C, 30, G.W - 30, G.tY, N(r), s.x - r.lo, k => ((r.lo + k) % 5 === 0 ? String(r.lo + k) : null), good ? C.ok : C.brand);

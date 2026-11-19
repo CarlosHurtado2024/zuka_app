@@ -779,6 +779,8 @@ const GUIDES = {
   'mezcla-precio': [['slide', "Desliza cuántos kilos van del primero hasta el precio pedido.", {}]],
   'alcancia-monedas': [['drag', "Arrastra la divisoria entre las monedas de cada valor.", {}]],
   'intervalo-solucion': [['drag', "Arrastra la frontera, toca el punto y toca el lado de las soluciones.", {}]],
+  'encuesta-tres': [['drag', "Arrastra arriba o abajo sobre cada zona para cambiar su número.", {}]],
+  'solapa-barras': [['drag', "Arrastra la barra de abajo hasta que cuadren los de ninguno.", {}]],
   'lazo-conjunto': [['trace', 'Rodea con el dedo los elementos que pertenecen (o tócalos) y entran al conjunto.', { labels: ['pera', 'uva', 'mango'], trap: 'papa' }], ['tap', 'Cuando adentro estén justo los que cumplen la condición, toca «Listo».', { items: ['pera', 'papa', 'Listo'], pick: [0, 2] }]],
   'cubo-partes': [['tap', 'Arma un subconjunto con los interruptores y toca «Encender». Enciéndelos todos sin repetir.', { items: ['x', 'y', 'Encender'], pick: [0, 2] }]],
   'orbita-conjuntos': [['tap', 'Marca todos los conjuntos que cumplen la relación con A y toca «Listo».', { items: ['{a}', '{a, e}', 'Listo'], pick: [0, 2] }]],
